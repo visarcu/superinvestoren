@@ -38,7 +38,6 @@ interface HoldingInput {
 
 interface Props {
   holdings: HoldingInput[];
-  onUpgrade: () => void;
 }
 
 const SIGNAL_LABEL: Record<string, string> = {
@@ -95,7 +94,7 @@ const ringStyles = StyleSheet.create({
   outOf: { color: theme.text.tertiary, fontSize: theme.font.captionSm, marginTop: -2 },
 });
 
-export default function AIAnalysisView({ holdings, onUpgrade }: Props) {
+export default function AIAnalysisView({ holdings }: Props) {
   const [premiumChecked, setPremiumChecked] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
@@ -107,7 +106,7 @@ export default function AIAnalysisView({ holdings, onUpgrade }: Props) {
   }, []);
 
   async function runAnalysis() {
-    if (!isPremium) { onUpgrade(); return; }
+    if (!isPremium) return;
     if (holdings.length === 0) return;
 
     setLoading(true);
@@ -131,7 +130,6 @@ export default function AIAnalysisView({ holdings, onUpgrade }: Props) {
       }
       if (res.status === 403) {
         setIsPremium(false);
-        onUpgrade();
         return;
       }
       if (!res.ok) {
@@ -183,10 +181,6 @@ export default function AIAnalysisView({ holdings, onUpgrade }: Props) {
             <Text style={s.gateFeatureText}>Konkrete Optimierungs-Ideen</Text>
           </View>
         </View>
-        <TouchableOpacity style={s.upgradeBtn} onPress={onUpgrade}>
-          <Ionicons name="sparkles" size={16} color={theme.text.inverse} />
-          <Text style={s.upgradeBtnText}>Premium starten</Text>
-        </TouchableOpacity>
       </View>
     );
   }

@@ -598,6 +598,8 @@ export default function StockScreen() {
                     <Text style={s.chartPerfLabel}>{RANGE_LABELS[range]}</Text>
                   </View>
                   <View style={s.chartArea}>
+                    {/* gifted-charts kennt kein minValue: yAxisOffset zieht den Sockel
+                        von jedem Wert ab, maxValue muss dann relativ dazu sein. */}
                     <LineChart
                       data={chartPoints}
                       width={SCREEN_WIDTH - 32 - 52}
@@ -606,7 +608,7 @@ export default function StockScreen() {
                       startFillColor={chartColor} endFillColor="transparent"
                       startOpacity={0.2} endOpacity={0}
                       areaChart curved initialSpacing={0} endSpacing={0}
-                      maxValue={chart.maxVal} minValue={chart.minVal}
+                      yAxisOffset={chart.minVal} maxValue={chart.maxVal - chart.minVal}
                       noOfSections={3}
                       yAxisColor="transparent" xAxisColor="rgba(255,255,255,0.08)"
                       rulesColor="rgba(255,255,255,0.06)" rulesType="solid"
@@ -841,16 +843,12 @@ export default function StockScreen() {
                 <View style={s.lockedCard}>
                   <View style={s.lockedIconWrap}><Ionicons name="lock-closed" size={28} color="#34C759" /></View>
                   <Text style={s.lockedTitle}>Premium erforderlich</Text>
-                  <Text style={s.lockedDesc}>Hole dir Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.</Text>
+                  <Text style={s.lockedDesc}>Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.</Text>
                   <View style={s.blurPreview} pointerEvents="none">
                     <View style={s.previewRow}><View style={[s.previewLine, { width: '90%' }]} /></View>
                     <View style={s.previewRow}><View style={[s.previewLine, { width: '75%' }]} /></View>
                     <View style={s.previewRow}><View style={[s.previewLine, { width: '85%' }]} /></View>
                   </View>
-                  <TouchableOpacity style={s.upgradeBtn} onPress={() => Linking.openURL('https://finclue.de/preise')} activeOpacity={0.8}>
-                    <Ionicons name="star" size={15} color="#020617" />
-                    <Text style={s.upgradeBtnText}>Jetzt Premium werden</Text>
-                  </TouchableOpacity>
                 </View>
               )}
             </View>}
@@ -1054,18 +1052,11 @@ export default function StockScreen() {
                               </TouchableOpacity>
                             )
                           ) : (
-                            <>
-                              <View style={[s.blurPreview, { marginBottom: 12 }]} pointerEvents="none">
-                                <View style={s.previewRow}><View style={[s.previewLine, { width: '95%' }]} /></View>
-                                <View style={s.previewRow}><View style={[s.previewLine, { width: '80%' }]} /></View>
-                                <View style={s.previewRow}><View style={[s.previewLine, { width: '88%' }]} /></View>
-                              </View>
-                              <TouchableOpacity style={[s.upgradeBtn, { alignSelf: 'flex-start' }]}
-                                onPress={() => Linking.openURL('https://finclue.de/preise')}>
-                                <Ionicons name="star" size={13} color="#020617" />
-                                <Text style={[s.upgradeBtnText, { fontSize: 13 }]}>Premium freischalten</Text>
-                              </TouchableOpacity>
-                            </>
+                            <View style={[s.blurPreview, { marginBottom: 12 }]} pointerEvents="none">
+                              <View style={s.previewRow}><View style={[s.previewLine, { width: '95%' }]} /></View>
+                              <View style={s.previewRow}><View style={[s.previewLine, { width: '80%' }]} /></View>
+                              <View style={s.previewRow}><View style={[s.previewLine, { width: '88%' }]} /></View>
+                            </View>
                           )}
                         </View>
 

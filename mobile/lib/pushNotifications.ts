@@ -6,7 +6,8 @@ import { supabase } from './auth';
 // Show notifications when app is in foreground
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
   }),
@@ -93,7 +94,7 @@ export function addNotificationListeners(
     onResponse?.(response);
   });
   return () => {
-    Notifications.removeNotificationSubscription(n);
-    Notifications.removeNotificationSubscription(r);
+    n.remove();
+    r.remove();
   };
 }

@@ -7,13 +7,10 @@ let _supabaseAdmin: SupabaseClient | null = null;
 
 function getSupabaseAdmin(): SupabaseClient {
   if (!_supabaseAdmin) {
-    // Debug: Environment-Variablen checken
+    // Debug: nur boolean Checks — niemals Key-Werte oder -Prefixe loggen.
     console.log('🔧 Supabase Admin Debug:', {
       hasUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
       hasServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-      urlPrefix: process.env.NEXT_PUBLIC_SUPABASE_URL?.substring(0, 30),
-      serviceRolePrefix: process.env.SUPABASE_SERVICE_ROLE_KEY?.substring(0, 20),
-      serviceRoleLength: process.env.SUPABASE_SERVICE_ROLE_KEY?.length,
     });
 
     // Prüfe ob Service Role Key gesetzt ist
@@ -25,7 +22,6 @@ function getSupabaseAdmin(): SupabaseClient {
     // Prüfe ob es wirklich ein Service Role Key ist (sollte sehr lang sein)
     if (process.env.SUPABASE_SERVICE_ROLE_KEY.length < 100) {
       console.error('❌ SUPABASE_SERVICE_ROLE_KEY seems too short - might be wrong key');
-      console.error('Service Role Key length:', process.env.SUPABASE_SERVICE_ROLE_KEY.length);
     }
 
     _supabaseAdmin = createClient(

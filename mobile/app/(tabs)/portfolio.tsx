@@ -11,7 +11,6 @@ import ValueChart from '../../components/portfolio/ValueChart';
 import AllocationDonut from '../../components/portfolio/AllocationDonut';
 import TransactionsView from '../../components/portfolio/TransactionsView';
 import AIAnalysisView from '../../components/portfolio/AIAnalysisView';
-import PremiumModal from '../../components/PremiumModal';
 // Currency conversion now happens server-side in /api/portfolio/summary
 
 const BASE_URL = 'https://finclue.de';
@@ -88,7 +87,6 @@ export default function PortfolioScreen() {
   const [divLoading, setDivLoading] = useState(false);
   const [profiles, setProfiles] = useState<Record<string, StockProfile>>({});
   const [profilesLoading, setProfilesLoading] = useState(false);
-  const [showPremium, setShowPremium] = useState(false);
 
   // Period selector for summary card
   type Period = 'gesamt' | '1W' | '1M' | '3M' | 'YTD' | '1J';
@@ -904,13 +902,10 @@ export default function PortfolioScreen() {
                 value: h.currentValue,
                 gain_loss_percent: h.gainPct,
               }))}
-              onUpgrade={() => setShowPremium(true)}
             />
           </View>
         )}
       </ScrollView>
-
-      <PremiumModal visible={showPremium} onClose={() => setShowPremium(false)} />
     </SafeAreaView>
   );
 }
