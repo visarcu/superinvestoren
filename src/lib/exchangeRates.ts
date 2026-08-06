@@ -32,6 +32,14 @@ const FX_PAIRS: Record<string, { fmpSymbol: string; invert: boolean }> = {
   'EUR_USD': { fmpSymbol: 'EURUSD', invert: false },   // EURUSD = 1.08 → EUR→USD = 1.08
   'GBP_EUR': { fmpSymbol: 'GBPEUR', invert: false },   // GBPEUR direkt
   'EUR_GBP': { fmpSymbol: 'GBPEUR', invert: true },    // GBPEUR → EUR→GBP = 1/rate
+  'CHF_EUR': { fmpSymbol: 'CHFEUR', invert: false },
+  'EUR_CHF': { fmpSymbol: 'CHFEUR', invert: true },
+  'JPY_EUR': { fmpSymbol: 'JPYEUR', invert: false },
+  'EUR_JPY': { fmpSymbol: 'JPYEUR', invert: true },
+  'CAD_EUR': { fmpSymbol: 'CADEUR', invert: false },
+  'EUR_CAD': { fmpSymbol: 'CADEUR', invert: true },
+  'AUD_EUR': { fmpSymbol: 'AUDEUR', invert: false },
+  'EUR_AUD': { fmpSymbol: 'AUDEUR', invert: true },
 }
 
 export async function getExchangeRate(fromCurrency: string, toCurrency: string): Promise<number | null> {

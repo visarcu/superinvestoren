@@ -19,12 +19,19 @@ interface DividendEvent {
   exDate: string
   paymentDate: string
   recordDate: string
+  /** Stückdividende in Börsenwährung (GBX-Ticker liefert die API bereits in GBP) */
   dividend: number
+  /** Börsenwährung des Tickers */
+  currency?: string
+  /** Von der API umgerechnete Stückdividende – null wenn kein Kurs verfügbar war */
+  dividendEur?: number | null
+  dividendUsd?: number | null
   yield: number | null
   currentPrice: number | null
   frequency: string
   // Portfolio-specific fields
   quantity?: number
+  /** Erwartete Zahlung in EUR (Vergleichs-/Sortierbasis über alle Währungen) */
   estimatedIncome?: number
   source: 'watchlist' | 'portfolio' | 'both'
 }
@@ -39,9 +46,6 @@ type ViewMode = 'week' | 'month' | 'year'
 type SourceFilter = 'all' | 'portfolio' | 'watchlist'
 type DateMode = 'payment' | 'ex'
 type Currency = 'EUR' | 'USD'
-
-// Exchange rate USD to EUR (approximate, could be fetched dynamically)
-const USD_TO_EUR = 0.92
 
 // Month names in German
 const MONTH_NAMES = [
@@ -173,6 +177,18 @@ export default function DividendsCalendarPage() {
     }
   }, [monthDates])
 
+  // Stückdividende in der gewählten Anzeigewährung. Die API rechnet serverseitig
+  // mit Live-Kursen um (LSE-Ticker kommen dort schon von GBX auf GBP normiert);
+  // fehlt ein Kurs, bleibt der Betrag in Börsenwährung stehen.
+  const dividendInCurrency = (event: DividendEvent): number => {
+    const converted = currency === 'EUR' ? event.dividendEur : event.dividendUsd
+    return typeof converted === 'number' ? converted : event.dividend
+  }
+
+  // Erwartete Zahlung = Stückzahl × Stückdividende (beides in Anzeigewährung)
+  const incomeInCurrency = (event: DividendEvent): number =>
+    event.quantity ? event.quantity * dividendInCurrency(event) : 0
+
   // Load dividend data from both sources
   useEffect(() => {
     async function loadDividends() {
@@ -212,7 +228,10 @@ export default function DividendsCalendarPage() {
               ...event,
               source,
               quantity: portfolioHolding?.quantity,
-              estimatedIncome: portfolioHolding ? portfolioHolding.quantity * event.dividend : undefined
+              // EUR-Basis: nur so sind Positionen unterschiedlicher Börsenwährungen vergleichbar
+              estimatedIncome: portfolioHolding
+                ? portfolioHolding.quantity * (typeof event.dividendEur === 'number' ? event.dividendEur : event.dividend)
+                : undefined
             }
           })
 
@@ -324,7 +343,7 @@ export default function DividendsCalendarPage() {
 
     // Sort each group by dividend amount (highest first)
     Object.values(groups).forEach(group => {
-      group.sort((a, b) => b.dividend - a.dividend)
+      group.sort((a, b) => (b.dividendEur ?? b.dividend) - (a.dividendEur ?? a.dividend))
     })
 
     return groups
@@ -347,7 +366,7 @@ export default function DividendsCalendarPage() {
     })
 
     Object.values(groups).forEach(group => {
-      group.sort((a, b) => b.dividend - a.dividend)
+      group.sort((a, b) => (b.dividendEur ?? b.dividend) - (a.dividendEur ?? a.dividend))
     })
 
     return groups
@@ -377,7 +396,7 @@ export default function DividendsCalendarPage() {
         }
         if (a.estimatedIncome) return -1
         if (b.estimatedIncome) return 1
-        return b.dividend - a.dividend
+        return (b.dividendEur ?? b.dividend) - (a.dividendEur ?? a.dividend)
       })
     })
 
@@ -391,12 +410,13 @@ export default function DividendsCalendarPage() {
     for (let i = 0; i < 12; i++) {
       const monthDividends = yearGroupedDividends[i] || []
       sums[i] = monthDividends.reduce((sum, event) => {
-        return sum + (event.estimatedIncome || 0)
+        return sum + incomeInCurrency(event)
       }, 0)
     }
 
     return sums
-  }, [yearGroupedDividends])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [yearGroupedDividends, currency])
 
   // Calculate yearly total
   const yearlyTotal = useMemo(() => {
@@ -432,15 +452,17 @@ export default function DividendsCalendarPage() {
   // Deutsche Tagesbezeichnungen
   const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
 
-  // Format currency with conversion
+  // Betrag formatieren – der Wert muss bereits in der Anzeigewährung vorliegen
   const formatCurrency = (amount: number) => {
-    const convertedAmount = currency === 'EUR' ? amount * USD_TO_EUR : amount
     const symbol = currency === 'EUR' ? '€' : '$'
     return new Intl.NumberFormat('de-DE', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(convertedAmount) + ' ' + symbol
+    }).format(amount) + ' ' + symbol
   }
+
+  const formatPerShare = (event: DividendEvent) => formatCurrency(dividendInCurrency(event))
+  const formatIncome = (event: DividendEvent) => formatCurrency(incomeInCurrency(event))
 
   // Frequency translations
   const frequencyLabels: Record<string, string> = {
@@ -672,7 +694,8 @@ export default function DividendsCalendarPage() {
                             <YearViewDividendItem
                               key={`${event.ticker}-${i}`}
                               event={event}
-                              formatCurrency={formatCurrency}
+                              formatPerShare={formatPerShare}
+                              formatIncome={formatIncome}
                             />
                           ))}
                           {monthDividends.length > 5 && (
@@ -747,7 +770,7 @@ export default function DividendsCalendarPage() {
                             </div>
                             <div className="space-y-1">
                               {dayDividends.map((event, i) => (
-                                <DividendItem key={i} event={event} formatCurrency={formatCurrency} frequencyLabels={frequencyLabels} />
+                                <DividendItem key={i} event={event} formatPerShare={formatPerShare} formatIncome={formatIncome} frequencyLabels={frequencyLabels} />
                               ))}
                             </div>
                           </div>
@@ -820,7 +843,7 @@ export default function DividendsCalendarPage() {
                                       key={i}
                                       href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
                                       className="flex items-center gap-1 px-1 py-0.5 rounded hover:bg-theme-hover transition-colors group"
-                                      title={`${event.companyName} - ${formatCurrency(event.dividend)}${hasPortfolioData ? ` • ${event.quantity} Stück = ${formatCurrency(event.estimatedIncome!)}` : ''}`}
+                                      title={`${event.companyName} - ${formatPerShare(event)}${hasPortfolioData ? ` • ${event.quantity} Stück = ${formatIncome(event)}` : ''}`}
                                     >
                                       <div className="relative flex-shrink-0">
                                         <Logo
@@ -868,7 +891,7 @@ export default function DividendsCalendarPage() {
                 Geschätzte Einnahmen: {formatCurrency(
                   filteredDividends
                     .filter(d => d.estimatedIncome !== undefined)
-                    .reduce((sum, d) => sum + (d.estimatedIncome || 0), 0)
+                    .reduce((sum, d) => sum + incomeInCurrency(d), 0)
                 )}
               </span>
             )}
@@ -909,10 +932,12 @@ export default function DividendsCalendarPage() {
 // Year View Dividend Item Component - Compact like Parqet
 function YearViewDividendItem({
   event,
-  formatCurrency
+  formatPerShare,
+  formatIncome
 }: {
   event: DividendEvent
-  formatCurrency: (amount: number) => string
+  formatPerShare: (event: DividendEvent) => string
+  formatIncome: (event: DividendEvent) => string
 }) {
   const [showTooltip, setShowTooltip] = useState(false)
   const hasPortfolioData = event.quantity !== undefined && event.estimatedIncome !== undefined
@@ -941,7 +966,7 @@ function YearViewDividendItem({
           </span>
         </div>
         <span className={`text-sm font-medium flex-shrink-0 ml-2 ${hasPortfolioData ? 'text-emerald-400' : 'text-theme-secondary'}`}>
-          {hasPortfolioData ? formatCurrency(event.estimatedIncome!) : formatCurrency(event.dividend)}
+          {hasPortfolioData ? formatIncome(event) : formatPerShare(event)}
         </span>
       </Link>
 
@@ -973,15 +998,15 @@ function YearViewDividendItem({
               <div className="flex justify-between">
                 <span className="text-theme-muted">Ausschüttung</span>
                 <div className="text-right">
-                  <span className="text-emerald-400 font-medium">{formatCurrency(event.estimatedIncome!)}</span>
-                  <div className="text-theme-muted">{event.quantity}x {formatCurrency(event.dividend)}</div>
+                  <span className="text-emerald-400 font-medium">{formatIncome(event)}</span>
+                  <div className="text-theme-muted">{event.quantity}x {formatPerShare(event)}</div>
                 </div>
               </div>
             )}
             {!hasPortfolioData && (
               <div className="flex justify-between">
                 <span className="text-theme-muted">Dividende</span>
-                <span className="text-theme-primary">{formatCurrency(event.dividend)}</span>
+                <span className="text-theme-primary">{formatPerShare(event)}</span>
               </div>
             )}
             <div className="flex justify-between">
@@ -1004,11 +1029,13 @@ function YearViewDividendItem({
 // Dividend Item Component
 function DividendItem({
   event,
-  formatCurrency,
+  formatPerShare,
+  formatIncome,
   frequencyLabels
 }: {
   event: DividendEvent
-  formatCurrency: (amount: number) => string
+  formatPerShare: (event: DividendEvent) => string
+  formatIncome: (event: DividendEvent) => string
   frequencyLabels: Record<string, string>
 }) {
   const hasPortfolioData = event.quantity !== undefined && event.estimatedIncome !== undefined
@@ -1017,7 +1044,7 @@ function DividendItem({
     <Link
       href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
       className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-theme-hover transition-colors group"
-      title={`${event.companyName} • ${formatCurrency(event.dividend)}${event.yield ? ` • ${event.yield.toFixed(2)}% Rendite` : ''}${hasPortfolioData ? ` • ${event.quantity} Stück = ${formatCurrency(event.estimatedIncome!)}` : ''}`}
+      title={`${event.companyName} • ${formatPerShare(event)}${event.yield ? ` • ${event.yield.toFixed(2)}% Rendite` : ''}${hasPortfolioData ? ` • ${event.quantity} Stück = ${formatIncome(event)}` : ''}`}
     >
       <div className="relative">
         <Logo
@@ -1051,16 +1078,16 @@ function DividendItem({
         {hasPortfolioData ? (
           <>
             <span className="text-[10px] text-emerald-400 font-medium">
-              +{formatCurrency(event.estimatedIncome!)}
+              +{formatIncome(event)}
             </span>
             <p className="text-[9px] text-theme-muted">
-              {formatCurrency(event.dividend)}/Stk
+              {formatPerShare(event)}/Stk
             </p>
           </>
         ) : (
           <>
             <span className="text-[10px] text-brand font-medium">
-              {formatCurrency(event.dividend)}
+              {formatPerShare(event)}
             </span>
             {event.yield && (
               <p className="text-[9px] text-theme-muted">

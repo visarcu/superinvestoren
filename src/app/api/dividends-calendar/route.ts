@@ -1,5 +1,24 @@
 // Dividends Calendar API - Watchlist Focus
 import { NextRequest, NextResponse } from 'next/server'
+import { detectTickerCurrency } from '@/lib/fmp'
+import { getExchangeRate } from '@/lib/exchangeRates'
+
+// FMP liefert für LSE-Ticker (.L) Kurse UND Dividenden in GBX (Pence).
+// Ohne ÷100 wäre die Unilever-Dividende (39,82 GBX = 0,3982 GBP) um Faktor 100 zu hoch.
+function toMajorUnit(value: number, currency: string): number {
+  return currency === 'GBP' ? value / 100 : value
+}
+
+// EUR-Kurse je benötigter Börsenwährung einmal pro Request laden.
+async function loadEurRates(currencies: Set<string>): Promise<Map<string, number | null>> {
+  const rates = new Map<string, number | null>()
+  await Promise.all(
+    [...currencies].map(async currency => {
+      rates.set(currency, currency === 'EUR' ? 1 : await getExchangeRate(currency, 'EUR'))
+    })
+  )
+  return rates
+}
 
 export async function GET(request: NextRequest) {
   try {
@@ -17,6 +36,10 @@ export async function GET(request: NextRequest) {
     }
 
     console.log(`🗓️ [Dividends Calendar] Loading for ${tickerList.length} tickers: ${tickerList.join(', ')}`)
+
+    // Wechselkurse einmalig für alle vorkommenden Börsenwährungen
+    const eurRates = await loadEurRates(new Set(tickerList.map(t => detectTickerCurrency(t))))
+    const eurToUsd = await getExchangeRate('EUR', 'USD')
 
     // Parallel API calls für alle Tickers
     const dividendPromises = tickerList.map(async (ticker) => {
@@ -42,10 +65,14 @@ export async function GET(request: NextRequest) {
           `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`
         )
         
+        const tickerCurrency = detectTickerCurrency(ticker)
+        const eurRate = eurRates.get(tickerCurrency) ?? null
+
         let currentPrice = null
         if (quoteResponse.ok) {
           const quoteData = await quoteResponse.json()
-          currentPrice = quoteData[0]?.price || null
+          const rawPrice = quoteData[0]?.price || null
+          currentPrice = rawPrice ? toMajorUnit(rawPrice, tickerCurrency) : null
         }
 
         // Get upcoming and recent dividends (next 6 months + last 6 months)
@@ -55,9 +82,17 @@ export async function GET(request: NextRequest) {
 
         const relevantDividends = data.historical
           .map((div: any) => {
-            const dividendAmount = div.dividend || div.adjDividend || 0
+            // Dividende in Haupteinheit der Börsenwährung (GBX → GBP), danach in EUR/USD
+            const dividendAmount = toMajorUnit(div.dividend || div.adjDividend || 0, tickerCurrency)
             const yield_ = currentPrice && dividendAmount > 0 ? (dividendAmount / currentPrice) * 100 : null
-            
+            const dividendEur = eurRate ? dividendAmount * eurRate : null
+            const dividendUsd =
+              tickerCurrency === 'USD'
+                ? dividendAmount
+                : dividendEur !== null && eurToUsd
+                  ? dividendEur * eurToUsd
+                  : null
+
             return {
               ticker,
               companyName: data.symbol || ticker,
@@ -66,6 +101,9 @@ export async function GET(request: NextRequest) {
               paymentDate: div.paymentDate || div.date,
               recordDate: div.recordDate || div.date,
               dividend: dividendAmount,
+              currency: tickerCurrency,
+              dividendEur,
+              dividendUsd,
               yield: yield_,
               currentPrice,
               frequency: estimateFrequency(data.historical)

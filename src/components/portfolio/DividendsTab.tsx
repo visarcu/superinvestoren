@@ -21,7 +21,12 @@ interface UpcomingDividend {
   ticker: string
   date: string
   paymentDate: string
+  /** Stückdividende in Börsenwährung (GBX-Ticker bereits in GBP) */
   dividend: number
+  /** Börsenwährung des Tickers */
+  currency?: string
+  /** Stückdividende in EUR – null wenn kein Wechselkurs verfügbar war */
+  dividendEur?: number | null
   frequency: string
 }
 
@@ -304,7 +309,7 @@ export default function DividendsTab({
               <p className="text-[12px] text-neutral-500">Keine anstehenden Dividenden gefunden</p>
             </div>
           ) : (
-            <UpcomingDividendsList items={upcomingDividends} holdings={holdings} />
+            <UpcomingDividendsList items={upcomingDividends} holdings={holdings} formatCurrency={formatCurrency} />
           )}
         </div>
 
@@ -486,7 +491,7 @@ export default function DividendsTab({
             <p className="text-[12px] text-neutral-500">Keine anstehenden Dividenden gefunden</p>
           </div>
         ) : (
-          <UpcomingDividendsList items={upcomingDividends} holdings={holdings} />
+          <UpcomingDividendsList items={upcomingDividends} holdings={holdings} formatCurrency={formatCurrency} />
         )}
       </div>
 
@@ -652,15 +657,26 @@ function LoadingRows({ count }: { count: number }) {
   )
 }
 
-function UpcomingDividendsList({ items, holdings }: { items: UpcomingDividend[]; holdings: Holding[] }) {
+function UpcomingDividendsList({
+  items,
+  holdings,
+  formatCurrency,
+}: {
+  items: UpcomingDividend[]
+  holdings: Holding[]
+  formatCurrency: (amount: number) => string
+}) {
   return (
     <div>
       {items.map((div, idx) => {
         const exDate = new Date(div.date)
         const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
         const holding = holdings.find(h => h.symbol === div.ticker)
-        // Erwartete Auszahlung berechnen wenn Holding existiert: quantity × dividend
-        const expectedPayment = holding ? holding.quantity * div.dividend : 0
+        // Portfolio rechnet durchgängig in EUR: nur die umgerechnete Stückdividende
+        // darf mit der Stückzahl multipliziert werden. Ohne Kurs bleibt der
+        // Börsenwährungs-Betrag stehen (mit Währungskürzel ausgewiesen).
+        const perShareEur = typeof div.dividendEur === 'number' ? div.dividendEur : null
+        const expectedPayment = holding && perShareEur !== null ? holding.quantity * perShareEur : 0
         return (
           <Link
             key={idx}
@@ -685,13 +701,17 @@ function UpcomingDividendsList({ items, holdings }: { items: UpcomingDividend[];
               {expectedPayment > 0 ? (
                 <>
                   <p className="text-[13px] font-semibold text-teal-300 tabular-nums">
-                    ~${expectedPayment.toFixed(2)}
+                    ~{formatCurrency(expectedPayment)}
                   </p>
-                  <p className="text-[10px] text-neutral-500">${div.dividend.toFixed(3)} × {holding?.quantity.toFixed(2)}</p>
+                  <p className="text-[10px] text-neutral-500">
+                    {formatCurrency(perShareEur!)} × {holding?.quantity.toFixed(2)}
+                  </p>
                 </>
               ) : (
                 <p className="text-[13px] font-semibold text-neutral-400 tabular-nums">
-                  ${div.dividend.toFixed(2)}/Stk
+                  {perShareEur !== null
+                    ? `${formatCurrency(perShareEur)}/Stk`
+                    : `${div.dividend.toFixed(2)} ${div.currency || ''}/Stk`.trim()}
                 </p>
               )}
             </div>
