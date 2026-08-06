@@ -14,6 +14,15 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY! // WICHTIG: Service Role Key für Schreibrechte
 )
 
+const MODEL = 'gpt-5-mini'
+
+// Version-Tag für Prompt/Preprocessing. Wird zusammen mit dem Modell in der
+// `model`-Spalte gespeichert. Cached Summaries mit einem anderen Tag gelten als
+// veraltet und werden neu generiert (v2: vollständiges Transcript statt der
+// ersten 10.000 Zeichen — davor fehlten die CFO-Zahlen komplett).
+const SUMMARY_VERSION = 'v2'
+const MODEL_TAG = `${MODEL}@${SUMMARY_VERSION}`
+
 export async function POST(request: NextRequest) {
   try {
     const { ticker, year, quarter, content } = await request.json()
@@ -36,10 +45,10 @@ export async function POST(request: NextRequest) {
       .eq('year', year)
       .eq('quarter', quarter)
       .single()
-    
-    if (cached && !fetchError) {
+
+    if (cached && !fetchError && cached.model === MODEL_TAG) {
       console.log('✅ Returning cached summary from Supabase')
-      return NextResponse.json({ 
+      return NextResponse.json({
         summary: cached.summary,
         cached: true,
         source: 'database',
@@ -47,15 +56,21 @@ export async function POST(request: NextRequest) {
         model: cached.model
       })
     }
-    
+
+    if (cached && !fetchError) {
+      console.log(`♻️ Cached summary is stale (${cached.model} ≠ ${MODEL_TAG}) — regenerating`)
+    }
+
     console.log('🤖 Generating new AI summary...')
     
     // 2. Verbesserte Content-Preprocessing
     const processedContent = preprocessTranscript(content, ticker)
     
+    console.log(`📄 Transcript: ${content.length} Zeichen → ${processedContent.length} Zeichen an das Modell`)
+
     // 3. Generate new summary with improved prompt
     const completion = await openai.chat.completions.create({
-      model: "gpt-5-mini", // GPT-5 Serie - bessere Qualität
+      model: MODEL,
       messages: [
         {
           role: "system",
@@ -66,10 +81,8 @@ export async function POST(request: NextRequest) {
           content: `Erstelle eine Zusammenfassung für ${ticker} Q${quarter} ${year} Earnings Call:\n\n${processedContent}`
         }
       ],
-      max_completion_tokens: 4000  // GPT-5 braucht mehr Tokens (Reasoning + Output)
+      max_completion_tokens: 6000  // GPT-5 braucht mehr Tokens (Reasoning + Output)
     })
-    
-    console.log('🔍 API Response:', JSON.stringify(completion, null, 2))
 
     const summary = completion.choices[0]?.message?.content
 
@@ -89,7 +102,12 @@ export async function POST(request: NextRequest) {
         year: parseInt(year),
         quarter: parseInt(quarter),
         summary: validatedSummary,
-        model: 'gpt-5-mini'
+        model: MODEL_TAG,
+        created_at: new Date().toISOString()
+      }, {
+        // Ohne onConflict läuft der Upsert auf den Primary Key (id) und
+        // kollidiert beim Neugenerieren mit UNIQUE(ticker, year, quarter)
+        onConflict: 'ticker,year,quarter'
       })
       .select()
       .single()
@@ -106,7 +124,7 @@ export async function POST(request: NextRequest) {
       summary: validatedSummary,
       cached: false,
       source: 'openai',
-      model: 'gpt-5-mini',
+      model: MODEL_TAG,
       created_at: new Date().toISOString()
     })
     
@@ -142,29 +160,31 @@ export async function POST(request: NextRequest) {
 function getImprovedSystemPrompt(ticker: string): string {
   return `Du bist ein erfahrener Finanzanalyst mit Spezialisierung auf ${ticker}. Erstelle eine präzise deutsche Zusammenfassung des Earnings Calls.
 
+ARBEITSWEISE:
+Die Kennzahlen stehen fast nie in den Eröffnungsworten des CEO, sondern im Finanzteil des CFO
+(oft in der Mitte des Transcripts, erkennbar an "Let's begin with our segment results",
+"total revenue was ...", "Turning to the P&L", "Moving to our consolidated results").
+Lies das gesamte Transcript durch und suche diesen Abschnitt gezielt, bevor du zusammenfasst.
+
 KRITISCHE REGELN FÜR ZAHLEN:
 1. Unterscheide IMMER zwischen Segment-Umsatz und Gesamt-Umsatz
-2. Bei Microsoft: Azure/Cloud ist EIN Segment, nicht der Gesamtumsatz
-3. Bei Apple: iPhone ist EIN Segment, nicht der Gesamtumsatz  
-4. Bei Amazon: AWS ist EIN Segment, nicht der Gesamtumsatz
-5. Verwende NUR Zahlen, die explizit im Text als "total revenue" oder "Gesamtumsatz" genannt werden
-6. Wenn unklar: Schreibe "Segment-Umsatz" oder "Cloud-Umsatz" statt "Umsatz"
-
-WEITERE REGELN:
-- Verwende NUR echte Zahlen aus dem Transcript
-- KEINE Platzhalter wie $XX.X oder ±X%
-- Bei Unsicherheit: Lass die Kennzahl komplett weg
-- Kennzeichne Segmente deutlich (z.B. "Azure-Umsatz", "iPhone-Umsatz")
-- Prüfe Kontext: Quarterly vs Annual vs Segment
+2. Der Gesamtumsatz steht meist als "total revenue was $X billion" — genau diese Zahl gehört
+   als "Gesamtumsatz" in die Kennzahlen
+3. Segment-Zahlen ("Family of Apps revenue", "Azure", "iPhone", "AWS") IMMER mit Segmentnamen
+   beschriften, niemals als Gesamtumsatz ausgeben
+4. Verwende NUR echte Zahlen aus dem Transcript — KEINE Platzhalter wie $XX.X oder ±X%
+5. Rechne nichts hoch oder um; übernimm die genannten Werte 1:1 (nur $ → Mrd./Mio.)
+6. Prüfe Kontext: Quarterly vs Annual vs Segment
+7. Eine Kennzahl weglassen ist nur dann richtig, wenn sie im Transcript wirklich nicht
+   vorkommt — nicht, weil du sie überlesen hast
 
 Format (nutze Emojis):
 
 📊 KENNZAHLEN
-[Zeige NUR Kennzahlen mit echten Zahlen aus dem Text - keine Platzhalter!]
-• Cloud-Umsatz: $168 Mrd. (+23% YoY) [Beispiel - nur wenn im Text]
-• EPS: $2.95 (+10% YoY) [Beispiel - nur wenn im Text]
-
-WICHTIG: Wenn keine Gesamtumsatz-Zahl explizit genannt wird, dann lass sie weg!
+[Nenne — sofern im Transcript vorhanden — Gesamtumsatz, Segment-Umsätze, EPS, Margen,
+Gesamtkosten/OpEx und CapEx, jeweils mit YoY-Veränderung]
+• Gesamtumsatz: $60,8 Mrd. (+28% YoY) [Beispiel — nur wenn im Text]
+• EPS: $2.95 (+10% YoY) [Beispiel — nur wenn im Text]
 
 ✅ POSITIVE ENTWICKLUNGEN
 • [Konkrete Highlights mit korrekten Zahlen]
@@ -178,45 +198,30 @@ WICHTIG: Wenn keine Gesamtumsatz-Zahl explizit genannt wird, dann lass sie weg!
 💡 FAZIT
 [Prägnante Einschätzung]
 
-WICHTIG: Lieber weniger Zahlen als falsche Zahlen!`
+WICHTIG: Lieber weniger Zahlen als falsche Zahlen — aber jede Zahl, die klar im Transcript
+steht, gehört auch in die Zusammenfassung.`
 }
 
 // ✅ CONTENT PREPROCESSING
+// Das Transcript geht praktisch vollständig ans Modell. Ein reiner Head-Cut ist hier fatal:
+// die CFO-Zahlen stehen typischerweise erst ab ~12.000 Zeichen. Nur bei extrem langen Calls
+// wird die Mitte des Q&A gekürzt, Anfang (Prepared Remarks inkl. Finanzteil) und Ende
+// (Guidance/Abschluss) bleiben erhalten.
+const MAX_TRANSCRIPT_CHARS = 120_000
+
 function preprocessTranscript(content: string, ticker: string): string {
-  // Erweitere auf 12000 Zeichen für besseren Kontext
-  const maxLength = 12000
-  
-  // Priorisiere relevante Sections
-  const sections = content.split(/(?=(?:Operator|Questions and Answers|Presentation))/i)
-  
-  let processedContent = ''
-  let currentLength = 0
-  
-  // Zuerst: Management Presentation (meist wichtigste Zahlen)
-  const presentationSection = sections.find(s => 
-    s.toLowerCase().includes('presentation') || 
-    s.toLowerCase().includes('prepared remarks')
-  )
-  
-  if (presentationSection && currentLength < maxLength) {
-    const sectionLength = Math.min(presentationSection.length, maxLength - currentLength)
-    processedContent += presentationSection.substring(0, sectionLength)
-    currentLength += sectionLength
-  }
-  
-  // Dann: Restliche Sections
-  for (const section of sections) {
-    if (currentLength >= maxLength) break
-    if (section === presentationSection) continue
-    
-    const remainingSpace = maxLength - currentLength
-    if (remainingSpace > 500) { // Nur wenn genug Platz
-      processedContent += '\n\n' + section.substring(0, remainingSpace)
-      currentLength += section.length
-    }
-  }
-  
-  return processedContent
+  const text = content.trim()
+
+  if (text.length <= MAX_TRANSCRIPT_CHARS) return text
+
+  const headSize = Math.floor(MAX_TRANSCRIPT_CHARS * 0.7)
+  const tailSize = MAX_TRANSCRIPT_CHARS - headSize
+
+  return [
+    text.substring(0, headSize),
+    '\n\n[... Teil der Q&A-Session gekürzt ...]\n\n',
+    text.substring(text.length - tailSize)
+  ].join('')
 }
 
 // ✅ POST-PROCESSING VALIDATION

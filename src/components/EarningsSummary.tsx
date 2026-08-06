@@ -11,6 +11,10 @@ import {
   LightBulbIcon
 } from '@heroicons/react/24/outline'
 
+// Muss mit SUMMARY_VERSION in /api/earnings-summary übereinstimmen: erhöhen, damit
+// im localStorage gecachte Summaries alter Generationen nicht weiter angezeigt werden.
+const SUMMARY_CACHE_VERSION = 'v2'
+
 interface EarningsSummaryProps {
   ticker: string
   year: number
@@ -29,7 +33,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
 
   // Check cache on mount — show cached summary immediately without needing button click
   useEffect(() => {
-    const cacheKey = `summary-${ticker}-${year}-Q${quarter}`
+    const cacheKey = `summary-${SUMMARY_CACHE_VERSION}-${ticker}-${year}-Q${quarter}`
     const cached = localStorage.getItem(cacheKey)
     if (cached) {
       try {
@@ -55,7 +59,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
 
     setHasRequested(true)
 
-    const cacheKey = `summary-${ticker}-${year}-Q${quarter}`
+    const cacheKey = `summary-${SUMMARY_CACHE_VERSION}-${ticker}-${year}-Q${quarter}`
 
     // Cancel any pending request
     if (abortControllerRef.current) {
@@ -75,7 +79,10 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
           ticker,
           year,
           quarter,
-          content: content.substring(0, 10000)
+          // Vollständiges Transcript senden — die CFO-Zahlen stehen erst ab ca. 12.000
+          // Zeichen, ein Head-Cut hier lieferte der KI nur die CEO-Eröffnung.
+          // Die Kürzung für das Modell macht die API (preprocessTranscript).
+          content
         }),
         signal: abortControllerRef.current.signal
       })
