@@ -129,6 +129,10 @@ async function fetchYahoo(symbol: string): Promise<MarketPoint | null> {
   }
 }
 
+// Siehe /api/v1/markets: sonst wird die Route beim Build vorgerendert und holt
+// dabei Live-Kurse. Das Caching laeuft ueber den Cache-Control-Header unten.
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const entries = await Promise.all(
     Object.entries(SYMBOL_MAP).map(async ([key, mapping]) => {

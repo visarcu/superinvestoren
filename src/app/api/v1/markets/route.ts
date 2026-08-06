@@ -152,6 +152,13 @@ async function fetchFmpIndexQuotes(symbols: string[]): Promise<Record<string, Fm
 
 // ── Route Handler ───────────────────────────────────────────────────────────
 
+// Ohne dieses Flag rendert Next.js die Route beim Build statisch vor (GET ohne
+// request-Parameter, cachebare Fetches) und holt dabei 24 Live-Quotes von Finnhub.
+// Ist Finnhub dann langsam, reisst das die 60s-Grenze fuer Static Generation und
+// bricht den gesamten Build ab. Das Caching macht ohnehin der Cache-Control-Header
+// unten, die Last auf Finnhub bleibt also unveraendert.
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     // Alle Symbole sammeln
