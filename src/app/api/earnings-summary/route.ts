@@ -14,6 +14,11 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY! // WICHTIG: Service Role Key für Schreibrechte
 )
 
+// Eine Generierung über ein vollständiges Transcript dauert ~35s (gemessen: META Q2 2026,
+// 60k Zeichen). Ohne diese Angabe greift der Vercel-Default von 15s und die Generierung
+// läuft in den Timeout, bevor OpenAI antwortet.
+export const maxDuration = 120
+
 const MODEL = 'gpt-5-mini'
 
 // Version-Tag für Prompt/Preprocessing. Wird zusammen mit dem Modell in der
