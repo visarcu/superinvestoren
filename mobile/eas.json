@@ -15,7 +15,7 @@
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium",
-        "image": "macos-sequoia-15.6-xcode-16.4"
+        "image": "macos-tahoe-26.5-xcode-26.6"
       }
     },
     "production": {
@@ -23,7 +23,7 @@
       "channel": "production",
       "ios": {
         "resourceClass": "m-medium",
-        "image": "macos-sequoia-15.6-xcode-16.4"
+        "image": "macos-tahoe-26.5-xcode-26.6"
       },
       "env": {
         "EXPO_PUBLIC_SUPABASE_URL": "https://tsyguxnioxnycdekujou.supabase.co",
