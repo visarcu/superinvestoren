@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -14,7 +14,7 @@ import {
 import { supabase } from '@/lib/supabaseClient'
 import PortfolioBrokerSelector, { BrokerBadge } from '@/components/PortfolioBrokerSelector'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
-import { BrokerType, getBrokerConfig, brokerTypeToLogoId } from '@/lib/brokerConfig'
+import { BrokerType, BROKER_CONFIGS, getBrokerConfig, brokerTypeToLogoId } from '@/lib/brokerConfig'
 
 type Step = 1 | 2 | 3
 
@@ -26,11 +26,26 @@ const STEP_LABELS: Record<Step, string> = {
 
 export default function NewDepotPage() {
   const router = useRouter()
-  const [step, setStep] = useState<Step>(1)
-  const [selectedBroker, setSelectedBroker] = useState<BrokerType | null>(null)
-  const [depotName, setDepotName] = useState('')
+  const searchParams = useSearchParams()
+
+  // Broker kann vom Onboarding vorausgewählt übergeben werden (?broker=trade_republic)
+  const presetBroker = (() => {
+    const raw = searchParams.get('broker')
+    return raw && BROKER_CONFIGS.some(b => b.id === raw) ? (raw as BrokerType) : null
+  })()
+  // Erstes Depot (Onboarding) → nach dem Anlegen zurück ins Dashboard statt in die Depot-Liste
+  const isFirstDepot = searchParams.get('first') === '1'
+  const backHref = isFirstDepot ? '/analyse/portfolio/dashboard?depot=all' : '/analyse/portfolio/depots'
+
+  const [step, setStep] = useState<Step>(presetBroker ? 2 : 1)
+  const [selectedBroker, setSelectedBroker] = useState<BrokerType | null>(presetBroker)
+  const [depotName, setDepotName] = useState(() => {
+    if (!presetBroker || presetBroker === 'andere') return ''
+    if (presetBroker === 'manual') return 'Mein Depot'
+    return `${getBrokerConfig(presetBroker).displayName} Depot`
+  })
   const [customBrokerName, setCustomBrokerName] = useState('')
-  const [customColor, setCustomColor] = useState('')
+  const [customColor, setCustomColor] = useState(presetBroker ? getBrokerConfig(presetBroker).color : '')
   const [isDefault, setIsDefault] = useState(false)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -41,6 +56,7 @@ export default function NewDepotPage() {
     if (broker === 'andere' && customBrokerName) {
       return `${customBrokerName} Depot`
     }
+    if (broker === 'manual') return 'Mein Depot'
     return `${brokerConfig.displayName} Depot`
   }
 
@@ -124,14 +140,14 @@ export default function NewDepotPage() {
         <div className="max-w-2xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between mb-5">
             <Link
-              href="/analyse/portfolio/depots"
+              href={backHref}
               className="flex items-center gap-1.5 text-[12px] text-neutral-500 hover:text-white transition-colors"
             >
               <ArrowLeftIcon className="w-3.5 h-3.5" />
-              Zurück zur Übersicht
+              {isFirstDepot ? 'Zurück zum Portfolio' : 'Zurück zur Übersicht'}
             </Link>
             <Link
-              href="/analyse/portfolio/depots"
+              href={backHref}
               className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors"
             >
               <XMarkIcon className="w-4 h-4 text-neutral-500 hover:text-neutral-300" />
@@ -347,10 +363,14 @@ export default function NewDepotPage() {
 
             <div className="flex flex-col sm:flex-row gap-2 justify-center mt-8 max-w-md mx-auto">
               <Link
-                href={`/analyse/portfolio/workspace?depot=${createdDepotId}`}
+                href={
+                  isFirstDepot
+                    ? `/analyse/portfolio/dashboard?depot=${createdDepotId}`
+                    : `/analyse/portfolio/workspace?depot=${createdDepotId}`
+                }
                 className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
-                Zum Depot
+                {isFirstDepot ? 'Erste Aktivität erfassen' : 'Zum Depot'}
                 <ArrowRightIcon className="w-3.5 h-3.5" />
               </Link>
               <Link

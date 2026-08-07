@@ -3,7 +3,7 @@ import {
   View, Text, ScrollView, TouchableOpacity, TextInput,
   ActivityIndicator, StyleSheet, KeyboardAvoidingView, Platform, Alert,
 } from 'react-native';
-import { router, Stack } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
@@ -14,9 +14,18 @@ import { BROKER_CONFIGS, BrokerType, CUSTOM_COLOR_PRESETS, getBrokerColor } from
 type Step = 1 | 2 | 3;
 
 export default function NewDepotScreen() {
-  const [step, setStep] = useState<Step>(1);
-  const [broker, setBroker] = useState<BrokerType | null>(null);
-  const [depotName, setDepotName] = useState('');
+  // Broker kann vom Onboarding vorausgewählt übergeben werden (/depots/neu?broker=…)
+  const params = useLocalSearchParams<{ broker?: string }>();
+  const presetBroker = BROKER_CONFIGS.some(b => b.id === params.broker)
+    ? (params.broker as BrokerType)
+    : null;
+
+  const [step, setStep] = useState<Step>(presetBroker ? 2 : 1);
+  const [broker, setBroker] = useState<BrokerType | null>(presetBroker);
+  const [depotName, setDepotName] = useState(() => {
+    if (!presetBroker || presetBroker === 'andere' || presetBroker === 'manual') return '';
+    return BROKER_CONFIGS.find(b => b.id === presetBroker)!.displayName;
+  });
   const [customBrokerName, setCustomBrokerName] = useState('');
   const [customColor, setCustomColor] = useState<string | null>(null);
   const [isDefault, setIsDefault] = useState(false);

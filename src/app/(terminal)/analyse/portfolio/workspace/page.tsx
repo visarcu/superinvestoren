@@ -15,6 +15,7 @@ import AnalysisTab from '@/components/portfolio/AnalysisTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
+import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import { perfColor } from '@/utils/formatters'
 import {
   ArrowLeftIcon,
@@ -411,6 +412,8 @@ export default function PortfolioWorkspacePage() {
   const noOp = () => undefined
 
   if (p.loading && !p.portfolio) return <WorkspaceSkeleton />
+  // Noch kein Depot angelegt → gleiches Onboarding wie im Dashboard
+  if (p.hasNoDepots) return <DepotOnboarding />
   const isSwitchingDepot = p.loading && !!p.portfolio
 
   return (

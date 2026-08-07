@@ -775,8 +775,10 @@ export function usePortfolio() {
 
       setAllPortfolios(portfolios || [])
 
-      // "All Depots" view
-      if (depotId === 'all' && portfolios && portfolios.length > 0) {
+      // "Alle Depots"-Sicht — nur sinnvoll ab zwei Depots. Bei genau einem Depot
+      // wird direkt dieses geladen (sonst wären Import, Umbenennen und Cash
+      // ausgeblendet und der FAB würde nach dem einzigen Depot fragen).
+      if (depotId === 'all' && portfolios && portfolios.length > 1) {
         setPortfolio({
           id: 'all',
           name: 'Alle Depots',
@@ -807,35 +809,28 @@ export function usePortfolio() {
         return
       }
 
-      // Specific or default portfolio
-      let portfolioData = depotId && depotId !== 'all'
-        ? portfolios?.find(p => p.id === depotId)
-        : portfolios?.[0]
-
-      if (!portfolioData) {
-        const { data: newPortfolio, error: createError } = await supabase
-          .from('portfolios')
-          .insert({
-            user_id: user.id,
-            name: 'Mein Portfolio',
-            currency: 'EUR',
-            cash_position: 0,
-            is_default: true,
-            broker_type: 'manual'
-          })
-          .select()
-          .single()
-        if (createError) throw createError
-        portfolioData = newPortfolio
-        setAllPortfolios([newPortfolio])
+      // Noch gar kein Depot vorhanden → Onboarding-Zustand.
+      // Es wird bewusst KEIN Depot automatisch angelegt: der User soll sein
+      // erstes Depot selbst (inkl. Broker-Zuordnung) erstellen.
+      if (!portfolios || portfolios.length === 0) {
+        setPortfolio(null)
+        setHoldings([])
+        setTransactions([])
+        setLoading(false)
+        return
       }
 
-      setPortfolio(portfolioData!)
+      // Specific or default portfolio
+      const portfolioData = depotId && depotId !== 'all'
+        ? portfolios.find(p => p.id === depotId) || portfolios[0]
+        : portfolios[0]
+
+      setPortfolio(portfolioData)
 
       // Load holdings and transactions in parallel
       const [h] = await Promise.all([
-        loadHoldingsForPortfolio(portfolioData!.id),
-        loadTransactions(portfolioData!.id)
+        loadHoldingsForPortfolio(portfolioData.id),
+        loadTransactions(portfolioData.id)
       ])
       setHoldings(h)
 
@@ -1411,6 +1406,8 @@ export function usePortfolio() {
     isPremium,
     isAllDepotsView,
     depotIdParam,
+    // true, sobald der Ladevorgang durch ist und der User noch kein Depot hat
+    hasNoDepots: !loading && allPortfolios.length === 0,
 
     // Computed
     totalValue,

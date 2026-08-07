@@ -18,6 +18,7 @@ import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import AnalysisTab from '@/components/portfolio/AnalysisTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
+import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
 import Logo from '@/components/Logo'
@@ -250,6 +251,9 @@ export default function PortfolioDashboard() {
   // CSV Import State
   const [showCSVImport, setShowCSVImport] = useState(false)
 
+  // Zähler zum Öffnen des Aktivitäts-Dialogs aus dem Empty State heraus
+  const [activityDialogTrigger, setActivityDialogTrigger] = useState(0)
+
   // Cash-Toggle State (mit/ohne Cash im Gesamtwert)
   const [includeCashInTotal, setIncludeCashInTotal] = useState(true)
   const queryString = searchParams.toString()
@@ -391,6 +395,11 @@ export default function PortfolioDashboard() {
     )
   }
 
+  // Noch kein Depot vorhanden → Onboarding statt leerem Dashboard
+  if (p.hasNoDepots) {
+    return <DepotOnboarding />
+  }
+
   // Error
   if (p.error) {
     return (
@@ -433,13 +442,18 @@ export default function PortfolioDashboard() {
       <div className="relative z-40 border-b border-theme bg-theme-primary">
         <div className="w-full px-6 py-7">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-semibold text-theme-primary tracking-tight">{p.portfolio?.name || 'Mein Portfolio'}</h1>
-
-              {/* Depot Switcher */}
+            <div className="flex items-center gap-2">
+              {/* Depot Switcher — Titel ist der Trigger, damit der Depot-Wechsel sichtbar bleibt */}
               {p.allPortfolios.length > 0 && (
                 <div className="relative">
-                  <button onClick={() => setShowDepotSwitcher(!showDepotSwitcher)} className="p-1.5 hover:bg-theme-hover rounded-lg transition-colors">
+                  <button
+                    onClick={() => setShowDepotSwitcher(!showDepotSwitcher)}
+                    className="flex items-center gap-2 -ml-2 px-2 py-1 rounded-xl hover:bg-theme-hover transition-colors"
+                    title="Depot wechseln"
+                  >
+                    <h1 className="text-2xl font-semibold text-theme-primary tracking-tight">
+                      {p.portfolio?.name || 'Mein Portfolio'}
+                    </h1>
                     <ChevronDownIcon className={`w-4 h-4 text-theme-muted transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
                   </button>
 
@@ -496,7 +510,7 @@ export default function PortfolioDashboard() {
               {p.portfolio?.id !== 'all' && (
                 <button
                   onClick={() => { setNewPortfolioName(p.portfolio?.name || ''); setShowNameModal(true) }}
-                  className="p-1.5 hover:bg-theme-hover rounded-lg transition-colors opacity-0 hover:opacity-100"
+                  className="p-1.5 hover:bg-theme-hover rounded-lg transition-opacity opacity-40 hover:opacity-100"
                   title="Umbenennen"
                 >
                   <PencilIcon className="w-3.5 h-3.5 text-theme-muted" />
@@ -663,10 +677,39 @@ export default function PortfolioDashboard() {
                 <div className="w-14 h-14 mx-auto mb-4 bg-teal-400/10 rounded-2xl flex items-center justify-center border border-teal-300/15">
                   <BriefcaseIcon className="w-7 h-7 text-teal-300" />
                 </div>
-                <h3 className="text-lg font-medium text-theme-primary mb-2">Depot ist noch leer</h3>
+                <h3 className="text-lg font-medium text-theme-primary mb-2">
+                  {p.isAllDepotsView ? 'Noch keine Aktivitäten' : `„${p.portfolio?.name}“ ist noch leer`}
+                </h3>
                 <p className="text-sm text-theme-muted max-w-sm mx-auto">
-                  Nutze den <span className="text-teal-300 font-medium">+</span> Button unten rechts, um deine erste Aktivität hinzuzufügen.
+                  Erfasse deinen ersten Kauf, importiere eine CSV-Datei deines Brokers — oder leg
+                  ein weiteres Depot an.
                 </p>
+
+                <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2 max-w-xl mx-auto">
+                  <button
+                    onClick={() => setActivityDialogTrigger(t => t + 1)}
+                    className="flex items-center justify-center gap-1.5 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-semibold rounded-xl transition-colors"
+                  >
+                    <PlusIcon className="w-4 h-4" />
+                    Aktivität hinzufügen
+                  </button>
+                  {!p.isAllDepotsView && (
+                    <button
+                      onClick={() => setShowCSVImport(true)}
+                      className="flex items-center justify-center gap-1.5 px-4 py-2.5 border border-theme text-sm font-medium text-theme-secondary hover:text-theme-primary hover:bg-theme-hover rounded-xl transition-colors"
+                    >
+                      <ArrowUpTrayIcon className="w-4 h-4" />
+                      CSV importieren
+                    </button>
+                  )}
+                  <Link
+                    href="/analyse/portfolio/depots/neu"
+                    className="flex items-center justify-center gap-1.5 px-4 py-2.5 border border-theme text-sm font-medium text-theme-secondary hover:text-theme-primary hover:bg-theme-hover rounded-xl transition-colors"
+                  >
+                    <BriefcaseIcon className="w-4 h-4" />
+                    Weiteres Depot
+                  </Link>
+                </div>
               </div>
             )}
 
@@ -1304,6 +1347,7 @@ export default function PortfolioDashboard() {
         onAddTransfer={p.addTransfer}
         onComplete={() => p.loadPortfolio(p.depotIdParam)}
         onPremiumRequired={handlePremiumRequired}
+        openTrigger={activityDialogTrigger}
       />
     </div>
   )
