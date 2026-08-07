@@ -1,7 +1,7 @@
 // src/components/portfolio/AddActivityFAB.tsx
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { type Holding, type Portfolio } from '@/hooks/usePortfolio'
@@ -52,6 +52,8 @@ interface AddActivityFABProps {
   }) => Promise<void>
   onComplete: () => void
   onPremiumRequired: () => void
+  // Zähler: jede Erhöhung öffnet den Dialog von außen (z.B. aus dem Empty State)
+  openTrigger?: number
 }
 
 export default function AddActivityFAB({
@@ -71,7 +73,8 @@ export default function AddActivityFAB({
   onAddCash,
   onAddTransfer,
   onComplete,
-  onPremiumRequired
+  onPremiumRequired,
+  openTrigger = 0
 }: AddActivityFABProps) {
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -86,6 +89,12 @@ export default function AddActivityFAB({
       setIsModalOpen(true)
     }
   }
+
+  // Öffnen von außen (Empty State) — gleiche Logik wie ein FAB-Klick
+  useEffect(() => {
+    if (openTrigger > 0) handleFABClick()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openTrigger])
 
   const handleSelectDepot = (depotId: string) => {
     setShowDepotPicker(false)

@@ -12,6 +12,7 @@ import AllocationDonut from '../../components/portfolio/AllocationDonut';
 import TransactionsView from '../../components/portfolio/TransactionsView';
 import AIAnalysisView from '../../components/portfolio/AIAnalysisView';
 import PremiumModal from '../../components/PremiumModal';
+import DepotOnboarding from '../../components/portfolio/DepotOnboarding';
 // Currency conversion now happens server-side in /api/portfolio/summary
 
 const BASE_URL = 'https://finclue.de';
@@ -127,7 +128,13 @@ export default function PortfolioScreen() {
         .order('is_default', { ascending: false })
         .order('created_at', { ascending: true });
 
-      if (!portfolios?.length) { setLoading(false); setRefreshing(false); return; }
+      // Kein Depot vorhanden → Onboarding (es wird bewusst keins automatisch angelegt)
+      if (!portfolios?.length) {
+        setPortfolioList([]);
+        setHoldings([]);
+        setLoading(false); setRefreshing(false);
+        return;
+      }
       setPortfolioList(portfolios);
 
       // On first load default to first portfolio; keep selection on refresh
@@ -327,6 +334,15 @@ export default function PortfolioScreen() {
     { id: 'ki', label: 'KI-Analyse', icon: 'sparkles-outline' },
   ];
 
+  // Noch kein Depot angelegt → Onboarding statt leerem Portfolio
+  if (!loading && !error && portfolioList.length === 0) {
+    return (
+      <SafeAreaView style={s.container} edges={['top']}>
+        <DepotOnboarding />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={s.container} edges={['top']}>
       <ScrollView
@@ -498,11 +514,17 @@ export default function PortfolioScreen() {
         ) : holdings.length === 0 ? (
           <View style={s.emptyState}>
             <View style={s.emptyIcon}><Ionicons name="briefcase-outline" size={28} color={theme.text.tertiary} /></View>
-            <Text style={s.emptyTitle}>Portfolio ist leer</Text>
+            <Text style={s.emptyTitle}>
+              {selectedPortfolioId === null ? 'Noch keine Positionen' : `„${portfolioName}“ ist leer`}
+            </Text>
             <Text style={s.emptyText}>Füge deine erste Transaktion hinzu</Text>
             <TouchableOpacity style={s.linkBtn} onPress={() => router.push('/add-transaction')}>
               <Ionicons name="add-circle-outline" size={18} color={theme.text.primary} style={{ marginRight: 6 }} />
               <Text style={s.linkBtnText}>Transaktion hinzufügen</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={s.linkBtn} onPress={() => router.push('/depots/neu')}>
+              <Ionicons name="briefcase-outline" size={16} color={theme.text.secondary} style={{ marginRight: 6 }} />
+              <Text style={[s.linkBtnText, { color: theme.text.secondary }]}>Weiteres Depot anlegen</Text>
             </TouchableOpacity>
           </View>
 

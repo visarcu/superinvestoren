@@ -114,26 +114,27 @@ export default function AddTransactionScreen() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.replace('/(auth)/login'); return; }
 
-      // Get or create first portfolio
+      // Ziel-Depot bestimmen — es wird keins automatisch angelegt.
       const { data: portfolios } = await supabase
         .from('portfolios')
         .select('id')
         .eq('user_id', user.id)
+        .order('is_default', { ascending: false })
         .order('created_at', { ascending: true })
         .limit(1);
 
-      let portfolioId: string;
       if (!portfolios?.length) {
-        const { data: newP, error: pErr } = await supabase
-          .from('portfolios')
-          .insert({ user_id: user.id, name: 'Mein Portfolio' })
-          .select('id')
-          .single();
-        if (pErr) throw pErr;
-        portfolioId = newP.id;
-      } else {
-        portfolioId = portfolios[0].id;
+        Alert.alert(
+          'Kein Depot vorhanden',
+          'Lege zuerst ein Depot an — dann kannst du Transaktionen erfassen.',
+          [
+            { text: 'Abbrechen', style: 'cancel' },
+            { text: 'Depot anlegen', onPress: () => router.push('/depots/neu') },
+          ]
+        );
+        return;
       }
+      const portfolioId = portfolios[0].id;
 
       // Check if holding already exists → average
       const { data: existing } = await supabase

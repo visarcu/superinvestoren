@@ -23,6 +23,7 @@ import DeleteConfirmModal from './DeleteConfirmModal'
 import EditTransactionModal from './EditTransactionModal'
 import DeleteTransactionModal from './DeleteTransactionModal'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
+import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import type { Holding, Tab, Transaction } from '../_lib/types'
 
 export interface SuperInvestorOverlap {
@@ -53,6 +54,7 @@ export default function PortfolioClient() {
     xirrPercent,
     realizedGainByTxId,
     loading,
+    hasNoDepots,
     formatCurrency,
     formatStockPrice,
     formatPercentage,
@@ -172,6 +174,11 @@ export default function PortfolioClient() {
   ) => {
     setActivityDefault({ activity, holdingId })
     setShowAddActivity(true)
+  }
+
+  // Noch kein Depot angelegt → Onboarding statt leerer Portfolio-Ansicht
+  if (hasNoDepots) {
+    return <DepotOnboarding />
   }
 
   return (
