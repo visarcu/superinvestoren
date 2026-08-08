@@ -1,12 +1,20 @@
 // Finclue Data API v1 – Batch Stock Quotes
-// GET /api/v1/quotes/batch?symbols=AAPL,MSFT,GOOGL
+// GET /api/v1/quotes/batch?symbols=AAPL,MSFT,VHYL.DE
 //
-// Provider-agnostisch: Quote-Quelle wird über QUOTE_PROVIDER (env) gewählt
-// (siehe src/lib/quoteProvider.ts). Aktuell: EODHD (default wenn Key da) oder Finnhub.
-// FMP bleibt als Notfall-Fallback für fehlende Symbole.
+// Nutzt denselben Quote-Service wie /api/quotes: Stammdaten je ISIN, EODHD für
+// europäische Börsen, FMP für US-Werte, Yahoo als letzte Instanz.
+// Vorher lief hier eine eigene Kette ohne Stammdaten — Xetra-ETFs wie VHYL.DE
+// oder DEGC.DE kamen dadurch als 'not found' zurück.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getBatchQuotes, getActiveProvider } from '@/lib/quoteProvider'
+import { getQuotes } from '@/lib/marketData/quoteService'
+import { convertAmount } from '@/lib/marketData/currency'
+import { detectTickerCurrency } from '@/lib/fmp'
+
+function expectedCurrency(symbol: string): string {
+  const currency = detectTickerCurrency(symbol)
+  return currency === 'GBP' ? 'GBX' : currency
+}
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
@@ -19,83 +27,51 @@ export async function GET(request: NextRequest) {
   const symbols = symbolsParam
     .split(',')
     .map(s => s.trim().toUpperCase())
-    .filter(s => /^[A-Z0-9.-]{1,10}$/.test(s))
-    .slice(0, 30) // Max 30 pro Request
+    .filter(s => /^[A-Z0-9.^-]{1,15}$/.test(s))
+    .slice(0, 50)
 
   if (symbols.length === 0) {
     return NextResponse.json({ error: 'No valid symbols' }, { status: 400 })
   }
 
   try {
-    const provider = getActiveProvider()
-    const primaryQuotes = await getBatchQuotes(symbols)
+    const resolved = await getQuotes(symbols)
 
-    // FMP-Fallback für fehlende Symbole (Provider-unabhängig).
-    const missing = symbols.filter(s => !primaryQuotes[s])
-    let fmpQuotes: Record<string, any> = {}
-    if (missing.length > 0 && process.env.FMP_API_KEY) {
-      try {
-        const fmpRes = await fetch(
-          `https://financialmodelingprep.com/api/v3/quote/${missing.join(',')}?apikey=${process.env.FMP_API_KEY}`,
-          { next: { revalidate: 30 } }
-        )
-        if (fmpRes.ok) {
-          const fmpData = await fmpRes.json()
-          if (Array.isArray(fmpData)) {
-            for (const q of fmpData) {
-              if (q.symbol && q.price) {
-                fmpQuotes[q.symbol.toUpperCase()] = q
-              }
-            }
-          }
-        }
-      } catch { /* FMP Fallback Fehler ignorieren */ }
-    }
+    const quotes = await Promise.all(
+      symbols.map(async sym => {
+        const quote = resolved.get(sym)
+        if (!quote) return { symbol: sym, error: 'not found' }
 
-    const quotes = symbols.map(sym => {
-      const p = primaryQuotes[sym]
-      if (p) {
+        const target = expectedCurrency(sym)
+        const price = await convertAmount(quote.price, quote.currency, target)
+        if (price === null || price <= 0) return { symbol: sym, error: 'not found' }
+
+        const change = (await convertAmount(quote.change, quote.currency, target)) ?? 0
+        const previousClose = (await convertAmount(quote.previousClose, quote.currency, target)) ?? null
+        const raw = (quote.raw || {}) as Record<string, number | undefined>
+
         return {
           symbol: sym,
-          price: p.price,
-          change: p.change,
-          changePercent: p.changePercent,
-          dayHigh: p.high,
-          dayLow: p.low,
-          open: p.open,
-          previousClose: p.previousClose,
-          volume: p.volume,
-          timestamp: p.timestamp,
-          source: p.source,
+          price,
+          change,
+          changePercent: quote.changePercent,
+          dayHigh: raw.dayHigh ?? null,
+          dayLow: raw.dayLow ?? null,
+          open: raw.open ?? null,
+          previousClose,
+          volume: raw.volume ?? null,
+          timestamp: raw.timestamp ?? Math.floor(Date.now() / 1000),
+          currency: target,
+          source: quote.source,
         }
-      }
-
-      const fmp = fmpQuotes[sym]
-      if (fmp) {
-        return {
-          symbol: sym,
-          price: fmp.price,
-          change: fmp.change || 0,
-          changePercent: fmp.changesPercentage || 0,
-          dayHigh: fmp.dayHigh ?? null,
-          dayLow: fmp.dayLow ?? null,
-          open: fmp.open ?? null,
-          previousClose: fmp.previousClose ?? null,
-          volume: fmp.volume ?? null,
-          timestamp: fmp.timestamp || Math.floor(Date.now() / 1000),
-          source: 'fmp-fallback' as const,
-        }
-      }
-
-      return { symbol: sym, error: 'not found' }
-    })
+      })
+    )
 
     return NextResponse.json(
       {
         quotes,
         count: quotes.filter((q: any) => !q.error).length,
         requested: symbols.length,
-        provider,
         fetchedAt: new Date().toISOString(),
       },
       {

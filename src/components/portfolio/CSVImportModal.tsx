@@ -8,6 +8,7 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { reconstructHoldings, type ParsedTransaction, type CSVParseResult, type StockSplit, type TickerRename } from '@/lib/scalableCSVParser'
+import { reconcileHoldings } from '@/lib/portfolioReconcile'
 import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates } from '@/lib/duplicateCheck'
 import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
@@ -117,6 +118,7 @@ export default function CSVImportModal({
     cashMode: CashMode
     cashTransactionsImported: number
     unresolvedSymbols: number
+    corpActionWarnings: string[]
   } | null>(null)
 
   // === Duplikate ===
@@ -766,52 +768,14 @@ export default function CSVImportModal({
         setImportProgress({ current: Math.min(i + batchSize, txToImport.length), total: txToImport.length })
       }
 
-      // Holdings erstellen/aktualisieren
-      const holdings = reconstructHoldings(txToImport.filter(t => t.symbol !== 'CASH'))
+      // Die Bestände entstehen weiter unten in einem Rutsch aus allen
+      // Transaktionen des Depots — erst nach Split- und Spin-off-Korrektur.
+      // Der frühere Aufbau an dieser Stelle addierte nur den gerade
+      // importierten Stapel auf den Altbestand und lief damit vor den
+      // Korrekturen: genau daher kam die doppelte Kostenbasis bei Honeywell.
       let holdingsCreated = 0
       let holdingsUpdated = 0
-
-      for (const holding of holdings) {
-        const { data: existing } = await supabase
-          .from('portfolio_holdings')
-          .select('id, quantity, purchase_price')
-          .eq('portfolio_id', portfolioId)
-          .eq('symbol', holding.symbol)
-          .single()
-
-        if (existing) {
-          const existQty = Number(existing.quantity) || 0
-          const existPrice = Number(existing.purchase_price) || 0
-          const newTotalQty = parseFloat((existQty + holding.quantity).toFixed(8))
-          const newAvgPrice = newTotalQty > 0
-            ? parseFloat(((existQty * existPrice + holding.quantity * holding.avgPrice) / newTotalQty).toFixed(4))
-            : 0
-
-          await supabase
-            .from('portfolio_holdings')
-            .update({
-              quantity: newTotalQty,
-              purchase_price: newAvgPrice,
-              purchase_currency: 'EUR',
-            })
-            .eq('id', existing.id)
-          holdingsUpdated++
-        } else {
-          await supabase
-            .from('portfolio_holdings')
-            .insert({
-              portfolio_id: portfolioId,
-              symbol: holding.symbol,
-              name: holding.name,
-              isin: holding.isin || null,
-              quantity: parseFloat(holding.quantity.toFixed(8)),
-              purchase_price: parseFloat(holding.avgPrice.toFixed(4)),
-              purchase_date: holding.earliestDate,
-              purchase_currency: 'EUR',
-            })
-          holdingsCreated++
-        }
-      }
+      const spinoffWarnings: string[] = []
 
       // === Spin-off-Kostenbasis anteilig übertragen ===
       // Ohne Übertragung behält die Mutterposition ihre volle Kostenbasis und
@@ -820,80 +784,6 @@ export default function CSVImportModal({
       // Aufteilung im Verhältnis der Marktwerte am Spin-off-Tag; idempotent
       // über Marker-Note an der Spin-off-Einbuchung (greift auch nachträglich,
       // wenn der Spin-off bereits in einem früheren Import gelandet ist).
-      // Holding eines Symbols vollständig aus seinen DB-Transaktionen neu
-      // aufbauen (Durchschnittskosten, Käufe vor Verkäufen am selben Tag) und
-      // per upsert setzen. Idempotent — behebt Drift zwischen Transaktionen und
-      // Holdings, insbesondere fehlende Spin-off-Positionen, deren Buchung beim
-      // Re-Import als Duplikat aus dem normalen Holdings-Aufbau fiel.
-      const rebuildHoldingFromDb = async (symbol: string) => {
-        const { data: txs } = await supabase
-          .from('portfolio_transactions')
-          .select('name, isin, type, date, quantity, price, total_value, fee')
-          .eq('portfolio_id', portfolioId)
-          .eq('symbol', symbol)
-          .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
-        if (!txs || txs.length === 0) return
-
-        const phase = (t: { type: string }) => (t.type === 'buy' || t.type === 'transfer_in' ? 0 : 1)
-        const ordered = [...txs].sort((a, b) => a.date.localeCompare(b.date) || phase(a) - phase(b))
-
-        let shares = 0
-        let cost = 0
-        let name = symbol
-        let isin: string | null = null
-        let earliestDate = ordered[0].date
-        for (const t of ordered) {
-          const qty = Number(t.quantity) || 0
-          const tv = Number(t.total_value) || Math.abs(qty * (Number(t.price) || 0))
-          if (t.type === 'buy' || t.type === 'transfer_in') {
-            shares += qty
-            cost += tv + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0)
-            if (t.name) name = t.name
-            if (t.isin) isin = t.isin
-            if (t.date < earliestDate) earliestDate = t.date
-          } else {
-            const avg = shares > 0 ? cost / shares : 0
-            shares -= qty
-            cost -= qty * avg
-          }
-        }
-
-        const { data: existing } = await supabase
-          .from('portfolio_holdings')
-          .select('id')
-          .eq('portfolio_id', portfolioId)
-          .eq('symbol', symbol)
-          .maybeSingle()
-
-        if (shares <= 0.0001) {
-          // Voll verkauft/abgegeben → keine offene Position
-          if (existing) await supabase.from('portfolio_holdings').delete().eq('id', existing.id)
-          return
-        }
-
-        const avgPrice = parseFloat((cost / shares).toFixed(4))
-        const quantity = parseFloat(shares.toFixed(8))
-        if (existing) {
-          await supabase
-            .from('portfolio_holdings')
-            .update({ quantity, purchase_price: avgPrice, purchase_currency: 'EUR' })
-            .eq('id', existing.id)
-        } else {
-          await supabase
-            .from('portfolio_holdings')
-            .insert({
-              portfolio_id: portfolioId,
-              symbol,
-              name,
-              isin,
-              quantity,
-              purchase_price: avgPrice,
-              purchase_date: earliestDate,
-              purchase_currency: 'EUR',
-            })
-        }
-      }
-
       const spinoffTxs = resolvedTransactions.filter(t => t.corpActionType === 'spinoff')
       for (const spinoff of spinoffTxs) {
         try {
@@ -1005,14 +895,29 @@ export default function CSVImportModal({
             }
           }
 
-          // 3) Holdings beider Positionen aus den (jetzt angepassten) DB-
-          // Transaktionen rekonstruieren — legt die Kind-Position auch an, wenn
-          // ihre Buchung beim Re-Import als Duplikat aus txToImport fiel.
-          await rebuildHoldingFromDb(parentSymbol)
-          await rebuildHoldingFromDb(childSymbol)
+          // Die Bestände baut der Abgleich unten neu auf — für alle Symbole,
+          // nicht nur für die hier behandelten.
         } catch (spinoffError) {
           console.warn('Spin-off-Verarbeitung fehlgeschlagen:', spinoffError)
+          spinoffWarnings.push(
+            spinoffError instanceof Error ? spinoffError.message : String(spinoffError)
+          )
         }
+      }
+
+      // === Bestände aus den Transaktionen ableiten ===
+      // Muss nach allen Korrekturen laufen (Split, Spin-off) und für JEDES
+      // Symbol des Depots: Der frühere Aufbau schrieb die Bestände vor diesen
+      // Korrekturen und reparierte sie nur innerhalb der Spin-off-Behandlung.
+      // Schlug die fehl, blieb z.B. Honeywell mit doppelter Kostenbasis stehen
+      // und die abgespaltene Position fehlte ganz.
+      const reconcile = await reconcileHoldings(supabase, portfolioId)
+      holdingsCreated += reconcile.created
+      holdingsUpdated += reconcile.updated
+      if (reconcile.errors.length > 0) {
+        // Nicht verschlucken: ein stiller Fehlschlag hier bedeutet falsche
+        // Renditen im Depot.
+        throw new Error(`Bestände konnten nicht abgeglichen werden: ${reconcile.errors.join(' · ')}`)
       }
 
       // Cash-Position aktualisieren — nur bei cashMode === 'include'
@@ -1064,6 +969,7 @@ export default function CSVImportModal({
         cashMode,
         cashTransactionsImported,
         unresolvedSymbols: resolvedTransactions.filter(t => !t.symbol && t.isin).length,
+        corpActionWarnings: spinoffWarnings,
       })
       setStep('done')
     } catch (error: any) {
@@ -1810,6 +1716,17 @@ export default function CSVImportModal({
                   <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
                     <span className="text-[13px] text-amber-400">Nicht zugeordnet</span>
                     <span className="text-[13px] font-semibold text-amber-400 tabular-nums">{importResult.unresolvedSymbols}</span>
+                  </div>
+                )}
+
+                {/* Eine fehlgeschlagene Kapitalmaßnahme verzerrt die Rendite —
+                    das darf nicht nur in der Konsole stehen. */}
+                {importResult.corpActionWarnings.length > 0 && (
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                    <span className="text-[13px] text-amber-400">Kapitalmaßnahmen mit Problemen</span>
+                    <span className="text-[13px] font-semibold text-amber-400 tabular-nums">
+                      {importResult.corpActionWarnings.length}
+                    </span>
                   </div>
                 )}
               </div>

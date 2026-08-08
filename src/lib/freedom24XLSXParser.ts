@@ -71,17 +71,20 @@ export function parseFreedom24XLSXRows(
       continue
     }
 
-    // Ticker normalisieren für FMP-Kompatibilität
+    // Ticker normalisieren
     // .US  → Suffix entfernen:        AMZN.US  → AMZN, BTI.US  → BTI
-    // .EU  → durch .DE ersetzen:      DTE.EU   → DTE.DE, MUV2.EU → MUV2.DE
-    //         (Freedom24 fasst alle EU-Aktien zusammen, XETRA ist der Hauptmarkt)
+    // .EU  → bleibt stehen. Freedom24 meint damit "irgendeine europäische
+    //        Börse", nicht zwingend Xetra. Das frühere pauschale Umschreiben
+    //        auf '.DE' erfand Ticker, die es nicht gibt: aus CSKR.EU wurde
+    //        CSKR.DE, und die anschließende Namens-/ISIN-Suche landete beim
+    //        Xetra-Papier CEBJ.DE — anderes Produkt, 141 € statt 431 USD, also
+    //        eine Position, die dauerhaft ~60 % Verlust anzeigte.
+    //        Die Börse löst jetzt der Instrumenten-Stammsatz auf.
     // Klassen-Aktien: Punkt → Bindestrich: BRK.B → BRK-B, BF.B → BF-B
     //         (nur bei einstelligem Buchstaben-Suffix, kein Börsensuffix)
     let normalizedTicker = ticker
     if (ticker.endsWith('.US')) {
       normalizedTicker = ticker.slice(0, -3)
-    } else if (ticker.endsWith('.EU')) {
-      normalizedTicker = ticker.slice(0, -3) + '.DE'
     }
     // Klassen-Aktien: XYZ.B → XYZ-B (einstelliger Buchstabe nach Punkt, kein bekanntes Börsensuffix)
     const classShareMatch = normalizedTicker.match(/^(.+)\.([A-Z])$/)
