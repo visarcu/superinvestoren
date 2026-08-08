@@ -5,14 +5,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { detectTickerCurrency } from '@/lib/fmp'
 import { convertPriceToEur } from '@/lib/portfolioValuation'
+import { getQuotes } from '@/lib/marketData/quoteService'
+import { convertAmount } from '@/lib/marketData/currency'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
   { auth: { autoRefreshToken: false, persistSession: false } }
 )
-
-const FMP_API_KEY = process.env.FMP_API_KEY
 
 async function getRate(from: string, to: string): Promise<number | null> {
   try {
@@ -87,15 +87,34 @@ export async function GET(request: NextRequest) {
     }
     const holdingsList = Object.values(merged)
 
-    // 4. Get live quotes
-    const symbols = holdingsList.map((h: any) => h.symbol).join(',')
-    const quotesRes = await fetch(
-      `https://financialmodelingprep.com/api/v3/quote/${symbols}?apikey=${FMP_API_KEY}`
-    )
-    const quotes = quotesRes.ok ? await quotesRes.json() : []
+    // 4. Live-Kurse über den zentralen Quote-Service.
+    //
+    // Vorher lief hier ein nackter FMP-Aufruf ohne jede Ausweichquelle: Kurse,
+    // die FMP nicht führt (etliche Xetra-ETFs), landeten still als 0 € im
+    // Depotwert der App. Der Service liefert den Kurs in der Währung, die
+    // detectTickerCurrency weiter unten für dieses Symbol erwartet.
+    const symbols = holdingsList.map((h: any) => String(h.symbol || '')).filter(Boolean)
+    const quotes = await getQuotes(symbols)
     const quoteMap: Record<string, number> = {}
-    for (const q of (Array.isArray(quotes) ? quotes : [])) {
-      if (q.symbol && q.price) quoteMap[q.symbol] = q.price
+    const missingQuotes: string[] = []
+
+    for (const symbol of symbols) {
+      const quote = quotes.get(symbol.toUpperCase())
+      if (!quote) {
+        missingQuotes.push(symbol)
+        continue
+      }
+      const expected = detectTickerCurrency(symbol) === 'GBP' ? 'GBX' : detectTickerCurrency(symbol)
+      const price = await convertAmount(quote.price, quote.currency, expected)
+      if (price === null || price <= 0) {
+        missingQuotes.push(symbol)
+        continue
+      }
+      quoteMap[symbol] = price
+    }
+
+    if (missingQuotes.length > 0) {
+      console.warn('[portfolio/summary] Kein Kurs für:', missingQuotes.join(', '))
     }
 
     // 5. Get exchange rates

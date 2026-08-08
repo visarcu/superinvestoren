@@ -10,6 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "check:isin": "tsx scripts/checkIsinIntegrity.ts",
+    "seed:instruments": "tsx scripts/seedInstruments.ts",
+    "audit:portfolios": "tsx scripts/auditPortfolios.ts",
     "validate:etf-prices": "tsx scripts/validateEtfPrices.ts",
     "fetch13f": "node --experimental-json-modules scripts/fetch13f.js",
     "fetch-series": "node --experimental-json-modules scripts/fetchSeries.js",
