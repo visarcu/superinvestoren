@@ -90,7 +90,15 @@ export default function DividendsTab({
       .then(r => (r.ok ? r.json() : []))
       .then((data: any[]) => {
         const today = new Date().toISOString().split('T')[0]
-        const upcoming = data.filter((d: any) => d.date >= today && d.dividend > 0).slice(0, 5)
+        // Maßgeblich ist der Zahltag, nicht der Ex-Tag: Zwischen beiden liegen
+        // oft Wochen. Unilever verschwand am Tag nach dem Ex-Datum (06.08.) aus
+        // der Liste, obwohl die Zahlung erst am 18.09. kommt — gerade unter der
+        // Überschrift "Anstehende Zahlungen" ist das irreführend.
+        const relevantDate = (d: any) => d.paymentDate || d.date
+        const upcoming = data
+          .filter((d: any) => relevantDate(d) >= today && d.dividend > 0)
+          .sort((a: any, b: any) => String(relevantDate(a)).localeCompare(String(relevantDate(b))))
+          .slice(0, 5)
         setUpcomingDividends(upcoming)
       })
       .catch(() => {})
@@ -669,8 +677,12 @@ function UpcomingDividendsList({
   return (
     <div>
       {items.map((div, idx) => {
-        const exDate = new Date(div.date)
-        const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
+        // Der Zahltag ist die Information, auf die es hier ankommt — das
+        // Ex-Datum liegt bei anstehenden Zahlungen oft schon in der Vergangenheit.
+        const fmtDate = (value: string) =>
+          new Date(value).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
+        const paymentLabel = div.paymentDate ? fmtDate(div.paymentDate) : null
+        const exLabel = div.date ? fmtDate(div.date) : null
         const holding = holdings.find(h => h.symbol === div.ticker)
         // Portfolio rechnet durchgängig in EUR: nur die umgerechnete Stückdividende
         // darf mit der Stückzahl multipliziert werden. Ohne Kurs bleibt der
@@ -693,7 +705,8 @@ function UpcomingDividendsList({
                   )}
                 </div>
                 <p className="text-[10px] text-neutral-500 mt-0.5">
-                  Ex-Datum: {formattedDate} · {div.frequency}
+                  {paymentLabel ? `Zahltag: ${paymentLabel}` : `Ex-Datum: ${exLabel}`}
+                  {paymentLabel && exLabel ? ` · Ex: ${exLabel}` : ''} · {div.frequency}
                 </p>
               </div>
             </div>
