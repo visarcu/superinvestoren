@@ -130,6 +130,19 @@ export function isCompatibleExchange(requestedSymbol: string, exchange: string |
   return allowed.includes(exchange.toUpperCase())
 }
 
+/**
+ * EODHD-Symbol → Yahoo-Schreibweise (VGWD.XETRA → VGWD.DE).
+ *
+ * Wichtig für den Ausfall-Fall: Fällt EODHD aus, ist Yahoo die einzige Quelle
+ * für viele Xetra-Papiere — aber nur unter dem echten Börsenticker. Der
+ * Broker-Alias (VHYL.DE) existiert dort nicht.
+ */
+export function yahooSymbolFromEodhd(eodhdSymbol: string | null | undefined): string | null {
+  if (!eodhdSymbol || !eodhdSymbol.includes('.')) return null
+  const idx = eodhdSymbol.lastIndexOf('.')
+  return yahooSymbolFor(eodhdSymbol.slice(0, idx), eodhdSymbol.slice(idx + 1))
+}
+
 export function mapType(type: string | null | undefined): string {
   const t = (type || '').toLowerCase()
   if (t.includes('etf')) return 'etf'

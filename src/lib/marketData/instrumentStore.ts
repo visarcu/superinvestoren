@@ -14,6 +14,7 @@ import {
   pickPreferredListing,
   pseudoSuffixCandidates,
   yahooSymbolFor,
+  yahooSymbolFromEodhd,
 } from './symbols'
 
 export { isIsin, mapType, pickPreferredListing, yahooSymbolFor, SUFFIX_TO_EXCHANGE } from './symbols'
@@ -102,7 +103,13 @@ export async function getInstrumentsForSymbols(symbols: string[]): Promise<Map<s
           eodhdSymbol: alias.eodhd_symbol || instrument.eodhdSymbol,
           currency: alias.currency || instrument.currency,
           exchange: alias.exchange || instrument.exchange,
-          yahooSymbol: alias.alias.toUpperCase(),
+          // Yahoo braucht den echten Börsenticker der Notierung, nicht den
+          // Broker-Alias: 'VHYL.DE' kennt Yahoo nicht, 'VGWD.DE' schon.
+          // Ohne das bleibt bei einem EODHD-Ausfall gar kein Kurs übrig.
+          yahooSymbol:
+            yahooSymbolFromEodhd(alias.eodhd_symbol) ||
+            instrument.yahooSymbol ||
+            alias.alias.toUpperCase(),
         })
       }
     }
@@ -147,7 +154,9 @@ export async function getInstrumentsForSymbols(symbols: string[]): Promise<Map<s
           eodhdSymbol: hit.eodhd_symbol || instrument.eodhdSymbol,
           currency: hit.currency || instrument.currency,
           exchange: hit.exchange || instrument.exchange,
-          yahooSymbol: hit.alias.toUpperCase(),
+          yahooSymbol:
+            yahooSymbolFromEodhd(hit.eodhd_symbol) ||
+            hit.alias.toUpperCase(),
         })
       }
     }
