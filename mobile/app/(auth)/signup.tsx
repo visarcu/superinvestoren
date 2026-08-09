@@ -60,7 +60,7 @@ export default function SignupScreen() {
       // Zurücksetzen des Passworts nicht.
       Alert.alert(
         'Account erstellt',
-        'Du kannst dich direkt anmelden. Wir haben dir ausserdem eine Bestätigungsmail geschickt – bestätige deine Adresse bei Gelegenheit, damit wir dich erreichen können.',
+        'Du kannst dich direkt anmelden. Wir haben dir ausserdem eine Bestätigungsmail geschickt.',
         [{ text: 'Zur Anmeldung', onPress: () => router.replace('/(auth)/login') }],
       );
     } catch (err: any) {
