@@ -495,7 +495,15 @@ export default function StockScreen() {
           headerStyle: { backgroundColor: '#1C1C1E' },
           headerTintColor: '#F8FAFC',
           headerRight: () => (
-            <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading} style={{ marginRight: 4 }}>
+            // Quadratische, zentrierte Flaeche statt einseitigem marginRight:
+            // iOS zeichnet die runde Button-Chrome um den Inhalt, ein
+            // asymmetrischer Rand versetzt den Kreis gegen das Glyph.
+            <TouchableOpacity
+              onPress={toggleWatchlist}
+              disabled={watchlistLoading}
+              hitSlop={8}
+              style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center' }}
+            >
               <Ionicons name={inWatchlist ? 'bookmark' : 'bookmark-outline'} size={22}
                 color={inWatchlist ? '#34C759' : '#94A3B8'} />
             </TouchableOpacity>

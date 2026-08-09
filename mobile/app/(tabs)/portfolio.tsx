@@ -65,7 +65,15 @@ interface Holding {
 
 interface DivInfo {
   symbol: string; yield: number; perShareTTM: number;
-  annualIncome: number; nextDate: string | null; quarterlyAmount: number;
+  annualIncome: number; quarterlyAmount: number;
+  // Zahltag ist massgeblich; das Ex-Datum liegt davor und taugt nicht, um
+  // "anstehend" zu bestimmen. payDate kann fehlen, dann bleibt nur exDate.
+  payDate: string | null; exDate: string | null;
+}
+
+/** Massgebliches Datum einer Dividende — wie im Web (DividendsTab). */
+function dividendDate(d: DivInfo): string | null {
+  return d.payDate || d.exDate;
 }
 
 export default function PortfolioScreen() {
@@ -245,7 +253,8 @@ export default function PortfolioScreen() {
           yield: (ci.currentYield || 0) * 100,
           perShareTTM,
           annualIncome,
-          nextDate: nextEntry?.exDividendDate || nextEntry?.date || null,
+          payDate: nextEntry?.paymentDate || null,
+          exDate: nextEntry?.exDividendDate || nextEntry?.date || null,
           quarterlyAmount: (nextEntry?.amount || 0) * h.quantity,
         });
       });
@@ -828,8 +837,8 @@ export default function PortfolioScreen() {
                 {(() => {
                   const today = new Date().toISOString().split('T')[0];
                   const upcoming = divData
-                    .filter(d => d.nextDate && d.nextDate >= today)
-                    .sort((a, b) => new Date(a.nextDate!).getTime() - new Date(b.nextDate!).getTime())
+                    .filter(d => { const dt = dividendDate(d); return dt && dt >= today; })
+                    .sort((a, b) => new Date(dividendDate(a)!).getTime() - new Date(dividendDate(b)!).getTime())
                     .slice(0, 5);
                   if (upcoming.length === 0) return null;
                   return (
@@ -837,7 +846,8 @@ export default function PortfolioScreen() {
                       <Text style={s.sectionLabel}>ANSTEHENDE DIVIDENDEN</Text>
                       <View style={[s.card, { marginBottom: 16 }]}>
                         {upcoming.map((d, i) => {
-                          const exDate = new Date(d.nextDate!).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' });
+                          const shown = new Date(dividendDate(d)!).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' });
+                          const dateLabel = d.payDate ? 'Zahltag' : 'Ex-Datum';
                           return (
                             <TouchableOpacity
                               key={d.symbol}
@@ -849,7 +859,7 @@ export default function PortfolioScreen() {
                               <StockLogo ticker={d.symbol} size={32} borderRadius={7} />
                               <View style={{ flex: 1, marginLeft: 10 }}>
                                 <Text style={s.divTicker}>{d.symbol}</Text>
-                                <Text style={s.divNext}>Ex-Datum: {exDate}</Text>
+                                <Text style={s.divNext}>{dateLabel}: {shown}</Text>
                               </View>
                               <View style={{ alignItems: 'flex-end' }}>
                                 <Text style={s.divIncome}>{fmtCurrency(d.quarterlyAmount)}</Text>
@@ -891,9 +901,10 @@ export default function PortfolioScreen() {
                       <View style={{ flex: 1, marginLeft: 10 }}>
                         <Text style={s.divTicker}>{d.symbol}</Text>
                         <Text style={s.divSub}>{fmtDE(d.yield, 2)} % Rendite · {fmtCurrency(d.perShareTTM)}/Aktie</Text>
-                        {d.nextDate && (
+                        {dividendDate(d) && (
                           <Text style={s.divNext}>
-                            Nächste Zahlung: {new Date(d.nextDate).toLocaleDateString('de-DE')}
+                            {d.payDate ? 'Nächste Zahlung' : 'Ex-Datum'}:{' '}
+                            {new Date(dividendDate(d)!).toLocaleDateString('de-DE')}
                           </Text>
                         )}
                       </View>

@@ -55,9 +55,12 @@ export default function SignupScreen() {
       });
       if (error) throw error;
 
+      // Supabase erzwingt die Bestätigung nicht — der Login funktioniert
+      // sofort. Die E-Mail ist trotzdem wichtig, sonst greift z. B. das
+      // Zurücksetzen des Passworts nicht.
       Alert.alert(
-        'Fast geschafft',
-        'Wir haben dir eine E-Mail zur Bestätigung geschickt. Bestätige deine Adresse und melde dich anschliessend an.',
+        'Account erstellt',
+        'Du kannst dich direkt anmelden. Wir haben dir ausserdem eine Bestätigungsmail geschickt – bestätige deine Adresse bei Gelegenheit, damit wir dich erreichen können.',
         [{ text: 'Zur Anmeldung', onPress: () => router.replace('/(auth)/login') }],
       );
     } catch (err: any) {
