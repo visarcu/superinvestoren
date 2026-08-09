@@ -74,6 +74,7 @@ interface Insights {
 }
 
 export default function InvestorsScreen() {
+  const [showDrawer, setShowDrawer] = useState(false);
   const [search, setSearch] = useState('');
   const [insights, setInsights] = useState<Insights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(true);
@@ -85,6 +86,7 @@ export default function InvestorsScreen() {
 
   const [investors, setInvestors] = useState<Investor[]>([]);
   const [investorsLoading, setInvestorsLoading] = useState(true);
+  const [investorsError, setInvestorsError] = useState<unknown>(null);
 
   // Smart Money: top-level sub-tabs
   const [smartMoneyTab, setSmartMoneyTab] = useState<'superinvestors' | 'kongress'>('superinvestors');
@@ -119,12 +121,12 @@ export default function InvestorsScreen() {
 
   async function loadInvestors() {
     try {
+      setInvestorsError(null);
       const res = await fetch(`${BASE_URL}/api/investors`);
-      if (res.ok) {
-        const data = await res.json();
-        setInvestors(data.investors || []);
-      }
-    } catch { /* silent */ }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      setInvestors(data.investors || []);
+    } catch (e) { setInvestorsError(e); }
     finally { setInvestorsLoading(false); }
   }
 
@@ -176,9 +178,12 @@ export default function InvestorsScreen() {
     <SafeAreaView style={s.container} edges={['top']}>
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* Header */}
-        <View style={s.header}>
-          <Text style={s.title}>Smart Money</Text>
-          <Text style={s.subtitle}>Wem die Profis folgen</Text>
+        <View style={[s.header, { flexDirection: 'row', alignItems: 'center', gap: 12 }]}>
+          <DrawerButton onPress={() => setShowDrawer(true)} />
+          <View style={{ flex: 1 }}>
+            <Text style={s.title}>Smart Money</Text>
+            <Text style={s.subtitle}>Wem die Profis folgen</Text>
+          </View>
         </View>
 
         {/* Sub-Tabs */}
@@ -473,6 +478,12 @@ export default function InvestorsScreen() {
           <View style={s.investorList}>
             {investorsLoading ? (
               <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
+            ) : investorsError && investors.length === 0 ? (
+              <ErrorState
+                error={investorsError}
+                compact
+                onRetry={() => { setInvestorsLoading(true); loadInvestors(); }}
+              />
             ) : filtered.length === 0 ? (
               <Text style={s.emptyText}>Keine Investoren gefunden</Text>
             ) : filtered.map((item, index) => {
@@ -515,6 +526,8 @@ export default function InvestorsScreen() {
 }
 
 import { theme, tabularStyle } from '../../lib/theme';
+import SideDrawer, { DrawerButton } from '../../components/SideDrawer';
+import ErrorState from '../../components/ErrorState';
 
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: theme.bg.base },

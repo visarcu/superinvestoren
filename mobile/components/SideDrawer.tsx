@@ -16,7 +16,6 @@ const ITEMS = [
   { label: 'Watchlist', icon: 'bookmark-outline' as const, route: '/(tabs)/watchlist' },
   { label: 'Screener', icon: 'funnel-outline' as const, route: '/(tabs)/screener' },
   { label: 'Finclue AI', icon: 'sparkles-outline' as const, route: '/(tabs)/ai' },
-  { label: 'Analystenratings', icon: 'trending-up-outline' as const, route: '/analyst-ratings' },
   { label: 'Dividenden-Kalender', icon: 'calendar-outline' as const, route: '/(tabs)/calendar' },
   { label: 'Profil & Einstellungen', icon: 'person-outline' as const, route: '/(tabs)/profile' },
 ];

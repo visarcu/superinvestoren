@@ -12,6 +12,7 @@ import StockRow from '../../components/StockRow';
 import StockLogo from '../../components/StockLogo';
 import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 import SideDrawer from '../../components/SideDrawer';
+import ErrorState from '../../components/ErrorState';
 
 const BASE = 'https://finclue.de';
 const MARKET_SYMBOLS = ['SPY', 'QQQ', 'DIA', 'IWM'];
@@ -60,6 +61,7 @@ export default function DashboardScreen() {
   const [sectors, setSectors] = useState<Sector[]>([]);
   const [guruTrades, setGuruTrades] = useState<GuruTrade[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<unknown>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [userName, setUserName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -92,13 +94,22 @@ export default function DashboardScreen() {
 
   async function loadAll() {
     try {
-      const [quotesRes, popularRes, sectorRes, guruRes, polRes] = await Promise.allSettled([
+      setLoadError(null);
+      const settled = await Promise.allSettled([
         fetch(`${BASE}/api/quotes?symbols=${MARKET_SYMBOLS.join(',')}`),
         fetch(`${BASE}/api/quotes?symbols=${POPULAR_SYMBOLS.join(',')}`),
         fetch(`${BASE}/api/sector-performance`),
         fetch(`${BASE}/api/guru-trades`),
         fetch(`${BASE}/api/politicians/top-buys?limit=5`),
       ]);
+      const [quotesRes, popularRes, sectorRes, guruRes, polRes] = settled;
+
+      // Schlägt wirklich alles fehl, ist das kein "keine Daten", sondern
+      // fehlende Verbindung — das muss der Screen auch sagen.
+      if (settled.every(r => r.status === 'rejected')) {
+        setLoadError((settled[0] as PromiseRejectedResult).reason);
+        return;
+      }
 
       if (quotesRes.status === 'fulfilled' && quotesRes.value.ok) {
         const d = await quotesRes.value.json();
@@ -245,6 +256,8 @@ export default function DashboardScreen() {
 
         {loading ? (
           <ActivityIndicator color={theme.text.tertiary} style={{ marginTop: 40 }} />
+        ) : loadError ? (
+          <ErrorState error={loadError} onRetry={() => { setLoading(true); loadAll(); }} />
         ) : (
           <>
             {/* ── Sektor Performance ───────────────── */}

@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import StockLogo from '../../components/StockLogo';
 import { theme, tabularStyle, perfColor } from '../../lib/theme';
+import SideDrawer, { DrawerButton } from '../../components/SideDrawer';
 import { getBrokerConfig, getBrokerColor, getBrokerDisplayName, BrokerType } from '../../lib/brokerConfig';
 import ValueChart from '../../components/portfolio/ValueChart';
 import AllocationDonut from '../../components/portfolio/AllocationDonut';
@@ -77,6 +78,7 @@ function dividendDate(d: DivInfo): string | null {
 }
 
 export default function PortfolioScreen() {
+  const [showDrawer, setShowDrawer] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [portfolioList, setPortfolioList] = useState<{
     id: string; name: string;
@@ -358,6 +360,7 @@ export default function PortfolioScreen() {
       >
         {/* Header */}
         <View style={s.header}>
+          <DrawerButton onPress={() => setShowDrawer(true)} />
           <TouchableOpacity style={s.portfolioSelector} onPress={() => setShowPortfolioModal(true)}>
             <Text style={s.title}>{portfolioName || 'Portfolio'}</Text>
             {portfolioList.length > 1 && (

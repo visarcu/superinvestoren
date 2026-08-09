@@ -146,7 +146,7 @@ export default function InvestorDetailScreen() {
       const isNew = !prevPos;
       const pctChange = prevPos ? Math.abs(delta / prevPos.shares * 100) : 100;
       txns.push({
-        ticker: pos.ticker, name: pos.name, cusip: pos.cusip,
+        ticker: pos.ticker ?? null, name: pos.name, cusip: pos.cusip,
         deltaShares: delta,
         value: Math.abs(delta * (pos.value / pos.shares)),
         type: isNew ? 'Neu' : delta > 0 ? 'Kauf' : 'Verkauf',
@@ -157,7 +157,7 @@ export default function InvestorDetailScreen() {
       const key = pos.cusip || pos.name;
       if (!latestMap.has(key)) {
         txns.push({
-          ticker: pos.ticker, name: pos.name, cusip: pos.cusip,
+          ticker: pos.ticker ?? null, name: pos.name, cusip: pos.cusip,
           deltaShares: -pos.shares, value: pos.value,
           type: 'Verkauft', pctChange: 100,
         });
