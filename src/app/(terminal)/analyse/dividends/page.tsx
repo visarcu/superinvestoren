@@ -60,6 +60,9 @@ export default function DividendsCalendarPage() {
   const [loading, setLoading] = useState(true)
   const [watchlistSymbols, setWatchlistSymbols] = useState<string[]>([])
   const [portfolioHoldings, setPortfolioHoldings] = useState<PortfolioHolding[]>([])
+  // Erst wenn Watchlist und Depot geladen sind, darf der leere Zustand gezeigt
+  // werden — sonst blitzt beim ersten Render "Keine Aktien gefunden" auf.
+  const [userDataLoaded, setUserDataLoaded] = useState(false)
   const [sourceFilter, setSourceFilter] = useState<SourceFilter>('all')
   const [dateMode, setDateMode] = useState<DateMode>('payment')
   const [currency, setCurrency] = useState<Currency>('EUR')
@@ -68,9 +71,23 @@ export default function DividendsCalendarPage() {
   useEffect(() => {
     async function loadUserData() {
       try {
-        const { data: { session } } = await supabase.auth.getSession()
+        // getSession() liest den lokalen Auth-Speicher und kann bei parallelen
+        // Auth-Aufrufen (mehrere Tabs) mit einem Lock-Timeout fehlschlagen.
+        // Dann lieber einmal beim Server nachfragen, statt die Seite ohne
+        // Quellen und mit "Keine Aktien gefunden" stehen zu lassen.
+        let userId: string | null = null
+        try {
+          const { data: { session } } = await supabase.auth.getSession()
+          userId = session?.user?.id ?? null
+        } catch (sessionError) {
+          console.error('[Dividenden] getSession fehlgeschlagen:', sessionError)
+        }
+        if (!userId) {
+          const { data: { user } } = await supabase.auth.getUser()
+          userId = user?.id ?? null
+        }
 
-        if (!session?.user) {
+        if (!userId) {
           setWatchlistSymbols([])
           setPortfolioHoldings([])
           return
@@ -80,37 +97,49 @@ export default function DividendsCalendarPage() {
         const { data: watchlistData, error: watchlistError } = await supabase
           .from('watchlists')
           .select('ticker')
-          .eq('user_id', session.user.id)
+          .eq('user_id', userId)
 
         if (watchlistError) {
-          console.error('Failed to load watchlist:', watchlistError)
+          console.error('[Dividenden] Watchlist konnte nicht geladen werden:', watchlistError)
           setWatchlistSymbols([])
         } else {
           const symbols = (watchlistData || []).map((item: { ticker: string }) => item.ticker.toUpperCase())
           setWatchlistSymbols(symbols)
         }
 
-        // Load portfolio holdings
+        // Load portfolio holdings.
+        // portfolio_holdings hängt über portfolio_id an portfolios — eine
+        // user_id-Spalte gibt es dort nicht. Die frühere Abfrage lief deshalb
+        // bei jedem Aufruf in "42703 column portfolio_holdings.user_id does not
+        // exist", und der Kalender blieb dauerhaft ohne Depot-Positionen.
         const { data: portfolioData, error: portfolioError } = await supabase
           .from('portfolio_holdings')
-          .select('symbol, name, quantity')
-          .eq('user_id', session.user.id)
+          .select('symbol, name, quantity, portfolios!inner(user_id)')
+          .eq('portfolios.user_id', userId)
 
         if (portfolioError) {
-          console.error('Failed to load portfolio:', portfolioError)
+          console.error('[Dividenden] Depot konnte nicht geladen werden:', portfolioError)
           setPortfolioHoldings([])
         } else {
-          const holdings = (portfolioData || []).map((item: any) => ({
-            symbol: item.symbol.toUpperCase(),
-            name: item.name || item.symbol,
-            quantity: item.quantity || 0
-          }))
-          setPortfolioHoldings(holdings)
+          // Dieselbe Aktie kann in mehreren Depots liegen: Stückzahlen summieren,
+          // sonst rechnet die erwartete Zahlung nur mit einem der Depots.
+          const merged = new Map<string, PortfolioHolding>()
+          for (const item of (portfolioData || []) as any[]) {
+            if (!item.symbol) continue
+            const symbol = String(item.symbol).toUpperCase()
+            const quantity = Number(item.quantity) || 0
+            const existing = merged.get(symbol)
+            if (existing) existing.quantity += quantity
+            else merged.set(symbol, { symbol, name: item.name || symbol, quantity })
+          }
+          setPortfolioHoldings([...merged.values()])
         }
       } catch (error) {
-        console.error('Failed to load user data:', error)
+        console.error('[Dividenden] Nutzerdaten konnten nicht geladen werden:', error)
         setWatchlistSymbols([])
         setPortfolioHoldings([])
+      } finally {
+        setUserDataLoaded(true)
       }
     }
     loadUserData()
@@ -192,6 +221,8 @@ export default function DividendsCalendarPage() {
   // Load dividend data from both sources
   useEffect(() => {
     async function loadDividends() {
+      if (!userDataLoaded) return
+
       // Combine all unique tickers from both sources
       const portfolioSymbols = portfolioHoldings.map(h => h.symbol)
       const allSymbols = [...new Set([...watchlistSymbols, ...portfolioSymbols])]
@@ -245,7 +276,7 @@ export default function DividendsCalendarPage() {
     }
 
     loadDividends()
-  }, [watchlistSymbols, portfolioHoldings])
+  }, [watchlistSymbols, portfolioHoldings, userDataLoaded])
 
   // Navigate weeks
   const goToPreviousWeek = () => {

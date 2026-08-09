@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, TextInput,
   RefreshControl, ActivityIndicator, StyleSheet, Image,
-  Modal, Animated, Pressable, Dimensions,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +11,7 @@ import { supabase } from '../../lib/auth';
 import StockRow from '../../components/StockRow';
 import StockLogo from '../../components/StockLogo';
 import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
+import SideDrawer from '../../components/SideDrawer';
 
 const BASE = 'https://finclue.de';
 const MARKET_SYMBOLS = ['SPY', 'QQQ', 'DIA', 'IWM'];
@@ -52,68 +52,6 @@ function formatBigValue(v: number): string {
   if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd. $`;
   if (v >= 1_000_000) return `${(v / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`;
   return `${(v / 1000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}K $`;
-}
-
-const SCREEN_W = Dimensions.get('window').width;
-const DRAWER_W = Math.min(SCREEN_W * 0.78, 320);
-
-const MEHR_ITEMS = [
-  { label: 'Watchlist', icon: 'bookmark-outline' as const, route: '/(tabs)/watchlist' },
-  { label: 'Screener', icon: 'funnel-outline' as const, route: '/(tabs)/screener' },
-  { label: 'Finclue AI', icon: 'sparkles-outline' as const, route: '/(tabs)/ai' },
-  { label: 'Dividenden-Kalender', icon: 'calendar-outline' as const, route: '/(tabs)/calendar' },
-  { label: 'Profil & Einstellungen', icon: 'person-outline' as const, route: '/(tabs)/profile' },
-];
-
-function SideDrawer({ visible, onClose, userName }: { visible: boolean; onClose: () => void; userName: string }) {
-  const slideAnim = useRef(new Animated.Value(-DRAWER_W)).current;
-
-  useEffect(() => {
-    Animated.spring(slideAnim, {
-      toValue: visible ? 0 : -DRAWER_W,
-      useNativeDriver: true,
-      damping: 22,
-      stiffness: 220,
-    }).start();
-  }, [visible]);
-
-  function navigate(route: string) {
-    onClose();
-    setTimeout(() => router.push(route as any), 180);
-  }
-
-  return (
-    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
-      <Pressable style={d.backdrop} onPress={onClose} />
-      <Animated.View style={[d.drawer, { transform: [{ translateX: slideAnim }] }]}>
-        {/* User Header — manual top padding for status bar */}
-        <View style={d.userRow}>
-          <View style={d.avatar}>
-            <Text style={d.avatarText}>{userName.charAt(0).toUpperCase()}</Text>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={d.userName}>{userName}</Text>
-            <Text style={d.userSub}>Finclue</Text>
-          </View>
-        </View>
-
-        <View style={d.divider} />
-
-        {/* Nav Items */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {MEHR_ITEMS.map((item) => (
-            <TouchableOpacity key={item.route} style={d.item} onPress={() => navigate(item.route)} activeOpacity={0.7}>
-              <View style={d.iconBox}>
-                <Ionicons name={item.icon} size={20} color={theme.text.tertiary} />
-              </View>
-              <Text style={d.itemLabel}>{item.label}</Text>
-              <Ionicons name="chevron-forward" size={15} color={theme.text.muted} />
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </Animated.View>
-    </Modal>
-  );
 }
 
 export default function DashboardScreen() {
@@ -238,7 +176,7 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView style={s.container} edges={['top']}>
-      <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} userName={userName} />
+      <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -500,24 +438,6 @@ export default function DashboardScreen() {
 }
 
 import { theme, tabularStyle } from '../../lib/theme';
-
-const d = StyleSheet.create({
-  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: theme.bg.overlay },
-  drawer: {
-    position: 'absolute', top: 0, left: 0, bottom: 0,
-    width: DRAWER_W, backgroundColor: theme.bg.base,
-    borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: theme.border.default,
-  },
-  userRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.lg - 2, paddingHorizontal: theme.space.xl, paddingTop: 64, paddingBottom: theme.space.xl },
-  avatar: { width: 44, height: 44, borderRadius: theme.radius.full, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center' },
-  avatarText: { color: theme.text.primary, fontSize: theme.font.title1, fontWeight: theme.weight.semibold },
-  userName: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
-  userSub: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 1 },
-  divider: { height: StyleSheet.hairlineWidth, backgroundColor: theme.border.default },
-  item: { flexDirection: 'row', alignItems: 'center', gap: theme.space.lg - 2, paddingHorizontal: theme.space.xl, paddingVertical: theme.space.lg, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.border.subtle },
-  iconBox: { width: 34, height: 34, borderRadius: theme.radius.md - 1, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center' },
-  itemLabel: { flex: 1, color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.medium },
-});
 
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: theme.bg.base },

@@ -12,6 +12,7 @@ import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
+import UpcomingDividendsPreview from '@/components/portfolio/UpcomingDividendsPreview'
 import SoldPositions from '@/components/portfolio/SoldPositions'
 import { getETFBySymbol } from '@/lib/etfUtils'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
@@ -713,15 +714,24 @@ export default function PortfolioDashboard() {
               </div>
             )}
 
-            {/* Chart + Anstehende Earnings nebeneinander */}
+            {/* Chart + Anstehende Termine nebeneinander */}
             {p.holdings.length > 0 && (
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr,1.6fr] gap-5">
-                {/* Earnings links — kompakt, clean */}
-                <div className="terminal-glass rounded-2xl overflow-hidden">
-                  <PortfolioEarningsPreview
-                    symbols={p.holdings.map(h => h.symbol)}
-                    companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
-                  />
+                {/* Earnings + Dividenden links — kompakt, clean */}
+                <div className="flex flex-col gap-5">
+                  <div className="terminal-glass rounded-2xl overflow-hidden">
+                    <PortfolioEarningsPreview
+                      symbols={p.holdings.map(h => h.symbol)}
+                      companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
+                    />
+                  </div>
+                  <div className="terminal-glass rounded-2xl overflow-hidden">
+                    <UpcomingDividendsPreview
+                      holdings={p.holdings}
+                      formatCurrency={p.formatCurrency}
+                      onShowAll={() => handleTabChange('dividends')}
+                    />
+                  </div>
                 </div>
 
                 {/* Chart rechts — bekommt mehr Platz */}

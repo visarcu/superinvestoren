@@ -44,8 +44,13 @@ export async function GET(request: NextRequest) {
     // Parallel API calls für alle Tickers
     const dividendPromises = tickerList.map(async (ticker) => {
       try {
+        // Der Dividenden-Kalender wird seit der Dashboard-Vorschau bei jedem
+        // Portfolio-Aufruf für alle Positionen geladen. Ankündigungen ändern
+        // sich höchstens täglich — eine Stunde Cache spart den Löwenanteil der
+        // FMP-Requests, ohne dass ein Zahltag verspätet auftaucht.
         const response = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.FMP_API_KEY}`,
+          { next: { revalidate: 3600 } }
         )
         
         if (!response.ok) {
@@ -61,8 +66,10 @@ export async function GET(request: NextRequest) {
         }
 
         // Get current stock price for yield calculation
+        // Nur Basis für die Yield-Angabe, kein angezeigter Kurs — 5 Minuten reichen.
         const quoteResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`,
+          { next: { revalidate: 300 } }
         )
         
         const tickerCurrency = detectTickerCurrency(ticker)

@@ -247,6 +247,7 @@ import gayner_2025_Q4 from './gayner/2025-Q4.json'
 
 import gayner_2026_Q1 from './gayner/2026-Q1.json'
 import gayner_2026_Q2 from './gayner/2026-Q2.json'
+import gayner_2026_Q3 from './gayner/2026-Q3.json'
 
 //ainslie
 import ainslie_2024_Q1 from './ainslie/2024-Q1.json'
@@ -337,6 +338,7 @@ import polen_2025_Q4 from './polen/2025-Q4.json'
 
 import polen_2026_Q1 from './polen/2026-Q1.json'
 import polen_2026_Q2 from './polen/2026-Q2.json'
+import polen_2026_Q3 from './polen/2026-Q3.json'
 
 
 //viking
@@ -400,6 +402,7 @@ import firsteagle_2025_Q4 from './firsteagle/2025-Q4.json'
 
 import firsteagle_2026_Q1 from './firsteagle/2026-Q1.json'
 import firsteagle_2026_Q2 from './firsteagle/2026-Q2.json'
+import firsteagle_2026_Q3 from './firsteagle/2026-Q3.json'
 
 //duan
 import duan_2024_Q2 from './duan/2024-Q2.json'
@@ -1570,6 +1573,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     { quarter: '2026-Q1', data: gayner_2026_Q1},
     { quarter: '2026-Q2', data: gayner_2026_Q2},
+    { quarter: '2026-Q3', data: gayner_2026_Q3},
 
   ],
 
@@ -1715,6 +1719,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     { quarter: '2026-Q1', data: polen_2026_Q1},
     { quarter: '2026-Q2', data: polen_2026_Q2},
+    { quarter: '2026-Q3', data: polen_2026_Q3},
    ],
 
       druckenmiller: [
@@ -1950,6 +1955,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: firsteagle_2026_Q1},
     {quarter: '2026-Q2', data: firsteagle_2026_Q2},
+    {quarter: '2026-Q3', data: firsteagle_2026_Q3},
    ],
 
    brenton: [
