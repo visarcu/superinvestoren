@@ -125,6 +125,7 @@ import greenhaven_2025_Q4 from './greenhaven/2025-Q4.json'
 
 import greenhaven_2026_Q1 from './greenhaven/2026-Q1.json'
 import greenhaven_2026_Q2 from './greenhaven/2026-Q2.json'
+import greenhaven_2026_Q3 from './greenhaven/2026-Q3.json'
 
 
 import gregalexander_2024_Q1 from './gregalexander/2024-Q1.json'
@@ -386,6 +387,7 @@ import cantillon_2025_Q4 from './cantillon/2025-Q4.json'
 
 import cantillon_2026_Q1 from './cantillon/2026-Q1.json'
 import cantillon_2026_Q2 from './cantillon/2026-Q2.json'
+import cantillon_2026_Q3 from './cantillon/2026-Q3.json'
 
 //firsteagle
 import firsteagle_2024_Q2 from './firsteagle/2024-Q2.json'
@@ -470,6 +472,7 @@ import armitage_2025_Q4 from './armitage/2025-Q4.json'
 
 import armitage_2026_Q1 from './armitage/2026-Q1.json'
 import armitage_2026_Q2 from './armitage/2026-Q2.json'
+import armitage_2026_Q3 from './armitage/2026-Q3.json'
 
 //icahn
 import icahn_2024_Q2 from './icahn/2024-Q2.json'
@@ -518,6 +521,7 @@ import train_2025_Q4 from './train/2025-Q4.json'
 
 import train_2026_Q1 from './train/2026-Q1.json'
 import train_2026_Q2 from './train/2026-Q2.json'
+import train_2026_Q3 from './train/2026-Q3.json'
 
 //andrew brenton
 import brenton_2024_Q2 from './brenton/2024-Q2.json'
@@ -922,6 +926,7 @@ import katz_2025_Q4 from './katz/2025-Q4.json'
 
 import katz_2026_Q1 from './katz/2026-Q1.json'
 import katz_2026_Q2 from './katz/2026-Q2.json'
+import katz_2026_Q3 from './katz/2026-Q3.json'
 
 //klarman
 import klarman_2024_Q2 from './klarman/2024-Q2.json'
@@ -946,6 +951,7 @@ import spier_2025_Q4 from './spier/2025-Q4.json'
 
 import spier_2026_Q1 from './spier/2026-Q1.json'
 import spier_2026_Q2 from './spier/2026-Q2.json'
+import spier_2026_Q3 from './spier/2026-Q3.json'
 
 //triplefrond
 import triplefrond_2024_Q2 from './triplefrond/2024-Q2.json'
@@ -1424,6 +1430,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: greenhaven_2026_Q1},
     {quarter: '2026-Q2', data: greenhaven_2026_Q2},
+    {quarter: '2026-Q3', data: greenhaven_2026_Q3},
   
    ],
    gregalexander: [
@@ -1795,6 +1802,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     { quarter: '2026-Q1', data: cantillon_2026_Q1},
     { quarter: '2026-Q2', data: cantillon_2026_Q2},
+    { quarter: '2026-Q3', data: cantillon_2026_Q3},
    ],
 
    duan: [
@@ -1874,6 +1882,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     { quarter: '2026-Q1', data: armitage_2026_Q1},
     { quarter: '2026-Q2', data: armitage_2026_Q2},
+    { quarter: '2026-Q3', data: armitage_2026_Q3},
    ],
 
 
@@ -1927,6 +1936,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: train_2026_Q1},
     {quarter: '2026-Q2', data: train_2026_Q2},
+    {quarter: '2026-Q3', data: train_2026_Q3},
    ],
 
    firsteagle: [
@@ -2376,6 +2386,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: katz_2026_Q1},
     {quarter: '2026-Q2', data: katz_2026_Q2},
+    {quarter: '2026-Q3', data: katz_2026_Q3},
    ],
 
    weitz: [
@@ -2428,6 +2439,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     { quarter: '2026-Q1', data: spier_2026_Q1},
     { quarter: '2026-Q2', data: spier_2026_Q2},
+    { quarter: '2026-Q3', data: spier_2026_Q3},
    ],
 
    triplefrond: [

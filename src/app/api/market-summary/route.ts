@@ -3,15 +3,12 @@
 // Fallback: Perplexity API
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { calculateMarketSentiment } from '@/lib/marketSentiment'
 
 const PERPLEXITY_API_URL = 'https://api.perplexity.ai/chat/completions'
 
-interface MarketData {
-  spx: { price: number; changePct: number; positive: boolean }
-  ixic: { price: number; changePct: number; positive: boolean }
-  dax: { price: number; changePct: number; positive: boolean }
-  dji: { price: number; changePct: number; positive: boolean }
-}
+// Enthält Indizes (spx, ixic, dji, dax, stoxx) UND Rohstoffe/Crypto (btc, gold, ...)
+type MarketData = Record<string, { price: number; changePct: number; positive: boolean } | undefined>
 
 interface SectorData {
   sector: string
@@ -33,9 +30,8 @@ export async function POST(request: Request) {
       )
     }
 
-    // Berechne Sentiment
-    const positiveIndices = Object.values(markets).filter(m => m.positive).length
-    const isBullish = positiveIndices >= 2
+    // Sentiment – identische Berechnung wie im Dashboard (nur Leitindizes)
+    const isBullish = calculateMarketSentiment(markets)?.isBullish ?? true
 
     // Top/Bottom Sektoren
     const sortedSectors = [...sectors].sort((a, b) => b.change - a.change)
@@ -82,6 +78,7 @@ export async function POST(request: Request) {
               summary: overview,
               fullRecap: content,
               sources,
+              generatedAt: recap.generated_at,
               isBullish,
               generated: true,
               source: 'finclue-news'
@@ -108,11 +105,17 @@ export async function POST(request: Request) {
     }
 
     // Prompt für Perplexity (mit Web-Suche)
+    const pct = (key: string) => {
+      const value = markets[key]?.changePct
+      if (value === undefined) return 'k.A.'
+      return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`
+    }
+
     const prompt = `Die Märkte sind heute ${isBullish ? 'im Plus' : 'im Minus'}:
-- S&P 500: ${markets.spx?.changePct >= 0 ? '+' : ''}${markets.spx?.changePct?.toFixed(2)}%
-- NASDAQ: ${markets.ixic?.changePct >= 0 ? '+' : ''}${markets.ixic?.changePct?.toFixed(2)}%
-- Dow Jones: ${markets.dji?.changePct >= 0 ? '+' : ''}${markets.dji?.changePct?.toFixed(2)}%
-- DAX: ${markets.dax?.changePct >= 0 ? '+' : ''}${markets.dax?.changePct?.toFixed(2)}%
+- S&P 500: ${pct('spx')}
+- NASDAQ: ${pct('ixic')}
+- Dow Jones: ${pct('dji')}
+- DAX: ${pct('dax')}
 
 Stärkster Sektor: ${topSector?.sectorDE} (${topSector?.change >= 0 ? '+' : ''}${topSector?.change?.toFixed(2)}%)
 Schwächster Sektor: ${bottomSector?.sectorDE} (${bottomSector?.change >= 0 ? '+' : ''}${bottomSector?.change?.toFixed(2)}%)
