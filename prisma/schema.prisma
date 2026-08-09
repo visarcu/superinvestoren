@@ -291,3 +291,60 @@ model IpoCalendar {
   @@index([ticker])
   @@index([cik])
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// KONGRESS-TRADES (STOCK Act Offenlegungen)
+// ═══════════════════════════════════════════════════════════════════════════
+
+model Politician {
+  slug          String    @id // z.B. "nancy-pelosi"
+  name          String
+  firstName     String?
+  lastName      String?
+  chamber       String // "house" | "senate"
+  state         String?
+  district      String? // z.B. "CA11"
+  party         String? // "Democrat" | "Republican" | "Independent"
+  bioguideId    String?
+  photoUrl      String?
+  tradeCount    Int       @default(0)
+  lastTradeDate DateTime? @db.Date
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  trades PoliticianTrade[]
+
+  @@index([chamber])
+  @@index([lastTradeDate])
+}
+
+model PoliticianTrade {
+  id               String   @id @default(cuid())
+  politicianSlug   String
+  ticker           String? // null bei nicht-boersennotierten Assets
+  assetDescription String
+  assetType        String?
+  type             String // "purchase" | "sale" | "exchange"
+  typeRaw          String? // Originalwert der Quelle, z.B. "Sale (Partial)"
+  transactionDate  DateTime @db.Date
+  disclosureDate   DateTime @db.Date
+  amount           String // Range-String, z.B. "$1,001 - $15,000"
+  amountMid        Int      @default(0) // Mittelwert der Range fuer Volumen-Schaetzung
+  owner            String? // "self" | "spouse" | "joint" | "child"
+  district         String?
+  chamber          String
+  link             String?
+  capitalGains     Boolean  @default(false)
+  comment          String?
+  source           String   @default("fmp") // spaeter: "house-clerk" | "senate-efd"
+  dedupeKey        String   @unique // stabiler Hash, macht Sync idempotent
+  createdAt        DateTime @default(now())
+
+  politician Politician @relation(fields: [politicianSlug], references: [slug], onDelete: Cascade)
+
+  @@index([politicianSlug, transactionDate])
+  @@index([ticker, transactionDate])
+  @@index([disclosureDate])
+  @@index([transactionDate])
+  @@index([type])
+}
