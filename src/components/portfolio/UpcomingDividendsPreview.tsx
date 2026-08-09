@@ -120,7 +120,9 @@ export default function UpcomingDividendsPreview({
     let cancelled = false
     setLoading(true)
 
-    fetch(`/api/dividends-calendar?tickers=${encodeURIComponent(symbolKey)}`)
+    // Nur Kommendes: ohne from-Grenze liefert der Kalender-Endpunkt mehrere
+    // Jahre Historie, die diese Vorschau ohnehin wegfiltern würde.
+    fetch(`/api/dividends-calendar?tickers=${encodeURIComponent(symbolKey)}&from=${todayISO()}`)
       .then(r => (r.ok ? r.json() : []))
       .then((data: DividendEvent[]) => {
         if (cancelled) return

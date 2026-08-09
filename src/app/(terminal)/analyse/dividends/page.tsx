@@ -145,6 +145,10 @@ export default function DividendsCalendarPage() {
     loadUserData()
   }, [])
 
+  // Nur ein Jahreswechsel löst ein Neuladen aus — Wochen- und Monatssprünge
+  // liegen im bereits geladenen Fenster.
+  const calendarYear = currentDate.getFullYear()
+
   // Get week dates (Mo-Fr)
   const weekDates = useMemo(() => {
     const dates: Date[] = []
@@ -236,7 +240,14 @@ export default function DividendsCalendarPage() {
       setLoading(true)
       try {
         const tickersParam = allSymbols.join(',')
-        const response = await fetch(`/api/dividends-calendar?tickers=${encodeURIComponent(tickersParam)}`)
+        // Immer das angezeigte Jahr laden, mit einem Monat Puffer an beiden
+        // Enden: Zahlungen zu Ex-Terminen aus dem Dezember gehören noch ins
+        // Januar-Blatt. Beim Blättern in ein anderes Jahr wird nachgeladen.
+        const from = `${calendarYear - 1}-12-01`
+        const to = `${calendarYear + 1}-01-31`
+        const response = await fetch(
+          `/api/dividends-calendar?tickers=${encodeURIComponent(tickersParam)}&from=${from}&to=${to}`
+        )
 
         if (response.ok) {
           const events = await response.json()
@@ -276,7 +287,7 @@ export default function DividendsCalendarPage() {
     }
 
     loadDividends()
-  }, [watchlistSymbols, portfolioHoldings, userDataLoaded])
+  }, [watchlistSymbols, portfolioHoldings, userDataLoaded, calendarYear])
 
   // Navigate weeks
   const goToPreviousWeek = () => {

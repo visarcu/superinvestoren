@@ -30,10 +30,25 @@ export async function GET(request: NextRequest) {
     }
 
     const tickerList = tickers.split(',').map(t => t.trim()).filter(t => t.length > 0)
-    
+
     if (tickerList.length === 0) {
       return NextResponse.json([])
     }
+
+    // Zeitfenster. Vergangenes darf grosszuegig sein — der Kalender laesst sich
+    // jahrelang zurueckblaettern, und ausgezahlte Dividenden aendern sich nicht
+    // mehr. Nach vorne reicht ein Jahr: weiter kuendigt kaum ein Unternehmen an.
+    // Aufrufer koennen das Fenster ueber from/to (YYYY-MM-DD) selbst setzen.
+    const shiftYears = (years: number) => {
+      const d = new Date()
+      d.setFullYear(d.getFullYear() + years)
+      return d.toISOString().split('T')[0]
+    }
+    const isIsoDate = (value: string | null): value is string => !!value && /^\d{4}-\d{2}-\d{2}$/.test(value)
+    const fromParam = searchParams.get('from')
+    const toParam = searchParams.get('to')
+    const from = isIsoDate(fromParam) ? fromParam : shiftYears(-5)
+    const to = isIsoDate(toParam) ? toParam : shiftYears(1)
 
     console.log(`🗓️ [Dividends Calendar] Loading for ${tickerList.length} tickers: ${tickerList.join(', ')}`)
 
@@ -82,11 +97,6 @@ export async function GET(request: NextRequest) {
           currentPrice = rawPrice ? toMajorUnit(rawPrice, tickerCurrency) : null
         }
 
-        // Get upcoming and recent dividends (next 6 months + last 6 months)
-        const now = new Date()
-        const sixMonthsAgo = new Date(now.getTime() - (6 * 30 * 24 * 60 * 60 * 1000))
-        const sixMonthsFromNow = new Date(now.getTime() + (6 * 30 * 24 * 60 * 60 * 1000))
-
         const relevantDividends = data.historical
           .map((div: any) => {
             // Dividende in Haupteinheit der Börsenwährung (GBX → GBP), danach in EUR/USD
@@ -117,8 +127,12 @@ export async function GET(request: NextRequest) {
             }
           })
           .filter((div: any) => {
-            const divDate = new Date(div.date)
-            return divDate >= sixMonthsAgo && divDate <= sixMonthsFromNow
+            // Ex-Datum ODER Zahltag im Fenster: zwischen beiden liegen oft Wochen.
+            // Sonst fehlt im Januar-Blatt die Zahlung zu einem Ex-Termin aus dem
+            // Dezember — je nachdem, wonach der Kalender gerade sortiert.
+            const ex = div.exDate || div.date
+            const pay = div.paymentDate || div.date
+            return (ex >= from && ex <= to) || (pay >= from && pay <= to)
           })
           .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
 
