@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { supabase } from '@/lib/supabaseClient'
+import { calculateMarketSentiment } from '@/lib/marketSentiment'
 import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
 
@@ -179,6 +180,7 @@ export default function ModernDashboard() {
   const [aiSummary, setAiSummary] = useState<string | null>(null)
   const [aiSummarySources, setAiSummarySources] = useState<string[]>([])
   const [aiSummarySource, setAiSummarySource] = useState<string>('')
+  const [aiSummaryGeneratedAt, setAiSummaryGeneratedAt] = useState<string | null>(null)
   const [aiSummaryLoading, setAiSummaryLoading] = useState(false)
   const [lastMarketUpdate, setLastMarketUpdate] = useState<Date | null>(null)
   const { formatStockPrice, formatPercentage } = useCurrency()
@@ -352,16 +354,14 @@ export default function ModernDashboard() {
   // Legacy alias für market sentiment
   const marketData = useMemo(() => [...indicesData, ...commoditiesData], [indicesData, commoditiesData])
 
-  // Calculate market sentiment
+  // Market Sentiment – nur Leitindizes, siehe lib/marketSentiment
   const marketSentiment = useMemo(() => {
-    const quotes = Object.values(marketQuotes)
-    if (quotes.length === 0) return null
-    const positiveCount = quotes.filter(q => q.positive).length
-    const isBullish = positiveCount >= quotes.length / 2
+    const sentiment = calculateMarketSentiment(marketQuotes)
+    if (!sentiment) return null
     return {
-      isBullish,
-      text: isBullish ? 'Die Märkte sind bullisch' : 'Die Märkte sind bearisch',
-      description: isBullish
+      ...sentiment,
+      text: sentiment.isBullish ? 'Die Märkte sind bullisch' : 'Die Märkte sind bearisch',
+      description: sentiment.isBullish
         ? 'Die wichtigsten Indizes zeigen positive Entwicklungen.'
         : 'Die wichtigsten Indizes zeigen negative Entwicklungen.'
     }
@@ -394,6 +394,7 @@ export default function ModernDashboard() {
           setAiSummary(data.summary)
           setAiSummarySources(data.sources || [])
           setAiSummarySource(data.source || '')
+          setAiSummaryGeneratedAt(data.generatedAt || null)
         }
       } catch (error) {
         console.error('Failed to load AI summary:', error)
@@ -451,7 +452,7 @@ export default function ModernDashboard() {
 
           {/* Market Sentiment Card */}
           <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
               {marketSentiment ? (
                 <>
                   <span className={`px-2 py-1 text-xs font-medium rounded ${
@@ -466,6 +467,9 @@ export default function ModernDashboard() {
                   ) : (
                     <ArrowTrendingDownIcon className="w-4 h-4 text-red-400" />
                   )}
+                  <span className="text-xs text-theme-muted">
+                    {marketSentiment.positiveCount}/{marketSentiment.total} Leitindizes im Plus · 24h
+                  </span>
                 </>
               ) : (
                 <span className="px-2 py-1 bg-theme-secondary text-theme-muted text-xs font-medium rounded">
@@ -485,11 +489,22 @@ export default function ModernDashboard() {
                 marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'
               )}
             </p>
-            {aiSummarySources.length > 0 && (
+            {(aiSummarySources.length > 0 || aiSummaryGeneratedAt) && (
               <p className="text-xs text-theme-muted mt-2">
-                Quellen: {aiSummarySources.join(', ')}
+                {aiSummarySources.length > 0 && <>Quellen: {aiSummarySources.join(', ')}</>}
                 {aiSummarySource === 'finclue-news' && (
                   <span className="ml-1 text-brand">· Finclue News</span>
+                )}
+                {aiSummaryGeneratedAt && (
+                  <span className="ml-1">
+                    · Rückblick vom {new Date(aiSummaryGeneratedAt).toLocaleString('de-DE', {
+                      weekday: 'short',
+                      day: '2-digit',
+                      month: '2-digit',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })} Uhr
+                  </span>
                 )}
               </p>
             )}

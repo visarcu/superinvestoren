@@ -94,6 +94,7 @@ function timeAgo(dateStr: string) {
 }
 
 export default function NewsScreen() {
+  const [showDrawer, setShowDrawer] = useState(false);
   const [subTab, setSubTab] = useState<SubTab>('news');
 
   // ── Analyst Ratings State ──
@@ -106,15 +107,20 @@ export default function NewsScreen() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
   const [newsLoading, setNewsLoading] = useState(true);
   const [newsRefreshing, setNewsRefreshing] = useState(false);
+  const [newsError, setNewsError] = useState<unknown>(null);
+  const [ratingsError, setRatingsError] = useState<unknown>(null);
 
   // ── Load Functions ──────────────────────────────────────
 
   const loadRatings = useCallback(async () => {
     try {
+      setRatingsError(null);
       const res = await fetch(`${BASE_URL}/api/analyst-gradings/recent?limit=100`);
-      if (!res.ok) return;
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (Array.isArray(data)) setGradings(data);
+    } catch (e) {
+      setRatingsError(e);
     } finally {
       setRatingsLoading(false);
       setRatingsRefreshing(false);
@@ -123,6 +129,7 @@ export default function NewsScreen() {
 
   const loadNews = useCallback(async () => {
     try {
+      setNewsError(null);
       // Load watchlist + portfolio tickers for personalized news
       const { data: { session } } = await supabase.auth.getSession();
       let tickers: string[] = [];
@@ -175,6 +182,8 @@ export default function NewsScreen() {
       });
       unique.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
       setArticles(unique.slice(0, 30));
+    } catch (e) {
+      setNewsError(e);
     } finally {
       setNewsLoading(false);
       setNewsRefreshing(false);
@@ -290,9 +299,12 @@ export default function NewsScreen() {
 
   return (
     <SafeAreaView style={s.container} edges={['top']}>
+      <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} />
+
       {/* Header */}
       <View style={s.header}>
-        <Text style={s.headerTitle}>News</Text>
+        <DrawerButton onPress={() => setShowDrawer(true)} />
+        <Text style={[s.headerTitle, { flex: 1 }]}>News</Text>
         <TouchableOpacity
           onPress={() => router.push('/notifications-center')}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -339,6 +351,8 @@ export default function NewsScreen() {
           <View style={s.loadingWrap}>
             <ActivityIndicator color={theme.text.tertiary} size="large" />
           </View>
+        ) : ratingsError && gradings.length === 0 ? (
+          <ErrorState error={ratingsError} onRetry={() => { setRatingsLoading(true); loadRatings(); }} />
         ) : (
           <FlatList
             data={filtered}
@@ -408,6 +422,8 @@ export default function NewsScreen() {
           <View style={s.loadingWrap}>
             <ActivityIndicator color={theme.text.tertiary} size="large" />
           </View>
+        ) : newsError && articles.length === 0 ? (
+          <ErrorState error={newsError} onRetry={() => { setNewsLoading(true); loadNews(); }} />
         ) : (
           <FlatList
             data={articles}
@@ -438,6 +454,8 @@ export default function NewsScreen() {
 }
 
 import { theme, tabularStyle } from '../../lib/theme';
+import SideDrawer, { DrawerButton } from '../../components/SideDrawer';
+import ErrorState from '../../components/ErrorState';
 
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: theme.bg.base },

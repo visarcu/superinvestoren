@@ -18,7 +18,7 @@ export function detectTickerCurrency(ticker: string): TickerCurrency {
 }
 
 // Module-level cache (5 min TTL, matches web)
-let rateCache: { rates: Record<string, number>; fetchedAt: number } | null = null;
+let rateCache: { rates: ExchangeRates; fetchedAt: number } | null = null;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 interface ExchangeRates {
@@ -34,7 +34,7 @@ interface ExchangeRates {
 /** Fetch all needed exchange rates to EUR. Cached for 5 min. */
 export async function getEURRates(): Promise<ExchangeRates> {
   if (rateCache && Date.now() - rateCache.fetchedAt < CACHE_TTL_MS) {
-    return rateCache.rates as ExchangeRates;
+    return rateCache.rates;
   }
 
   const currencies: Array<keyof ExchangeRates> = ['USD', 'GBP', 'CAD', 'JPY', 'CHF', 'AUD'];

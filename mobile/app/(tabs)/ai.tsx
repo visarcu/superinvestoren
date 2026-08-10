@@ -6,6 +6,7 @@ import {
   StyleSheet, SafeAreaView, Keyboard
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useLocalSearchParams } from 'expo-router';
 import { supabase } from '../../lib/auth';
 
 const BASE_URL = 'https://finclue.de';
@@ -14,6 +15,30 @@ interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+}
+
+// Gängige Grossbuchstaben-Kürzel aus deutschen Finanzfragen. Ohne diese
+// Liste wird "Was ist mit KI-Aktien?" als Anfrage zum Ticker "KI" behandelt.
+const NO_TICKER = new Set([
+  'KI', 'AI', 'ETF', 'ETFS', 'USA', 'EU', 'EZB', 'FED', 'BIP', 'DAX', 'MDAX',
+  'SDAX', 'KGV', 'KUV', 'KCV', 'EPS', 'ROI', 'ROE', 'ROIC', 'IPO', 'CEO',
+  'CFO', 'COO', 'USD', 'EUR', 'CHF', 'GBP', 'JPY', 'YTD', 'TTM', 'FCF',
+  'EBIT', 'WKN', 'ISIN', 'AG', 'GMBH', 'SE', 'INC', 'LLC', 'PLC', 'NYSE',
+  'IRA', 'ESG', 'BAFIN', 'MSCI', 'SEC', 'GAAP', 'CAGR', 'DCF', 'IT', 'OK',
+]);
+
+/**
+ * Erkennt einen Ticker im Fliesstext. Bewusst streng: lieber keiner als ein
+ * falscher, denn ein falscher Ticker schickt die ganze Anfrage als
+ * Einzelaktien-Analyse raus. $AAPL zählt immer, sonst nur 2–5 Grossbuchstaben
+ * ausserhalb der Stoppliste.
+ */
+function detectTicker(text: string): string | undefined {
+  const explicit = text.match(/\$([A-Za-z]{1,5})\b/);
+  if (explicit) return explicit[1].toUpperCase();
+
+  const candidates = text.match(/\b[A-Z]{2,5}\b/g) || [];
+  return candidates.find(c => !NO_TICKER.has(c));
 }
 
 const QUICK_PROMPTS = [
@@ -29,6 +54,13 @@ export default function AIScreen() {
   const [loading, setLoading] = useState(false);
   const [ticker, setTicker] = useState('');
   const scrollRef = useRef<ScrollView>(null);
+
+  // Die Aktienseite springt mit ?ticker=XYZ hierher — ohne das blieb das
+  // Ticker-Feld leer und der Kontext ging verloren.
+  const { ticker: tickerParam } = useLocalSearchParams<{ ticker?: string }>();
+  useEffect(() => {
+    if (tickerParam) setTicker(tickerParam.toUpperCase());
+  }, [tickerParam]);
 
   useEffect(() => {
     scrollRef.current?.scrollToEnd({ animated: true });
@@ -48,9 +80,8 @@ export default function AIScreen() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.access_token) throw new Error('Nicht eingeloggt');
 
-      // Detect ticker mention in message
-      const tickerMatch = text.match(/\b([A-Z]{1,5})\b/g);
-      const detectedTicker = ticker || (tickerMatch ? tickerMatch[0] : undefined);
+      // Explizites Ticker-Feld schlägt die Erkennung im Fliesstext
+      const detectedTicker = ticker.trim().toUpperCase() || detectTicker(text);
 
       const body = {
         message: text,

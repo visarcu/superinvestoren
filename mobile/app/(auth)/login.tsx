@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity,
   KeyboardAvoidingView, Platform, ActivityIndicator,
-  Alert, StyleSheet, ScrollView,
+  Alert, StyleSheet, ScrollView, Linking,
 } from 'react-native';
 import FinclueIcon from '../../components/FinclueIcon';
 import { router } from 'expo-router';
@@ -80,12 +80,25 @@ export default function LoginScreen() {
                 : <Text style={s.btnText}>Anmelden</Text>
               }
             </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://finclue.de/auth/forgot-password')}
+              style={s.forgotBtn}
+              activeOpacity={0.7}
+            >
+              <Text style={s.forgotText}>Passwort vergessen?</Text>
+            </TouchableOpacity>
           </View>
 
-          <Text style={s.footer}>
-            Noch kein Account?{' '}
-            <Text style={s.footerLink}>Auf finclue.de registrieren</Text>
-          </Text>
+          <TouchableOpacity
+            onPress={() => router.push('/(auth)/signup')}
+            activeOpacity={0.7}
+            style={s.footerBtn}
+          >
+            <Text style={s.footer}>
+              Noch kein Account? <Text style={s.footerLink}>Jetzt registrieren</Text>
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -112,6 +125,9 @@ const s = StyleSheet.create({
     paddingVertical: 16, alignItems: 'center', marginTop: 16,
   },
   btnText: { color: '#000000', fontWeight: '700', fontSize: 16 },
-  footer: { color: '#475569', fontSize: 13, textAlign: 'center', marginTop: 32 },
+  forgotBtn: { alignSelf: 'center', paddingVertical: 12, marginTop: 4 },
+  forgotText: { color: '#94A3B8', fontSize: 13 },
+  footerBtn: { marginTop: 20, paddingVertical: 8 },
+  footer: { color: '#475569', fontSize: 13, textAlign: 'center' },
   footerLink: { color: '#34C759' },
 });

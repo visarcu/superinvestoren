@@ -1,0 +1,341 @@
+{
+  "form": "13F-HR",
+  "date": "2026-07-21",
+  "period": "2026-07-21",
+  "accession": "0001581811-26-000007",
+  "quarterKey": "2026-Q3",
+  "positions": [
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 4264651,
+      "value": 1463159112,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 3291594,
+      "value": 1163018908,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "AMPHENOL CORP",
+      "cusip": "032095101",
+      "shares": 4866688,
+      "value": 858094428,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3573408,
+      "value": 851686063,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 1704229,
+      "value": 771879399,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 3417950,
+      "value": 683897616,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MEDLINE INC",
+      "cusip": "58507V107",
+      "shares": 16470884,
+      "value": 649611665,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "VULCAN MATLS CO",
+      "cusip": "929160109",
+      "shares": 1971694,
+      "value": 581669447,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CRH PLC",
+      "cusip": "G25508105",
+      "shares": 4383866,
+      "value": 469073662,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD",
+      "putCall": null
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 521065,
+      "value": 376729995,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTERACTIVE BROKERS GROUP IN",
+      "cusip": "45841N107",
+      "shares": 4129416,
+      "value": 359424369,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "DEVON ENERGY CORP NEW",
+      "cusip": "25179M103",
+      "shares": 7558060,
+      "value": 312299039,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "shares": 1006024,
+      "value": 238759676,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK NEW",
+      "putCall": null
+    },
+    {
+      "name": "EQUIFAX INC",
+      "cusip": "294429105",
+      "shares": 1481188,
+      "value": 235094159,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EMBRAER S.A.",
+      "cusip": "29082A107",
+      "shares": 3384349,
+      "value": 215921466,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 363490,
+      "value": 186688464,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "LAMAR ADVERTISING CO",
+      "cusip": "512816109",
+      "shares": 1090619,
+      "value": 170114752,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 2319648,
+      "value": 167385800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LINDE PLC",
+      "cusip": "G54950103",
+      "shares": 300854,
+      "value": 156125175,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "ARMSTRONG WORLD INDS INC NEW",
+      "cusip": "04247X102",
+      "shares": 925394,
+      "value": 148451705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 351920,
+      "value": 143322939,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 485253,
+      "value": 76975683,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RIOT PLATFORMS INC",
+      "cusip": "767292105",
+      "shares": 2628731,
+      "value": 71974655,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 10351358177,
+  "positionsCount": 23,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 10351358177
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}
