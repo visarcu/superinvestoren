@@ -10,6 +10,7 @@ import HoldingsTab from './HoldingsTab'
 import TransactionsTab from './TransactionsTab'
 import DividendsTab from './DividendsTab'
 import AnalysisTab from './AnalysisTab'
+import FundamentalTab from './FundamentalTab'
 import PortfolioAllocation from './PortfolioAllocation'
 import PortfolioValueChart from './PortfolioValueChart'
 import EarningsPreviewCard from './EarningsPreviewCard'
@@ -296,6 +297,8 @@ export default function PortfolioClient() {
             formatCurrency={formatCurrency}
             formatPercentage={formatPercentage}
           />
+        ) : tab === 'fundamental' ? (
+          <FundamentalTab holdings={holdings} formatCurrency={formatCurrency} />
         ) : null}
       </main>
 

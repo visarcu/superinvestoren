@@ -13,6 +13,7 @@ const TABS: { key: Tab; label: string }[] = [
   { key: 'transaktionen', label: 'Transaktionen' },
   { key: 'dividenden', label: 'Dividenden' },
   { key: 'analyse', label: 'Analyse' },
+  { key: 'fundamental', label: 'Fundamental' },
 ]
 
 export default function PortfolioTabs({ tab, onChange }: PortfolioTabsProps) {
