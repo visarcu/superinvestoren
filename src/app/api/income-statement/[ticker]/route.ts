@@ -1,7 +1,8 @@
 // ✅ src/app/api/income-statement/[ticker]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
+import { withSources } from '@/lib/dev/withSources'
 
-export async function GET(
+async function handler(
   request: NextRequest,
   { params }: { params: { ticker: string } }
 ) {
@@ -30,3 +31,5 @@ export async function GET(
     return NextResponse.json({ error: 'Failed to fetch income statement' }, { status: 500 })
   }
 }
+
+export const GET = withSources('income-statement', handler)

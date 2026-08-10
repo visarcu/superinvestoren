@@ -2,6 +2,7 @@
 import './globals.css'
 import { CookieConsent } from '@/components/CookieConsent'
 import CapacitorProvider from '@/components/CapacitorProvider'
+import DataSourceOverlay from '@/components/dev/DataSourceOverlay'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -122,6 +123,8 @@ export default function RootLayout({
         <CapacitorProvider />
         {children}
         <CookieConsent />
+        {/* Nur im Dev-Build sichtbar — rendert in Produktion null. */}
+        <DataSourceOverlay />
       </body>
     </html>
   )

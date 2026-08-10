@@ -4,16 +4,20 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { withSources } from '@/lib/dev/withSources'
+import { recordDbRead } from '@/lib/dev/dataSources'
 
 interface Params {
   params: Promise<{ ticker: string }>
 }
 
-export async function GET(request: NextRequest, { params }: Params) {
+async function handler(request: NextRequest, { params }: Params) {
   const { ticker } = await params
   const tickerUpper = ticker.toUpperCase()
   const period = request.nextUrl.searchParams.get('period') // optional: "Q1","FY",...
 
+  // Prisma läuft über TCP, nicht über fetch — deshalb hier explizit vermerken.
+  const startedAt = Date.now()
   const company = await prisma.daxCompany.findUnique({
     where: { ticker: tickerUpper },
     include: {
@@ -23,6 +27,7 @@ export async function GET(request: NextRequest, { params }: Params) {
       },
     },
   })
+  recordDbRead(`daxCompany/${tickerUpper}`, Date.now() - startedAt)
 
   if (!company) {
     return NextResponse.json({ error: 'Unknown ticker' }, { status: 404 })
@@ -49,3 +54,5 @@ export async function GET(request: NextRequest, { params }: Params) {
     }
   )
 }
+
+export const GET = withSources('v1/financials', handler)
