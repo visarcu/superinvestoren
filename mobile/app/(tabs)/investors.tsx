@@ -176,6 +176,7 @@ export default function InvestorsScreen() {
 
   return (
     <SafeAreaView style={s.container} edges={['top']}>
+      <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} />
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* Header */}
         <View style={[s.header, { flexDirection: 'row', alignItems: 'center', gap: 12 }]}>

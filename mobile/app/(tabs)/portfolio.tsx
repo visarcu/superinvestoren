@@ -354,6 +354,7 @@ export default function PortfolioScreen() {
 
   return (
     <SafeAreaView style={s.container} edges={['top']}>
+      <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} />
       <ScrollView
         style={{ flex: 1 }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor={theme.accent.positive} />}

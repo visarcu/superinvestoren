@@ -12,6 +12,7 @@ import { supabase, checkIsPremium } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
 import StockLogo from '../../components/StockLogo';
+import ErrorState from '../../components/ErrorState';
 import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 
 const BASE_URL = 'https://finclue.de';
@@ -54,6 +55,7 @@ export default function StockScreen() {
   const [quote, setQuote] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<unknown>(null);
   const [inWatchlist, setInWatchlist] = useState(false);
   const [watchlistLoading, setWatchlistLoading] = useState(false);
 
@@ -160,18 +162,20 @@ export default function StockScreen() {
   // ─── Data loaders ────────────────────────────────────────
   async function loadData() {
     try {
+      setLoadError(null);
       const [qRes, pRes] = await Promise.all([
         fetch(`${BASE_URL}/api/quotes?symbols=${ticker}`),
         fetch(`${BASE_URL}/api/company-profile/${ticker}`),
       ]);
-      if (qRes.ok) { const d = await qRes.json(); setQuote(Array.isArray(d) ? d[0] : d); }
+      if (!qRes.ok) throw new Error(`HTTP ${qRes.status}`);
+      { const d = await qRes.json(); setQuote(Array.isArray(d) ? d[0] : d); }
       if (pRes.ok) {
         const d = await pRes.json();
         const p = Array.isArray(d) ? d[0] : d;
         setProfile(p);
         if (p?.sector) loadSimilarStocks(p.sector);
       }
-    } catch (e) { console.error(e); }
+    } catch (e) { setLoadError(e); }
     finally { setLoading(false); }
   }
 
@@ -468,6 +472,27 @@ export default function StockScreen() {
     return (
       <SafeAreaView style={s.container}>
         <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 32 }} />
+      </SafeAreaView>
+    );
+  }
+
+  // Ohne Quote ist die Seite wertlos: der Kurs fiele auf 0,00 $ zurück und
+  // sähe aus wie ein echter Kurs. Lieber ehrlich abbrechen.
+  if (!quote && loadError) {
+    return (
+      <SafeAreaView style={s.container}>
+        <Stack.Screen
+          options={{
+            title: ticker || '',
+            headerBackTitle: 'Zurück',
+            headerStyle: { backgroundColor: '#1C1C1E' },
+            headerTintColor: '#F8FAFC',
+          }}
+        />
+        <ErrorState
+          error={loadError}
+          onRetry={() => { setLoadError(null); setLoading(true); loadData(); }}
+        />
       </SafeAreaView>
     );
   }
