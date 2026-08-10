@@ -126,16 +126,20 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     accept: '.xlsx,.xls',
     initial: 'F24',
     accentDot: 'bg-green-400',
-    supportsMultiFile: false,
+    // Freedom24 exportiert Handel und Geldbewegungen getrennt. Beide gehören
+    // zum selben Depot — ohne den Cash-Export fehlen die Einzahlungen und die
+    // Kapital-Linie im Chart bleibt falsch.
+    supportsMultiFile: true,
     instructions: {
-      title: 'So findest du die Datei bei Freedom24',
+      title: 'So findest du die Dateien bei Freedom24',
       steps: [
         'Logge dich bei Freedom24 ein',
-        'Gehe zu "Berichte" → "Handelsberichte"',
-        'Wähle den gewünschten Zeitraum und exportiere als XLSX',
+        'Gehe zu "Berichte" → "Handelsberichte", Zeitraum wählen, als XLSX exportieren',
+        'Danach "Berichte" → "Ein- und Auszahlungen" ("Cash In Out") ebenfalls als XLSX exportieren',
+        'Beide Dateien hier zusammen hochladen',
         'Alternativ: "Kontoauszüge" → "Steuerbericht" oder "Auftragshistorie"',
       ],
-      hint: 'Der Handelsbericht ist die beste Wahl — er enthält das echte Transaktionsdatum und ISINs. Der Steuerbericht funktioniert auch, nutzt aber das Abrechnungsdatum (T+2).',
+      hint: 'Lade beide Dateien zusammen hoch: Der Handelsbericht liefert Käufe, Verkäufe und Dividenden, der Cash-Export deine Ein- und Auszahlungen — nur damit stimmt die Linie für das eingezahlte Kapital.',
     },
   },
   {

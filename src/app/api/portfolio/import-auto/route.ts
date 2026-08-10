@@ -66,6 +66,78 @@ function tradeRepublicToFlatex(tx: TradeRepublicParsedTransaction): FlatexParsed
   return { type: tx.type, name: tx.name, isin: tx.isin, wkn: '', quantity: tx.quantity, price: tx.price, totalValue: tx.totalValue, fees: tx.fees, endAmount: tx.endAmount, date: tx.date, currency: tx.currency, exchange: tx.exchange, notes: tx.notes }
 }
 
+/**
+ * Mehrere XLSX-Dateien in einem Rutsch parsen und zusammenführen.
+ *
+ * Freedom24 exportiert Handel und Geldbewegungen getrennt ("Handelsbericht" und
+ * "Cash In Out"). Beide gehören zum selben Depot: Ohne den Cash-Export fehlen
+ * die Einzahlungen und die Kapital-Linie im Chart bleibt falsch.
+ *
+ * Das führende Format bestimmt die Datei mit den Wertpapier-Transaktionen —
+ * daran hängt die weitere Verarbeitung im Import-Wizard.
+ */
+async function parseMultipleWorkbooks(files: File[]) {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const XLSX = require(/* webpackIgnore: true */ 'xlsx')
+
+  const transactions: unknown[] = []
+  const errors: string[] = []
+  const stockSplits: unknown[] = []
+  const labels: string[] = []
+  let leadFormat: string | null = null
+  let leadLabel: string | null = null
+
+  for (const file of files) {
+    try {
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const workbook = XLSX.read(buffer, { type: 'buffer', cellDates: true })
+      const sheets: Record<string, Record<string, unknown>[]> = {}
+      for (const sheetName of workbook.SheetNames) {
+        sheets[sheetName] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' })
+      }
+
+      if (isFreedom24TradeReport(workbook.SheetNames)) {
+        const result = parseFreedom24TradeReport(sheets, file.name)
+        transactions.push(...result.transactions)
+        errors.push(...result.errors)
+        if (result.stockSplits) stockSplits.push(...result.stockSplits)
+        leadFormat = 'freedom24_report'
+        leadLabel = 'Freedom24 Handelsbericht'
+        labels.push('Handelsbericht')
+        continue
+      }
+
+      if (isFreedom24CashReport(workbook.SheetNames)) {
+        const result = parseFreedom24CashReport(sheets, file.name)
+        transactions.push(...result.transactions)
+        errors.push(...result.errors)
+        labels.push('Ein-/Auszahlungen')
+        if (!leadFormat) {
+          leadFormat = 'freedom24_cash'
+          leadLabel = 'Freedom24 Ein-/Auszahlungen'
+        }
+        continue
+      }
+
+      errors.push(`"${file.name}": Format nicht erkannt — Datei übersprungen.`)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err)
+      errors.push(`"${file.name}" konnte nicht gelesen werden: ${msg}`)
+    }
+  }
+
+  return NextResponse.json({
+    format: leadFormat || 'freedom24_report',
+    formatLabel: labels.length > 1
+      ? `Freedom24 (${labels.join(' + ')})`
+      : leadLabel || 'Freedom24 Handelsbericht',
+    transactions,
+    errors,
+    stockSplits,
+    totalFiles: files.length,
+  })
+}
+
 export async function POST(request: Request) {
   try {
     const authHeader = request.headers.get('authorization')
@@ -257,6 +329,15 @@ export async function POST(request: Request) {
 
     // ===== XLSX → Freedom24 Steuerbericht oder Auftragshistorie =====
     if (ext === 'xlsx' || ext === 'xls') {
+      // Mehrere Tabellen zusammenführen. Bei Freedom24 liegen Handel und
+      // Geldbewegungen in getrennten Exporten: Wer beide hochlädt, verlor bisher
+      // die zweite Datei kommentarlos — und damit die Einzahlungen, auf denen
+      // die Kapital-Linie beruht.
+      const workbookFiles = files.filter(f => /\.xlsx?$/i.test(f.name))
+      if (workbookFiles.length > 1) {
+        return await parseMultipleWorkbooks(workbookFiles)
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const XLSX = require(/* webpackIgnore: true */ 'xlsx')
       const buffer = Buffer.from(await firstFile.arrayBuffer())
