@@ -10,13 +10,17 @@
 import { DEV_SOURCES_ENABLED, runWithSourceTracking, logSources } from './dataSources'
 import { SOURCE_HEADER, encodeSources } from './sourceHeader'
 
-type RouteHandler<Ctx> = (request: Request, context: Ctx) => Response | Promise<Response>
+// Bewusst signatur-transparent: der Wrapper reicht die Parameter des Handlers
+// unveraendert durch und gibt denselben Typ zurueck. Sonst kollidiert er mit
+// NextRequest (enger als Request) und mit Nexts Route-Typpruefung.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type RouteHandler = (...args: any[]) => Response | Promise<Response>
 
-export function withSources<Ctx>(label: string, handler: RouteHandler<Ctx>): RouteHandler<Ctx> {
+export function withSources<H extends RouteHandler>(label: string, handler: H): H {
   if (!DEV_SOURCES_ENABLED) return handler
 
-  return async (request: Request, context: Ctx): Promise<Response> => {
-    const { result, hits } = await runWithSourceTracking(async () => handler(request, context))
+  const wrapped = async (...args: Parameters<H>): Promise<Response> => {
+    const { result, hits } = await runWithSourceTracking(async () => handler(...args))
 
     logSources(label, hits)
 
@@ -35,4 +39,6 @@ export function withSources<Ctx>(label: string, handler: RouteHandler<Ctx>): Rou
       return copy
     }
   }
+
+  return wrapped as H
 }
