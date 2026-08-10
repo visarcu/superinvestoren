@@ -30,10 +30,25 @@ export async function GET(request: NextRequest) {
     }
 
     const tickerList = tickers.split(',').map(t => t.trim()).filter(t => t.length > 0)
-    
+
     if (tickerList.length === 0) {
       return NextResponse.json([])
     }
+
+    // Zeitfenster. Vergangenes darf grosszuegig sein — der Kalender laesst sich
+    // jahrelang zurueckblaettern, und ausgezahlte Dividenden aendern sich nicht
+    // mehr. Nach vorne reicht ein Jahr: weiter kuendigt kaum ein Unternehmen an.
+    // Aufrufer koennen das Fenster ueber from/to (YYYY-MM-DD) selbst setzen.
+    const shiftYears = (years: number) => {
+      const d = new Date()
+      d.setFullYear(d.getFullYear() + years)
+      return d.toISOString().split('T')[0]
+    }
+    const isIsoDate = (value: string | null): value is string => !!value && /^\d{4}-\d{2}-\d{2}$/.test(value)
+    const fromParam = searchParams.get('from')
+    const toParam = searchParams.get('to')
+    const from = isIsoDate(fromParam) ? fromParam : shiftYears(-5)
+    const to = isIsoDate(toParam) ? toParam : shiftYears(1)
 
     console.log(`🗓️ [Dividends Calendar] Loading for ${tickerList.length} tickers: ${tickerList.join(', ')}`)
 
@@ -44,8 +59,13 @@ export async function GET(request: NextRequest) {
     // Parallel API calls für alle Tickers
     const dividendPromises = tickerList.map(async (ticker) => {
       try {
+        // Der Dividenden-Kalender wird seit der Dashboard-Vorschau bei jedem
+        // Portfolio-Aufruf für alle Positionen geladen. Ankündigungen ändern
+        // sich höchstens täglich — eine Stunde Cache spart den Löwenanteil der
+        // FMP-Requests, ohne dass ein Zahltag verspätet auftaucht.
         const response = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${process.env.FMP_API_KEY}`,
+          { next: { revalidate: 3600 } }
         )
         
         if (!response.ok) {
@@ -61,8 +81,10 @@ export async function GET(request: NextRequest) {
         }
 
         // Get current stock price for yield calculation
+        // Nur Basis für die Yield-Angabe, kein angezeigter Kurs — 5 Minuten reichen.
         const quoteResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`,
+          { next: { revalidate: 300 } }
         )
         
         const tickerCurrency = detectTickerCurrency(ticker)
@@ -74,11 +96,6 @@ export async function GET(request: NextRequest) {
           const rawPrice = quoteData[0]?.price || null
           currentPrice = rawPrice ? toMajorUnit(rawPrice, tickerCurrency) : null
         }
-
-        // Get upcoming and recent dividends (next 6 months + last 6 months)
-        const now = new Date()
-        const sixMonthsAgo = new Date(now.getTime() - (6 * 30 * 24 * 60 * 60 * 1000))
-        const sixMonthsFromNow = new Date(now.getTime() + (6 * 30 * 24 * 60 * 60 * 1000))
 
         const relevantDividends = data.historical
           .map((div: any) => {
@@ -110,8 +127,12 @@ export async function GET(request: NextRequest) {
             }
           })
           .filter((div: any) => {
-            const divDate = new Date(div.date)
-            return divDate >= sixMonthsAgo && divDate <= sixMonthsFromNow
+            // Ex-Datum ODER Zahltag im Fenster: zwischen beiden liegen oft Wochen.
+            // Sonst fehlt im Januar-Blatt die Zahlung zu einem Ex-Termin aus dem
+            // Dezember — je nachdem, wonach der Kalender gerade sortiert.
+            const ex = div.exDate || div.date
+            const pay = div.paymentDate || div.date
+            return (ex >= from && ex <= to) || (pay >= from && pay <= to)
           })
           .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
 

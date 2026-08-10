@@ -86,7 +86,9 @@ export default function DividendsTab({
     const tickers = [...new Set(holdings.map(h => h.symbol))].filter(Boolean)
     if (tickers.length === 0) return
     setUpcomingLoading(true)
-    fetch(`/api/dividends-calendar?tickers=${tickers.join(',')}`)
+    // from=heute: der Endpunkt liefert sonst mehrere Jahre Historie, hier zählt
+    // nur, was noch aussteht.
+    fetch(`/api/dividends-calendar?tickers=${tickers.join(',')}&from=${new Date().toISOString().split('T')[0]}`)
       .then(r => (r.ok ? r.json() : []))
       .then((data: any[]) => {
         const today = new Date().toISOString().split('T')[0]
