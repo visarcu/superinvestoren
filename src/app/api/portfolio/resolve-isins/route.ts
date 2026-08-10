@@ -3,6 +3,7 @@
 
 import { NextResponse } from 'next/server'
 import { stocks } from '@/data/stocks'
+import { resolveIsinsViaMaster } from '@/lib/marketData/isinLookup'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
@@ -345,7 +346,7 @@ async function resolveViaFMP(
 
 export async function POST(request: Request) {
   try {
-    const { isins } = await request.json()
+    const { isins, tickers } = await request.json()
 
     if (!Array.isArray(isins) || isins.length === 0) {
       return NextResponse.json({ error: 'ISINs Array erforderlich' }, { status: 400 })
@@ -354,8 +355,20 @@ export async function POST(request: Request) {
     // Maximal 200 ISINs pro Request
     const limitedISINs = isins.slice(0, 200)
 
+    // Broker-Ticker je ISIN (optional): 'IREN.US', 'CSKR.EU'. Damit ist klar,
+    // welche Notierung gemeint ist — ohne ihn raten alle folgenden Quellen.
+    const brokerTickers: Record<string, string> =
+      tickers && typeof tickers === 'object' ? tickers : {}
+
+    // Phase 0: Instrumenten-Stammsatz. Kennt zu jeder ISIN alle Notierungen und
+    // wählt die passende zum Broker-Ticker — deshalb vor allen anderen Quellen.
+    const masterResolved = await resolveIsinsViaMaster(
+      limitedISINs.map((isin: string) => ({ isin, brokerTicker: brokerTickers[isin] }))
+    )
+    const afterMaster = limitedISINs.filter((isin: string) => !masterResolved.has(isin.toUpperCase()))
+
     // Phase 1: CUSIP lokal (instant, ~9000 US-Aktien)
-    const { resolved: cusipResolved, unresolved: afterCUSIP } = resolveViaCUSIP(limitedISINs)
+    const { resolved: cusipResolved, unresolved: afterCUSIP } = resolveViaCUSIP(afterMaster)
 
     // Phase 2: OpenFIGI für restliche ISINs (EU-ETFs, UK-Aktien etc.)
     let openFIGIResults: Record<string, { symbol: string; name: string } | null> = {}
@@ -375,7 +388,14 @@ export async function POST(request: Request) {
     const results: Record<string, { symbol: string; name: string; source: string } | null> = {}
 
     for (const isin of limitedISINs) {
-      if (cusipResolved[isin]) {
+      const fromMaster = masterResolved.get(isin.toUpperCase())
+      if (fromMaster) {
+        results[isin] = {
+          symbol: fromMaster.symbol,
+          name: fromMaster.name,
+          source: 'instrument_master',
+        }
+      } else if (cusipResolved[isin]) {
         results[isin] = { ...cusipResolved[isin], source: 'cusip_local' }
       } else if (openFIGIResults[isin]) {
         results[isin] = { ...openFIGIResults[isin]!, source: 'openfigi' }

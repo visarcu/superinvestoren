@@ -60,12 +60,22 @@ const RETURN_RANGES: Array<{ key: ReturnRange; label: string }> = [
   { key: '1Y', label: '1J' },
 ]
 
-const SORT_BY_VALUES = ['value', 'gainLossPercent', 'gainLoss'] as const
+const SORT_BY_VALUES = ['value', 'gainLossPercent', 'gainLoss', 'name'] as const
 type SortBy = typeof SORT_BY_VALUES[number]
 type SortDir = 'desc' | 'asc'
 
 function parseSortBy(value: string | null): SortBy {
   return SORT_BY_VALUES.includes(value as SortBy) ? value as SortBy : 'value'
+}
+
+/**
+ * Alphabetisch nach Anzeigename, ersatzweise nach Symbol.
+ * localeCompare mit 'de' sortiert Umlaute dort ein, wo Nutzer sie erwarten.
+ */
+function compareByName(nameA: string | undefined, symbolA: string, nameB: string | undefined, symbolB: string): number {
+  const a = (nameA || symbolA || '').trim()
+  const b = (nameB || symbolB || '').trim()
+  return a.localeCompare(b, 'de', { sensitivity: 'base' })
 }
 
 function parseSortDir(value: string | null): SortDir {
@@ -341,6 +351,12 @@ export default function PositionsTable({
   const sortedGroupedPositions = useMemo(() => {
     if (!groupedPositions) return null
     return [...groupedPositions].sort((a, b) => {
+      // Name alphabetisch: 'desc' bedeutet hier A→Z, damit der erste Klick
+      // die erwartete Reihenfolge liefert (bei Beträgen ist 'desc' = größte zuerst).
+      if (sortBy === 'name') {
+        const cmp = compareByName(a.name, a.symbol, b.name, b.symbol)
+        return sortDir === 'desc' ? cmp : -cmp
+      }
       let diff = 0
       if (sortBy === 'value') diff = b.totalValue - a.totalValue
       else if (sortBy === 'gainLoss') diff = getGroupedReturn(b).amount - getGroupedReturn(a).amount
@@ -351,6 +367,10 @@ export default function PositionsTable({
 
   const sortedHoldings = useMemo(() => {
     return [...holdings].sort((a, b) => {
+      if (sortBy === 'name') {
+        const cmp = compareByName(a.name, a.symbol, b.name, b.symbol)
+        return sortDir === 'desc' ? cmp : -cmp
+      }
       let diff = 0
       if (sortBy === 'value') diff = b.value - a.value
       else if (sortBy === 'gainLoss') diff = getHoldingReturn(b).amount - getHoldingReturn(a).amount
@@ -776,7 +796,9 @@ export default function PositionsTable({
 
       {/* Table Header */}
       <div className="hidden sm:grid grid-cols-12 gap-4 px-2 mb-2 text-xs text-neutral-500 font-medium">
-        <div className="col-span-3">Aktie</div>
+        <button onClick={() => handleSort('name')} className={`col-span-3 text-left flex items-center gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'name' ? 'text-neutral-300' : ''}`}>
+          Aktie {sortBy === 'name' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
+        </button>
         <div className="col-span-2 text-right">Kurs</div>
         <button onClick={() => handleSort('value')} className={`col-span-2 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'value' ? 'text-neutral-300' : ''}`}>
           Wert {sortBy === 'value' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}

@@ -242,6 +242,7 @@ export default function CSVImportModal({
   const runISINResolve = useCallback(async (
     uniqueISINs: string[],
     setMap: (m: Map<string, { symbol: string; name: string; source: string }>) => void,
+    brokerTickers: Record<string, string> = {},
   ) => {
     if (uniqueISINs.length === 0) {
       // Keine ISINs → direkt zu Cash-Step
@@ -249,50 +250,66 @@ export default function CSVImportModal({
       setPendingDuplicateCheck(true)
       return
     }
-    const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
+
     const newMap = new Map<string, { symbol: string; name: string; source: string }>()
-    resolved.forEach((value, key) => {
-      newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
-    })
 
-    if (unresolved.length === 0) {
-      setMap(newMap)
-      setUnresolvedISINs([])
-      setStep('cash')
-      setPendingDuplicateCheck(true)
-      return
-    }
-
+    // Zuerst der Instrumenten-Stammsatz auf dem Server: Er kennt zu jeder ISIN
+    // alle Notierungen und wählt anhand des Broker-Tickers die richtige.
+    // Die lokalen Tabellen liefen früher zuerst — und die kennen zu einer ISIN
+    // nur den deutschen Ticker. Genau daher kam CEBJ.DE statt CSKR.EU.
     setMap(newMap)
     setResolving(true)
     try {
       const resp = await fetch('/api/portfolio/resolve-isins', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isins: unresolved }),
+        body: JSON.stringify({ isins: uniqueISINs, tickers: brokerTickers }),
       })
       if (resp.ok) {
         const { results } = await resp.json()
         const stillUnresolved: string[] = []
-        for (const isin of unresolved) {
+        for (const isin of uniqueISINs) {
           if (results[isin]) {
             newMap.set(isin, { symbol: results[isin].symbol, name: results[isin].name, source: results[isin].source || 'openfigi' })
           } else {
             stillUnresolved.push(isin)
           }
         }
+
+        // Rest über die lokalen Tabellen — besser ein deutscher Ticker als keiner.
+        const { resolved } = resolveISINsLocally(stillUnresolved)
+        const unresolvedAfterLocal: string[] = []
+        for (const isin of stillUnresolved) {
+          const local = resolved.get(isin)
+          if (local) newMap.set(isin, { symbol: local.symbol, name: local.name, source: local.source })
+          else unresolvedAfterLocal.push(isin)
+        }
+
         setMap(new Map(newMap))
-        setUnresolvedISINs(stillUnresolved)
-        if (stillUnresolved.length === 0) {
+        setUnresolvedISINs(unresolvedAfterLocal)
+        if (unresolvedAfterLocal.length === 0) {
           setStep('cash')
           setPendingDuplicateCheck(true)
         } else {
           setStep('resolve')
         }
+      } else {
+        throw new Error(`Auflösung fehlgeschlagen (${resp.status})`)
       }
     } catch {
+      // Server nicht erreichbar → lokale Tabellen als Notnagel.
+      const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
+      resolved.forEach((value, key) => {
+        newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
+      })
+      setMap(new Map(newMap))
       setUnresolvedISINs(unresolved)
-      setStep('resolve')
+      if (unresolved.length === 0) {
+        setStep('cash')
+        setPendingDuplicateCheck(true)
+      } else {
+        setStep('resolve')
+      }
     } finally {
       setResolving(false)
     }
@@ -426,7 +443,22 @@ export default function CSVImportModal({
       })
 
       setStep('processing')
-      await runISINResolve(uniqueISINs, setIsinMap)
+
+      // Broker-Ticker je ISIN mitgeben. Die Handelsberichte tragen ihn im
+      // Namensfeld ('IREN.US', 'CSKR.EU') — daran erkennt der Stammsatz, welche
+      // Notierung gemeint ist. Ohne ihn bliebe nur Raten.
+      const brokerTickers: Record<string, string> = {}
+      for (const tx of parsedTransactions) {
+        const isin = tx.isin
+        const candidate = String(tx.name || '').trim()
+        if (!isin || brokerTickers[isin]) continue
+        // Nur echte Ticker übernehmen, keine Firmennamen ("IREN LTD").
+        if (/^[A-Z0-9]{1,8}(\.[A-Z]{1,4})?$/.test(candidate)) {
+          brokerTickers[isin] = candidate
+        }
+      }
+
+      await runISINResolve(uniqueISINs, setIsinMap, brokerTickers)
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
       setImportError(`Upload fehlgeschlagen: ${msg}`)
