@@ -12,6 +12,7 @@ import { supabase, checkIsPremium } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
 import StockLogo from '../../components/StockLogo';
+import ErrorState from '../../components/ErrorState';
 import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 
 const BASE_URL = 'https://finclue.de';
@@ -54,6 +55,7 @@ export default function StockScreen() {
   const [quote, setQuote] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<unknown>(null);
   const [inWatchlist, setInWatchlist] = useState(false);
   const [watchlistLoading, setWatchlistLoading] = useState(false);
 
@@ -160,18 +162,20 @@ export default function StockScreen() {
   // ─── Data loaders ────────────────────────────────────────
   async function loadData() {
     try {
+      setLoadError(null);
       const [qRes, pRes] = await Promise.all([
         fetch(`${BASE_URL}/api/quotes?symbols=${ticker}`),
         fetch(`${BASE_URL}/api/company-profile/${ticker}`),
       ]);
-      if (qRes.ok) { const d = await qRes.json(); setQuote(Array.isArray(d) ? d[0] : d); }
+      if (!qRes.ok) throw new Error(`HTTP ${qRes.status}`);
+      { const d = await qRes.json(); setQuote(Array.isArray(d) ? d[0] : d); }
       if (pRes.ok) {
         const d = await pRes.json();
         const p = Array.isArray(d) ? d[0] : d;
         setProfile(p);
         if (p?.sector) loadSimilarStocks(p.sector);
       }
-    } catch (e) { console.error(e); }
+    } catch (e) { setLoadError(e); }
     finally { setLoading(false); }
   }
 
@@ -472,6 +476,27 @@ export default function StockScreen() {
     );
   }
 
+  // Ohne Quote ist die Seite wertlos: der Kurs fiele auf 0,00 $ zurück und
+  // sähe aus wie ein echter Kurs. Lieber ehrlich abbrechen.
+  if (!quote && loadError) {
+    return (
+      <SafeAreaView style={s.container}>
+        <Stack.Screen
+          options={{
+            title: ticker || '',
+            headerBackTitle: 'Zurück',
+            headerStyle: { backgroundColor: '#1C1C1E' },
+            headerTintColor: '#F8FAFC',
+          }}
+        />
+        <ErrorState
+          error={loadError}
+          onRetry={() => { setLoadError(null); setLoading(true); loadData(); }}
+        />
+      </SafeAreaView>
+    );
+  }
+
   const price = quote?.price ?? 0;
   const change = quote?.changesPercentage ?? 0;
 
@@ -495,7 +520,15 @@ export default function StockScreen() {
           headerStyle: { backgroundColor: '#1C1C1E' },
           headerTintColor: '#F8FAFC',
           headerRight: () => (
-            <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading} style={{ marginRight: 4 }}>
+            // Quadratische, zentrierte Flaeche statt einseitigem marginRight:
+            // iOS zeichnet die runde Button-Chrome um den Inhalt, ein
+            // asymmetrischer Rand versetzt den Kreis gegen das Glyph.
+            <TouchableOpacity
+              onPress={toggleWatchlist}
+              disabled={watchlistLoading}
+              hitSlop={8}
+              style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center' }}
+            >
               <Ionicons name={inWatchlist ? 'bookmark' : 'bookmark-outline'} size={22}
                 color={inWatchlist ? '#34C759' : '#94A3B8'} />
             </TouchableOpacity>
@@ -598,6 +631,8 @@ export default function StockScreen() {
                     <Text style={s.chartPerfLabel}>{RANGE_LABELS[range]}</Text>
                   </View>
                   <View style={s.chartArea}>
+                    {/* gifted-charts kennt kein minValue: yAxisOffset zieht den Sockel
+                        von jedem Wert ab, maxValue muss dann relativ dazu sein. */}
                     <LineChart
                       data={chartPoints}
                       width={SCREEN_WIDTH - 32 - 52}
@@ -606,7 +641,7 @@ export default function StockScreen() {
                       startFillColor={chartColor} endFillColor="transparent"
                       startOpacity={0.2} endOpacity={0}
                       areaChart curved initialSpacing={0} endSpacing={0}
-                      maxValue={chart.maxVal} minValue={chart.minVal}
+                      yAxisOffset={chart.minVal} maxValue={chart.maxVal - chart.minVal}
                       noOfSections={3}
                       yAxisColor="transparent" xAxisColor="rgba(255,255,255,0.08)"
                       rulesColor="rgba(255,255,255,0.06)" rulesType="solid"
@@ -841,16 +876,12 @@ export default function StockScreen() {
                 <View style={s.lockedCard}>
                   <View style={s.lockedIconWrap}><Ionicons name="lock-closed" size={28} color="#34C759" /></View>
                   <Text style={s.lockedTitle}>Premium erforderlich</Text>
-                  <Text style={s.lockedDesc}>Hole dir Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.</Text>
+                  <Text style={s.lockedDesc}>Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.</Text>
                   <View style={s.blurPreview} pointerEvents="none">
                     <View style={s.previewRow}><View style={[s.previewLine, { width: '90%' }]} /></View>
                     <View style={s.previewRow}><View style={[s.previewLine, { width: '75%' }]} /></View>
                     <View style={s.previewRow}><View style={[s.previewLine, { width: '85%' }]} /></View>
                   </View>
-                  <TouchableOpacity style={s.upgradeBtn} onPress={() => Linking.openURL('https://finclue.de/preise')} activeOpacity={0.8}>
-                    <Ionicons name="star" size={15} color="#020617" />
-                    <Text style={s.upgradeBtnText}>Jetzt Premium werden</Text>
-                  </TouchableOpacity>
                 </View>
               )}
             </View>}
@@ -1054,18 +1085,11 @@ export default function StockScreen() {
                               </TouchableOpacity>
                             )
                           ) : (
-                            <>
-                              <View style={[s.blurPreview, { marginBottom: 12 }]} pointerEvents="none">
-                                <View style={s.previewRow}><View style={[s.previewLine, { width: '95%' }]} /></View>
-                                <View style={s.previewRow}><View style={[s.previewLine, { width: '80%' }]} /></View>
-                                <View style={s.previewRow}><View style={[s.previewLine, { width: '88%' }]} /></View>
-                              </View>
-                              <TouchableOpacity style={[s.upgradeBtn, { alignSelf: 'flex-start' }]}
-                                onPress={() => Linking.openURL('https://finclue.de/preise')}>
-                                <Ionicons name="star" size={13} color="#020617" />
-                                <Text style={[s.upgradeBtnText, { fontSize: 13 }]}>Premium freischalten</Text>
-                              </TouchableOpacity>
-                            </>
+                            <View style={[s.blurPreview, { marginBottom: 12 }]} pointerEvents="none">
+                              <View style={s.previewRow}><View style={[s.previewLine, { width: '95%' }]} /></View>
+                              <View style={s.previewRow}><View style={[s.previewLine, { width: '80%' }]} /></View>
+                              <View style={s.previewRow}><View style={[s.previewLine, { width: '88%' }]} /></View>
+                            </View>
                           )}
                         </View>
 

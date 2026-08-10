@@ -69,7 +69,7 @@ export default function ScreenerScreen() {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
 
-  async function runScreener(overrideParams?: Record<string, string>) {
+  async function runScreener(overrideParams?: Record<string, string | undefined>) {
     setLoading(true);
     setHasSearched(true);
     setShowFilters(false);
@@ -83,7 +83,10 @@ export default function ScreenerScreen() {
         ...(maxPrice ? { priceLowerThan: maxPrice } : {}),
         limit: '50',
       };
-      const qs = new URLSearchParams(params).toString();
+      // Presets liefern optionale Felder — URLSearchParams verträgt kein undefined
+      const qs = new URLSearchParams(
+        Object.entries(params).filter(([, v]) => v != null) as [string, string][],
+      ).toString();
       const res = await fetch(`${BASE_URL}/api/screener?${qs}`);
       if (res.ok) setResults(await res.json());
       else setResults([]);
@@ -96,7 +99,7 @@ export default function ScreenerScreen() {
     setMinMarketCap('');
     setMaxPE('');
     setMinDiv(preset.params.dividendMoreThan || '');
-    runScreener(preset.params as Record<string, string>);
+    runScreener(preset.params);
   }
 
   function toggleSort(key: SortKey) {
@@ -331,7 +334,7 @@ const s = StyleSheet.create({
   sortBtnActive: { borderColor: theme.border.strong, backgroundColor: theme.bg.cardElevated },
   sortBtnText: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.medium },
   sortBtnTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
-  tableHeader: { flexDirection: 'row', paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.sm, borderBottomWidth: 1, borderBottomColor: theme.border.default, backgroundColor: theme.bg.card, borderTopLeftRadius: theme.radius.lg, borderTopRightRadius: theme.radius.lg, borderWidth: 1, borderBottomWidth: 1, borderColor: theme.border.default },
+  tableHeader: { flexDirection: 'row', paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.sm, borderBottomWidth: 1, borderBottomColor: theme.border.default, backgroundColor: theme.bg.card, borderTopLeftRadius: theme.radius.lg, borderTopRightRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default },
   thCell: { color: theme.text.tertiary, fontSize: theme.font.captionSm, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
   resultRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.md, backgroundColor: theme.bg.card, borderLeftWidth: 1, borderRightWidth: 1, borderColor: theme.border.default },
   resultBorder: { borderTopWidth: 1, borderTopColor: theme.border.default },

@@ -145,7 +145,8 @@ interface QuarterlyDividend {
   adjAmount: number
   exDividendDate?: string
   recordDate?: string
-  payableDate?: string
+  /** Zahltag. FMP nennt das Feld paymentDate, nicht payableDate. */
+  paymentDate?: string
 }
 
 interface PayoutRatioHistory {
@@ -245,7 +246,7 @@ async function getQuarterlyDividendHistory(ticker: string, apiKey: string): Prom
     // Get quarterly payments (limit to last 20 years = ~80 quarters)
     const quarterlyData: QuarterlyDividend[] = historical
       .slice(0, 80)
-      .map((div: { date: string; dividend?: number; adjDividend?: number; recordDate?: string; payableDate?: string }) => {
+      .map((div: { date: string; dividend?: number; adjDividend?: number; recordDate?: string; paymentDate?: string }) => {
         const date = new Date(div.date)
         const quarter = `Q${Math.ceil((date.getMonth() + 1) / 3)}`
         
@@ -257,7 +258,7 @@ async function getQuarterlyDividendHistory(ticker: string, apiKey: string): Prom
           year: date.getFullYear(),
           exDividendDate: div.date,
           recordDate: div.recordDate,
-          payableDate: div.payableDate
+          paymentDate: div.paymentDate
         }
       })
       .sort((a: QuarterlyDividend, b: QuarterlyDividend) => new Date(b.date).getTime() - new Date(a.date).getTime())

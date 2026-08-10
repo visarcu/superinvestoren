@@ -4,19 +4,27 @@ import { StatusBar } from 'expo-status-bar';
 import * as Notifications from 'expo-notifications';
 import { supabase } from '../lib/auth';
 import { registerForPushNotifications } from '../lib/pushNotifications';
+import { initErrorReporting, setErrorUser } from '../lib/errorReporting';
+import ErrorBoundary from '../components/ErrorBoundary';
 import '../global.css';
+
+// Muss vor dem ersten Render laufen, damit auch früh auftretende Fehler
+// erfasst werden.
+initErrorReporting();
 
 export default function RootLayout() {
   useEffect(() => {
     // Register for push notifications once user is authenticated
     supabase.auth.getSession().then(({ data }) => {
+      setErrorUser(data.session?.user.id ?? null);
       if (data.session) {
         registerForPushNotifications();
       }
     });
 
     // Re-register after login
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setErrorUser(session?.user.id ?? null);
       if (event === 'SIGNED_IN') {
         registerForPushNotifications();
       }
@@ -42,10 +50,11 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <>
+    <ErrorBoundary>
       <StatusBar style="light" backgroundColor="#020617" />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#000000' } }}>
         <Stack.Screen name="(auth)/login" />
+        <Stack.Screen name="(auth)/signup" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen
           name="stock/[ticker]"
@@ -115,6 +124,6 @@ export default function RootLayout() {
           }}
         />
       </Stack>
-    </>
+    </ErrorBoundary>
   );
 }

@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "de.finclue.app",
-      "buildNumber": "35",
+      "buildNumber": "39",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -48,7 +48,8 @@
         }
       ],
       "expo-asset",
-      "expo-font"
+      "expo-font",
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true

@@ -25,6 +25,7 @@ export default function ProfileScreen() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => { loadProfile(); }, []);
 
@@ -63,6 +64,58 @@ export default function ProfileScreen() {
       setEditMode(false);
     } catch (e) { console.error(e); }
     finally { setSaving(false); }
+  }
+
+  async function deleteAccount() {
+    setDeleting(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.access_token) throw new Error('Nicht eingeloggt.');
+
+      const res = await fetch('https://finclue.de/api/account/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || 'Löschen fehlgeschlagen.');
+      }
+
+      await supabase.auth.signOut();
+      router.replace('/(auth)/login');
+    } catch (e: any) {
+      Alert.alert('Fehler', e.message || 'Konto konnte nicht gelöscht werden.');
+    } finally {
+      setDeleting(false);
+    }
+  }
+
+  function handleDeleteAccount() {
+    Alert.alert(
+      'Konto löschen',
+      'Dein Konto und alle zugehörigen Daten – Depots, Transaktionen, Watchlist und Einstellungen – werden dauerhaft gelöscht. Das lässt sich nicht rückgängig machen.',
+      [
+        { text: 'Abbrechen', style: 'cancel' },
+        {
+          text: 'Weiter',
+          style: 'destructive',
+          onPress: () => Alert.alert(
+            'Wirklich löschen?',
+            isPremium
+              ? 'Dein laufendes Premium-Abo wird gekündigt und nicht erstattet.'
+              : 'Letzte Bestätigung – die Daten sind danach unwiderruflich weg.',
+            [
+              { text: 'Abbrechen', style: 'cancel' },
+              { text: 'Endgültig löschen', style: 'destructive', onPress: deleteAccount },
+            ],
+          ),
+        },
+      ],
+    );
   }
 
   async function handleSignOut() {
@@ -159,49 +212,24 @@ export default function ProfileScreen() {
           </View>
         )}
 
-        {/* ── Abo & Premium ───────────────────── */}
-        <View style={s.section}>
-          <Text style={s.sectionTitle}>ABO & PREMIUM</Text>
-          <View style={s.card}>
-            {isPremium ? (
-              <>
-                <Row
-                  icon="star"
-                  iconColor="#34C759"
-                  label="Premium aktiv"
-                  value={subEnd ? `bis ${subEnd}` : 'Aktiv'}
-                  valueColor="#34C759"
-                />
-                <Divider />
-                <Row
-                  icon="card"
-                  iconColor="#64748B"
-                  label="Abo verwalten"
-                  onPress={() => Linking.openURL('https://finclue.de/profile')}
-                  arrow
-                />
-              </>
-            ) : (
-              <>
-                <View style={s.upgradeCard}>
-                  <Ionicons name="star" size={20} color={theme.text.tertiary} />
-                  <View style={{ flex: 1, marginLeft: 12 }}>
-                    <Text style={s.upgradeTitle}>Werde Premium</Text>
-                    <Text style={s.upgradeDesc}>Voller Zugang zu AI-Analysen, Earnings-Zusammenfassungen und mehr.</Text>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  style={s.upgradBtn}
-                  onPress={() => Linking.openURL('https://finclue.de/pricing')}
-                  activeOpacity={0.8}
-                >
-                  <Ionicons name="star" size={14} color={theme.text.inverse} />
-                  <Text style={s.upgradBtnText}>Premium freischalten</Text>
-                </TouchableOpacity>
-              </>
-            )}
+        {/* ── Abo ─────────────────────────────────
+            Kein Upgrade-CTA und kein Link auf einen externen Kaufweg:
+            App Store Guideline 3.1.1. Bestehende Abos aus dem Web bleiben
+            gültig und werden hier nur angezeigt (3.1.3(b)). */}
+        {isPremium && (
+          <View style={s.section}>
+            <Text style={s.sectionTitle}>ABO</Text>
+            <View style={s.card}>
+              <Row
+                icon="star"
+                iconColor="#34C759"
+                label="Premium aktiv"
+                value={subEnd ? `bis ${subEnd}` : 'Aktiv'}
+                valueColor="#34C759"
+              />
+            </View>
           </View>
-        </View>
+        )}
 
         {/* ── Konto ───────────────────────────── */}
         <View style={s.section}>
@@ -218,16 +246,16 @@ export default function ProfileScreen() {
               icon="lock-closed"
               iconColor="#64748B"
               label="Passwort ändern"
-              onPress={() => Linking.openURL('https://finclue.de/auth/reset')}
+              onPress={() => Linking.openURL('https://finclue.de/auth/forgot-password')}
               arrow
             />
             <Divider />
             <Row
               icon="shield-checkmark"
-              iconColor={profile?.email_verified ? '#34C759' : '#34C759'}
+              iconColor={profile?.email_verified ? '#34C759' : theme.accent.warning}
               label="E-Mail verifiziert"
               value={profile?.email_verified ? 'Ja' : 'Ausstehend'}
-              valueColor={profile?.email_verified ? '#34C759' : '#34C759'}
+              valueColor={profile?.email_verified ? '#34C759' : theme.accent.warning}
             />
           </View>
         </View>
@@ -256,7 +284,7 @@ export default function ProfileScreen() {
               icon="document-text"
               iconColor="#64748B"
               label="Datenschutz"
-              onPress={() => Linking.openURL('https://finclue.de/datenschutz')}
+              onPress={() => Linking.openURL('https://finclue.de/privacy')}
               arrow
             />
             <Divider />
@@ -276,6 +304,23 @@ export default function ProfileScreen() {
             <Ionicons name="log-out-outline" size={18} color={theme.accent.negative} />
             <Text style={s.signOutText}>Abmelden</Text>
           </TouchableOpacity>
+        </View>
+
+        {/* ── Konto löschen (Pflicht: App Store 5.1.1(v), DSGVO Art. 17) ── */}
+        <View style={[s.section, { marginBottom: 12 }]}>
+          <TouchableOpacity
+            style={s.deleteBtn}
+            onPress={handleDeleteAccount}
+            disabled={deleting}
+            activeOpacity={0.7}
+          >
+            {deleting
+              ? <ActivityIndicator color={theme.accent.negative} size="small" />
+              : <Text style={s.deleteText}>Konto löschen</Text>}
+          </TouchableOpacity>
+          <Text style={s.deleteHint}>
+            Löscht dein Konto und alle Daten dauerhaft.
+          </Text>
         </View>
 
         <View style={{ height: 20 }} />
@@ -412,4 +457,8 @@ const s = StyleSheet.create({
     paddingVertical: theme.space.lg,
   },
   signOutText: { color: theme.accent.negative, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+
+  deleteBtn: { alignItems: 'center', justifyContent: 'center', paddingVertical: theme.space.md },
+  deleteText: { color: theme.accent.negative, fontSize: theme.font.body, fontWeight: theme.weight.medium },
+  deleteHint: { color: theme.text.muted, fontSize: theme.font.caption, textAlign: 'center', marginTop: -4 },
 });
