@@ -1,0 +1,1099 @@
+{
+  "form": "13F-HR",
+  "date": "2025-01-30",
+  "period": "2025-01-30",
+  "accession": "0001032814-25-000002",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 1101942,
+      "value": 499488323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 1030000,
+      "value": 466878400,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 919400,
+      "value": 416745632,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 484100,
+      "value": 219432848,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 383500,
+      "value": 173832880,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Brookfield Corp",
+      "cusip": "11271J107",
+      "shares": 2996978,
+      "value": 172176364,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 315900,
+      "value": 143191152,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Alphabet",
+      "cusip": "38259706",
+      "shares": 736207,
+      "value": 140203354,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Markel",
+      "cusip": "570535104",
+      "shares": 77165,
+      "value": 133204831,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 229700,
+      "value": 104118416,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 191900,
+      "value": 86984432,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "AerCap Holdings",
+      "cusip": "00985106",
+      "shares": 862802,
+      "value": 82570183,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "First Citizens",
+      "cusip": "31946M103",
+      "shares": 33599,
+      "value": 70995279,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Suncor",
+      "cusip": "867224107",
+      "shares": 1701665,
+      "value": 60715400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LKQ Corp",
+      "cusip": "501889208",
+      "shares": 1590037,
+      "value": 58433859,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 118400,
+      "value": 53668352,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "FedEx",
+      "cusip": "31428106",
+      "shares": 187002,
+      "value": 52609402,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 112200,
+      "value": 50858016,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "CarMax",
+      "cusip": "143130102",
+      "shares": 612663,
+      "value": 50091304,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Disney (Walt)",
+      "cusip": "254687106",
+      "shares": 438971,
+      "value": 48879421,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 88200,
+      "value": 39979296,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Hershey Foods",
+      "cusip": "427866108",
+      "shares": 184577,
+      "value": 31258152,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Sirius XM",
+      "cusip": "829933100",
+      "shares": 1145731,
+      "value": 26122675,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 56400,
+      "value": 25564992,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Cimpress",
+      "cusip": "045290255",
+      "shares": 349232,
+      "value": 25046896,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway 'A'",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 20427600,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 33600,
+      "value": 15230208,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 26600,
+      "value": 12057248,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 23000,
+      "value": 10425440,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Wayfair",
+      "cusip": "94419101",
+      "shares": 164600,
+      "value": 7295087,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Apple",
+      "cusip": "037833100",
+      "shares": 27782,
+      "value": 6957263,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 10700,
+      "value": 4850096,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 10000,
+      "value": 4532800,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 9500,
+      "value": 4306160,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Bank of America",
+      "cusip": "060505104",
+      "shares": 93089,
+      "value": 4091269,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 8600,
+      "value": 3898208,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 8000,
+      "value": 3626240,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Biglari Cl A",
+      "cusip": "08986408",
+      "shares": 2314,
+      "value": 2950327,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 5900,
+      "value": 2674352,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Microsoft",
+      "cusip": "594918104",
+      "shares": 5996,
+      "value": 2527474,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Trupanion Inc",
+      "cusip": "898202106",
+      "shares": 40885,
+      "value": 1970657,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 2600,
+      "value": 1178528,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Tesla Motors",
+      "cusip": "88160101",
+      "shares": 2478,
+      "value": 1000716,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Amgen",
+      "cusip": "031162100",
+      "shares": 3795,
+      "value": 989129,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 1800,
+      "value": 815904,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "IShares Exponential Technologi",
+      "cusip": "46434V381",
+      "shares": 12450,
+      "value": 742767,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "Goldman Sachs",
+      "cusip": "38141104",
+      "shares": 1230,
+      "value": 704323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Alphabet Class A",
+      "cusip": "38259508",
+      "shares": 3411,
+      "value": 645668,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Amazon Com",
+      "cusip": "023135106",
+      "shares": 2903,
+      "value": 636924,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 1400,
+      "value": 634592,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Brookfield Asset Management",
+      "cusip": "113004105",
+      "shares": 11536,
+      "value": 625136,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Caterpillar Tractor",
+      "cusip": "149123101",
+      "shares": 1717,
+      "value": 622859,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SPDR S&P 500",
+      "cusip": "78462103",
+      "shares": 978,
+      "value": 573304,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "General Electric",
+      "cusip": "369604103",
+      "shares": 3327,
+      "value": 554910,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway",
+      "cusip": "084670702",
+      "shares": 1200,
+      "value": 543936,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Raytheon Technologies",
+      "cusip": "75513E101",
+      "shares": 3489,
+      "value": 403747,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Wells Fargo",
+      "cusip": "949746101",
+      "shares": 4913,
+      "value": 345089,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Biglari Holdings",
+      "cusip": "08986101",
+      "shares": 1340,
+      "value": 340749,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Conocophillips",
+      "cusip": "20825104",
+      "shares": 3334,
+      "value": 330633,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GE Vernova",
+      "cusip": "36828A101",
+      "shares": 988,
+      "value": 324983,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fastenal",
+      "cusip": "311900104",
+      "shares": 3960,
+      "value": 284764,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Illinois Tool Works",
+      "cusip": "452308109",
+      "shares": 1100,
+      "value": 278916,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Schwab US Large Cap Growth",
+      "cusip": "808524300",
+      "shares": 9800,
+      "value": 273126,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Corning",
+      "cusip": "219350105",
+      "shares": 5050,
+      "value": 239976,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Verizon",
+      "cusip": "92343104",
+      "shares": 5787,
+      "value": 231412,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JPMorgan Chase",
+      "cusip": "46625100",
+      "shares": 941,
+      "value": 225533,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Boeing Co",
+      "cusip": "097023105",
+      "shares": 1245,
+      "value": 220365,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Chevron",
+      "cusip": "166764100",
+      "shares": 1500,
+      "value": 217260,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Quest Diagnostics",
+      "cusip": "74834100",
+      "shares": 1435,
+      "value": 216485,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Nvidia",
+      "cusip": "67066104",
+      "shares": 1600,
+      "value": 214895,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Uber",
+      "cusip": "90353T100",
+      "shares": 3500,
+      "value": 211120,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Cardlytics",
+      "cusip": "14161W105",
+      "shares": 56200,
+      "value": 208502,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Taylor Morrison Home",
+      "cusip": "87724106",
+      "shares": 3400,
+      "value": 208114,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Citizens Financial Group",
+      "cusip": "174610105",
+      "shares": 4700,
+      "value": 205672,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Sempra Energy",
+      "cusip": "816851109",
+      "shares": 2299,
+      "value": 201638,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Procter & Gamble",
+      "cusip": "742718109",
+      "shares": 1200,
+      "value": 201180,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Oneok",
+      "cusip": "682680103",
+      "shares": 2000,
+      "value": 200800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 3356723943,
+  "positionsCount": 77,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1510695815,
+      "CALL": 1846028128
+    },
+    "percentages": {
+      "STOCK": "45.0%",
+      "CALL": "55.0%"
+    }
+  }
+}

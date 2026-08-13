@@ -202,6 +202,8 @@ const investorNames: Record<string, string> = {
   hillmanvalue: 'Hillman Value Fund',
   lee: 'Thomas Lee - Lee Capital Holdings',
   lountzis: 'Paul Lountzis - Lountzis Asset Management',
+  aschenbrenner: 'Leopold Aschenbrenner - Situational Awareness LP',
+  check: 'Steven Check - Check Capital Management',
   nygren: 'Bill Nygren - Oakmark Fund',
   nygren_oakmark_select: 'Bill Nygren - Oakmark Select Fund',
   bobrinskoy: 'Charles Bobrinskoy - Ariel Focus Fund',

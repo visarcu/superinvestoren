@@ -1,0 +1,189 @@
+{
+  "form": "13F-HR",
+  "date": "2025-05-14",
+  "period": "2025-05-14",
+  "accession": "0002045724-25-000002",
+  "quarterKey": "2025-Q2",
+  "positions": [
+    {
+      "name": "Intel Corp",
+      "cusip": "458140100",
+      "shares": 20237400,
+      "value": 459591354,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Broadcom Inc",
+      "cusip": "11135F101",
+      "shares": 700000,
+      "value": 117201000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Onto Innovation Inc",
+      "cusip": "683344105",
+      "shares": 586717,
+      "value": 71192241,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Vistra Corp",
+      "cusip": "92840M102",
+      "shares": 525846,
+      "value": 61755354,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Modine Mfg Co",
+      "cusip": "607828100",
+      "shares": 716824,
+      "value": 55016242,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EQT Corp",
+      "cusip": "26884L109",
+      "shares": 989398,
+      "value": 52863535,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CoreWeave Inc",
+      "cusip": "21873S108",
+      "shares": 1225000,
+      "value": 45423000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Constellation Energy Corp",
+      "cusip": "21037T109",
+      "shares": 183400,
+      "value": 36978942,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Core Scientific Inc New",
+      "cusip": "21874A106",
+      "shares": 4521578,
+      "value": 32736225,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Talen Energy Corp",
+      "cusip": "87422Q109",
+      "shares": 148395,
+      "value": 29630030,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Applied Digital Corp",
+      "cusip": "038169207",
+      "shares": 4035600,
+      "value": 22680072,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "IREN Limited",
+      "cusip": "Q4982L109",
+      "shares": 3366130,
+      "value": 20499732,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORDINARY SHARES",
+      "putCall": null
+    }
+  ],
+  "totalValue": 1005567727,
+  "positionsCount": 12,
+  "portfolioSummary": {
+    "byType": {
+      "CALL": 459591354,
+      "STOCK": 545976373
+    },
+    "percentages": {
+      "CALL": "45.7%",
+      "STOCK": "54.3%"
+    }
+  }
+}

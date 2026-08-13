@@ -1,0 +1,149 @@
+{
+  "form": "13F-HR",
+  "date": "2025-08-14",
+  "period": "2025-08-14",
+  "accession": "0002045724-25-000006",
+  "quarterKey": "2025-Q3",
+  "positions": [
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F676",
+      "shares": 2044100,
+      "value": 570058608,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SEMICONDUCTR ETF",
+      "putCall": "Put"
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 20237400,
+      "value": 453317760,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 1191606,
+      "value": 328466194,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 1274178,
+      "value": 246948438,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CORE SCIENTIFIC INC NEW",
+      "cusip": "21874A106",
+      "shares": 7994038,
+      "value": 136458229,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 2145345,
+      "value": 125116520,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CONSTELLATION ENERGY CORP",
+      "cusip": "21037T109",
+      "shares": 319200,
+      "value": 103024992,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "IREN LIMITED",
+      "cusip": "Q4982L109",
+      "shares": 6400384,
+      "value": 93253595,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORDINARY SHARES",
+      "putCall": null
+    },
+    {
+      "name": "APPLIED DIGITAL CORP",
+      "cusip": "038169207",
+      "shares": 6591800,
+      "value": 66379426,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    }
+  ],
+  "totalValue": 2123023762,
+  "positionsCount": 9,
+  "portfolioSummary": {
+    "byType": {
+      "PUT": 570058608,
+      "CALL": 453317760,
+      "STOCK": 1099647394
+    },
+    "percentages": {
+      "PUT": "26.9%",
+      "CALL": "21.4%",
+      "STOCK": "51.8%"
+    }
+  }
+}

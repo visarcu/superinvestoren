@@ -1,0 +1,103 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-12",
+  "period": "2025-02-12",
+  "accession": "0000935836-25-000120",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "MARVELL TECHNOLOGY INC",
+      "cusip": "573874104",
+      "shares": 785896,
+      "value": 86802213,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 428397,
+      "value": 59063094,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VERTIV HOLDINGS CO",
+      "cusip": "92537N108",
+      "shares": 455146,
+      "value": 51709137,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "TALEN ENERGY CORP",
+      "cusip": "87422Q109",
+      "shares": 138878,
+      "value": 27979751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CONSTELLATION ENERGY CORP",
+      "cusip": "21037T109",
+      "shares": 96400,
+      "value": 21565644,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MODINE MFG CO",
+      "cusip": "607828100",
+      "shares": 66367,
+      "value": 7693926,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 254813765,
+  "positionsCount": 6,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 254813765
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

@@ -16,6 +16,8 @@ export const investorCiks: Record<string,string> = {
   gregalexander:'0001773994',
   // smith:    '0001569205', MANUELL!!
   // lilu:                  '0001709323', MANUELL
+  aschenbrenner: '0002045724',
+  check: '0001032814',
   druckenmiller: '0001536411',
 altarockpartners:     '0001631014',
 miller:           '0001135778',  // Bill Miller – Miller Value Partners

@@ -31,7 +31,8 @@ export const investorCiks = {
   armitage:'0001581811', // John Armitage – Egerton Capital
 druckenmiller: '0001536411',
   icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
-
+aschenbrenner: '0002045724',
+check: '0001032814',
   greenhaven: '0000846222',    // Greenhaven Associates
   abrams: '0001358706',    // David Abrams – Abrams Capital Management
   martin: '0001050442', // Fred Martin 

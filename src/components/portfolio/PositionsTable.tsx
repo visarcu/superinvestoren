@@ -88,14 +88,19 @@ function parseReturnRange(value: string | null): ReturnRange {
 
 function PositionSparkline({
   points,
-  positive,
+  rangeLabel,
 }: {
   points?: Array<{ date: string; value: number }>
-  positive: boolean
+  /** Zeitraum, den die Linie abbildet — steht im Tooltip. */
+  rangeLabel: string
 }) {
   if (!points || points.length < 2) {
     return <div className="h-8 text-[11px] text-neutral-700 flex items-center justify-end">–</div>
   }
+
+  // Farbe aus dem eigenen Verlauf, nicht aus der Renditespalte: Bei "Seit Kauf"
+  // zeigt die Spalte die Rendite seit dem Kauf, die Linie aber die letzten
+  // 12 Monate. Beides zu koppeln ergab rote Linien, die steigen.
 
   const width = 116
   const height = 30
@@ -108,8 +113,9 @@ function PositionSparkline({
     const y = height - ((point.value - min) / range) * (height - 4) - 2
     return `${x.toFixed(1)},${y.toFixed(1)}`
   })
-  const lineColor = positive ? '#10b981' : '#ef4444'
-  const fillColor = positive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)'
+  const rising = values[values.length - 1] >= values[0]
+  const lineColor = rising ? '#10b981' : '#ef4444'
+  const fillColor = rising ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)'
   const areaPoints = `0,${height} ${coordinates.join(' ')} ${width},${height}`
 
   return (
@@ -118,8 +124,10 @@ function PositionSparkline({
       height={height}
       viewBox={`0 0 ${width} ${height}`}
       className="ml-auto block"
-      aria-hidden="true"
+      role="img"
+      aria-label={`Kursverlauf ${rangeLabel}`}
     >
+      <title>{`Kursverlauf ${rangeLabel}`}</title>
       <polyline points={areaPoints} fill={fillColor} stroke="none" />
       <polyline
         points={coordinates.join(' ')}
@@ -291,7 +299,11 @@ export default function PositionsTable({
     }
   }
 
+  // Bei "Seit Kauf" gibt es keine passende Kursreihe — dann zeigt die Linie
+  // die letzten 12 Monate. Der Tooltip benennt das, damit die Grafik nicht der
+  // Renditespalte zu widersprechen scheint.
   const sparklineRange: Exclude<ReturnRange, 'TOTAL'> = returnRange === 'TOTAL' ? '1Y' : returnRange
+  const sparklineRangeLabel = RETURN_RANGES.find(r => r.key === sparklineRange)?.label || sparklineRange
 
   const getSparkline = (symbol: string) => {
     return periodReturns[symbol]?.[sparklineRange]?.sparkline
@@ -521,7 +533,7 @@ export default function PositionsTable({
           {!isSubRow && (
             <PositionSparkline
               points={getSparkline(holding.symbol)}
-              positive={displayReturn.percent >= 0}
+              rangeLabel={sparklineRangeLabel}
             />
           )}
         </div>
@@ -665,7 +677,7 @@ export default function PositionsTable({
           <div className="col-span-2 text-right hidden sm:block">
             <PositionSparkline
               points={getSparkline(group.symbol)}
-              positive={displayReturn.percent >= 0}
+              rangeLabel={sparklineRangeLabel}
             />
           </div>
 

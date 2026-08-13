@@ -1,0 +1,611 @@
+{
+  "form": "13F-HR",
+  "date": "2026-05-18",
+  "period": "2026-05-18",
+  "accession": "0002045724-26-000008",
+  "quarterKey": "2026-Q2",
+  "positions": [
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F676",
+      "shares": 5327900,
+      "value": 2042716860,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SEMICONDUCTR ETF  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 8992300,
+      "value": 1568257120,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 7293000,
+      "value": 1072873230,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 3251100,
+      "value": 1006247961,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "ADVANCED MICRO DEVICES INC",
+      "cusip": "007903107",
+      "shares": 4764100,
+      "value": 969160863,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 6485408,
+      "value": 878707930,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "SANDISK CORP",
+      "cusip": "80004C200",
+      "shares": 1140119,
+      "value": 724363205,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1727700,
+      "value": 583686168,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "COREWEAVE INC",
+      "cusip": "21873S108",
+      "shares": 7177919,
+      "value": 556073385,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MANUFAC",
+      "cusip": "874039100",
+      "shares": 1583400,
+      "value": 535110030,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "ASML HLDG NV N Y REGISTRY",
+      "cusip": "N07059210",
+      "shares": 374100,
+      "value": 494122503,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SHS  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 1250000,
+      "value": 422300000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "IREN LIMITED",
+      "cusip": "Q4982L109",
+      "shares": 11698835,
+      "value": 401036064,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORDINARY SHARES  ",
+      "putCall": null
+    },
+    {
+      "name": "CORE SCIENTIFIC INC NEW",
+      "cusip": "21874A106",
+      "shares": 26008473,
+      "value": 389086756,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "SANDISK CORP",
+      "cusip": "80004C200",
+      "shares": 611900,
+      "value": 388764546,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MANUFAC",
+      "cusip": "874039100",
+      "shares": 1050000,
+      "value": 354847500,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "SPONSORED ADS  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "APPLIED DIGITAL CORP",
+      "cusip": "038169207",
+      "shares": 13478438,
+      "value": 319978118,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW ",
+      "putCall": null
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 3605400,
+      "value": 159106302,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "RIOT PLATFORMS INC",
+      "cusip": "767292105",
+      "shares": 11502137,
+      "value": 142166413,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "COREWEAVE INC",
+      "cusip": "21873S108",
+      "shares": 1814500,
+      "value": 140569315,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "CLEANSPARK INC",
+      "cusip": "18452B209",
+      "shares": 12276139,
+      "value": 104469943,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW ",
+      "putCall": null
+    },
+    {
+      "name": "SOLARIS ENERGY INFRAS INC",
+      "cusip": "83418M103",
+      "shares": 1105551,
+      "value": 62474687,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 408500,
+      "value": 55347665,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "T1 ENERGY INC",
+      "cusip": "35834F104",
+      "shares": 10000000,
+      "value": 43900000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW ",
+      "putCall": null
+    },
+    {
+      "name": "BITFARMS LTD",
+      "cusip": "09173B107",
+      "shares": 19875840,
+      "value": 38757888,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BITDEER TECHNOLOGIES GROUP",
+      "cusip": "G11448100",
+      "shares": 3439450,
+      "value": 29751243,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A ORD SHS  ",
+      "putCall": null
+    },
+    {
+      "name": "POWER SOLUTIONS INTL INC",
+      "cusip": "73933G202",
+      "shares": 432300,
+      "value": 26318424,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW ",
+      "putCall": null
+    },
+    {
+      "name": "CORNING INC",
+      "cusip": "219350105",
+      "shares": 154600,
+      "value": 21020962,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "WHITEFIBER INC",
+      "cusip": "G96115103",
+      "shares": 1757600,
+      "value": 20933016,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS  ",
+      "putCall": null
+    },
+    {
+      "name": "ADVANCED MICRO DEVICES INC",
+      "cusip": "007903107",
+      "shares": 99138,
+      "value": 20167643,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "BABCOCK & WILCOX ENTERPRISES",
+      "cusip": "05614L209",
+      "shares": 1353900,
+      "value": 19888791,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "SHARONAI HOLDINGS INC",
+      "cusip": "778920306",
+      "shares": 796108,
+      "value": 18095535,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ADDED",
+      "putCall": null
+    },
+    {
+      "name": "PROPETRO HLDG CORP",
+      "cusip": "74347M108",
+      "shares": 910300,
+      "value": 13117423,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F676",
+      "shares": 26950,
+      "value": 10332630,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SEMICONDUCTR ETF  ",
+      "putCall": null
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 202344,
+      "value": 8929441,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MANUFAC",
+      "cusip": "874039100",
+      "shares": 22423,
+      "value": 7577853,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS  ",
+      "putCall": null
+    },
+    {
+      "name": "INFOSYS LTD",
+      "cusip": "456788108",
+      "shares": 500000,
+      "value": 6755000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADR  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "HIVE DIGITAL TECHNOLOGIES LT",
+      "cusip": "433921103",
+      "shares": 3391547,
+      "value": 6443939,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW ",
+      "putCall": null
+    },
+    {
+      "name": "ASML HLDG NV N Y REGISTRY",
+      "cusip": "N07059210",
+      "shares": 4633,
+      "value": 6119405,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS  ",
+      "putCall": null
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 17362,
+      "value": 5865578,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "CORNING INC",
+      "cusip": "219350105",
+      "shares": 5283,
+      "value": 718330,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 2855,
+      "value": 497912,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    }
+  ],
+  "totalValue": 13676657577,
+  "positionsCount": 42,
+  "portfolioSummary": {
+    "byType": {
+      "PUT": 8459056999,
+      "STOCK": 3855771552,
+      "CALL": 1361829026
+    },
+    "percentages": {
+      "PUT": "61.9%",
+      "STOCK": "28.2%",
+      "CALL": "10.0%"
+    }
+  }
+}

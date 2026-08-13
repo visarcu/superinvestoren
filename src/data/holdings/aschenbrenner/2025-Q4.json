@@ -1,0 +1,415 @@
+{
+  "form": "13F-HR",
+  "date": "2025-11-14",
+  "period": "2025-11-14",
+  "accession": "0002045724-25-000008",
+  "quarterKey": "2025-Q4",
+  "positions": [
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 20237400,
+      "value": 678964770,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "COREWEAVE INC",
+      "cusip": "21873S108",
+      "shares": 4115456,
+      "value": 563200154,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "CORE SCIENTIFIC INC NEW",
+      "cusip": "21874A106",
+      "shares": 20180534,
+      "value": 362038780,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "IREN LIMITED",
+      "cusip": "Q4982L109",
+      "shares": 7220421,
+      "value": 338854358,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORDINARY SHARES  ",
+      "putCall": null
+    },
+    {
+      "name": "COREWEAVE INC",
+      "cusip": "21873S108",
+      "shares": 2314500,
+      "value": 316739325,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 1600000,
+      "value": 298528000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "VISTRA CORP",
+      "cusip": "92840M102",
+      "shares": 1287910,
+      "value": 252327327,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "VANECK ETF TRUST",
+      "cusip": "92189F106",
+      "shares": 600000,
+      "value": 195816000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SEMICONDUCTR ETF",
+      "putCall": "Put"
+    },
+    {
+      "name": "COREWEAVE INC",
+      "cusip": "21873S108",
+      "shares": 1400000,
+      "value": 191590000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "APPLIED DIGITAL CORP",
+      "cusip": "038169207",
+      "shares": 6064155,
+      "value": 139111716,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW ",
+      "putCall": null
+    },
+    {
+      "name": "GALAXY DIGITAL INC",
+      "cusip": "36317J209",
+      "shares": 2737500,
+      "value": 92554875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 230000,
+      "value": 75879300,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 270000,
+      "value": 75408300,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "SPONSORED ADS  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "CIPHER MINING INC",
+      "cusip": "17253JAA4",
+      "shares": 5740493,
+      "value": 72272807,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "RIOT PLATFORMS INC",
+      "cusip": "767292105",
+      "shares": 3592699,
+      "value": 68369062,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "LUMENTUM HLDGS INC",
+      "cusip": "55024UAD1",
+      "shares": 417600,
+      "value": 67947696,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 1217386,
+      "value": 66262320,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "MICRON TECHNOLOGY INC",
+      "cusip": "595112103",
+      "shares": 300000,
+      "value": 50196000,
+      "optionType": "PUT",
+      "typeInfo": {
+        "label": "Put Option",
+        "badge": "bg-orange-100 text-orange-800 border-orange-200",
+        "strategy": "hedging_or_short"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": "Put"
+    },
+    {
+      "name": "SOLARIS ENERGY INFRAS INC",
+      "cusip": "83418M103",
+      "shares": 1150300,
+      "value": 45977491,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712AH0",
+      "shares": 3048002,
+      "value": 43890344,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": null
+    },
+    {
+      "name": "TOWER SEMICONDUCTOR LTD",
+      "cusip": "M87915274",
+      "shares": 470600,
+      "value": 34024380,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS NEW ",
+      "putCall": null
+    },
+    {
+      "name": "HUT 8 CORP",
+      "cusip": "44812J104",
+      "shares": 599000,
+      "value": 20851190,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "WESTERN DIGITAL CORP",
+      "cusip": "958102AT2",
+      "shares": 152821,
+      "value": 18347689,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "COHERENT CORP",
+      "cusip": "19247G107",
+      "shares": 154400,
+      "value": 16631968,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "BITDEER TECHNOLOGIES GROUP",
+      "cusip": "G11448100",
+      "shares": 929600,
+      "value": 15886864,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A ORD SHS  ",
+      "putCall": null
+    },
+    {
+      "name": "SANDISK CORP",
+      "cusip": "80004C200",
+      "shares": 115000,
+      "value": 12903000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM  ",
+      "putCall": null
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712AH0",
+      "shares": 145800,
+      "value": 12330306,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A  ",
+      "putCall": "Call"
+    },
+    {
+      "name": "SEAGATE TECHNOLOGY HLDNGS PL",
+      "cusip": "G7997R103",
+      "shares": 48567,
+      "value": 11464726,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS  ",
+      "putCall": null
+    }
+  ],
+  "totalValue": 4138368748,
+  "positionsCount": 28,
+  "portfolioSummary": {
+    "byType": {
+      "CALL": 1008034401,
+      "STOCK": 2242916747,
+      "PUT": 887417600
+    },
+    "percentages": {
+      "CALL": "24.4%",
+      "STOCK": "54.2%",
+      "PUT": "21.4%"
+    }
+  }
+}

@@ -1,0 +1,719 @@
+{
+  "form": "13F-HR",
+  "date": "2026-08-12",
+  "period": "2026-08-12",
+  "accession": "0001821268-26-000133",
+  "quarterKey": "2026-Q3",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY CL B ORD",
+      "cusip": "084670702",
+      "shares": 271600,
+      "value": 135905924,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CL A",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET CL C ORD",
+      "cusip": "02079K107",
+      "shares": 268100,
+      "value": 94727773,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "DANAHER ORD",
+      "cusip": "235851102",
+      "shares": 489500,
+      "value": 93239960,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "VISA CL A ORD",
+      "cusip": "92826C839",
+      "shares": 265330,
+      "value": 91032070,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MASTERCARD CL A ORD",
+      "cusip": "57636Q104",
+      "shares": 145350,
+      "value": 74651760,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AON CL A ORD",
+      "cusip": "G0403H108",
+      "shares": 213860,
+      "value": 70935223,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "VULCAN MATERIALS ORD",
+      "cusip": "929160109",
+      "shares": 203800,
+      "value": 60123038,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS CL A ORD",
+      "cusip": "30303M102",
+      "shares": 102960,
+      "value": 57996338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC ORD",
+      "cusip": "883556102",
+      "shares": 115200,
+      "value": 57756672,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "IDEX ORD",
+      "cusip": "45167R104",
+      "shares": 252400,
+      "value": 57282180,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MICROSOFT ORD",
+      "cusip": "594918104",
+      "shares": 153200,
+      "value": 57146664,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "HEICO CL A ORD",
+      "cusip": "422806208",
+      "shares": 204479,
+      "value": 52737179,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMAZON COM ORD",
+      "cusip": "023135106",
+      "shares": 217500,
+      "value": 51838950,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BIO TECHNE ORD",
+      "cusip": "09073M104",
+      "shares": 543200,
+      "value": 38377080,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "N Y REGISTRY SHS",
+      "putCall": null
+    },
+    {
+      "name": "SIRIUSXM HOLDINGS ORD",
+      "cusip": "829933100",
+      "shares": 1188000,
+      "value": 35093520,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ANALOG DEVICES ORD",
+      "cusip": "032654105",
+      "shares": 85225,
+      "value": 33848813,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EQUIFAX ORD",
+      "cusip": "294429105",
+      "shares": 191980,
+      "value": 30471066,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LABCORP HOLDINGS ORD",
+      "cusip": "504922105",
+      "shares": 99050,
+      "value": 27734000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MARTIN MARIETTA MATERIALS ORD",
+      "cusip": "573284106",
+      "shares": 47370,
+      "value": 27318279,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "GLOBAL PAYMENTS ORD",
+      "cusip": "37940X102",
+      "shares": 350000,
+      "value": 25396000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK NEW",
+      "putCall": null
+    },
+    {
+      "name": "TEXAS INSTRUMENTS ORD",
+      "cusip": "882508104",
+      "shares": 77900,
+      "value": 23219653,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "LIBERTY BROADBAND SRS C ORD",
+      "cusip": "530307305",
+      "shares": 576000,
+      "value": 19157760,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "IDEXX LABORATORIES ORD",
+      "cusip": "45168D104",
+      "shares": 35300,
+      "value": 18583332,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "ACI WORLDWIDE ORD",
+      "cusip": "004498101",
+      "shares": 367700,
+      "value": 18491633,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PERIMETER SOLUTIONS ORD",
+      "cusip": "71385M107",
+      "shares": 450817,
+      "value": 16071626,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MERCADOLIBRE ORD",
+      "cusip": "58733R102",
+      "shares": 9200,
+      "value": 15615988,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ACCENTURE CL A ORD",
+      "cusip": "G1151C101",
+      "shares": 119700,
+      "value": 14895468,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CLASS A",
+      "putCall": null
+    },
+    {
+      "name": "INGERSOLL RAND ORD",
+      "cusip": "45687V106",
+      "shares": 161670,
+      "value": 13255323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "COSTAR GROUP ORD",
+      "cusip": "22160N109",
+      "shares": 423181,
+      "value": 11984486,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "EURONET WORLDWIDE ORD",
+      "cusip": "298736109",
+      "shares": 160000,
+      "value": 11710400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ASML HOLDING ADR REP ORD",
+      "cusip": "N07059210",
+      "shares": 5500,
+      "value": 10941920,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LKQ ORD",
+      "cusip": "501889208",
+      "shares": 408000,
+      "value": 10742640,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER C",
+      "putCall": null
+    },
+    {
+      "name": "NETFLIX ORD",
+      "cusip": "64110L106",
+      "shares": 147200,
+      "value": 10510080,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MNFTG ADR 5 ORD",
+      "cusip": "874039100",
+      "shares": 20000,
+      "value": 9551400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
+    },
+    {
+      "name": "ORACLE ORD",
+      "cusip": "68389X105",
+      "shares": 55000,
+      "value": 8060250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CAPITAL ONE FINANCIAL ORD",
+      "cusip": "14040H105",
+      "shares": 40000,
+      "value": 8024800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "SALESFORCE ORD",
+      "cusip": "79466L302",
+      "shares": 49300,
+      "value": 7723338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NVIDIA ORD",
+      "cusip": "67066G104",
+      "shares": 35000,
+      "value": 7003150,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VERALTO ORD",
+      "cusip": "92338C103",
+      "shares": 77500,
+      "value": 6872700,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "REPLIGEN ORD",
+      "cusip": "759916109",
+      "shares": 40800,
+      "value": 5566752,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LIBERTY BROADBAND SRS A ORD",
+      "cusip": "530307107",
+      "shares": 123750,
+      "value": 4118400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LINDE ORD",
+      "cusip": "G54950103",
+      "shares": 7100,
+      "value": 3684474,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER A",
+      "putCall": null
+    },
+    {
+      "name": "METTLER TOLEDO ORD",
+      "cusip": "592688105",
+      "shares": 2550,
+      "value": 3257651,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "POOL ORD",
+      "cusip": "73278L105",
+      "shares": 15000,
+      "value": 3223500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "S&P GLOBAL ORD",
+      "cusip": "78409V104",
+      "shares": 7150,
+      "value": 2911909,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMPHENOL CL A ORD",
+      "cusip": "032095101",
+      "shares": 9200,
+      "value": 1622144,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "FORTIVE ORD",
+      "cusip": "34959J108",
+      "shares": 21750,
+      "value": 1328708,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FERGUSON ENTERPRISES ORD",
+      "cusip": "31488V107",
+      "shares": 5200,
+      "value": 1234116,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "COMCAST CL A ORD",
+      "cusip": "20030N101",
+      "shares": 47000,
+      "value": 1153850,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHARTER COMMUNICATIONS CL A ORD",
+      "cusip": "16119P108",
+      "shares": 650,
+      "value": 92437,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 1444222377,
+  "positionsCount": 50,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1444222377
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

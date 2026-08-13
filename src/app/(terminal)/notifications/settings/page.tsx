@@ -240,7 +240,9 @@ export default function NotificationSettings() {
     { slug: 'ark_investment_management', name: 'Catherine Wood' },
     { slug: 'cunniff_sequoia', name: 'Sequoia Fund' },
     { slug: 'katz', name: 'David Katz' },
-    { slug: 'tweedy_browne_fund_inc', name: 'Tweedy Browne' }
+    { slug: 'tweedy_browne_fund_inc', name: 'Tweedy Browne' },
+    { slug: 'aschenbrenner', name: 'Leopold Aschenbrenner' },
+    { slug: 'check', name: 'Steven Check' }
   ]
 
   // Reusable checkbox component

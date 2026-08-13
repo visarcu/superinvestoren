@@ -795,6 +795,22 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
+
+  {
+    name: 'Leopold Aschenbrenner',
+    slug: 'aschenbrenner',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
+
+  {
+    name: 'Steven Check',
+    slug: 'check',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
  
 
   

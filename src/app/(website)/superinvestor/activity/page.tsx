@@ -100,7 +100,9 @@ const investorNames: Record<string, string> = {
   roepers: 'Alex Roepers',
   munger: 'Charlie Munger',
   spier: 'Guy Spier',
-  pabrai: 'Mohnish Pabrai'
+  pabrai: 'Mohnish Pabrai', 
+  aschenbrenner: 'Leopold Aschenbrenner',
+    check: 'Steven Check'
 }
 
 function ActivityPageContent() {
