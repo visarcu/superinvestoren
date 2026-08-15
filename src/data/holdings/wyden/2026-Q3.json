@@ -1,0 +1,175 @@
+{
+  "form": "13F-HR",
+  "date": "2026-08-14",
+  "period": "2026-08-14",
+  "accession": "0001420506-26-001724",
+  "quarterKey": "2026-Q3",
+  "positions": [
+    {
+      "name": "COMPASS DIVERSIFIED",
+      "cusip": "20451Q104",
+      "shares": 10750000,
+      "value": 114595000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "SH BEN INT",
+      "putCall": "Call"
+    },
+    {
+      "name": "DRIVEN BRANDS HLDGS INC",
+      "cusip": "26210V102",
+      "shares": 5000000,
+      "value": 69700000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "API GROUP CORP",
+      "cusip": "00187Y100",
+      "shares": 1482110,
+      "value": 62767359,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM STK",
+      "putCall": null
+    },
+    {
+      "name": "DRIVEN BRANDS HLDGS INC",
+      "cusip": "26210V102",
+      "shares": 2900000,
+      "value": 40426000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "COMPASS DIVERSIFIED",
+      "cusip": "20451Q104",
+      "shares": 3750000,
+      "value": 39975000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SH BEN INT",
+      "putCall": null
+    },
+    {
+      "name": "STAGWELL INC",
+      "cusip": "85256A109",
+      "shares": 5112000,
+      "value": 37982160,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "GFL ENVIRONMENTAL INC",
+      "cusip": "36168Q104",
+      "shares": 1010000,
+      "value": 37157900,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SUB VTG SHS",
+      "putCall": null
+    },
+    {
+      "name": "STAGWELL INC",
+      "cusip": "85256A109",
+      "shares": 5001000,
+      "value": 37157430,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "TIC SOLUTIONS INC",
+      "cusip": "00510N102",
+      "shares": 2000000,
+      "value": 16180000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PAR TECHNOLOGY CORP",
+      "cusip": "698884103",
+      "shares": 609429,
+      "value": 10616253,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KELLY SVCS INC",
+      "cusip": "488152208",
+      "shares": 30000,
+      "value": 368400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    }
+  ],
+  "totalValue": 466925502,
+  "positionsCount": 11,
+  "portfolioSummary": {
+    "byType": {
+      "CALL": 193003160,
+      "STOCK": 273922342
+    },
+    "percentages": {
+      "CALL": "41.3%",
+      "STOCK": "58.7%"
+    }
+  }
+}

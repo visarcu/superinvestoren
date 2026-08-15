@@ -679,6 +679,7 @@ import wyden_2025_Q4 from './wyden/2025-Q4.json'
 
 import wyden_2026_Q1 from './wyden/2026-Q1.json'
 import wyden_2026_Q2 from './wyden/2026-Q2.json'
+import wyden_2026_Q3 from './wyden/2026-Q3.json'
 
 //muhlenkamp
 import muhlenkamp_2024_Q2 from './muhlenkamp/2024-Q2.json'
@@ -756,6 +757,7 @@ import hong_2025_Q4 from './hong/2025-Q4.json'
 
 import hong_2026_Q1 from './hong/2026-Q1.json'
 import hong_2026_Q2 from './hong/2026-Q2.json'
+import hong_2026_Q3 from './hong/2026-Q3.json'
 
 //bares
 import bares_2024_Q2 from './bares/2024-Q2.json'
@@ -1151,7 +1153,8 @@ import makaira_2025_Q3 from './makaira/2025-Q3.json'
 import makaira_2025_Q4 from './makaira/2025-Q4.json'
 
 import makaira_2026_Q1 from './makaira/2026-Q1.json'
-import makaira_2026_Q2 from './makaira/2026-Q2.json'
+//import makaira_2026_Q2 from './makaira/2026-Q2.json'
+//import makaira_2026_Q3 from './makaira/2026-Q3.json'
 
 
 //kantesaria
@@ -1301,8 +1304,9 @@ import thiel_2025_Q2 from './thiel/2025-Q2.json'
 import thiel_2025_Q3 from './thiel/2025-Q3.json'
 import thiel_2025_Q4 from './thiel/2025-Q4.json'
 
-//import thiel_2026_Q1 from './thiel/2026-Q1.json'
-//import thiel_2026_Q2 from './thiel/2026-Q2.json'
+import thiel_2026_Q1 from './thiel/2026-Q1.json'
+import thiel_2026_Q2 from './thiel/2026-Q2.json'
+import thiel_2026_Q3 from './thiel/2026-Q3.json'
 
 //funds
 //bob
@@ -2222,6 +2226,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     { quarter: '2026-Q1', data: wyden_2026_Q1},
     { quarter: '2026-Q2', data: wyden_2026_Q2},
+    { quarter: '2026-Q3', data: wyden_2026_Q3},
    ],
 
 
@@ -2306,6 +2311,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: hong_2026_Q1},
     {quarter: '2026-Q2', data: hong_2026_Q2},
+    {quarter: '2026-Q3', data: hong_2026_Q3},
    ],
 
    bares: [
@@ -2581,7 +2587,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q4', data: makaira_2025_Q4},
 
     {quarter: '2026-Q1', data: makaira_2026_Q1},
-   // {quarter: '2026-Q2', data: makaira_2026_Q2},
+    // {quarter: '2026-Q2', data: makaira_2026_Q2},
+    // {quarter: '2026-Q3', data: makaira_2026_Q3},
    ],
 
    klarman: [
@@ -2694,7 +2701,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: greenbrier_2026_Q1},
     {quarter: '2026-Q2', data: greenbrier_2026_Q2},
-    {quarter: '2026-Q3', data: greenbrier_2026_Q3},
+   // {quarter: '2026-Q3', data: greenbrier_2026_Q3},
    ],
 
    peltz: [
@@ -2770,8 +2777,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q3', data: thiel_2025_Q3},
     {quarter: '2025-Q4', data: thiel_2025_Q4},
 
-    //{quarter: '2026-Q1', data: thiel_2026_Q1},
+    // {quarter: '2026-Q1', data: thiel_2026_Q1},
     //{quarter: '2026-Q2', data: thiel_2026_Q2},
+    {quarter: '2026-Q3', data: thiel_2026_Q3},
    ],
 
 
