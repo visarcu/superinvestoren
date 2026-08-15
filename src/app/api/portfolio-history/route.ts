@@ -269,19 +269,40 @@ export async function POST(request: NextRequest) {
     const validIds = earlyValidIds
 
     if (validIds.length > 0) {
-      const { data: transactions, error: txError } = await supabase
-        .from('portfolio_transactions')
-        .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type, notes')
-        .in('portfolio_id', validIds)
-        // Alle bestandsrelevanten Buchungen plus Cash/Dividenden laden. Für die
-        // Wertentwicklung nutzen wir die Security-Buchungen; Cash/Dividenden
-        // bleiben hier verfügbar, falls die Kennzahlen später erweitert werden.
-        .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
-        .order('date', { ascending: true })
+      // WICHTIG: Paginiert laden. PostgREST kappt Antworten bei 1000 Zeilen —
+      // bei Multi-Depot-Nutzern (>1000 Transaktionen) fehlten sonst still die
+      // NEUESTEN Buchungen: der Chart bewertete neue Positionen mit 0 und
+      // sprang am letzten (live berechneten) Punkt um zehntausende Euro hoch.
+      const PAGE_SIZE = 1000
+      const transactions: Transaction[] = []
+      let txError: unknown = null
+      for (let offset = 0; ; offset += PAGE_SIZE) {
+        const { data: page, error } = await supabase
+          .from('portfolio_transactions')
+          .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type, notes')
+          .in('portfolio_id', validIds)
+          // Alle bestandsrelevanten Buchungen plus Cash/Dividenden laden. Für die
+          // Wertentwicklung nutzen wir die Security-Buchungen; Cash/Dividenden
+          // bleiben hier verfügbar, falls die Kennzahlen später erweitert werden.
+          .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
+          .order('date', { ascending: true })
+          // Sekundär-Sortierung: stabile Reihenfolge bei gleichem Datum, sonst
+          // können an Seitengrenzen Zeilen doppelt oder gar nicht ankommen.
+          .order('id', { ascending: true })
+          .range(offset, offset + PAGE_SIZE - 1)
+
+        if (error) {
+          txError = error
+          break
+        }
+        if (!page || page.length === 0) break
+        transactions.push(...(page as Transaction[]))
+        if (page.length < PAGE_SIZE) break
+      }
 
       if (txError) {
         console.error('Error loading transactions:', txError)
-      } else if (transactions) {
+      } else if (transactions.length > 0) {
         allTransactions = transactions
 
         const currentHoldingKeys = new Set<string>()

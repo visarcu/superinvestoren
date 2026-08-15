@@ -86,14 +86,25 @@ export async function POST(request: NextRequest) {
     let allTransactions: Transaction[] = []
 
     if (validIds.length > 0) {
-      const { data: txs } = await supabase
-        .from('portfolio_transactions')
-        .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type')
-        .in('portfolio_id', validIds)
-        .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
-        .order('date', { ascending: true })
+      // Paginiert laden: PostgREST kappt bei 1000 Zeilen — bei Multi-Depot-Nutzern
+      // fehlten sonst still die neuesten Transaktionen (Chart-Wert zu niedrig).
+      const PAGE_SIZE = 1000
+      const txs: Transaction[] = []
+      for (let offset = 0; ; offset += PAGE_SIZE) {
+        const { data: page } = await supabase
+          .from('portfolio_transactions')
+          .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type')
+          .in('portfolio_id', validIds)
+          .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
+          .order('date', { ascending: true })
+          .order('id', { ascending: true })
+          .range(offset, offset + PAGE_SIZE - 1)
+        if (!page || page.length === 0) break
+        txs.push(...(page as Transaction[]))
+        if (page.length < PAGE_SIZE) break
+      }
 
-      if (txs) {
+      if (txs.length > 0) {
         allTransactions = txs as Transaction[]
         for (const tx of allTransactions) {
           if (!tx.symbol || tx.symbol === 'CASH') continue

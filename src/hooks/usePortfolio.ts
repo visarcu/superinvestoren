@@ -705,19 +705,36 @@ export function usePortfolio() {
   }, [currency])
 
   // Load Transactions
+  // Transaktionen paginiert laden: PostgREST kappt bei 1000 Zeilen — größere
+  // Depots verlören sonst still ihre ältesten Buchungen (Rendite, realisierte
+  // Gewinne und Dividenden wären falsch).
+  const loadAllTransactionRows = useCallback(async (portfolioId: string): Promise<Transaction[]> => {
+    const PAGE_SIZE = 1000
+    const rows: Transaction[] = []
+    for (let offset = 0; ; offset += PAGE_SIZE) {
+      const { data, error: txError } = await supabase
+        .from('portfolio_transactions')
+        .select('*')
+        .eq('portfolio_id', portfolioId)
+        .order('date', { ascending: false })
+        // Stabile Reihenfolge bei gleichem Datum, sonst verrutschen Seitengrenzen
+        .order('id', { ascending: true })
+        .range(offset, offset + PAGE_SIZE - 1)
+      if (txError || !data || data.length === 0) break
+      rows.push(...data)
+      if (data.length < PAGE_SIZE) break
+    }
+    return rows
+  }, [])
+
   const loadTransactions = useCallback(async (portfolioId: string, allPortfolioIds?: string[], portfolios?: Portfolio[]) => {
     if (portfolioId === 'all' && allPortfolioIds && allPortfolioIds.length > 0) {
       // Alle Depots: Transaktionen für jedes Portfolio laden + Portfolio-Info anhängen
-      const allTx: Transaction[] = []
-      for (const pid of allPortfolioIds) {
-        const { data } = await supabase
-          .from('portfolio_transactions')
-          .select('*')
-          .eq('portfolio_id', pid)
-          .order('date', { ascending: false })
-        if (data) {
+      const perDepot = await Promise.all(
+        allPortfolioIds.map(async pid => {
+          const data = await loadAllTransactionRows(pid)
           const pInfo = portfolios?.find(p => p.id === pid)
-          const enriched = data.map(tx => ({
+          return data.map(tx => ({
             ...tx,
             portfolio_id: pid,
             portfolio_name: pInfo?.name || 'Depot',
@@ -725,9 +742,9 @@ export function usePortfolio() {
             broker_name: pInfo?.broker_name,
             broker_color: pInfo?.broker_color,
           }))
-          allTx.push(...enriched)
-        }
-      }
+        })
+      )
+      const allTx = perDepot.flat()
       allTx.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
       setTransactions(allTx)
       return
@@ -735,16 +752,9 @@ export function usePortfolio() {
 
     if (portfolioId === 'all') return
 
-    const { data, error: txError } = await supabase
-      .from('portfolio_transactions')
-      .select('*')
-      .eq('portfolio_id', portfolioId)
-      .order('date', { ascending: false })
-
-    if (!txError && data) {
-      setTransactions(data)
-    }
-  }, [])
+    const data = await loadAllTransactionRows(portfolioId)
+    setTransactions(data)
+  }, [loadAllTransactionRows])
 
   // Main Load Function
   const loadPortfolio = useCallback(async (depotId?: string | null) => {
