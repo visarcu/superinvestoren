@@ -89,6 +89,8 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
         body: JSON.stringify({
           holdings: holdings.map(h => ({
             symbol: h.symbol,
+            name: h.name,
+            isin: h.isin || null,
             quantity: h.quantity,
             value: h.value,
             gain_loss_percent: h.gain_loss_percent

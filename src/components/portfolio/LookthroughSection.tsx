@@ -16,6 +16,8 @@ import {
   ViewfinderCircleIcon,
   GlobeAltIcon,
   ChartPieIcon,
+  ExclamationTriangleIcon,
+  LightBulbIcon,
 } from '@heroicons/react/24/outline'
 
 // Antwort-Typen der Lookthrough-API (Spiegel von lib/portfolio/lookthrough.ts)
@@ -57,6 +59,11 @@ interface EtfCoverageInfo {
   proxyLabel?: string
   note?: string
 }
+interface LookthroughInsight {
+  severity: 'info' | 'warn'
+  title: string
+  text: string
+}
 interface LookthroughResult {
   totalValue: number
   analyzedValue: number
@@ -68,6 +75,7 @@ interface LookthroughResult {
   sectors: WeightSlice[]
   overlaps: OverlapPair[]
   etfCoverage: EtfCoverageInfo[]
+  insights: LookthroughInsight[]
 }
 
 const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#8b5cf6', '#14b8a6']
@@ -229,6 +237,34 @@ export default function LookthroughSection({
 
   return (
     <div className="space-y-5">
+      {/* ===== Insight-Hinweise (deskriptiv, keine Empfehlungen) ===== */}
+      {(result.insights?.length ?? 0) > 0 && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {result.insights.map((insight, i) => {
+            const isWarn = insight.severity === 'warn'
+            const Icon = isWarn ? ExclamationTriangleIcon : LightBulbIcon
+            return (
+              <div
+                key={i}
+                className={`rounded-xl border p-4 ${
+                  isWarn
+                    ? 'border-amber-500/20 bg-amber-500/[0.06]'
+                    : 'border-neutral-800/80 bg-neutral-900/50'
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isWarn ? 'text-amber-400' : 'text-teal-300'}`} />
+                  <div className="min-w-0">
+                    <p className="text-[13px] font-semibold text-white leading-snug">{insight.title}</p>
+                    <p className="text-[12px] text-neutral-400 mt-1 leading-relaxed">{insight.text}</p>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
       {/* ===== Effektive Top-Positionen ===== */}
       <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
         <div className="px-5 py-4 border-b border-neutral-800/80">

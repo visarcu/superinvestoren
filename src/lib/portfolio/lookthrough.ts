@@ -69,6 +69,12 @@ export interface EtfCoverageInfo {
   note?: string
 }
 
+export interface LookthroughInsight {
+  severity: 'info' | 'warn'
+  title: string
+  text: string
+}
+
 export interface LookthroughResult {
   totalValue: number
   /** Wert, der zerlegt werden konnte (Direktaktien + auflösbare ETFs) */
@@ -81,6 +87,7 @@ export interface LookthroughResult {
   sectors: WeightSlice[]
   overlaps: OverlapPair[]
   etfCoverage: EtfCoverageInfo[]
+  insights: LookthroughInsight[]
 }
 
 // =====================================================
@@ -290,6 +297,98 @@ function resolveEtf(input: LookthroughInput): ResolvedEtf | null {
 }
 
 // =====================================================
+// Insights: regelbasierte, DESKRIPTIVE Beobachtungen.
+// Bewusst keine Handlungsempfehlungen (keine Anlageberatung).
+// =====================================================
+
+function buildInsights(
+  result: Omit<LookthroughResult, 'insights'>,
+  leveragedEtfs: { symbol: string; name: string }[],
+): LookthroughInsight[] {
+  const insights: LookthroughInsight[] = []
+  const fmtPct = (n: number) => `${n.toFixed(0)} %`
+
+  // 1) Effektives Klumpenrisiko: größte Einzelaktie über alles gerechnet
+  const top = result.topExposures[0]
+  if (top && top.percent >= 10) {
+    const viaText =
+      top.directValue > 0 && top.etfCount > 0
+        ? `direkt und über ${top.etfCount} deiner ETFs`
+        : top.etfCount > 0
+          ? `über ${top.etfCount} deiner ETFs`
+          : 'als Direktposition'
+    insights.push({
+      severity: top.percent >= 15 ? 'warn' : 'info',
+      title: `${top.name} macht effektiv ${fmtPct(top.percent)} aus`,
+      text: `Zusammengerechnet steckt die Aktie ${viaText} in deinem Depot — mehr, als die Positionsliste vermuten lässt.`,
+    })
+  }
+
+  // 2) Versteckte Doppelung: Direktbestand, der zusätzlich in mehreren ETFs steckt
+  const hidden = result.topExposures.find(
+    e => e.directValue > 0 && e.etfCount >= 2 && e.etfValue >= e.directValue * 0.25 && e.percent >= 3,
+  )
+  if (hidden && hidden.symbol !== top?.symbol) {
+    insights.push({
+      severity: 'info',
+      title: `${hidden.name}: Direktbestand plus ETF-Anteil`,
+      text: `Du hältst die Aktie direkt und zusätzlich über ${hidden.etfCount} ETFs — effektiv ${fmtPct(hidden.percent)} statt der ${fmtPct((hidden.directValue / result.analyzedValue) * 100)} aus der Positionsliste.`,
+    })
+  }
+
+  // 3) Stark überlappende ETFs
+  const bigOverlap = result.overlaps.find(o => o.overlapPercent >= 60)
+  if (bigOverlap) {
+    insights.push({
+      severity: 'warn',
+      title: `${fmtPct(bigOverlap.overlapPercent)} Überschneidung zwischen zwei ETFs`,
+      text: `${bigOverlap.nameA} und ${bigOverlap.nameB} enthalten weitgehend dieselben Aktien — die zweite Position streut kaum zusätzlich.`,
+    })
+  }
+
+  // 4) Regionen-Schwerpunkt
+  const usa = result.regions.find(r => r.label === 'USA')
+  if (usa && usa.percent >= 60) {
+    insights.push({
+      severity: usa.percent >= 75 ? 'warn' : 'info',
+      title: `${fmtPct(usa.percent)} deines Aktien-Exposures hängen an den USA`,
+      text: 'Inklusive der US-Anteile in deinen ETFs — dein Depot bewegt sich damit weitgehend mit dem US-Markt.',
+    })
+  }
+
+  // 5) Sektor-Schwerpunkt
+  const topSector = result.sectors[0]
+  if (topSector && topSector.percent >= 35 && topSector.label !== 'Other') {
+    insights.push({
+      severity: 'info',
+      title: `Sektor-Schwerpunkt: ${fmtPct(topSector.percent)} ${topSector.label}`,
+      text: 'Über Direktbestände und ETF-Anteile zusammengerechnet dominiert dieser Sektor dein Depot.',
+    })
+  }
+
+  // 6) Gehebelte ETFs
+  for (const lev of leveragedEtfs) {
+    insights.push({
+      severity: 'warn',
+      title: `Gehebelter ETF im Depot: ${lev.name}`,
+      text: 'Das tatsächliche Markt-Exposure entspricht ca. dem Doppelten des Positionswerts — Verluste wirken entsprechend stärker.',
+    })
+  }
+
+  // Positiv-Fall: nichts Auffälliges gefunden
+  if (insights.length === 0 && result.coveragePercent >= 70) {
+    insights.push({
+      severity: 'info',
+      title: 'Keine auffälligen Klumpen oder Doppelungen',
+      text: 'Auch nach Zerlegung deiner ETFs ist das Depot über Einzeltitel, Regionen und Sektoren breit verteilt.',
+    })
+  }
+
+  // Warnungen zuerst, maximal 4 Hinweise
+  return insights.sort((a, b) => (a.severity === b.severity ? 0 : a.severity === 'warn' ? -1 : 1)).slice(0, 4)
+}
+
+// =====================================================
 // Hauptberechnung
 // =====================================================
 
@@ -418,13 +517,22 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
   let decomposedEtfValue = 0
   let etfTotalValue = 0
   const etfCoverage: EtfCoverageInfo[] = []
+  const leveragedEtfs: { symbol: string; name: string }[] = []
   /** Pro ETF die zusammengemischte Holdings-Map (ISIN/Symbol → Gewicht %) für Overlap-Berechnung */
   const etfBlends = new Map<string, { name: string; value: number; weights: Map<string, { weight: number; name: string; symbol: string }> }>()
 
   for (const etf of etfs) {
     etfTotalValue += etf.input.value
+    if (etf.entry?.assetClass === 'leveraged-equity') {
+      leveragedEtfs.push({ symbol: etf.input.symbol, name: etf.entry.name })
+    }
 
     if (!etf.proxies) {
+      // Mapping-Lücken bewusst loggen: daraus wird die Kuratierungs-Liste
+      // für neue etfLookthrough-Einträge (Vercel-Logs auswerten).
+      if (etf.status === 'no-proxy') {
+        console.log(`[lookthrough] Kein Mapping: ${etf.input.symbol} (${etf.input.isin || 'ohne ISIN'}) — ${etf.input.name}`)
+      }
       etfCoverage.push({
         symbol: etf.input.symbol,
         name: etf.entry?.name || etf.input.name,
@@ -575,7 +683,7 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
       .map(([label, value]) => ({ label, value, percent: (value / total) * 100 }))
   }
 
-  return {
+  const base = {
     totalValue,
     analyzedValue,
     coveragePercent: totalValue > 0 ? (analyzedValue / totalValue) * 100 : 0,
@@ -587,4 +695,6 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
     overlaps: overlaps.slice(0, 15),
     etfCoverage: etfCoverage.sort((a, b) => b.value - a.value),
   }
+
+  return { ...base, insights: buildInsights(base, leveragedEtfs) }
 }

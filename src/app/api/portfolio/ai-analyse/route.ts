@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
+import { computeLookthrough, type LookthroughResult } from '@/lib/portfolio/lookthrough'
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
 const FMP_API_KEY = process.env.FMP_API_KEY!
@@ -25,6 +26,9 @@ interface PortfolioHolding {
   quantity: number
   value: number
   gain_loss_percent: number
+  // Für die Look-Through-Zerlegung (ältere Clients senden das noch nicht)
+  name?: string
+  isin?: string | null
 }
 
 // --- Auth ---
@@ -201,13 +205,48 @@ async function fetchNewsForTickers(tickers: string[]): Promise<Record<string, st
   return result
 }
 
+// --- Look-Through-Kontext für den Prompt ---
+// Das effektive Portfolio (ETFs zerlegt) macht die Analyse substanziell besser:
+// das Modell sieht Klumpenrisiken und Doppelungen, die die Positionsliste versteckt.
+function buildLookthroughContext(lt: LookthroughResult): string {
+  if (lt.etfCoverage.length === 0) return ''
+
+  const topEff = lt.topExposures
+    .slice(0, 8)
+    .map(e => {
+      const via = e.etfCount > 0
+        ? e.directValue > 0
+          ? `direkt + in ${e.etfCount} ETFs`
+          : `in ${e.etfCount} ETFs`
+        : 'direkt'
+      return `  - ${e.name}: effektiv ${e.percent.toFixed(1)}% (${via})`
+    })
+    .join('\n')
+
+  const regions = lt.regions.slice(0, 5).map(r => `${r.label} ${r.percent.toFixed(0)}%`).join(', ')
+  const sectors = lt.sectors.slice(0, 5).map(s => `${s.label} ${s.percent.toFixed(0)}%`).join(', ')
+  const overlaps = lt.overlaps
+    .filter(o => o.overlapPercent >= 25)
+    .slice(0, 3)
+    .map(o => `  - ${o.nameA} × ${o.nameB}: ${o.overlapPercent.toFixed(0)}% Überschneidung`)
+    .join('\n')
+
+  return `
+EFFEKTIVES PORTFOLIO (Look-Through — ETFs in Einzelaktien zerlegt, deckt ${lt.coveragePercent.toFixed(0)}% des Depotwerts ab):
+Effektive Top-Positionen (Direktbestand + ETF-Anteile zusammengerechnet):
+${topEff}
+Regionen: ${regions}
+Sektoren: ${sectors}${overlaps ? `\nETF-Überschneidungen:\n${overlaps}` : ''}`
+}
+
 // --- GPT-4o Portfolio Analysis ---
 async function generateAnalysis(
   holdings: PortfolioHolding[],
   quotes: Record<string, any>,
   profiles: Record<string, any>,
   siActivity: Record<string, { count: number; investors: { name: string; trend: string }[] }>,
-  news: Record<string, string>
+  news: Record<string, string>,
+  lookthrough: LookthroughResult | null
 ): Promise<any> {
   // Build context for GPT
   const positionsContext = holdings
@@ -238,12 +277,15 @@ async function generateAnalysis(
     ? holdings.reduce((s, h) => s + h.gain_loss_percent, 0) / holdings.length
     : 0
 
+  const lookthroughContext = lookthrough ? buildLookthroughContext(lookthrough) : ''
+
   const prompt = `Du bist ein erfahrener Portfolio-Analyst. Analysiere dieses Portfolio und bewerte jede Position.
 
 PORTFOLIO-ÜBERBLICK:
 - Gesamtwert: ${totalValue.toFixed(0)}€
 - Positionen: ${holdings.length}
 - Ø G/V: ${avgGainLoss >= 0 ? '+' : ''}${avgGainLoss.toFixed(1)}%
+${lookthroughContext}
 
 POSITIONEN:
 ${positionsContext}
@@ -270,6 +312,7 @@ Analysiere das Portfolio und gib eine strukturierte JSON-Antwort mit diesen Feld
 REGELN:
 - Bewerte JEDE Position einzeln
 - Berücksichtige KGV, Sektor-Diversifikation, SI-Aktivität und News
+- Wenn ein EFFEKTIVES PORTFOLIO (Look-Through) angegeben ist: Nutze es für portfolioVerdict und topInsight. Effektive Klumpenrisiken (eine Aktie direkt UND über ETFs), hohe ETF-Überschneidungen und Regionen-/Sektor-Konzentration sind wichtiger als die nominale Positionsliste
 - Wenn viele SI kaufen → eher bullish, wenn viele verkaufen → eher bearish
 - Sei direkt und konkret, keine Floskeln
 - Antworte NUR mit dem JSON-Objekt, kein anderer Text
@@ -331,18 +374,29 @@ export async function POST(request: NextRequest) {
     const tickers = holdings.map(h => h.symbol.toUpperCase())
     console.log(`🤖 Portfolio AI-Analyse: ${tickers.length} Positionen`)
 
-    // Fetch all data in parallel
-    const [quotes, profiles, news] = await Promise.all([
+    // Fetch all data in parallel — Look-Through darf die Analyse nie blockieren
+    const [quotes, profiles, news, lookthrough] = await Promise.all([
       fetchQuotes(tickers),
       fetchProfiles(tickers),
-      fetchNewsForTickers(tickers)
+      fetchNewsForTickers(tickers),
+      computeLookthrough(
+        holdings.map(h => ({
+          symbol: h.symbol,
+          name: h.name || h.symbol,
+          isin: h.isin || null,
+          value: h.value,
+        }))
+      ).catch(err => {
+        console.error('Lookthrough für AI-Analyse fehlgeschlagen:', err)
+        return null
+      }),
     ])
 
     // SI activity (sync, uses local data)
     const siActivity = getSuperInvestorActivity(tickers)
 
     // Generate GPT analysis
-    const analysis = await generateAnalysis(holdings, quotes, profiles, siActivity, news)
+    const analysis = await generateAnalysis(holdings, quotes, profiles, siActivity, news, lookthrough)
 
     console.log(`✅ Portfolio AI-Analyse fertig: Score ${analysis.portfolioScore}/100`)
 
