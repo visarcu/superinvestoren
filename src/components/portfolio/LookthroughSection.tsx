@@ -1,0 +1,411 @@
+// src/components/portfolio/LookthroughSection.tsx
+// "Durchblick": Look-Through-Analyse des Depots — was steckt WIRKLICH drin.
+// Zerlegt ETFs serverseitig in Einzelaktien (via /api/portfolio/lookthrough)
+// und zeigt effektive Top-Positionen, echte Regionen/Sektoren und
+// ETF-Überschneidungen.
+'use client'
+
+import React, { useEffect, useMemo, useState } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+import { type Holding } from '@/hooks/usePortfolio'
+import Logo from '@/components/Logo'
+import { translateSector } from '@/utils/sectorUtils'
+import {
+  ChevronDownIcon,
+  ArrowsRightLeftIcon,
+  ViewfinderCircleIcon,
+  GlobeAltIcon,
+  ChartPieIcon,
+} from '@heroicons/react/24/outline'
+
+// Antwort-Typen der Lookthrough-API (Spiegel von lib/portfolio/lookthrough.ts)
+interface ExposureSource {
+  etfSymbol: string
+  etfName: string
+  value: number
+}
+interface EffectiveExposure {
+  symbol: string
+  name: string
+  isin: string | null
+  value: number
+  percent: number
+  directValue: number
+  etfValue: number
+  etfCount: number
+  sources: ExposureSource[]
+}
+interface WeightSlice {
+  label: string
+  value: number
+  percent: number
+}
+interface OverlapPair {
+  symbolA: string
+  nameA: string
+  symbolB: string
+  nameB: string
+  overlapPercent: number
+  sharedCount: number
+  topShared: { symbol: string; name: string; weightA: number; weightB: number }[]
+}
+interface EtfCoverageInfo {
+  symbol: string
+  name: string
+  value: number
+  status: 'exact' | 'approximated' | 'no-proxy' | 'non-equity'
+  proxyLabel?: string
+  note?: string
+}
+interface LookthroughResult {
+  totalValue: number
+  analyzedValue: number
+  coveragePercent: number
+  etfValue: number
+  directStockValue: number
+  topExposures: EffectiveExposure[]
+  regions: WeightSlice[]
+  sectors: WeightSlice[]
+  overlaps: OverlapPair[]
+  etfCoverage: EtfCoverageInfo[]
+}
+
+const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#8b5cf6', '#14b8a6']
+
+const STATUS_LABEL: Record<EtfCoverageInfo['status'], { text: string; className: string }> = {
+  exact: { text: 'zerlegt', className: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
+  approximated: { text: 'angenähert', className: 'text-amber-400 border-amber-500/30 bg-amber-500/10' },
+  'no-proxy': { text: 'keine Daten', className: 'text-neutral-400 border-neutral-700 bg-neutral-800/60' },
+  'non-equity': { text: 'kein Aktienfonds', className: 'text-neutral-400 border-neutral-700 bg-neutral-800/60' },
+}
+
+function SliceCard({
+  title,
+  subtitle,
+  items,
+  icon,
+  translate,
+}: {
+  title: string
+  subtitle: string
+  items: WeightSlice[]
+  icon?: React.ReactNode
+  translate?: boolean
+}) {
+  const top = items.slice(0, 8)
+  return (
+    <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+      <div className="mb-4">
+        <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+          {icon}
+          {title}
+        </h3>
+        <p className="text-[11px] text-neutral-500 mt-0.5">{subtitle}</p>
+      </div>
+      {top.length > 0 && (
+        <div className="flex h-1.5 rounded-full overflow-hidden bg-neutral-800/60 mb-4">
+          {top.map((item, i) => (
+            <div
+              key={i}
+              style={{ width: `${item.percent}%`, backgroundColor: PALETTE[i % PALETTE.length] }}
+              title={`${item.label}: ${item.percent.toFixed(1)}%`}
+            />
+          ))}
+        </div>
+      )}
+      <div className="space-y-1">
+        {top.map((item, i) => (
+          <div key={i} className="flex items-center justify-between py-1">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <span className="w-2 h-2 rounded-sm flex-shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
+              <span className="text-[12px] text-neutral-200 truncate">
+                {translate ? translateSector(item.label) : item.label}
+              </span>
+            </div>
+            <span className="text-[12px] font-medium text-white tabular-nums flex-shrink-0 ml-3">
+              {item.percent.toFixed(1)}%
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function LookthroughSection({
+  holdings,
+  formatCurrency,
+}: {
+  holdings: Holding[]
+  formatCurrency: (amount: number) => string
+}) {
+  const [result, setResult] = useState<LookthroughResult | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const [expanded, setExpanded] = useState<string | null>(null)
+  const [showCoverage, setShowCoverage] = useState(false)
+
+  // Stabiler Schlüssel, damit nicht jeder Render einen neuen Fetch auslöst
+  const holdingsKey = useMemo(
+    () => holdings.map(h => `${h.symbol}:${Math.round(h.value)}`).sort().join('|'),
+    [holdings],
+  )
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function load() {
+      if (holdings.length === 0) {
+        setLoading(false)
+        return
+      }
+      setLoading(true)
+      setError(false)
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession()
+        if (!session) {
+          setError(true)
+          return
+        }
+        const response = await fetch('/api/portfolio/lookthrough', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            positions: holdings.map(h => ({
+              symbol: h.symbol,
+              name: h.name,
+              isin: h.isin || null,
+              value: h.value,
+            })),
+          }),
+        })
+        if (!response.ok) throw new Error(`HTTP ${response.status}`)
+        const data: LookthroughResult = await response.json()
+        if (!cancelled) setResult(data)
+      } catch {
+        if (!cancelled) setError(true)
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+
+    load()
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [holdingsKey])
+
+  // Ohne ETFs im Depot bringt Look-Through nichts Neues — Sektion ausblenden
+  const hasEtfs = result ? result.etfCoverage.length > 0 : true
+  if (!loading && (!result || !hasEtfs || error)) return null
+
+  if (loading) {
+    return (
+      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <ViewfinderCircleIcon className="w-4 h-4 text-neutral-400" />
+          <h3 className="text-sm font-semibold text-white tracking-tight">Durchblick: Was du wirklich besitzt</h3>
+        </div>
+        <div className="space-y-2.5 animate-pulse">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-8 rounded-lg bg-neutral-800/50" />
+          ))}
+        </div>
+        <p className="text-[11px] text-neutral-500 mt-4">ETFs werden in ihre Bestandteile zerlegt …</p>
+      </div>
+    )
+  }
+
+  if (!result) return null
+
+  const decomposedEtfs = result.etfCoverage.filter(e => e.status === 'exact' || e.status === 'approximated')
+  const hasApprox = result.etfCoverage.some(e => e.status === 'approximated')
+
+  return (
+    <div className="space-y-5">
+      {/* ===== Effektive Top-Positionen ===== */}
+      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
+        <div className="px-5 py-4 border-b border-neutral-800/80">
+          <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+            <ViewfinderCircleIcon className="w-4 h-4 text-emerald-400" />
+            Durchblick: Was du wirklich besitzt
+          </h3>
+          <p className="text-[11px] text-neutral-500 mt-0.5">
+            {decomposedEtfs.length} ETF{decomposedEtfs.length !== 1 ? 's' : ''} in Einzelaktien zerlegt · Analyse deckt{' '}
+            {result.coveragePercent.toFixed(0)}% des Depotwerts ab
+          </p>
+        </div>
+
+        <div>
+          {result.topExposures.slice(0, 12).map(exposure => {
+            const isOpen = expanded === exposure.symbol
+            const hasBreakdown = exposure.etfCount > 0
+            return (
+              <div key={`${exposure.symbol}-${exposure.isin ?? ''}`} className="border-b border-neutral-800/60 last:border-b-0">
+                <button
+                  type="button"
+                  onClick={() => hasBreakdown && setExpanded(isOpen ? null : exposure.symbol)}
+                  className={`w-full flex items-center justify-between px-5 py-2.5 text-left transition-colors ${
+                    hasBreakdown ? 'hover:bg-neutral-900/50 cursor-pointer' : 'cursor-default'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Logo ticker={exposure.symbol} alt={exposure.symbol} className="w-7 h-7 flex-shrink-0" padding="none" />
+                    <div className="min-w-0">
+                      <p className="text-[13px] font-medium text-white truncate">{exposure.name}</p>
+                      <p className="text-[11px] text-neutral-500 truncate">
+                        {exposure.directValue > 0 && exposure.etfCount > 0
+                          ? `Direkt + in ${exposure.etfCount} ETF${exposure.etfCount !== 1 ? 's' : ''} enthalten`
+                          : exposure.etfCount > 0
+                            ? `In ${exposure.etfCount} ETF${exposure.etfCount !== 1 ? 's' : ''} enthalten`
+                            : 'Direktposition'}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0 ml-3">
+                    <div className="text-right">
+                      <p className="text-[13px] font-semibold text-white tabular-nums">{exposure.percent.toFixed(1)}%</p>
+                      <p className="text-[11px] text-neutral-500 tabular-nums">{formatCurrency(exposure.value)}</p>
+                    </div>
+                    {hasBreakdown && (
+                      <ChevronDownIcon
+                        className={`w-3.5 h-3.5 text-neutral-500 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                      />
+                    )}
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="px-5 pb-3 pt-1 bg-neutral-950/40">
+                    {exposure.directValue > 0 && (
+                      <div className="flex items-center justify-between py-1.5">
+                        <span className="text-[12px] text-neutral-300">Direktbestand</span>
+                        <span className="text-[12px] text-white tabular-nums">{formatCurrency(exposure.directValue)}</span>
+                      </div>
+                    )}
+                    {exposure.sources.map(source => (
+                      <div key={source.etfSymbol} className="flex items-center justify-between py-1.5 border-t border-neutral-800/40">
+                        <span className="text-[12px] text-neutral-400 truncate mr-3">
+                          via <span className="text-neutral-300">{source.etfName}</span>
+                        </span>
+                        <span className="text-[12px] text-neutral-300 tabular-nums flex-shrink-0">
+                          {formatCurrency(source.value)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* ===== Echte Regionen + Sektoren ===== */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <SliceCard
+          title="Echtes Regionen-Exposure"
+          subtitle="Inkl. der Länderaufteilung deiner ETFs"
+          items={result.regions}
+          icon={<GlobeAltIcon className="w-3.5 h-3.5 text-neutral-400" />}
+        />
+        <SliceCard
+          title="Echte Sektor-Verteilung"
+          subtitle="ETFs nach Sektoren aufgelöst"
+          items={result.sectors}
+          icon={<ChartPieIcon className="w-3.5 h-3.5 text-neutral-400" />}
+          translate
+        />
+      </div>
+
+      {/* ===== ETF-Überschneidungen ===== */}
+      {result.overlaps.length > 0 && (
+        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
+          <div className="px-5 py-4 border-b border-neutral-800/80">
+            <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+              <ArrowsRightLeftIcon className="w-3.5 h-3.5 text-neutral-400" />
+              ETF-Überschneidungen
+            </h3>
+            <p className="text-[11px] text-neutral-500 mt-0.5">
+              Wie stark sich deine ETFs in denselben Aktien doppeln (gewichtete Überschneidung)
+            </p>
+          </div>
+          <div>
+            {result.overlaps.slice(0, 6).map((pair, i) => (
+              <div key={i} className="px-5 py-3 border-b border-neutral-800/60 last:border-b-0">
+                <div className="flex items-center justify-between mb-1.5">
+                  <p className="text-[12px] text-neutral-200 truncate mr-3">
+                    {pair.nameA} <span className="text-neutral-500">×</span> {pair.nameB}
+                  </p>
+                  <span
+                    className={`text-[13px] font-semibold tabular-nums flex-shrink-0 ${
+                      pair.overlapPercent >= 60 ? 'text-red-400' : pair.overlapPercent >= 30 ? 'text-amber-400' : 'text-neutral-200'
+                    }`}
+                  >
+                    {pair.overlapPercent.toFixed(0)}%
+                  </span>
+                </div>
+                <div className="h-1 rounded-full bg-neutral-800/60 overflow-hidden mb-1.5">
+                  <div
+                    className={`h-full rounded-full ${
+                      pair.overlapPercent >= 60 ? 'bg-red-400/80' : pair.overlapPercent >= 30 ? 'bg-amber-400/80' : 'bg-emerald-400/80'
+                    }`}
+                    style={{ width: `${Math.min(100, pair.overlapPercent)}%` }}
+                  />
+                </div>
+                <p className="text-[11px] text-neutral-500 truncate">
+                  {pair.sharedCount} gemeinsame Titel, u.a. {pair.topShared.slice(0, 3).map(s => s.symbol).join(', ')}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ===== Datengrundlage ===== */}
+      <div className="bg-neutral-900/30 rounded-xl border border-neutral-800/60 px-5 py-4">
+        <button
+          type="button"
+          onClick={() => setShowCoverage(!showCoverage)}
+          className="w-full flex items-center justify-between text-left"
+        >
+          <span className="text-[12px] font-medium text-neutral-300">
+            Datengrundlage: {decomposedEtfs.length} von {result.etfCoverage.length} ETFs zerlegt
+            {hasApprox && ' (teils angenähert)'}
+          </span>
+          <ChevronDownIcon className={`w-3.5 h-3.5 text-neutral-500 transition-transform ${showCoverage ? 'rotate-180' : ''}`} />
+        </button>
+
+        {showCoverage && (
+          <div className="mt-3 space-y-2">
+            {result.etfCoverage.map(etf => {
+              const badge = STATUS_LABEL[etf.status]
+              return (
+                <div key={etf.symbol} className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[12px] text-neutral-200 truncate">{etf.name}</p>
+                    {etf.note && <p className="text-[11px] text-neutral-500">{etf.note}</p>}
+                  </div>
+                  <span className={`text-[10px] px-1.5 py-0.5 rounded-full border flex-shrink-0 ${badge.className}`}>
+                    {badge.text}
+                    {etf.proxyLabel ? ` · via ${etf.proxyLabel}` : ''}
+                  </span>
+                </div>
+              )
+            })}
+            <p className="text-[11px] text-neutral-500 leading-relaxed pt-2 border-t border-neutral-800/60">
+              UCITS-ETFs werden über US-Fonds mit gleichem bzw. ähnlichem Index aufgelöst — die Werte sind
+              fundierte Näherungen, keine exakten Fondsdaten und keine Anlageberatung.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

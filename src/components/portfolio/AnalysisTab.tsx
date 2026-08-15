@@ -5,6 +5,7 @@
 import React, { useMemo } from 'react'
 import { type Holding } from '@/hooks/usePortfolio'
 import Logo from '@/components/Logo'
+import LookthroughSection from '@/components/portfolio/LookthroughSection'
 import { isETF, getETFBySymbol } from '@/lib/etfUtils'
 import { getSectorFromTicker, translateSector } from '@/utils/sectorUtils'
 import { perfColor } from '@/utils/formatters'
@@ -271,6 +272,9 @@ export default function AnalysisTab({
           </p>
         </div>
       )}
+
+      {/* Durchblick: Look-Through-Analyse (ETFs in Einzelaktien zerlegt) */}
+      <LookthroughSection holdings={holdings} formatCurrency={formatCurrency} />
 
       {/* Asset-Klassen + Währungen nebeneinander */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

@@ -788,21 +788,23 @@ export function usePortfolio() {
           created_at: new Date().toISOString()
         })
 
-        const allHoldings: Holding[] = []
-        for (const pf of portfolios) {
-          const h = await loadHoldingsForPortfolio(pf.id)
-          // Portfolio-Info an jede Holding anhängen
-          const enriched = h.map(holding => ({
-            ...holding,
-            portfolio_id: pf.id,
-            portfolio_name: pf.name,
-            broker_type: pf.broker_type,
-            broker_name: pf.broker_name,
-            broker_color: pf.broker_color,
-          }))
-          allHoldings.push(...enriched)
-        }
-        setHoldings(allHoldings)
+        // Alle Depots parallel laden — sequenziell dauerte bei mehreren Depots
+        // spürbar lange und die Seite zeigte derweil "keine Positionen".
+        const holdingsPerDepot = await Promise.all(
+          portfolios.map(async pf => {
+            const h = await loadHoldingsForPortfolio(pf.id)
+            // Portfolio-Info an jede Holding anhängen
+            return h.map(holding => ({
+              ...holding,
+              portfolio_id: pf.id,
+              portfolio_name: pf.name,
+              broker_type: pf.broker_type,
+              broker_name: pf.broker_name,
+              broker_color: pf.broker_color,
+            }))
+          })
+        )
+        setHoldings(holdingsPerDepot.flat())
         // Transaktionen für alle Depots laden
         await loadTransactions('all', portfolios.map(pf => pf.id), portfolios)
         setLoading(false)

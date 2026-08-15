@@ -344,6 +344,24 @@ function WorkspaceSkeleton() {
   )
 }
 
+// Skeleton für den Content-Bereich: wird gezeigt, solange Holdings noch laden
+// (Header/Tabs stehen dann schon — vorher blitzte hier "Noch keine Positionen" auf).
+function ContentSkeleton() {
+  return (
+    <div className="animate-pulse space-y-5">
+      <div className="grid gap-5 lg:grid-cols-4">
+        {[1, 2, 3, 4].map(item => (
+          <div key={item} className="h-28 rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+        ))}
+      </div>
+      <div className="grid gap-5 xl:grid-cols-[1.55fr,0.85fr]">
+        <div className="h-[380px] rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+        <div className="h-[380px] rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+      </div>
+    </div>
+  )
+}
+
 function EmptyPortfolio() {
   return (
     <div className="terminal-glass rounded-2xl p-10 text-center">
@@ -582,7 +600,7 @@ export default function PortfolioWorkspacePage() {
         <PortfolioNavigation activeView={activeView} onOpenView={openView} compact />
 
         {p.holdings.length === 0 ? (
-          <EmptyPortfolio />
+          p.loading ? <ContentSkeleton /> : <EmptyPortfolio />
         ) : (
           <>
             {activeView === 'overview' && (
