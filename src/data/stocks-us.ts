@@ -58283,9 +58283,16 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SPCX',
-    cusip:  '',
-    name:   'AXS SPAC and New Issue ETF',
-    sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    cusip:  '84615Q103',
+    name:   'SpaceX (Space Exploration Technologies Corp.)',
+    sector: 'Industrials',
+    metrics: [],
+  },
+  {
+    ticker: 'CBRS',
+    cusip:  '15675D103',
+    name:   'Cerebras Systems Inc.',
+    sector: 'Technology',
     metrics: [],
   },
   {

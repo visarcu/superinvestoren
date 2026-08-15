@@ -14,7 +14,9 @@ export async function GET(
   const { searchParams } = new URL(request.url)
   
   const segmentType = searchParams.get('type') || 'product' // 'product' or 'geographic'
-  const period = searchParams.get('period') || 'annual'
+  // FMP v4 kennt nur 'annual' und 'quarter' — 'quarterly' liefert sonst stillschweigend Jahresdaten
+  const rawPeriod = searchParams.get('period') || 'annual'
+  const period = rawPeriod === 'quarterly' ? 'quarter' : rawPeriod
   const structure = searchParams.get('structure') || 'flat'
   
   // Validate ticker format (security check)
@@ -40,29 +42,42 @@ export async function GET(
       : 'revenue-geographic-segmentation'
     
     console.log(`🔍 Fetching ${segmentType} segmentation for ${ticker}...`)
-    
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v4/${endpoint}?symbol=${ticker}&structure=${structure}&period=${period}&apikey=${apiKey}`,
-      { 
-        next: { revalidate: 3600 } // Cache for 1 hour
+
+    const fetchSegments = async (p: string): Promise<SegmentationData[]> => {
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v4/${endpoint}?symbol=${ticker}&structure=${structure}&period=${p}&apikey=${apiKey}`,
+        {
+          next: { revalidate: 3600 } // Cache for 1 hour
+        }
+      )
+      if (!response.ok) {
+        throw new Error(`FMP API responded with status ${response.status}`)
       }
-    )
-    
-    if (!response.ok) {
-      throw new Error(`FMP API responded with status ${response.status}`)
+      const data = await response.json()
+      return Array.isArray(data) ? data : []
     }
-    
-    const data: SegmentationData[] = await response.json()
-    const segments = Array.isArray(data) ? data : []
-    
-    console.log(`✅ ${segmentType} segmentation API successful: ${segments.length} segments for ${ticker}`)
-    
+
+    let effectivePeriod = period
+    let segments = await fetchSegments(period)
+
+    // Frisch gelistete Unternehmen (z.B. IPO im laufenden Jahr) haben noch keinen 10-K,
+    // daher existieren nur Quartals-Segmente — dann darauf zurückfallen
+    if (segments.length === 0 && period === 'annual') {
+      const quarterly = await fetchSegments('quarter')
+      if (quarterly.length > 0) {
+        segments = quarterly
+        effectivePeriod = 'quarter'
+      }
+    }
+
+    console.log(`✅ ${segmentType} segmentation API successful: ${segments.length} segments for ${ticker} (${effectivePeriod})`)
+
     return NextResponse.json({
       success: true,
       data: segments,
       segmentType,
       ticker: ticker.toUpperCase(),
-      period,
+      period: effectivePeriod,
       totalSegments: segments.length
     })
 

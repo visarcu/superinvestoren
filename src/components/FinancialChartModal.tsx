@@ -252,19 +252,22 @@ async function fetchProductSegmentData(ticker: string, years: number, period: 'a
     
     const response = await res.json()
     const data = response.success ? response.data : []
-    
+
     if (!Array.isArray(data) || data.length === 0) return []
-    
+
     // ✅ QUALTRIM: Bei Quarterly mehr Datenpunkte
     const dataPoints = period === 'quarterly' ? years * 4 : years
-    
+
+    // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
+    const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
+
     const transformed = data.map((yearData: any) => {
       const dateKey = Object.keys(yearData)[0]
       const segments = yearData[dateKey]
-      
+
       if (!dateKey || !segments) return null
-      
-      const label = period === 'quarterly' 
+
+      const label = effectiveQuarterly
         ? formatQuarterLabel(dateKey)
         : dateKey.substring(0, 4)
       
@@ -306,18 +309,21 @@ async function fetchGeographicSegmentData(ticker: string, years: number, period:
     
     const response = await res.json()
     const data = response.success ? response.data : []
-    
+
     if (!Array.isArray(data) || data.length === 0) return []
-    
+
     // ✅ QUALTRIM: Bei Quarterly mehr Datenpunkte
     const dataPoints = period === 'quarterly' ? years * 4 : years
-    
+
+    // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
+    const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
+
     const transformed = data.map((yearData: any) => {
       let dateKey = ''
       let segments: any = {}
-      
+
       const firstKey = Object.keys(yearData)[0]
-      
+
       if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
         dateKey = firstKey
         segments = yearData[firstKey]
@@ -327,10 +333,10 @@ async function fetchGeographicSegmentData(ticker: string, years: number, period:
         delete segments.date
         delete segments.symbol
       }
-      
+
       if (!dateKey || Object.keys(segments).length === 0) return null
-      
-      const label = period === 'quarterly' 
+
+      const label = effectiveQuarterly
         ? formatQuarterLabel(dateKey)
         : dateKey.substring(0, 4)
       

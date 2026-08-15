@@ -1059,6 +1059,9 @@ function RevenueSegmentsChart({
           return
         }
 
+        // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
+        const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
+
         // Transform the data
         const transformed = data
           .map((yearData: any, index: number) => {
@@ -1090,7 +1093,7 @@ function RevenueSegmentsChart({
             }
 
             // Extract label from date
-            const label = period === 'quarterly'
+            const label = effectiveQuarterly
               ? formatQuarterLabel(dateKey)
               : dateKey.substring(0, 4)
             const result: any = { label }
@@ -1383,21 +1386,23 @@ function GeographicSegmentsChart({
           const response = await res.json()
           console.log('📊 Raw geographic data:', response)
           const data = response.success ? response.data : []
-          
+
           if (Array.isArray(data) && data.length > 0) {
+            // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
+            const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
             const transformed = data.map((yearData: any) => {
               let year = ''
               let segments: any = {}
-              
+
               const firstKey = Object.keys(yearData)[0]
-              
+
               if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                year = period === 'quarterly'
+                year = effectiveQuarterly
                   ? formatQuarterLabel(firstKey)
                   : firstKey.substring(0, 4)
                 segments = yearData[firstKey]
               } else if (yearData.date) {
-                year = period === 'quarterly'
+                year = effectiveQuarterly
                   ? formatQuarterLabel(yearData.date)
                   : yearData.date.substring(0, 4)
                 segments = { ...yearData }
