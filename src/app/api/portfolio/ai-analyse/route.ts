@@ -6,6 +6,7 @@ import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
 import { computeLookthrough, type LookthroughResult } from '@/lib/portfolio/lookthrough'
+import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
 const FMP_API_KEY = process.env.FMP_API_KEY!
@@ -42,11 +43,11 @@ async function verifyPremium(request: NextRequest) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('is_premium')
+    .select(PREMIUM_PROFILE_SELECT)
     .eq('user_id', user.id)
     .single()
 
-  if (!profile?.is_premium) return { error: 'Premium erforderlich', status: 403 }
+  if (!hasPremiumAccess(profile)) return { error: 'Premium erforderlich', status: 403 }
   return { user }
 }
 
@@ -225,6 +226,10 @@ function buildLookthroughContext(lt: LookthroughResult): string {
 
   const regions = lt.regions.slice(0, 5).map(r => `${r.label} ${r.percent.toFixed(0)}%`).join(', ')
   const sectors = lt.sectors.slice(0, 5).map(s => `${s.label} ${s.percent.toFixed(0)}%`).join(', ')
+  const sizes = lt.sizeExposure
+    ? lt.sizeExposure.slices.map(s => `${s.label.split(' (')[0]} ${s.percent.toFixed(0)}%`).join(', ') +
+      (lt.sizeExposure.weightedPE ? ` · gewichtetes KGV ${lt.sizeExposure.weightedPE.toFixed(1)}` : '')
+    : ''
   const overlaps = lt.overlaps
     .filter(o => o.overlapPercent >= 25)
     .slice(0, 3)
@@ -236,7 +241,7 @@ EFFEKTIVES PORTFOLIO (Look-Through — ETFs in Einzelaktien zerlegt, deckt ${lt.
 Effektive Top-Positionen (Direktbestand + ETF-Anteile zusammengerechnet):
 ${topEff}
 Regionen: ${regions}
-Sektoren: ${sectors}${overlaps ? `\nETF-Überschneidungen:\n${overlaps}` : ''}`
+Sektoren: ${sectors}${sizes ? `\nGrößenklassen: ${sizes}` : ''}${overlaps ? `\nETF-Überschneidungen:\n${overlaps}` : ''}`
 }
 
 // --- GPT-4o Portfolio Analysis ---

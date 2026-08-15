@@ -75,6 +75,15 @@ export interface LookthroughInsight {
   text: string
 }
 
+export interface SizeExposure {
+  /** Mega / Large / Mid / Small — Anteile am abgedeckten Wert */
+  slices: WeightSlice[]
+  /** Anteil des analysierten Werts, für den Market Caps vorlagen (0–100) */
+  coveragePercent: number
+  /** Gewichtetes KGV (harmonisches Mittel), null wenn zu wenig Daten */
+  weightedPE: number | null
+}
+
 export interface LookthroughResult {
   totalValue: number
   /** Wert, der zerlegt werden konnte (Direktaktien + auflösbare ETFs) */
@@ -88,6 +97,7 @@ export interface LookthroughResult {
   overlaps: OverlapPair[]
   etfCoverage: EtfCoverageInfo[]
   insights: LookthroughInsight[]
+  sizeExposure: SizeExposure | null
 }
 
 // =====================================================
@@ -297,6 +307,237 @@ function resolveEtf(input: LookthroughInput): ResolvedEtf | null {
 }
 
 // =====================================================
+// Size-Exposure: Market-Cap-Buckets über eine STRATIFIZIERTE Stichprobe.
+//
+// Naives "Top-N über alles" wäre systematisch verzerrt: Small-Cap-ETFs haben
+// flache Gewichtsverteilungen, ihre Titel landen nie in den Top-N — das Depot
+// sähe fälschlich nach 100% Large Cap aus. Deshalb wird die Gewichtsverteilung
+// JEDES Fonds in Schichten geteilt und aus jeder Schicht gequotet; auch der
+// Long Tail ist damit repräsentiert. Quotes kommen gebatcht (50 pro Call).
+// =====================================================
+
+const QUOTE_BATCH = 50
+/** Gewichts-Schichten pro Fonds */
+const SIZE_STRATA = 10
+/** Vertreter (größte Titel) pro Schicht */
+const REPS_PER_STRATUM = 6
+
+interface FmpQuote {
+  symbol: string
+  marketCap: number | null
+  pe: number | null
+}
+
+async function fetchQuotesBatch(symbols: string[]): Promise<Map<string, FmpQuote>> {
+  const result = new Map<string, FmpQuote>()
+  const chunks: string[][] = []
+  for (let i = 0; i < symbols.length; i += QUOTE_BATCH) {
+    chunks.push(symbols.slice(i, i + QUOTE_BATCH))
+  }
+  await mapWithConcurrency(chunks, CONCURRENCY, async chunk => {
+    const encoded = chunk.map(s => encodeURIComponent(s)).join(',')
+    const quotes = await fmpJson<FmpQuote[]>(`/quote/${encoded}`, HOLDINGS_REVALIDATE)
+    for (const q of quotes || []) {
+      if (q.symbol) result.set(q.symbol.toUpperCase(), q)
+    }
+  })
+  return result
+}
+
+/** Klassische Cap-Grenzen in USD */
+function sizeBucket(marketCapUsd: number): string {
+  if (marketCapUsd >= 200e9) return 'Mega Cap (ab 200 Mrd. $)'
+  if (marketCapUsd >= 10e9) return 'Large Cap (10–200 Mrd. $)'
+  if (marketCapUsd >= 2e9) return 'Mid Cap (2–10 Mrd. $)'
+  return 'Small Cap (unter 2 Mrd. $)'
+}
+
+// FMP liefert marketCap in der HEIMATWÄHRUNG des Listings (verifiziert:
+// 8035.T in JPY, NESN.SW in CHF, HSBA.L in GBP trotz Pence-Kursen).
+// Ohne Umrechnung wäre jede japanische Nebenwerte-Aktie ein "Mega Cap".
+const SUFFIX_CURRENCY: Record<string, string> = {
+  T: 'JPY', L: 'GBP', SW: 'CHF', TO: 'CAD', AX: 'AUD', HK: 'HKD',
+  KS: 'KRW', KQ: 'KRW', TW: 'TWD', TWO: 'TWD', SS: 'CNY', SZ: 'CNY',
+  SA: 'BRL', ST: 'SEK', OL: 'NOK', CO: 'DKK', NS: 'INR', BO: 'INR',
+  JK: 'IDR', BK: 'THB', SI: 'SGD', NZ: 'NZD', WA: 'PLN', PR: 'CZK',
+  IS: 'TRY', MX: 'MXN', SR: 'SAR', QA: 'QAR', KW: 'KWD', JO: 'ZAR',
+  DE: 'EUR', PA: 'EUR', MI: 'EUR', AS: 'EUR', BR: 'EUR', MC: 'EUR',
+  HE: 'EUR', LS: 'EUR', VI: 'EUR', AT: 'EUR', IR: 'EUR',
+}
+
+function tickerCurrency(symbol: string): string {
+  const dot = symbol.lastIndexOf('.')
+  if (dot < 0) return 'USD'
+  return SUFFIX_CURRENCY[symbol.slice(dot + 1).toUpperCase()] || 'USD'
+}
+
+/**
+ * FX-Multiplikatoren nach USD (capNative × m = capUSD).
+ * FMP notiert Paare mal als CURUSD, mal als USDCUR — beide Richtungen abfragen.
+ */
+async function fetchFxToUsd(currencies: Set<string>): Promise<Map<string, number>> {
+  const fx = new Map<string, number>([['USD', 1]])
+  const pairs: string[] = []
+  for (const cur of currencies) {
+    if (cur !== 'USD') pairs.push(`${cur}USD`, `USD${cur}`)
+  }
+  if (pairs.length === 0) return fx
+
+  const quotes = await fmpJson<{ symbol: string; price: number | null }[]>(
+    `/quote/${pairs.join(',')}`,
+    HOLDINGS_REVALIDATE,
+  )
+  const priceBySymbol = new Map<string, number>()
+  for (const q of quotes || []) {
+    if (q.symbol && q.price && q.price > 0) priceBySymbol.set(q.symbol, q.price)
+  }
+  for (const cur of currencies) {
+    if (cur === 'USD') continue
+    const direct = priceBySymbol.get(`${cur}USD`)
+    const inverse = priceBySymbol.get(`USD${cur}`)
+    if (direct) fx.set(cur, direct)
+    else if (inverse) fx.set(cur, 1 / inverse)
+  }
+  return fx
+}
+
+/** Eine "Einheit" der Size-Berechnung: Direktaktie oder (ETF × Proxy)-Anteil */
+interface SizeUnit {
+  /** EUR-Wert, den diese Einheit im Depot repräsentiert */
+  value: number
+  /** Direktaktie: genau ein Symbol. Fonds: komplette Holdings-Liste */
+  directSymbol?: string
+  holdings?: FmpEtfHolding[]
+}
+
+interface Stratum {
+  /** Anteil der Schicht am Fondsgewicht (0–1) */
+  fraction: number
+  /** Vertreter: [Symbol, Gewicht innerhalb der Schicht] */
+  reps: { symbol: string; weight: number }[]
+}
+
+/** Fonds-Holdings in Gewichts-Schichten teilen, Vertreter je Schicht wählen */
+function stratify(holdings: FmpEtfHolding[]): Stratum[] {
+  const sorted = holdings
+    .filter(h => h.asset && (h.weightPercentage || 0) > 0)
+    .sort((a, b) => (b.weightPercentage || 0) - (a.weightPercentage || 0))
+  const totalW = sorted.reduce((s, h) => s + (h.weightPercentage || 0), 0)
+  if (totalW <= 0) return []
+
+  const strata: Stratum[] = []
+  const target = totalW / SIZE_STRATA
+  let current: { weight: number; reps: { symbol: string; weight: number }[] } = { weight: 0, reps: [] }
+
+  for (const h of sorted) {
+    const w = h.weightPercentage || 0
+    if (current.reps.length < REPS_PER_STRATUM) {
+      current.reps.push({ symbol: h.asset!.toUpperCase(), weight: w })
+    }
+    current.weight += w
+    if (current.weight >= target && strata.length < SIZE_STRATA - 1) {
+      strata.push({ fraction: current.weight / totalW, reps: current.reps })
+      current = { weight: 0, reps: [] }
+    }
+  }
+  if (current.weight > 0) strata.push({ fraction: current.weight / totalW, reps: current.reps })
+  return strata
+}
+
+async function computeSizeExposure(units: SizeUnit[], analyzedValue: number): Promise<SizeExposure | null> {
+  if (analyzedValue <= 0 || units.length === 0) return null
+
+  // Stichprobe zusammenstellen (dedupliziert über alle Einheiten)
+  const stratified = units.map(u => (u.holdings ? stratify(u.holdings) : null))
+  const sampleSymbols = new Set<string>()
+  units.forEach((u, i) => {
+    if (u.directSymbol) sampleSymbols.add(u.directSymbol.toUpperCase())
+    for (const stratum of stratified[i] || []) {
+      for (const rep of stratum.reps) sampleSymbols.add(rep.symbol)
+    }
+  })
+  if (sampleSymbols.size === 0) return null
+
+  const symbols = Array.from(sampleSymbols)
+  const currencies = new Set(symbols.map(tickerCurrency))
+  const [quotes, fx] = await Promise.all([fetchQuotesBatch(symbols), fetchFxToUsd(currencies)])
+
+  /** Market Cap in USD, null wenn Kurs oder FX-Rate fehlen */
+  const capUsd = (symbol: string): number | null => {
+    const quote = quotes.get(symbol.toUpperCase())
+    if (!quote?.marketCap || quote.marketCap <= 0) return null
+    const rate = fx.get(tickerCurrency(symbol))
+    if (!rate) return null
+    return quote.marketCap * rate
+  }
+
+  const buckets = new Map<string, number>()
+  let coveredValue = 0
+  // Harmonisches KGV: Σw / Σ(w/pe), Gewichte = repräsentierter EUR-Wert
+  let peWeightSum = 0
+  let peInverseSum = 0
+
+  const addPE = (quote: FmpQuote, weightValue: number) => {
+    if (quote.pe && quote.pe > 0 && quote.pe < 1000) {
+      peWeightSum += weightValue
+      peInverseSum += weightValue / quote.pe
+    }
+  }
+
+  units.forEach((u, i) => {
+    if (u.directSymbol) {
+      const cap = capUsd(u.directSymbol)
+      const quote = quotes.get(u.directSymbol.toUpperCase())
+      if (cap && quote) {
+        coveredValue += u.value
+        const bucket = sizeBucket(cap)
+        buckets.set(bucket, (buckets.get(bucket) || 0) + u.value)
+        addPE(quote, u.value)
+      }
+      return
+    }
+
+    for (const stratum of stratified[i] || []) {
+      // Schicht-Split über die klassifizierbaren Vertreter, gewichtet nach Fondsgewicht
+      const classified = stratum.reps
+        .map(rep => ({ rep, cap: capUsd(rep.symbol), quote: quotes.get(rep.symbol) }))
+        .filter(x => x.cap !== null)
+      if (classified.length === 0) continue
+
+      const stratumValue = u.value * stratum.fraction
+      const repWeightSum = classified.reduce((s, x) => s + x.rep.weight, 0)
+      coveredValue += stratumValue
+      for (const x of classified) {
+        const share = x.rep.weight / repWeightSum
+        const bucket = sizeBucket(x.cap!)
+        buckets.set(bucket, (buckets.get(bucket) || 0) + stratumValue * share)
+        addPE(x.quote!, stratumValue * share)
+      }
+    }
+  })
+
+  if (coveredValue <= 0) return null
+  const coveragePercent = Math.min(100, (coveredValue / analyzedValue) * 100)
+  // Unter 40% Abdeckung wäre die Aussage irreführend — dann lieber gar keine
+  if (coveragePercent < 40) return null
+
+  const order = ['Mega Cap (ab 200 Mrd. $)', 'Large Cap (10–200 Mrd. $)', 'Mid Cap (2–10 Mrd. $)', 'Small Cap (unter 2 Mrd. $)']
+  const slices: WeightSlice[] = order
+    .filter(label => (buckets.get(label) || 0) > 0)
+    .map(label => ({
+      label,
+      value: buckets.get(label)!,
+      percent: (buckets.get(label)! / coveredValue) * 100,
+    }))
+
+  return {
+    slices,
+    coveragePercent,
+    weightedPE: peInverseSum > 0 && peWeightSum / coveredValue >= 0.5 ? peWeightSum / peInverseSum : null,
+  }
+}
+
+// =====================================================
 // Insights: regelbasierte, DESKRIPTIVE Beobachtungen.
 // Bewusst keine Handlungsempfehlungen (keine Anlageberatung).
 // =====================================================
@@ -366,7 +607,17 @@ function buildInsights(
     })
   }
 
-  // 6) Gehebelte ETFs
+  // 6) Nennenswerter Small-Cap-Anteil
+  const small = result.sizeExposure?.slices.find(s => s.label.startsWith('Small Cap'))
+  if (small && small.percent >= 25) {
+    insights.push({
+      severity: 'info',
+      title: `${fmtPct(small.percent)} Small-Cap-Exposure`,
+      text: 'Inklusive der Small-Cap-Anteile in deinen ETFs — kleinere Unternehmen schwanken typischerweise stärker als der Gesamtmarkt.',
+    })
+  }
+
+  // 7) Gehebelte ETFs
   for (const lev of leveragedEtfs) {
     insights.push({
       severity: 'warn',
@@ -683,6 +934,22 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
       .map(([label, value]) => ({ label, value, percent: (value / total) * 100 }))
   }
 
+  // 7) Size-Exposure: Direktaktien + (ETF × Proxy)-Einheiten stratifiziert sampeln
+  const sizeUnits: SizeUnit[] = stocks.map(s => ({ value: s.value, directSymbol: s.symbol }))
+  for (const etf of etfs) {
+    if (!etf.proxies) continue
+    const availableProxies = etf.proxies.filter(p => proxyData.has(p.symbol))
+    const weightSum = availableProxies.reduce((s, p) => s + p.weight, 0)
+    if (weightSum <= 0) continue
+    for (const proxy of availableProxies) {
+      sizeUnits.push({
+        value: etf.input.value * (proxy.weight / weightSum),
+        holdings: proxyData.get(proxy.symbol)!.holdings,
+      })
+    }
+  }
+  const sizeExposure = await computeSizeExposure(sizeUnits, analyzedValue)
+
   const base = {
     totalValue,
     analyzedValue,
@@ -694,6 +961,7 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
     sectors: toSlices(sectorAgg),
     overlaps: overlaps.slice(0, 15),
     etfCoverage: etfCoverage.sort((a, b) => b.value - a.value),
+    sizeExposure,
   }
 
   return { ...base, insights: buildInsights(base, leveragedEtfs) }

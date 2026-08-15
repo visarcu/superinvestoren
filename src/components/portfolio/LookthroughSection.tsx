@@ -64,6 +64,11 @@ interface LookthroughInsight {
   title: string
   text: string
 }
+interface SizeExposure {
+  slices: WeightSlice[]
+  coveragePercent: number
+  weightedPE: number | null
+}
 interface LookthroughResult {
   totalValue: number
   analyzedValue: number
@@ -76,6 +81,7 @@ interface LookthroughResult {
   overlaps: OverlapPair[]
   etfCoverage: EtfCoverageInfo[]
   insights: LookthroughInsight[]
+  sizeExposure: SizeExposure | null
 }
 
 const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#8b5cf6', '#14b8a6']
@@ -359,6 +365,28 @@ export default function LookthroughSection({
           translate
         />
       </div>
+
+      {/* ===== Größenklassen (Size-Exposure) ===== */}
+      {result.sizeExposure && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <SliceCard
+            title="Größenklassen (Size)"
+            subtitle={`Nach Market Cap · deckt ${result.sizeExposure.coveragePercent.toFixed(0)}% des analysierten Werts ab`}
+            items={result.sizeExposure.slices}
+            icon={<ChartPieIcon className="w-3.5 h-3.5 text-neutral-400" />}
+          />
+          <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5 flex flex-col justify-center">
+            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Gewichtetes KGV</p>
+            <p className="text-2xl font-semibold text-white tabular-nums">
+              {result.sizeExposure.weightedPE ? result.sizeExposure.weightedPE.toFixed(1) : '—'}
+            </p>
+            <p className="text-[11px] text-neutral-500 mt-2 leading-relaxed">
+              Harmonisches Mittel über deine effektiven Positionen (Direktbestände + ETF-Anteile).
+              Zum Vergleich: Der Weltmarkt lag historisch meist zwischen 15 und 20.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* ===== ETF-Überschneidungen ===== */}
       {result.overlaps.length > 0 && (
