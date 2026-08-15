@@ -58296,6 +58296,13 @@ export const stocks: Stock[] = [
     metrics: [],
   },
   {
+    ticker: 'XE',
+    cusip:  '98386P102',
+    name:   'X-Energy, Inc.',
+    sector: 'Industrials',
+    metrics: [],
+  },
+  {
     ticker: 'CPHC',
     cusip:  '13811E101',
     name:   'Canterbury Park Holding Corporation',
