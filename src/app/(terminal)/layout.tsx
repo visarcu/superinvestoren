@@ -1,6 +1,7 @@
 // src/app/(terminal)/layout.tsx - FISCAL.AI STYLE COLLAPSED SIDEBAR
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { ReactNode, useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -641,7 +642,7 @@ function LayoutContent({ children }: LayoutProps) {
         try {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('is_premium')
+            .select('is_premium, subscription_status, subscription_end_date')
             .eq('user_id', session.user.id)
             .maybeSingle()
 
@@ -649,7 +650,7 @@ function LayoutContent({ children }: LayoutProps) {
             setUser({
               id: session.user.id,
               email: session.user.email || '',
-              isPremium: profile?.is_premium || false
+              isPremium: hasPremiumAccess(profile)
             })
             setLoading(false)
           }

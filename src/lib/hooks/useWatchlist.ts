@@ -6,6 +6,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 
 export const FREE_WATCHLIST_LIMIT = 5
 
@@ -41,14 +42,14 @@ export function useWatchlist(ticker: string) {
             .from('watchlists')
             .select('id', { count: 'exact', head: true })
             .eq('user_id', session.user.id),
-          supabase.from('profiles').select('is_premium').eq('user_id', session.user.id).maybeSingle(),
+          supabase.from('profiles').select('is_premium, subscription_status, subscription_end_date').eq('user_id', session.user.id).maybeSingle(),
         ])
 
         if (cancelled) return
         setUserId(session.user.id)
         setExists(!!tickerRes.data)
         setCount(countRes.count ?? 0)
-        setIsPremium(profileRes.data?.is_premium ?? false)
+        setIsPremium(hasPremiumAccess(profileRes.data))
       } catch (err) {
         console.error('[useWatchlist] init error:', err)
       } finally {

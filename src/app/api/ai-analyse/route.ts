@@ -1,6 +1,7 @@
 // src/app/api/ai-analyse/route.ts - AI-powered DCF Analysis API
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -324,11 +325,11 @@ async function verifyUserAndPremium(request: NextRequest) {
 
     const { data: profile } = await supabase
       .from('profiles')
-      .select('is_premium')
+      .select(PREMIUM_PROFILE_SELECT)
       .eq('user_id', user.id)
       .single()
 
-    if (!profile?.is_premium) {
+    if (!hasPremiumAccess(profile)) {
       return { error: 'Premium-Abo erforderlich für AI-Analysen', status: 403 }
     }
 

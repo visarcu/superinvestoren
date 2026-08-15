@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
 import { createClient } from '@supabase/supabase-js'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 
 // TEST MODE: Set to your user ID to only send notifications to yourself
 // Set to null to send to all users. Must be a valid UUID format.
@@ -268,12 +269,12 @@ async function handleWatchlistCheck(queryTestUserId: string | null = null) {
         if (dippedStocks.length > 0) {
           const { data: profile } = await supabaseService
             .from('profiles')
-            .select('user_id, is_premium')
+            .select('user_id, is_premium, subscription_status, subscription_end_date')
             .eq('user_id', userSettings.user_id)
             .maybeSingle()
 
           // Check if user is Premium (or in test mode)
-          const isPremiumUser = profile?.is_premium || false
+          const isPremiumUser = hasPremiumAccess(profile)
           const bypassPremiumCheck = !!testUser && userSettings.user_id === testUser
 
           if (profile && (isPremiumUser || bypassPremiumCheck)) {

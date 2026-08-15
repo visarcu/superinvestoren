@@ -1,4 +1,5 @@
 // src/lib/premiumCheck.ts
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { supabase } from '@/lib/supabaseClient'
 
 export interface UserPremiumStatus {
@@ -14,7 +15,7 @@ export const checkUserPremiumStatus = async (): Promise<UserPremiumStatus | null
     // Check premium status from profiles table (same as other portfolio pages)
     const { data: profile, error } = await supabase
       .from('profiles')
-      .select('is_premium')
+      .select('is_premium, subscription_status, subscription_end_date')
       .eq('user_id', user.id)
       .maybeSingle()
 
@@ -39,7 +40,7 @@ export const checkUserPremiumStatus = async (): Promise<UserPremiumStatus | null
     }
 
     return {
-      isPremium: profile?.is_premium || false,
+      isPremium: hasPremiumAccess(profile),
       userId: user.id
     }
   } catch (error) {

@@ -1,5 +1,6 @@
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -72,7 +73,7 @@ function UserDropdown({ user, profile }: { user: any; profile: any }) {
     return (user.email || '').split('@')[0]
   }
 
-  const isPremium = profile?.is_premium || false
+  const isPremium = hasPremiumAccess(profile)
 
   const handleLogout = async () => {
     setIsOpen(false)

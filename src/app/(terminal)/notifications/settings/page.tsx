@@ -1,6 +1,7 @@
 // src/app/(terminal)/notifications/settings/page.tsx - CLEAN FEY STYLE
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import {
@@ -65,11 +66,11 @@ export default function NotificationSettings() {
       // Load Premium status
       const { data: profile } = await supabase
         .from('profiles')
-        .select('is_premium')
+        .select('is_premium, subscription_status, subscription_end_date')
         .eq('user_id', session.user.id)
         .single()
 
-      setIsPremium(profile?.is_premium || false)
+      setIsPremium(hasPremiumAccess(profile))
 
       const { data, error } = await supabase
         .from('notification_settings')

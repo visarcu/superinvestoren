@@ -1,6 +1,7 @@
 // src/components/chart-builder/ChartBuilder.tsx
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { User } from '@supabase/supabase-js'
@@ -47,11 +48,11 @@ export default function ChartBuilder() {
 
       const { data: profile } = await supabase
         .from('profiles')
-        .select('is_premium')
+        .select('is_premium, subscription_status, subscription_end_date')
         .eq('user_id', session.user.id)
         .maybeSingle()
 
-      setIsPremium(profile?.is_premium || false)
+      setIsPremium(hasPremiumAccess(profile))
     }
     checkAuth()
   }, [])

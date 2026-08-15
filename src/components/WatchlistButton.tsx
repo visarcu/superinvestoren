@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import { hasPremiumAccess } from '@/lib/premiumAccess';
 import { HeartIcon as HeartSolid } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartOutline, LockClosedIcon } from '@heroicons/react/24/outline';
 
@@ -32,12 +33,12 @@ export default function WatchlistButton({ ticker, variant = 'default' }: Props) 
           const [tickerRes, countRes, profileRes] = await Promise.all([
             supabase.from('watchlists').select('id').eq('user_id', session.user.id).eq('ticker', ticker.toUpperCase()).maybeSingle(),
             supabase.from('watchlists').select('id', { count: 'exact', head: true }).eq('user_id', session.user.id),
-            supabase.from('profiles').select('is_premium').eq('user_id', session.user.id).maybeSingle(),
+            supabase.from('profiles').select('is_premium, subscription_status, subscription_end_date').eq('user_id', session.user.id).maybeSingle(),
           ]);
 
           setExists(!!tickerRes.data);
           setWatchlistCount(countRes.count ?? 0);
-          setIsPremium(profileRes.data?.is_premium ?? false);
+          setIsPremium(hasPremiumAccess(profileRes.data));
         }
       } catch (error) {
         console.error('[WatchlistButton] Init error:', error);

@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
     console.log('📋 Found subscriptions:', subscriptions.data.map(s => ({
       id: s.id,
       status: s.status,
-      current_period_end: new Date((s as any).current_period_end * 1000).toISOString()
+      current_period_end: new Date(((s as any).current_period_end ?? (s as any).items?.data?.[0]?.current_period_end) * 1000).toISOString()
     })));
 
     // Find active or trialing subscription
@@ -148,8 +148,8 @@ export async function POST(request: NextRequest) {
 
       if (subscription.status === 'trialing' && subAny.trial_end) {
         endDate = new Date(subAny.trial_end * 1000);
-      } else if (subAny.current_period_end) {
-        endDate = new Date(subAny.current_period_end * 1000);
+      } else if ((subAny.current_period_end ?? subAny.items?.data?.[0]?.current_period_end)) {
+        endDate = new Date((subAny.current_period_end ?? subAny.items?.data?.[0]?.current_period_end) * 1000);
       } else {
         endDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
       }
@@ -168,11 +168,11 @@ export async function POST(request: NextRequest) {
       // Check if there's a canceled subscription that's still valid
       const canceledSub = subscriptions.data.find(s =>
         s.status === 'canceled' &&
-        (s as any).current_period_end * 1000 > Date.now()
+        ((s as any).current_period_end ?? (s as any).items?.data?.[0]?.current_period_end) * 1000 > Date.now()
       );
 
       if (canceledSub) {
-        const endDate = new Date((canceledSub as any).current_period_end * 1000);
+        const endDate = new Date(((canceledSub as any).current_period_end ?? (canceledSub as any).items?.data?.[0]?.current_period_end) * 1000);
         updateData = {
           ...updateData,
           is_premium: true, // Still valid until period end

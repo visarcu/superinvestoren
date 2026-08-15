@@ -1,4 +1,5 @@
 // src/hooks/useInvestorFollow.ts
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 
@@ -36,11 +37,11 @@ export function useInvestorFollow(investorSlug: string): UseInvestorFollowReturn
         // Load premium status
         const { data: profile } = await supabase
           .from('profiles')
-          .select('is_premium')
+          .select('is_premium, subscription_status, subscription_end_date')
           .eq('user_id', session.user.id)
           .maybeSingle()
 
-        setIsPremium(profile?.is_premium || false)
+        setIsPremium(hasPremiumAccess(profile))
 
         // Load notification settings
         const { data: settings } = await supabase

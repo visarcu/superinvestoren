@@ -1,6 +1,7 @@
 // User Context - Eliminates redundant auth calls across pages
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import type { User } from '@supabase/supabase-js'
@@ -180,7 +181,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
     profile,
     loading,
     isAuthenticated: !!user,
-    isPremium: profile?.is_premium || false,
+    isPremium: hasPremiumAccess(profile),
     
     // Functions
     signIn,

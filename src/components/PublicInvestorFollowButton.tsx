@@ -1,6 +1,7 @@
 // src/components/PublicInvestorFollowButton.tsx
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useEffect } from 'react'
 import { BellIcon, UserPlusIcon, CheckIcon, ArrowRightIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 import { BellIcon as BellIconSolid } from '@heroicons/react/24/solid'
@@ -55,11 +56,11 @@ export default function PublicInvestorFollowButton({
       // Check premium status
       const { data: profile } = await supabase
         .from('profiles')
-        .select('is_premium')
+        .select('is_premium, subscription_status, subscription_end_date')
         .eq('user_id', session.user.id)
         .maybeSingle()
 
-      setIsPremium(profile?.is_premium || false)
+      setIsPremium(hasPremiumAccess(profile))
 
       // Check if user follows this investor
       const { data: settings } = await supabase

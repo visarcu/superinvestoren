@@ -1,6 +1,7 @@
 // src/app/api/notifications/follow-investor/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 // ✅ Service Role Client nur für Backend-Operationen
 const supabaseService = createClient(
@@ -42,11 +43,11 @@ export async function POST(request: NextRequest) {
     if (action === 'follow') {
       const { data: profile } = await supabaseService
         .from('profiles')
-        .select('is_premium')
+        .select(PREMIUM_PROFILE_SELECT)
         .eq('user_id', user.id)
         .maybeSingle()
 
-      if (!profile?.is_premium) {
+      if (!hasPremiumAccess(profile)) {
         return NextResponse.json({
           error: 'Premium required',
           message: 'Investoren folgen ist ein Premium Feature'

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
+import { hasPremiumAccess } from '@/lib/premiumAccess';
 
 const FREE_WATCHLIST_LIMIT = 5;
 
@@ -39,12 +40,12 @@ export function useWatchlist(ticker: string) {
         const [tickerRes, countRes, profileRes] = await Promise.all([
           supabase.from('watchlists').select('id').eq('user_id', session.user.id).eq('ticker', ticker.toUpperCase()).maybeSingle(),
           supabase.from('watchlists').select('id', { count: 'exact', head: true }).eq('user_id', session.user.id),
-          supabase.from('profiles').select('is_premium').eq('user_id', session.user.id).maybeSingle(),
+          supabase.from('profiles').select('is_premium, subscription_status, subscription_end_date').eq('user_id', session.user.id).maybeSingle(),
         ]);
 
         setInWatchlist(!!tickerRes.data);
         setWatchlistCount(countRes.count ?? 0);
-        setIsPremium(profileRes.data?.is_premium ?? false);
+        setIsPremium(hasPremiumAccess(profileRes.data));
       } catch (error) {
         console.error('[useWatchlist] Unexpected error:', error);
       } finally {

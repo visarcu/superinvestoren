@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -338,11 +339,11 @@ async function handleWeeklyEarnings() {
       // Check if user is Premium (email notifications are Premium-only)
       const { data: profile } = await supabase
         .from('profiles')
-        .select('user_id, is_premium')
+        .select('user_id, is_premium, subscription_status, subscription_end_date')
         .eq('user_id', userId)
         .maybeSingle()
 
-      const isPremiumUser = profile?.is_premium || false
+      const isPremiumUser = hasPremiumAccess(profile)
       const bypassPremiumCheck = !!TEST_USER_ID && userId === TEST_USER_ID
 
       if (!isPremiumUser && !bypassPremiumCheck) {

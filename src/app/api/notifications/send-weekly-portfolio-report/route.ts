@@ -3,6 +3,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { convertPriceToEur } from '@/lib/portfolioValuation'
 import { detectTickerCurrency } from '@/lib/fmp'
 
@@ -435,12 +436,12 @@ async function handleWeeklyPortfolioReport() {
 
     const { data: profiles } = await supabase
       .from('profiles')
-      .select('user_id, is_premium')
+      .select('user_id, is_premium, subscription_status, subscription_end_date')
       .in('user_id', uniqueUserIds)
 
     const premiumUserIds = new Set<string>()
     for (const profile of profiles || []) {
-      if (profile.is_premium) premiumUserIds.add(profile.user_id)
+      if (hasPremiumAccess(profile)) premiumUserIds.add(profile.user_id)
     }
 
     // Group holdings by user (symbol → {quantity, averagePrice})

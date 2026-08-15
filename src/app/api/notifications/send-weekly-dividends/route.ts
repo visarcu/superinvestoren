@@ -2,6 +2,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -426,12 +427,12 @@ async function handleWeeklyDividends() {
     // Check premium for all users
     const { data: profiles } = await supabase
       .from('profiles')
-      .select('user_id, is_premium')
+      .select('user_id, is_premium, subscription_status, subscription_end_date')
       .in('user_id', uniqueUserIds)
 
     const premiumUserIds = new Set<string>()
     for (const profile of profiles || []) {
-      if (profile.is_premium) premiumUserIds.add(profile.user_id)
+      if (hasPremiumAccess(profile)) premiumUserIds.add(profile.user_id)
     }
 
     // Opt-out: Users, die die Dividenden-Mail in den Einstellungen deaktiviert haben

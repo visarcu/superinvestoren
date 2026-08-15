@@ -1,6 +1,7 @@
 // src/app/superinvestor/[slug]/page.tsx - CLEAN DESIGN VERSION
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { useState, FormEvent, useEffect, useMemo } from 'react'
 import { notFound, useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
@@ -752,14 +753,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('is_premium')
+            .select('is_premium, subscription_status, subscription_end_date')
             .eq('user_id', session.user.id)
             .maybeSingle()
 
           setUser({
             id: session.user.id,
             email: session.user.email || '',
-            isPremium: profile?.is_premium || false
+            isPremium: hasPremiumAccess(profile)
           })
         }
       } catch (error) {

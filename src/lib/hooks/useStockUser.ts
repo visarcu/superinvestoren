@@ -2,6 +2,7 @@
 
 // Lädt aktuellen Supabase-User + Premium-Status.
 // Wiederverwendbarer Hook für die Aktien-Seiten (Watchlist, Premium-Gating, Personalisierung).
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 
@@ -31,7 +32,7 @@ export function useStockUser() {
 
         const { data: profile } = await supabase
           .from('profiles')
-          .select('is_premium')
+          .select('is_premium, subscription_status, subscription_end_date')
           .eq('user_id', session.user.id)
           .maybeSingle()
 
@@ -39,7 +40,7 @@ export function useStockUser() {
         setUser({
           id: session.user.id,
           email: session.user.email || '',
-          isPremium: profile?.is_premium || false,
+          isPremium: hasPremiumAccess(profile),
         })
       } catch (err) {
         console.error('[useStockUser] load error:', err)

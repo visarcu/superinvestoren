@@ -1,4 +1,5 @@
 // src/lib/premiumUtils.tsx - EINFACHE VERSION (nur Sessions, kein Admin)
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { supabase } from '@/lib/supabaseClient';
 import { useState, useEffect } from 'react';
 import React from 'react';
@@ -56,7 +57,7 @@ export async function checkPremiumStatus(userId: string): Promise<PremiumStatus>
     }
 
     return {
-      isPremium: profile.is_premium || false,
+      isPremium: hasPremiumAccess(profile),
       status: profile.subscription_status as any,
       endDate,
       daysRemaining,

@@ -1,5 +1,6 @@
 // src/components/Navbar.tsx - QUARTR/LINEAR STYLE with Light Theme for Blog
 'use client'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -212,7 +213,7 @@ function UserDropdown({ user, profile, isLightTheme = false }: { user: any; prof
     return (user.email || '').split('@')[0];
   };
 
-  const isPremium = profile?.is_premium || false;
+  const isPremium = hasPremiumAccess(profile);
 
   const handleLogout = async () => {
     setIsOpen(false);

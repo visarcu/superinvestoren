@@ -1,6 +1,7 @@
 // src/components/RevisionsClient.tsx
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -113,14 +114,14 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('is_premium')
+            .select('is_premium, subscription_status, subscription_end_date')
             .eq('user_id', session.user.id)
             .maybeSingle()
 
           setUser({
             id: session.user.id,
             email: session.user.email || '',
-            isPremium: profile?.is_premium || false
+            isPremium: hasPremiumAccess(profile)
           })
         }
       } catch (error) {

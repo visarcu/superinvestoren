@@ -1,6 +1,7 @@
 // app/analyse/stocks/[ticker]/earnings/page.tsx
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import EarningsSummary from '@/components/EarningsSummary'
@@ -41,10 +42,10 @@ export default function QuartalszahlenPage() {
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('is_premium')
+            .select('is_premium, subscription_status, subscription_end_date')
             .eq('user_id', session.user.id)
             .maybeSingle()
-          setIsPremium(profile?.is_premium || false)
+          setIsPremium(hasPremiumAccess(profile))
         }
       } catch (e) {
         console.error('[earnings] premium check failed:', e)

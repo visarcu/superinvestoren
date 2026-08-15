@@ -173,9 +173,9 @@ async function handleCheckoutSessionCompleted(sessionData: any) {
       // Bei Trial: verwende trial_end
       endDate = new Date(subscriptionAny.trial_end * 1000);
       console.log('🎯 Using trial_end:', endDate);
-    } else if (subscriptionAny.current_period_end) {
+    } else if ((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end)) {
       // Bei normalen Subscriptions: verwende current_period_end
-      endDate = new Date(subscriptionAny.current_period_end * 1000);
+      endDate = new Date((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end) * 1000);
       console.log('🎯 Using current_period_end:', endDate);
     } else {
       // Fallback: 14 Tage ab jetzt
@@ -284,8 +284,8 @@ async function handleSubscriptionCreated(subscriptionData: any) {
     if (subscriptionData.status === 'trialing' && subscriptionAny.trial_end) {
       endDate = new Date(subscriptionAny.trial_end * 1000);
       console.log('🎯 Using trial_end:', endDate);
-    } else if (subscriptionAny.current_period_end) {
-      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else if ((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end)) {
+      endDate = new Date((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end) * 1000);
       console.log('🎯 Using current_period_end:', endDate);
     } else {
       endDate = new Date(Date.now() + (14 * 24 * 60 * 60 * 1000));
@@ -379,8 +379,8 @@ async function handleInvoicePaymentSucceeded(invoiceData: any) {
     
     if (subscription.status === 'trialing' && subscriptionAny.trial_end) {
       endDate = new Date(subscriptionAny.trial_end * 1000);
-    } else if (subscriptionAny.current_period_end) {
-      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else if ((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end)) {
+      endDate = new Date((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end) * 1000);
     } else {
       endDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
     }
@@ -439,21 +439,21 @@ async function handleSubscriptionUpdated(subscriptionData: any) {
       }
     );
 
-    // Finde User über Customer ID
+    // Finde User über Customer ID (Fallback: metadata.supabase_user_id,
+    // falls das Profil den Stripe-Customer noch nicht verlinkt hat)
     const customerId = subscriptionData.customer as string;
-    const { data: profile, error: findError } = await supabaseAdmin
+    const { data: profile } = await supabaseAdmin
       .from('profiles')
       .select('user_id')
       .eq('stripe_customer_id', customerId)
-      .single();
+      .maybeSingle();
 
-    if (findError || !profile) {
+    const userId = profile?.user_id || subscriptionData.metadata?.supabase_user_id;
+    if (!userId) {
       console.error('❌ No user found for customer:', customerId);
       return { success: false, error: 'User not found' };
     }
 
-    const userId = profile.user_id;
-    
     // Check if subscription is canceled (has canceled_at but not yet deleted)
 // Zeile 426-427 in webhook/route.ts ändern zu:
 const isCanceled = subscriptionData.cancel_at_period_end === true;
@@ -472,8 +472,8 @@ const isActive = subscriptionData.status === 'active' || subscriptionData.status
     
     if (subscriptionData.status === 'trialing' && subscriptionAny.trial_end) {
       endDate = new Date(subscriptionAny.trial_end * 1000);
-    } else if (subscriptionAny.current_period_end) {
-      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else if ((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end)) {
+      endDate = new Date((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end) * 1000);
     } else {
       endDate = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
     }
@@ -531,29 +531,29 @@ async function handleSubscriptionDeleted(subscriptionData: any) {
       }
     );
 
-    // Finde User über Customer ID
+    // Finde User über Customer ID (Fallback: metadata.supabase_user_id,
+    // falls das Profil den Stripe-Customer noch nicht verlinkt hat)
     const customerId = subscriptionData.customer as string;
-    const { data: profile, error: findError } = await supabaseAdmin
+    const { data: profile } = await supabaseAdmin
       .from('profiles')
       .select('user_id')
       .eq('stripe_customer_id', customerId)
-      .single();
+      .maybeSingle();
 
-    if (findError || !profile) {
+    const userId = profile?.user_id || subscriptionData.metadata?.supabase_user_id;
+    if (!userId) {
       console.error('❌ No user found for customer:', customerId);
       return { success: false, error: 'User not found' };
     }
 
-    const userId = profile.user_id;
-    
     // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscriptionData as any;
     let endDate: Date;
     
     if (subscriptionData.status === 'trialing' && subscriptionAny.trial_end) {
       endDate = new Date(subscriptionAny.trial_end * 1000);
-    } else if (subscriptionAny.current_period_end) {
-      endDate = new Date(subscriptionAny.current_period_end * 1000);
+    } else if ((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end)) {
+      endDate = new Date((subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end) * 1000);
     } else {
       endDate = new Date();
     }

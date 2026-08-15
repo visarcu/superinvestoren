@@ -1,6 +1,7 @@
 // src/hooks/usePortfolio.ts - Zentraler Portfolio-Hook
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
@@ -760,10 +761,10 @@ export function usePortfolio() {
       // Premium Status
       const { data: profile } = await supabase
         .from('profiles')
-        .select('is_premium')
+        .select('is_premium, subscription_status, subscription_end_date')
         .eq('user_id', user.id)
         .single()
-      setIsPremium(profile?.is_premium || false)
+      setIsPremium(hasPremiumAccess(profile))
 
       // All Portfolios
       const { data: portfolios } = await supabase

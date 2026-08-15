@@ -1,6 +1,7 @@
 // src/app/analyse/portfolio/dividenden/page.tsx - FIXED: Echte Portfolio-Integration
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { 
@@ -223,14 +224,14 @@ export default function DividendenPage() {
 
         const { data: profile } = await supabase
           .from('profiles')
-          .select('is_premium')
+          .select('is_premium, subscription_status, subscription_end_date')
           .eq('user_id', session.user.id)
           .maybeSingle()
 
         const userData = {
           id: session.user.id,
           email: session.user.email || '',
-          isPremium: profile?.is_premium || false
+          isPremium: hasPremiumAccess(profile)
         }
         setUser(userData)
 

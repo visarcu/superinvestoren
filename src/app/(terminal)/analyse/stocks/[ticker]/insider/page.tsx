@@ -1,6 +1,7 @@
 // src/app/(terminal)/analyse/stocks/[ticker]/insider/page.tsx - FEY/QUARTR CLEAN STYLE
 'use client'
 
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { useState, useEffect, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
@@ -136,10 +137,10 @@ export default function TickerInsiderPage() {
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
-            .select('is_premium')
+            .select('is_premium, subscription_status, subscription_end_date')
             .eq('user_id', session.user.id)
             .maybeSingle()
-          setUser({ id: session.user.id, email: session.user.email || '', isPremium: profile?.is_premium || false })
+          setUser({ id: session.user.id, email: session.user.email || '', isPremium: hasPremiumAccess(profile) })
         }
       } catch (error) {
         console.error('Error loading user:', error)

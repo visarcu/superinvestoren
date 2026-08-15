@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { FinancialRAGSystem } from '@/lib/ragSystem'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -51,11 +52,11 @@ async function verifyAdminAccess(request: NextRequest) {
     // Check admin status (adjust based on your admin system)
     const { data: profile } = await supabase
       .from('profiles')
-      .select('is_admin, is_premium')
+      .select('is_admin, is_premium, subscription_status, subscription_end_date')
       .eq('user_id', user.id)
       .single()
 
-    if (!profile?.is_admin && !profile?.is_premium) {
+    if (!profile?.is_admin && !hasPremiumAccess(profile)) {
       return { error: 'Admin access required', status: 403 }
     }
 

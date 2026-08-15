@@ -99,9 +99,10 @@ export class StripeAuth {
       
       const isActive = subscription.status === 'active' || subscription.status === 'trialing';
       
-      // Type-safe Zugriff auf current_period_end
+      // Type-safe Zugriff auf current_period_end (ab Stripe API 2025-04-30
+      // liegt das Feld auf den Subscription-Items, nicht mehr auf der Subscription)
       const subscriptionAny = subscription as any;
-      const endTimestamp = subscriptionAny.current_period_end;
+      const endTimestamp = subscriptionAny.current_period_end ?? subscriptionAny.items?.data?.[0]?.current_period_end;
       const endDate = endTimestamp ? new Date(endTimestamp * 1000) : null;
       
       return {

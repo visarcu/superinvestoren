@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { prisma } from '@/lib/prisma'
+import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -33,8 +34,16 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Benutzer nicht gefunden' }, { status: 404 })
     }
 
+    // Premium-Status aus profiles (wird vom Stripe-Webhook gepflegt) —
+    // User.isPremium in Prisma hat @default(true) und ist keine gültige Quelle.
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select(PREMIUM_PROFILE_SELECT)
+      .eq('user_id', supabaseUser.id)
+      .maybeSingle()
+
     // Premium users have unlimited downloads
-    if (user.isPremium) {
+    if (hasPremiumAccess(profile)) {
       return NextResponse.json({
         canDownload: true,
         isPremium: true,
@@ -100,8 +109,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Benutzer nicht gefunden' }, { status: 404 })
     }
 
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select(PREMIUM_PROFILE_SELECT)
+      .eq('user_id', supabaseUser.id)
+      .maybeSingle()
+
     // Check if free user has reached limit
-    if (!user.isPremium) {
+    if (!hasPremiumAccess(profile)) {
       const startOfMonth = new Date()
       startOfMonth.setDate(1)
       startOfMonth.setHours(0, 0, 0, 0)
