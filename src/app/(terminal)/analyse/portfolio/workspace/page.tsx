@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { usePortfolio, type Portfolio } from '@/hooks/usePortfolio'
+import { useLookthrough } from '@/hooks/useLookthrough'
 import { getBrokerColor, getBrokerDisplayName, brokerTypeToLogoId } from '@/lib/brokerConfig'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 import QuickStats from '@/components/portfolio/QuickStats'
@@ -31,9 +32,12 @@ import {
   CreditCardIcon,
   CpuChipIcon,
   DocumentTextIcon,
+  ExclamationTriangleIcon,
+  LightBulbIcon,
   PlusIcon,
   RectangleGroupIcon,
   Squares2X2Icon,
+  ViewfinderCircleIcon,
   WalletIcon,
 } from '@heroicons/react/24/outline'
 
@@ -390,6 +394,32 @@ export default function PortfolioWorkspacePage() {
   const [showRealizedGains, setShowRealizedGains] = useState(false)
   const activeView = parseView(searchParams.get('view'))
 
+  // Look-Through einmal für den ganzen Workspace laden (Überblick-Insights +
+  // Analyse-Tab teilen sich das Ergebnis)
+  const lookthrough = useLookthrough(p.holdings)
+
+  // Superinvestor-Overlap für die Positions-Badges (gleiches Muster wie Dashboard)
+  const [superInvestorCounts, setSuperInvestorCounts] = useState<Record<string, { count: number; investors: { name: string; slug: string }[] }>>({})
+  const fetchSuperInvestorOverlap = useCallback(async (holdings: { symbol: string }[]) => {
+    if (holdings.length === 0) return
+    try {
+      const res = await fetch('/api/portfolio/super-investor-overlap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tickers: holdings.map(h => h.symbol) }),
+      })
+      if (res.ok) setSuperInvestorCounts(await res.json())
+    } catch (error) {
+      console.error('Error fetching super investor overlap:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (p.holdings.length > 0) {
+      fetchSuperInvestorOverlap(p.holdings)
+    }
+  }, [p.holdings, fetchSuperInvestorOverlap])
+
   const selectedDepotId = searchParams.get('depot') || 'all'
   const dashboardHref = useMemo(() => {
     const params = new URLSearchParams(searchParams.toString())
@@ -623,6 +653,48 @@ export default function PortfolioWorkspacePage() {
                   onRealizedClick={() => setShowRealizedGains(true)}
                 />
 
+                {/* Durchblick-Insights: die wichtigsten Look-Through-Erkenntnisse
+                    direkt im Überblick — Details im Analyse-Tab */}
+                {(lookthrough.result?.insights.length ?? 0) > 0 && (
+                  <section className="terminal-glass rounded-2xl p-5">
+                    <div className="mb-3 flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 text-sm font-semibold text-theme-primary tracking-tight">
+                        <ViewfinderCircleIcon className="h-4 w-4 text-teal-300" />
+                        Durchblick
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={() => openView('analysis')}
+                        className="rounded-lg px-2 py-1 text-xs font-medium text-teal-300 transition-colors hover:bg-teal-400/10 hover:text-white"
+                      >
+                        Zur Analyse →
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
+                      {lookthrough.result!.insights.slice(0, 3).map((insight, i) => {
+                        const isWarn = insight.severity === 'warn'
+                        const Icon = isWarn ? ExclamationTriangleIcon : LightBulbIcon
+                        return (
+                          <div
+                            key={i}
+                            className={`rounded-xl border p-3.5 ${
+                              isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-white/[0.07] bg-white/[0.03]'
+                            }`}
+                          >
+                            <div className="flex items-start gap-2.5">
+                              <Icon className={`mt-0.5 h-4 w-4 flex-shrink-0 ${isWarn ? 'text-amber-400' : 'text-teal-300'}`} />
+                              <div className="min-w-0">
+                                <p className="text-[13px] font-semibold leading-snug text-theme-primary">{insight.title}</p>
+                                <p className="mt-1 text-[12px] leading-relaxed text-theme-muted">{insight.text}</p>
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </section>
+                )}
+
                 <div className="grid gap-5 xl:grid-cols-[1.55fr,0.85fr]">
                   <section className="terminal-glass rounded-2xl p-5">
                     <PortfolioValueChart
@@ -673,6 +745,7 @@ export default function PortfolioWorkspacePage() {
                     isAllDepotsView={p.isAllDepotsView}
                     portfolioId={p.portfolio?.id}
                     historicalPerfByDepot={p.historicalPerfByDepot}
+                    superInvestorCounts={superInvestorCounts}
                     readOnly
                     returnTabParam="view"
                     returnTabValue="positions"
@@ -697,6 +770,7 @@ export default function PortfolioWorkspacePage() {
                   isAllDepotsView={p.isAllDepotsView}
                   portfolioId={p.portfolio?.id}
                   historicalPerfByDepot={p.historicalPerfByDepot}
+                  superInvestorCounts={superInvestorCounts}
                   readOnly
                   returnTabParam="view"
                   returnTabValue="positions"
@@ -706,6 +780,7 @@ export default function PortfolioWorkspacePage() {
 
             {activeView === 'analysis' && (
               <AnalysisTab
+                lookthrough={lookthrough}
                 holdings={p.holdings}
                 cashPosition={p.cashPosition}
                 totalValue={p.totalValue}

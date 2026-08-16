@@ -6,6 +6,7 @@ import React, { useMemo } from 'react'
 import { type Holding } from '@/hooks/usePortfolio'
 import Logo from '@/components/Logo'
 import LookthroughSection from '@/components/portfolio/LookthroughSection'
+import { type UseLookthroughState } from '@/hooks/useLookthrough'
 import { isETF, getETFBySymbol } from '@/lib/etfUtils'
 import { getSectorFromTicker, translateSector } from '@/utils/sectorUtils'
 import { perfColor } from '@/utils/formatters'
@@ -19,6 +20,8 @@ interface AnalysisTabProps {
   formatCurrency: (amount: number) => string
   formatPercentage: (value: number) => string
   portfolioId?: string
+  /** Vorgeladene Look-Through-Analyse (Workspace lädt sie einmal für alle Tabs) */
+  lookthrough?: UseLookthroughState
 }
 
 // Währung aus Ticker ableiten
@@ -105,6 +108,7 @@ export default function AnalysisTab({
   formatCurrency,
   formatPercentage,
   portfolioId,
+  lookthrough,
 }: AnalysisTabProps) {
   const stockValue = useMemo(() => holdings.reduce((s, h) => s + h.value, 0), [holdings])
 
@@ -274,7 +278,7 @@ export default function AnalysisTab({
       )}
 
       {/* Durchblick: Look-Through-Analyse (ETFs in Einzelaktien zerlegt) */}
-      <LookthroughSection holdings={holdings} formatCurrency={formatCurrency} />
+      <LookthroughSection holdings={holdings} formatCurrency={formatCurrency} preloaded={lookthrough} />
 
       {/* Asset-Klassen + Währungen nebeneinander */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

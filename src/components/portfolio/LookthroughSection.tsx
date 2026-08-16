@@ -5,9 +5,9 @@
 // ETF-Überschneidungen.
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react'
-import { supabase } from '@/lib/supabaseClient'
+import React, { useState } from 'react'
 import { type Holding } from '@/hooks/usePortfolio'
+import { useLookthrough, type UseLookthroughState, type WeightSlice, type EtfCoverageInfo } from '@/hooks/useLookthrough'
 import Logo from '@/components/Logo'
 import { translateSector } from '@/utils/sectorUtils'
 import {
@@ -20,71 +20,6 @@ import {
   LightBulbIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
-
-// Antwort-Typen der Lookthrough-API (Spiegel von lib/portfolio/lookthrough.ts)
-interface ExposureSource {
-  etfSymbol: string
-  etfName: string
-  value: number
-}
-interface EffectiveExposure {
-  symbol: string
-  name: string
-  isin: string | null
-  value: number
-  percent: number
-  directValue: number
-  etfValue: number
-  etfCount: number
-  sources: ExposureSource[]
-  superinvestors?: { count: number; top: { name: string; trend: string }[] }
-}
-interface WeightSlice {
-  label: string
-  value: number
-  percent: number
-}
-interface OverlapPair {
-  symbolA: string
-  nameA: string
-  symbolB: string
-  nameB: string
-  overlapPercent: number
-  sharedCount: number
-  topShared: { symbol: string; name: string; weightA: number; weightB: number }[]
-}
-interface EtfCoverageInfo {
-  symbol: string
-  name: string
-  value: number
-  status: 'exact' | 'approximated' | 'no-proxy' | 'non-equity'
-  proxyLabel?: string
-  note?: string
-}
-interface LookthroughInsight {
-  severity: 'info' | 'warn'
-  title: string
-  text: string
-}
-interface SizeExposure {
-  slices: WeightSlice[]
-  coveragePercent: number
-  weightedPE: number | null
-}
-interface LookthroughResult {
-  totalValue: number
-  analyzedValue: number
-  coveragePercent: number
-  etfValue: number
-  directStockValue: number
-  topExposures: EffectiveExposure[]
-  regions: WeightSlice[]
-  sectors: WeightSlice[]
-  overlaps: OverlapPair[]
-  etfCoverage: EtfCoverageInfo[]
-  insights: LookthroughInsight[]
-  sizeExposure: SizeExposure | null
-}
 
 const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#8b5cf6', '#14b8a6']
 
@@ -151,71 +86,20 @@ function SliceCard({
 export default function LookthroughSection({
   holdings,
   formatCurrency,
+  preloaded,
 }: {
   holdings: Holding[]
   formatCurrency: (amount: number) => string
+  /** Vorgeladenes Ergebnis (z.B. vom Workspace) — spart den eigenen Fetch */
+  preloaded?: UseLookthroughState
 }) {
-  const [result, setResult] = useState<LookthroughResult | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
   const [expanded, setExpanded] = useState<string | null>(null)
   const [showCoverage, setShowCoverage] = useState(false)
 
-  // Stabiler Schlüssel, damit nicht jeder Render einen neuen Fetch auslöst
-  const holdingsKey = useMemo(
-    () => holdings.map(h => `${h.symbol}:${Math.round(h.value)}`).sort().join('|'),
-    [holdings],
-  )
-
-  useEffect(() => {
-    let cancelled = false
-
-    async function load() {
-      if (holdings.length === 0) {
-        setLoading(false)
-        return
-      }
-      setLoading(true)
-      setError(false)
-      try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession()
-        if (!session) {
-          setError(true)
-          return
-        }
-        const response = await fetch('/api/portfolio/lookthrough', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          body: JSON.stringify({
-            positions: holdings.map(h => ({
-              symbol: h.symbol,
-              name: h.name,
-              isin: h.isin || null,
-              value: h.value,
-            })),
-          }),
-        })
-        if (!response.ok) throw new Error(`HTTP ${response.status}`)
-        const data: LookthroughResult = await response.json()
-        if (!cancelled) setResult(data)
-      } catch {
-        if (!cancelled) setError(true)
-      } finally {
-        if (!cancelled) setLoading(false)
-      }
-    }
-
-    load()
-    return () => {
-      cancelled = true
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [holdingsKey])
+  // Eigener Fetch nur, wenn kein vorgeladenes Ergebnis übergeben wurde
+  // (leeres Holdings-Array → Hook lädt nichts)
+  const own = useLookthrough(preloaded ? [] : holdings)
+  const { result, loading, error } = preloaded ?? own
 
   // Ohne ETFs im Depot bringt Look-Through nichts Neues — Sektion ausblenden
   const hasEtfs = result ? result.etfCoverage.length > 0 : true
