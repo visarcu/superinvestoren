@@ -666,9 +666,38 @@ export async function POST(request: NextRequest) {
     // vorhanden ist, werden Käufe/Verkäufe als interne Cash↔Wertpapier-Umschichtung
     // behandelt, Dividenden erhöhen den Return und Gebühren mindern ihn. Ohne
     // rekonstruierbares Cash-Ledger bleibt die bisherige Security-only-Logik aktiv.
+    //
+    // WICHTIG — Symmetrie zwischen Wert- und Flow-Seite: Transaktionen von
+    // Symbolen OHNE Preisdaten (Import-Artefakte wie "ULVRUSD", "BLKCHF",
+    // delistete Ticker) fliegen raus. Ihr Wert taucht nie in chartData auf —
+    // zählte ihr Kauf-Flow trotzdem, sähe jeder dieser Käufe für den TWR wie
+    // ein Totalverlust aus. Bei kleinen Frühdepots zerstörte das die gesamte
+    // multiplikative Kette (−87% "Rendite" trotz positiven Depots).
+    // Erstes verfügbares Preisdatum je Symbol — Flows davor sind Phantome
+    // (Wert erscheint erst ab dem ersten Kurs, Kauf zählte aber sofort).
+    const firstPriceDateBySymbol = new Map<string, string>()
+    pricesBySymbol.forEach((priceMap, symbol) => {
+      if (priceMap.size === 0) return
+      firstPriceDateBySymbol.set(symbol, Array.from(priceMap.keys()).sort()[0])
+    })
+    const GRACE_DAYS_MS = 7 * 86400000
+    const hasPriceData = (symbol: string | undefined, txDate?: string): boolean => {
+      if (!symbol) return false
+      const firstPrice = firstPriceDateBySymbol.get(symbol)
+      if (!firstPrice) return false
+      if (!txDate) return true
+      // Kleine Toleranz: Kauf kurz vor dem ersten Kurs (Wochenende/Feiertage) ist ok
+      return new Date(txDate).getTime() >= new Date(firstPrice).getTime() - GRACE_DAYS_MS
+    }
     const twrTransactions = [
-      ...securityTransactions,
-      ...allTransactions.filter(tx => !['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)),
+      ...securityTransactions.filter(tx => hasPriceData(tx.symbol, tx.date)),
+      ...allTransactions.filter(tx => {
+        if (['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) return false
+        // Dividenden hängen an einer Position — ohne bewertbares Symbol würde
+        // die Ausschüttung den Return einer Phantom-Position gutschreiben.
+        if (tx.type === 'dividend' && tx.symbol && tx.symbol !== 'CASH' && !hasPriceData(tx.symbol)) return false
+        return true
+      }),
     ]
 
     // 6b. Einzahlungsbasierte Darstellung, wenn das Cash-Ledger plausibel
