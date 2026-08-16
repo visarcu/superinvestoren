@@ -39,6 +39,8 @@ export interface EffectiveExposure {
   etfValue: number
   etfCount: number
   sources: ExposureSource[]
+  /** Superinvestor-Haltungen aus 13F-Daten — Anreicherung durch die API-Route */
+  superinvestors?: { count: number; top: { name: string; trend: string }[] }
 }
 
 export interface WeightSlice {

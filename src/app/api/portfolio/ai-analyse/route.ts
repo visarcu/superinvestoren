@@ -2,10 +2,8 @@
 // Portfolio-wide AI analysis combining FMP data + Superinvestor activity + Perplexity news
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import holdingsHistory from '@/data/holdings'
-import { stocks } from '@/data/stocks'
-import { investors } from '@/data/investors'
 import { computeLookthrough, type LookthroughResult } from '@/lib/portfolio/lookthrough'
+import { getSuperinvestorActivity } from '@/lib/superinvestorMatch'
 import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
@@ -91,70 +89,8 @@ async function fetchProfiles(tickers: string[]): Promise<Record<string, any>> {
   }
 }
 
-// --- Superinvestor Overlap (inline, no API call needed) ---
-function getSuperInvestorActivity(tickers: string[]): Record<string, { count: number; investors: { name: string; trend: string }[] }> {
-  const tickerSet = new Set(tickers.map(t => t.toUpperCase()))
-  const result: Record<string, { count: number; investors: { name: string; trend: string }[] }> = {}
-  for (const t of tickerSet) result[t] = { count: 0, investors: [] }
-
-  // CUSIP + Name indexes for ticker resolution
-  const cusipIdx = new Map<string, string>()
-  const nameIdx = new Map<string, string>()
-  const NOISE = new Set(['INC', 'INCORPORATED', 'CORP', 'CORPORATION', 'CO', 'COMPANY', 'LTD', 'LIMITED', 'PLC', 'LP', 'LLC', 'NV', 'SA', 'AG', 'SE', 'THE', 'OF', 'AND', '&', 'A', 'AN', 'CLASS', 'CL', 'SHS', 'NEW', 'DEL', 'COM', 'ORD', 'SER', 'SERIES'])
-  const ABBREVS: Record<string, string> = { 'HLDGS': 'HOLDINGS', 'CORP': 'CORPORATION', 'INC': 'INCORPORATED', 'INTL': 'INTERNATIONAL', 'TECH': 'TECHNOLOGY', 'TECHS': 'TECHNOLOGIES', 'GRP': 'GROUP', 'SVCS': 'SERVICES', 'FINL': 'FINANCIAL', 'MGMT': 'MANAGEMENT' }
-
-  const nameKey = (name: string) => {
-    const w = name.toUpperCase().replace(/[.,\-\/\\()&'"!]+/g, ' ').replace(/\s+/g, ' ').trim().split(' ')
-    return w.filter(x => !NOISE.has(x)).map(x => ABBREVS[x] || x).filter(x => !NOISE.has(x)).join('|')
-  }
-  for (const s of stocks) {
-    if (s.cusip) cusipIdx.set(s.cusip, s.ticker)
-    const k = nameKey(s.name)
-    if (k) nameIdx.set(k, s.ticker)
-  }
-  const resolveTicker = (pos: any): string | null => {
-    if (pos.ticker) return pos.ticker
-    if (pos.cusip) { const t = cusipIdx.get(pos.cusip); if (t) return t }
-    if (pos.name) { const k = nameKey(pos.name); if (k) { const t = nameIdx.get(k); if (t) return t } }
-    return null
-  }
-
-  Object.entries(holdingsHistory).forEach(([slug, snapshots]) => {
-    const inv = investors.find(i => i.slug === slug)
-    if (!inv || !snapshots || snapshots.length === 0) return
-
-    const latest = snapshots[snapshots.length - 1]?.data
-    if (!latest?.positions) return
-
-    const prev = snapshots.length >= 2 ? snapshots[snapshots.length - 2]?.data : null
-
-    const holdsTickers = new Set<string>()
-    for (const pos of latest.positions) {
-      const t = resolveTicker(pos)
-      if (!t || !tickerSet.has(t)) continue
-      if ((pos.shares || 0) <= 0 || (pos.value || 0) < 100000) continue
-      holdsTickers.add(t)
-    }
-
-    for (const ticker of holdsTickers) {
-      let trend = 'hält'
-      if (prev?.positions) {
-        const curShares = latest.positions.filter((p: any) => resolveTicker(p) === ticker).reduce((s: number, p: any) => s + (p.shares || 0), 0)
-        const prevShares = prev.positions.filter((p: any) => resolveTicker(p) === ticker).reduce((s: number, p: any) => s + (p.shares || 0), 0)
-        if (prevShares === 0 && curShares > 0) trend = 'neu gekauft'
-        else if (prevShares > 0) {
-          const pct = ((curShares - prevShares) / prevShares) * 100
-          if (pct > 5) trend = 'aufgestockt'
-          else if (pct < -5) trend = 'reduziert'
-        }
-      }
-      result[ticker].count++
-      result[ticker].investors.push({ name: inv.name, trend })
-    }
-  })
-
-  return result
-}
+// Superinvestor-Overlap: gemeinsame Logik in lib/superinvestorMatch.ts
+const getSuperInvestorActivity = getSuperinvestorActivity
 
 // --- Perplexity News ---
 async function fetchNewsForTickers(tickers: string[]): Promise<Record<string, string>> {

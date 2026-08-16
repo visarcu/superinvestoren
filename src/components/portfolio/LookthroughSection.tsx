@@ -18,6 +18,7 @@ import {
   ChartPieIcon,
   ExclamationTriangleIcon,
   LightBulbIcon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline'
 
 // Antwort-Typen der Lookthrough-API (Spiegel von lib/portfolio/lookthrough.ts)
@@ -36,6 +37,7 @@ interface EffectiveExposure {
   etfValue: number
   etfCount: number
   sources: ExposureSource[]
+  superinvestors?: { count: number; top: { name: string; trend: string }[] }
 }
 interface WeightSlice {
   label: string
@@ -287,7 +289,7 @@ export default function LookthroughSection({
         <div>
           {result.topExposures.slice(0, 12).map(exposure => {
             const isOpen = expanded === exposure.symbol
-            const hasBreakdown = exposure.etfCount > 0
+            const hasBreakdown = exposure.etfCount > 0 || !!exposure.superinvestors
             return (
               <div key={`${exposure.symbol}-${exposure.isin ?? ''}`} className="border-b border-neutral-800/60 last:border-b-0">
                 <button
@@ -311,6 +313,15 @@ export default function LookthroughSection({
                     </div>
                   </div>
                   <div className="flex items-center gap-3 flex-shrink-0 ml-3">
+                    {exposure.superinvestors && (
+                      <span
+                        className="inline-flex items-center gap-1 rounded-full border border-teal-300/20 bg-teal-400/[0.08] px-1.5 py-0.5 text-[10px] font-medium text-teal-300"
+                        title={`Von ${exposure.superinvestors.count} Superinvestoren gehalten`}
+                      >
+                        <UserGroupIcon className="w-3 h-3" />
+                        {exposure.superinvestors.count}
+                      </span>
+                    )}
                     <div className="text-right">
                       <p className="text-[13px] font-semibold text-white tabular-nums">{exposure.percent.toFixed(1)}%</p>
                       <p className="text-[11px] text-neutral-500 tabular-nums">{formatCurrency(exposure.value)}</p>
@@ -341,6 +352,18 @@ export default function LookthroughSection({
                         </span>
                       </div>
                     ))}
+                    {exposure.superinvestors && (
+                      <div className="pt-2 mt-1 border-t border-neutral-800/40">
+                        <p className="text-[11px] text-teal-300/90 flex items-start gap-1.5 leading-relaxed">
+                          <UserGroupIcon className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
+                          <span>
+                            {exposure.superinvestors.top.map(si => `${si.name} (${si.trend})`).join(', ')}
+                            {exposure.superinvestors.count > exposure.superinvestors.top.length &&
+                              ` und ${exposure.superinvestors.count - exposure.superinvestors.top.length} weitere Superinvestoren`}
+                          </span>
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
