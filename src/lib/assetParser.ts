@@ -16,6 +16,7 @@ export const ASSET_CATEGORIES = [
   'fahrzeug',
   'krypto',
   'edelmetall',
+  'kredit',
   'sonstiges',
 ] as const
 
@@ -30,6 +31,7 @@ export const ASSET_CATEGORY_LABELS: Record<AssetCategory, string> = {
   fahrzeug: 'Fahrzeug',
   krypto: 'Krypto',
   edelmetall: 'Edelmetall',
+  kredit: 'Kredit / Schulden',
   sonstiges: 'Sonstiges',
 }
 
@@ -61,6 +63,7 @@ REGELN:
 - "name" ist ein prägnanter Anzeigename ("Tagesgeld ING", "VW Golf", "Wohnung Köln"), max. 40 Zeichen
 - Beträge normalisieren: "15k" = 15000, "1,5 Mio" = 1500000, deutsche Schreibweise "5.000,50" = 5000.50
 - Der genannte Betrag ist IMMER der Gesamtwert des Eintrags — niemals mit Stückzahlen multiplizieren oder verrechnen ("0,2 Bitcoin für 12000" → value 12000)
+- Kredite/Schulden/Darlehen ("hab noch 20k Autokredit") → category "kredit", value POSITIV erfassen (die Anwendung zieht sie vom Nettovermögen ab)
 - Andere Währungen näherungsweise NICHT umrechnen — wenn explizit eine Fremdwährung genannt wird, ok:false mit Begründung
 - Wertpapier-/ETF-Käufe ("hab MSCI World gekauft") sind KEINE Vermögens-Einträge → ok:false mit Hinweis, dass Käufe über Transaktionen laufen
 - Keine Erfindungen: fehlt der Betrag, ok:false`

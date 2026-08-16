@@ -14,6 +14,7 @@ import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import AnalysisTab from '@/components/portfolio/AnalysisTab'
 import AssetsTab from '@/components/portfolio/AssetsTab'
+import QuickTradeEntry from '@/components/portfolio/QuickTradeEntry'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
@@ -758,7 +759,11 @@ export default function PortfolioWorkspacePage() {
             )}
 
             {activeView === 'assets' && (
-              <AssetsTab depotValue={p.totalValue} formatCurrency={p.formatCurrency} />
+              <AssetsTab
+                securitiesValue={stockValue}
+                cashPosition={p.cashPosition}
+                formatCurrency={p.formatCurrency}
+              />
             )}
 
             {activeView === 'positions' && (
@@ -808,14 +813,24 @@ export default function PortfolioWorkspacePage() {
             )}
 
             {activeView === 'transactions' && (
-              <TransactionsList
-                portfolioId={p.portfolio?.id || ''}
-                transactions={p.transactions}
-                realizedGainByTxId={p.realizedGainByTxId}
-                onTransactionChange={() => p.loadPortfolio(p.depotIdParam)}
-                formatCurrency={p.formatCurrency}
-                isAllDepotsView={p.isAllDepotsView}
-              />
+              <>
+                <QuickTradeEntry
+                  holdings={p.holdings}
+                  allPortfolios={p.allPortfolios}
+                  isAllDepotsView={p.isAllDepotsView}
+                  currentPortfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
+                  formatCurrency={p.formatCurrency}
+                  onSaved={() => p.loadPortfolio(p.depotIdParam)}
+                />
+                <TransactionsList
+                  portfolioId={p.portfolio?.id || ''}
+                  transactions={p.transactions}
+                  realizedGainByTxId={p.realizedGainByTxId}
+                  onTransactionChange={() => p.loadPortfolio(p.depotIdParam)}
+                  formatCurrency={p.formatCurrency}
+                  isAllDepotsView={p.isAllDepotsView}
+                />
+              </>
             )}
 
             {activeView === 'ai' && (

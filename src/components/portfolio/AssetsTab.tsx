@@ -5,8 +5,9 @@
 // Bestätigung gespeichert.
 'use client'
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
+import { useSpeechInput } from '@/hooks/useSpeechInput'
 import {
   ASSET_CATEGORY_LABELS,
   ASSET_CATEGORIES,
@@ -16,6 +17,7 @@ import {
   BanknotesIcon,
   BuildingOffice2Icon,
   CheckIcon,
+  CreditCardIcon,
   CurrencyEuroIcon,
   MicrophoneIcon,
   PaperAirplaneIcon,
@@ -49,21 +51,19 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<React.SVGProps<SVGSVGEl
   fahrzeug: TruckIcon,
   krypto: CurrencyEuroIcon,
   edelmetall: CurrencyEuroIcon,
+  kredit: CreditCardIcon,
   sonstiges: WalletIcon,
 }
 
-// Web Speech API ist nur in Chromium-Browsern verfügbar — Feature-Detection,
-// Texteingabe funktioniert überall.
-function getSpeechRecognition(): (new () => any) | null {
-  if (typeof window === 'undefined') return null
-  return (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition || null
-}
-
 export default function AssetsTab({
-  depotValue,
+  securitiesValue,
+  cashPosition,
   formatCurrency,
 }: {
-  depotValue: number
+  /** Wertpapierwert der aktuellen Depot-Auswahl (ohne Cash) */
+  securitiesValue: number
+  /** Cash der Auswahl — negativ bei Broker-Kredit (z.B. Scalable) */
+  cashPosition: number
   formatCurrency: (amount: number) => string
 }) {
   const [assets, setAssets] = useState<ManualAsset[]>([])
@@ -73,12 +73,12 @@ export default function AssetsTab({
   const [parseError, setParseError] = useState<string | null>(null)
   const [proposal, setProposal] = useState<ParsedProposal | null>(null)
   const [saving, setSaving] = useState(false)
-  const [recording, setRecording] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editValue, setEditValue] = useState('')
-  const recognitionRef = useRef<any>(null)
 
-  const speechAvailable = useMemo(() => getSpeechRecognition() !== null, [])
+  const speech = useSpeechInput(setInput)
+  const speechAvailable = speech.available
+  const recording = speech.recording
 
   const loadAssets = useCallback(async () => {
     const { data, error } = await supabase
@@ -95,7 +95,11 @@ export default function AssetsTab({
     loadAssets()
   }, [loadAssets])
 
-  const assetsSum = useMemo(() => assets.reduce((s, a) => s + a.value, 0), [assets])
+  // Kredite zählen als Verbindlichkeit, alles andere als Vermögenswert
+  const positiveAssets = useMemo(() => assets.filter(a => a.category !== 'kredit'), [assets])
+  const debtAssets = useMemo(() => assets.filter(a => a.category === 'kredit'), [assets])
+  const assetsSum = useMemo(() => positiveAssets.reduce((s, a) => s + a.value, 0), [positiveAssets])
+  const manualDebtSum = useMemo(() => debtAssets.reduce((s, a) => s + a.value, 0), [debtAssets])
 
   // ===== Freitext → Vorschlag =====
   const parseInput = useCallback(async () => {
@@ -128,30 +132,8 @@ export default function AssetsTab({
     }
   }, [input, parsing])
 
-  // ===== Spracheingabe (Chromium) =====
-  const toggleRecording = useCallback(() => {
-    if (recording) {
-      recognitionRef.current?.stop()
-      setRecording(false)
-      return
-    }
-    const SpeechRecognition = getSpeechRecognition()
-    if (!SpeechRecognition) return
-    const recognition = new SpeechRecognition()
-    recognition.lang = 'de-DE'
-    recognition.interimResults = false
-    recognition.maxAlternatives = 1
-    recognition.onresult = (event: any) => {
-      const transcript = event.results?.[0]?.[0]?.transcript
-      if (transcript) setInput(transcript)
-      setRecording(false)
-    }
-    recognition.onerror = () => setRecording(false)
-    recognition.onend = () => setRecording(false)
-    recognitionRef.current = recognition
-    setRecording(true)
-    recognition.start()
-  }, [recording])
+  // ===== Spracheingabe (Chromium) — geteilte Hook =====
+  const toggleRecording = speech.toggle
 
   // ===== Vorschlag bestätigen → Insert oder Update (gleicher Name) =====
   const existingMatch = useMemo(() => {
@@ -204,27 +186,42 @@ export default function AssetsTab({
     await loadAssets()
   }, [loadAssets])
 
-  const totalWealth = depotValue + assetsSum
+  // Brutto = alles, was dir gehört. Verbindlichkeiten = Broker-Kredit
+  // (negatives Cash) + manuell erfasste Kredite. Netto = die ehrliche Zahl.
+  const positiveCash = Math.max(cashPosition, 0)
+  const brokerCredit = Math.min(cashPosition, 0) // ≤ 0
+  const grossWealth = securitiesValue + positiveCash + assetsSum
+  const liabilities = Math.abs(brokerCredit) + manualDebtSum
+  const netWealth = grossWealth - liabilities
 
   return (
     <div className="space-y-5">
-      {/* ===== Übersicht ===== */}
+      {/* ===== Übersicht: Netto zuerst — das ist die ehrliche Zahl ===== */}
       <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-800/80 sm:grid-cols-3">
         <div className="bg-neutral-950 p-5">
-          <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Gesamtvermögen</p>
-          <p className="text-2xl font-semibold tabular-nums text-white">{formatCurrency(totalWealth)}</p>
-          <p className="mt-1 text-[11px] text-neutral-500">Depot + Vermögenswerte</p>
+          <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Nettovermögen</p>
+          <p className="text-2xl font-semibold tabular-nums text-teal-300">{formatCurrency(netWealth)}</p>
+          <p className="mt-1 text-[11px] text-neutral-500">Brutto − Verbindlichkeiten</p>
         </div>
         <div className="bg-neutral-950 p-5">
-          <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Depot (aktuelle Auswahl)</p>
-          <p className="text-2xl font-semibold tabular-nums text-white">{formatCurrency(depotValue)}</p>
-          <p className="mt-1 text-[11px] text-neutral-500">Wertpapiere inkl. Cash</p>
-        </div>
-        <div className="bg-neutral-950 p-5">
-          <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Vermögenswerte</p>
-          <p className="text-2xl font-semibold tabular-nums text-white">{formatCurrency(assetsSum)}</p>
+          <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Bruttovermögen</p>
+          <p className="text-2xl font-semibold tabular-nums text-white">{formatCurrency(grossWealth)}</p>
           <p className="mt-1 text-[11px] text-neutral-500">
-            {assets.length} Eintr{assets.length === 1 ? 'ag' : 'äge'}, manuell gepflegt
+            Wertpapiere {formatCurrency(securitiesValue)}
+            {positiveCash > 0 && <> · Cash {formatCurrency(positiveCash)}</>}
+            {assetsSum > 0 && <> · Werte {formatCurrency(assetsSum)}</>}
+          </p>
+        </div>
+        <div className="bg-neutral-950 p-5">
+          <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Verbindlichkeiten</p>
+          <p className={`text-2xl font-semibold tabular-nums ${liabilities > 0 ? 'text-red-400' : 'text-white'}`}>
+            {liabilities > 0 ? `−${formatCurrency(liabilities)}` : formatCurrency(0)}
+          </p>
+          <p className="mt-1 text-[11px] text-neutral-500">
+            {brokerCredit < 0 && <>Broker-Kredit {formatCurrency(brokerCredit)}</>}
+            {brokerCredit < 0 && manualDebtSum > 0 && <> · </>}
+            {manualDebtSum > 0 && <>Kredite −{formatCurrency(manualDebtSum)}</>}
+            {liabilities === 0 && 'Keine Schulden erfasst'}
           </p>
         </div>
       </div>
@@ -394,7 +391,9 @@ export default function AssetsTab({
                     </>
                   ) : (
                     <>
-                      <p className="text-[13px] font-semibold tabular-nums text-white">{formatCurrency(asset.value)}</p>
+                      <p className={`text-[13px] font-semibold tabular-nums ${asset.category === 'kredit' ? 'text-red-400' : 'text-white'}`}>
+                        {asset.category === 'kredit' ? `−${formatCurrency(asset.value)}` : formatCurrency(asset.value)}
+                      </p>
                       <button
                         type="button"
                         onClick={() => {
