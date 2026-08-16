@@ -4995,7 +4995,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'PNNT',
-    cusip:  '',
+    cusip:  '708062104',
     name:   'PennantPark Investment Corporation',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -5576,7 +5576,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BORR',
-    cusip:  'G1466R207',
+    cusip:  'G1466R173',
     name:   'Borr Drilling Limited',
     sector: 'Energy',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -5688,7 +5688,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'GFR',
-    cusip:  '',
+    cusip:  '39525U107',
     name:   'Greenfire Resources Ltd.',
     sector: 'Energy',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -7923,7 +7923,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'MSIF',
-    cusip:  '',
+    cusip:  '55374X208',
     name:   'MSC Income Fund, Inc.',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -9022,7 +9022,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'UP',
-    cusip:  '96328L106',
+    cusip:  '96328L205',
     name:   'Wheels Up Experience Inc.',
     sector: 'Industrials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -9296,7 +9296,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BIPC',
-    cusip:  '11275Q107',
+    cusip:  '11276H106',
     name:   'Brookfield Infrastructure Corporation',
     sector: 'Utilities',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -10509,7 +10509,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'YEXT',
-    cusip:  '',
+    cusip:  '98585N106',
     name:   'Yext, Inc.',
     sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -10530,7 +10530,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'AVNS',
-    cusip:  '',
+    cusip:  '05350V106',
     name:   'Avanos Medical, Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -12430,7 +12430,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'DBD',
-    cusip:  '253651103',
+    cusip:  '253651202',
     name:   'Diebold Nixdorf, Incorporated',
     sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -12941,7 +12941,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'AGL',
-    cusip:  '00857U107',
+    cusip:  '00857U206',
     name:   'agilon health, inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -14913,7 +14913,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'GATX',
-    cusip:  '',
+    cusip:  '361448103',
     name:   'GATX Corporation',
     sector: 'Industrials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -16322,7 +16322,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BBUC',
-    cusip:  '',
+    cusip:  '113006100',
     name:   'Brookfield Business Corporation',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -17877,7 +17877,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'HROW',
-    cusip:  '',
+    cusip:  '415858109',
     name:   'Harrow Health, Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -19193,7 +19193,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'LXEO',
-    cusip:  '',
+    cusip:  '52886X107',
     name:   'Lexeo Therapeutics, Inc. Common Stock',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -19893,7 +19893,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CGEM',
-    cusip:  '',
+    cusip:  '230031106',
     name:   'Cullinan Oncology, Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -20726,7 +20726,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'HYMC',
-    cusip:  '',
+    cusip:  '44862P208',
     name:   'Hycroft Mining Holding Corporation',
     sector: 'Basic Materials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -21468,7 +21468,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ISHG',
-    cusip:  '',
+    cusip:  '464288125',
     name:   'iShares 1-3 Year International Treasury Bond ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -22785,7 +22785,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ATEX',
-    cusip:  '',
+    cusip:  '03676C100',
     name:   'Anterix Inc.',
     sector: 'Communication Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -25372,7 +25372,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ABVX',
-    cusip:  '',
+    cusip:  '00370M103',
     name:   'ABIVAX SA',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -25736,7 +25736,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ANGL',
-    cusip:  '',
+    cusip:  '92189F437',
     name:   'VanEck Fallen Angel High Yield Bond ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -26387,7 +26387,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'MNMD',
-    cusip:  '60255C109',
+    cusip:  '60255C885',
     name:   'Mind Medicine (MindMed) Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -26905,7 +26905,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CRMD',
-    cusip:  '',
+    cusip:  '21900C308',
     name:   'CorMedix Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -27150,7 +27150,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SKE',
-    cusip:  '',
+    cusip:  '83056P715',
     name:   'Skeena Resources Limited',
     sector: 'Basic Materials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -27773,7 +27773,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'DVLT',
-    cusip:  '',
+    cusip:  '86633R609',
     name:   'Datavault AI Inc.',
     sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -28445,7 +28445,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'TFLO',
-    cusip:  '',
+    cusip:  '46434V860',
     name:   'iShares Treasury Floating Rate Bond ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -29399,7 +29399,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SMIG',
-    cusip:  '',
+    cusip:  '26922B832',
     name:   'AAM Bahl & Gaynor Small/Mid Cap Income Growth ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -30278,14 +30278,14 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'PXF',
-    cusip:  '',
+    cusip:  '46138E743',
     name:   'Invesco FTSE RAFI Developed Markets ex-U.S. ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
   {
     ticker: 'RNW',
-    cusip:  '',
+    cusip:  'G7500M104',
     name:   'ReNew Energy Global Plc',
     sector: 'Utilities',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -30432,7 +30432,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BWIN',
-    cusip:  '',
+    cusip:  '05589G102',
     name:   'The Baldwin Insurance Group, Inc.',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -31090,7 +31090,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'COWG',
-    cusip:  '',
+    cusip:  '69374H360',
     name:   'Pacer US Large Cap Cash Cows Growth Leaders ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -31916,7 +31916,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'AVUS',
-    cusip:  '',
+    cusip:  '025072885',
     name:   'Avantis U.S. Equity ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -32665,7 +32665,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SCMB',
-    cusip:  '',
+    cusip:  '808524649',
     name:   'Schwab Municipal Bond ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -34168,7 +34168,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'TGB',
-    cusip:  '876511106',
+    cusip:  '89472Y107',
     name:   'Taseko Mines Limited',
     sector: 'Basic Materials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -36163,7 +36163,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'USAS',
-    cusip:  '03062D100',
+    cusip:  '03062D803',
     name:   'Americas Gold and Silver Corporation',
     sector: 'Basic Materials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -37923,7 +37923,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BOXX',
-    cusip:  '',
+    cusip:  '02072L565',
     name:   'Alpha Architect 1-3 Month Box ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -38792,7 +38792,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CARY',
-    cusip:  '',
+    cusip:  '03463K760',
     name:   'Angel Oak Income ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -39289,7 +39289,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'ARTY',
-    cusip:  '',
+    cusip:  '46435U556',
     name:   'iShares Trust - iShares Future AI & Tech ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -40239,7 +40239,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BKGI',
-    cusip:  '',
+    cusip:  '09661T826',
     name:   'Bny Mellon Global Infrastructure Income ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -42281,7 +42281,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SBGI',
-    cusip:  '829226109',
+    cusip:  '829242106',
     name:   'Sinclair, Inc.',
     sector: 'Communication Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -43704,7 +43704,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'YSPY',
-    cusip:  '',
+    cusip:  '38747R579',
     name:   'GraniteShares YieldBOOST SPY ETF',
     sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -45804,7 +45804,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'MLPA',
-    cusip:  '37950E473',
+    cusip:  '37954Y343',
     name:   'Global X MLP ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -46352,7 +46352,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SLNO',
-    cusip:  '834203200',
+    cusip:  '834203309',
     name:   'Soleno Therapeutics, Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -51541,7 +51541,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'SRZN',
-    cusip:  '86889P109',
+    cusip:  '86889P208',
     name:   'Surrozen, Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -52115,7 +52115,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'QMMM',
-    cusip:  '',
+    cusip:  'G7309R114',
     name:   'QMMM Holdings Limited Ordinary Shares',
     sector: 'Communication Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -53298,7 +53298,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'MMIN',
-    cusip:  '',
+    cusip:  '45409F843',
     name:   'IQ MacKay Municipal Insured ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -53438,7 +53438,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'TCAF',
-    cusip:  '',
+    cusip:  '87283Q867',
     name:   'T. Rowe Price Exchange-Traded Funds, Inc. - T. Rowe Price Capital Appreciation Equity ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -56106,7 +56106,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'CGMS',
-    cusip:  '',
+    cusip:  '14020Y300',
     name:   'Capital Group U.S. Multi-Sector Income ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -57478,7 +57478,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'UNIT',
-    cusip:  '91325V108',
+    cusip:  '912932100',
     name:   'Uniti Group Inc.',
     sector: 'Real Estate',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -63229,7 +63229,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BAI',
-    cusip:  '',
+    cusip:  '09290C780',
     name:   'iShares A.I. Innovation and Tech Active ETF',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -66018,6 +66018,265 @@ export const stocks: Stock[] = [
     cusip:  '90187BAB7',
     name:   'Two Harbors Investment Corp.',
     sector: '',
+    metrics: [],
+  },
+  {
+    ticker: 'FWD',
+    cusip:  '00039J509',
+    name:   'Alliance Bernstein - AB Disruptors ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'EQL',
+    cusip:  '00162Q205',
+    name:   'ALPS Equal Sector Weight ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'CTEF',
+    cusip:  '02072Q499',
+    name:   'EA SERIES TRUST',
+    sector: '',
+    metrics: [],
+  },
+  {
+    ticker: 'AVIG',
+    cusip:  '025072562',
+    name:   'Avantis Core Fixed Income ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'AII',
+    cusip:  '026948109',
+    name:   'American Integrity Insurance Group, Inc.',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'BGGG',
+    cusip:  '05686D200',
+    name:   'Baillie Gifford Long Term Global Growth ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'BAND',
+    cusip:  '05988J103',
+    name:   'Bandwidth Inc.',
+    sector: 'Technology',
+    metrics: [],
+  },
+  {
+    ticker: 'DFTX',
+    cusip:  '24477V105',
+    name:   'Definium Therapeutics, Inc.',
+    sector: 'Healthcare',
+    metrics: [],
+  },
+  {
+    ticker: 'DBND',
+    cusip:  '25861R105',
+    name:   'DoubleLine Opportunistic Core Bond ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'DMX',
+    cusip:  '25861R709',
+    name:   'DoubleLine Multi-Sector Income ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'XZO',
+    cusip:  '30234F101',
+    name:   'Exzeo Group, Inc.',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'FCOR',
+    cusip:  '316188101',
+    name:   'Fidelity Corporate Bond ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'TRAX',
+    cusip:  '337185102',
+    name:   'First Tracks Biotherapeutics Inc',
+    sector: 'Healthcare',
+    metrics: [],
+  },
+  {
+    ticker: 'RMOP',
+    cusip:  '45259A878',
+    name:   'Rockefeller Opportunistic Municipal Bond ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'EWCO',
+    cusip:  '46137Y609',
+    name:   'Invesco S&P 500 Equal Weight Communication Services ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'IGF',
+    cusip:  '464288372',
+    name:   'iShares Global Infrastructure ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'RODM',
+    cusip:  '518416102',
+    name:   'Hartford Multifactor Developed Markets (ex-US) ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'MFSI',
+    cusip:  '55286W405',
+    name:   'MFS ACTIVE EXCHANGE TRADED F',
+    sector: '',
+    metrics: [],
+  },
+  {
+    ticker: 'MOG-B',
+    cusip:  '615394301',
+    name:   'Moog Inc.',
+    sector: 'Industrials',
+    metrics: [],
+  },
+  {
+    ticker: 'NAVN',
+    cusip:  '639193101',
+    name:   'Navan, Inc.',
+    sector: 'Technology',
+    metrics: [],
+  },
+  {
+    ticker: 'DFTT',
+    cusip:  '66538J258',
+    name:   'DF Tactical 30 ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'NHYM',
+    cusip:  '67092P722',
+    name:   'Nuveen High Yield Municipal Income',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'PHYL',
+    cusip:  '69344A206',
+    name:   'PGIM Active High Yield Bond ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'PFHC',
+    cusip:  '74319N100',
+    name:   'ProFrac Holding Corp.',
+    sector: 'Energy',
+    metrics: [],
+  },
+  {
+    ticker: 'UXI',
+    cusip:  '74347R727',
+    name:   'ProShares - Ultra Industrials',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'FTMU',
+    cusip:  '746729797',
+    name:   'Franklin Municipal Income ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'DGT',
+    cusip:  '78464A706',
+    name:   'State Street SPDR Global Dow ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'HYBL',
+    cusip:  '78470P846',
+    name:   'State Street Blackstone High Income ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'HEDG',
+    cusip:  '81752T411',
+    name:   'Equable Shares Hedged Equity ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'TRX',
+    cusip:  '87283P109',
+    name:   'TRX Gold Corporation',
+    sector: 'Basic Materials',
+    metrics: [],
+  },
+  {
+    ticker: 'GVLU',
+    cusip:  '886364520',
+    name:   'Gotham 1000 Value ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'GSPY',
+    cusip:  '886364835',
+    name:   'Gotham Enhanced 500 ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'VTP',
+    cusip:  '922020698',
+    name:   'Vanguard Total Inflation-Protected Securities ETF',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'VTEC',
+    cusip:  '922021605',
+    name:   'VANGUARD CALIF TAX FREE FDS',
+    sector: '',
+    metrics: [],
+  },
+  {
+    ticker: 'DFE',
+    cusip:  '97717W869',
+    name:   'WisdomTree Europe SmallCap Dividend Fund',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'AHL',
+    cusip:  'G05384501',
+    name:   'Aspen Insurance Holdings Limited',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'NIQ',
+    cusip:  'G63755105',
+    name:   'NIQ Global Intelligence Plc',
+    sector: 'Technology',
     metrics: [],
   }
 ]
