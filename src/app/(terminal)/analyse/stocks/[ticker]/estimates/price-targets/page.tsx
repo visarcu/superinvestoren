@@ -1,15 +1,10 @@
 // src/app/(terminal)/analyse/stocks/[ticker]/estimates/price-targets/page.tsx
 import React from 'react'
-import { stocks } from '@/data/stocks'
 import PriceTargetsClient from '@/components/PriceTargetsClient'
 
+// Kein Gate gegen die statische stocks-Liste: der Client lädt live per Ticker.
 export default function PriceTargetsPage({ params }: { params: { ticker: string } }) {
   const ticker = params.ticker.toUpperCase()
-  const stock = stocks.find((s) => s.ticker === ticker)
-
-  if (!stock) {
-    return <div>Aktie nicht gefunden</div>
-  }
 
   return (
     <div className="min-h-screen bg-theme-primary">

@@ -118,6 +118,7 @@ const fmtNum = (n?: number, decimals = 1) =>
 
 // ─── Typdefinitionen ────────────────────────────────────────────────────────
 type Profile = {
+  companyName?: string
   description?: string
   sector?: string
   industry?: string
@@ -186,6 +187,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const { isLearnMode } = useLearnMode()
 
   // 4) States für Live-Daten
+  const [dataLoaded, setDataLoaded] = useState(false)
   const [livePrice, setLivePrice] = useState<number | null>(null)
   const [liveMarketCap, setLiveMarketCap] = useState<number | null>(null)
   const [liveChangePct, setLiveChangePct] = useState<number | null>(null)
@@ -337,9 +339,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   }, [enhancedDividendData?.payoutSafety?.color])
 
   // ✅ OPTIMIZED: Single combined API call instead of 13 separate calls
+  // Läuft für jeden Ticker – auch ohne Eintrag in der statischen stocks-Liste.
+  // Ob es die Aktie gibt, entscheidet die API (Profile/Quote), nicht die Liste.
   useEffect(() => {
-    if (!stock) return
-
     async function loadAllDataOptimized() {
       // TEMPORARILY: Use fallback until combined API is fully implemented
       console.log(`🔄 [AnalysisClient] Using individual API calls for ${ticker} (combined API disabled temporarily)`)
@@ -605,6 +607,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       } else {
         console.warn(`[AnalysisClient] FCF Yield/SBC calculation failed for ${ticker}`)
       }
+
+      setDataLoaded(true)
     }
 
     loadAllDataOptimized()
@@ -621,10 +625,27 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     )
   }
 
-  // Aktie nicht gefunden
-  if (!stock) {
-    return <p className="text-theme-primary">Aktie nicht gefunden.</p>
+  // Ticker außerhalb der statischen Liste: erst laden lassen, dann anhand der
+  // API entscheiden. "Nicht gefunden" nur, wenn weder Profil noch Kurs existieren.
+  if (!stock && !dataLoaded) {
+    return (
+      <div className="flex h-64 items-center justify-center">
+        <LoadingSpinner />
+      </div>
+    )
   }
+  if (!stock && !profileData && livePrice === null) {
+    return (
+      <div className="py-16 text-center">
+        <h2 className="text-2xl font-bold text-theme-primary mb-2">Aktie nicht gefunden</h2>
+        <p className="text-theme-secondary">
+          Für das Symbol "{ticker}" sind keine Daten verfügbar.
+        </p>
+      </div>
+    )
+  }
+
+  const displayName = profileData?.companyName ?? stock?.name ?? ticker
 
   return (
     <div className="space-y-8">
@@ -632,7 +653,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div>
           <h2 className="text-3xl font-bold text-theme-primary">Kennzahlen-Analyse</h2>
-          <p className="text-theme-secondary mt-1">Detaillierte Finanzdaten für {stock.name} ({ticker})</p>
+          <p className="text-theme-secondary mt-1">Detaillierte Finanzdaten für {displayName} ({ticker})</p>
         </div>
         <div className="flex items-center space-x-4">
           <WatchlistButton ticker={ticker} />

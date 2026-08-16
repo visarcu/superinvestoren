@@ -1,8 +1,6 @@
 // src/app/(terminal)/analyse/stocks/[ticker]/growth/page.tsx
 import React from 'react'
 import { stocks } from '@/data/stocks'
-import Link from 'next/link'
-import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import GrowthAnalysisClient from '@/components/GrowthAnalysisClient'
 
 // ISR: jede Seite wird nach 3600 Sekunden neu gebaut
@@ -32,30 +30,9 @@ export async function generateMetadata({ params }: { params: { ticker: string } 
   }
 }
 
+// Kein Gate gegen die statische stocks-Liste: der Client lädt live per Ticker.
 export default function GrowthAnalysisPage({ params }: { params: { ticker: string } }) {
   const ticker = params.ticker.toUpperCase()
-  const stock = stocks.find((s) => s.ticker === ticker)
-
-  // Falls die Aktie nicht existiert, gib 404 aus
-  if (!stock) {
-    return (
-      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-medium text-theme-primary mb-2">Aktie nicht gefunden</h1>
-          <p className="text-theme-muted mb-6">
-            Die Aktie mit dem Symbol "{ticker}" konnte nicht gefunden werden.
-          </p>
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-sm text-theme-muted hover:text-theme-primary transition-colors"
-          >
-            <ArrowLeftIcon className="w-4 h-4" />
-            Zurück zur Analyse
-          </Link>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen bg-theme-primary">

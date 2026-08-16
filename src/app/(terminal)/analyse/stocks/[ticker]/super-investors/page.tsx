@@ -3,7 +3,6 @@
 
 import { hasPremiumAccess } from '@/lib/premiumAccess'
 import React, { useState, useEffect } from 'react'
-import { notFound } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import SuperInvestorsClient from '@/components/SuperInvestorsClient'
 import LoadingSpinner from '@/components/LoadingSpinner'
@@ -26,7 +25,8 @@ export default function SuperInvestorsPage({ params }: PageProps) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Basic validation - detailed validation happens in the API route
+  // Name aus der statischen Liste, falls vorhanden – sonst Ticker als Fallback.
+  // Kein Gate: die eigentliche Validierung passiert in der API-Route.
   const stock = stocks.find(s => s.ticker.toLowerCase() === ticker.toLowerCase())
 
   useEffect(() => {
@@ -57,10 +57,6 @@ export default function SuperInvestorsPage({ params }: PageProps) {
     loadUser()
   }, [])
 
-  if (!stock) {
-    notFound()
-  }
-
   if (loading) {
     return (
       <div className="flex h-64 items-center justify-center">
@@ -73,7 +69,7 @@ export default function SuperInvestorsPage({ params }: PageProps) {
   return (
     <SuperInvestorsClient
       ticker={ticker}
-      initialStockName={stock.name}
+      initialStockName={stock?.name ?? ticker}
       isPremium={user?.isPremium || false}
     />
   )
