@@ -194,13 +194,21 @@ export default function PortfolioValueChart({
         return d.toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
       }
 
+      // Modus VOR dem Live-Punkt bestimmen: die historische Serie enthält Cash
+      // nur im 'deposits'-Modus. Im 'cost_basis'-Modus (Serie = nur Wertpapiere)
+      // darf der Live-Punkt das Cash nicht addieren — sonst springt der letzte
+      // Punkt um die Cash-Position (bei negativem Cash: nach unten).
+      const mode: 'deposits' | 'cost_basis' =
+        result.meta?.investedMode === 'deposits' ? 'deposits' : 'cost_basis'
+
       if (result.data) {
         const mappedData = result.data.map((d: any) => ({
           ...d,
           label: formatLabel(d.date)
         }))
 
-        const livePortfolioValue = holdings.reduce((sum, h) => sum + (Number(h.current_value) || 0), 0) + cashPosition
+        const securitiesValue = holdings.reduce((sum, h) => sum + (Number(h.current_value) || 0), 0)
+        const livePortfolioValue = mode === 'deposits' ? securitiesValue + cashPosition : securitiesValue
         if (mappedData.length > 0 && livePortfolioValue > 0) {
           const today = new Date().toISOString().split('T')[0]
           const last = mappedData[mappedData.length - 1]
@@ -229,7 +237,7 @@ export default function PortfolioValueChart({
       }
 
       setComparison(result.benchmarkComparison || null)
-      setInvestedMode(result.meta?.investedMode === 'deposits' ? 'deposits' : 'cost_basis')
+      setInvestedMode(mode)
     } catch (error) {
       console.error('Chart data fetch error:', error)
     } finally {
