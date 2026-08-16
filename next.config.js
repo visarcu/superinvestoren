@@ -10,4 +10,7 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+// package.json hat "type": "module" — die Config MUSS als ESM exportiert werden.
+// module.exports kommt bei Next als undefined an und die Config wäre wirkungslos
+// (derselbe Grund, aus dem next.config.cjs nie geladen wurde).
+export default nextConfig
