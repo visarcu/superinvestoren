@@ -20,6 +20,46 @@ export interface SuperinvestorActivity {
   investors: SuperinvestorHolding[]
 }
 
+// Cross-Listings: lokale Börsen-Ticker → US-Listing/ADR, wie es in
+// 13F-Filings auftaucht. Ohne diese Map bekämen ETF-Bestandteile wie
+// 2330.TW (TSMC) oder Direktpositionen wie NOV.DE (Novo Nordisk) nie
+// Superinvestor-Treffer, obwohl die Investoren dieselbe Firma via ADR halten.
+// Kuratiert auf Werte mit realer 13F-Präsenz — bei Neuzugängen hier ergänzen.
+export const US_LISTING_BY_LOCAL: Record<string, string> = {
+  // Taiwan / Asien
+  '2330.TW': 'TSM', '2330.TWO': 'TSM',
+  '9988.HK': 'BABA', 'BABA.SW': 'BABA',
+  '0700.HK': 'TCEHY', '700.HK': 'TCEHY',
+  '7203.T': 'TM',   // Toyota
+  '6758.T': 'SONY', // Sony
+  '005930.KS': 'SSNLF', // Samsung (OTC, selten in 13F — schadet nicht)
+  // Europa: Ordinaries → NYSE/Nasdaq-Listing bzw. ADR
+  'ASML.AS': 'ASML', 'ASME.DE': 'ASML',
+  'SAP.DE': 'SAP',
+  'NOV.DE': 'NVO', 'NOVO-B.CO': 'NVO', 'NOVOB.CO': 'NVO',
+  'AZN.L': 'AZN', 'AZN.ST': 'AZN',
+  'SHEL.L': 'SHEL',
+  'ULVR.L': 'UL',
+  'BATS.L': 'BTI',
+  'HSBA.L': 'HSBC',
+  'RIO.L': 'RIO',
+  'BHP.L': 'BHP', 'BHP.AX': 'BHP',
+  'GSK.L': 'GSK',
+  'BP.L': 'BP',
+  'NESN.SW': 'NSRGY',  // Nestlé
+  'ROG.SW': 'RHHBY',   // Roche
+  'NOVN.SW': 'NVS',    // Novartis
+  'MC.PA': 'LVMUY',    // LVMH
+  'TTE.PA': 'TTE',     // TotalEnergies
+  'SAN.PA': 'SNY',     // Sanofi
+  'SPOT.SW': 'SPOT',
+}
+
+/** Lokalen Ticker auf sein US-Listing normalisieren (für 13F-Matching) */
+function toUsListing(ticker: string): string {
+  return US_LISTING_BY_LOCAL[ticker.toUpperCase()] || ticker.toUpperCase()
+}
+
 const NOISE = new Set(['INC', 'INCORPORATED', 'CORP', 'CORPORATION', 'CO', 'COMPANY', 'LTD', 'LIMITED', 'PLC', 'LP', 'LLC', 'NV', 'SA', 'AG', 'SE', 'THE', 'OF', 'AND', '&', 'A', 'AN', 'CLASS', 'CL', 'SHS', 'NEW', 'DEL', 'COM', 'ORD', 'SER', 'SERIES'])
 const ABBREVS: Record<string, string> = { 'HLDGS': 'HOLDINGS', 'CORP': 'CORPORATION', 'INC': 'INCORPORATED', 'INTL': 'INTERNATIONAL', 'TECH': 'TECHNOLOGY', 'TECHS': 'TECHNOLOGIES', 'GRP': 'GROUP', 'SVCS': 'SERVICES', 'FINL': 'FINANCIAL', 'MGMT': 'MANAGEMENT' }
 
@@ -62,12 +102,18 @@ function resolveTicker(pos: { ticker?: string | null; cusip?: string | null; nam
 /**
  * Ermittelt pro Ticker, welche Superinvestoren die Aktie aktuell halten und
  * wie sich ihre Position im letzten Quartal verändert hat.
- * Mini-Positionen (<100k$) werden ignoriert.
+ * Lokale Listings (2330.TW, NOV.DE, ULVR.L …) werden vor dem Matching auf
+ * ihr US-Listing normalisiert — das Ergebnis bleibt unter dem ORIGINAL-Ticker
+ * abrufbar. Mini-Positionen (<100k$) werden ignoriert.
  */
 export function getSuperinvestorActivity(tickers: string[]): Record<string, SuperinvestorActivity> {
   buildIndexes()
 
-  const tickerSet = new Set(tickers.map(t => t.toUpperCase()))
+  // Original → US-Listing; das Matching läuft über die US-Ticker
+  const usByOriginal = new Map<string, string>()
+  for (const t of tickers) usByOriginal.set(t.toUpperCase(), toUsListing(t))
+
+  const tickerSet = new Set(usByOriginal.values())
   const result: Record<string, SuperinvestorActivity> = {}
   for (const t of tickerSet) result[t] = { count: 0, investors: [] }
 
@@ -105,5 +151,10 @@ export function getSuperinvestorActivity(tickers: string[]): Record<string, Supe
     }
   })
 
-  return result
+  // Ergebnis zurück auf die Original-Ticker mappen (2330.TW zeigt TSM-Treffer)
+  const byOriginal: Record<string, SuperinvestorActivity> = {}
+  for (const [original, usTicker] of Array.from(usByOriginal.entries())) {
+    byOriginal[original] = result[usTicker] || { count: 0, investors: [] }
+  }
+  return byOriginal
 }

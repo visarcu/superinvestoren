@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
+import { US_LISTING_BY_LOCAL } from '@/lib/superinvestorMatch'
 
 // SEC filing abbreviations → full words (reuse from super-investors route)
 const SEC_ABBREVS: Record<string, string> = {
@@ -78,10 +79,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'tickers array required' }, { status: 400 })
     }
 
-    // Normalize tickers to uppercase
-    const tickerSet = new Set(tickers.map((t: string) => t.toUpperCase()))
+    // Lokale Listings (BATS.L, NOV.DE, 2330.TW …) aufs US-Listing normalisieren,
+    // Ergebnis am Ende wieder unter dem Original-Ticker zurückgeben
+    const usByOriginal = new Map<string, string>()
+    for (const t of tickers as string[]) {
+      const upper = t.toUpperCase()
+      usByOriginal.set(upper, US_LISTING_BY_LOCAL[upper] || upper)
+    }
+    const tickerSet = new Set(usByOriginal.values())
 
-    // Result: ticker → { count, investors[] }
+    // Result: US-Ticker → { count, investors[] }
     const result: Record<string, { count: number; investors: { name: string; slug: string }[] }> = {}
     for (const t of tickerSet) {
       result[t] = { count: 0, investors: [] }
@@ -118,7 +125,13 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    return NextResponse.json(result, {
+    // Zurück auf die Original-Ticker mappen (BATS.L bekommt die BTI-Treffer)
+    const byOriginal: Record<string, { count: number; investors: { name: string; slug: string }[] }> = {}
+    for (const [original, usTicker] of Array.from(usByOriginal.entries())) {
+      byOriginal[original] = result[usTicker] || { count: 0, investors: [] }
+    }
+
+    return NextResponse.json(byOriginal, {
       headers: {
         'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=7200',
       }
