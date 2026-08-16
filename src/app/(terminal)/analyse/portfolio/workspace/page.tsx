@@ -13,6 +13,7 @@ import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import AnalysisTab from '@/components/portfolio/AnalysisTab'
+import AssetsTab from '@/components/portfolio/AssetsTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
@@ -41,7 +42,7 @@ import {
   WalletIcon,
 } from '@heroicons/react/24/outline'
 
-type WorkspaceView = 'overview' | 'positions' | 'analysis' | 'dividends' | 'transactions' | 'ai'
+type WorkspaceView = 'overview' | 'assets' | 'positions' | 'analysis' | 'dividends' | 'transactions' | 'ai'
 
 const ACTIVE_VIEWS: Array<{
   key: WorkspaceView
@@ -49,6 +50,7 @@ const ACTIVE_VIEWS: Array<{
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
 }> = [
   { key: 'overview', label: 'Überblick', icon: Squares2X2Icon },
+  { key: 'assets', label: 'Vermögen', icon: WalletIcon },
   { key: 'positions', label: 'Positionen', icon: RectangleGroupIcon },
   { key: 'analysis', label: 'Analyse', icon: ChartPieIcon },
   { key: 'dividends', label: 'Dividenden', icon: BanknotesIcon },
@@ -67,7 +69,7 @@ type PortfolioNavItem = {
 
 const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
   { key: 'overview', view: 'overview', label: 'Übersicht', description: 'Wert, Performance, Allokation', icon: Squares2X2Icon },
-  { key: 'assets', label: 'Vermögen', description: 'Gesamtvermögen über alle Konten', icon: WalletIcon, disabled: true },
+  { key: 'assets', view: 'assets', label: 'Vermögen', description: 'Depot + manuelle Vermögenswerte', icon: WalletIcon },
   { key: 'positions', view: 'positions', label: 'Positionen', description: 'Aktien, ETFs und Renditen', icon: RectangleGroupIcon },
   { key: 'accounts', label: 'Konten', description: 'Cash, Girokonto, Broker', icon: CreditCardIcon, disabled: true },
   { key: 'cashflow', label: 'Cashflow', description: 'Einnahmen und Ausgaben', icon: ArrowsRightLeftIcon, disabled: true },
@@ -629,7 +631,8 @@ export default function PortfolioWorkspacePage() {
 
         <PortfolioNavigation activeView={activeView} onOpenView={openView} compact />
 
-        {p.holdings.length === 0 ? (
+        {/* Vermögen funktioniert auch ohne Depot-Positionen (nur manuelle Werte) */}
+        {p.holdings.length === 0 && activeView !== 'assets' ? (
           p.loading ? <ContentSkeleton /> : <EmptyPortfolio />
         ) : (
           <>
@@ -752,6 +755,10 @@ export default function PortfolioWorkspacePage() {
                   />
                 </section>
               </div>
+            )}
+
+            {activeView === 'assets' && (
+              <AssetsTab depotValue={p.totalValue} formatCurrency={p.formatCurrency} />
             )}
 
             {activeView === 'positions' && (
