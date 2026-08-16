@@ -15,6 +15,7 @@ import {
 } from 'recharts'
 import { ArrowPathIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { perfColor } from '@/utils/formatters'
+import { supabase } from '@/lib/supabaseClient'
 
 interface PortfolioValueChartProps {
   /** Einzel-Depot-ID. Bei "Alle Depots"-Ansicht ignoriert — dann portfolioIds nutzen. */
@@ -158,9 +159,15 @@ export default function PortfolioValueChart({
     const days = { '1M': 30, '3M': 90, '6M': 180, '1Y': 365, 'MAX': 5475 }[selectedRange]
 
     try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) throw new Error('Nicht angemeldet')
+
       const response = await fetch('/api/portfolio-history', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({
           // Bei Alle-Depots-Ansicht: echte UUIDs aller Portfolios durchreichen.
           // Sonst würde die API die synthetische 'all'-ID als UUID interpretieren

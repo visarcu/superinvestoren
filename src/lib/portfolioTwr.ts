@@ -37,6 +37,21 @@ interface CalculatePortfolioTwrOptions {
 
 const CASH_LEDGER_EPSILON = 1
 
+// TWR-Links ohne Aussagekraft überspringen (Return des Tages = 0 gewertet):
+// Wenn der externe Flow die Bewertungsbasis dominiert oder das Depot winzig
+// ist, besteht der Tages-Return fast nur aus Flow-Timing-Rauschen (Flow wird
+// dem nächsten Chart-Tag zugeordnet, Kurs stellt sich einen Tag versetzt ein).
+// In der Sparplan-Startphase (Depotwert < Monatsrate) erzeugte das dauerhaft
+// zweistellige Phantom-Verluste, die für immer in der Kette blieben.
+// Profi-Tools (z.B. Portfolio Performance) guarden solche Perioden genauso.
+const TWR_MIN_BASE_VALUE = 500
+const TWR_FLOW_DOMINANCE_LIMIT = 0.5
+
+function isMeaningfulTwrLink(prevValue: number, externalFlow: number): boolean {
+  if (prevValue < TWR_MIN_BASE_VALUE) return false
+  return Math.abs(externalFlow) <= TWR_FLOW_DOMINANCE_LIMIT * prevValue
+}
+
 function transactionAmount(tx: PortfolioTwrTransaction): number {
   const totalValue = Number(tx.total_value) || 0
   if (totalValue > 0) return totalValue
@@ -176,7 +191,7 @@ function calculateCashInclusiveTwrByDate(
     const externalFlow = externalFlowByDate.get(chartData[i].date) || 0
     const adjustedStartValue = prevTotalValue + externalFlow
 
-    if (adjustedStartValue > 0 && currentTotalValue >= 0) {
+    if (adjustedStartValue > 0 && currentTotalValue >= 0 && isMeaningfulTwrLink(prevTotalValue, externalFlow)) {
       cumulativeTWR *= currentTotalValue / adjustedStartValue
     }
 
@@ -213,10 +228,11 @@ function calculateSecurityOnlyTwrByDate(
     }
 
     const currentDate = chartData[i].date
-    const adjustedStartValue = chartData[i - 1].value + (externalFlowByDate.get(currentDate) || 0)
+    const externalFlow = externalFlowByDate.get(currentDate) || 0
+    const adjustedStartValue = chartData[i - 1].value + externalFlow
     const currentValueWithIncome = chartData[i].value + (incomeByDate.get(currentDate) || 0)
 
-    if (adjustedStartValue > 0 && currentValueWithIncome >= 0) {
+    if (adjustedStartValue > 0 && currentValueWithIncome >= 0 && isMeaningfulTwrLink(chartData[i - 1].value, externalFlow)) {
       cumulativeTWR *= currentValueWithIncome / adjustedStartValue
     }
 

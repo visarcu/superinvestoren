@@ -206,6 +206,20 @@ async function fetchHistoricalPrices(
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth: die Route liest Transaktionen zu übergebenen Portfolio-IDs —
+    // ohne Login-Check könnte jeder mit erratenen UUIDs fremde Depots abfragen.
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(authHeader.slice('Bearer '.length))
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
     const body = await request.json()
     const { portfolioId, portfolioIds, holdings, cashPosition = 0, days = 30 } = body as {
       portfolioId?: string
@@ -232,9 +246,23 @@ export async function POST(request: NextRequest) {
     // frühestes Tx-Datum minus 7 Tage Buffer setzen — sonst laden wir massig
     // Preisdaten für Zeiträume, in denen das Depot leer war.
     const isValidUuid = (v?: string) => !!v && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
-    const earlyValidIds = Array.isArray(portfolioIds)
+    const requestedIds = Array.isArray(portfolioIds)
       ? portfolioIds.filter(isValidUuid)
       : isValidUuid(portfolioId) ? [portfolioId!] : []
+
+    // Ownership: nur Portfolios des eingeloggten Users zulassen
+    let earlyValidIds: string[] = []
+    if (requestedIds.length > 0) {
+      const { data: ownedPortfolios } = await supabase
+        .from('portfolios')
+        .select('id')
+        .eq('user_id', user.id)
+        .in('id', requestedIds)
+      earlyValidIds = (ownedPortfolios || []).map(p => p.id)
+      if (earlyValidIds.length === 0) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+    }
 
     if (validDays > 730 && earlyValidIds.length > 0) {
       const { data: earliestTx } = await supabase

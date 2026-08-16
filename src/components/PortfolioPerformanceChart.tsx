@@ -2,6 +2,7 @@
 'use client'
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { supabase } from '@/lib/supabaseClient'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -93,9 +94,15 @@ export default function PortfolioPerformanceChart({
     }
 
     try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) throw new Error('Nicht angemeldet')
+
       const response = await fetch('/api/portfolio-history', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({
           portfolioId,
           holdings: holdings.map(h => ({
