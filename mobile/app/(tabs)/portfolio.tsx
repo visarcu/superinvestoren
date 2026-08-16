@@ -296,9 +296,16 @@ export default function PortfolioScreen() {
     try {
       const daysMap: Record<string, number> = { '1W': 7, '1M': 30, '3M': 90, 'YTD': Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 86400000), '1J': 365 };
       const days = daysMap[p] || 30;
+      // Die Route ist authentifiziert — ohne Token kam hier immer ein 401
+      // zurueck und der Zeitraum-Umschalter fiel still auf den Gesamtwert.
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { setPeriodGain(null); return; }
       const res = await fetch(`${BASE_URL}/api/portfolio-history`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({
           portfolioId: selectedPortfolioId,
           holdings: holdings.map(h => ({ symbol: h.symbol, quantity: h.quantity, purchase_price: h.purchase_price })),
