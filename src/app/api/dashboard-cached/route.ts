@@ -137,6 +137,9 @@ const getCachedMarkets = unstable_cache(
   }
 )
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     // Load cached data in parallel - ultra fast

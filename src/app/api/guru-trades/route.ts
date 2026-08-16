@@ -93,6 +93,9 @@ function formatValue(v: number): string {
   return `${v.toLocaleString('de-DE')} $`
 }
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     // One best trade per investor, sorted by dollarChange

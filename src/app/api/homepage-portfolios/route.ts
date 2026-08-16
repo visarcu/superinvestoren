@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const investorSlugs = ['buffett', 'ackman', 'marks']

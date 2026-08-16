@@ -2,6 +2,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     // Verwende Service Role Key für vollen Zugriff (umgeht RLS)

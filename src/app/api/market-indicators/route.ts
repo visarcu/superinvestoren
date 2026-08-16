@@ -21,6 +21,9 @@ function yoyChange(data: { value: number; date: string }[], monthsBack = 12) {
   return ((latest.value - yearAgo.value) / Math.abs(yearAgo.value)) * 100
 }
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const apiKey = process.env.FMP_API_KEY
   if (!apiKey) return NextResponse.json({ error: 'API key not configured' }, { status: 500 })

@@ -16,6 +16,9 @@ const sectorTranslations: Record<string, string> = {
   'Communication Services': 'Kommunikation'
 }
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const response = await fetch(

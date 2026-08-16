@@ -3,6 +3,11 @@ import { NextResponse } from 'next/server'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 
+// Nicht beim Build vorrendern: die Auswertung läuft über die komplette
+// Holdings-Historie und reißt mit wachsendem Datenbestand das
+// Static-Generation-Timeout (genau das hat die Prod-Builds ab Aug 2026 gekillt).
+export const dynamic = 'force-dynamic'
+
 // Helper functions moved from client
 function getTicker(position: any): string | null {
   if (position.ticker) return position.ticker

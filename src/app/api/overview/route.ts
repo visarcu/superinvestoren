@@ -336,6 +336,9 @@ function calculateBiggestTrades() {
   return bigTrades.sort((a, b) => b.value - a.value).slice(0, 6)
 }
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     console.log('🚀 Calculating overview data...')

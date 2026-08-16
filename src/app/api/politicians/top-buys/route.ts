@@ -100,6 +100,9 @@ async function fetchFmpTrades(page: number): Promise<PoliticianTrade[]> {
   }
 }
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     if (!fs.existsSync(DATA_DIR)) {

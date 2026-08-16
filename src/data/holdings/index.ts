@@ -198,7 +198,7 @@ import   altarockpartners_2025_Q4 from './altarockpartners/2025-Q4.json'
 
 import   altarockpartners_2026_Q1 from './altarockpartners/2026-Q1.json'
 import   altarockpartners_2026_Q2 from './altarockpartners/2026-Q2.json'
-import   altarockpartners_2026_Q3 from './altarockpartners/2026-Q3.json'
+//import   altarockpartners_2026_Q3 from './altarockpartners/2026-Q3.json'
 
 //Bill Miller
 import   miller_2024_Q1 from './miller/2024-Q1.json'
@@ -1113,7 +1113,7 @@ import greenbrier_2025_Q4 from './greenbrier/2025-Q4.json'
 
 import greenbrier_2026_Q1 from './greenbrier/2026-Q1.json'
 import greenbrier_2026_Q2 from './greenbrier/2026-Q2.json'
-import greenbrier_2026_Q3 from './greenbrier/2026-Q3.json'
+//import greenbrier_2026_Q3 from './greenbrier/2026-Q3.json'
 
 //peltz
 import peltz_2024_Q2 from './peltz/2024-Q2.json'
@@ -1304,8 +1304,9 @@ import thiel_2025_Q2 from './thiel/2025-Q2.json'
 import thiel_2025_Q3 from './thiel/2025-Q3.json'
 import thiel_2025_Q4 from './thiel/2025-Q4.json'
 
-import thiel_2026_Q1 from './thiel/2026-Q1.json'
-import thiel_2026_Q2 from './thiel/2026-Q2.json'
+// Thiel Macro hat für Q4 2025 und Q1 2026 leere 13F-Filings eingereicht (keine meldepflichtigen Positionen)
+// import thiel_2026_Q1 from './thiel/2026-Q1.json'
+// import thiel_2026_Q2 from './thiel/2026-Q2.json'
 import thiel_2026_Q3 from './thiel/2026-Q3.json'
 
 //funds

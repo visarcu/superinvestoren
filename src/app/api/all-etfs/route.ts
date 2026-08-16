@@ -1,6 +1,9 @@
 // src/app/api/all-etfs/route.ts
 import { NextResponse } from 'next/server'
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const url = `https://financialmodelingprep.com/api/v3/etf/list?apikey=${process.env.FMP_API_KEY}`
 

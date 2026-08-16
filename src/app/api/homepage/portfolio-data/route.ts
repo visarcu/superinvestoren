@@ -17,6 +17,9 @@ interface PortfolioShowcase {
   }>
 }
 
+// Nicht beim Build vorrendern (Static-Generation-Timeout bei wachsendem Datenbestand)
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     console.log('📊 Calculating homepage portfolio data...')
