@@ -20,6 +20,7 @@
     "update-holdings": "node scripts/updateHoldingsIndex.js",
     "notify-filings": "node scripts/trigger-filing-notifications.js",
     "update-stocks": "ts-node scripts/update-stocks.ts",
+    "resolve-cusips": "tsx scripts/resolve-missing-cusips.ts",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "edgar:kpis": "npx tsx scripts/fetchEdgarKPIs.ts",

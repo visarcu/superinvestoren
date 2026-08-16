@@ -318,7 +318,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'TOTB.DE',
-    cusip:  '',
+    cusip:  'F92124100',
     name:   'TotalEnergies SE',
     sector: 'Energy',
     metrics: [],
