@@ -72,6 +72,8 @@ export interface LookthroughResult {
   etfCoverage: EtfCoverageInfo[]
   insights: LookthroughInsight[]
   sizeExposure: SizeExposure | null
+  /** true = Nutzer ohne Premium: nur Insights geliefert, Rest gesperrt */
+  premiumLocked?: boolean
 }
 
 export interface UseLookthroughState {

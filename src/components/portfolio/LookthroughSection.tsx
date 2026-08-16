@@ -10,6 +10,7 @@ import { type Holding } from '@/hooks/usePortfolio'
 import { useLookthrough, type UseLookthroughState, type WeightSlice, type EtfCoverageInfo } from '@/hooks/useLookthrough'
 import Logo from '@/components/Logo'
 import { translateSector } from '@/utils/sectorUtils'
+import Link from 'next/link'
 import {
   ChevronDownIcon,
   ArrowsRightLeftIcon,
@@ -18,6 +19,7 @@ import {
   ChartPieIcon,
   ExclamationTriangleIcon,
   LightBulbIcon,
+  LockClosedIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
 
@@ -126,6 +128,66 @@ export default function LookthroughSection({
 
   const decomposedEtfs = result.etfCoverage.filter(e => e.status === 'exact' || e.status === 'approximated')
   const hasApprox = result.etfCoverage.some(e => e.status === 'approximated')
+
+  // ===== Premium-Teaser: Insights bleiben sichtbar, der Rest ist gesperrt =====
+  if (result.premiumLocked) {
+    return (
+      <div className="space-y-5">
+        {(result.insights?.length ?? 0) > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            {result.insights.map((insight, i) => {
+              const isWarn = insight.severity === 'warn'
+              const Icon = isWarn ? ExclamationTriangleIcon : LightBulbIcon
+              return (
+                <div key={i} className={`rounded-xl border p-4 ${isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-neutral-800/80 bg-neutral-900/50'}`}>
+                  <div className="flex items-start gap-3">
+                    <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isWarn ? 'text-amber-400' : 'text-teal-300'}`} />
+                    <div className="min-w-0">
+                      <p className="text-[13px] font-semibold text-white leading-snug">{insight.title}</p>
+                      <p className="text-[12px] text-neutral-400 mt-1 leading-relaxed">{insight.text}</p>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
+        <div className="bg-neutral-900/50 rounded-xl border border-teal-300/15 p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-teal-300/20 bg-teal-400/10">
+              <LockClosedIcon className="h-5 w-5 text-teal-300" />
+            </div>
+            <div className="min-w-0">
+              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+                <ViewfinderCircleIcon className="w-4 h-4 text-teal-300" />
+                Durchblick: Was du wirklich besitzt
+              </h3>
+              <p className="text-[12px] text-neutral-400 mt-1 leading-relaxed">
+                {decomposedEtfs.length > 0
+                  ? `${decomposedEtfs.length} deiner ETFs können in ihre Einzelaktien zerlegt werden.`
+                  : 'Deine ETFs können in ihre Einzelaktien zerlegt werden.'}{' '}
+                Mit Premium siehst du das komplette effektive Portfolio:
+              </p>
+              <ul className="mt-3 space-y-1.5 text-[12px] text-neutral-300">
+                <li>· Effektive Top-Positionen — direkt + über alle ETFs zusammengerechnet</li>
+                <li>· ETF-Überschneidungen — wie stark sich deine Fonds doppeln</li>
+                <li>· Echtes Regionen- und Sektor-Exposure nach Zerlegung</li>
+                <li>· Größenklassen und gewichtetes KGV</li>
+                <li>· Superinvestor-Abgleich mit deinen effektiven Positionen</li>
+              </ul>
+              <Link
+                href="/pricing"
+                className="mt-4 inline-flex items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white"
+              >
+                Premium freischalten
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-5">

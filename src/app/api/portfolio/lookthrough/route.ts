@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { computeLookthrough, type LookthroughInput, type LookthroughResult } from '@/lib/portfolio/lookthrough'
 import { getSuperinvestorActivity } from '@/lib/superinvestorMatch'
+import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -82,10 +83,33 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Too many positions' }, { status: 400 })
   }
 
+  // Premium-Gate: die Insight-Leiste (insights) bleibt für alle Nutzer frei,
+  // die volle Analyse (Zerlegung, Overlaps, Regionen/Sektoren, Size) ist
+  // Premium. Serverseitig erzwungen — das UI zeigt Nicht-Premium einen Teaser.
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select(PREMIUM_PROFILE_SELECT)
+    .eq('user_id', user.id)
+    .maybeSingle()
+  const isPremium = hasPremiumAccess(profile)
+
   try {
     const result = await computeLookthrough(positions)
     enrichWithSuperinvestors(result)
-    return NextResponse.json(result, {
+
+    const payload = isPremium
+      ? result
+      : {
+          ...result,
+          topExposures: [],
+          overlaps: [],
+          regions: [],
+          sectors: [],
+          sizeExposure: null,
+          premiumLocked: true,
+        }
+
+    return NextResponse.json(payload, {
       // Nutzerspezifisch — nie in einen geteilten Cache.
       headers: { 'Cache-Control': 'private, no-store' },
     })
