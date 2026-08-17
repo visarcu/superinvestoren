@@ -10,6 +10,8 @@ import {
   calculateDepositBasedSeries,
 } from '@/lib/portfolioTwr'
 import { isETF } from '@/lib/etfUtils'
+import { computeRiskMeasures, annualizedReturnPct, type RiskMeasures } from '@/lib/portfolioRisk'
+import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
 
 interface HistoricalDataPoint {
   date: string
@@ -219,6 +221,14 @@ export async function POST(request: NextRequest) {
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
+
+    // Premium-Status (für die Risiko-Kennzahlen — Chart/Benchmarks bleiben frei)
+    const { data: premiumProfile } = await supabase
+      .from('profiles')
+      .select(PREMIUM_PROFILE_SELECT)
+      .eq('user_id', user.id)
+      .maybeSingle()
+    const isPremiumUser = hasPremiumAccess(premiumProfile)
 
     const body = await request.json()
     const { portfolioId, portfolioIds, holdings, cashPosition = 0, days = 30 } = body as {
@@ -815,6 +825,15 @@ export async function POST(request: NextRequest) {
         cashDragEuro: number | null
       }
     } | null = null
+
+    let riskMeasures: {
+      riskFreePct: number | null
+      portfolio: RiskMeasures | null
+      ftseAllWorld: RiskMeasures | null
+      sp500: RiskMeasures | null
+      msciWorld: RiskMeasures | null
+    } | null = null
+
     try {
       const [spyHistory, urthHistory, vtHistory] = await Promise.all([
         fetchHistoricalPrices('SPY', fromDate, toDate, true),
@@ -934,6 +953,31 @@ export async function POST(request: NextRequest) {
               sp500: buildBenchmarkStats('S&P 500', spyBenchmark),
               msciWorld: buildBenchmarkStats('MSCI World', urthBenchmark),
             },
+          }
+
+          // 8b2. Risiko-Kennzahlen (Premium): aus der flow-bereinigten
+          // TWR-Kette (Depot) bzw. den EUR-Preisserien (Benchmark). Der
+          // risikofreie Zins kommt aus der XEON-Kursserie (€STR) — echte
+          // Daten statt hartcodiertem Zinssatz.
+          if (isPremiumUser) {
+            const portfolioWealth = chartData.map(point => ({
+              date: point.date,
+              value: 1 + (twrByDate.get(point.date) || 0) / 100,
+            }))
+            const vtSeries = vtBenchmark.map(p => ({ date: p.date, value: p.close }))
+
+            const xeonHistory = await fetchHistoricalPrices('XEON.DE', fromDate, toDate)
+            const riskFreePct = annualizedReturnPct(
+              xeonHistory.map(p => ({ date: p.date, value: p.close })),
+            )
+
+            riskMeasures = {
+              riskFreePct: riskFreePct !== null ? round2(riskFreePct) : null,
+              portfolio: computeRiskMeasures(portfolioWealth, riskFreePct, vtSeries),
+              ftseAllWorld: computeRiskMeasures(vtSeries, riskFreePct),
+              sp500: computeRiskMeasures(spyBenchmark.map(p => ({ date: p.date, value: p.close })), riskFreePct),
+              msciWorld: computeRiskMeasures(urthBenchmark.map(p => ({ date: p.date, value: p.close })), riskFreePct),
+            }
           }
 
           // 8c. Attribution: Woher kommt die Differenz zum FTSE All-World?
@@ -1098,6 +1142,9 @@ export async function POST(request: NextRequest) {
       data: sampledData, // Wertentwicklung: { date, value, invested, performance }
       performanceData: sampledPerformance, // Performance: { date, portfolioPerformance, spyPerformance } in %
       benchmarkComparison, // Kennzahlen: Depot vs. Benchmarks (p.a.-Differenz + Euro-Betrag)
+      // Risiko-Kennzahlen: nur Premium — sonst Locked-Flag fürs UI-Teaser
+      riskMeasures,
+      riskMeasuresLocked: !isPremiumUser ? true : undefined,
       meta: {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,

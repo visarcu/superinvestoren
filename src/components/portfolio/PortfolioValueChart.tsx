@@ -96,6 +96,32 @@ interface BenchmarkComparison {
   attribution?: BenchmarkAttribution
 }
 
+interface RiskMeasures {
+  periodDays: number
+  annualizedReturnPct: number
+  volatilityPct: number
+  downsideDeviationPct: number
+  sharpe: number | null
+  sortino: number | null
+  calmar: number | null
+  maxDrawdownPct: number
+  maxDrawdownPeak: string
+  maxDrawdownValley: string
+  recoveryMonths: number | null
+  beta: number | null
+  positiveMonths: number
+  negativeMonths: number
+  meanMonthlyReturnPct: number
+}
+
+interface RiskMeasuresPayload {
+  riskFreePct: number | null
+  portfolio: RiskMeasures | null
+  ftseAllWorld: RiskMeasures | null
+  sp500: RiskMeasures | null
+  msciWorld: RiskMeasures | null
+}
+
 // "seit 5,2 Jahren" / "seit einem Jahr" / "in den letzten 8 Monaten"
 function formatPeriodLabel(years: number): string {
   if (years >= 1) {
@@ -137,6 +163,8 @@ export default function PortfolioValueChart({
   const [valueData, setValueData] = useState<ValueDataPoint[]>([])
   const [performanceData, setPerformanceData] = useState<PerformanceDataPoint[]>([])
   const [comparison, setComparison] = useState<BenchmarkComparison | null>(null)
+  const [risk, setRisk] = useState<RiskMeasuresPayload | null>(null)
+  const [riskLocked, setRiskLocked] = useState(false)
   const [showAttribution, setShowAttribution] = useState(false)
   // 'deposits': Wert inkl. Cash vs. echte Einzahlungen (Cash-Ledger vorhanden).
   // 'cost_basis': Wertpapierwert vs. Kostenbasis (Fallback ohne Cash-Daten).
@@ -244,6 +272,8 @@ export default function PortfolioValueChart({
       }
 
       setComparison(result.benchmarkComparison || null)
+      setRisk(result.riskMeasures || null)
+      setRiskLocked(!!result.riskMeasuresLocked)
       setInvestedMode(mode)
     } catch (error) {
       console.error('Chart data fetch error:', error)
@@ -701,6 +731,93 @@ export default function PortfolioValueChart({
             Benchmarks in EUR, inkl. reinvestierter Dividenden (Total Return) · Euro-Betrag: dieselben
             Einzahlungen zu denselben Zeitpunkten in den Index investiert.
           </p>
+        </div>
+      )}
+
+      {/* ===== Risiko-Kennzahlen (Premium) ===== */}
+      {!loading && riskLocked && (
+        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+          <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.18em] text-theme-muted">
+            Risiko-Kennzahlen
+          </p>
+          <p className="text-sm leading-relaxed text-theme-secondary">
+            Sharpe Ratio, Sortino, Max Drawdown, Volatilität und Beta deines Depots — im Vergleich zum
+            FTSE All-World, echt berechnet aus deiner Wertentwicklung.
+          </p>
+          <a
+            href="/pricing"
+            className="mt-3 inline-flex items-center rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white"
+          >
+            Premium freischalten
+          </a>
+        </div>
+      )}
+
+      {!loading && risk && (
+        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+          <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.18em] text-theme-muted">
+            Risiko-Kennzahlen
+          </p>
+          {!risk.portfolio ? (
+            <p className="text-sm leading-relaxed text-theme-secondary">
+              Für belastbare Risiko-Kennzahlen braucht es mindestens ~6 Monate Kurshistorie im
+              gewählten Zeitraum — wähle einen längeren Zeitraum oder schau später wieder vorbei.
+            </p>
+          ) : (
+            <>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[420px] text-sm">
+                  <thead>
+                    <tr className="border-b border-white/[0.06] text-[11px] uppercase tracking-wider text-theme-muted">
+                      <th className="py-2 text-left font-medium">Kennzahl</th>
+                      <th className="py-2 text-right font-medium">Dein Depot</th>
+                      <th className="py-2 text-right font-medium">FTSE All-World</th>
+                    </tr>
+                  </thead>
+                  <tbody className="tabular-nums">
+                    {([
+                      ['Rendite p.a.', (m: RiskMeasures) => `${m.annualizedReturnPct >= 0 ? '+' : ''}${m.annualizedReturnPct.toFixed(1)}%`],
+                      ['Sharpe Ratio', (m: RiskMeasures) => m.sharpe !== null ? m.sharpe.toFixed(2) : '—'],
+                      ['Sortino Ratio', (m: RiskMeasures) => m.sortino !== null ? m.sortino.toFixed(2) : '—'],
+                      ['Volatilität p.a.', (m: RiskMeasures) => `${m.volatilityPct.toFixed(1)}%`],
+                      ['Downside Deviation', (m: RiskMeasures) => `${m.downsideDeviationPct.toFixed(1)}%`],
+                      ['Max Drawdown', (m: RiskMeasures) => `${m.maxDrawdownPct.toFixed(1)}%`],
+                      ['Recovery', (m: RiskMeasures) => m.recoveryMonths !== null ? `${m.recoveryMonths} Monat${m.recoveryMonths !== 1 ? 'e' : ''}` : 'läuft noch'],
+                      ['Calmar Ratio', (m: RiskMeasures) => m.calmar !== null ? m.calmar.toFixed(2) : '—'],
+                      ['Positive Monate', (m: RiskMeasures) => {
+                        const total = m.positiveMonths + m.negativeMonths
+                        return total > 0 ? `${m.positiveMonths}/${total} (${Math.round((m.positiveMonths / total) * 100)}%)` : '—'
+                      }],
+                    ] as [string, (m: RiskMeasures) => string][]).map(([label, fmt]) => (
+                      <tr key={label} className="border-b border-white/[0.04] last:border-b-0">
+                        <td className="py-1.5 text-theme-secondary">{label}</td>
+                        <td className="py-1.5 text-right font-medium text-theme-primary">{fmt(risk.portfolio!)}</td>
+                        <td className="py-1.5 text-right text-theme-secondary">
+                          {risk.ftseAllWorld ? fmt(risk.ftseAllWorld) : '—'}
+                        </td>
+                      </tr>
+                    ))}
+                    {risk.portfolio.beta !== null && (
+                      <tr>
+                        <td className="py-1.5 text-theme-secondary">Beta vs. FTSE All-World</td>
+                        <td className="py-1.5 text-right font-medium text-theme-primary">{risk.portfolio.beta.toFixed(2)}</td>
+                        <td className="py-1.5 text-right text-theme-secondary">1.00</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 text-[10px] leading-relaxed text-theme-muted/70">
+                Berechnet aus Tagesrenditen des gewählten Zeitraums · Max Drawdown{' '}
+                {new Date(risk.portfolio.maxDrawdownPeak).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })} –{' '}
+                {new Date(risk.portfolio.maxDrawdownValley).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })}
+                {risk.riskFreePct !== null && (
+                  <> · Risikofreier Zins: {risk.riskFreePct.toFixed(1)}% p.a. (€STR via XEON)</>
+                )}
+                {' '}· Keine Anlageberatung.
+              </p>
+            </>
+          )}
         </div>
       )}
     </div>
