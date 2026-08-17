@@ -15,6 +15,7 @@ import TransactionsList from '@/components/portfolio/TransactionsList'
 import AnalysisTab from '@/components/portfolio/AnalysisTab'
 import AssetsTab from '@/components/portfolio/AssetsTab'
 import AccountsTab from '@/components/portfolio/AccountsTab'
+import CashflowTab from '@/components/portfolio/CashflowTab'
 import QuickTradeEntry from '@/components/portfolio/QuickTradeEntry'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
@@ -44,7 +45,7 @@ import {
   WalletIcon,
 } from '@heroicons/react/24/outline'
 
-type WorkspaceView = 'overview' | 'assets' | 'accounts' | 'positions' | 'analysis' | 'dividends' | 'transactions' | 'ai'
+type WorkspaceView = 'overview' | 'assets' | 'accounts' | 'cashflow' | 'positions' | 'analysis' | 'dividends' | 'transactions' | 'ai'
 
 const ACTIVE_VIEWS: Array<{
   key: WorkspaceView
@@ -54,6 +55,7 @@ const ACTIVE_VIEWS: Array<{
   { key: 'overview', label: 'Überblick', icon: Squares2X2Icon },
   { key: 'assets', label: 'Vermögen', icon: WalletIcon },
   { key: 'accounts', label: 'Konten', icon: CreditCardIcon },
+  { key: 'cashflow', label: 'Cashflow', icon: ArrowsRightLeftIcon },
   { key: 'positions', label: 'Positionen', icon: RectangleGroupIcon },
   { key: 'analysis', label: 'Analyse', icon: ChartPieIcon },
   { key: 'dividends', label: 'Dividenden', icon: BanknotesIcon },
@@ -75,7 +77,7 @@ const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
   { key: 'assets', view: 'assets', label: 'Vermögen', description: 'Depot + manuelle Vermögenswerte', icon: WalletIcon },
   { key: 'positions', view: 'positions', label: 'Positionen', description: 'Aktien, ETFs und Renditen', icon: RectangleGroupIcon },
   { key: 'accounts', view: 'accounts', label: 'Konten', description: 'Salden und Buchungen per Eingabe', icon: CreditCardIcon },
-  { key: 'cashflow', label: 'Cashflow', description: 'Einnahmen und Ausgaben', icon: ArrowsRightLeftIcon, disabled: true },
+  { key: 'cashflow', view: 'cashflow', label: 'Cashflow', description: 'Einnahmen und Ausgaben aus Buchungen', icon: ArrowsRightLeftIcon },
   { key: 'dividends', view: 'dividends', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon },
   { key: 'transactions', view: 'transactions', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon },
   { key: 'analysis', view: 'analysis', label: 'Analyse', description: 'Struktur und Konzentration', icon: ChartPieIcon },
@@ -634,8 +636,8 @@ export default function PortfolioWorkspacePage() {
 
         <PortfolioNavigation activeView={activeView} onOpenView={openView} compact />
 
-        {/* Vermögen/Konten funktionieren auch ohne Depot-Positionen */}
-        {p.holdings.length === 0 && activeView !== 'assets' && activeView !== 'accounts' ? (
+        {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
+        {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
           p.loading ? <ContentSkeleton /> : <EmptyPortfolio />
         ) : (
           <>
@@ -770,6 +772,10 @@ export default function PortfolioWorkspacePage() {
 
             {activeView === 'accounts' && (
               <AccountsTab formatCurrency={p.formatCurrency} />
+            )}
+
+            {activeView === 'cashflow' && (
+              <CashflowTab formatCurrency={p.formatCurrency} />
             )}
 
             {activeView === 'positions' && (
