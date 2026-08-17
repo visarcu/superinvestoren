@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useSpeechInput } from '@/hooks/useSpeechInput'
 import {
+  ACCOUNT_CATEGORIES,
   ASSET_CATEGORY_LABELS,
   ASSET_CATEGORIES,
   type AssetCategory,
@@ -100,6 +101,19 @@ export default function AssetsTab({
   const debtAssets = useMemo(() => assets.filter(a => a.category === 'kredit'), [assets])
   const assetsSum = useMemo(() => positiveAssets.reduce((s, a) => s + a.value, 0), [positiveAssets])
   const manualDebtSum = useMemo(() => debtAssets.reduce((s, a) => s + a.value, 0), [debtAssets])
+
+  // Gruppierung: Konten & Cash | Sachwerte | Kredite (mit Zwischensummen)
+  const groups = useMemo(() => {
+    const isAccount = (a: ManualAsset) => (ACCOUNT_CATEGORIES as readonly string[]).includes(a.category)
+    const defs: { key: string; label: string; items: ManualAsset[]; negative?: boolean }[] = [
+      { key: 'konten', label: 'Konten & Cash', items: assets.filter(a => isAccount(a)) },
+      { key: 'sachwerte', label: 'Sachwerte & Sonstiges', items: assets.filter(a => !isAccount(a) && a.category !== 'kredit') },
+      { key: 'kredite', label: 'Kredite', items: debtAssets, negative: true },
+    ]
+    return defs
+      .filter(g => g.items.length > 0)
+      .map(g => ({ ...g, sum: g.items.reduce((s, a) => s + a.value, 0) }))
+  }, [assets, debtAssets])
 
   // ===== Freitext → Vorschlag =====
   const parseInput = useCallback(async () => {
@@ -357,7 +371,15 @@ export default function AssetsTab({
             </p>
           </div>
         ) : (
-          assets.map(asset => {
+          groups.map(group => (
+            <div key={group.key}>
+              <div className="flex items-center justify-between border-b border-neutral-800/60 bg-neutral-950/60 px-5 py-2">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-neutral-500">{group.label}</p>
+                <p className={`text-[11px] font-semibold tabular-nums ${group.negative ? 'text-red-400' : 'text-neutral-300'}`}>
+                  {group.negative ? `−${formatCurrency(group.sum)}` : formatCurrency(group.sum)}
+                </p>
+              </div>
+              {group.items.map(asset => {
             const Icon = CATEGORY_ICONS[asset.category] || WalletIcon
             const isEditing = editingId === asset.id
             return (
@@ -424,7 +446,9 @@ export default function AssetsTab({
                 </div>
               </div>
             )
-          })
+          })}
+            </div>
+          ))
         )}
       </div>
 
