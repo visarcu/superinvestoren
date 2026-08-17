@@ -144,25 +144,31 @@ export default function AssetsTab({
   const confirmProposal = useCallback(async () => {
     if (!proposal || saving) return
     setSaving(true)
+    setParseError(null)
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('Nicht angemeldet')
       if (existingMatch) {
-        await supabase
+        const { error } = await supabase
           .from('manual_assets')
           .update({ value: proposal.value, category: proposal.category, updated_at: new Date().toISOString() })
           .eq('id', existingMatch.id)
+        if (error) throw error
       } else {
-        await supabase.from('manual_assets').insert({
+        const { error } = await supabase.from('manual_assets').insert({
           user_id: user.id,
           name: proposal.name,
           category: proposal.category,
           value: proposal.value,
         })
+        if (error) throw error
       }
       setProposal(null)
       setInput('')
       await loadAssets()
+    } catch (err) {
+      console.error('Vermögens-Eintrag speichern fehlgeschlagen:', err)
+      setParseError('Speichern fehlgeschlagen — bitte nochmal versuchen')
     } finally {
       setSaving(false)
     }
