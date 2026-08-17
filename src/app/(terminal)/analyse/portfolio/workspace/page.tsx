@@ -775,7 +775,10 @@ export default function PortfolioWorkspacePage() {
             )}
 
             {activeView === 'cashflow' && (
-              <CashflowTab formatCurrency={p.formatCurrency} />
+              <CashflowTab
+                formatCurrency={p.formatCurrency}
+                portfolioIds={p.allPortfolios.map(depot => depot.id)}
+              />
             )}
 
             {activeView === 'positions' && (
