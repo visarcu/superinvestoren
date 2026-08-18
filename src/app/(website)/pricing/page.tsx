@@ -149,7 +149,9 @@ export default function PricingPage() {
       { name: 'Kongress-Aktien (Politiker-Trades)', included: true },
       { name: 'Neueste Quartalszahlen', included: true },
       { name: 'Watchlist (bis zu 5 Aktien)', included: true },
-      { name: 'Basic Portfolio-Tracking', included: true },
+      { name: 'Portfolio-Tracking inkl. Durchblick-Kurzhinweise', included: true },
+      { name: 'Durchblick: ETFs in Einzelaktien zerlegt', included: false },
+      { name: 'Risiko-Kennzahlen (Sharpe, Max Drawdown …)', included: false },
       { name: 'KI-Zusammenfassung Quartalszahlen', included: false },
       { name: 'Vollständige Historie 20+ Jahre', included: false },
       { name: 'Alerts & E-Mail-Benachrichtigungen', included: false },
@@ -158,13 +160,14 @@ export default function PricingPage() {
     ],
     premium: [
       { name: 'Alle Free Features', included: true },
-      { name: 'KI-Zusammenfassung der Quartalszahlen', included: true, highlight: true },
+      { name: 'Durchblick: ETF-Zerlegung, Überschneidungen & echtes Exposure', included: true, highlight: true },
+      { name: 'Risiko-Kennzahlen: Sharpe, Sortino, Max Drawdown & Beta', included: true, highlight: true },
+      { name: 'Superinvestor-Abgleich mit deinem Depot', included: true },
+      { name: 'KI-Portfolio-Analyse & KI-Zusammenfassung der Quartalszahlen', included: true, highlight: true },
       { name: 'Vollständige Historie 20+ Jahre', included: true },
-      { name: 'Alle Portfolio-Features', included: true },
       { name: 'Anpassbare Charts & Presets speichern', included: true },
-      { name: 'Alerts bei Kursrückgängen & neuen Filings', included: true, highlight: true },
-      { name: 'Wöchentliche Dividenden-Übersicht per Mail', included: true },
-      { name: 'Dividenden-Kalender', included: true },
+      { name: 'Alerts bei Kursrückgängen & neuen Filings', included: true },
+      { name: 'Dividenden-Kalender & wöchentliche Übersicht per Mail', included: true },
       { name: 'Unbegrenzte Watchlist', included: true },
       { name: 'Priority E-Mail Support', included: true },
     ]
@@ -212,7 +215,9 @@ export default function PricingPage() {
                 Einfache, transparente Preise
               </h1>
               <p className="text-lg text-neutral-400 max-w-xl mx-auto">
-                Voller Zugang zu allen Features. Jederzeit kündbar.
+                Sieh, was wirklich in deinem Depot steckt: ETF-Durchblick, Risiko-Kennzahlen
+                und Superinvestor-Abgleich — Analysen, die es sonst auf keiner deutschen
+                Plattform gibt. Jederzeit kündbar.
               </p>
             </div>
           )}
