@@ -6,7 +6,7 @@
 export const investorCiks = {
   // bereits vorhandene
   buffett: '0001067983',  
-  ackman:  '0001336528',   
+  ackman:  '0002026053', // Pershing Square Inc. (public parent, seit Q2/2026 alleiniger 13F-Filer; alt: 0001336528)   
   akre:    '0001112520', 
   gregalexander:'0001773994',
   altarockpartners:     '0001631014', 

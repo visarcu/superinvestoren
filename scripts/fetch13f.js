@@ -8,6 +8,12 @@ import { investorCiks } from '../src/lib/cikMapping.js'
 // Investoren die kleinere Zahlen in den SEC Filings haben (brauchen extra Multiplikator)
 const extraMultiplierSlugs = [''];
 
+// Investoren mit CIK-Wechsel: neue CIK liefert erst ab diesem Quartal das volle Portfolio.
+// Ältere Quartals-Dateien stammen von der alten CIK und dürfen nicht überschrieben werden.
+const minQuarterBySlug = {
+  ackman: '2026-Q3', // Pershing Square Inc. (CIK 2026053) meldet erst ab Periode Q2/2026 alles; davor nur Howard Hughes
+};
+
 // ✅ NEU: Investoren die bereits Dollar-Werte haben (KEIN Multiplikator)
 const noMultiplierSlugs = ['greenhaven', 'bares', 'vulcanvalue', 'donaldsmith', 'aschenbrenner', 'check', 'karr', 'cunniff', 'martin', 'munger', 'ellenbogen', 'meritage', 'muhlenkamp', 'greenbrier', 'wyden', 'brenton' ,'buffett', 'ark_investment_management', 'einhorn', 'duan','rolfe', 'cunniff_sequoia', 'welling','roepers', 'thiel', 'ackman', 'ubben', 'lou', 'makaira', 'berkowitz', 'bloomstran', 'mandel', 'sosin', 'marks', 'greenberg', 'ainslie', 'lilu', 'icahn', 'tepper', 'loeb', 'gates', 'dalio', ,'whitman', 'rochon', 'miller', 'coleman', 'kahn', 'hong', 'hohn', 'dorsey', 'lawrence', 'watsa', 'smith', 'ketterer', 'train', 'patientcapital', 'viking', 'makaira', 'russo', 'akre', 'tarasoff', 'polen', 'firsteagle', 'jensen', 'abrams', 'burn', 'cantillon', 'armitage', 'yacktman','torray', 'vinall', 'katz', 'gayner', 'weitz', 'meridiancontrarian', 'mairspower', 'dodgecox','altarockpartners', 'davis', 'pzena', 'hawkins', 'rogers', 'peltz', 'gregalexander', 'miller', 'burry', 'pabrai', 'kantesaria', 'greenblatt', 'fisher','soros', 'haley','vandenberg'];
 
@@ -201,7 +207,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // ✅ TANGEN AKTIVIEREN: Jetzt für AKO Capital (Tangen)
-    if (slug !== 'makaira' && slug !== 'wyden' && slug !== 'hong') continue
+    if (slug !== 'ackman' && slug !== '' && slug !== '') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })
@@ -294,8 +300,13 @@ async function run() {
         .slice(0, 8) // Nur die letzten 8 Quartale für bessere Performance
 
       for (const [quarterKey, filing] of recentQuarters) {
+        if (minQuarterBySlug[slug] && quarterKey < minQuarterBySlug[slug]) {
+          console.log(`\n⏭ Überspringe ${slug} ${quarterKey} (vor ${minQuarterBySlug[slug]}, Daten stammen von alter CIK)`)
+          continue
+        }
+
         const outFile = path.join(invDir, `${quarterKey}.json`)
-        
+
         console.log(`\n📄 Verarbeite ${slug} ${quarterKey} (${filing.form})`)
 
         let raw = ''

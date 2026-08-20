@@ -71,7 +71,7 @@ import ackman_2025_Q4 from './ackman/2025-Q4.json'
 
 import ackman_2026_Q1 from './ackman/2026-Q1.json'
 import ackman_2026_Q2 from './ackman/2026-Q2.json'
-//import ackman_2026_Q3 from './ackman/2026-Q3.json'
+import ackman_2026_Q3 from './ackman/2026-Q3.json'
 
 //Marks
 
@@ -1422,7 +1422,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
     {quarter: '2026-Q1', data: ackman_2026_Q1},
     {quarter: '2026-Q2', data: ackman_2026_Q2},
-   // {quarter: '2026-Q3', data: ackman_2026_Q3},
+    {quarter: '2026-Q3', data: ackman_2026_Q3},
     // …
    ],
 
