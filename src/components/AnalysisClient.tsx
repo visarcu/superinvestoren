@@ -22,6 +22,8 @@ import OwnershipSection from '@/components/OwnershipSection'
 import MarketInsightSummary from '@/components/MarketInsightSummary'
 import StockLatestNews from '@/components/StockLatestNews'
 import StockAISidebar from '@/components/ai/StockAISidebar'
+import type { CongressEvent, InsiderEvent, SmartMoneyEvent } from '@/lib/smartMoney.types'
+import FundamentalAlertsButton from '@/components/FundamentalAlertsButton'
 
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
 const WatchlistButton = dynamic(
@@ -201,6 +203,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const [profileData, setProfileData] = useState<Profile | null>(null)
   const [irWebsite, setIrWebsite] = useState<string | null>(null)
   const [history, setHistory] = useState<{ date: string; close: number }[]>([])
+  const [smartMoneyEvents, setSmartMoneyEvents] = useState<SmartMoneyEvent[]>([])
+  const [insiderEvents, setInsiderEvents] = useState<InsiderEvent[]>([])
+  const [congressEvents, setCongressEvents] = useState<CongressEvent[]>([])
   const [dividendHistory, setDividendHistory] = useState<{ date: string; dividend: number }[]>([])
   const [segmentData, setSegmentData] = useState<SegmentEntry[]>([])
   const [keyMetrics, setKeyMetrics] = useState<Record<string, any>>({})
@@ -337,6 +342,26 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
     return colorMap[enhancedDividendData.payoutSafety.color as keyof typeof colorMap] || colorMap.gray;
   }, [enhancedDividendData?.payoutSafety?.color])
+
+  // Smart-Money-Events (Superinvestor-Käufe/-Verkäufe) für den Chart-Layer.
+  // Separater Fetch: die Route wertet serverseitig die komplette 13F-Historie
+  // aus und soll den kritischen Datenpfad oben nicht blockieren.
+  useEffect(() => {
+    let cancelled = false
+    setSmartMoneyEvents([])
+    setInsiderEvents([])
+    setCongressEvents([])
+    fetch(`/api/stocks/${ticker}/smart-money`)
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => {
+        if (cancelled) return
+        if (Array.isArray(data?.events)) setSmartMoneyEvents(data.events)
+        if (Array.isArray(data?.insiderEvents)) setInsiderEvents(data.insiderEvents)
+        if (Array.isArray(data?.congressEvents)) setCongressEvents(data.congressEvents)
+      })
+      .catch(() => {})
+    return () => { cancelled = true }
+  }, [ticker])
 
   // ✅ OPTIMIZED: Single combined API call instead of 13 separate calls
   // Läuft für jeden Ticker – auch ohne Eintrag in der statischen stocks-Liste.
@@ -656,6 +681,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           <p className="text-theme-secondary mt-1">Detaillierte Finanzdaten für {displayName} ({ticker})</p>
         </div>
         <div className="flex items-center space-x-4">
+          <FundamentalAlertsButton ticker={ticker} />
           <WatchlistButton ticker={ticker} />
         </div>
       </div>
@@ -934,6 +960,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               <WorkingStockChart
                 ticker={ticker}
                 data={history}
+                smartMoneyEvents={smartMoneyEvents}
+                insiderEvents={insiderEvents}
+                congressEvents={congressEvents}
                 week52High={week52High}
                 week52Low={week52Low}
               />

@@ -5,7 +5,13 @@
       "name": "dev",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["next", "dev"],
-      "autoPort": true
+      "port": 3000
+    },
+    {
+      "name": "dev-alt",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["next", "dev", "-p", "3987"],
+      "port": 3987
     }
   ]
 }
