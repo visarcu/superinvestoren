@@ -230,7 +230,7 @@ export default function QuickTradeEntry({
   const sum = parseNum(qty) > 0 && parseNum(price) > 0 ? parseNum(qty) * parseNum(price) : null
 
   return (
-    <div className="mb-5 rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+    <div className="bg-theme-card border border-theme mb-5 rounded-xl p-5">
       <h3 className="text-sm font-semibold tracking-tight text-white">Transaktion per Schnelleingabe</h3>
       <p className="mt-0.5 text-[11px] text-neutral-500">
         Einfach hinschreiben{speech.available ? ' oder diktieren' : ''}: „hab für 500 € MSCI World gekauft" · „3 Apple verkauft zu 280"
@@ -243,7 +243,7 @@ export default function QuickTradeEntry({
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && parseInput()}
           placeholder={speech.recording ? 'Sprich jetzt …' : 'z.B. 2 Allianz Aktien gekauft für je 340'}
-          className="min-w-0 flex-1 rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-colors focus:border-teal-300/40"
+          className="min-w-0 flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-colors focus:border-teal-300/40"
         />
         {speech.available && (
           <button
@@ -253,7 +253,7 @@ export default function QuickTradeEntry({
             className={`flex h-[42px] w-[42px] flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
               speech.recording
                 ? 'border-red-400/40 bg-red-500/15 text-red-300'
-                : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:border-teal-300/30 hover:text-teal-300'
+                : 'border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:border-teal-300/30 hover:text-teal-300'
             }`}
           >
             <MicrophoneIcon className={`h-4.5 w-4.5 ${speech.recording ? 'animate-pulse' : ''}`} />
@@ -263,7 +263,7 @@ export default function QuickTradeEntry({
           type="button"
           onClick={parseInput}
           disabled={parsing || input.trim().length < 3}
-          className="flex h-[42px] items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:cursor-not-allowed disabled:border-neutral-800 disabled:bg-neutral-950 disabled:text-neutral-600"
+          className="flex h-[42px] items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:cursor-not-allowed disabled:border-white/[0.08] disabled:bg-white/[0.04] disabled:text-neutral-600"
         >
           <PaperAirplaneIcon className="h-4 w-4" />
           {parsing ? 'Verstehe …' : 'Erfassen'}
@@ -290,7 +290,7 @@ export default function QuickTradeEntry({
               <select
                 value={candidateSymbol}
                 onChange={e => setCandidateSymbol(e.target.value)}
-                className="rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+                className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
               >
                 {proposal.candidates.map(c => (
                   <option key={c.symbol} value={c.symbol}>
@@ -306,7 +306,7 @@ export default function QuickTradeEntry({
                 <select
                   value={targetDepotId}
                   onChange={e => setTargetDepotId(e.target.value)}
-                  className="rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+                  className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
                 >
                   {allPortfolios.map(depot => (
                     <option key={depot.id} value={depot.id}>{depot.name}</option>
@@ -321,7 +321,7 @@ export default function QuickTradeEntry({
                 type="text"
                 value={qty}
                 onChange={e => setQty(e.target.value)}
-                className="w-24 rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-right text-sm tabular-nums text-white outline-none focus:border-teal-300/40"
+                className="w-24 rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-right text-sm tabular-nums text-white outline-none focus:border-teal-300/40"
               />
             </label>
 
@@ -331,7 +331,7 @@ export default function QuickTradeEntry({
                 type="text"
                 value={price}
                 onChange={e => setPrice(e.target.value)}
-                className="w-24 rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-right text-sm tabular-nums text-white outline-none focus:border-teal-300/40"
+                className="w-24 rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-right text-sm tabular-nums text-white outline-none focus:border-teal-300/40"
               />
             </label>
 
@@ -341,7 +341,7 @@ export default function QuickTradeEntry({
                 type="date"
                 value={date}
                 onChange={e => setDate(e.target.value)}
-                className="rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+                className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
               />
             </label>
 
@@ -357,7 +357,7 @@ export default function QuickTradeEntry({
             <button
               type="button"
               onClick={() => setProposal(null)}
-              className="flex h-[34px] w-[34px] items-center justify-center rounded-lg border border-neutral-800 text-neutral-400 transition-colors hover:text-white"
+              className="flex h-[34px] w-[34px] items-center justify-center rounded-lg border border-white/[0.08] text-neutral-400 transition-colors hover:text-white"
               title="Verwerfen"
             >
               <XMarkIcon className="h-4 w-4" />

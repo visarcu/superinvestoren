@@ -157,7 +157,7 @@ export default function TickerSearch({
       />
 
       {(results.length > 0 || loading || noMatches) && trimmed.length > 0 && (
-        <div className="absolute z-30 w-full mt-1 bg-[#0c0c16] border border-white/[0.06] rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.5)] overflow-hidden max-h-72 overflow-y-auto">
+        <div className="absolute z-30 w-full mt-1 terminal-glass-strong rounded-xl overflow-hidden max-h-72 overflow-y-auto">
           {loading && results.length === 0 && (
             <div className="px-4 py-3 text-[11px] text-white/30">Suche…</div>
           )}

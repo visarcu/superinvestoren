@@ -217,24 +217,24 @@ export default function AssetsTab({
   return (
     <div className="space-y-5">
       {/* ===== Übersicht: Netto zuerst — das ist die ehrliche Zahl ===== */}
-      <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-800/80 sm:grid-cols-3">
-        <div className="bg-neutral-950 p-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Nettovermögen</p>
-          <p className="text-2xl font-semibold tabular-nums text-teal-300">{formatCurrency(netWealth)}</p>
+          <p className="text-xl font-semibold tabular-nums text-teal-300">{formatCurrency(netWealth)}</p>
           <p className="mt-1 text-[11px] text-neutral-500">Brutto − Verbindlichkeiten</p>
         </div>
-        <div className="bg-neutral-950 p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Bruttovermögen</p>
-          <p className="text-2xl font-semibold tabular-nums text-white">{formatCurrency(grossWealth)}</p>
+          <p className="text-xl font-semibold tabular-nums text-white">{formatCurrency(grossWealth)}</p>
           <p className="mt-1 text-[11px] text-neutral-500">
             Wertpapiere {formatCurrency(securitiesValue)}
             {positiveCash > 0 && <> · Cash {formatCurrency(positiveCash)}</>}
             {assetsSum > 0 && <> · Werte {formatCurrency(assetsSum)}</>}
           </p>
         </div>
-        <div className="bg-neutral-950 p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Verbindlichkeiten</p>
-          <p className={`text-2xl font-semibold tabular-nums ${liabilities > 0 ? 'text-red-400' : 'text-white'}`}>
+          <p className={`text-xl font-semibold tabular-nums ${liabilities > 0 ? 'text-red-400' : 'text-white'}`}>
             {liabilities > 0 ? `−${formatCurrency(liabilities)}` : formatCurrency(0)}
           </p>
           <p className="mt-1 text-[11px] text-neutral-500">
@@ -247,7 +247,7 @@ export default function AssetsTab({
       </div>
 
       {/* ===== Schnelleingabe ===== */}
-      <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+      <div className="bg-theme-card border border-theme rounded-xl p-5">
         <h3 className="text-sm font-semibold tracking-tight text-white">Eintrag hinzufügen oder aktualisieren</h3>
         <p className="mt-0.5 text-[11px] text-neutral-500">
           Einfach hinschreiben{speechAvailable ? ' oder diktieren' : ''}: „Tagesgeld ING jetzt 5.000" · „Auto noch 15k wert"
@@ -260,7 +260,7 @@ export default function AssetsTab({
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && parseInput()}
             placeholder={recording ? 'Sprich jetzt …' : 'z.B. Festgeld Sparkasse 10.000'}
-            className="min-w-0 flex-1 rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-colors focus:border-teal-300/40"
+            className="min-w-0 flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-colors focus:border-teal-300/40"
           />
           {speechAvailable && (
             <button
@@ -270,7 +270,7 @@ export default function AssetsTab({
               className={`flex h-[42px] w-[42px] flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
                 recording
                   ? 'border-red-400/40 bg-red-500/15 text-red-300'
-                  : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:border-teal-300/30 hover:text-teal-300'
+                  : 'border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:border-teal-300/30 hover:text-teal-300'
               }`}
             >
               <MicrophoneIcon className={`h-4.5 w-4.5 ${recording ? 'animate-pulse' : ''}`} />
@@ -280,7 +280,7 @@ export default function AssetsTab({
             type="button"
             onClick={parseInput}
             disabled={parsing || input.trim().length < 3}
-            className="flex h-[42px] items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:cursor-not-allowed disabled:border-neutral-800 disabled:bg-neutral-950 disabled:text-neutral-600"
+            className="flex h-[42px] items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:cursor-not-allowed disabled:border-white/[0.08] disabled:bg-white/[0.04] disabled:text-neutral-600"
           >
             <PaperAirplaneIcon className="h-4 w-4" />
             {parsing ? 'Verstehe …' : 'Erfassen'}
@@ -298,7 +298,7 @@ export default function AssetsTab({
               <div className="min-w-0 flex-1">
                 <p className="text-[13px] font-semibold text-white">
                   {proposal.name}
-                  <span className="ml-2 rounded-full border border-neutral-700 bg-neutral-900/70 px-1.5 py-0.5 text-[10px] font-medium text-neutral-400">
+                  <span className="ml-2 rounded-full border border-white/[0.14] bg-white/[0.05] px-1.5 py-0.5 text-[10px] font-medium text-neutral-400">
                     {ASSET_CATEGORY_LABELS[proposal.category]}
                   </span>
                 </p>
@@ -313,13 +313,13 @@ export default function AssetsTab({
                   type="number"
                   value={proposal.value}
                   onChange={e => setProposal({ ...proposal, value: Number(e.target.value) })}
-                  className="w-32 rounded-lg border border-neutral-800 bg-neutral-950 px-3 py-1.5 text-right text-sm tabular-nums text-white outline-none focus:border-teal-300/40"
+                  className="w-32 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 text-right text-sm tabular-nums text-white outline-none focus:border-teal-300/40"
                 />
                 <span className="text-sm text-neutral-400">€</span>
                 <select
                   value={proposal.category}
                   onChange={e => setProposal({ ...proposal, category: e.target.value as AssetCategory })}
-                  className="rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-neutral-300 outline-none focus:border-teal-300/40"
+                  className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-neutral-300 outline-none focus:border-teal-300/40"
                 >
                   {ASSET_CATEGORIES.map(c => (
                     <option key={c} value={c}>{ASSET_CATEGORY_LABELS[c]}</option>
@@ -337,7 +337,7 @@ export default function AssetsTab({
                 <button
                   type="button"
                   onClick={() => setProposal(null)}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-800 text-neutral-400 transition-colors hover:text-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] text-neutral-400 transition-colors hover:text-white"
                   title="Verwerfen"
                 >
                   <XMarkIcon className="h-4 w-4" />
@@ -349,8 +349,8 @@ export default function AssetsTab({
       </div>
 
       {/* ===== Liste ===== */}
-      <div className="overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-900/50">
-        <div className="border-b border-neutral-800/80 px-5 py-4">
+      <div className="bg-theme-card border border-theme overflow-hidden rounded-xl">
+        <div className="border-b border-white/[0.06] px-5 py-4">
           <h3 className="text-sm font-semibold tracking-tight text-white">Vermögenswerte</h3>
           <p className="mt-0.5 text-[11px] text-neutral-500">Manuell gepflegt — Werte per Eingabe oben aktualisieren</p>
         </div>
@@ -358,7 +358,7 @@ export default function AssetsTab({
         {loading ? (
           <div className="space-y-2 p-5">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-10 animate-pulse rounded-lg bg-neutral-800/50" />
+              <div key={i} className="h-10 animate-pulse rounded-lg bg-white/[0.06]" />
             ))}
           </div>
         ) : assets.length === 0 ? (
@@ -373,7 +373,7 @@ export default function AssetsTab({
         ) : (
           groups.map(group => (
             <div key={group.key}>
-              <div className="flex items-center justify-between border-b border-neutral-800/60 bg-neutral-950/60 px-5 py-2">
+              <div className="flex items-center justify-between border-b border-white/[0.05] bg-white/[0.03] px-5 py-2">
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-neutral-500">{group.label}</p>
                 <p className={`text-[11px] font-semibold tabular-nums ${group.negative ? 'text-red-400' : 'text-neutral-300'}`}>
                   {group.negative ? `−${formatCurrency(group.sum)}` : formatCurrency(group.sum)}
@@ -385,10 +385,10 @@ export default function AssetsTab({
             return (
               <div
                 key={asset.id}
-                className="flex items-center justify-between border-b border-neutral-800/60 px-5 py-3 last:border-b-0"
+                className="flex items-center justify-between border-b border-white/[0.05] px-5 py-3 last:border-b-0"
               >
                 <div className="flex min-w-0 items-center gap-3">
-                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-neutral-800 bg-neutral-950">
+                  <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
                     <Icon className="h-4 w-4 text-neutral-400" />
                   </div>
                   <div className="min-w-0">
@@ -408,7 +408,7 @@ export default function AssetsTab({
                         onChange={e => setEditValue(e.target.value)}
                         onKeyDown={e => e.key === 'Enter' && saveEdit(asset)}
                         autoFocus
-                        className="w-28 rounded-lg border border-teal-300/40 bg-neutral-950 px-2 py-1 text-right text-sm tabular-nums text-white outline-none"
+                        className="w-28 rounded-lg border border-teal-300/40 bg-white/[0.04] px-2 py-1 text-right text-sm tabular-nums text-white outline-none"
                       />
                       <button type="button" onClick={() => saveEdit(asset)} className="text-emerald-400 hover:text-emerald-300" title="Speichern">
                         <CheckIcon className="h-4 w-4" />

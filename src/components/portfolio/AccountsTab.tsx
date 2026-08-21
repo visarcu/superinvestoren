@@ -188,9 +188,9 @@ export default function AccountsTab({
   return (
     <div className="space-y-5">
       {/* ===== Kopf: Summe ===== */}
-      <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+      <div className="bg-theme-card border border-theme rounded-xl p-5">
         <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Konten gesamt</p>
-        <p className={`text-2xl font-semibold tabular-nums ${totalBalance < 0 ? 'text-red-400' : 'text-white'}`}>
+        <p className={`text-xl font-semibold tabular-nums ${totalBalance < 0 ? 'text-red-400' : 'text-white'}`}>
           {formatCurrency(totalBalance)}
         </p>
         <p className="mt-1 text-[11px] text-neutral-500">
@@ -199,7 +199,7 @@ export default function AccountsTab({
       </div>
 
       {/* ===== Buchung erfassen ===== */}
-      <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+      <div className="bg-theme-card border border-theme rounded-xl p-5">
         <h3 className="text-sm font-semibold tracking-tight text-white">Buchung erfassen</h3>
         <p className="mt-0.5 text-[11px] text-neutral-500">
           Einfach hinschreiben{speech.available ? ' oder diktieren' : ''}: „500 Miete vom Girokonto" · „Gehalt 3.500 aufs Girokonto"
@@ -212,7 +212,7 @@ export default function AccountsTab({
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && parseInput()}
             placeholder={speech.recording ? 'Sprich jetzt …' : 'z.B. 120 Einkauf vom Girokonto'}
-            className="min-w-0 flex-1 rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-colors focus:border-teal-300/40"
+            className="min-w-0 flex-1 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-2.5 text-sm text-white placeholder-neutral-600 outline-none transition-colors focus:border-teal-300/40"
           />
           {speech.available && (
             <button
@@ -222,7 +222,7 @@ export default function AccountsTab({
               className={`flex h-[42px] w-[42px] flex-shrink-0 items-center justify-center rounded-xl border transition-colors ${
                 speech.recording
                   ? 'border-red-400/40 bg-red-500/15 text-red-300'
-                  : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:border-teal-300/30 hover:text-teal-300'
+                  : 'border-white/[0.08] bg-white/[0.04] text-neutral-400 hover:border-teal-300/30 hover:text-teal-300'
               }`}
             >
               <MicrophoneIcon className={`h-4.5 w-4.5 ${speech.recording ? 'animate-pulse' : ''}`} />
@@ -232,7 +232,7 @@ export default function AccountsTab({
             type="button"
             onClick={parseInput}
             disabled={parsing || input.trim().length < 3}
-            className="flex h-[42px] items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:cursor-not-allowed disabled:border-neutral-800 disabled:bg-neutral-950 disabled:text-neutral-600"
+            className="flex h-[42px] items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:cursor-not-allowed disabled:border-white/[0.08] disabled:bg-white/[0.04] disabled:text-neutral-600"
           >
             <PaperAirplaneIcon className="h-4 w-4" />
             {parsing ? 'Verstehe …' : 'Erfassen'}
@@ -249,7 +249,7 @@ export default function AccountsTab({
                 <select
                   value={targetAccountId}
                   onChange={e => setTargetAccountId(e.target.value)}
-                  className="rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+                  className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
                 >
                   {proposal.candidates.map(c => (
                     <option key={c.id} value={c.id}>{c.name}</option>
@@ -263,7 +263,7 @@ export default function AccountsTab({
                   type="number"
                   value={proposal.amount}
                   onChange={e => setProposal({ ...proposal, amount: Number(e.target.value) })}
-                  className={`w-28 rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-right text-sm tabular-nums outline-none focus:border-teal-300/40 ${
+                  className={`w-28 rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-right text-sm tabular-nums outline-none focus:border-teal-300/40 ${
                     proposal.amount < 0 ? 'text-red-300' : 'text-emerald-300'
                   }`}
                 />
@@ -275,7 +275,7 @@ export default function AccountsTab({
                   type="text"
                   value={proposal.description}
                   onChange={e => setProposal({ ...proposal, description: e.target.value })}
-                  className="w-40 rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+                  className="w-40 rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
                 />
               </label>
 
@@ -285,7 +285,7 @@ export default function AccountsTab({
                   type="date"
                   value={proposal.date}
                   onChange={e => setProposal({ ...proposal, date: e.target.value })}
-                  className="rounded-lg border border-neutral-800 bg-neutral-950 px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+                  className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
                 />
               </label>
 
@@ -301,7 +301,7 @@ export default function AccountsTab({
               <button
                 type="button"
                 onClick={() => setProposal(null)}
-                className="flex h-[34px] w-[34px] items-center justify-center rounded-lg border border-neutral-800 text-neutral-400 transition-colors hover:text-white"
+                className="flex h-[34px] w-[34px] items-center justify-center rounded-lg border border-white/[0.08] text-neutral-400 transition-colors hover:text-white"
                 title="Verwerfen"
               >
                 <XMarkIcon className="h-4 w-4" />
@@ -315,15 +315,15 @@ export default function AccountsTab({
       </div>
 
       {/* ===== Konten-Liste ===== */}
-      <div className="overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-900/50">
-        <div className="border-b border-neutral-800/80 px-5 py-4">
+      <div className="bg-theme-card border border-theme overflow-hidden rounded-xl">
+        <div className="border-b border-white/[0.06] px-5 py-4">
           <h3 className="text-sm font-semibold tracking-tight text-white">Deine Konten</h3>
           <p className="mt-0.5 text-[11px] text-neutral-500">Aufklappen für Buchungen — Kontostand korrigieren auf der Vermögens-Seite</p>
         </div>
 
         {loading ? (
           <div className="space-y-2 p-5">
-            {[1, 2].map(i => <div key={i} className="h-12 animate-pulse rounded-lg bg-neutral-800/50" />)}
+            {[1, 2].map(i => <div key={i} className="h-12 animate-pulse rounded-lg bg-white/[0.06]" />)}
           </div>
         ) : accounts.length === 0 ? (
           <div className="p-10 text-center">
@@ -345,14 +345,14 @@ export default function AccountsTab({
             const isOpen = expandedId === account.id
             const txs = txsByAccount[account.id] || []
             return (
-              <div key={account.id} className="border-b border-neutral-800/60 last:border-b-0">
+              <div key={account.id} className="border-b border-white/[0.05] last:border-b-0">
                 <button
                   type="button"
                   onClick={() => toggleExpand(account.id)}
-                  className="flex w-full items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-neutral-900/50"
+                  className="flex w-full items-center justify-between px-5 py-3.5 text-left transition-colors hover:bg-white/[0.04]"
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-neutral-800 bg-neutral-950">
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.04]">
                       <BanknotesIcon className="h-4 w-4 text-neutral-400" />
                     </div>
                     <div className="min-w-0">
@@ -371,12 +371,12 @@ export default function AccountsTab({
                 </button>
 
                 {isOpen && (
-                  <div className="bg-neutral-950/40 px-5 pb-3 pt-1">
+                  <div className="bg-white/[0.03] px-5 pb-3 pt-1">
                     {txs.length === 0 ? (
                       <p className="py-3 text-center text-[12px] text-neutral-500">Noch keine Buchungen</p>
                     ) : (
                       txs.map(tx => (
-                        <div key={tx.id} className="flex items-center justify-between border-t border-neutral-800/40 py-2 first:border-t-0">
+                        <div key={tx.id} className="flex items-center justify-between border-t border-white/[0.05] py-2 first:border-t-0">
                           <div className="min-w-0">
                             <p className="truncate text-[12px] text-neutral-200">{tx.description || (tx.amount > 0 ? 'Eingang' : 'Ausgang')}</p>
                             <p className="text-[11px] text-neutral-500">

@@ -62,7 +62,7 @@ const getDaysUntil = (value: string) => {
 
 function Header({ subline, onShowAll }: { subline: string; onShowAll?: () => void }) {
   return (
-    <div className="px-5 py-4 border-b border-neutral-800/60 flex items-center justify-between">
+    <div className="px-5 py-4 border-b border-white/[0.05] flex items-center justify-between">
       <div>
         <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Dividenden</h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">{subline}</p>
@@ -212,7 +212,7 @@ export default function UpcomingDividendsPreview({
             <Link
               key={`${div.ticker}-${paymentDate}-${index}`}
               href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
-              className="flex items-center justify-between py-2.5 px-5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/60 transition-colors"
+              className="flex items-center justify-between py-2.5 px-5 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.05] transition-colors"
             >
               <div className="flex items-center gap-3 min-w-0">
                 <Logo ticker={div.ticker} alt={displayName} className="w-7 h-7" padding="none" />

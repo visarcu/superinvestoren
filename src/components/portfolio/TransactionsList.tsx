@@ -89,16 +89,16 @@ function SymbolDropdown({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-1.5 text-[12px] font-medium border border-neutral-800 bg-neutral-950 hover:border-neutral-700 rounded-lg transition-colors text-neutral-300"
+        className="flex items-center gap-2 px-3 py-1.5 text-[12px] font-medium border border-white/[0.08] bg-white/[0.04] hover:border-white/[0.14] rounded-lg transition-colors text-neutral-300"
       >
         {selected === 'all' ? `Alle Wertpapiere (${symbols.length})` : selected}
         <ChevronDownIcon className={`w-3.5 h-3.5 transition-transform ${open ? 'rotate-180' : ''}`} />
       </button>
 
       {open && (
-        <div className="absolute z-50 top-full left-0 mt-1 w-64 bg-neutral-950 border border-neutral-800 rounded-xl shadow-2xl overflow-hidden">
+        <div className="absolute z-50 top-full left-0 mt-1 w-64 terminal-glass-strong rounded-xl overflow-hidden">
           {/* Search */}
-          <div className="p-2 border-b border-neutral-800">
+          <div className="p-2 border-b border-white/[0.08]">
             <div className="relative">
               <MagnifyingGlassIcon className="absolute left-2.5 top-2 w-3.5 h-3.5 text-neutral-500" />
               <input
@@ -106,7 +106,7 @@ function SymbolDropdown({
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Suchen..."
-                className="w-full pl-8 pr-3 py-1.5 bg-neutral-900 border border-neutral-800 rounded-lg text-[12px] text-white placeholder:text-neutral-600 focus:outline-none focus:border-neutral-700"
+                className="w-full pl-8 pr-3 py-1.5 bg-white/[0.05] border border-white/[0.08] rounded-lg text-[12px] text-white placeholder:text-neutral-600 focus:outline-none focus:border-white/[0.14]"
                 autoFocus
               />
             </div>
@@ -115,7 +115,7 @@ function SymbolDropdown({
           <div className="max-h-64 overflow-y-auto py-1">
             <button
               onClick={() => { onChange('all'); setOpen(false); setSearch('') }}
-              className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-neutral-900 transition-colors ${selected === 'all' ? 'text-white' : 'text-neutral-400'}`}
+              className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-white/[0.05] transition-colors ${selected === 'all' ? 'text-white' : 'text-neutral-400'}`}
             >
               {selected === 'all' && <CheckIcon className="w-3.5 h-3.5 text-emerald-400" />}
               <span className={selected === 'all' ? '' : 'ml-5'}>Alle Wertpapiere</span>
@@ -125,7 +125,7 @@ function SymbolDropdown({
               <button
                 key={s}
                 onClick={() => { onChange(s); setOpen(false); setSearch('') }}
-                className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-neutral-900 transition-colors ${selected === s ? 'text-white' : 'text-neutral-400'}`}
+                className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] hover:bg-white/[0.05] transition-colors ${selected === s ? 'text-white' : 'text-neutral-400'}`}
               >
                 {selected === s && <CheckIcon className="w-3.5 h-3.5 text-emerald-400" />}
                 <span className={selected === s ? '' : 'ml-5'}>{s}</span>
@@ -276,14 +276,14 @@ export default function TransactionsList({
       ================================================================ */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         {/* Typ-Toggle (wie Dividenden-Zeitraum-Picker) */}
-        <div className="flex items-center gap-1 bg-neutral-950 border border-neutral-800 rounded-lg p-0.5">
+        <div className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.08] rounded-lg p-0.5">
           {TYPE_FILTERS.map(f => (
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
               className={`px-3 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
                 filter === f.key
-                  ? 'bg-neutral-800 text-white'
+                  ? 'bg-white/[0.08] text-white'
                   : 'text-neutral-500 hover:text-neutral-300'
               }`}
             >
@@ -303,7 +303,7 @@ export default function TransactionsList({
             <select
               value={depotFilter}
               onChange={e => setDepotFilter(e.target.value)}
-              className="px-3 py-1.5 text-[12px] font-medium border border-neutral-800 bg-neutral-950 hover:border-neutral-700 rounded-lg text-neutral-300 focus:outline-none"
+              className="px-3 py-1.5 text-[12px] font-medium border border-white/[0.08] bg-white/[0.04] hover:border-white/[0.14] rounded-lg text-neutral-300 focus:outline-none"
             >
               <option value="all">Alle Depots</option>
               {uniqueDepots.map(d => (
@@ -359,7 +359,7 @@ export default function TransactionsList({
               </div>
 
               {/* Transactions */}
-              <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden divide-y divide-neutral-800/60">
+              <div className="bg-theme-card border border-theme rounded-xl overflow-hidden divide-y divide-white/[0.05]">
                 {txs.map(tx => {
                   const config = TYPE_CONFIG[tx.type]
                   const Icon = config?.icon || ClockIcon
@@ -370,9 +370,9 @@ export default function TransactionsList({
 
                   if (isEditing) {
                     return (
-                      <div key={tx.id} className="p-4 bg-neutral-900/80">
+                      <div key={tx.id} className="p-4 bg-white/[0.05]">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center">
+                          <div className="w-8 h-8 rounded-lg bg-white/[0.08] flex items-center justify-center">
                             <Icon className={`w-4 h-4 ${config?.color || 'text-neutral-400'}`} />
                           </div>
                           <span className="text-[13px] font-medium text-white">{config?.label}</span>
@@ -382,36 +382,36 @@ export default function TransactionsList({
                           <div>
                             <label className="block text-[10px] text-neutral-500 mb-1">Datum</label>
                             <input type="date" value={editDate} onChange={e => setEditDate(e.target.value)}
-                              className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white text-[13px] focus:outline-none focus:border-neutral-600" />
+                              className="w-full px-3 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white text-[13px] focus:outline-none focus:border-white/[0.18]" />
                           </div>
                           {!isCash && (
                             <>
                               <div>
                                 <label className="block text-[10px] text-neutral-500 mb-1">Anzahl</label>
                                 <input type="number" value={editQuantity} onChange={e => setEditQuantity(e.target.value)}
-                                  className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white text-[13px] tabular-nums focus:outline-none focus:border-neutral-600" />
+                                  className="w-full px-3 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white text-[13px] tabular-nums focus:outline-none focus:border-white/[0.18]" />
                               </div>
                               <div>
                                 <label className="block text-[10px] text-neutral-500 mb-1">Preis (EUR)</label>
                                 <input type="number" value={editPrice} onChange={e => setEditPrice(e.target.value)}
-                                  className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white text-[13px] tabular-nums focus:outline-none focus:border-neutral-600" />
+                                  className="w-full px-3 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white text-[13px] tabular-nums focus:outline-none focus:border-white/[0.18]" />
                               </div>
                             </>
                           )}
                           <div>
                             <label className="block text-[10px] text-neutral-500 mb-1">Notiz</label>
                             <input type="text" value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="optional"
-                              className="w-full px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg text-white text-[13px] placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600" />
+                              className="w-full px-3 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white text-[13px] placeholder:text-neutral-600 focus:outline-none focus:border-white/[0.18]" />
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <button onClick={saveEdit} disabled={editSaving}
-                            className="px-4 py-2 bg-white text-neutral-950 hover:bg-neutral-200 disabled:bg-neutral-800 disabled:text-neutral-600 text-[12px] font-medium rounded-lg transition-colors flex items-center gap-1.5">
+                            className="px-4 py-2 bg-white text-neutral-950 hover:bg-neutral-200 disabled:bg-white/[0.08] disabled:text-neutral-600 text-[12px] font-medium rounded-lg transition-colors flex items-center gap-1.5">
                             {editSaving ? <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" /> : <CheckIcon className="w-3.5 h-3.5" />}
                             Speichern
                           </button>
                           <button onClick={() => setEditingTxId(null)} disabled={editSaving}
-                            className="px-4 py-2 text-[12px] text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 rounded-lg transition-colors">
+                            className="px-4 py-2 text-[12px] text-neutral-400 hover:text-white border border-white/[0.08] hover:border-white/[0.14] rounded-lg transition-colors">
                             Abbrechen
                           </button>
                         </div>
@@ -422,11 +422,11 @@ export default function TransactionsList({
                   return (
                     <div
                       key={tx.id}
-                      className="group flex items-center gap-3 px-4 py-3 hover:bg-neutral-900/50 transition-colors"
+                      className="group flex items-center gap-3 px-4 py-3 hover:bg-white/[0.04] transition-colors"
                     >
                       {/* Logo oder Typ-Icon */}
                       {isCash ? (
-                        <div className="w-8 h-8 rounded-lg bg-neutral-800 flex items-center justify-center flex-shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-white/[0.08] flex items-center justify-center flex-shrink-0">
                           <Icon className={`w-4 h-4 ${config?.color || 'text-neutral-400'}`} />
                         </div>
                       ) : (
@@ -451,7 +451,7 @@ export default function TransactionsList({
                           </span>
                           {/* Depot-Badge (Alle-Depots) */}
                           {isAllDepotsView && tx.portfolio_name && (
-                            <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-neutral-500 bg-neutral-900 border border-neutral-800 px-1.5 py-0.5 rounded">
+                            <span className="hidden sm:inline-flex items-center gap-1 text-[10px] text-neutral-500 bg-white/[0.05] border border-white/[0.08] px-1.5 py-0.5 rounded">
                               <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: getBrokerColor(tx.broker_type, tx.broker_color) }} />
                               {getBrokerDisplayName(tx.broker_type, tx.broker_name) || tx.portfolio_name}
                             </span>
@@ -481,10 +481,10 @@ export default function TransactionsList({
 
                       {/* Actions (hover-visible) */}
                       <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-                        <button onClick={() => startEdit(tx)} className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors" title="Bearbeiten">
+                        <button onClick={() => startEdit(tx)} className="p-1.5 hover:bg-white/[0.08] rounded-lg transition-colors" title="Bearbeiten">
                           <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-white" />
                         </button>
-                        <button onClick={() => handleDelete(tx.id)} className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors" title="Löschen">
+                        <button onClick={() => handleDelete(tx.id)} className="p-1.5 hover:bg-white/[0.08] rounded-lg transition-colors" title="Löschen">
                           <XMarkIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-red-400" />
                         </button>
                       </div>

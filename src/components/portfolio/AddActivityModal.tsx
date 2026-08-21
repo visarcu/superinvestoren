@@ -141,7 +141,7 @@ export default function AddActivityModal({
     >
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
       <div
-        className="relative w-full max-w-md bg-[#0c0c16] border border-white/[0.08] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] my-auto"
+        className="relative w-full max-w-md terminal-glass-strong rounded-2xl my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

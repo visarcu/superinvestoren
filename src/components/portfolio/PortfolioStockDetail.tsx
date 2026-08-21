@@ -15,6 +15,7 @@ import Logo from '@/components/Logo'
 import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { getETFBySymbol, calculateTERSavings, calculateTERCost, formatTER } from '@/lib/etfUtils'
 import { useETFInfo } from '@/hooks/useETFInfo'
+import InvestmentCaseCard from '@/components/portfolio/InvestmentCaseCard'
 
 interface FullTransaction {
   id: string
@@ -448,8 +449,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   if (loading) {
     return (
       <div className="flex min-h-[70vh] items-center justify-center">
-        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 shadow-2xl shadow-black/30">
-          <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-neutral-800 border-t-emerald-400" />
+        <div className="bg-theme-card border border-theme rounded-xl px-5 py-4">
+          <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-white/[0.08] border-t-emerald-400" />
           <p className="mt-3 text-xs text-neutral-500">Position wird geladen...</p>
         </div>
       </div>
@@ -458,7 +459,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
   return (
     <div className="w-full space-y-5">
-      <div className="sticky top-0 z-20 -mx-4 border-b border-white/[0.06] bg-[#050505]/90 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6 xl:-mx-8 xl:px-8">
+      <div className="sticky top-0 z-20 -mx-4 border-b border-theme bg-theme-primary px-4 py-3 sm:-mx-6 sm:px-6 xl:-mx-8 xl:px-8">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
             <button
@@ -490,7 +491,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
         </div>
       </div>
 
-      <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_20%_0%,rgba(20,184,166,0.16),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] shadow-2xl shadow-black/30">
+      <section className="bg-theme-card border border-theme overflow-hidden rounded-xl">
         <div className="flex flex-col gap-6 px-5 py-6 sm:px-7 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
             <div className="mb-4 flex items-center gap-3">
@@ -523,13 +524,13 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
           {performance && (
             <div className="grid min-w-full grid-cols-2 gap-2 sm:min-w-[440px] lg:min-w-[520px]">
-              <div className="rounded-xl border border-white/[0.08] bg-black/25 p-4">
+              <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                 <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Gesamtrendite</p>
-                <p className={`mt-2 text-2xl font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
+                <p className={`mt-2 text-xl font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
                   {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
                 </p>
               </div>
-              <div className="rounded-xl border border-white/[0.08] bg-black/25 p-4">
+              <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                 <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Position</p>
                 <p className="mt-2 text-2xl font-semibold text-white tabular-nums">
                   {performance.remainingQuantity > 0
@@ -546,7 +547,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
       </section>
 
       {/* Chart */}
-      <section className="min-h-[560px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#111111] shadow-2xl shadow-black/25">
+      <section className="bg-theme-card border border-theme min-h-[560px] overflow-hidden rounded-xl">
         {history.length > 0 ? (
           <WorkingStockChart
             ticker={ticker}
@@ -566,7 +567,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
       {performance && currentPriceEUR !== null && (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {/* Kursgewinn — bei geschlossener Position den realisierten Kursgewinn zeigen */}
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
               {performance.remainingQuantity === 0 ? 'Realisierter Kursgewinn' : 'Kursgewinn'}
             </p>
@@ -593,7 +594,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             )}
           </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Realisiert</p>
             <p className={`text-2xl font-semibold tracking-tight tabular-nums ${performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-600'}`}>
               {performance.totalRealizedGain !== 0
@@ -603,7 +604,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Dividenden</p>
             <p className={`text-2xl font-semibold tracking-tight tabular-nums ${performance.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
               {performance.totalDividends > 0
@@ -613,7 +614,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             </p>
           </div>
 
-          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
               {performance.remainingQuantity === 0 ? 'Status' : 'Aktueller Wert'}
             </p>
@@ -641,7 +642,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
         const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
         if (totalFees <= 0) return null
         return (
-          <div className="mt-2 px-4 py-2.5 bg-neutral-950 border border-neutral-800/80 rounded-xl flex items-center justify-between">
+          <div className="mt-2 px-4 py-2.5 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-between">
             <p className="text-[11px] text-neutral-500 uppercase tracking-wider">Ordergebühren gesamt</p>
             <p className="text-[13px] font-semibold text-amber-400/90 tabular-nums">
               {formatCurrency(totalFees)}
@@ -658,7 +659,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           const showSavings = etfInfo.ter > 0.20 && savings.savingsPerYear >= 1
 
           return (
-            <div className="mt-5 bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+            <div className="mt-5 bg-theme-card border border-theme rounded-xl p-5">
               <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mb-3">ETF-Kosten</h3>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -703,6 +704,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
         })()
       )}
 
+      {/* Investment-Case (geteilt mit mein-portfolio: gleiche DB-Spalten) */}
+      <InvestmentCaseCard ticker={ticker} portfolioId={portfolioId} />
+
       {/* Multi-Depot Breakdown */}
       {isMultiDepot && depotBreakdowns.length > 1 && (
         <div className="mt-5">
@@ -717,10 +721,10 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
               return (
                 <div
                   key={depot.portfolioId}
-                  className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-4"
+                  className="bg-theme-card border border-theme rounded-xl p-4"
                 >
                   {/* Depot Header */}
-                  <div className="flex items-center gap-2.5 mb-3 pb-3 border-b border-neutral-800/80">
+                  <div className="flex items-center gap-2.5 mb-3 pb-3 border-b border-white/[0.06]">
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: brokerCol }} />
                     <span className="text-[13px] font-semibold text-white">{depot.portfolioName}</span>
                     {brokerName !== depot.portfolioName && (
@@ -770,9 +774,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
       {/* Transaktionshistorie */}
       {allTransactions.length > 0 && currentPriceEUR !== null && performance && (
-        <div className="mt-5 bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80">
-            <h3 className="text-sm font-semibold text-white tracking-tight">Transaktionen</h3>
+        <div className="mt-5 bg-theme-card border border-theme rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06]">
+            <h3 className="text-sm font-medium text-white">Transaktionen</h3>
             <p className="text-[11px] text-neutral-500 mt-0.5">
               {allTransactions.length} Buchung{allTransactions.length !== 1 ? 'en' : ''} · chronologisch
             </p>
@@ -801,7 +805,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="w-6 h-6 flex items-center justify-center bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-full tabular-nums">
@@ -836,7 +840,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="w-6 h-6 flex items-center justify-center bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-bold rounded-full tabular-nums">
@@ -867,7 +871,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="w-6 h-6 flex items-center justify-center bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold rounded-full tabular-nums">
@@ -894,7 +898,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="w-6 h-6 flex items-center justify-center bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[10px] font-bold rounded-full tabular-nums">
@@ -921,9 +925,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
             {/* Gesamt-Zeile */}
             {allTransactions.length > 1 && performance && (
-              <div className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-3 bg-neutral-900/40">
+              <div className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-3 bg-white/[0.03]">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 flex items-center justify-center bg-neutral-800 border border-neutral-700 text-neutral-300 text-[10px] font-bold rounded-full">
+                  <span className="w-6 h-6 flex items-center justify-center bg-white/[0.08] border border-white/[0.14] text-neutral-300 text-[10px] font-bold rounded-full">
                     Σ
                   </span>
                   <span className="text-[11px] text-neutral-400 font-medium uppercase tracking-wider">Gesamt</span>
@@ -948,7 +952,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
       {/* Keine Transaktionen */}
       {allTransactions.length === 0 && !loading && (
-        <div className="mt-5 bg-neutral-900/30 rounded-xl border border-neutral-800/80 border-dashed p-10 text-center">
+        <div className="mt-5 bg-theme-card border border-theme rounded-xl border-dashed p-10 text-center">
           <p className="text-[13px] text-neutral-500">Keine Transaktionen für {ticker} vorhanden.</p>
         </div>
       )}

@@ -6,6 +6,7 @@ import React, { useMemo } from 'react'
 import { type Holding } from '@/hooks/usePortfolio'
 import Logo from '@/components/Logo'
 import LookthroughSection from '@/components/portfolio/LookthroughSection'
+import QuantSection from '@/components/portfolio/QuantSection'
 import { type UseLookthroughState } from '@/hooks/useLookthrough'
 import { isETF, getETFBySymbol } from '@/lib/etfUtils'
 import { getSectorFromTicker, translateSector } from '@/utils/sectorUtils'
@@ -20,6 +21,8 @@ interface AnalysisTabProps {
   formatCurrency: (amount: number) => string
   formatPercentage: (value: number) => string
   portfolioId?: string
+  /** Alle Depot-IDs in der Alle-Depots-Ansicht (für transaktionsbasierte Serien) */
+  portfolioIds?: string[]
   /** Vorgeladene Look-Through-Analyse (Workspace lädt sie einmal für alle Tabs) */
   lookthrough?: UseLookthroughState
 }
@@ -59,10 +62,10 @@ function AggregationCard({
   icon?: React.ReactNode
 }) {
   return (
-    <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+    <div className="bg-theme-card border border-theme rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+          <h3 className="text-sm font-medium text-white flex items-center gap-2">
             {icon}
             {title}
           </h3>
@@ -72,7 +75,7 @@ function AggregationCard({
 
       {/* Stacked Bar */}
       {items.length > 0 && (
-        <div className="flex h-1.5 rounded-full overflow-hidden bg-neutral-800/60 mb-4">
+        <div className="flex h-1.5 rounded-full overflow-hidden bg-white/[0.06] mb-4">
           {items.map((item, i) => (
             <div
               key={i}
@@ -108,6 +111,7 @@ export default function AnalysisTab({
   formatCurrency,
   formatPercentage,
   portfolioId,
+  portfolioIds,
   lookthrough,
 }: AnalysisTabProps) {
   const stockValue = useMemo(() => holdings.reduce((s, h) => s + h.value, 0), [holdings])
@@ -216,7 +220,7 @@ export default function AnalysisTab({
 
   if (holdings.length === 0) {
     return (
-      <div className="bg-neutral-900/30 rounded-xl border border-neutral-800/80 border-dashed p-12 text-center">
+      <div className="bg-theme-card border border-theme rounded-xl border-dashed p-12 text-center">
         <ChartPieIcon className="w-8 h-8 text-neutral-700 mx-auto mb-3" />
         <h3 className="text-sm font-semibold text-white mb-1 tracking-tight">Keine Daten für Analyse</h3>
         <p className="text-[12px] text-neutral-500 max-w-sm mx-auto leading-relaxed">
@@ -230,29 +234,29 @@ export default function AnalysisTab({
     <div className="space-y-5">
       {/* Konzentration */}
       {concentration && (
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-white tracking-tight">Konzentration & Diversifikation</h3>
+            <h3 className="text-sm font-medium text-white">Konzentration & Diversifikation</h3>
             <p className="text-[11px] text-neutral-500 mt-0.5">{concentration.totalPositions} Position{concentration.totalPositions !== 1 ? 'en' : ''} im Depot</p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-800/80 border border-neutral-800/80 rounded-xl overflow-hidden mb-5">
-            <div className="bg-neutral-950 p-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+            <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Größte Position</p>
               <p className="text-xl font-semibold text-white tabular-nums">{concentration.top1Percent.toFixed(1)}%</p>
               <p className="text-[11px] text-neutral-500 mt-1 truncate">{concentration.top1Symbol}</p>
             </div>
-            <div className="bg-neutral-950 p-4">
+            <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Top 3</p>
               <p className="text-xl font-semibold text-white tabular-nums">{concentration.top3Percent.toFixed(1)}%</p>
               <p className="text-[11px] text-neutral-500 mt-1">vom Wertpapier-Wert</p>
             </div>
-            <div className="bg-neutral-950 p-4">
+            <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Top 10</p>
               <p className="text-xl font-semibold text-white tabular-nums">{concentration.top10Percent.toFixed(1)}%</p>
               <p className="text-[11px] text-neutral-500 mt-1">vom Wertpapier-Wert</p>
             </div>
-            <div className="bg-neutral-950 p-4">
+            <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Diversifikation</p>
               <p className={`text-xl font-semibold tabular-nums ${
                 concentration.diversificationScore >= 70 ? 'text-emerald-400'
@@ -280,6 +284,15 @@ export default function AnalysisTab({
       {/* Durchblick: Look-Through-Analyse (ETFs in Einzelaktien zerlegt) */}
       <LookthroughSection holdings={holdings} formatCurrency={formatCurrency} preloaded={lookthrough} />
 
+      {/* Quant-Analysen: Stresstests, Korrelation, Monte-Carlo, Faktoren (Premium) */}
+      <QuantSection
+        holdings={holdings}
+        cashPosition={cashPosition}
+        formatCurrency={formatCurrency}
+        portfolioId={portfolioId}
+        portfolioIds={portfolioIds}
+      />
+
       {/* Asset-Klassen + Währungen nebeneinander */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <AggregationCard
@@ -306,10 +319,10 @@ export default function AnalysisTab({
       {/* Top + Worst Performer */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Top */}
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80 flex items-center justify-between">
+        <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-sm font-medium text-white flex items-center gap-2">
                 <ArrowTrendingUpIcon className="w-3.5 h-3.5 text-emerald-400" />
                 Top Performer
               </h3>
@@ -326,9 +339,9 @@ export default function AnalysisTab({
         </div>
 
         {/* Worst */}
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80">
-            <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+        <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06]">
+            <h3 className="text-sm font-medium text-white flex items-center gap-2">
               <ArrowTrendingDownIcon className="w-3.5 h-3.5 text-red-400" />
               Schwächste Performer
             </h3>
@@ -346,9 +359,9 @@ export default function AnalysisTab({
 
       {/* Größte Gewinner / Verlierer absolut */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80">
-            <h3 className="text-sm font-semibold text-white tracking-tight">Größte Gewinner (€)</h3>
+        <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06]">
+            <h3 className="text-sm font-medium text-white">Größte Gewinner (€)</h3>
             <p className="text-[11px] text-neutral-500 mt-0.5">Absoluter Kursgewinn in EUR</p>
           </div>
           <div>
@@ -358,9 +371,9 @@ export default function AnalysisTab({
           </div>
         </div>
 
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80">
-            <h3 className="text-sm font-semibold text-white tracking-tight">Größte Verluste (€)</h3>
+        <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06]">
+            <h3 className="text-sm font-medium text-white">Größte Verluste (€)</h3>
             <p className="text-[11px] text-neutral-500 mt-0.5">Absoluter Kursverlust in EUR</p>
           </div>
           <div>
@@ -397,7 +410,7 @@ function PerformerRow({
   return (
     <Link
       href={href}
-      className="flex items-center justify-between px-5 py-2.5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors"
+      className="flex items-center justify-between px-5 py-2.5 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.04] transition-colors"
     >
       <div className="flex items-center gap-3 min-w-0">
         <Logo ticker={holding.symbol} alt={holding.symbol} className="w-7 h-7 flex-shrink-0" padding="none" />

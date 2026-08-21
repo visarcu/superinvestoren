@@ -1025,13 +1025,13 @@ export default function CSVImportModal({
   const currentMainStepIndex = MAIN_STEPS.findIndex(s => s.key.includes(step))
 
   const renderStepIndicator = () => (
-    <div className="flex items-center gap-1.5 px-6 py-3 border-b border-neutral-800/60 flex-shrink-0 overflow-x-auto">
+    <div className="flex items-center gap-1.5 px-6 py-3 border-b border-white/[0.05] flex-shrink-0 overflow-x-auto">
       {MAIN_STEPS.map((s, i) => {
         const isActive = i === currentMainStepIndex
         const isDone = i < currentMainStepIndex
         return (
           <React.Fragment key={i}>
-            {i > 0 && <div className={`w-4 h-px ${isDone ? 'bg-neutral-600' : 'bg-neutral-800'}`} />}
+            {i > 0 && <div className={`w-4 h-px ${isDone ? 'bg-neutral-600' : 'bg-white/[0.08]'}`} />}
             <div className={`flex items-center gap-1.5 text-[11px] font-medium whitespace-nowrap tracking-tight ${
               isActive ? 'text-white' : isDone ? 'text-neutral-400' : 'text-neutral-600'
             }`}>
@@ -1039,7 +1039,7 @@ export default function CSVImportModal({
                 <CheckIcon className="w-3 h-3 text-neutral-400" />
               ) : (
                 <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] border ${
-                  isActive ? 'border-white text-white' : 'border-neutral-700 text-neutral-600'
+                  isActive ? 'border-white text-white' : 'border-white/[0.14] text-neutral-600'
                 }`}>
                   {i + 1}
                 </span>
@@ -1057,9 +1057,9 @@ export default function CSVImportModal({
   // ======================================================================
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-      <div className="bg-neutral-950 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-neutral-800/80 flex flex-col">
+      <div className="bg-white/[0.04] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-white/[0.06] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06] flex-shrink-0">
           <div className="flex items-center gap-3 min-w-0">
             {selectedBroker && step !== 'broker' && (
               <BrokerLogo brokerId={selectedBroker.id} size={32} />
@@ -1075,7 +1075,7 @@ export default function CSVImportModal({
           </div>
           <button
             onClick={handleClose}
-            className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors flex-shrink-0"
+            className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors flex-shrink-0"
           >
             <XMarkIcon className="w-4.5 h-4.5 text-neutral-500 hover:text-neutral-300" />
           </button>
@@ -1101,7 +1101,7 @@ export default function CSVImportModal({
                   <button
                     key={b.id}
                     onClick={() => handleSelectBroker(b)}
-                    className="group p-3.5 rounded-xl border border-neutral-800/80 bg-neutral-900/50 hover:bg-neutral-900 hover:border-neutral-700 transition-all text-left"
+                    className="group p-3.5 rounded-xl border border-white/[0.06] bg-white/[0.04] hover:bg-white/[0.05] hover:border-white/[0.14] transition-all text-left"
                   >
                     <div className="flex items-start gap-3">
                       <BrokerLogo brokerId={b.id} size={36} />
@@ -1141,8 +1141,8 @@ export default function CSVImportModal({
               {/* Schritt-Liste */}
               <ol className="space-y-1 mb-5">
                 {selectedBroker.instructions.steps.map((step, i) => (
-                  <li key={i} className="flex gap-3 py-2.5 px-3 rounded-lg hover:bg-neutral-900/50 transition-colors">
-                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-neutral-800 text-[11px] font-semibold text-neutral-300 flex items-center justify-center mt-0.5">
+                  <li key={i} className="flex gap-3 py-2.5 px-3 rounded-lg hover:bg-white/[0.04] transition-colors">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/[0.08] text-[11px] font-semibold text-neutral-300 flex items-center justify-center mt-0.5">
                       {i + 1}
                     </span>
                     <span className="text-[13px] text-neutral-200 leading-relaxed">{step}</span>
@@ -1152,7 +1152,7 @@ export default function CSVImportModal({
 
               {/* Hinweis */}
               {selectedBroker.instructions.hint && (
-                <div className="mb-5 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                <div className="mb-5 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
                   <div className="flex gap-2.5">
                     <LightBulbIcon className="w-4 h-4 flex-shrink-0 mt-0.5 text-neutral-400" />
                     <p className="text-[12px] text-neutral-400 leading-relaxed">{selectedBroker.instructions.hint}</p>
@@ -1166,7 +1166,7 @@ export default function CSVImportModal({
                   href={selectedBroker.instructions.loginUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800/60 text-[13px] text-neutral-200 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.14] hover:bg-white/[0.06] text-[13px] text-neutral-200 transition-colors"
                 >
                   <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
                   {selectedBroker.instructions.loginLabel || 'Zur Broker-Website'}
@@ -1189,10 +1189,10 @@ export default function CSVImportModal({
               <label
                 className={`relative flex flex-col items-center justify-center gap-4 p-12 rounded-2xl border border-dashed cursor-pointer transition-all ${
                   pdfParsing
-                    ? 'pointer-events-none opacity-50 border-neutral-800 bg-neutral-900/50'
+                    ? 'pointer-events-none opacity-50 border-white/[0.08] bg-white/[0.04]'
                     : isDragOver
                     ? 'border-emerald-500/50 bg-emerald-500/5'
-                    : 'border-neutral-800 hover:border-neutral-700 bg-neutral-900/30 hover:bg-neutral-900/60'
+                    : 'border-white/[0.08] hover:border-white/[0.14] bg-white/[0.02] hover:bg-white/[0.05]'
                 }`}
                 onDragOver={(e) => { e.preventDefault(); setIsDragOver(true) }}
                 onDragLeave={() => setIsDragOver(false)}
@@ -1209,7 +1209,7 @@ export default function CSVImportModal({
                   </>
                 ) : (
                   <>
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-emerald-500/10' : 'bg-neutral-900 border border-neutral-800'}`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-emerald-500/10' : 'bg-white/[0.05] border border-white/[0.08]'}`}>
                       <ArrowUpTrayIcon className={`w-5 h-5 transition-colors ${isDragOver ? 'text-emerald-400' : 'text-neutral-500'}`} />
                     </div>
                     <div className="text-center">
@@ -1276,7 +1276,7 @@ export default function CSVImportModal({
               </div>
 
               {resolving && (
-                <div className="flex items-center gap-3 p-4 bg-neutral-800/30 rounded-xl mb-4">
+                <div className="flex items-center gap-3 p-4 bg-white/[0.04] rounded-xl mb-4">
                   <ArrowPathIcon className="w-4 h-4 text-emerald-400 animate-spin flex-shrink-0" />
                   <div>
                     <p className="text-sm text-white">Symbole werden aufgelöst...</p>
@@ -1301,7 +1301,7 @@ export default function CSVImportModal({
                             placeholder="Symbol"
                             value={manualMappings[isin] || ''}
                             onChange={(e) => handleManualMapping(isin, e.target.value)}
-                            className="w-24 px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-white text-xs uppercase"
+                            className="w-24 px-2 py-1 bg-white/[0.08] border border-white/[0.14] rounded text-white text-xs uppercase"
                           />
                         </div>
                       )
@@ -1312,7 +1312,7 @@ export default function CSVImportModal({
                     <button
                       onClick={resolveViaAPI}
                       disabled={resolving}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-white rounded-lg transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-white/[0.08] hover:bg-white/[0.12] disabled:opacity-50 text-white rounded-lg transition-colors"
                     >
                       {resolving ? (
                         <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
@@ -1355,15 +1355,15 @@ export default function CSVImportModal({
                   onClick={() => setCashMode('include')}
                   className={`w-full p-4 rounded-xl border text-left transition-all ${
                     cashMode === 'include'
-                      ? 'border-neutral-600 bg-neutral-900'
-                      : 'border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/70'
+                      ? 'border-white/[0.18] bg-white/[0.05]'
+                      : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.14] hover:bg-white/[0.05]'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 transition-colors ${
-                      cashMode === 'include' ? 'border-white bg-white' : 'border-neutral-600'
+                      cashMode === 'include' ? 'border-white bg-white' : 'border-white/[0.18]'
                     }`}>
-                      {cashMode === 'include' && <div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-neutral-950" /></div>}
+                      {cashMode === 'include' && <div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-white/[0.04]" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
@@ -1384,15 +1384,15 @@ export default function CSVImportModal({
                   onClick={() => setCashMode('ignore')}
                   className={`w-full p-4 rounded-xl border text-left transition-all ${
                     cashMode === 'ignore'
-                      ? 'border-neutral-600 bg-neutral-900'
-                      : 'border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/70'
+                      ? 'border-white/[0.18] bg-white/[0.05]'
+                      : 'border-white/[0.06] bg-white/[0.03] hover:border-white/[0.14] hover:bg-white/[0.05]'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 transition-colors ${
-                      cashMode === 'ignore' ? 'border-white bg-white' : 'border-neutral-600'
+                      cashMode === 'ignore' ? 'border-white bg-white' : 'border-white/[0.18]'
                     }`}>
-                      {cashMode === 'ignore' && <div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-neutral-950" /></div>}
+                      {cashMode === 'ignore' && <div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-white/[0.04]" /></div>}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="mb-0.5">
@@ -1417,16 +1417,16 @@ export default function CSVImportModal({
               </div>
 
               {/* Kennzahlen */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-neutral-800/80 border border-neutral-800/80 rounded-xl overflow-hidden mb-5">
-                <div className="bg-neutral-950 p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+                <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Transaktionen</p>
                   <p className="text-white font-semibold text-xl tracking-tight tabular-nums">{importSummary.totalTransactions}</p>
                 </div>
-                <div className="bg-neutral-950 p-4">
+                <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Positionen</p>
                   <p className="text-white font-semibold text-xl tracking-tight tabular-nums">{importSummary.holdings}</p>
                 </div>
-                <div className="bg-neutral-950 p-4">
+                <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Duplikate</p>
                   {checkingDuplicates ? (
                     <div className="flex items-center gap-1.5">
@@ -1439,7 +1439,7 @@ export default function CSVImportModal({
                     </p>
                   )}
                 </div>
-                <div className="bg-neutral-950 p-4">
+                <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
                   <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Neu</p>
                   <p className="text-emerald-400 font-semibold text-xl tracking-tight tabular-nums">{importSummary.newTransactions}</p>
                 </div>
@@ -1452,14 +1452,14 @@ export default function CSVImportModal({
                   className={`w-full mb-3 p-3.5 rounded-xl border text-left transition-all ${
                     resetBeforeImport
                       ? 'border-red-500/40 bg-red-500/5'
-                      : 'border-neutral-800/80 bg-neutral-900/50 hover:border-neutral-700'
+                      : 'border-white/[0.06] bg-white/[0.04] hover:border-white/[0.14]'
                   }`}
                 >
                   <div className="flex items-start gap-2.5">
                     <div className={`w-4 h-4 rounded border flex-shrink-0 mt-0.5 flex items-center justify-center transition-colors ${
                       resetBeforeImport
                         ? 'border-red-500 bg-red-500'
-                        : 'border-neutral-600'
+                        : 'border-white/[0.18]'
                     }`}>
                       {resetBeforeImport && <CheckIcon className="w-3 h-3 text-neutral-950" strokeWidth={3} />}
                     </div>
@@ -1479,7 +1479,7 @@ export default function CSVImportModal({
               )}
 
               {/* Cash-Mode Info */}
-              <div className="mb-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80 flex items-start gap-2.5">
+              <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-start gap-2.5">
                 {importSummary.cashIncluded
                   ? <BanknotesIcon className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
                   : <NoSymbolIcon className="w-4 h-4 text-neutral-500 flex-shrink-0 mt-0.5" />
@@ -1498,7 +1498,7 @@ export default function CSVImportModal({
 
               {/* Stock Splits & Renames Info */}
               {(importSummary.stockSplits.length > 0 || importSummary.tickerRenames.length > 0) && (
-                <div className="mb-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
                   <p className="text-[12px] font-medium text-white mb-1.5">
                     Corporate Actions automatisch verarbeitet
                   </p>
@@ -1533,7 +1533,7 @@ export default function CSVImportModal({
                       </p>
                       <div className="flex flex-wrap gap-1">
                         {importSummary.transferHoldings.slice(0, 12).map(h => (
-                          <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-neutral-900 text-neutral-300 border border-neutral-800 rounded">
+                          <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-white/[0.05] text-neutral-300 border border-white/[0.08] rounded">
                             {h.symbol}
                           </span>
                         ))}
@@ -1550,7 +1550,7 @@ export default function CSVImportModal({
 
               {/* Corp-Action-Holdings Warnung (Spin-off ohne klare Kostenbasis) */}
               {importSummary.corpActionHoldings.filter(h => !importSummary.transferHoldings.find(t => t.symbol === h.symbol)).length > 0 && (
-                <div className="mb-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
                   <div className="flex items-start gap-2.5">
                     <ExclamationTriangleIcon className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
@@ -1564,7 +1564,7 @@ export default function CSVImportModal({
                         {importSummary.corpActionHoldings
                           .filter(h => !importSummary.transferHoldings.find(t => t.symbol === h.symbol))
                           .map(h => (
-                          <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-neutral-900 text-neutral-300 border border-neutral-800 rounded">
+                          <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-white/[0.05] text-neutral-300 border border-white/[0.08] rounded">
                             {h.symbol}{h.avgPrice === 0 ? ' · EK 0' : ''}
                           </span>
                         ))}
@@ -1597,7 +1597,7 @@ export default function CSVImportModal({
                             {duplicateTransactions.map((tx, i) => {
                               const typeConfig = TYPE_LABELS[tx.type]
                               return (
-                                <div key={i} className="flex items-center justify-between py-1 px-2 bg-neutral-900/50 rounded text-xs">
+                                <div key={i} className="flex items-center justify-between py-1 px-2 bg-white/[0.04] rounded text-xs">
                                   <div className="flex items-center gap-2 min-w-0">
                                     <span className="text-neutral-600 shrink-0">{tx.date}</span>
                                     <span className={`shrink-0 ${typeConfig?.color || 'text-neutral-400'}`}>{typeConfig?.label || tx.type}</span>
@@ -1626,7 +1626,7 @@ export default function CSVImportModal({
                   {Object.entries(importSummary.byType).map(([type, count]) => {
                     const config = TYPE_LABELS[type]
                     return (
-                      <span key={type} className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-neutral-900 border border-neutral-800 text-neutral-300">
+                      <span key={type} className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-white/[0.05] border border-white/[0.08] text-neutral-300">
                         {config?.label || type} <span className="text-neutral-500 ml-0.5 tabular-nums">{count}</span>
                       </span>
                     )
@@ -1640,9 +1640,9 @@ export default function CSVImportModal({
                   <h5 className="text-[11px] font-semibold text-neutral-500 mb-2 uppercase tracking-wider">
                     Resultierende Positionen <span className="text-neutral-600 ml-0.5 tabular-nums">({previewHoldings.length})</span>
                   </h5>
-                  <div className="max-h-60 overflow-y-auto border border-neutral-800/80 rounded-xl overflow-hidden">
+                  <div className="max-h-60 overflow-y-auto border border-white/[0.06] rounded-xl overflow-hidden">
                     {previewHoldings.sort((a, b) => (b.quantity * b.avgPrice) - (a.quantity * a.avgPrice)).map(h => (
-                      <div key={h.symbol} className="flex items-center justify-between py-2.5 px-3.5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors">
+                      <div key={h.symbol} className="flex items-center justify-between py-2.5 px-3.5 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.04] transition-colors">
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1.5 flex-wrap">
                             <span className="font-medium text-white text-[13px]">{h.symbol}</span>
@@ -1652,7 +1652,7 @@ export default function CSVImportModal({
                               </span>
                             )}
                             {h.fromCorpAction && !h.fromTransfer && (
-                              <span className="text-[9px] font-medium px-1 py-0.5 bg-neutral-800 text-neutral-300 border border-neutral-700 rounded" title="Aus Corporate Action">
+                              <span className="text-[9px] font-medium px-1 py-0.5 bg-white/[0.08] text-neutral-300 border border-white/[0.14] rounded" title="Aus Corporate Action">
                                 Corp. Act.
                               </span>
                             )}
@@ -1685,7 +1685,7 @@ export default function CSVImportModal({
               <p className="text-[13px] text-neutral-500 tabular-nums">
                 {importProgress.current} / {importProgress.total} Transaktionen
               </p>
-              <div className="mt-4 max-w-xs mx-auto bg-neutral-800/60 rounded-full h-1 overflow-hidden">
+              <div className="mt-4 max-w-xs mx-auto bg-white/[0.06] rounded-full h-1 overflow-hidden">
                 <div
                   className="bg-white h-1 rounded-full transition-all duration-300"
                   style={{ width: importProgress.total > 0 ? `${(importProgress.current / importProgress.total) * 100}%` : '0%' }}
@@ -1698,7 +1698,7 @@ export default function CSVImportModal({
           {step === 'done' && importResult && (
             <div>
               <div className="text-center mb-6">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
                   <CheckIcon className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Import abgeschlossen</h3>
@@ -1708,8 +1708,8 @@ export default function CSVImportModal({
               </div>
 
               {/* Ergebnis-Breakdown */}
-              <div className="rounded-xl border border-neutral-800/80 overflow-hidden mb-4">
-                <div className="flex items-center justify-between py-2.5 px-4 bg-neutral-900/40">
+              <div className="rounded-xl border border-white/[0.06] overflow-hidden mb-4">
+                <div className="flex items-center justify-between py-2.5 px-4 bg-white/[0.03]">
                   <span className="text-[13px] text-neutral-400">Transaktionen gespeichert</span>
                   <span className="text-[13px] font-semibold text-white tabular-nums">
                     {importResult.transactionsSaved} <span className="text-neutral-500 font-normal">/ {importResult.transactionsAttempted}</span>
@@ -1717,25 +1717,25 @@ export default function CSVImportModal({
                 </div>
 
                 {importResult.duplicatesSkipped > 0 && (
-                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
                     <span className="text-[13px] text-neutral-400">Duplikate übersprungen</span>
                     <span className="text-[13px] font-semibold text-amber-400 tabular-nums">{importResult.duplicatesSkipped}</span>
                   </div>
                 )}
 
-                <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
                   <span className="text-[13px] text-neutral-400">Positionen neu erstellt</span>
                   <span className="text-[13px] font-semibold text-white tabular-nums">{importResult.holdingsCreated}</span>
                 </div>
 
                 {importResult.holdingsUpdated > 0 && (
-                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
                     <span className="text-[13px] text-neutral-400">Positionen aufgestockt</span>
                     <span className="text-[13px] font-semibold text-white tabular-nums">{importResult.holdingsUpdated}</span>
                   </div>
                 )}
 
-                <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
                   <span className="text-[13px] text-neutral-400">
                     {importResult.cashMode === 'include' ? 'Cash-Bewegungen' : 'Cash ignoriert'}
                   </span>
@@ -1745,7 +1745,7 @@ export default function CSVImportModal({
                 </div>
 
                 {importResult.unresolvedSymbols > 0 && (
-                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
                     <span className="text-[13px] text-amber-400">Nicht zugeordnet</span>
                     <span className="text-[13px] font-semibold text-amber-400 tabular-nums">{importResult.unresolvedSymbols}</span>
                   </div>
@@ -1754,7 +1754,7 @@ export default function CSVImportModal({
                 {/* Eine fehlgeschlagene Kapitalmaßnahme verzerrt die Rendite —
                     das darf nicht nur in der Konsole stehen. */}
                 {importResult.corpActionWarnings.length > 0 && (
-                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
                     <span className="text-[13px] text-amber-400">Kapitalmaßnahmen mit Problemen</span>
                     <span className="text-[13px] font-semibold text-amber-400 tabular-nums">
                       {importResult.corpActionWarnings.length}
@@ -1772,7 +1772,7 @@ export default function CSVImportModal({
                   </p>
                 </div>
               ) : (
-                <div className="p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80 flex gap-2.5">
+                <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] flex gap-2.5">
                   <CheckIcon className="w-4 h-4 text-neutral-300 flex-shrink-0 mt-0.5" />
                   <p className="text-[12px] text-neutral-400 leading-relaxed">
                     Alle Transaktionen erfolgreich importiert. Dein Depot ist jetzt bereit.
@@ -1784,7 +1784,7 @@ export default function CSVImportModal({
         </div>
 
         {/* Footer Actions */}
-        <div className="flex items-center justify-between p-5 border-t border-neutral-800 flex-shrink-0">
+        <div className="flex items-center justify-between p-5 border-t border-white/[0.08] flex-shrink-0">
           <div>
             {step === 'instructions' && (
               <button
@@ -1859,7 +1859,7 @@ export default function CSVImportModal({
               <button
                 onClick={() => { setStep('cash') }}
                 disabled={resolving}
-                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 disabled:bg-white/[0.08] disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 Weiter
                 <ArrowRightIcon className="w-3.5 h-3.5" />
@@ -1882,7 +1882,7 @@ export default function CSVImportModal({
               <button
                 onClick={handleImport}
                 disabled={importing || !importSummary || importSummary.totalTransactions === 0 || checkingDuplicates}
-                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-white/[0.08] disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 {importing ? (
                   <ArrowPathIcon className="w-4 h-4 animate-spin" />

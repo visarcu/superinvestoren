@@ -430,7 +430,7 @@ export default function DividendIncomeChart({
   if (dividendTransactions.length === 0) return null
 
   return (
-    <div className="terminal-glass rounded-2xl p-6">
+    <div className="bg-theme-card border border-theme rounded-xl p-6">
       <div className="mb-4 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <div className="terminal-input flex max-w-full gap-1 overflow-x-auto rounded-xl p-0.5">
           {VIEW_LABELS.map(view => (
@@ -438,7 +438,7 @@ export default function DividendIncomeChart({
               key={view.key}
               onClick={() => setChartView(view.key)}
               className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-xs transition-colors ${
-                chartView === view.key ? 'bg-white/[0.085] text-white' : 'text-neutral-500 hover:text-neutral-300'
+                chartView === view.key ? 'bg-white/[0.08] text-white' : 'text-neutral-500 hover:text-neutral-300'
               }`}
             >
               {view.label}
@@ -452,7 +452,7 @@ export default function DividendIncomeChart({
               key={range}
               onClick={() => setSelectedRange(range)}
               className={`rounded-lg px-2.5 py-1.5 text-xs transition-colors ${
-                selectedRange === range ? 'bg-white/[0.085] text-white' : 'text-neutral-500 hover:text-neutral-300'
+                selectedRange === range ? 'bg-white/[0.08] text-white' : 'text-neutral-500 hover:text-neutral-300'
               }`}
             >
               {range}

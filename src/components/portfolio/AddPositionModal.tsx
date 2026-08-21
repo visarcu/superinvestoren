@@ -86,10 +86,10 @@ export default function AddPositionModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white/[0.05] rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-white">Position hinzufügen</h2>
-          <button onClick={handleClose} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
+          <button onClick={handleClose} className="p-1 hover:bg-white/[0.04] rounded transition-colors">
             <XMarkIcon className="w-5 h-5 text-neutral-400" />
           </button>
         </div>
@@ -104,7 +104,7 @@ export default function AddPositionModal({
                 className={`p-3 rounded-lg border-2 transition-all ${
                   positionType === 'stock'
                     ? 'border-green-500 bg-emerald-500/10 text-emerald-400'
-                    : 'border-neutral-700 hover:border-neutral-600 text-neutral-400'
+                    : 'border-white/[0.14] hover:border-white/[0.18] text-neutral-400'
                 }`}
               >
                 <div className="flex flex-col items-center gap-2">
@@ -117,7 +117,7 @@ export default function AddPositionModal({
                 className={`p-3 rounded-lg border-2 transition-all ${
                   positionType === 'cash'
                     ? 'border-green-500 bg-emerald-500/10 text-emerald-400'
-                    : 'border-neutral-700 hover:border-neutral-600 text-neutral-400'
+                    : 'border-white/[0.14] hover:border-white/[0.18] text-neutral-400'
                 }`}
               >
                 <div className="flex flex-col items-center gap-2">
@@ -136,7 +136,7 @@ export default function AddPositionModal({
                 value={cashAmount}
                 onChange={(e) => setCashAmount(e.target.value)}
                 placeholder="1.000,00"
-                className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                className="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
               />
             </div>
           )}
@@ -152,9 +152,9 @@ export default function AddPositionModal({
                   }}
                   placeholder="z.B. AAPL oder Apple"
                   className="w-full"
-                  inputClassName="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent placeholder-theme-muted"
-                  dropdownClassName="absolute z-10 w-full mt-1 bg-neutral-900 border border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto"
-                  itemClassName="px-4 py-3 hover:bg-neutral-800/50 transition-colors border-b border-neutral-800 last:border-0 text-white cursor-pointer"
+                  inputClassName="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent placeholder-theme-muted"
+                  dropdownClassName="absolute z-10 w-full mt-1 terminal-glass-strong rounded-lg max-h-60 overflow-y-auto"
+                  itemClassName="px-4 py-3 hover:bg-white/[0.06] transition-colors border-b border-white/[0.08] last:border-0 text-white cursor-pointer"
                 />
               </div>
 
@@ -177,7 +177,7 @@ export default function AddPositionModal({
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="100"
-                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 />
               </div>
 
@@ -188,7 +188,7 @@ export default function AddPositionModal({
                   value={purchasePrice}
                   onChange={(e) => setPurchasePrice(e.target.value)}
                   placeholder="150,00"
-                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 />
               </div>
 
@@ -199,7 +199,7 @@ export default function AddPositionModal({
                   value={fees}
                   onChange={(e) => setFees(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 />
               </div>
 
@@ -210,7 +210,7 @@ export default function AddPositionModal({
                   value={purchaseDate}
                   onChange={(e) => setPurchaseDate(e.target.value)}
                   max={new Date().toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 />
               </div>
             </>
@@ -218,7 +218,7 @@ export default function AddPositionModal({
 
           {/* Zusammenfassung vor Bestätigung */}
           {positionType === 'stock' && selectedStock && quantity && purchasePrice && (
-            <div className="bg-neutral-800/30 border border-neutral-700/50 rounded-lg p-3">
+            <div className="bg-white/[0.04] border border-white/[0.12] rounded-lg p-3">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-neutral-400">Investition</span>
                 <span className="text-white font-medium">
@@ -231,7 +231,7 @@ export default function AddPositionModal({
                   <span className="text-neutral-300">{formatCurrency(parseFloat(fees))}</span>
                 </div>
               )}
-              <div className="flex items-center justify-between text-sm mt-1 pt-1 border-t border-neutral-700/50">
+              <div className="flex items-center justify-between text-sm mt-1 pt-1 border-t border-white/[0.12]">
                 <span className="text-neutral-400">Gesamt</span>
                 <span className="text-white font-semibold">
                   {formatCurrency((parseFloat(quantity) * parseFloat(purchasePrice)) + (parseFloat(fees) || 0))}
@@ -244,7 +244,7 @@ export default function AddPositionModal({
             <button
               onClick={handleSubmit}
               disabled={adding || (positionType === 'stock' && (!selectedStock || !quantity || !purchasePrice))}
-              className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-white/[0.08] disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               {adding ? (
                 <><ArrowPathIcon className="w-4 h-4 animate-spin" />Hinzufügen...</>
@@ -255,7 +255,7 @@ export default function AddPositionModal({
             <button
               onClick={handleClose}
               disabled={adding}
-              className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 disabled:opacity-50 text-white rounded-lg transition-colors"
+              className="flex-1 py-2 border border-white/[0.14] hover:bg-white/[0.04] disabled:opacity-50 text-white rounded-lg transition-colors"
             >
               Abbrechen
             </button>

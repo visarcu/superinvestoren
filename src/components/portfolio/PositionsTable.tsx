@@ -417,7 +417,7 @@ export default function PositionsTable({
   if (holdings.length === 0 && cashPosition <= 0) {
     return (
       <div className="py-12 text-center">
-        <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800/50 rounded-xl flex items-center justify-center">
+        <div className="w-16 h-16 mx-auto mb-4 bg-white/[0.06] rounded-xl flex items-center justify-center">
           <BriefcaseIcon className="w-8 h-8 text-neutral-600" />
         </div>
         <h3 className="text-base font-medium text-white mb-1">Keine Positionen</h3>
@@ -442,8 +442,8 @@ export default function PositionsTable({
     return (
       <div
         key={holding.id}
-        className={`group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer ${
-          isSubRow ? 'ml-4 bg-neutral-900/20' : ''
+        className={`group grid grid-cols-12 gap-4 items-center py-3 border-b border-white/[0.05] hover:bg-white/[0.04] -mx-2 px-2 rounded-lg transition-colors cursor-pointer ${
+          isSubRow ? 'ml-4 bg-white/[0.02]' : ''
         }`}
         onClick={() => handleViewStock(holding.symbol)}
       >
@@ -453,7 +453,7 @@ export default function PositionsTable({
             // Sub-Row: Depot-Info statt Logo
             <>
               <span className="w-5 hidden sm:block flex-shrink-0" />
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border border-neutral-700/50">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 border border-white/[0.12]">
                 <span className="w-3 h-3 rounded-full" style={{ backgroundColor: depotColor }} />
               </div>
               <div className="min-w-0">
@@ -520,7 +520,7 @@ export default function PositionsTable({
         {/* Anteil */}
         <div className="col-span-1 text-right hidden sm:block">
           <p className="text-xs text-neutral-400 font-medium">{percentage.toFixed(1)}%</p>
-          <div className="mt-1 h-1 bg-neutral-800/50 rounded-full overflow-hidden">
+          <div className="mt-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
             <div
               className="h-full bg-blue-500/50 rounded-full"
               style={{ width: `${Math.min(percentage, 100)}%` }}
@@ -556,21 +556,21 @@ export default function PositionsTable({
             <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={(e) => { e.stopPropagation(); onTopUpPosition(holding) }}
-                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                className="p-1.5 hover:bg-white/[0.08] rounded transition-colors"
                 title="Aufstocken"
               >
                 <PlusIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-emerald-400" />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); onEditPosition(holding) }}
-                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                className="p-1.5 hover:bg-white/[0.08] rounded transition-colors"
                 title="Bearbeiten"
               >
                 <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-blue-400" />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); onDeletePosition(holding.id) }}
-                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                className="p-1.5 hover:bg-white/[0.08] rounded transition-colors"
                 title="Löschen"
               >
                 <XMarkIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-red-400" />
@@ -608,7 +608,7 @@ export default function PositionsTable({
       <div key={group.symbol}>
         {/* Aggregierte Zeile */}
         <div
-          className="group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+          className="group grid grid-cols-12 gap-4 items-center py-3 border-b border-white/[0.05] hover:bg-white/[0.04] -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
           onClick={() => handleViewStock(group.symbol)}
         >
           {/* Aktie */}
@@ -665,7 +665,7 @@ export default function PositionsTable({
           {/* Anteil */}
           <div className="col-span-1 text-right hidden sm:block">
             <p className="text-xs text-neutral-400 font-medium">{percentage.toFixed(1)}%</p>
-            <div className="mt-1 h-1 bg-neutral-800/50 rounded-full overflow-hidden">
+            <div className="mt-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
               <div
                 className="h-full bg-blue-500/50 rounded-full"
                 style={{ width: `${Math.min(percentage, 100)}%` }}
@@ -698,7 +698,7 @@ export default function PositionsTable({
             {hasMultipleDepots && (
               <button
                 onClick={(e) => { e.stopPropagation(); toggleExpand(group.symbol) }}
-                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                className="p-1.5 hover:bg-white/[0.08] rounded transition-colors"
                 title={isExpanded ? 'Einklappen' : 'Depots anzeigen'}
               >
                 <ChevronDownIcon className={`w-4 h-4 text-neutral-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
@@ -709,7 +709,7 @@ export default function PositionsTable({
 
         {/* Sub-Rows: Per-Depot Breakdown (aktive + historische Ghost-Depots) */}
         {isExpanded && hasMultipleDepots && (
-          <div className="border-l-2 border-neutral-800 ml-6">
+          <div className="border-l-2 border-white/[0.08] ml-6">
             {group.holdings
               .sort((a, b) => b.value - a.value)
               .map(h => renderHoldingRow(h, 0, true))
@@ -731,11 +731,11 @@ export default function PositionsTable({
     return (
       <div
         key={`ghost-${ghost.symbol}-${ghost.portfolioId}`}
-        className="grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 -mx-2 px-2 rounded-lg ml-4 bg-neutral-900/10 opacity-75"
+        className="grid grid-cols-12 gap-4 items-center py-3 border-b border-white/[0.05] -mx-2 px-2 rounded-lg ml-4 bg-white/[0.02] opacity-75"
       >
         {/* Depot-Info (statt Logo) */}
         <div className="col-span-6 sm:col-span-3 flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-lg bg-neutral-900/60 border border-neutral-800 flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
             <BriefcaseIcon className="w-4 h-4 text-neutral-500" />
           </div>
           <div className="min-w-0 flex-1">
@@ -794,7 +794,7 @@ export default function PositionsTable({
                 onClick={() => handleReturnRangeChange(range.key)}
                 className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${
                   returnRange === range.key
-                    ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                    ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.08] dark:text-white'
                     : 'text-theme-muted hover:text-theme-secondary'
                 }`}
                 title={range.key === 'TOTAL' ? 'Rendite seit Kauf' : `Rendite ${range.label}`}
@@ -836,8 +836,8 @@ export default function PositionsTable({
         {/* Cash Row — auch negative Werte anzeigen (Kredit/Margin) */}
         {cashPosition !== 0 && (
           <div
-            className={`group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 -mx-2 px-2 rounded-lg transition-colors ${
-              readOnly ? '' : 'cursor-pointer hover:bg-neutral-900/50'
+            className={`group grid grid-cols-12 gap-4 items-center py-3 border-b border-white/[0.05] -mx-2 px-2 rounded-lg transition-colors ${
+              readOnly ? '' : 'cursor-pointer hover:bg-white/[0.04]'
             }`}
             onClick={readOnly ? undefined : onEditCash}
           >
@@ -848,7 +848,7 @@ export default function PositionsTable({
                   ? groupedPositions.length + 1
                   : holdings.length + 1}
               </span>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${cashPosition < 0 ? 'bg-red-900/30' : 'bg-neutral-800'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${cashPosition < 0 ? 'bg-red-900/30' : 'bg-white/[0.08]'}`}>
                 <CurrencyDollarIcon className={`w-4 h-4 ${cashPosition < 0 ? 'text-red-400' : 'text-neutral-400'}`} />
               </div>
               <div>
@@ -877,7 +877,7 @@ export default function PositionsTable({
                   <>
                     <p className={`text-xs font-medium ${cashPercent < 0 ? 'text-red-400/70' : 'text-neutral-400'}`}>{cashPercent.toFixed(1)}%</p>
                     {cashPercent > 0 && (
-                      <div className="mt-1 h-1 bg-neutral-800/50 rounded-full overflow-hidden">
+                      <div className="mt-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
                         <div
                           className="h-full bg-blue-500/50 rounded-full"
                           style={{ width: `${Math.min(cashPercent, 100)}%` }}

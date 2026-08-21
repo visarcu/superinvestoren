@@ -27,7 +27,6 @@ import {
   ArrowPathIcon,
   ArrowsRightLeftIcon,
   BanknotesIcon,
-  BriefcaseIcon,
   CheckIcon,
   ChevronUpDownIcon,
   Cog6ToothIcon,
@@ -100,8 +99,8 @@ function PortfolioNavigation({
 }) {
   if (compact) {
     return (
-      <nav className="sticky top-16 z-30 mb-5 rounded-2xl border border-white/[0.09] bg-[#08090a]/95 p-1.5 shadow-[0_18px_70px_rgba(0,0,0,0.28)] backdrop-blur-xl lg:hidden">
-        <div className="flex gap-1 overflow-x-auto">
+      <nav className="sticky top-14 z-30 mb-4 rounded-xl border border-theme bg-theme-card p-1 lg:hidden">
+        <div className="flex gap-0.5 overflow-x-auto">
           {PORTFOLIO_NAV_ITEMS.map(item => {
             const Icon = item.icon
             const isActive = item.view === activeView
@@ -111,21 +110,16 @@ function PortfolioNavigation({
                 type="button"
                 onClick={() => item.view && onOpenView(item.view)}
                 disabled={item.disabled || !item.view}
-                className={`inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+                className={`inline-flex min-h-[38px] shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors ${
                   isActive
-                    ? 'bg-white/[0.09] text-theme-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'
+                    ? 'bg-white/[0.06] text-white'
                     : item.disabled
                       ? 'cursor-not-allowed text-neutral-600'
-                      : 'text-neutral-300 hover:bg-white/[0.045] hover:text-white'
+                      : 'text-neutral-400 hover:bg-white/[0.04] hover:text-white'
                 }`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className={`h-4 w-4 ${isActive ? 'text-teal-300' : ''}`} />
                 {item.label}
-                {item.disabled && (
-                  <span className="rounded-full border border-neutral-800 bg-neutral-950/60 px-1.5 py-0.5 text-[10px] text-neutral-500">
-                    Bald
-                  </span>
-                )}
               </button>
             )
           })}
@@ -135,13 +129,10 @@ function PortfolioNavigation({
   }
 
   return (
-    <aside className="sticky top-20 hidden h-[calc(100vh-5rem)] w-[276px] shrink-0 self-start rounded-2xl border border-white/[0.09] bg-[#08090a]/88 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_24px_80px_rgba(0,0,0,0.22)] backdrop-blur-xl lg:block">
-      <div className="mb-4 px-3 py-2">
-        <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-teal-300/75">Portfolio</p>
-        <p className="mt-1 text-xs text-theme-muted">Vermögen, Depots und Cashflow</p>
-      </div>
+    <aside className="sticky top-[4.5rem] hidden max-h-[calc(100vh-5rem)] w-[220px] shrink-0 self-start overflow-y-auto py-2 lg:block">
+      <p className="mb-2 px-3 text-[11px] font-medium uppercase tracking-wider text-neutral-500">Portfolio</p>
 
-      <div className="space-y-1">
+      <div className="space-y-0.5">
         {PORTFOLIO_NAV_ITEMS.map(item => {
           const Icon = item.icon
           const isActive = item.view === activeView
@@ -151,36 +142,21 @@ function PortfolioNavigation({
               type="button"
               onClick={() => item.view && onOpenView(item.view)}
               disabled={item.disabled || !item.view}
-              className={`group flex w-full min-h-[56px] items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors ${
+              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium transition-colors ${
                 isActive
-                  ? 'border border-teal-300/25 bg-[linear-gradient(135deg,rgba(45,212,191,0.14),rgba(255,255,255,0.045))] text-theme-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]'
+                  ? 'bg-white/[0.06] text-white'
                 : item.disabled
                     ? 'cursor-not-allowed text-neutral-600'
-                    : 'text-neutral-300 hover:bg-white/[0.055] hover:text-white'
+                    : 'text-neutral-400 hover:bg-white/[0.04] hover:text-white'
               }`}
             >
-              <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition-colors ${
-                isActive
-                  ? 'border-teal-300/20 bg-teal-400/10 text-teal-300'
-                : item.disabled
-                    ? 'border-neutral-900 bg-neutral-950/70 text-neutral-700'
-                    : 'border-white/[0.07] bg-white/[0.045] text-neutral-400 group-hover:text-white'
-              }`}>
-                <Icon className="h-4 w-4" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="flex items-center gap-2 text-sm font-medium">
-                  {item.label}
-                  {item.disabled && (
-                    <span className="rounded-full border border-neutral-800 bg-neutral-950/60 px-1.5 py-0.5 text-[10px] font-medium text-neutral-500">
-                      Bald
-                    </span>
-                  )}
+              <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-teal-300' : ''}`} />
+              <span className="min-w-0 flex-1 truncate">{item.label}</span>
+              {item.disabled && (
+                <span className="rounded border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 text-[10px] text-neutral-500">
+                  Bald
                 </span>
-                <span className={`mt-0.5 block truncate text-[11px] ${item.disabled ? 'text-neutral-700' : 'text-neutral-500'}`}>
-                  {item.description}
-                </span>
-              </span>
+              )}
             </button>
           )
         })}
@@ -225,7 +201,7 @@ function DepotSwitcher({
   }
 
   const itemBase =
-    'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors'
+    'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition-colors'
 
   return (
     <div ref={ref} className="relative">
@@ -243,9 +219,9 @@ function DepotSwitcher({
       {open && (
         <div
           role="menu"
-          className="absolute left-0 top-full z-[60] mt-2 w-[300px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#0b0c0d]/97 p-1.5 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+          className="terminal-glass-strong absolute left-0 top-full z-[60] mt-2 w-[280px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl p-1"
         >
-          <p className="px-3 pb-1.5 pt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-theme-muted">
+          <p className="px-2.5 pb-1 pt-1.5 text-[10px] font-medium uppercase tracking-wider text-theme-muted">
             Depot wechseln
           </p>
 
@@ -257,10 +233,10 @@ function DepotSwitcher({
               className={`${itemBase} ${
                 selectedDepotId === 'all'
                   ? 'bg-teal-400/10 text-teal-300'
-                  : 'text-neutral-200 hover:bg-white/[0.055]'
+                  : 'text-neutral-200 hover:bg-white/[0.05]'
               }`}
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.045]">
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/[0.06]">
                 <Squares2X2Icon className="h-4 w-4" />
               </span>
               <span className="min-w-0 flex-1">
@@ -282,13 +258,13 @@ function DepotSwitcher({
                   role="menuitem"
                   onClick={() => handleSelect(depot.id)}
                   className={`${itemBase} ${
-                    isActive ? 'bg-teal-400/10 text-teal-300' : 'text-neutral-200 hover:bg-white/[0.055]'
+                    isActive ? 'bg-teal-400/10 text-teal-300' : 'text-neutral-200 hover:bg-white/[0.05]'
                   }`}
                 >
                   {logoId ? (
-                    <BrokerLogo brokerId={logoId} size={32} />
+                    <BrokerLogo brokerId={logoId} size={28} />
                   ) : (
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.045]">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/[0.06]">
                       <span className="h-2 w-2 rounded-full" style={{ backgroundColor: brokerColor }} />
                     </span>
                   )}
@@ -310,9 +286,9 @@ function DepotSwitcher({
             href="/analyse/portfolio/depots/neu"
             onClick={() => setOpen(false)}
             role="menuitem"
-            className={`${itemBase} text-[13px] font-medium text-neutral-200 hover:bg-white/[0.055]`}
+            className={`${itemBase} text-[13px] font-medium text-neutral-200 hover:bg-white/[0.05]`}
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-teal-300/20 bg-teal-400/10 text-teal-300">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-400/10 text-teal-300">
               <PlusIcon className="h-4 w-4" />
             </span>
             Neues Depot
@@ -322,9 +298,9 @@ function DepotSwitcher({
             href="/analyse/portfolio/depots"
             onClick={() => setOpen(false)}
             role="menuitem"
-            className={`${itemBase} text-[13px] font-medium text-neutral-200 hover:bg-white/[0.055]`}
+            className={`${itemBase} text-[13px] font-medium text-neutral-200 hover:bg-white/[0.05]`}
           >
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.045] text-neutral-300">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/[0.06] text-neutral-300">
               <Cog6ToothIcon className="h-4 w-4" />
             </span>
             Depots verwalten
@@ -339,16 +315,16 @@ function WorkspaceSkeleton() {
   return (
     <main className="w-full px-6 py-8 pb-24">
       <div className="mx-auto max-w-[1720px] animate-pulse">
-        <div className="mb-8 h-36 rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
-        <div className="mb-6 h-14 rounded-2xl bg-white/[0.03] border border-white/[0.06]" />
-        <div className="grid gap-5 lg:grid-cols-4">
+        <div className="mb-6 h-16 rounded-xl bg-white/[0.03] border border-white/[0.06]" />
+        <div className="mb-6 h-14 rounded-xl bg-white/[0.03] border border-white/[0.06]" />
+        <div className="grid gap-4 lg:grid-cols-4">
           {[1, 2, 3, 4].map(item => (
-            <div key={item} className="h-28 rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+            <div key={item} className="h-28 rounded-xl bg-white/[0.03] border border-white/[0.06]" />
           ))}
         </div>
-        <div className="mt-5 grid gap-5 xl:grid-cols-[1.55fr,0.85fr]">
-          <div className="h-[430px] rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
-          <div className="h-[430px] rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+        <div className="mt-4 grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+          <div className="h-[430px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
+          <div className="h-[430px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
         </div>
       </div>
     </main>
@@ -359,15 +335,15 @@ function WorkspaceSkeleton() {
 // (Header/Tabs stehen dann schon — vorher blitzte hier "Noch keine Positionen" auf).
 function ContentSkeleton() {
   return (
-    <div className="animate-pulse space-y-5">
-      <div className="grid gap-5 lg:grid-cols-4">
+    <div className="animate-pulse space-y-4">
+      <div className="grid gap-4 lg:grid-cols-4">
         {[1, 2, 3, 4].map(item => (
-          <div key={item} className="h-28 rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+          <div key={item} className="h-28 rounded-xl bg-white/[0.03] border border-white/[0.06]" />
         ))}
       </div>
-      <div className="grid gap-5 xl:grid-cols-[1.55fr,0.85fr]">
-        <div className="h-[380px] rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
-        <div className="h-[380px] rounded-2xl bg-white/[0.035] border border-white/[0.06]" />
+      <div className="grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+        <div className="h-[380px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
+        <div className="h-[380px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
       </div>
     </div>
   )
@@ -375,8 +351,8 @@ function ContentSkeleton() {
 
 function EmptyPortfolio() {
   return (
-    <div className="terminal-glass rounded-2xl p-10 text-center">
-      <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-teal-300/15 bg-teal-400/10">
+    <div className="bg-theme-card border border-theme rounded-xl p-8 text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.06]">
         <ChartBarIcon className="h-7 w-7 text-teal-300" />
       </div>
       <h2 className="mb-2 text-lg font-semibold text-theme-primary">Noch keine Positionen</h2>
@@ -385,7 +361,7 @@ function EmptyPortfolio() {
       </p>
       <Link
         href="/analyse/portfolio/dashboard?depot=all"
-        className="mt-5 inline-flex items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.055] px-4 py-2 text-sm font-medium text-theme-primary transition-colors hover:bg-white/[0.085]"
+        className="mt-5 inline-flex items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.05] px-4 py-2 text-sm font-medium text-theme-primary transition-colors hover:bg-white/[0.07]"
       >
         Zum Dashboard
       </Link>
@@ -472,50 +448,45 @@ export default function PortfolioWorkspacePage() {
   const isSwitchingDepot = p.loading && !!p.portfolio
 
   return (
-    <div className="min-h-screen bg-[#050506] text-theme-primary">
-      <header className="sticky top-0 z-50 border-b border-white/[0.065] bg-[#070708]/94 shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur-xl">
-        <div className="flex h-16 w-full items-center justify-between gap-4 px-4 sm:px-6 xl:px-8">
-          <div className="flex min-w-0 items-center gap-4">
+    <div className="min-h-screen bg-theme-primary text-theme-primary">
+      <header className="sticky top-0 z-50 border-b border-theme bg-theme-primary">
+        <div className="flex h-14 w-full items-center justify-between gap-4 px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-3">
             <Link
               href="/analyse"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.035] text-theme-muted transition-colors hover:bg-white/[0.07] hover:text-theme-primary"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
               title="Zurück ins Terminal"
             >
               <ArrowLeftIcon className="h-4 w-4" />
             </Link>
-            <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-teal-300/20 bg-teal-400/10">
-                <BriefcaseIcon className="h-4.5 w-4.5 text-teal-300" />
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-semibold leading-tight text-theme-primary">Portfolio</p>
+                {isSwitchingDepot && (
+                  <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-medium text-neutral-400">
+                    Lädt
+                  </span>
+                )}
               </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-semibold leading-tight text-theme-primary">Finclue Portfolio</p>
-                  {isSwitchingDepot && (
-                    <span className="rounded-full border border-teal-300/20 bg-teal-400/10 px-2 py-0.5 text-[10px] font-medium text-teal-300">
-                      Lädt
-                    </span>
-                  )}
-                </div>
-                <DepotSwitcher
-                  portfolios={p.allPortfolios}
-                  selectedDepotId={selectedDepotId}
-                  selectedDepotName={selectedDepotName}
-                  onSelectDepot={openDepot}
-                />
-              </div>
+              <DepotSwitcher
+                portfolios={p.allPortfolios}
+                selectedDepotId={selectedDepotId}
+                selectedDepotName={selectedDepotName}
+                onSelectDepot={openDepot}
+              />
             </div>
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
             <Link
               href={dashboardHref}
-              className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.035] px-3 py-2 text-xs font-medium text-theme-muted transition-colors hover:bg-white/[0.07] hover:text-theme-primary"
+              className="px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:text-white"
             >
               Klassisches Dashboard
             </Link>
             <Link
               href={`/analyse/portfolio/dashboard?depot=${p.depotIdParam}&tab=transactions`}
-              className="inline-flex items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-3 py-2 text-xs font-semibold text-teal-300 transition-colors hover:bg-teal-400/15"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[13px] font-medium text-black transition-colors hover:bg-neutral-200"
             >
               <PlusIcon className="h-3.5 w-3.5" />
               Aktivität
@@ -524,112 +495,96 @@ export default function PortfolioWorkspacePage() {
         </div>
       </header>
 
-      <div className="flex w-full gap-5 px-4 sm:px-6 xl:px-8">
+      <div className="flex w-full gap-6 px-6 lg:px-8">
         <PortfolioNavigation activeView={activeView} onOpenView={openView} />
 
-        <main className="min-w-0 flex-1 py-6 pb-24">
+        <main className="min-w-0 flex-1 py-5 pb-20">
       <div className="w-full">
-        <section className="mb-5 overflow-hidden rounded-2xl border border-white/[0.09] bg-[linear-gradient(135deg,rgba(20,184,166,0.095),rgba(255,255,255,0.034)_36%,rgba(255,255,255,0.02))] shadow-[inset_0_1px_0_rgba(255,255,255,0.055),0_24px_90px_rgba(0,0,0,0.2)]">
-          <div className="flex flex-col gap-6 px-6 py-6 xl:flex-row xl:items-end xl:justify-between">
+        <section className="mb-5">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
-              <div className="mb-5 flex flex-wrap items-center gap-3">
-                <Link
-                  href={dashboardHref}
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-black/20 px-3 py-2 text-xs font-medium text-theme-muted transition-colors hover:text-theme-primary hover:bg-white/[0.055]"
-                >
-                  <ArrowLeftIcon className="h-4 w-4" />
-                  Klassisches Dashboard
-                </Link>
-                {p.exchangeRate && (
-                  <button
-                    type="button"
-                    onClick={p.loadExchangeRate}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-white/[0.08] bg-black/20 px-3 py-2 text-xs text-theme-muted transition-colors hover:text-teal-300"
-                  >
-                    USD/EUR {p.exchangeRate.toFixed(4)}
-                    <ArrowPathIcon className="h-3.5 w-3.5" />
-                  </button>
-                )}
-              </div>
-
-              <p className="mb-2 text-xs font-medium uppercase tracking-[0.24em] text-teal-300/80">
-                Portfolio Workspace
-              </p>
-              <div className="flex flex-wrap items-end gap-x-5 gap-y-2">
-                <h1 className="text-4xl font-semibold tracking-tight text-theme-primary md:text-5xl">
-                  {selectedDepotName}
-                </h1>
-                <div className="pb-1 text-sm text-theme-muted">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h1 className="text-xl font-semibold text-theme-primary">{selectedDepotName}</h1>
+                <span className="text-sm text-neutral-500">
                   {p.activeInvestments} Position{p.activeInvestments === 1 ? '' : 'en'} · {p.transactions.length} Transaktionen
-                </div>
+                </span>
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2">
-                <span className="text-3xl font-semibold tracking-tight text-theme-primary tabular-nums">
+              <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <span className="text-2xl font-semibold text-theme-primary tabular-nums">
                   {p.formatCurrency(p.totalValue)}
                 </span>
                 <span className={`text-sm font-medium tabular-nums ${perfColor(p.totalReturn)}`}>
                   {p.totalReturn >= 0 ? '+' : ''}{p.formatCurrency(p.totalReturn)} · {p.formatPercentage(p.totalReturnPercent)}
                 </span>
-              </div>
-              <div className="mt-1.5 flex items-center gap-2 text-sm">
-                <span className="text-theme-muted">Heute</span>
-                <span className={`font-medium tabular-nums ${perfColor(p.dayGainLoss)}`}>
-                  {p.dayGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.dayGainLoss)} · {p.formatPercentage(p.dayGainLossPercent)}
+                <span className="text-sm text-neutral-500">
+                  Heute{' '}
+                  <span className={`font-medium tabular-nums ${perfColor(p.dayGainLoss)}`}>
+                    {p.dayGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.dayGainLoss)} · {p.formatPercentage(p.dayGainLossPercent)}
+                  </span>
                 </span>
               </div>
             </div>
 
-            <div className="grid min-w-[min(100%,520px)] grid-cols-3 gap-3">
-              <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-4">
-                <p className="mb-1 text-[11px] uppercase tracking-[0.18em] text-theme-muted">Wertpapiere</p>
-                <p className="text-lg font-semibold text-theme-primary tabular-nums">{p.formatCurrency(stockValue)}</p>
+            <div className="flex items-center gap-6">
+              <div>
+                <p className="text-[11px] text-neutral-500">Wertpapiere</p>
+                <p className="text-sm font-medium text-theme-primary tabular-nums">{p.formatCurrency(stockValue)}</p>
               </div>
-              <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-4">
-                <p className="mb-1 text-[11px] uppercase tracking-[0.18em] text-theme-muted">Cash</p>
-                <p className={`text-lg font-semibold tabular-nums ${p.cashPosition < 0 ? 'text-red-400' : 'text-theme-primary'}`}>
+              <div>
+                <p className="text-[11px] text-neutral-500">Cash</p>
+                <p className={`text-sm font-medium tabular-nums ${p.cashPosition < 0 ? 'text-red-400' : 'text-theme-primary'}`}>
                   {p.formatCurrency(p.cashPosition)}
                 </p>
               </div>
-              <div className="rounded-2xl border border-white/[0.08] bg-black/20 p-4">
-                <p className="mb-1 text-[11px] uppercase tracking-[0.18em] text-theme-muted">Top Position</p>
-                <p className="truncate text-lg font-semibold text-theme-primary tabular-nums">
+              <div>
+                <p className="text-[11px] text-neutral-500">Top Position</p>
+                <p className="text-sm font-medium text-theme-primary tabular-nums">
                   {topHolding ? topHolding.symbol : '–'}
                 </p>
               </div>
+              {p.exchangeRate && (
+                <button
+                  type="button"
+                  onClick={p.loadExchangeRate}
+                  className="hidden items-center gap-1 text-[11px] text-neutral-500 transition-colors hover:text-white sm:inline-flex"
+                  title="Wechselkurs aktualisieren"
+                >
+                  USD/EUR {p.exchangeRate.toFixed(4)}
+                  <ArrowPathIcon className="h-3 w-3" />
+                </button>
+              )}
             </div>
           </div>
 
           {p.allPortfolios.length > 1 && (
-            <div className="border-t border-white/[0.06] px-6 py-3">
-              <div className="flex gap-2 overflow-x-auto">
+            <div className="mt-3 flex gap-1 overflow-x-auto">
+              <button
+                type="button"
+                onClick={() => openDepot('all')}
+                disabled={selectedDepotId === 'all'}
+                className={`shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                  selectedDepotId === 'all'
+                    ? 'bg-white/[0.06] text-white'
+                    : 'text-neutral-500 hover:bg-white/[0.04] hover:text-white'
+                }`}
+              >
+                Alle Depots
+              </button>
+              {p.allPortfolios.map(depot => (
                 <button
+                  key={depot.id}
                   type="button"
-                  onClick={() => openDepot('all')}
-                  disabled={selectedDepotId === 'all'}
-                  className={`shrink-0 rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
-                    selectedDepotId === 'all'
-                      ? 'bg-teal-400/12 text-teal-300 ring-1 ring-teal-300/20'
-                      : 'text-theme-muted hover:bg-white/[0.055] hover:text-theme-primary'
+                  onClick={() => openDepot(depot.id)}
+                  disabled={selectedDepotId === depot.id}
+                  className={`shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                    selectedDepotId === depot.id
+                      ? 'bg-white/[0.06] text-white'
+                      : 'text-neutral-500 hover:bg-white/[0.04] hover:text-white'
                   }`}
                 >
-                  Alle Depots
+                  {depot.name}
                 </button>
-                {p.allPortfolios.map(depot => (
-                  <button
-                    key={depot.id}
-                    type="button"
-                    onClick={() => openDepot(depot.id)}
-                    disabled={selectedDepotId === depot.id}
-                    className={`shrink-0 rounded-xl px-3 py-2 text-xs font-medium transition-colors ${
-                      selectedDepotId === depot.id
-                        ? 'bg-teal-400/12 text-teal-300 ring-1 ring-teal-300/20'
-                        : 'text-theme-muted hover:bg-white/[0.055] hover:text-theme-primary'
-                    }`}
-                  >
-                    {depot.name}
-                  </button>
-                ))}
-              </div>
+              ))}
             </div>
           )}
         </section>
@@ -642,7 +597,7 @@ export default function PortfolioWorkspacePage() {
         ) : (
           <>
             {activeView === 'overview' && (
-              <div className="space-y-5">
+              <div className="space-y-4">
                 <QuickStats
                   totalValue={p.totalValue}
                   cashPosition={p.cashPosition}
@@ -664,9 +619,9 @@ export default function PortfolioWorkspacePage() {
                 {/* Durchblick-Insights: die wichtigsten Look-Through-Erkenntnisse
                     direkt im Überblick — Details im Analyse-Tab */}
                 {(lookthrough.result?.insights.length ?? 0) > 0 && (
-                  <section className="terminal-glass rounded-2xl p-5">
+                  <section className="bg-theme-card border border-theme rounded-xl p-5">
                     <div className="mb-3 flex items-center justify-between">
-                      <h3 className="flex items-center gap-2 text-sm font-semibold text-theme-primary tracking-tight">
+                      <h3 className="flex items-center gap-2 text-sm font-medium text-theme-primary">
                         <ViewfinderCircleIcon className="h-4 w-4 text-teal-300" />
                         Durchblick
                       </h3>
@@ -686,7 +641,7 @@ export default function PortfolioWorkspacePage() {
                           <div
                             key={i}
                             className={`rounded-xl border p-3.5 ${
-                              isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-white/[0.07] bg-white/[0.03]'
+                              isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-white/[0.06] bg-white/[0.03]'
                             }`}
                           >
                             <div className="flex items-start gap-2.5">
@@ -703,8 +658,8 @@ export default function PortfolioWorkspacePage() {
                   </section>
                 )}
 
-                <div className="grid gap-5 xl:grid-cols-[1.55fr,0.85fr]">
-                  <section className="terminal-glass rounded-2xl p-5">
+                <div className="grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+                  <section className="bg-theme-card border border-theme rounded-xl p-5">
                     <PortfolioValueChart
                       portfolioId={p.portfolio?.id || ''}
                       portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(depot => depot.id) : undefined}
@@ -721,10 +676,10 @@ export default function PortfolioWorkspacePage() {
                     />
                   </section>
 
-                  <section className="terminal-glass rounded-2xl p-5">
+                  <section className="bg-theme-card border border-theme rounded-xl p-5">
                     <div className="mb-5 flex items-center justify-between gap-3">
                       <div>
-                        <h2 className="text-sm font-semibold text-theme-primary">Allokation</h2>
+                        <h2 className="text-sm font-medium text-theme-primary">Allokation</h2>
                         <p className="mt-1 text-xs text-theme-muted">Wertverteilung inklusive Cash</p>
                       </div>
                     </div>
@@ -738,7 +693,7 @@ export default function PortfolioWorkspacePage() {
                   </section>
                 </div>
 
-                <section className="terminal-glass rounded-2xl p-5">
+                <section className="bg-theme-card border border-theme rounded-xl p-5">
                   <PositionsTable
                     holdings={p.holdings}
                     cashPosition={p.cashPosition}
@@ -782,7 +737,7 @@ export default function PortfolioWorkspacePage() {
             )}
 
             {activeView === 'positions' && (
-              <section className="terminal-glass rounded-2xl p-5">
+              <section className="bg-theme-card border border-theme rounded-xl p-5">
                 <PositionsTable
                   holdings={p.holdings}
                   cashPosition={p.cashPosition}
@@ -813,7 +768,8 @@ export default function PortfolioWorkspacePage() {
                 totalValue={p.totalValue}
                 formatCurrency={p.formatCurrency}
                 formatPercentage={p.formatPercentage}
-                portfolioId={p.portfolio?.id}
+                portfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
+                portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(depot => depot.id) : undefined}
               />
             )}
 

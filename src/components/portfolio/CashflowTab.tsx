@@ -183,15 +183,15 @@ export default function CashflowTab({
 
   if (loading) {
     return (
-      <div className="space-y-2 rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
-        {[1, 2, 3].map(i => <div key={i} className="h-10 animate-pulse rounded-lg bg-neutral-800/50" />)}
+      <div className="bg-theme-card border border-theme space-y-2 rounded-xl p-5">
+        {[1, 2, 3].map(i => <div key={i} className="h-10 animate-pulse rounded-lg bg-white/[0.06]" />)}
       </div>
     )
   }
 
   if (!hasAnyTx && !hasInvest) {
     return (
-      <div className="rounded-xl border border-dashed border-neutral-800/80 bg-neutral-900/30 p-12 text-center">
+      <div className="rounded-xl border border-dashed border-white/[0.06] bg-white/[0.02] p-12 text-center">
         <ArrowsRightLeftIcon className="mx-auto mb-3 h-8 w-8 text-neutral-700" />
         <h3 className="mb-1 text-sm font-semibold tracking-tight text-white">Noch kein Cashflow</h3>
         <p className="mx-auto max-w-sm text-[12px] leading-relaxed text-neutral-500">
@@ -212,18 +212,18 @@ export default function CashflowTab({
     <div className="space-y-5">
       {/* ===== Aktueller Monat: Cashflow ===== */}
       {current && hasAnyTx && (
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-800/80 sm:grid-cols-3">
-          <div className="bg-neutral-950 p-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Einnahmen ({current.label})</p>
-            <p className="text-2xl font-semibold tabular-nums text-emerald-400">+{formatCurrency(current.income)}</p>
+            <p className="text-xl font-semibold tabular-nums text-emerald-400">+{formatCurrency(current.income)}</p>
           </div>
-          <div className="bg-neutral-950 p-5">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Ausgaben</p>
-            <p className="text-2xl font-semibold tabular-nums text-red-400">−{formatCurrency(current.expenses)}</p>
+            <p className="text-xl font-semibold tabular-nums text-red-400">−{formatCurrency(current.expenses)}</p>
           </div>
-          <div className="bg-neutral-950 p-5">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Netto</p>
-            <p className={`text-2xl font-semibold tabular-nums ${current.net >= 0 ? 'text-white' : 'text-red-400'}`}>
+            <p className={`text-xl font-semibold tabular-nums ${current.net >= 0 ? 'text-white' : 'text-red-400'}`}>
               {current.net >= 0 ? '+' : ''}{formatCurrency(current.net)}
             </p>
           </div>
@@ -232,38 +232,38 @@ export default function CashflowTab({
 
       {/* ===== Sparen & Investieren ===== */}
       {hasInvest && current && (
-        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-neutral-800/80 bg-neutral-800/80 sm:grid-cols-3">
-          <div className="bg-neutral-950 p-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Investiert ({current.label})</p>
-            <p className="text-2xl font-semibold tabular-nums text-teal-300">{formatCurrency(current.invested)}</p>
+            <p className="text-xl font-semibold tabular-nums text-teal-300">{formatCurrency(current.invested)}</p>
             <p className="mt-1 text-[11px] text-neutral-500">Depot-Käufe − Verkäufe</p>
           </div>
-          <div className="bg-neutral-950 p-5">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Sparquote</p>
             {savingsRate !== null ? (
               <>
-                <p className="text-2xl font-semibold tabular-nums text-white">{savingsRate.toFixed(0)} %</p>
+                <p className="text-xl font-semibold tabular-nums text-white">{savingsRate.toFixed(0)} %</p>
                 <p className="mt-1 text-[11px] text-neutral-500">Investiert / gebuchte Einnahmen</p>
               </>
             ) : (
               <>
-                <p className="text-2xl font-semibold tabular-nums text-neutral-600">—</p>
+                <p className="text-xl font-semibold tabular-nums text-neutral-600">—</p>
                 <p className="mt-1 text-[11px] text-neutral-500">
                   Buche dein Gehalt auf der Konten-Seite, dann rechnen wir sie aus
                 </p>
               </>
             )}
           </div>
-          <div className="bg-neutral-950 p-5">
+          <div className="bg-theme-card border border-theme rounded-xl p-5">
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Investiert ({new Date().getFullYear()})</p>
-            <p className="text-2xl font-semibold tabular-nums text-teal-300">{formatCurrency(currentYearInvested)}</p>
+            <p className="text-xl font-semibold tabular-nums text-teal-300">{formatCurrency(currentYearInvested)}</p>
             <p className="mt-1 text-[11px] text-neutral-500">seit Jahresbeginn</p>
           </div>
         </div>
       )}
 
       {/* ===== Monatsverlauf ===== */}
-      <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+      <div className="bg-theme-card border border-theme rounded-xl p-5">
         <h3 className="text-sm font-semibold tracking-tight text-white">Monatsverlauf</h3>
         <p className="mt-0.5 text-[11px] text-neutral-500">
           {hasAnyTx ? 'Einnahmen, Ausgaben und Investitionen' : 'Investitionen — Einnahmen/Ausgaben erscheinen mit deinen Konten-Buchungen'}
@@ -283,13 +283,13 @@ export default function CashflowTab({
                 {hasAnyTx && (
                   <>
                     <div className="flex items-center gap-2">
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-800/60">
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
                         <div className="h-full rounded-full bg-emerald-400/80" style={{ width: `${(month.income / maxFlow) * 100}%` }} />
                       </div>
                       <span className="w-24 flex-shrink-0 text-right text-[11px] tabular-nums text-emerald-400">+{formatCurrency(month.income)}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-800/60">
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
                         <div className="h-full rounded-full bg-red-400/70" style={{ width: `${(month.expenses / maxFlow) * 100}%` }} />
                       </div>
                       <span className="w-24 flex-shrink-0 text-right text-[11px] tabular-nums text-red-400">−{formatCurrency(month.expenses)}</span>
@@ -298,7 +298,7 @@ export default function CashflowTab({
                 )}
                 {hasInvest && (
                   <div className="flex items-center gap-2">
-                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-neutral-800/60">
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
                       <div
                         className="h-full rounded-full bg-teal-300/80"
                         style={{ width: `${(Math.max(month.invested, 0) / maxFlow) * 100}%` }}
@@ -322,7 +322,7 @@ export default function CashflowTab({
 
       {/* ===== Investiert pro Jahr ===== */}
       {years.length > 0 && (
-        <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <h3 className="flex items-center gap-2 text-sm font-semibold tracking-tight text-white">
             <BanknotesIcon className="h-3.5 w-3.5 text-neutral-400" />
             Investiert pro Jahr
@@ -332,7 +332,7 @@ export default function CashflowTab({
             {years.map(y => (
               <div key={y.year} className="flex items-center gap-3">
                 <span className="w-10 flex-shrink-0 text-[12px] tabular-nums text-neutral-300">{y.year}</span>
-                <div className="h-2 flex-1 overflow-hidden rounded-full bg-neutral-800/60">
+                <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
                   <div
                     className={`h-full rounded-full ${y.invested >= 0 ? 'bg-teal-300/80' : 'bg-red-400/70'}`}
                     style={{ width: `${(Math.abs(y.invested) / maxYearInvested) * 100}%` }}
@@ -349,7 +349,7 @@ export default function CashflowTab({
 
       {/* ===== Top-Ausgaben ===== */}
       {topExpenses.length > 0 && (
-        <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/50 p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <h3 className="text-sm font-semibold tracking-tight text-white">Größte Ausgaben ({current?.label})</h3>
           <div className="mt-3 space-y-1.5">
             {topExpenses.map(([label, sum]) => (

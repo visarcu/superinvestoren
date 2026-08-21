@@ -59,7 +59,7 @@ function StatCard({
   accent?: boolean
 }) {
   return (
-    <div className="terminal-glass rounded-2xl p-4">
+    <div className="bg-theme-card border border-theme rounded-xl p-4">
       <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">{label}</p>
       <p className={`text-[17px] font-semibold tracking-tight tabular-nums ${accent ? 'text-teal-300' : 'text-white'}`}>{value}</p>
       {sub && <div className="text-[11px] text-neutral-500 mt-1 tabular-nums">{sub}</div>}
@@ -306,9 +306,9 @@ export default function DividendsTab({
   if (dividendTransactions.length === 0) {
     return (
       <div className="space-y-5">
-        <div className="terminal-glass rounded-2xl p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <div className="mb-4">
-            <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Dividenden</h3>
+            <h3 className="text-sm font-medium text-white">Anstehende Dividenden</h3>
             <p className="text-[11px] text-neutral-500 mt-0.5">Aus deinen aktuellen Positionen</p>
           </div>
           {upcomingLoading ? (
@@ -323,8 +323,8 @@ export default function DividendsTab({
           )}
         </div>
 
-        <div className="terminal-glass rounded-2xl border-dashed p-10 text-center">
-          <div className="w-11 h-11 mx-auto mb-3 terminal-input rounded-2xl flex items-center justify-center">
+        <div className="bg-theme-card border border-theme rounded-xl border-dashed p-10 text-center">
+          <div className="w-10 h-10 mx-auto mb-3 rounded-xl bg-white/[0.06] flex items-center justify-center">
             <BanknotesIcon className="w-5 h-5 text-neutral-400" />
           </div>
           <h3 className="text-sm font-semibold text-white mb-1 tracking-tight">Noch keine Dividenden</h3>
@@ -343,7 +343,7 @@ export default function DividendsTab({
       {/* ================================================================
           HERO: 12M-Rolling-Dividende + YoY + Forward-Projektion
       ================================================================ */}
-      <div className="terminal-glass rounded-2xl p-6">
+      <div className="bg-theme-card border border-theme rounded-xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
             <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-2">Letzte 12 Monate · Netto nach Steuern</p>
@@ -363,7 +363,7 @@ export default function DividendsTab({
           </div>
 
           {forwardProjection.annualExpected > 0 && (
-            <div className="lg:text-right border-t lg:border-t-0 lg:border-l border-neutral-800 lg:pl-6 pt-4 lg:pt-0">
+            <div className="lg:text-right border-t lg:border-t-0 lg:border-l border-white/[0.08] lg:pl-6 pt-4 lg:pt-0">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-2">Prognose nächste 12 Monate</p>
               <p className="text-[28px] lg:text-[32px] font-semibold tracking-tight text-teal-300 tabular-nums leading-none">
                 {formatCurrency(forwardProjection.annualExpected)}
@@ -418,10 +418,10 @@ export default function DividendsTab({
           MILESTONE-CARD: Passive Income Zielstand
       ================================================================ */}
       {milestones && (
-        <div className="terminal-glass rounded-2xl p-5">
+        <div className="bg-theme-card border border-theme rounded-xl p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-sm font-medium text-white flex items-center gap-2">
                 <ArrowTrendingUpIcon className="w-4 h-4 text-emerald-400" />
                 Passives Einkommen
               </h3>
@@ -441,7 +441,7 @@ export default function DividendsTab({
 
           {milestones.next && (
             <div className="mb-4">
-              <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-white/[0.08] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full transition-all"
                   style={{ width: `${Math.min(100, milestones.progress)}%` }}
@@ -471,7 +471,7 @@ export default function DividendsTab({
       )}
 
       {forwardProjection.fallbackSymbols.length > 0 && (
-        <div className="terminal-glass rounded-2xl p-4">
+        <div className="bg-theme-card border border-theme rounded-xl p-4">
           <div className="flex items-start gap-3">
             <InformationCircleIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-300" />
             <div>
@@ -488,9 +488,9 @@ export default function DividendsTab({
       {/* ================================================================
           ANSTEHENDE DIVIDENDEN
       ================================================================ */}
-      <div className="terminal-glass rounded-2xl p-5">
+      <div className="bg-theme-card border border-theme rounded-xl p-5">
         <div className="mb-4">
-          <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Zahlungen</h3>
+          <h3 className="text-sm font-medium text-white">Anstehende Zahlungen</h3>
           <p className="text-[11px] text-neutral-500 mt-0.5">Aus deinen aktuellen Positionen</p>
         </div>
         {upcomingLoading ? (
@@ -509,10 +509,10 @@ export default function DividendsTab({
           DIVIDENDEN-ZAHLER mit Yield on Cost / Current Yield
       ================================================================ */}
       {bySymbol.length > 0 && (
-        <div className="terminal-glass rounded-2xl overflow-hidden">
+        <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-sm font-medium text-white flex items-center gap-2">
                 <ChartBarIcon className="w-4 h-4 text-neutral-400" />
                 Dividenden-Zahler
               </h3>
@@ -537,7 +537,7 @@ export default function DividendsTab({
               return (
                 <div
                   key={item.symbol}
-                  className="px-5 py-3 grid grid-cols-12 gap-3 items-center border-b border-white/[0.055] last:border-b-0 hover:bg-white/[0.04] transition-colors"
+                  className="px-5 py-3 grid grid-cols-12 gap-3 items-center border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.04] transition-colors"
                 >
                   {/* Titel + Logo */}
                   <div className="col-span-12 md:col-span-4 flex items-center gap-3 min-w-0">
@@ -592,9 +592,9 @@ export default function DividendsTab({
       {/* ================================================================
           LETZTE ZAHLUNGEN
       ================================================================ */}
-      <div className="terminal-glass rounded-2xl overflow-hidden">
+      <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-white/[0.06]">
-          <h3 className="text-sm font-semibold text-white tracking-tight">Letzte Zahlungen</h3>
+          <h3 className="text-sm font-medium text-white">Letzte Zahlungen</h3>
           <p className="text-[11px] text-neutral-500 mt-0.5">Chronologisch absteigend</p>
         </div>
         <div>
@@ -604,7 +604,7 @@ export default function DividendsTab({
             return (
               <div
                 key={tx.id}
-                className="px-5 py-2.5 flex items-center gap-3 border-b border-white/[0.055] last:border-b-0 hover:bg-white/[0.04] transition-colors"
+                className="px-5 py-2.5 flex items-center gap-3 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.04] transition-colors"
               >
                 <Logo ticker={tx.symbol} alt={tx.symbol} className="w-7 h-7 flex-shrink-0" padding="none" />
                 <div className="flex-1 min-w-0">
@@ -615,7 +615,7 @@ export default function DividendsTab({
                   <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-[11px] text-neutral-500 tabular-nums">{formattedDate}</span>
                     {isAllDepotsView && tx.portfolio_name && (
-                      <span className="inline-flex items-center gap-1 text-[10px] text-neutral-400 bg-neutral-900 border border-neutral-800 px-1.5 py-0.5 rounded">
+                      <span className="inline-flex items-center gap-1 text-[10px] text-neutral-400 bg-white/[0.05] border border-white/[0.08] px-1.5 py-0.5 rounded">
                         <span
                           className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                           style={{ backgroundColor: getBrokerColor(tx.broker_type, tx.broker_color) }}
@@ -654,13 +654,13 @@ function LoadingRows({ count }: { count: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <div key={i} className="flex items-center justify-between py-2 animate-pulse">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 bg-neutral-800 rounded-full" />
+            <div className="w-7 h-7 bg-white/[0.08] rounded-full" />
             <div>
-              <div className="h-3 bg-neutral-800 rounded w-16 mb-1" />
-              <div className="h-2.5 bg-neutral-800 rounded w-24" />
+              <div className="h-3 bg-white/[0.08] rounded w-16 mb-1" />
+              <div className="h-2.5 bg-white/[0.08] rounded w-24" />
             </div>
           </div>
-          <div className="h-3 bg-neutral-800 rounded w-20" />
+          <div className="h-3 bg-white/[0.08] rounded w-20" />
         </div>
       ))}
     </div>
@@ -695,7 +695,7 @@ function UpcomingDividendsList({
           <Link
             key={idx}
             href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
-            className="flex items-center justify-between py-2.5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/40 transition-colors -mx-2 px-2 rounded"
+            className="flex items-center justify-between py-2.5 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.03] transition-colors -mx-2 px-2 rounded"
           >
             <div className="flex items-center gap-3 min-w-0">
               <Logo ticker={div.ticker} alt={div.ticker} className="w-7 h-7 flex-shrink-0" padding="none" />

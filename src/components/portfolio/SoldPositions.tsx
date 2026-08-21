@@ -190,7 +190,7 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
           {closedPositions.map((pos) => (
             <div
               key={pos.symbol}
-              className="flex items-center justify-between py-2.5 border-b border-neutral-800/30 cursor-pointer hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors"
+              className="flex items-center justify-between py-2.5 border-b border-white/[0.05] cursor-pointer hover:bg-white/[0.04] -mx-2 px-2 rounded transition-colors"
               onClick={() => {
                 if (portfolioId) {
                   router.push(`/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue || 0}`)

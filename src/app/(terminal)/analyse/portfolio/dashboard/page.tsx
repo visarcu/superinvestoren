@@ -674,7 +674,7 @@ export default function PortfolioDashboard() {
 
             {/* Empty State - wenn noch keine Positionen */}
             {p.holdings.length === 0 && (
-              <div className="terminal-glass mt-6 rounded-2xl border-dashed p-10 text-center">
+              <div className="bg-theme-card border border-theme border-dashed mt-6 rounded-xl p-8 text-center">
                 <div className="w-14 h-14 mx-auto mb-4 bg-teal-400/10 rounded-2xl flex items-center justify-center border border-teal-300/15">
                   <BriefcaseIcon className="w-7 h-7 text-teal-300" />
                 </div>
@@ -719,13 +719,13 @@ export default function PortfolioDashboard() {
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr,1.6fr] gap-5">
                 {/* Earnings + Dividenden links — kompakt, clean */}
                 <div className="flex flex-col gap-5">
-                  <div className="terminal-glass rounded-2xl overflow-hidden">
+                  <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
                     <PortfolioEarningsPreview
                       symbols={p.holdings.map(h => h.symbol)}
                       companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
                     />
                   </div>
-                  <div className="terminal-glass rounded-2xl overflow-hidden">
+                  <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
                     <UpcomingDividendsPreview
                       holdings={p.holdings}
                       formatCurrency={p.formatCurrency}
@@ -735,7 +735,7 @@ export default function PortfolioDashboard() {
                 </div>
 
                 {/* Chart rechts — bekommt mehr Platz */}
-                <div className="terminal-glass rounded-2xl p-6">
+                <div className="bg-theme-card border border-theme rounded-xl p-5">
                   <PortfolioValueChart
                     portfolioId={p.portfolio?.id || ''}
                     // Bei Alle-Depots: alle echten UUIDs übergeben, damit die API
@@ -760,7 +760,7 @@ export default function PortfolioDashboard() {
 
             {/* Allokations-Donut */}
             {p.holdings.length > 0 && (
-              <div className="terminal-glass mt-5 rounded-2xl p-6">
+              <div className="bg-theme-card border border-theme mt-5 rounded-xl p-5">
                 <div className="flex items-center justify-between mb-5">
                   <h3 className="text-sm font-semibold text-theme-primary tracking-tight">Allokation</h3>
                   <span className="text-[11px] text-theme-muted">
@@ -808,7 +808,7 @@ export default function PortfolioDashboard() {
               })()
 
               return (
-                <div className="terminal-glass mt-6 rounded-2xl p-4">
+                <div className="bg-theme-card border border-theme mt-6 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-sm font-medium text-theme-secondary">Top Positionen</h3>
                     <button onClick={() => handleTabChange('positions')} className="text-xs text-teal-300 hover:text-teal-200">

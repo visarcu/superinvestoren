@@ -106,7 +106,7 @@ export default function AddActivityFAB({
     <>
       {/* Floating Action Button — Premium weiß */}
       <div className="fixed bottom-6 right-6 z-40 group">
-        <div className="absolute bottom-full right-0 mb-2 px-2.5 py-1.5 bg-neutral-900 border border-neutral-800 text-white text-[11px] font-medium rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">
+        <div className="absolute bottom-full right-0 mb-2 px-2.5 py-1.5 terminal-glass-strong text-white text-[11px] font-medium rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">
           Aktivität hinzufügen
         </div>
         <button
@@ -123,17 +123,17 @@ export default function AddActivityFAB({
         <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50" onClick={() => setShowDepotPicker(false)}>
           <div className="min-h-full flex items-center justify-center p-4">
             <div
-              className="bg-neutral-950 rounded-2xl max-w-sm w-full border border-neutral-800/80 shadow-2xl overflow-hidden"
+              className="terminal-glass-strong rounded-2xl max-w-sm w-full overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
                 <div>
                   <h2 className="text-[15px] font-semibold text-white tracking-tight">Depot wählen</h2>
                   <p className="text-[11px] text-neutral-500 mt-0.5">In welches Depot soll die Aktivität?</p>
                 </div>
                 <button
                   onClick={() => setShowDepotPicker(false)}
-                  className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors flex-shrink-0"
+                  className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors flex-shrink-0"
                 >
                   <XMarkIcon className="w-4.5 h-4.5 text-neutral-500 hover:text-neutral-300" />
                 </button>
@@ -147,12 +147,12 @@ export default function AddActivityFAB({
                     <button
                       key={pf.id}
                       onClick={() => handleSelectDepot(pf.id)}
-                      className="w-full flex items-center gap-3 p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/80 transition-all text-left"
+                      className="w-full flex items-center gap-3 p-3 rounded-xl border border-white/[0.06] bg-white/[0.03] hover:border-white/[0.14] hover:bg-white/[0.05] transition-all text-left"
                     >
                       {logoId ? (
                         <BrokerLogo brokerId={logoId} size={34} />
                       ) : (
-                        <div className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center flex-shrink-0 relative">
+                        <div className="w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center flex-shrink-0 relative">
                           <span
                             className="w-1.5 h-1.5 rounded-full"
                             style={{ backgroundColor: brokerColor }}

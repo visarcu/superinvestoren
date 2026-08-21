@@ -51,10 +51,10 @@ function InfoTooltip({ title, children }: { title: string; children: React.React
         <InformationCircleIcon className="w-3.5 h-3.5" />
       </button>
       {open && (
-        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg p-3 z-50">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 terminal-glass-strong rounded-lg p-3 z-50">
           {/* Pfeil nach oben */}
           <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-px">
-            <div className="w-2 h-2 bg-white dark:bg-neutral-800 border-l border-t border-neutral-200 dark:border-neutral-700 rotate-45 translate-y-1" />
+            <div className="w-2 h-2 hidden rotate-45 translate-y-1" />
           </div>
           <p className="text-xs font-medium text-neutral-900 dark:text-white mb-1.5">{title}</p>
           <div className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed space-y-1.5">
@@ -89,14 +89,14 @@ export default function QuickStats({
   const hasCredit = brokerCredit < 0
   // Eigenkapital = Gesamtwert + Kredit (Kredit ist negativ)
   const equity = totalValue + brokerCredit
-  const statCardClass = 'bg-white dark:bg-white/[0.035] dark:backdrop-blur-xl rounded-xl p-4 border border-neutral-200 dark:border-white/[0.08] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_18px_60px_rgba(0,0,0,0.18)]'
+  const statCardClass = 'bg-theme-card border border-theme rounded-xl p-4'
 
   return (
     <div className={`grid gap-4 ${hasCredit ? 'grid-cols-2 lg:grid-cols-5' : 'grid-cols-2 lg:grid-cols-4'}`}>
       {/* Gesamtwert */}
       <div className={statCardClass}>
         <p className="text-xs text-neutral-500 mb-1">Gesamtwert</p>
-        <p className="text-xl font-bold text-neutral-900 dark:text-white">{formatCurrency(totalValue)}</p>
+        <p className="text-lg font-semibold text-neutral-900 dark:text-white">{formatCurrency(totalValue)}</p>
         <p className="text-xs text-neutral-500 mt-1">
           {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''} + Cash
         </p>
@@ -109,13 +109,13 @@ export default function QuickStats({
 
       {/* Cash */}
       <div
-        className={`${statCardClass} ${onCashClick ? 'cursor-pointer hover:border-neutral-300 dark:hover:border-teal-300/30 dark:hover:bg-white/[0.055] transition-colors' : ''}`}
+        className={`${statCardClass} ${onCashClick ? 'cursor-pointer hover:border-neutral-300 dark:hover:border-teal-300/30 dark:hover:bg-white/[0.05] transition-colors' : ''}`}
         onClick={onCashClick}
       >
         <p className="text-xs text-neutral-500 mb-1">
           Cash {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
         </p>
-        <p className={`text-xl font-bold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
+        <p className={`text-lg font-semibold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
         <p className="text-xs text-neutral-500 mt-1">
           {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% Cash-Quote
         </p>
@@ -124,13 +124,13 @@ export default function QuickStats({
       {/* Wertpapierkredit — nur anzeigen wenn vorhanden */}
       {hasCredit && (
         <div
-          className={`bg-white dark:bg-red-500/[0.035] dark:backdrop-blur-xl rounded-xl p-4 border border-red-200/30 dark:border-red-400/20 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_18px_60px_rgba(0,0,0,0.18)] ${onCreditClick ? 'cursor-pointer hover:border-red-300/50 dark:hover:border-red-400/35 dark:hover:bg-red-500/[0.06] transition-colors' : ''}`}
+          className={`bg-theme-card border border-theme rounded-xl p-4 border-red-200/30 dark:border-red-400/20 ${onCreditClick ? 'cursor-pointer hover:border-red-300/50 dark:hover:border-red-400/35 transition-colors' : ''}`}
           onClick={onCreditClick}
         >
           <p className="text-xs text-neutral-500 mb-1">
             Wertpapierkredit {onCreditClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
           </p>
-          <p className="text-xl font-bold text-red-500 dark:text-red-400">{formatCurrency(brokerCredit)}</p>
+          <p className="text-lg font-semibold text-red-500 dark:text-red-400">{formatCurrency(brokerCredit)}</p>
           <p className="text-xs text-neutral-500 mt-1">
             {totalValue > 0 ? Math.abs((brokerCredit / totalValue) * 100).toFixed(1) : '0,0'}% Leverage-Quote
           </p>
@@ -162,7 +162,7 @@ export default function QuickStats({
             </p>
           </InfoTooltip>
         </p>
-        <p className={`text-xl font-bold ${perfColor(totalReturn)}`}>
+        <p className={`text-lg font-semibold ${perfColor(totalReturn)}`}>
           {totalReturn >= 0 ? '+' : ''}{formatCurrency(totalReturn)}
         </p>
         <p className={`text-xs mt-1 ${perfColor(totalReturnPercent, 'muted')}`}>
@@ -171,7 +171,7 @@ export default function QuickStats({
 
         {/* Breakdown: nur anzeigen wenn Realisiert oder Dividenden vorhanden */}
         {hasBreakdown && (
-          <div className="mt-2 pt-2 border-t border-neutral-100 dark:border-neutral-800/30 space-y-0.5">
+          <div className="mt-2 pt-2 border-t border-neutral-100 dark:border-white/[0.05] space-y-0.5">
             <div className="flex justify-between text-[10px]">
               <span className="text-neutral-500">Kursgewinn</span>
               <span className={perfColor(totalGainLoss, 'muted')}>
@@ -246,14 +246,14 @@ export default function QuickStats({
         </p>
         {xirrPercent !== null ? (
           <>
-            <p className={`text-xl font-bold ${perfColor(xirrPercent)}`}>
+            <p className={`text-lg font-semibold ${perfColor(xirrPercent)}`}>
               {xirrPercent >= 0 ? '+' : ''}{xirrPercent.toFixed(2)}%
             </p>
             <p className="text-xs text-neutral-500 mt-1">annualisiert (p.a.)</p>
           </>
         ) : (
           <>
-            <p className="text-xl font-bold text-neutral-400 dark:text-neutral-600">–</p>
+            <p className="text-lg font-semibold text-neutral-400 dark:text-neutral-600">–</p>
             <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-1">min. 30 Tage Haltedauer</p>
           </>
         )}

@@ -122,7 +122,7 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
   if (!result && !loading && !error) {
     return (
       <div className="py-12 text-center">
-        <div className="w-16 h-16 mx-auto mb-4 rounded-2xl border border-teal-300/20 bg-teal-400/10 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+        <div className="w-14 h-14 mx-auto mb-4 rounded-xl bg-teal-400/10 flex items-center justify-center">
           <SparklesIcon className="w-8 h-8 text-teal-300" />
         </div>
         <h3 className="text-lg font-medium text-white mb-2">KI-Portfolio-Analyse</h3>
@@ -149,7 +149,7 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
     return (
       <div className="py-12">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl border border-teal-300/20 bg-teal-400/10 flex items-center justify-center">
+          <div className="w-14 h-14 rounded-xl bg-teal-400/10 flex items-center justify-center">
             <ArrowPathIcon className="w-8 h-8 text-teal-300 animate-spin" />
           </div>
           <div className="text-center">
@@ -161,14 +161,14 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
         {/* Skeleton cards */}
         <div className="mt-8 space-y-3">
           {holdings.slice(0, 5).map((h) => (
-            <div key={h.id} className="bg-white/[0.035] rounded-xl p-4 border border-white/[0.07] animate-pulse">
+            <div key={h.id} className="bg-white/[0.03] rounded-xl p-4 border border-white/[0.06] animate-pulse">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-neutral-800 rounded-full" />
+                <div className="w-8 h-8 bg-white/[0.08] rounded-full" />
                 <div className="flex-1">
-                  <div className="h-4 bg-neutral-800 rounded w-20 mb-1" />
-                  <div className="h-3 bg-neutral-800 rounded w-48" />
+                  <div className="h-4 bg-white/[0.08] rounded w-20 mb-1" />
+                  <div className="h-3 bg-white/[0.08] rounded w-48" />
                 </div>
-                <div className="h-6 bg-neutral-800 rounded w-16" />
+                <div className="h-6 bg-white/[0.08] rounded w-16" />
               </div>
             </div>
           ))}
@@ -215,7 +215,7 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
         </div>
         <button
           onClick={runAnalysis}
-          className="flex min-h-[40px] items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.035] px-3 py-1.5 text-sm text-teal-300 transition-colors hover:border-teal-300/20 hover:bg-teal-400/10 hover:text-white"
+          className="flex min-h-[40px] items-center gap-1.5 rounded-xl border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-teal-300 transition-colors hover:border-teal-300/20 hover:bg-teal-400/10 hover:text-white"
         >
           <ArrowPathIcon className="w-4 h-4" />
           Neu analysieren
@@ -223,13 +223,13 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
       </div>
 
       {/* Portfolio Verdict */}
-      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-4">
+      <div className="bg-theme-card border border-theme rounded-xl p-4">
         <p className="text-sm text-neutral-300 leading-relaxed">{result.portfolioVerdict}</p>
       </div>
 
       {/* Top Insight */}
       {result.topInsight && (
-        <div className="rounded-2xl border border-teal-300/15 bg-teal-400/[0.045] p-4">
+        <div className="rounded-xl border border-teal-300/15 bg-teal-400/[0.04] p-4">
           <div className="flex items-start gap-3">
             <SparklesIcon className="w-5 h-5 text-teal-300 mt-0.5 flex-shrink-0" />
             <div>
@@ -250,7 +250,7 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
             const holding = holdings.find(h => h.symbol === pos.ticker)
 
             return (
-              <div key={pos.ticker} className="rounded-2xl border border-white/[0.08] bg-white/[0.028] p-4 transition-colors hover:bg-white/[0.04]">
+              <div key={pos.ticker} className="bg-theme-card border border-theme rounded-xl p-4 transition-colors hover:border-white/[0.14]">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <Logo ticker={pos.ticker} alt={pos.ticker} className="w-8 h-8" padding="none" />

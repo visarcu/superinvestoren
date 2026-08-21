@@ -47,7 +47,7 @@ export default function DepotOnboarding() {
         </div>
 
         {/* Broker-Schnellauswahl */}
-        <div className="terminal-glass rounded-2xl p-6">
+        <div className="bg-theme-card border border-theme rounded-xl p-6">
           <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.14em] text-theme-muted">
             Bei welchem Broker liegt dein Depot?
           </p>

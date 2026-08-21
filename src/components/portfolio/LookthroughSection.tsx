@@ -28,8 +28,8 @@ const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4
 const STATUS_LABEL: Record<EtfCoverageInfo['status'], { text: string; className: string }> = {
   exact: { text: 'zerlegt', className: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
   approximated: { text: 'angenähert', className: 'text-amber-400 border-amber-500/30 bg-amber-500/10' },
-  'no-proxy': { text: 'keine Daten', className: 'text-neutral-400 border-neutral-700 bg-neutral-800/60' },
-  'non-equity': { text: 'kein Aktienfonds', className: 'text-neutral-400 border-neutral-700 bg-neutral-800/60' },
+  'no-proxy': { text: 'keine Daten', className: 'text-neutral-400 border-white/[0.14] bg-white/[0.06]' },
+  'non-equity': { text: 'kein Aktienfonds', className: 'text-neutral-400 border-white/[0.14] bg-white/[0.06]' },
 }
 
 function SliceCard({
@@ -47,16 +47,16 @@ function SliceCard({
 }) {
   const top = items.slice(0, 8)
   return (
-    <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+    <div className="bg-theme-card border border-theme rounded-xl p-5">
       <div className="mb-4">
-        <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+        <h3 className="text-sm font-medium text-white flex items-center gap-2">
           {icon}
           {title}
         </h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">{subtitle}</p>
       </div>
       {top.length > 0 && (
-        <div className="flex h-1.5 rounded-full overflow-hidden bg-neutral-800/60 mb-4">
+        <div className="flex h-1.5 rounded-full overflow-hidden bg-white/[0.06] mb-4">
           {top.map((item, i) => (
             <div
               key={i}
@@ -109,14 +109,14 @@ export default function LookthroughSection({
 
   if (loading) {
     return (
-      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+      <div className="bg-theme-card border border-theme rounded-xl p-5">
         <div className="flex items-center gap-2 mb-4">
           <ViewfinderCircleIcon className="w-4 h-4 text-neutral-400" />
-          <h3 className="text-sm font-semibold text-white tracking-tight">Durchblick: Was du wirklich besitzt</h3>
+          <h3 className="text-sm font-medium text-white">Durchblick: Was du wirklich besitzt</h3>
         </div>
         <div className="space-y-2.5 animate-pulse">
           {[...Array(5)].map((_, i) => (
-            <div key={i} className="h-8 rounded-lg bg-neutral-800/50" />
+            <div key={i} className="h-8 rounded-lg bg-white/[0.06]" />
           ))}
         </div>
         <p className="text-[11px] text-neutral-500 mt-4">ETFs werden in ihre Bestandteile zerlegt …</p>
@@ -139,7 +139,7 @@ export default function LookthroughSection({
               const isWarn = insight.severity === 'warn'
               const Icon = isWarn ? ExclamationTriangleIcon : LightBulbIcon
               return (
-                <div key={i} className={`rounded-xl border p-4 ${isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-neutral-800/80 bg-neutral-900/50'}`}>
+                <div key={i} className={`rounded-xl border p-4 ${isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-white/[0.06] bg-white/[0.04]'}`}>
                   <div className="flex items-start gap-3">
                     <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isWarn ? 'text-amber-400' : 'text-teal-300'}`} />
                     <div className="min-w-0">
@@ -153,13 +153,13 @@ export default function LookthroughSection({
           </div>
         )}
 
-        <div className="bg-neutral-900/50 rounded-xl border border-teal-300/15 p-6">
+        <div className="bg-white/[0.04] rounded-xl border border-teal-300/15 p-6">
           <div className="flex items-start gap-4">
             <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-teal-300/20 bg-teal-400/10">
               <LockClosedIcon className="h-5 w-5 text-teal-300" />
             </div>
             <div className="min-w-0">
-              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-sm font-medium text-white flex items-center gap-2">
                 <ViewfinderCircleIcon className="w-4 h-4 text-teal-300" />
                 Durchblick: Was du wirklich besitzt
               </h3>
@@ -203,7 +203,7 @@ export default function LookthroughSection({
                 className={`rounded-xl border p-4 ${
                   isWarn
                     ? 'border-amber-500/20 bg-amber-500/[0.06]'
-                    : 'border-neutral-800/80 bg-neutral-900/50'
+                    : 'border-white/[0.06] bg-white/[0.04]'
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -220,9 +220,9 @@ export default function LookthroughSection({
       )}
 
       {/* ===== Effektive Top-Positionen ===== */}
-      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-        <div className="px-5 py-4 border-b border-neutral-800/80">
-          <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+      <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-white/[0.06]">
+          <h3 className="text-sm font-medium text-white flex items-center gap-2">
             <ViewfinderCircleIcon className="w-4 h-4 text-emerald-400" />
             Durchblick: Was du wirklich besitzt
           </h3>
@@ -237,12 +237,12 @@ export default function LookthroughSection({
             const isOpen = expanded === exposure.symbol
             const hasBreakdown = exposure.etfCount > 0 || !!exposure.superinvestors
             return (
-              <div key={`${exposure.symbol}-${exposure.isin ?? ''}`} className="border-b border-neutral-800/60 last:border-b-0">
+              <div key={`${exposure.symbol}-${exposure.isin ?? ''}`} className="border-b border-white/[0.05] last:border-b-0">
                 <button
                   type="button"
                   onClick={() => hasBreakdown && setExpanded(isOpen ? null : exposure.symbol)}
                   className={`w-full flex items-center justify-between px-5 py-2.5 text-left transition-colors ${
-                    hasBreakdown ? 'hover:bg-neutral-900/50 cursor-pointer' : 'cursor-default'
+                    hasBreakdown ? 'hover:bg-white/[0.04] cursor-pointer' : 'cursor-default'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
@@ -281,7 +281,7 @@ export default function LookthroughSection({
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-3 pt-1 bg-neutral-950/40">
+                  <div className="px-5 pb-3 pt-1 bg-white/[0.03]">
                     {exposure.directValue > 0 && (
                       <div className="flex items-center justify-between py-1.5">
                         <span className="text-[12px] text-neutral-300">Direktbestand</span>
@@ -289,7 +289,7 @@ export default function LookthroughSection({
                       </div>
                     )}
                     {exposure.sources.map(source => (
-                      <div key={source.etfSymbol} className="flex items-center justify-between py-1.5 border-t border-neutral-800/40">
+                      <div key={source.etfSymbol} className="flex items-center justify-between py-1.5 border-t border-white/[0.05]">
                         <span className="text-[12px] text-neutral-400 truncate mr-3">
                           via <span className="text-neutral-300">{source.etfName}</span>
                         </span>
@@ -299,7 +299,7 @@ export default function LookthroughSection({
                       </div>
                     ))}
                     {exposure.superinvestors && (
-                      <div className="pt-2 mt-1 border-t border-neutral-800/40">
+                      <div className="pt-2 mt-1 border-t border-white/[0.05]">
                         <p className="text-[11px] text-teal-300/90 flex items-start gap-1.5 leading-relaxed">
                           <UserGroupIcon className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
                           <span>
@@ -344,7 +344,7 @@ export default function LookthroughSection({
             items={result.sizeExposure.slices}
             icon={<ChartPieIcon className="w-3.5 h-3.5 text-neutral-400" />}
           />
-          <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5 flex flex-col justify-center">
+          <div className="bg-theme-card border border-theme rounded-xl p-5 flex flex-col justify-center">
             <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Gewichtetes KGV</p>
             <p className="text-2xl font-semibold text-white tabular-nums">
               {result.sizeExposure.weightedPE ? result.sizeExposure.weightedPE.toFixed(1) : '—'}
@@ -359,9 +359,9 @@ export default function LookthroughSection({
 
       {/* ===== ETF-Überschneidungen ===== */}
       {result.overlaps.length > 0 && (
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80">
-            <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+        <div className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06]">
+            <h3 className="text-sm font-medium text-white flex items-center gap-2">
               <ArrowsRightLeftIcon className="w-3.5 h-3.5 text-neutral-400" />
               ETF-Überschneidungen
             </h3>
@@ -371,7 +371,7 @@ export default function LookthroughSection({
           </div>
           <div>
             {result.overlaps.slice(0, 6).map((pair, i) => (
-              <div key={i} className="px-5 py-3 border-b border-neutral-800/60 last:border-b-0">
+              <div key={i} className="px-5 py-3 border-b border-white/[0.05] last:border-b-0">
                 <div className="flex items-center justify-between mb-1.5">
                   <p className="text-[12px] text-neutral-200 truncate mr-3">
                     {pair.nameA} <span className="text-neutral-500">×</span> {pair.nameB}
@@ -384,7 +384,7 @@ export default function LookthroughSection({
                     {pair.overlapPercent.toFixed(0)}%
                   </span>
                 </div>
-                <div className="h-1 rounded-full bg-neutral-800/60 overflow-hidden mb-1.5">
+                <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden mb-1.5">
                   <div
                     className={`h-full rounded-full ${
                       pair.overlapPercent >= 60 ? 'bg-red-400/80' : pair.overlapPercent >= 30 ? 'bg-amber-400/80' : 'bg-emerald-400/80'
@@ -402,7 +402,7 @@ export default function LookthroughSection({
       )}
 
       {/* ===== Datengrundlage ===== */}
-      <div className="bg-neutral-900/30 rounded-xl border border-neutral-800/60 px-5 py-4">
+      <div className="bg-white/[0.02] rounded-xl border border-white/[0.05] px-5 py-4">
         <button
           type="button"
           onClick={() => setShowCoverage(!showCoverage)}
@@ -432,7 +432,7 @@ export default function LookthroughSection({
                 </div>
               )
             })}
-            <p className="text-[11px] text-neutral-500 leading-relaxed pt-2 border-t border-neutral-800/60">
+            <p className="text-[11px] text-neutral-500 leading-relaxed pt-2 border-t border-white/[0.05]">
               UCITS-ETFs werden über US-Fonds mit gleichem bzw. ähnlichem Index aufgelöst — die Werte sind
               fundierte Näherungen, keine exakten Fondsdaten und keine Anlageberatung.
             </p>
