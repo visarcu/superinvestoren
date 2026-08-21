@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { getUserToken, listSecurities } from '@/lib/finapi'
+import { getUserToken, listSecurities, accountIdsForConnection } from '@/lib/finapi'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Beta not enabled' }, { status: 403 })
   }
 
-  let body: { portfolioId?: string }
+  let body: { portfolioId?: string; connectionId?: number }
   try {
     body = await request.json()
   } catch {
@@ -60,7 +60,14 @@ export async function POST(request: NextRequest) {
 
   try {
     const token = await getUserToken(row.finapi_user_id, row.finapi_user_password)
-    const securities = await listSecurities(token)
+    // Bei mehreren Bankverbindungen: nur die Wertpapiere DIESER Verbindung
+    // abgleichen, sonst vermischen sich z.B. Scalable- und TR-Bestände
+    let accountIds: number[] | undefined
+    if (body.connectionId) {
+      const { securityIds } = await accountIdsForConnection(token, Number(body.connectionId))
+      accountIds = securityIds
+    }
+    const securities = await listSecurities(token, accountIds)
 
     const { data: holdings } = await supabase
       .from('portfolio_holdings')

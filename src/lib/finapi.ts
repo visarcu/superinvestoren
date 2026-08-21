@@ -120,7 +120,27 @@ export async function listConnections(userToken: string): Promise<FinapiConnecti
   }))
 }
 
+export interface FinapiAccount {
+  id: number
+  bankConnectionId: number | null
+  accountName: string | null
+  accountType: string | null
+  balance: number | null
+}
+
+export async function listAccounts(userToken: string): Promise<FinapiAccount[]> {
+  const res = await api<{ accounts: any[] }>('/api/v2/accounts', userToken)
+  return (res.accounts || []).map(a => ({
+    id: a.id,
+    bankConnectionId: a.bankConnectionId ?? null,
+    accountName: a.accountName ?? null,
+    accountType: a.accountType ?? null,
+    balance: a.balance != null ? Number(a.balance) : null,
+  }))
+}
+
 export interface FinapiSecurity {
+  accountId: number | null
   isin: string | null
   wkn: string | null
   name: string | null
@@ -131,18 +151,36 @@ export interface FinapiSecurity {
   marketValue: number | null
 }
 
-export async function listSecurities(userToken: string): Promise<FinapiSecurity[]> {
-  const res = await api<{ securities: any[] }>('/api/v2/securities?perPage=500', userToken)
-  return (res.securities || []).map(s => ({
-    isin: s.isin ?? null,
-    wkn: s.wkn ?? null,
-    name: s.name ?? null,
-    quantity: s.quantityNominal != null ? Number(s.quantityNominal) : null,
-    entryQuote: s.entryQuote != null ? Number(s.entryQuote) : null,
-    quote: s.quote != null ? Number(s.quote) : null,
-    quoteDate: s.quoteDate ?? null,
-    marketValue: s.marketValue != null ? Number(s.marketValue) : null,
-  }))
+export async function listSecurities(userToken: string, accountIds?: number[]): Promise<FinapiSecurity[]> {
+  const filter = accountIds?.length ? `&accountIds=${accountIds.join(',')}` : ''
+  const res = await api<{ securities: any[] }>(`/api/v2/securities?perPage=500${filter}`, userToken)
+  return (res.securities || [])
+    .map(s => ({
+      accountId: s.accountId ?? null,
+      isin: s.isin ?? null,
+      wkn: s.wkn ?? null,
+      name: s.name ?? null,
+      quantity: s.quantityNominal != null ? Number(s.quantityNominal) : null,
+      entryQuote: s.entryQuote != null ? Number(s.entryQuote) : null,
+      quote: s.quote != null ? Number(s.quote) : null,
+      quoteDate: s.quoteDate ?? null,
+      marketValue: s.marketValue != null ? Number(s.marketValue) : null,
+    }))
+    // Server-Filter + lokale Absicherung (falls accountIds-Param ignoriert wird)
+    .filter(s => !accountIds?.length || (s.accountId != null && accountIds.includes(s.accountId)))
+}
+
+/** Konto-IDs einer Bankverbindung (für gezielten Abgleich/Import) */
+export async function accountIdsForConnection(userToken: string, connectionId: number): Promise<{ securityIds: number[]; checkingBalance: number }> {
+  const accounts = await listAccounts(userToken)
+  const forConnection = accounts.filter(a => a.bankConnectionId === connectionId)
+  const securityIds = forConnection
+    .filter(a => (a.accountType || '').toUpperCase() === 'SECURITY')
+    .map(a => a.id)
+  const checkingBalance = forConnection
+    .filter(a => (a.accountType || '').toUpperCase() !== 'SECURITY')
+    .reduce((sum, a) => sum + (a.balance || 0), 0)
+  return { securityIds, checkingBalance }
 }
 
 /** Bekannte Bank-IDs für den Beta-Sync (aus dem Sandbox-Katalog verifiziert) */

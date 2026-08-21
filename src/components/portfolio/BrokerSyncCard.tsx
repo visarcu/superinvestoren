@@ -1,19 +1,26 @@
 // src/components/portfolio/BrokerSyncCard.tsx
-// Broker-Sync (Beta): Depot per finAPI verbinden und Bestände abgleichen.
+// Broker-Sync (Beta): Depot per finAPI verbinden, Bestände abgleichen und
+// Positionen in ein leeres Depot importieren.
 // Sichtbar nur für Allowlist-Nutzer (Route liefert sonst 403 → Karte
-// rendert nichts). v1 ist bewusst read-only: Abgleich-Vorschau, kein
-// automatisches Schreiben.
+// rendert nichts). Abgleich ist read-only; der Import läuft nur nach
+// explizitem Bestätigungs-Klick und nur in leere Depots.
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { ArrowPathIcon, BuildingLibraryIcon, CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
+interface SyncConnection {
+  id: number
+  bank: string | null
+  updateStatus: string
+}
+
 interface SyncStatus {
   enabled: boolean
   banks: { id: number; name: string }[]
   lastSyncedAt: string | null
-  connections: { id: number; bank: string | null; updateStatus: string }[]
+  connections: SyncConnection[]
 }
 
 interface PreviewRow {
@@ -25,6 +32,13 @@ interface PreviewRow {
   diff: number
   state: 'ok' | 'abweichung' | 'fehlt_in_finclue' | 'fehlt_beim_broker'
   marketValue: number | null
+}
+
+interface ImportResult {
+  portfolioName: string
+  imported: number
+  skipped: { isin: string; name: string | null }[]
+  cashPosition: number
 }
 
 const STATE_LABEL: Record<PreviewRow['state'], { text: string; className: string }> = {
@@ -44,8 +58,11 @@ export default function BrokerSyncCard({
   const [status, setStatus] = useState<SyncStatus | null>(null)
   const [selectedBank, setSelectedBank] = useState<number | null>(null)
   const [connecting, setConnecting] = useState(false)
-  const [previewing, setPreviewing] = useState(false)
-  const [preview, setPreview] = useState<{ portfolioName: string; brokerTotal: number; rows: PreviewRow[] } | null>(null)
+  const [previewingId, setPreviewingId] = useState<number | null>(null)
+  const [preview, setPreview] = useState<{ connectionId: number; portfolioName: string; brokerTotal: number; rows: PreviewRow[] } | null>(null)
+  const [importArmedId, setImportArmedId] = useState<number | null>(null)
+  const [importingId, setImportingId] = useState<number | null>(null)
+  const [importResult, setImportResult] = useState<ImportResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const authedFetch = useCallback(async (path: string, init?: RequestInit) => {
@@ -61,23 +78,17 @@ export default function BrokerSyncCard({
     })
   }, [])
 
-  useEffect(() => {
-    let cancelled = false
-    authedFetch('/api/broker-sync')
-      .then(async res => {
-        if (res.status === 403) return null // kein Beta-Nutzer → Karte ausblenden
-        if (!res.ok) return null
-        return res.json()
-      })
-      .then(data => {
-        if (!cancelled && data) {
-          setStatus(data)
-          if (data.banks?.length) setSelectedBank(data.banks[0].id)
-        }
-      })
-      .catch(() => {})
-    return () => { cancelled = true }
+  const loadStatus = useCallback(async () => {
+    try {
+      const res = await authedFetch('/api/broker-sync')
+      if (res.status === 403 || !res.ok) return // kein Beta-Nutzer → Karte ausblenden
+      const data = await res.json()
+      setStatus(data)
+      if (data.banks?.length) setSelectedBank((prev: number | null) => prev ?? data.banks[0].id)
+    } catch {}
   }, [authedFetch])
+
+  useEffect(() => { loadStatus() }, [loadStatus])
 
   const connect = useCallback(async () => {
     if (!selectedBank || connecting) return
@@ -99,26 +110,52 @@ export default function BrokerSyncCard({
     }
   }, [selectedBank, connecting, authedFetch])
 
-  const runPreview = useCallback(async () => {
-    if (previewing) return
-    setPreviewing(true)
+  const runPreview = useCallback(async (connectionId: number) => {
+    if (previewingId !== null) return
+    setPreviewingId(connectionId)
     setError(null)
+    setImportResult(null)
     try {
       const res = await authedFetch('/api/broker-sync/preview', {
         method: 'POST',
-        body: JSON.stringify({ portfolioId }),
+        body: JSON.stringify({ portfolioId, connectionId }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Fehler')
-      setPreview(data)
-    } catch (err: any) {
-      setError(err?.message === 'Keine Broker-Verbindung'
-        ? 'Noch keine Verbindung — erst „Depot verbinden"'
-        : 'Abgleich fehlgeschlagen — ist die Verbindung fertig eingerichtet?')
+      setPreview({ connectionId, ...data })
+    } catch {
+      setError('Abgleich fehlgeschlagen — ist die Verbindung fertig eingerichtet?')
     } finally {
-      setPreviewing(false)
+      setPreviewingId(null)
     }
-  }, [previewing, portfolioId, authedFetch])
+  }, [previewingId, portfolioId, authedFetch])
+
+  const runImport = useCallback(async (connectionId: number) => {
+    // Zwei-Klick-Bestätigung: erster Klick scharfschalten, zweiter importiert
+    if (importArmedId !== connectionId) {
+      setImportArmedId(connectionId)
+      return
+    }
+    setImportArmedId(null)
+    setImportingId(connectionId)
+    setError(null)
+    try {
+      const res = await authedFetch('/api/broker-sync/import', {
+        method: 'POST',
+        body: JSON.stringify({ portfolioId, connectionId }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Import fehlgeschlagen')
+      setImportResult(data)
+      setPreview(null)
+      // Positionen sind jetzt in der DB — Workspace neu laden
+      setTimeout(() => window.location.reload(), 2500)
+    } catch (err: any) {
+      setError(typeof err?.message === 'string' ? err.message : 'Import fehlgeschlagen')
+    } finally {
+      setImportingId(null)
+    }
+  }, [importArmedId, portfolioId, authedFetch])
 
   // Kein Beta-Zugang oder Status noch nicht geladen → nichts rendern
   if (!status) return null
@@ -135,43 +172,97 @@ export default function BrokerSyncCard({
             <span className="rounded-full border border-teal-300/25 bg-teal-400/10 px-1.5 py-0.5 text-[10px] font-medium text-teal-300">Beta</span>
           </h3>
           <p className="mt-0.5 text-[11px] text-neutral-500">
-            {hasConnection
-              ? `Verbunden: ${status.connections.map(c => c.bank).filter(Boolean).join(', ')} — Zugangsdaten liegen nur bei finAPI (BaFin-lizenziert)`
-              : 'Depot verbinden und Bestände automatisch abgleichen — Zugangsdaten gehen direkt an finAPI, nie an Finclue'}
+            Zugangsdaten gehen direkt an finAPI (BaFin-lizenziert), nie an Finclue
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          {!hasConnection && (
-            <select
-              value={selectedBank ?? ''}
-              onChange={e => setSelectedBank(Number(e.target.value))}
-              className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
-            >
-              {status.banks.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
-            </select>
-          )}
+          <select
+            value={selectedBank ?? ''}
+            onChange={e => setSelectedBank(Number(e.target.value))}
+            className="rounded-lg border border-white/[0.08] bg-white/[0.04] px-2 py-1.5 text-sm text-white outline-none focus:border-teal-300/40"
+          >
+            {status.banks.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
+          </select>
           <button
             type="button"
             onClick={connect}
             disabled={connecting}
             className="rounded-lg border border-teal-300/20 bg-teal-400/10 px-3 py-1.5 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white disabled:opacity-50"
           >
-            {connecting ? 'Öffnet …' : hasConnection ? 'Neu verbinden' : 'Depot verbinden'}
+            {connecting ? 'Öffnet …' : hasConnection ? 'Weitere verbinden' : 'Depot verbinden'}
           </button>
-          <button
-            type="button"
-            onClick={runPreview}
-            disabled={previewing}
-            className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-emerald-400 disabled:opacity-50"
-          >
-            <ArrowPathIcon className={`h-4 w-4 ${previewing ? 'animate-spin' : ''}`} />
-            {previewing ? 'Gleicht ab …' : 'Abgleich anzeigen'}
-          </button>
+          {hasConnection && (
+            <button
+              type="button"
+              onClick={loadStatus}
+              title="Verbindungen aktualisieren"
+              className="rounded-lg border border-white/[0.08] bg-white/[0.04] p-1.5 text-neutral-400 transition-colors hover:text-white"
+            >
+              <ArrowPathIcon className="h-4 w-4" />
+            </button>
+          )}
         </div>
       </div>
 
+      {hasConnection && (
+        <div className="mt-3 space-y-1.5">
+          {status.connections.map(conn => (
+            <div key={conn.id} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2">
+              <div className="flex items-center gap-2 text-sm text-neutral-200">
+                <span className={`h-1.5 w-1.5 rounded-full ${conn.updateStatus === 'READY' ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+                {conn.bank || `Verbindung ${conn.id}`}
+                <span className="text-[11px] text-neutral-500">{conn.updateStatus === 'READY' ? 'bereit' : conn.updateStatus}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => runPreview(conn.id)}
+                  disabled={previewingId !== null}
+                  className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-2.5 py-1 text-[13px] font-semibold text-white transition-colors hover:bg-emerald-400 disabled:opacity-50"
+                >
+                  <ArrowPathIcon className={`h-3.5 w-3.5 ${previewingId === conn.id ? 'animate-spin' : ''}`} />
+                  {previewingId === conn.id ? 'Gleicht ab …' : 'Abgleich'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => runImport(conn.id)}
+                  onBlur={() => setImportArmedId(null)}
+                  disabled={importingId !== null}
+                  className={`rounded-lg border px-2.5 py-1 text-[13px] font-semibold transition-colors disabled:opacity-50 ${
+                    importArmedId === conn.id
+                      ? 'border-amber-400/40 bg-amber-400/15 text-amber-200'
+                      : 'border-white/[0.08] bg-white/[0.04] text-neutral-300 hover:text-white'
+                  }`}
+                >
+                  {importingId === conn.id
+                    ? 'Importiert …'
+                    : importArmedId === conn.id
+                      ? 'Wirklich in dieses Depot importieren?'
+                      : 'In dieses Depot importieren'}
+                </button>
+              </div>
+            </div>
+          ))}
+          <p className="text-[11px] text-neutral-600">
+            Import übernimmt die Broker-Positionen in das aktuell ausgewählte Depot — nur möglich, wenn es leer ist.
+          </p>
+        </div>
+      )}
+
       {error && <p className="mt-2 text-[12px] text-amber-400">{error}</p>}
+
+      {importResult && (
+        <div className="mt-3 rounded-lg border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-[13px] text-emerald-200">
+          <CheckCircleIcon className="mr-1.5 inline h-4 w-4" />
+          {importResult.imported} Positionen in „{importResult.portfolioName}" importiert
+          {importResult.cashPosition !== 0 && <> · Cash: {formatCurrency(importResult.cashPosition)}</>}
+          {importResult.skipped.length > 0 && (
+            <span className="text-amber-300"> · {importResult.skipped.length} übersprungen ({importResult.skipped.map(s => s.name || s.isin).join(', ')})</span>
+          )}
+          <span className="text-emerald-300/70"> — Seite lädt neu …</span>
+        </div>
+      )}
 
       {preview && (
         <div className="mt-4">
