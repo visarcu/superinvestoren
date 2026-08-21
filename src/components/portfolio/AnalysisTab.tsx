@@ -7,6 +7,7 @@ import { type Holding } from '@/hooks/usePortfolio'
 import Logo from '@/components/Logo'
 import LookthroughSection from '@/components/portfolio/LookthroughSection'
 import QuantSection from '@/components/portfolio/QuantSection'
+import AllocationBarList, { ALLOCATION_PALETTE } from '@/components/portfolio/AllocationBarList'
 import { type UseLookthroughState } from '@/hooks/useLookthrough'
 import { isETF, getETFBySymbol } from '@/lib/etfUtils'
 import { getSectorFromTicker, translateSector } from '@/utils/sectorUtils'
@@ -47,7 +48,7 @@ function detectAssetClass(symbol: string, name: string): 'ETF' | 'Aktie' {
   return isEtf ? 'ETF' : 'Aktie'
 }
 
-const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#8b5cf6', '#14b8a6']
+const PALETTE = ALLOCATION_PALETTE
 
 // Wiederverwendbare Aggregations-Liste
 function AggregationCard({
@@ -73,33 +74,8 @@ function AggregationCard({
         </div>
       </div>
 
-      {/* Stacked Bar */}
-      {items.length > 0 && (
-        <div className="flex h-1.5 rounded-full overflow-hidden bg-white/[0.06] mb-4">
-          {items.map((item, i) => (
-            <div
-              key={i}
-              style={{ width: `${item.percent}%`, backgroundColor: item.color }}
-              title={`${item.label}: ${item.percent.toFixed(1)}%`}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Liste */}
-      <div className="space-y-1">
-        {items.map((item, i) => (
-          <div key={i} className="flex items-center justify-between py-1">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <span className="w-2 h-2 rounded-sm flex-shrink-0" style={{ backgroundColor: item.color }} />
-              <span className="text-[12px] text-neutral-200 truncate">{item.label}</span>
-            </div>
-            <div className="text-right flex-shrink-0 ml-3">
-              <span className="text-[12px] font-medium text-white tabular-nums">{item.percent.toFixed(1)}%</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Balken + Liste mit Hover-Sync */}
+      <AllocationBarList items={items} />
     </div>
   )
 }

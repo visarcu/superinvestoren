@@ -23,7 +23,7 @@ import {
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
 
-const PALETTE = ['#10b981', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#8b5cf6', '#14b8a6']
+import AllocationBarList, { ALLOCATION_PALETTE } from '@/components/portfolio/AllocationBarList'
 
 const STATUS_LABEL: Record<EtfCoverageInfo['status'], { text: string; className: string }> = {
   exact: { text: 'zerlegt', className: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
@@ -55,32 +55,14 @@ function SliceCard({
         </h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">{subtitle}</p>
       </div>
-      {top.length > 0 && (
-        <div className="flex h-1.5 rounded-full overflow-hidden bg-white/[0.06] mb-4">
-          {top.map((item, i) => (
-            <div
-              key={i}
-              style={{ width: `${item.percent}%`, backgroundColor: PALETTE[i % PALETTE.length] }}
-              title={`${item.label}: ${item.percent.toFixed(1)}%`}
-            />
-          ))}
-        </div>
-      )}
-      <div className="space-y-1">
-        {top.map((item, i) => (
-          <div key={i} className="flex items-center justify-between py-1">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <span className="w-2 h-2 rounded-sm flex-shrink-0" style={{ backgroundColor: PALETTE[i % PALETTE.length] }} />
-              <span className="text-[12px] text-neutral-200 truncate">
-                {translate ? translateSector(item.label) : item.label}
-              </span>
-            </div>
-            <span className="text-[12px] font-medium text-white tabular-nums flex-shrink-0 ml-3">
-              {item.percent.toFixed(1)}%
-            </span>
-          </div>
-        ))}
-      </div>
+      {/* Balken + Liste mit Hover-Sync */}
+      <AllocationBarList
+        items={top.map((item, i) => ({
+          label: translate ? translateSector(item.label) : item.label,
+          percent: item.percent,
+          color: ALLOCATION_PALETTE[i % ALLOCATION_PALETTE.length],
+        }))}
+      />
     </div>
   )
 }
