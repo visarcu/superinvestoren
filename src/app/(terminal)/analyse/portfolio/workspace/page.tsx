@@ -594,7 +594,18 @@ export default function PortfolioWorkspacePage() {
 
         {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
         {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
-          p.loading ? <ContentSkeleton /> : <EmptyPortfolio />
+          p.loading ? <ContentSkeleton /> : (
+            <>
+              {/* Leeres Einzeldepot: Broker-Sync anbieten — genau hier startet der Import */}
+              {!p.isAllDepotsView && p.portfolio?.id && (
+                <BrokerSyncCard
+                  portfolioId={p.portfolio.id}
+                  formatCurrency={p.formatCurrency}
+                />
+              )}
+              <EmptyPortfolio />
+            </>
+          )
         ) : (
           <>
             {activeView === 'overview' && (
