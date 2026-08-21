@@ -21,6 +21,7 @@ import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
+import BrokerSyncCard from '@/components/portfolio/BrokerSyncCard'
 import { perfColor } from '@/utils/formatters'
 import {
   ArrowLeftIcon,
@@ -733,6 +734,13 @@ export default function PortfolioWorkspacePage() {
               <CashflowTab
                 formatCurrency={p.formatCurrency}
                 portfolioIds={p.allPortfolios.map(depot => depot.id)}
+              />
+            )}
+
+            {activeView === 'positions' && !p.isAllDepotsView && p.portfolio?.id && (
+              <BrokerSyncCard
+                portfolioId={p.portfolio.id}
+                formatCurrency={p.formatCurrency}
               />
             )}
 
