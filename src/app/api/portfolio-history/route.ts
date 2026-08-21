@@ -12,6 +12,23 @@ import {
 import { isETF } from '@/lib/etfUtils'
 import { computeRiskMeasures, annualizedReturnPct, type RiskMeasures } from '@/lib/portfolioRisk'
 import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
+import {
+  computeCorrelationMatrix,
+  computeStressTest,
+  computeAssetBeta,
+  computeFactorRegression,
+  runMonteCarlo,
+  windowReturnPct,
+  dailyReturnMap,
+  STRESS_SCENARIOS,
+  type CorrelationMatrixResult,
+  type MonteCarloResult,
+  type StressTestResult,
+  type FactorRegressionResult,
+  type FactorRow,
+  type QuantSeriesPoint,
+} from '@/lib/portfolioQuant'
+import factorFile from '@/data/factors/developed5FactorsDaily.json'
 
 interface HistoricalDataPoint {
   date: string
@@ -231,12 +248,14 @@ export async function POST(request: NextRequest) {
     const isPremiumUser = hasPremiumAccess(premiumProfile)
 
     const body = await request.json()
-    const { portfolioId, portfolioIds, holdings, cashPosition = 0, days = 30 } = body as {
+    const { portfolioId, portfolioIds, holdings, cashPosition = 0, days = 30, quant = false } = body as {
       portfolioId?: string
       portfolioIds?: string[]
       holdings: HoldingInput[]
       cashPosition: number
       days: number
+      /** Quant-Analysen (Korrelation, Stresstests, Monte-Carlo, Faktoren) mitberechnen — Premium */
+      quant?: boolean
     }
 
     if (!holdings || !Array.isArray(holdings) || holdings.length === 0) {
@@ -834,6 +853,13 @@ export async function POST(request: NextRequest) {
       msciWorld: RiskMeasures | null
     } | null = null
 
+    let quantAnalysis: {
+      correlation: CorrelationMatrixResult | null
+      monteCarlo: MonteCarloResult | null
+      stressTests: StressTestResult[]
+      factorRegression: FactorRegressionResult | null
+    } | null = null
+
     try {
       const [spyHistory, urthHistory, vtHistory] = await Promise.all([
         fetchHistoricalPrices('SPY', fromDate, toDate, true),
@@ -916,13 +942,51 @@ export async function POST(request: NextRequest) {
 
           const portfolioAnnualized = annualize(portfolioTotalPct)
 
+          // Fenster-konforme Flows fürs Schatten-Depot: der Bestand am ersten
+          // Chart-Tag zählt als synthetischer Kauf zum damaligen Marktwert,
+          // danach nur noch Flows innerhalb des Fensters. Ohne das fehlten bei
+          // Teilzeiträumen (1M–1Y) sämtliche früheren Einzahlungen im
+          // Schatten-Depot (der hasPriceData-Grace-Filter wirft sie raus, weil
+          // vor dem Fenster keine Kurse geladen sind) — verglichen wurde dann
+          // "heutiger Gesamtwert" gegen "nur die Flows der letzten Monate",
+          // was Phantom-Beträge in Depotgröße lieferte.
+          const windowFlowSource = useTransactions ? securityTransactions : syntheticTransactions
+          const startShareBySymbol = new Map<string, number>()
+          windowFlowSource.forEach(tx => {
+            if (!tx.symbol || tx.date > firstPortfolioDate) return
+            const qty = Number(tx.quantity) || 0
+            if (tx.type === 'buy' || tx.type === 'transfer_in') {
+              startShareBySymbol.set(tx.symbol, (startShareBySymbol.get(tx.symbol) || 0) + qty)
+            } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
+              startShareBySymbol.set(tx.symbol, (startShareBySymbol.get(tx.symbol) || 0) - qty)
+            }
+          })
+          const syntheticStartBuys: Transaction[] = []
+          startShareBySymbol.forEach((shares, symbol) => {
+            if (shares <= 0.0001) return
+            const price = getPriceForDate(symbol, firstPortfolioDate)
+            if (!price) return
+            syntheticStartBuys.push({
+              date: firstPortfolioDate,
+              symbol,
+              quantity: shares,
+              price: 0,
+              total_value: Math.round(shares * toEurPrice(symbol, price, firstPortfolioDate) * 100) / 100,
+              type: 'buy',
+            })
+          })
+          const windowedBenchmarkTxs = [
+            ...syntheticStartBuys,
+            ...effectiveTwrTransactions.filter(tx => tx.date > firstPortfolioDate),
+          ]
+
           const buildBenchmarkStats = (
             label: string,
             series: Array<{ date: string; close: number }>
           ) => {
             const cmp = calculateBenchmarkComparison({
               chartData,
-              transactions: effectiveTwrTransactions,
+              transactions: windowedBenchmarkTxs,
               benchmarkPrices: series,
             })
             if (!cmp) return null
@@ -980,6 +1044,144 @@ export async function POST(request: NextRequest) {
             }
           }
 
+          // 8b3. Quant-Analysen (Premium, nur auf Anfrage — der Analyse-Tab
+          // setzt quant:true, der Dashboard-Chart nicht): Korrelationsmatrix,
+          // Stresstests, Monte-Carlo-Projektion, Fama-French-Faktorregression.
+          if (quant && isPremiumUser) {
+            try {
+              // Aktuelle Gewichte je Symbol (EUR-Wert am letzten Chart-Tag).
+              // Symbole können in der Alle-Depots-Ansicht mehrfach vorkommen →
+              // Mengen aggregieren.
+              const quantityBySymbol = new Map<string, number>()
+              holdings.forEach(h => {
+                if (!h.symbol || h.quantity <= 0) return
+                quantityBySymbol.set(h.symbol, (quantityBySymbol.get(h.symbol) || 0) + h.quantity)
+              })
+              const weightBySymbol = new Map<string, number>()
+              let securitiesValueEur = 0
+              quantityBySymbol.forEach((qty, symbol) => {
+                const price = getPriceForDate(symbol, lastDate)
+                if (!price) return
+                const valueEur = qty * toEurPrice(symbol, price, lastDate)
+                weightBySymbol.set(symbol, valueEur)
+                securitiesValueEur += valueEur
+              })
+
+              // EUR-Preisserien je gehaltener Position (aus den ohnehin
+              // geladenen Kursen des aktuellen Fensters)
+              const eurSeriesBySymbol = new Map<string, QuantSeriesPoint[]>()
+              weightBySymbol.forEach((_, symbol) => {
+                const priceMap = pricesBySymbol.get(symbol)
+                if (!priceMap || priceMap.size === 0) return
+                const series = Array.from(priceMap.entries())
+                  .sort((a, b) => a[0].localeCompare(b[0]))
+                  .map(([date, close]) => ({ date, value: toEurPrice(symbol, close, date) }))
+                eurSeriesBySymbol.set(symbol, series)
+              })
+
+              const spyEurSeries: QuantSeriesPoint[] = spyBenchmark.map(p => ({ date: p.date, value: p.close }))
+
+              // --- Korrelationsmatrix ---
+              const correlation = computeCorrelationMatrix(eurSeriesBySymbol, weightBySymbol)
+
+              // --- Monte-Carlo auf dem TWR-Wealth-Index ---
+              const wealthSeries: QuantSeriesPoint[] = chartData.map(point => ({
+                date: point.date,
+                value: 1 + (twrByDate.get(point.date) || 0) / 100,
+              }))
+              const monteCarlo = runMonteCarlo(wealthSeries, securitiesValueEur)
+
+              // --- Stresstests: heutige Depotstruktur durch echte Krisenfenster ---
+              // Beta-Fallback vs. S&P 500 (EUR) für Positionen ohne damalige Kurse
+              const betaBySymbol = new Map<string, number | null>()
+              weightBySymbol.forEach((_, symbol) => {
+                const series = eurSeriesBySymbol.get(symbol)
+                betaBySymbol.set(symbol, series ? computeAssetBeta(series, spyEurSeries) : null)
+              })
+
+              const stressTests: StressTestResult[] = []
+              for (const scenario of STRESS_SCENARIOS) {
+                // Fenster-FX separat laden: der EUR/USD-Kurs von damals weicht
+                // deutlich vom heutigen ab (2008 ≈ 1,45 statt ≈ 1,08) — die
+                // aktuelle FX-Map würde die Krisenrenditen verfälschen.
+                const [spyWindow, fxWindow] = await Promise.all([
+                  fetchHistoricalPrices('SPY', scenario.from, scenario.to, true),
+                  fetchHistoricalPrices('EURUSD', scenario.from, scenario.to),
+                ])
+                if (spyWindow.length === 0) continue
+
+                const fxWindowMap = new Map<string, number>()
+                fxWindow.forEach(day => {
+                  if (day.close > 0) fxWindowMap.set(day.date, 1 / day.close)
+                })
+                const windowUsdToEur = (date: string): number =>
+                  fxWindowMap.size > 0 ? getRateForDate(fxWindowMap, date, 0.92) : 1
+
+                const toWindowEurSeries = (symbol: string, history: HistoricalDataPoint[]): QuantSeriesPoint[] =>
+                  history
+                    .filter(d => d.close > 0)
+                    .map(d => ({
+                      date: d.date,
+                      // GBX-Titel: nur Preisrendite (GBP-FX-Historie laden wir
+                      // fürs Fenster nicht — der ÷100-Faktor kürzt sich in der
+                      // Rendite ohnehin raus). USD-Titel: mit Fenster-FX.
+                      value: isEURTicker(symbol) || isGBXTicker(symbol)
+                        ? d.close
+                        : d.close * windowUsdToEur(d.date),
+                    }))
+
+                const marketReturn = windowReturnPct(
+                  toWindowEurSeries('SPY', spyWindow),
+                  scenario.from,
+                  scenario.to,
+                )
+                if (marketReturn === null) continue
+
+                // Fensterkurse der Positionen (max 10 parallel, wie oben)
+                const symbols = Array.from(weightBySymbol.keys())
+                const windowReturnBySymbol = new Map<string, number | null>()
+                for (let i = 0; i < symbols.length; i += batchSize) {
+                  const batch = symbols.slice(i, i + batchSize)
+                  const results = await Promise.all(
+                    batch.map(symbol => fetchHistoricalPrices(symbol, scenario.from, scenario.to))
+                  )
+                  batch.forEach((symbol, index) => {
+                    windowReturnBySymbol.set(
+                      symbol,
+                      windowReturnPct(toWindowEurSeries(symbol, results[index]), scenario.from, scenario.to)
+                    )
+                  })
+                }
+
+                const result = computeStressTest(
+                  scenario,
+                  weightBySymbol,
+                  windowReturnBySymbol,
+                  betaBySymbol,
+                  marketReturn,
+                  securitiesValueEur,
+                )
+                if (result) stressTests.push(result)
+              }
+
+              // --- Fama-French-Faktorregression ---
+              // Die Faktoren sind USD-denominiert → Depot-Wealth in USD
+              // umrechnen, sonst landet der EUR/USD-Effekt im Alpha.
+              const wealthUsdSeries: QuantSeriesPoint[] = wealthSeries.map(p => ({
+                date: p.date,
+                value: p.value / getEURRateForDate(p.date),
+              }))
+              const factorRegression = computeFactorRegression(
+                dailyReturnMap(wealthUsdSeries),
+                factorFile.rows as FactorRow[],
+              )
+
+              quantAnalysis = { correlation, monteCarlo, stressTests, factorRegression }
+            } catch (quantError) {
+              console.error('Error computing quant analysis:', quantError)
+            }
+          }
+
           // 8c. Attribution: Woher kommt die Differenz zum FTSE All-World?
           // Das Schatten-Depot ist linear in den Flows, daher lässt sich der
           // Euro-Gap exakt auf Positionen und Gebühren verteilen. Nicht
@@ -993,10 +1195,13 @@ export async function POST(request: NextRequest) {
             const benchEndPrice = benchPriceAt(lastDate)
 
             if (benchEndPrice > 0) {
+              // Gleiche Fenster-Flows wie der Headline-Vergleich (Startbestand
+              // als synthetischer Kauf + Flows im Fenster) — sonst würde die
+              // Attribution einen anderen Gap verteilen als oben angezeigt.
               const attributionTxsBySymbol = new Map<string, Transaction[]>()
-              const sourceTxs = useTransactions ? securityTransactions : syntheticTransactions
-              sourceTxs.forEach(tx => {
-                if (!tx.symbol) return
+              windowedBenchmarkTxs.forEach(tx => {
+                if (!tx.symbol || tx.symbol === 'CASH') return
+                if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) return
                 if (!attributionTxsBySymbol.has(tx.symbol)) attributionTxsBySymbol.set(tx.symbol, [])
                 attributionTxsBySymbol.get(tx.symbol)!.push(tx)
               })
@@ -1005,6 +1210,7 @@ export async function POST(request: NextRequest) {
               if (useTransactions) {
                 allTransactions.forEach(tx => {
                   if (tx.type !== 'dividend' || !tx.symbol || tx.symbol === 'CASH') return
+                  if (tx.date <= firstPortfolioDate) return
                   if (!attributionTxsBySymbol.has(tx.symbol)) return
                   dividendsBySymbol.set(tx.symbol, (dividendsBySymbol.get(tx.symbol) || 0) + txValue(tx))
                 })
@@ -1145,6 +1351,10 @@ export async function POST(request: NextRequest) {
       // Risiko-Kennzahlen: nur Premium — sonst Locked-Flag fürs UI-Teaser
       riskMeasures,
       riskMeasuresLocked: !isPremiumUser ? true : undefined,
+      // Quant-Analysen (nur wenn per quant:true angefragt): Korrelation,
+      // Stresstests, Monte-Carlo, Faktorregression — Premium-only
+      quant: quantAnalysis,
+      quantLocked: quant && !isPremiumUser ? true : undefined,
       meta: {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,

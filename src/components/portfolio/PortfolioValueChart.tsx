@@ -302,12 +302,18 @@ export default function PortfolioValueChart({
     const diff = headlineBenchmark.diffPaPct ?? headlineBenchmark.diffTotalPct
     const isPa = headlineBenchmark.diffPaPct !== null
     const euro = headlineBenchmark.euroDiff
+    // Euro-Satz nur zeigen, wenn sein Vorzeichen zur Prozent-Aussage passt.
+    // Zeitgewichtete Differenz und geldgewichteter Euro-Betrag können legitim
+    // auseinanderfallen (Timing der Einzahlungen) — dann würde "unterperformt …
+    // zusätzlich eingebracht" nur verwirren. Vorher übernahm der Satz sogar
+    // das %-Vorzeichen und deklarierte positive Beträge als "gekostet".
+    const euroMatchesDiff = euro !== null && Math.abs(euro) >= 10 && (euro >= 0) === (diff >= 0)
     insight = {
       period: formatPeriodLabel(comparison.periodYears),
       diffText: `${formatDiffPct(diff)} ${isPa ? '% p.a.' : 'Prozentpunkte'}`,
       positive: diff >= 0,
       nearZero: Math.abs(diff) < 0.05,
-      euroText: euro !== null && Math.abs(euro) >= 10 ? formatEuroApprox(euro) : null,
+      euroText: euroMatchesDiff ? formatEuroApprox(euro) : null,
     }
   }
 
@@ -375,7 +381,7 @@ export default function PortfolioValueChart({
             onClick={() => setChartView('value')}
             className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
               chartView === 'value'
-                ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.08] dark:text-white'
                 : 'text-theme-muted hover:text-theme-secondary'
             }`}
           >
@@ -385,7 +391,7 @@ export default function PortfolioValueChart({
             onClick={() => setChartView('performance')}
             className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
               chartView === 'performance'
-                ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.08] dark:text-white'
                 : 'text-theme-muted hover:text-theme-secondary'
             }`}
           >
@@ -400,7 +406,7 @@ export default function PortfolioValueChart({
               onClick={() => setSelectedRange(range)}
               className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${
                 selectedRange === range
-                  ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                  ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.08] dark:text-white'
                   : 'text-theme-muted hover:text-theme-secondary'
               }`}
             >
@@ -604,7 +610,7 @@ export default function PortfolioValueChart({
 
       {/* Benchmark-Insight: Was hätte der Welt-ETF gebracht? */}
       {!loading && insight && (
-        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
           <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.18em] text-theme-muted">
             Benchmark-Vergleich
           </p>
@@ -736,7 +742,7 @@ export default function PortfolioValueChart({
 
       {/* ===== Risiko-Kennzahlen (Premium) ===== */}
       {!loading && riskLocked && (
-        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
           <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.18em] text-theme-muted">
             Risiko-Kennzahlen
           </p>
@@ -754,7 +760,7 @@ export default function PortfolioValueChart({
       )}
 
       {!loading && risk && (
-        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
           <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.18em] text-theme-muted">
             Risiko-Kennzahlen
           </p>

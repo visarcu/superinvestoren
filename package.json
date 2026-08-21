@@ -18,6 +18,7 @@
     "fetch-series": "node --experimental-json-modules scripts/fetchSeries.js",
     "fetchNportP": "node --experimental-json-modules scripts/fetchNportP.js",
     "update-holdings": "node scripts/updateHoldingsIndex.js",
+    "update-factors": "tsx scripts/fetchFamaFrench.ts",
     "notify-filings": "node scripts/trigger-filing-notifications.js",
     "update-stocks": "ts-node scripts/update-stocks.ts",
     "resolve-cusips": "tsx scripts/resolve-missing-cusips.ts",
