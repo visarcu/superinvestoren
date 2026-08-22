@@ -28,6 +28,9 @@ import {
   type FactorRow,
   type QuantSeriesPoint,
 } from '@/lib/portfolioQuant'
+import { getInstrumentsForSymbols, resolveSymbolViaSearch } from '@/lib/marketData/instrumentStore'
+import { yahooSymbolFromEodhd } from '@/lib/marketData/symbols'
+import type { Instrument } from '@/lib/marketData/types'
 import factorFile from '@/data/factors/developed5FactorsDaily.json'
 
 interface HistoricalDataPoint {
@@ -97,9 +100,14 @@ async function fetchHistoricalPrices(
   // adjusted=true → dividendenbereinigte Kurse (Total Return) nutzen, sofern
   // die Quelle sie liefert. Wichtig für Benchmarks: Preis-Return würde die
   // Indexrendite um die Dividendenrendite (~1,5–2 % p.a.) unterschätzen.
-  adjusted = false
+  adjusted = false,
+  // Stammdaten-Notierung als letzter Fallback, wenn das rohe Symbol bei
+  // keiner Quelle Daten liefert (Broker-Pseudo-Ticker wie 'MUV2.EU').
+  instrument: Instrument | null = null
 ): Promise<HistoricalDataPoint[]> {
-  const cacheKey = `${symbol}_${fromDate}_${toDate}_${adjusted ? 'adj' : 'raw'}`
+  // Mit/ohne Instrument getrennt cachen — sonst würde das leere Ergebnis des
+  // ersten (instrumentlosen) Versuchs den Fallback-Versuch aushebeln.
+  const cacheKey = `${symbol}_${fromDate}_${toDate}_${adjusted ? 'adj' : 'raw'}${instrument ? '_i' : ''}`
   const cached = historyCache.get(cacheKey)
 
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -215,6 +223,25 @@ async function fetchHistoricalPrices(
     // Versuch 3: Yahoo Finance
     if (historicalData.length === 0) {
       historicalData = await fetchYahooHistorical(symbol)
+    }
+
+    // Versuch 4: Stammdaten. Broker-Ticker wie 'MUV2.EU' (Freedom24) oder
+    // frisch gelernte US-Papiere kennt weder FMP noch Yahoo unter dem rohen
+    // Symbol — die Notierung aus dem Instrument-Master schon. Ohne diesen
+    // Schritt fielen solche Positionen still aus Wert- UND Investiert-Linie
+    // (Dennis' Chart zeigte deshalb "weniger als die Hälfte").
+    if (historicalData.length === 0 && instrument) {
+      const candidates = [
+        instrument.yahooSymbol,
+        yahooSymbolFromEodhd(instrument.eodhdSymbol),
+      ].filter((c): c is string => Boolean(c) && c !== symbol)
+      for (const candidate of [...new Set(candidates)]) {
+        historicalData = await fetchYahooHistorical(candidate)
+        if (historicalData.length > 0) break
+      }
+      if (historicalData.length === 0 && instrument.fmpSymbol && instrument.fmpSymbol !== symbol) {
+        historicalData = await fetchFmpHistorical(instrument.fmpSymbol)
+      }
     }
   }
 
@@ -434,12 +461,34 @@ export async function POST(request: NextRequest) {
     ])]
     const pricesBySymbol = new Map<string, Map<string, number>>()
 
+    // Stammdaten für alle Symbole: liefert für Broker-Pseudo-Ticker ('MUV2.EU')
+    // und gelernte Papiere die echte Notierung + deren Währung. Nur als
+    // Fallback genutzt — wo das rohe Symbol Daten liefert, bleibt alles wie es war.
+    const instrumentsBySymbol = await getInstrumentsForSymbols(uniqueSymbols).catch(() => new Map<string, Instrument>())
+    // Währung der Notierung, über die der Fallback geladen hat (Symbol → 'EUR'|'USD'|'GBX'|…)
+    const priceCurrencyBySymbol = new Map<string, string>()
+
     // Parallel laden (max 10 gleichzeitig)
     const batchSize = 10
     for (let i = 0; i < uniqueSymbols.length; i += batchSize) {
       const batch = uniqueSymbols.slice(i, i + batchSize)
       const results = await Promise.all(
-        batch.map(symbol => fetchHistoricalPrices(symbol, fromDate, toDate))
+        batch.map(async symbol => {
+          const raw = await fetchHistoricalPrices(symbol, fromDate, toDate)
+          if (raw.length > 0) return raw
+          // Rohe Kette leer → Stammdaten-Notierung versuchen; unbekannte
+          // Symbole einmalig über die EODHD-Suche lernen (persistiert).
+          let instrument = instrumentsBySymbol.get(symbol.toUpperCase()) || null
+          if (!instrument) {
+            instrument = await resolveSymbolViaSearch(symbol).catch(() => null)
+          }
+          if (!instrument) return raw
+          const viaInstrument = await fetchHistoricalPrices(symbol, fromDate, toDate, false, instrument)
+          if (viaInstrument.length > 0 && instrument.currency) {
+            priceCurrencyBySymbol.set(symbol, instrument.currency.toUpperCase())
+          }
+          return viaInstrument
+        })
       )
       batch.forEach((symbol, index) => {
         const priceMap = new Map<string, number>()
@@ -451,7 +500,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien und Benchmarks
-    const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s))
+    const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s)) ||
+      [...priceCurrencyBySymbol.values()].some(c => c === 'GBX' || c === 'GBP')
     const eurUsdRateByDate = new Map<string, number>() // date → USD-to-EUR rate
     const gbpEurRateByDate = new Map<string, number>() // date → GBP-to-EUR rate
 
@@ -564,8 +614,18 @@ export async function POST(request: NextRequest) {
       return null
     }
 
-    // Börsenkurs → EUR (gleiche Logik wie im Tages-Loop unten)
+    // Börsenkurs → EUR (gleiche Logik wie im Tages-Loop unten).
+    // Kam der Kurs über die Stammdaten-Notierung (Pseudo-Ticker wie 'MUV2.EU'),
+    // zählt DEREN Währung — die Suffix-Heuristik kennt '.EU' nicht und würde
+    // EUR-Kurse fälschlich als USD umrechnen.
     function toEurPrice(symbol: string, price: number, date: string): number {
+      const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
+      if (instrumentCurrency) {
+        if (instrumentCurrency === 'EUR') return price
+        if (instrumentCurrency === 'GBX') return (price / 100) * getGBPEURRateForDate(date)
+        if (instrumentCurrency === 'GBP') return price * getGBPEURRateForDate(date)
+        return price * getEURRateForDate(date)
+      }
       if (isEURTicker(symbol)) return price
       if (isGBXTicker(symbol)) return (price / 100) * getGBPEURRateForDate(date)
       return price * getEURRateForDate(date)
@@ -1117,18 +1177,21 @@ export async function POST(request: NextRequest) {
                 const windowUsdToEur = (date: string): number =>
                   fxWindowMap.size > 0 ? getRateForDate(fxWindowMap, date, 0.92) : 1
 
-                const toWindowEurSeries = (symbol: string, history: HistoricalDataPoint[]): QuantSeriesPoint[] =>
-                  history
+                const toWindowEurSeries = (symbol: string, history: HistoricalDataPoint[]): QuantSeriesPoint[] => {
+                  const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
+                  const isNonUsd = instrumentCurrency
+                    ? instrumentCurrency !== 'USD'
+                    : isEURTicker(symbol) || isGBXTicker(symbol)
+                  return history
                     .filter(d => d.close > 0)
                     .map(d => ({
                       date: d.date,
                       // GBX-Titel: nur Preisrendite (GBP-FX-Historie laden wir
                       // fürs Fenster nicht — der ÷100-Faktor kürzt sich in der
                       // Rendite ohnehin raus). USD-Titel: mit Fenster-FX.
-                      value: isEURTicker(symbol) || isGBXTicker(symbol)
-                        ? d.close
-                        : d.close * windowUsdToEur(d.date),
+                      value: isNonUsd ? d.close : d.close * windowUsdToEur(d.date),
                     }))
+                }
 
                 const marketReturn = windowReturnPct(
                   toWindowEurSeries('SPY', spyWindow),
@@ -1143,7 +1206,14 @@ export async function POST(request: NextRequest) {
                 for (let i = 0; i < symbols.length; i += batchSize) {
                   const batch = symbols.slice(i, i + batchSize)
                   const results = await Promise.all(
-                    batch.map(symbol => fetchHistoricalPrices(symbol, scenario.from, scenario.to))
+                    batch.map(async symbol => {
+                      const raw = await fetchHistoricalPrices(symbol, scenario.from, scenario.to)
+                      if (raw.length > 0) return raw
+                      const instrument = instrumentsBySymbol.get(symbol.toUpperCase()) || null
+                      return instrument
+                        ? fetchHistoricalPrices(symbol, scenario.from, scenario.to, false, instrument)
+                        : raw
+                    })
                   )
                   batch.forEach((symbol, index) => {
                     windowReturnBySymbol.set(

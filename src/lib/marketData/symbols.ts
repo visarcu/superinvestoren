@@ -119,11 +119,23 @@ export function pseudoSuffixCandidates(symbol: string): string[] {
   return venues.map(v => `${base}${v}`)
 }
 
+// Für Pseudo-Suffixe ('.EU') ist jede europäische Börse ein legitimer
+// Kandidat — der Basis-Code-Filter des Aufrufers stellt sicher, dass es
+// dieselbe Notierungsfamilie bleibt (CSKR.EU darf CSKR.LSE werden, nie CEBJ).
+const EUROPEAN_VENUES = [
+  ...GERMAN_VENUES,
+  'AS', 'PA', 'LSE', 'IL', 'SW', 'VX', 'MI', 'MC', 'VI', 'BR', 'ST', 'CO', 'HE', 'OL', 'LS',
+]
+
 /** Darf `exchange` das angefragte Symbol bedienen? */
 export function isCompatibleExchange(requestedSymbol: string, exchange: string | null | undefined): boolean {
   if (!exchange) return false
   const parts = requestedSymbol.toUpperCase().split('.')
-  const namespace = parts.length > 1 ? SUFFIX_TO_EXCHANGE[parts[parts.length - 1]] : 'US'
+  const suffix = parts.length > 1 ? parts[parts.length - 1] : null
+  if (suffix && PSEUDO_SUFFIX_VENUES[suffix]) {
+    return EUROPEAN_VENUES.includes(exchange.toUpperCase())
+  }
+  const namespace = suffix ? SUFFIX_TO_EXCHANGE[suffix] : 'US'
   if (!namespace) return false
   const allowed = COMPATIBLE_VENUES[namespace]
   if (!allowed) return false
@@ -170,8 +182,11 @@ export function pickPreferredListing<T extends { Code: string; Exchange: string;
     if (match) return match
   }
 
+  // Suffixloser Ticker = US-Namespace (wie in isCompatibleExchange): Wer 'IREN'
+  // hält, hält die NASDAQ-Notierung — auch wenn die ISIN australisch ist.
+  // Sonst landete IREN an der Zweitnotierung F8P.F (illiquide, ohne Kursdaten).
   const isin = hits.find(h => h.ISIN)?.ISIN || ''
-  const order = isin.toUpperCase().startsWith('US')
+  const order = (requestedSymbol && !requestedSymbol.includes('.')) || isin.toUpperCase().startsWith('US')
     ? ['US', 'XETRA', 'F', 'LSE']
     : ['XETRA', 'F', 'AS', 'PA', 'SW', 'LSE', 'US']
 
