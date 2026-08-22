@@ -3,8 +3,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { usePortfolio, type Portfolio } from '@/hooks/usePortfolio'
+import { usePortfolio, type Holding, type Portfolio } from '@/hooks/usePortfolio'
 import { useLookthrough } from '@/hooks/useLookthrough'
+import { useDepotValues } from '@/hooks/useDepotValues'
 import { getBrokerColor, getBrokerDisplayName, brokerTypeToLogoId } from '@/lib/brokerConfig'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 import QuickStats from '@/components/portfolio/QuickStats'
@@ -13,21 +14,37 @@ import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import AnalysisTab from '@/components/portfolio/AnalysisTab'
+import FundamentalTab from '@/components/portfolio/FundamentalTab'
 import AssetsTab from '@/components/portfolio/AssetsTab'
 import AccountsTab from '@/components/portfolio/AccountsTab'
 import CashflowTab from '@/components/portfolio/CashflowTab'
 import QuickTradeEntry from '@/components/portfolio/QuickTradeEntry'
+import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
+import UpcomingDividendsPreview from '@/components/portfolio/UpcomingDividendsPreview'
+import SoldPositions from '@/components/portfolio/SoldPositions'
+import FreshMoneyCard from '@/components/portfolio/FreshMoneyCard'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
+import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
+import PremiumUpgradeModal from '@/components/portfolio/PremiumUpgradeModal'
+import EditPositionModal from '@/components/portfolio/EditPositionModal'
+import TopUpPositionModal from '@/components/portfolio/TopUpPositionModal'
+import CashEditModal from '@/components/portfolio/CashEditModal'
+import BrokerCreditModal from '@/components/portfolio/BrokerCreditModal'
+import RenamePortfolioModal from '@/components/portfolio/RenamePortfolioModal'
+import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import BrokerSyncCard from '@/components/portfolio/BrokerSyncCard'
 import { perfColor } from '@/utils/formatters'
 import {
+  ArrowDownTrayIcon,
   ArrowLeftIcon,
   ArrowPathIcon,
   ArrowsRightLeftIcon,
+  ArrowUpTrayIcon,
   BanknotesIcon,
+  CalculatorIcon,
   CheckIcon,
   ChevronUpDownIcon,
   Cog6ToothIcon,
@@ -38,6 +55,8 @@ import {
   DocumentTextIcon,
   ExclamationTriangleIcon,
   LightBulbIcon,
+  LockClosedIcon,
+  PencilIcon,
   PlusIcon,
   RectangleGroupIcon,
   Squares2X2Icon,
@@ -45,7 +64,7 @@ import {
   WalletIcon,
 } from '@heroicons/react/24/outline'
 
-type WorkspaceView = 'overview' | 'assets' | 'accounts' | 'cashflow' | 'positions' | 'analysis' | 'dividends' | 'transactions' | 'ai'
+type WorkspaceView = 'overview' | 'assets' | 'accounts' | 'cashflow' | 'positions' | 'analysis' | 'fundamental' | 'dividends' | 'transactions' | 'ai'
 
 const ACTIVE_VIEWS: Array<{
   key: WorkspaceView
@@ -58,6 +77,7 @@ const ACTIVE_VIEWS: Array<{
   { key: 'cashflow', label: 'Cashflow', icon: ArrowsRightLeftIcon },
   { key: 'positions', label: 'Positionen', icon: RectangleGroupIcon },
   { key: 'analysis', label: 'Analyse', icon: ChartPieIcon },
+  { key: 'fundamental', label: 'Fundamental', icon: CalculatorIcon },
   { key: 'dividends', label: 'Dividenden', icon: BanknotesIcon },
   { key: 'transactions', label: 'Transaktionen', icon: DocumentTextIcon },
   { key: 'ai', label: 'KI-Analyse', icon: CpuChipIcon },
@@ -70,6 +90,7 @@ type PortfolioNavItem = {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   view?: WorkspaceView
   disabled?: boolean
+  premium?: boolean
 }
 
 const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
@@ -78,12 +99,20 @@ const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
   { key: 'positions', view: 'positions', label: 'Positionen', description: 'Aktien, ETFs und Renditen', icon: RectangleGroupIcon },
   { key: 'accounts', view: 'accounts', label: 'Konten', description: 'Salden und Buchungen per Eingabe', icon: CreditCardIcon },
   { key: 'cashflow', view: 'cashflow', label: 'Cashflow', description: 'Einnahmen und Ausgaben aus Buchungen', icon: ArrowsRightLeftIcon },
-  { key: 'dividends', view: 'dividends', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon },
-  { key: 'transactions', view: 'transactions', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon },
+  { key: 'dividends', view: 'dividends', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon, premium: true },
+  { key: 'transactions', view: 'transactions', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon, premium: true },
   { key: 'analysis', view: 'analysis', label: 'Analyse', description: 'Struktur und Konzentration', icon: ChartPieIcon },
-  { key: 'ai', view: 'ai', label: 'KI-Analyse', description: 'Portfolio-Check', icon: CpuChipIcon },
+  { key: 'fundamental', view: 'fundamental', label: 'Fundamental', description: 'Kennzahlen des Depots, wertgewichtet', icon: CalculatorIcon },
+  { key: 'ai', view: 'ai', label: 'KI-Analyse', description: 'Portfolio-Check', icon: CpuChipIcon, premium: true },
   { key: 'settings', label: 'Einstellungen', description: 'Regeln, Konten, Kategorien', icon: Cog6ToothIcon, disabled: true },
 ]
+
+// Premium-Gating: gleiche Views wie die gesperrten Dashboard-Tabs
+const PREMIUM_VIEW_MESSAGES: Partial<Record<WorkspaceView, string>> = {
+  dividends: 'Dividenden-Übersicht ist ein Premium-Feature. Behalte alle Dividendenzahlungen im Blick.',
+  transactions: 'Portfolio-Historie ist ein Premium-Feature. Verfolge alle deine Transaktionen.',
+  ai: 'KI-Portfolio-Analyse ist ein Premium-Feature. Lass dein Portfolio von unserer KI analysieren.',
+}
 
 function parseView(value: string | null): WorkspaceView {
   return ACTIVE_VIEWS.some(view => view.key === value) ? value as WorkspaceView : 'overview'
@@ -92,10 +121,12 @@ function parseView(value: string | null): WorkspaceView {
 function PortfolioNavigation({
   activeView,
   onOpenView,
+  isPremium,
   compact = false,
 }: {
   activeView: WorkspaceView
   onOpenView: (view: WorkspaceView) => void
+  isPremium: boolean
   compact?: boolean
 }) {
   if (compact) {
@@ -121,6 +152,7 @@ function PortfolioNavigation({
               >
                 <Icon className={`h-4 w-4 ${isActive ? 'text-teal-300' : ''}`} />
                 {item.label}
+                {!isPremium && item.premium && <LockClosedIcon className="h-3 w-3 text-amber-500" />}
               </button>
             )
           })}
@@ -153,6 +185,7 @@ function PortfolioNavigation({
             >
               <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-teal-300' : ''}`} />
               <span className="min-w-0 flex-1 truncate">{item.label}</span>
+              {!isPremium && item.premium && <LockClosedIcon className="h-3 w-3 shrink-0 text-amber-500" />}
               {item.disabled && (
                 <span className="rounded border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 text-[10px] text-neutral-500">
                   Bald
@@ -171,11 +204,15 @@ function DepotSwitcher({
   selectedDepotId,
   selectedDepotName,
   onSelectDepot,
+  depotValues,
+  formatCurrency,
 }: {
   portfolios: Portfolio[]
   selectedDepotId: string
   selectedDepotName: string
   onSelectDepot: (depotId: string) => void
+  depotValues: Map<string, number>
+  formatCurrency: (value: number) => string
 }) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
@@ -252,6 +289,11 @@ function DepotSwitcher({
               const brokerColor = getBrokerColor(depot.broker_type, depot.broker_color)
               const brokerName = getBrokerDisplayName(depot.broker_type, depot.broker_name)
               const logoId = brokerTypeToLogoId(depot.broker_type)
+              const depotValue = depotValues.get(depot.id)
+              const subtitle = [
+                depotValue !== undefined ? formatCurrency(depotValue) : null,
+                brokerName || null,
+              ].filter(Boolean).join(' · ')
               return (
                 <button
                   key={depot.id}
@@ -271,8 +313,8 @@ function DepotSwitcher({
                   )}
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13px] font-medium">{depot.name}</span>
-                    {brokerName && (
-                      <span className="block truncate text-[11px] text-theme-muted">{brokerName}</span>
+                    {subtitle && (
+                      <span className="block truncate text-[11px] tabular-nums text-theme-muted">{subtitle}</span>
                     )}
                   </span>
                   {isActive && <CheckIcon className="h-4 w-4 shrink-0 text-teal-300" />}
@@ -350,7 +392,26 @@ function ContentSkeleton() {
   )
 }
 
-function EmptyPortfolio() {
+// Deep-Link-Schutz: gesperrte View direkt per URL geöffnet → Karte statt Inhalt
+function LockedViewCard({ message }: { message: string }) {
+  return (
+    <div className="bg-theme-card border border-theme rounded-xl p-8 text-center">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/15">
+        <LockClosedIcon className="h-6 w-6 text-amber-400" />
+      </div>
+      <h2 className="mb-2 text-lg font-semibold text-theme-primary">Premium Feature</h2>
+      <p className="mx-auto max-w-md text-sm text-theme-muted">{message}</p>
+      <Link
+        href="/pricing"
+        className="mt-5 inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-400"
+      >
+        Jetzt upgraden
+      </Link>
+    </div>
+  )
+}
+
+function EmptyPortfolio({ onAddActivity }: { onAddActivity: () => void }) {
   return (
     <div className="bg-theme-card border border-theme rounded-xl p-8 text-center">
       <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.06]">
@@ -358,14 +419,16 @@ function EmptyPortfolio() {
       </div>
       <h2 className="mb-2 text-lg font-semibold text-theme-primary">Noch keine Positionen</h2>
       <p className="mx-auto max-w-md text-sm text-theme-muted">
-        Der Workspace ist für Analyse und Navigation gedacht. Neue Aktivitäten legst du aktuell noch im klassischen Dashboard an.
+        Erfasse deinen ersten Kauf, eine Dividende oder einen Depotübertrag — oder verbinde dein Depot per Broker-Sync.
       </p>
-      <Link
-        href="/analyse/portfolio/dashboard?depot=all"
-        className="mt-5 inline-flex items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.05] px-4 py-2 text-sm font-medium text-theme-primary transition-colors hover:bg-white/[0.07]"
+      <button
+        type="button"
+        onClick={onAddActivity}
+        className="mt-5 inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-neutral-200"
       >
-        Zum Dashboard
-      </Link>
+        <PlusIcon className="h-4 w-4" />
+        Aktivität hinzufügen
+      </button>
     </div>
   )
 }
@@ -377,6 +440,36 @@ export default function PortfolioWorkspacePage() {
   const searchParams = useSearchParams()
   const [showRealizedGains, setShowRealizedGains] = useState(false)
   const activeView = parseView(searchParams.get('view'))
+
+  // Positions-Aktionen (Edit/Delete/Top-Up/Cash) — gleiche Modale wie im Dashboard
+  const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
+  const [topUpTarget, setTopUpTarget] = useState<Holding | null>(null)
+  const [showCashModal, setShowCashModal] = useState(false)
+  const [showCreditModal, setShowCreditModal] = useState(false)
+  const [showCSVImport, setShowCSVImport] = useState(false)
+  const [showNameModal, setShowNameModal] = useState(false)
+
+  // Cash-Toggle für die Allokation (mit/ohne Cash im Donut)
+  const [includeCashInAllocation, setIncludeCashInAllocation] = useState(true)
+
+  // Aktivitäts-Dialog (Kauf/Verkauf/Dividende/Cash/Übertrag) — gleicher FAB wie im Dashboard
+  const [activityDialogTrigger, setActivityDialogTrigger] = useState(0)
+  const [showPremiumModal, setShowPremiumModal] = useState(false)
+  const [premiumFeatureMessage, setPremiumFeatureMessage] = useState('')
+
+  const handlePremiumRequired = () => {
+    setPremiumFeatureMessage('Mit Premium kannst du unbegrenzt Positionen zu deinem Portfolio hinzufügen.')
+    setShowPremiumModal(true)
+  }
+
+  const handleDeletePosition = async (holdingId: string) => {
+    if (!confirm('Position wirklich löschen?')) return
+    try {
+      await p.deletePosition(holdingId)
+    } catch {
+      alert('Fehler beim Löschen')
+    }
+  }
 
   // Look-Through einmal für den ganzen Workspace laden (Überblick-Insights +
   // Analyse-Tab teilen sich das Ergebnis)
@@ -405,15 +498,14 @@ export default function PortfolioWorkspacePage() {
   }, [p.holdings, fetchSuperInvestorOverlap])
 
   const selectedDepotId = searchParams.get('depot') || 'all'
-  const dashboardHref = useMemo(() => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete('view')
-    params.delete('sortBy')
-    params.delete('sortDir')
-    params.delete('range')
-    return `/analyse/portfolio/dashboard${params.toString() ? `?${params.toString()}` : ''}`
-  }, [searchParams])
 
+  // Wert pro Depot (für den Switcher-Überblick) — gleiche Logik wie im Dashboard
+  const depotValues = useDepotValues({
+    holdings: p.holdings,
+    allPortfolios: p.allPortfolios,
+    portfolioId: p.portfolio?.id,
+    isAllDepotsView: p.isAllDepotsView,
+  })
   const selectedDepotName = p.isAllDepotsView
     ? 'Alle Depots'
     : p.portfolio?.name || 'Portfolio'
@@ -436,12 +528,19 @@ export default function PortfolioWorkspacePage() {
   }
 
   const openView = (view: WorkspaceView) => {
+    const premiumMessage = PREMIUM_VIEW_MESSAGES[view]
+    if (premiumMessage && !p.isPremium) {
+      setPremiumFeatureMessage(premiumMessage)
+      setShowPremiumModal(true)
+      return
+    }
     const params = new URLSearchParams(searchParams.toString())
     params.set('view', view)
     router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  const noOp = () => undefined
+  // Gesperrte View per Deep-Link geöffnet (Free-User): Inhalt nicht rendern
+  const lockedViewMessage = !p.isPremium ? PREMIUM_VIEW_MESSAGES[activeView] : undefined
 
   if (p.loading && !p.portfolio) return <WorkspaceSkeleton />
   // Noch kein Depot angelegt → gleiches Onboarding wie im Dashboard
@@ -474,38 +573,93 @@ export default function PortfolioWorkspacePage() {
                 selectedDepotId={selectedDepotId}
                 selectedDepotName={selectedDepotName}
                 onSelectDepot={openDepot}
+                depotValues={depotValues}
+                formatCurrency={p.formatCurrency}
               />
             </div>
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
-            <Link
-              href={dashboardHref}
-              className="px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:text-white"
+            <button
+              type="button"
+              onClick={p.refresh}
+              disabled={p.refreshing}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white disabled:opacity-50"
+              title="Kurse aktualisieren"
             >
-              Klassisches Dashboard
-            </Link>
-            <Link
-              href={`/analyse/portfolio/dashboard?depot=${p.depotIdParam}&tab=transactions`}
+              <ArrowPathIcon className={`h-4 w-4 ${p.refreshing ? 'animate-spin' : ''}`} />
+            </button>
+            {!p.isAllDepotsView && (
+              <button
+                type="button"
+                onClick={() => setShowCSVImport(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:text-white"
+                title="CSV-Import"
+              >
+                <ArrowUpTrayIcon className="h-3.5 w-3.5" />
+                Import
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={p.exportToCSV}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
+              title="Als CSV exportieren"
+            >
+              <ArrowDownTrayIcon className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setActivityDialogTrigger(t => t + 1)}
               className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[13px] font-medium text-black transition-colors hover:bg-neutral-200"
             >
               <PlusIcon className="h-3.5 w-3.5" />
               Aktivität
-            </Link>
+            </button>
           </div>
         </div>
       </header>
 
       <div className="flex w-full gap-6 px-6 lg:px-8">
-        <PortfolioNavigation activeView={activeView} onOpenView={openView} />
+        <PortfolioNavigation activeView={activeView} onOpenView={openView} isPremium={p.isPremium} />
 
         <main className="min-w-0 flex-1 py-5 pb-20">
       <div className="w-full">
+        {/* Fehler-Banner mit Retry (Wechselkurs / Kurse) */}
+        {(p.exchangeRateError || p.priceLoadError) && (
+          <div className="mb-4 space-y-2">
+            {p.exchangeRateError && (
+              <div className="flex items-center gap-3 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3">
+                <ExclamationTriangleIcon className="h-5 w-5 flex-shrink-0 text-amber-400" />
+                <p className="flex-1 text-sm text-amber-700 dark:text-amber-200">{p.exchangeRateError}</p>
+                <button onClick={p.loadExchangeRate} className="text-xs text-amber-400 underline hover:text-amber-300">Erneut versuchen</button>
+              </div>
+            )}
+            {p.priceLoadError && (
+              <div className="flex items-center gap-3 rounded-lg border border-red-500/20 bg-red-500/10 p-3">
+                <ExclamationTriangleIcon className="h-5 w-5 flex-shrink-0 text-red-400" />
+                <p className="flex-1 text-sm text-red-700 dark:text-red-200">{p.priceLoadError}</p>
+                <button onClick={() => p.loadPortfolio(p.depotIdParam)} className="text-xs text-red-400 underline hover:text-red-300">Erneut versuchen</button>
+              </div>
+            )}
+          </div>
+        )}
+
         <section className="mb-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h1 className="text-xl font-semibold text-theme-primary">{selectedDepotName}</h1>
+                {!p.isAllDepotsView && (
+                  <button
+                    type="button"
+                    onClick={() => setShowNameModal(true)}
+                    className="self-center rounded-lg p-1 text-neutral-500 opacity-50 transition-all hover:bg-white/[0.06] hover:text-white hover:opacity-100"
+                    title="Depot umbenennen"
+                  >
+                    <PencilIcon className="h-3.5 w-3.5" />
+                  </button>
+                )}
                 <span className="text-sm text-neutral-500">
                   {p.activeInvestments} Position{p.activeInvestments === 1 ? '' : 'en'} · {p.transactions.length} Transaktionen
                 </span>
@@ -590,7 +744,7 @@ export default function PortfolioWorkspacePage() {
           )}
         </section>
 
-        <PortfolioNavigation activeView={activeView} onOpenView={openView} compact />
+        <PortfolioNavigation activeView={activeView} onOpenView={openView} isPremium={p.isPremium} compact />
 
         {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
         {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
@@ -603,9 +757,11 @@ export default function PortfolioWorkspacePage() {
                   formatCurrency={p.formatCurrency}
                 />
               )}
-              <EmptyPortfolio />
+              <EmptyPortfolio onAddActivity={() => setActivityDialogTrigger(t => t + 1)} />
             </>
           )
+        ) : lockedViewMessage ? (
+          <LockedViewCard message={lockedViewMessage} />
         ) : (
           <>
             {activeView === 'overview' && (
@@ -625,6 +781,8 @@ export default function PortfolioWorkspacePage() {
                   totalFees={p.totalFees}
                   formatCurrency={p.formatCurrency}
                   formatPercentage={p.formatPercentage}
+                  onCashClick={p.isAllDepotsView ? undefined : () => setShowCashModal(true)}
+                  onCreditClick={p.isAllDepotsView ? undefined : () => setShowCreditModal(true)}
                   onRealizedClick={() => setShowRealizedGains(true)}
                 />
 
@@ -692,15 +850,56 @@ export default function PortfolioWorkspacePage() {
                     <div className="mb-5 flex items-center justify-between gap-3">
                       <div>
                         <h2 className="text-sm font-medium text-theme-primary">Allokation</h2>
-                        <p className="mt-1 text-xs text-theme-muted">Wertverteilung inklusive Cash</p>
+                        <p className="mt-1 text-xs text-theme-muted">
+                          {includeCashInAllocation && p.cashPosition > 0 ? 'Wertverteilung inklusive Cash' : 'Nur Wertpapiere'}
+                        </p>
                       </div>
+                      {p.cashPosition !== 0 && (
+                        <div className="flex rounded-lg border border-white/[0.08] p-0.5 text-[11px] font-medium">
+                          <button
+                            type="button"
+                            onClick={() => setIncludeCashInAllocation(true)}
+                            className={`rounded-md px-2.5 py-1 transition-colors ${
+                              includeCashInAllocation ? 'bg-white/[0.08] text-white' : 'text-neutral-500 hover:text-white'
+                            }`}
+                          >
+                            Mit Cash
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setIncludeCashInAllocation(false)}
+                            className={`rounded-md px-2.5 py-1 transition-colors ${
+                              !includeCashInAllocation ? 'bg-white/[0.08] text-white' : 'text-neutral-500 hover:text-white'
+                            }`}
+                          >
+                            Ohne Cash
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <PortfolioAllocation
                       holdings={p.holdings}
                       cashPosition={p.cashPosition}
                       totalValue={p.totalValue}
                       formatCurrency={p.formatCurrency}
-                      includeCash
+                      includeCash={includeCashInAllocation && p.cashPosition > 0}
+                    />
+                  </section>
+                </div>
+
+                {/* Anstehende Earnings + Dividenden */}
+                <div className="grid gap-4 lg:grid-cols-2">
+                  <section className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+                    <PortfolioEarningsPreview
+                      symbols={p.holdings.map(h => h.symbol)}
+                      companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
+                    />
+                  </section>
+                  <section className="bg-theme-card border border-theme rounded-xl overflow-hidden">
+                    <UpcomingDividendsPreview
+                      holdings={p.holdings}
+                      formatCurrency={p.formatCurrency}
+                      onShowAll={() => openView('dividends')}
                     />
                   </section>
                 </div>
@@ -713,19 +912,26 @@ export default function PortfolioWorkspacePage() {
                     formatCurrency={p.formatCurrency}
                     formatStockPrice={p.formatStockPrice}
                     formatPercentage={p.formatPercentage}
-                    onEditPosition={noOp}
-                    onDeletePosition={noOp}
-                    onTopUpPosition={noOp}
-                    onEditCash={noOp}
+                    onEditPosition={setEditingPosition}
+                    onDeletePosition={handleDeletePosition}
+                    onTopUpPosition={setTopUpTarget}
+                    onEditCash={() => setShowCashModal(true)}
                     isAllDepotsView={p.isAllDepotsView}
                     portfolioId={p.portfolio?.id}
                     historicalPerfByDepot={p.historicalPerfByDepot}
                     superInvestorCounts={superInvestorCounts}
-                    readOnly
                     returnTabParam="view"
                     returnTabValue="positions"
                   />
                 </section>
+
+                {/* Verkaufte Wertpapiere */}
+                <SoldPositions
+                  transactions={p.transactions}
+                  formatCurrency={p.formatCurrency}
+                  portfolioId={p.portfolio?.id}
+                  totalValue={p.totalValue}
+                />
               </div>
             )}
 
@@ -764,15 +970,14 @@ export default function PortfolioWorkspacePage() {
                   formatCurrency={p.formatCurrency}
                   formatStockPrice={p.formatStockPrice}
                   formatPercentage={p.formatPercentage}
-                  onEditPosition={noOp}
-                  onDeletePosition={noOp}
-                  onTopUpPosition={noOp}
-                  onEditCash={noOp}
+                  onEditPosition={setEditingPosition}
+                  onDeletePosition={handleDeletePosition}
+                  onTopUpPosition={setTopUpTarget}
+                  onEditCash={() => setShowCashModal(true)}
                   isAllDepotsView={p.isAllDepotsView}
                   portfolioId={p.portfolio?.id}
                   historicalPerfByDepot={p.historicalPerfByDepot}
                   superInvestorCounts={superInvestorCounts}
-                  readOnly
                   returnTabParam="view"
                   returnTabValue="positions"
                 />
@@ -789,6 +994,13 @@ export default function PortfolioWorkspacePage() {
                 formatPercentage={p.formatPercentage}
                 portfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
                 portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(depot => depot.id) : undefined}
+              />
+            )}
+
+            {activeView === 'fundamental' && (
+              <FundamentalTab
+                holdings={p.holdings}
+                formatCurrency={p.formatCurrency}
               />
             )}
 
@@ -811,6 +1023,10 @@ export default function PortfolioWorkspacePage() {
                   currentPortfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
                   formatCurrency={p.formatCurrency}
                   onSaved={() => p.loadPortfolio(p.depotIdParam)}
+                />
+                <FreshMoneyCard
+                  transactions={p.transactions}
+                  formatCurrency={p.formatCurrency}
                 />
                 <TransactionsList
                   portfolioId={p.portfolio?.id || ''}
@@ -838,6 +1054,74 @@ export default function PortfolioWorkspacePage() {
         realizedGainByTxId={p.realizedGainByTxId}
         formatCurrency={p.formatCurrency}
         formatPercentage={p.formatPercentage}
+      />
+      <EditPositionModal
+        holding={editingPosition}
+        onClose={() => setEditingPosition(null)}
+        onSave={p.updatePosition}
+      />
+      <TopUpPositionModal
+        holding={topUpTarget}
+        onClose={() => setTopUpTarget(null)}
+        onTopUp={p.topUpPosition}
+        formatStockPrice={p.formatStockPrice}
+      />
+      <CashEditModal
+        open={showCashModal}
+        cashPosition={p.cashPosition}
+        formatCurrency={p.formatCurrency}
+        onClose={() => setShowCashModal(false)}
+        onSave={p.updateCashPosition}
+      />
+      <BrokerCreditModal
+        open={showCreditModal}
+        brokerCredit={p.portfolio?.broker_credit || 0}
+        formatCurrency={p.formatCurrency}
+        onClose={() => setShowCreditModal(false)}
+        onSave={p.updateBrokerCredit}
+      />
+      <RenamePortfolioModal
+        open={showNameModal}
+        currentName={p.portfolio?.name || ''}
+        onClose={() => setShowNameModal(false)}
+        onSave={p.updatePortfolioName}
+      />
+      {p.portfolio?.id && p.portfolio.id !== 'all' && (
+        <CSVImportModal
+          isOpen={showCSVImport}
+          onClose={() => setShowCSVImport(false)}
+          portfolioId={p.portfolio.id}
+          portfolioName={p.portfolio.name}
+          onImportComplete={() => p.loadPortfolio(p.depotIdParam)}
+        />
+      )}
+      <PremiumUpgradeModal
+        isOpen={showPremiumModal}
+        onClose={() => setShowPremiumModal(false)}
+        feature={premiumFeatureMessage}
+      />
+
+      {/* FAB - Aktivität hinzufügen */}
+      <AddActivityFAB
+        portfolioId={p.portfolio?.id || ''}
+        holdings={p.holdings}
+        isPremium={p.isPremium}
+        holdingsCount={p.holdings.length}
+        cashPosition={p.cashPosition}
+        formatCurrency={p.formatCurrency}
+        formatStockPrice={p.formatStockPrice}
+        isAllDepotsView={p.isAllDepotsView}
+        allPortfolios={p.allPortfolios}
+        onAddPosition={p.addPosition}
+        onTopUpPosition={p.topUpPosition}
+        onSellPosition={p.sellPosition}
+        onAddDividend={p.addDividend}
+        onAddCash={p.addCash}
+        onAddTransfer={p.addTransfer}
+        onComplete={() => p.loadPortfolio(p.depotIdParam)}
+        onPremiumRequired={handlePremiumRequired}
+        openTrigger={activityDialogTrigger}
+        onPickDepot={openDepot}
       />
     </div>
   )

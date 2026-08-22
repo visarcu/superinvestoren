@@ -54,6 +54,8 @@ interface AddActivityFABProps {
   onPremiumRequired: () => void
   // Zähler: jede Erhöhung öffnet den Dialog von außen (z.B. aus dem Empty State)
   openTrigger?: number
+  // Depot-Wahl in "Alle Depots": ohne Callback wird zum Dashboard navigiert
+  onPickDepot?: (depotId: string) => void
 }
 
 export default function AddActivityFAB({
@@ -74,7 +76,8 @@ export default function AddActivityFAB({
   onAddTransfer,
   onComplete,
   onPremiumRequired,
-  openTrigger = 0
+  openTrigger = 0,
+  onPickDepot
 }: AddActivityFABProps) {
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -99,7 +102,11 @@ export default function AddActivityFAB({
   const handleSelectDepot = (depotId: string) => {
     setShowDepotPicker(false)
     // Zum gewählten Depot navigieren — dort funktioniert der FAB normal
-    router.push(`/analyse/portfolio/dashboard?depot=${depotId}`)
+    if (onPickDepot) {
+      onPickDepot(depotId)
+    } else {
+      router.push(`/analyse/portfolio/workspace?depot=${depotId}`)
+    }
   }
 
   return (
