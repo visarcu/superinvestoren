@@ -11,7 +11,8 @@ import {
   EllipsisVerticalIcon,
   BriefcaseIcon,
   ChartBarSquareIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  ArchiveBoxXMarkIcon
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import { BrokerBadge } from './PortfolioBrokerSelector'
@@ -39,6 +40,7 @@ interface PortfolioDepotListProps {
   portfolios: PortfolioSummary[]
   onSetDefault: (portfolioId: string) => void
   onDelete: (portfolioId: string) => void
+  onClear: (portfolioId: string) => void
   onEdit: (portfolioId: string) => void
   loading?: boolean
 }
@@ -47,6 +49,7 @@ export default function PortfolioDepotList({
   portfolios,
   onSetDefault,
   onDelete,
+  onClear,
   onEdit,
   loading = false
 }: PortfolioDepotListProps) {
@@ -245,6 +248,18 @@ export default function PortfolioDepotList({
                           </button>
                         )}
                         <hr className="my-1 border-neutral-700" />
+                        <button
+                          onClick={() => {
+                            if (confirm(`Depot "${portfolio.name}" wirklich leeren? Alle Positionen und Transaktionen werden gelöscht, Cash und Kredit auf 0 gesetzt — das Depot selbst bleibt bestehen.`)) {
+                              onClear(portfolio.id)
+                            }
+                            setOpenMenuId(null)
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors"
+                        >
+                          <ArchiveBoxXMarkIcon className="w-4 h-4" />
+                          Leeren
+                        </button>
                         <button
                           onClick={() => {
                             if (confirm(`Depot "${portfolio.name}" wirklich löschen? Alle Positionen und Transaktionen werden gelöscht.`)) {

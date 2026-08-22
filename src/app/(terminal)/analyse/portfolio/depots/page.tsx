@@ -135,6 +135,31 @@ export default function DepotsPage() {
     }
   }
 
+  // Depot leeren: Positionen + Transaktionen löschen, Cash/Kredit auf 0 —
+  // das Depot selbst bleibt bestehen (z.B. vor einem kompletten Re-Import)
+  const handleClear = async (portfolioId: string) => {
+    try {
+      await supabase
+        .from('portfolio_holdings')
+        .delete()
+        .eq('portfolio_id', portfolioId)
+
+      await supabase
+        .from('portfolio_transactions')
+        .delete()
+        .eq('portfolio_id', portfolioId)
+
+      await supabase
+        .from('portfolios')
+        .update({ cash_position: 0, broker_credit: 0 })
+        .eq('id', portfolioId)
+
+      await loadPortfolios()
+    } catch (err) {
+      console.error('Error clearing portfolio:', err)
+    }
+  }
+
   const handleEdit = (portfolioId: string) => {
     router.push(`/analyse/portfolio/depots/${portfolioId}/edit`)
   }
@@ -203,6 +228,7 @@ export default function DepotsPage() {
             portfolios={portfolios}
             onSetDefault={handleSetDefault}
             onDelete={handleDelete}
+            onClear={handleClear}
             onEdit={handleEdit}
             loading={loading}
           />
