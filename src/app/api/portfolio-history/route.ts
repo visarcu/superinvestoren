@@ -828,16 +828,66 @@ export async function POST(request: NextRequest) {
       ? calculateDepositBasedSeries({ chartData, transactions: twrTransactions, cashPosition })
       : null
     const investedMode: 'deposits' | 'cost_basis' = depositSeries ? 'deposits' : 'cost_basis'
-    const displayChartData = depositSeries
-      ? chartData.map(point => {
-          const value = Math.round((depositSeries.valueByDate.get(point.date) ?? point.value) * 100) / 100
-          const invested = Math.round((depositSeries.investedByDate.get(point.date) ?? point.invested) * 100) / 100
-          const performance = invested > 0
-            ? Math.round(((value - invested) / invested) * 10000) / 100
-            : 0
-          return { date: point.date, value, invested, performance }
-        })
-      : chartData
+
+    // 6c. Eingezahltes Kapital je Datum — die zweite Kapital-Linie neben der
+    // Kostenbasis. Mit plausiblem Cash-Ledger sind das die echten Netto-
+    // Einzahlungen; ohne Ledger die Näherung Käufe − Verkaufserlöse −
+    // Dividenden ± Depotüberträge (reinvestierte Erlöse zählen so nicht
+    // doppelt). Nutzer-Wunsch: "nur die Einzahlungen, ohne das Reinvestieren".
+    const contributedByDate = new Map<string, number>()
+    if (depositSeries) {
+      depositSeries.investedByDate.forEach((v, date) => contributedByDate.set(date, v))
+    } else if (useTransactions) {
+      // WICHTIG: nicht twrTransactions nehmen — deren hasPriceData-Filter
+      // basiert auf den Kursen des geladenen Fensters und würfe alle Flows
+      // VOR dem Fenster raus (contributed startete dann fälschlich bei 0).
+      // securityTransactions sind bereits orphan-gefiltert.
+      const contributionTxs = [
+        ...securityTransactions,
+        ...allTransactions.filter(tx => tx.type === 'dividend'),
+      ]
+      const flowByDate = new Map<string, number>()
+      for (const tx of contributionTxs) {
+        const amount = txValue(tx)
+        if (amount <= 0) continue
+        let flow = 0
+        if (tx.type === 'buy') flow = amount + txFee(tx)
+        else if (tx.type === 'sell') flow = -amount
+        else if (tx.type === 'dividend') flow = -amount
+        else if (tx.type === 'transfer_in') flow = amount
+        else if (tx.type === 'transfer_out') flow = -amount
+        if (flow !== 0) flowByDate.set(tx.date, (flowByDate.get(tx.date) || 0) + flow)
+      }
+      // Auf Chart-Daten kumulieren (Merge-Walk): Flows an Tagen ohne
+      // Chart-Punkt (Wochenende) landen im nächsten Punkt, Flows vor dem
+      // ersten Chart-Punkt zählen als Startkapital mit.
+      const flowEntries = [...flowByDate.entries()].sort((a, b) => a[0].localeCompare(b[0]))
+      let running = 0
+      let flowIdx = 0
+      for (const point of chartData) {
+        while (flowIdx < flowEntries.length && flowEntries[flowIdx][0] <= point.date) {
+          running += flowEntries[flowIdx][1]
+          flowIdx++
+        }
+        contributedByDate.set(point.date, Math.max(0, Math.round(running * 100) / 100))
+      }
+    }
+
+    const displayChartData = chartData.map(point => {
+      const costBasis = point.invested
+      const contributed = contributedByDate.size > 0
+        ? Math.round((contributedByDate.get(point.date) ?? costBasis) * 100) / 100
+        : costBasis
+      if (!depositSeries) {
+        return { ...point, costBasis, contributed }
+      }
+      const value = Math.round((depositSeries.valueByDate.get(point.date) ?? point.value) * 100) / 100
+      const invested = Math.round((depositSeries.investedByDate.get(point.date) ?? point.invested) * 100) / 100
+      const performance = invested > 0
+        ? Math.round(((value - invested) / invested) * 10000) / 100
+        : 0
+      return { date: point.date, value, invested, performance, costBasis, contributed }
+    })
 
     // Reduziere Datenpunkte für bessere Performance
     let sampledData = displayChartData

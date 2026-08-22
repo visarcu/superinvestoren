@@ -45,6 +45,10 @@ interface ValueDataPoint {
   date: string
   value: number
   invested: number
+  /** Kaufkosten der gehaltenen Positionen (Durchschnittskostenmethode) */
+  costBasis?: number
+  /** Netto-Einzahlungen — ohne reinvestierte Erlöse/Dividenden */
+  contributed?: number
   label: string
 }
 
@@ -331,12 +335,22 @@ export default function PortfolioValueChart({
   const formatEuro = (value: number) =>
     `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
 
+  // Beide Kapital-Linien nur zeigen, wenn sie sich tatsächlich unterscheiden —
+  // ohne Reinvestitionen liegen Kostenbasis und Einzahlungen aufeinander.
+  const hasCapitalLines = valueData.some(p => p.costBasis !== undefined)
+  const showContributedLine = hasCapitalLines &&
+    valueData.some(p => Math.abs((p.contributed ?? 0) - (p.costBasis ?? 0)) > 1)
+
   const ValueTooltip = ({ active, payload }: any) => {
     if (!active || !payload?.length) return null
     const point = payload[0]?.payload as ValueDataPoint | undefined
     if (!point) return null
 
-    const difference = point.value - point.invested
+    const hasBoth = point.costBasis !== undefined && point.contributed !== undefined
+    // Gesamtgewinn immer gegen die Einzahlungen — die Differenz zur Kostenbasis
+    // wäre nur der unrealisierte Gewinn auf den aktuellen Bestand.
+    const reference = hasBoth ? point.contributed! : point.invested
+    const difference = point.value - reference
     const dateLabel = new Date(point.date).toLocaleDateString('de-DE', {
       day: '2-digit',
       month: '2-digit',
@@ -353,15 +367,28 @@ export default function PortfolioValueChart({
             </span>
             <span className="tabular-nums text-theme-primary">{formatEuro(point.value)}</span>
           </div>
-          <div className="flex min-w-[190px] justify-between gap-5">
-            <span className="text-theme-secondary">
-              {investedMode === 'deposits' ? 'Eingezahltes Kapital' : 'Investiertes Kapital'}
-            </span>
-            <span className="tabular-nums text-theme-primary">{formatEuro(point.invested)}</span>
-          </div>
+          {hasBoth ? (
+            <>
+              <div className="flex min-w-[190px] justify-between gap-5">
+                <span className="text-theme-secondary">Kostenbasis</span>
+                <span className="tabular-nums text-theme-primary">{formatEuro(point.costBasis!)}</span>
+              </div>
+              <div className="flex min-w-[190px] justify-between gap-5">
+                <span className="text-theme-secondary">Eingezahlt</span>
+                <span className="tabular-nums text-theme-primary">{formatEuro(point.contributed!)}</span>
+              </div>
+            </>
+          ) : (
+            <div className="flex min-w-[190px] justify-between gap-5">
+              <span className="text-theme-secondary">
+                {investedMode === 'deposits' ? 'Eingezahltes Kapital' : 'Investiertes Kapital'}
+              </span>
+              <span className="tabular-nums text-theme-primary">{formatEuro(point.invested)}</span>
+            </div>
+          )}
           <div className="flex min-w-[190px] justify-between gap-5 border-t border-theme pt-1">
             <span className="text-theme-secondary">
-              {investedMode === 'deposits' ? 'Gesamtgewinn' : 'Differenz'}
+              {hasBoth || investedMode === 'deposits' ? 'Gesamtgewinn' : 'Differenz'}
             </span>
             <span className={`tabular-nums font-medium ${difference >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {difference >= 0 ? '+' : ''}{formatEuro(difference)}
@@ -498,12 +525,23 @@ export default function PortfolioValueChart({
                 />
                 <Line
                   type="monotone"
-                  dataKey="invested"
+                  dataKey={hasCapitalLines ? 'costBasis' : 'invested'}
                   stroke="var(--chart-axis)"
                   strokeWidth={1}
                   strokeDasharray="5 5"
                   dot={false}
                 />
+                {showContributedLine && (
+                  <Line
+                    type="monotone"
+                    dataKey="contributed"
+                    stroke="#f59e0b"
+                    strokeOpacity={0.65}
+                    strokeWidth={1}
+                    strokeDasharray="2 3"
+                    dot={false}
+                  />
+                )}
               </ComposedChart>
             </ResponsiveContainer>
           ) : (
@@ -587,10 +625,20 @@ export default function PortfolioValueChart({
         )}
       </div>
 
-      {/* Erklärung der gestrichelten Linie (je nach Datenlage) */}
+      {/* Erklärung der Kapital-Linien (je nach Datenlage) */}
       {!loading && chartView === 'value' && valueData.length > 0 && (
         <p className="mt-2 text-[10px] leading-relaxed text-theme-muted/70">
-          {investedMode === 'deposits' ? (
+          {showContributedLine ? (
+            <>
+              Kostenbasis (grau gestrichelt): Kaufkosten der aktuell gehaltenen Positionen inkl.
+              Gebühren (Durchschnittskostenmethode) — reinvestierte Erlöse und Dividenden erhöhen sie.
+              Eingezahlt (gelb gepunktet): dein netto zugeführtes Kapital ohne Reinvestitionen
+              {investedMode === 'deposits'
+                ? ' (aus deinen Ein- und Auszahlungen inkl. Depotüberträgen)'
+                : ' (Näherung aus Käufen abzüglich Verkaufserlösen und Dividenden)'}.
+              Die Differenz zwischen Depotwert und Eingezahlt ist dein Gesamtgewinn.
+            </>
+          ) : investedMode === 'deposits' ? (
             <>
               Eingezahltes Kapital (gestrichelt): Summe deiner Ein- und Auszahlungen inkl.
               Depotüberträgen. Die Differenz zum Depotwert (inkl. Cash) ist dein Gesamtgewinn —
