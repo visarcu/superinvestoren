@@ -33,9 +33,9 @@ export default function NewDepotPage() {
     const raw = searchParams.get('broker')
     return raw && BROKER_CONFIGS.some(b => b.id === raw) ? (raw as BrokerType) : null
   })()
-  // Erstes Depot (Onboarding) → nach dem Anlegen zurück ins Dashboard statt in die Depot-Liste
+  // Erstes Depot (Onboarding) → nach dem Anlegen zurück ins Portfolio statt in die Depot-Liste
   const isFirstDepot = searchParams.get('first') === '1'
-  const backHref = isFirstDepot ? '/analyse/portfolio/dashboard?depot=all' : '/analyse/portfolio/depots'
+  const backHref = isFirstDepot ? '/analyse/portfolio/workspace?depot=all' : '/analyse/portfolio/depots'
 
   const [step, setStep] = useState<Step>(presetBroker ? 2 : 1)
   const [selectedBroker, setSelectedBroker] = useState<BrokerType | null>(presetBroker)
@@ -363,11 +363,7 @@ export default function NewDepotPage() {
 
             <div className="flex flex-col sm:flex-row gap-2 justify-center mt-8 max-w-md mx-auto">
               <Link
-                href={
-                  isFirstDepot
-                    ? `/analyse/portfolio/dashboard?depot=${createdDepotId}`
-                    : `/analyse/portfolio/workspace?depot=${createdDepotId}`
-                }
+                href={`/analyse/portfolio/workspace?depot=${createdDepotId}`}
                 className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 {isFirstDepot ? 'Erste Aktivität erfassen' : 'Zum Depot'}

@@ -71,7 +71,7 @@ export const TOUR_STEPS: TourStep[] = [
   },
   {
     id: 'portfolio',
-    route: '/analyse/portfolio/dashboard',
+    route: '/analyse/portfolio/workspace?depot=all',
     selector: '[data-tour="nav-portfolio"]',
     title: 'Dein Portfolio',
     description: 'Tracke deine Investments, sieh deine Gesamtperformance und verfolge deine Dividenden-Einnahmen — alles an einem Ort.',
