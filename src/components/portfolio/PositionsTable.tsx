@@ -837,9 +837,9 @@ export default function PositionsTable({
         {cashPosition !== 0 && (
           <div
             className={`group grid grid-cols-12 gap-4 items-center py-3 border-b border-white/[0.05] -mx-2 px-2 rounded-lg transition-colors ${
-              readOnly ? '' : 'cursor-pointer hover:bg-white/[0.04]'
+              readOnly || isAllDepotsView ? '' : 'cursor-pointer hover:bg-white/[0.04]'
             }`}
-            onClick={readOnly ? undefined : onEditCash}
+            onClick={readOnly || isAllDepotsView ? undefined : onEditCash}
           >
             {/* Aktie */}
             <div className="col-span-6 sm:col-span-3 flex items-center gap-3">
