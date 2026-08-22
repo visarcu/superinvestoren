@@ -86,6 +86,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   const [isMultiDepot, setIsMultiDepot] = useState(false)
   const [stockName, setStockName] = useState<string>('')
   const [historyInEUR, setHistoryInEUR] = useState(false)
+  // FX-Aufspaltung (Kurs- vs. Währungseffekt) — nur für Nicht-EUR-Positionen
+  // mit gespeicherter Kaufrate berechenbar, aggregiert über alle Depots
+  const [fxSplit, setFxSplit] = useState<{ plExclFx: number; plFromFx: number } | null>(null)
 
   const tickerCurrency = useMemo(() => detectTickerCurrency(ticker), [ticker])
   const isEURStock = tickerCurrency === 'EUR'
@@ -222,6 +225,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
         // Transaktionen laden je nach Modus
         const isAll = portfolioId === 'all' || !portfolioId
+        let fxPortfolioIds: string[] = []
 
         if (isAll) {
           // Multi-Depot: Alle Portfolios des Users laden
@@ -234,6 +238,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             .eq('user_id', user.id)
 
           if (!portfolios || cancelled) return
+          fxPortfolioIds = portfolios.map(p => p.id)
 
           const breakdowns: DepotBreakdown[] = []
           const allTxs: FullTransaction[] = []
@@ -307,6 +312,37 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           }
 
           setIsMultiDepot(false)
+          if (portfolioId) fxPortfolioIds = [portfolioId]
+        }
+
+        // FX-Aufspaltung: gleiche Rechnung wie usePortfolio (Kaufkurs in
+        // Quote-Währung rekonstruieren, Kurs- und Währungsanteil trennen)
+        const currentFxRate = isEURStock ? null : isGBXStock ? gbpEurRateResult : eurRateResult
+        if (currentFxRate && currentFxRate > 0 && currentPriceEUR > 0 && fxPortfolioIds.length > 0) {
+          const { data: holdRows } = await supabase
+            .from('portfolio_holdings')
+            .select('quantity, purchase_price, purchase_fx_rate')
+            .in('portfolio_id', fxPortfolioIds)
+            .eq('symbol', ticker)
+
+          if (cancelled) return
+
+          const effectiveApiPrice = currentPriceEUR / currentFxRate
+          let exclSum = 0
+          let fromSum = 0
+          let hasAny = false
+          for (const row of holdRows || []) {
+            const purchaseFxRate = row.purchase_fx_rate ? Number(row.purchase_fx_rate) : null
+            const quantity = Number(row.quantity) || 0
+            if (!purchaseFxRate || purchaseFxRate <= 0 || quantity <= 0) continue
+            const purchasePriceOrig = (Number(row.purchase_price) || 0) / purchaseFxRate
+            exclSum += (effectiveApiPrice - purchasePriceOrig) * quantity * purchaseFxRate
+            fromSum += effectiveApiPrice * quantity * (currentFxRate - purchaseFxRate)
+            hasAny = true
+          }
+          setFxSplit(hasAny ? { plExclFx: exclSum, plFromFx: fromSum } : null)
+        } else {
+          setFxSplit(null)
         }
 
         // Marker generieren (aus allTransactions oder gerade geladenen txs)
@@ -637,6 +673,33 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           </div>
         </div>
       )}
+
+      {/* Rendite-Aufschlüsselung: Kurs-Performance vs. Währungs-Effekt */}
+      {fxSplit && Math.abs(fxSplit.plFromFx) > 0.01 && (
+        <section className="bg-theme-card border border-theme rounded-xl p-5">
+          <div className="mb-3 flex items-baseline gap-2">
+            <h3 className="text-[13px] font-semibold text-theme-primary tracking-tight">Rendite-Aufschlüsselung</h3>
+            <span className="text-[10px] text-neutral-500">Aktienkurs vs. Währung</span>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="rounded-lg border border-theme bg-theme-secondary px-4 py-3">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Kurs-Performance</p>
+              <p className={`text-lg font-semibold tabular-nums ${perfColor(fxSplit.plExclFx)}`}>
+                {fxSplit.plExclFx >= 0 ? '+' : ''}{formatCurrency(fxSplit.plExclFx)}
+              </p>
+              <p className="mt-0.5 text-[10px] text-neutral-500">Wenn der Wechselkurs seit dem Kauf gleich geblieben wäre</p>
+            </div>
+            <div className="rounded-lg border border-theme bg-theme-secondary px-4 py-3">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Währungs-Effekt</p>
+              <p className={`text-lg font-semibold tabular-nums ${perfColor(fxSplit.plFromFx)}`}>
+                {fxSplit.plFromFx >= 0 ? '+' : ''}{formatCurrency(fxSplit.plFromFx)}
+              </p>
+              <p className="mt-0.5 text-[10px] text-neutral-500">Nur durch die Wechselkurs-Bewegung seit dem Kauf</p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Gebühren / Orderkosten */}
       {(() => {
         const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
