@@ -40,6 +40,12 @@ const FX_PAIRS: Record<string, { fmpSymbol: string; invert: boolean }> = {
   'EUR_CAD': { fmpSymbol: 'CADEUR', invert: true },
   'AUD_EUR': { fmpSymbol: 'AUDEUR', invert: false },
   'EUR_AUD': { fmpSymbol: 'AUDEUR', invert: true },
+  'SEK_EUR': { fmpSymbol: 'EURSEK', invert: true },
+  'EUR_SEK': { fmpSymbol: 'EURSEK', invert: false },
+  'DKK_EUR': { fmpSymbol: 'EURDKK', invert: true },
+  'EUR_DKK': { fmpSymbol: 'EURDKK', invert: false },
+  'NOK_EUR': { fmpSymbol: 'EURNOK', invert: true },
+  'EUR_NOK': { fmpSymbol: 'EURNOK', invert: false },
 }
 
 export async function getExchangeRate(fromCurrency: string, toCurrency: string): Promise<number | null> {

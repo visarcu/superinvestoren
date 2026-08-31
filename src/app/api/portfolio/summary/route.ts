@@ -117,10 +117,16 @@ export async function GET(request: NextRequest) {
       console.warn('[portfolio/summary] Kein Kurs für:', missingQuotes.join(', '))
     }
 
-    // 5. Get exchange rates
+    // 5. Get exchange rates — für ALLE vorkommenden Quote-Währungen
+    // (JPY/CHF/CAD/… wurden vorher nie konvertiert: Tokio-Kurse in Yen
+    // landeten 1:1 als Euro im Depotwert)
     const currencies = new Set(holdingsList.map((h: any) => detectTickerCurrency(h.symbol)))
-    const usdRate = currencies.has('USD') ? await getRate('USD', 'EUR') : null
-    const gbpRate = currencies.has('GBP') ? await getRate('GBP', 'EUR') : null
+    const rateEntries = await Promise.all(
+      [...currencies].filter(c => c !== 'EUR').map(async c => [c, await getRate(c, 'EUR')] as const)
+    )
+    const byCurrency: Record<string, number | null> = Object.fromEntries(rateEntries)
+    const usdRate = byCurrency['USD'] ?? null
+    const gbpRate = byCurrency['GBP'] ?? null
 
     // 6. Calculate values
     let stockValue = 0
@@ -130,7 +136,7 @@ export async function GET(request: NextRequest) {
       const tickerCur = detectTickerCurrency(h.symbol)
       // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert,
       // GBP kommt als GBX/Pence → ÷100 × Rate, USD × Rate, sonst unkonvertiert).
-      const priceEUR = convertPriceToEur(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate })
+      const priceEUR = convertPriceToEur(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate, byCurrency })
 
       const qty = h.quantity || 0
       const value = priceEUR * qty

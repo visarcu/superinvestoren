@@ -37,13 +37,16 @@ export interface StockQuote {
   }
   
   // Erkennt die Währung anhand des Ticker-Suffixes
-  export function detectTickerCurrency(ticker: string): 'EUR' | 'USD' | 'GBP' | 'JPY' | 'CHF' | 'CAD' | 'AUD' {
-    if (ticker.match(/\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i)) return 'EUR'
+  export function detectTickerCurrency(ticker: string): 'EUR' | 'USD' | 'GBP' | 'JPY' | 'CHF' | 'CAD' | 'AUD' | 'SEK' | 'DKK' | 'NOK' {
+    if (ticker.match(/\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|HE|PR|ZU|F)$/i)) return 'EUR'
     if (ticker.endsWith('.L')) return 'GBP'
     if (ticker.endsWith('.TO') || ticker.endsWith('.V')) return 'CAD'
     if (ticker.endsWith('.T')) return 'JPY'
     if (ticker.endsWith('.SW') || ticker.endsWith('.S')) return 'CHF'
     if (ticker.endsWith('.AX')) return 'AUD'
+    if (ticker.endsWith('.ST')) return 'SEK'
+    if (ticker.endsWith('.CO') || ticker.endsWith('.CP')) return 'DKK'
+    if (ticker.endsWith('.OL')) return 'NOK'
     return 'USD'
   }
 

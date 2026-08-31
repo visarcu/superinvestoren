@@ -109,7 +109,7 @@ function formatShares(quantity: number): string {
 }
 
 // EUR-Wechselkurs (EUR pro Einheit Fremdwährung) serverseitig über die API-Route holen.
-async function getEurRate(from: 'USD' | 'GBP'): Promise<number | null> {
+async function getEurRate(from: string): Promise<number | null> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL || 'https://finclue.de'}/api/exchange-rate?from=${from}&to=EUR`
@@ -510,8 +510,13 @@ async function handleWeeklyPortfolioReport() {
     // Wechselkurse einmal holen — FMP liefert Kurse in Börsenwährung (USD, GBX/Pence
     // bei .L, EUR bei .DE); für den Depotwert muss alles nach EUR umgerechnet werden.
     const currencies = new Set(allSymbols.map(s => detectTickerCurrency(s)))
-    const usdToEurRate = currencies.has('USD') ? await getEurRate('USD') : null
-    const gbpToEurRate = currencies.has('GBP') ? await getEurRate('GBP') : null
+    const fxEntries = await Promise.all(
+      [...currencies].filter(c => c !== 'EUR').map(async c => [c, await getEurRate(c)] as const)
+    )
+    const byCurrency: Record<string, number | null> = Object.fromEntries(fxEntries)
+    const usdToEurRate = byCurrency['USD'] ?? null
+    const gbpToEurRate = byCurrency['GBP'] ?? null
+    const eurRates = { usdToEurRate, gbpToEurRate, byCurrency }
 
     // 6. Earnings preview for next week — DB-First aus earningsCalendar-Tabelle
     let earningsCalendar: EarningsPreviewItem[] = []
@@ -560,8 +565,8 @@ async function handleWeeklyPortfolioReport() {
         // wöchentliche Prozent-Veränderung unverändert = reine Kursbewegung bleibt).
         const currency = detectTickerCurrency(symbol)
         const rawPreviousClose = quote.previousClose ?? (quote.price / (1 + quote.changesPercentage / 100))
-        const currentPrice = convertPriceToEur(quote.price, currency, { usdToEurRate, gbpToEurRate })
-        const previousClose = convertPriceToEur(rawPreviousClose, currency, { usdToEurRate, gbpToEurRate })
+        const currentPrice = convertPriceToEur(quote.price, currency, eurRates)
+        const previousClose = convertPriceToEur(rawPreviousClose, currency, eurRates)
         const currentValue = quantity * currentPrice
         const previousValue = quantity * previousClose
         const weeklyChangeAbs = currentValue - previousValue

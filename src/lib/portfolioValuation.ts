@@ -21,21 +21,33 @@ export type ValuationHolding = {
 
 export type DepotValuation = { value: number; cost: number; count: number }
 
+export type EurRates = {
+  usdToEurRate: number | null
+  gbpToEurRate: number | null
+  /** Weitere Quote-Währungen (JPY, CHF, CAD, AUD, …) → EUR pro Einheit */
+  byCurrency?: Record<string, number | null>
+}
+
 // Kurs (Börsenwährung) in EUR umrechnen.
-// EUR: unverändert · GBP (.L, kommt als GBX/Pence): ÷100 × Rate · USD: × Rate · sonst: unkonvertiert.
+// EUR: unverändert · GBP (.L, kommt als GBX/Pence): ÷100 × Rate · USD: × Rate ·
+// sonst (JPY/CHF/CAD/AUD …): × Rate aus byCurrency. Ohne Rate unkonvertiert —
+// besser als raten, aber der Aufrufer sollte die Raten mitliefern: ein
+// JPY-Kurs "unkonvertiert" wäre ~170× zu hoch (Tokio notiert vierstellig).
 export function convertPriceToEur(
   rawPrice: number,
   currency: string,
-  rates: { usdToEurRate: number | null; gbpToEurRate: number | null }
+  rates: EurRates
 ): number {
   if (currency === 'EUR') return rawPrice
   if (currency === 'GBP' && rates.gbpToEurRate) return (rawPrice / 100) * rates.gbpToEurRate
   if (currency === 'USD' && rates.usdToEurRate) return rawPrice * rates.usdToEurRate
+  const rate = rates.byCurrency?.[currency]
+  if (rate && rate > 0) return rawPrice * rate
   return rawPrice
 }
 
 // EUR-Wechselkurs (EUR pro Einheit Fremdwährung) über die API-Route holen.
-export async function fetchEurRate(from: 'USD' | 'GBP'): Promise<number | null> {
+export async function fetchEurRate(from: string): Promise<number | null> {
   try {
     const res = await fetch(`/api/exchange-rate?from=${from}&to=EUR`)
     if (res.ok) {
@@ -44,6 +56,21 @@ export async function fetchEurRate(from: 'USD' | 'GBP'): Promise<number | null> 
     }
   } catch { /* Fallback: keine Umrechnung */ }
   return null
+}
+
+/** Alle EUR-Raten für die vorkommenden Quote-Währungen parallel laden. */
+export async function fetchEurRatesFor(currencies: Iterable<string>): Promise<EurRates> {
+  const unique = [...new Set(currencies)].filter(c => c && c !== 'EUR')
+  const entries = await Promise.all(
+    unique.map(async currency => [currency, await fetchEurRate(currency)] as const)
+  )
+  const byCurrency: Record<string, number | null> = {}
+  for (const [currency, rate] of entries) byCurrency[currency] = rate
+  return {
+    usdToEurRate: byCurrency['USD'] ?? null,
+    gbpToEurRate: byCurrency['GBP'] ?? null,
+    byCurrency,
+  }
 }
 
 // Bewertet Holdings je Depot in EUR. Reihenfolge Live-Kurs → gespeicherter
@@ -75,8 +102,7 @@ export async function valuateHoldingsByPortfolio(
     }
   } catch { /* Fallback: current_price / Einstand */ }
 
-  const usdToEurRate = currencies.has('USD') ? await fetchEurRate('USD') : null
-  const gbpToEurRate = currencies.has('GBP') ? await fetchEurRate('GBP') : null
+  const rates = await fetchEurRatesFor(currencies)
 
   for (const h of holdings) {
     const qty = Number(h.quantity) || 0
@@ -87,7 +113,7 @@ export async function valuateHoldingsByPortfolio(
 
     // Marktwert je Anteil in EUR; ohne Kurs Fallback auf Einstandspreis (bereits EUR)
     const priceEur = rawPrice
-      ? convertPriceToEur(rawPrice, detectTickerCurrency(h.symbol), { usdToEurRate, gbpToEurRate })
+      ? convertPriceToEur(rawPrice, detectTickerCurrency(h.symbol), rates)
       : purchasePrice
 
     const entry = result.get(h.portfolio_id) || { value: 0, cost: 0, count: 0 }
