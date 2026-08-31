@@ -36,6 +36,7 @@ import RenamePortfolioModal from '@/components/portfolio/RenamePortfolioModal'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import BrokerSyncCard from '@/components/portfolio/BrokerSyncCard'
+import T212SyncCard from '@/components/portfolio/T212SyncCard'
 import { perfColor } from '@/utils/formatters'
 import {
   ArrowDownTrayIcon,
@@ -752,10 +753,16 @@ export default function PortfolioWorkspacePage() {
             <>
               {/* Leeres Einzeldepot: Broker-Sync anbieten — genau hier startet der Import */}
               {!p.isAllDepotsView && p.portfolio?.id && (
-                <BrokerSyncCard
-                  portfolioId={p.portfolio.id}
-                  formatCurrency={p.formatCurrency}
-                />
+                <>
+                  <BrokerSyncCard
+                    portfolioId={p.portfolio.id}
+                    formatCurrency={p.formatCurrency}
+                  />
+                  <T212SyncCard
+                    portfolioId={p.portfolio.id}
+                    formatCurrency={p.formatCurrency}
+                  />
+                </>
               )}
               <EmptyPortfolio onAddActivity={() => setActivityDialogTrigger(t => t + 1)} />
             </>
@@ -955,10 +962,16 @@ export default function PortfolioWorkspacePage() {
             )}
 
             {activeView === 'positions' && !p.isAllDepotsView && p.portfolio?.id && (
-              <BrokerSyncCard
-                portfolioId={p.portfolio.id}
-                formatCurrency={p.formatCurrency}
-              />
+              <>
+                <BrokerSyncCard
+                  portfolioId={p.portfolio.id}
+                  formatCurrency={p.formatCurrency}
+                />
+                <T212SyncCard
+                  portfolioId={p.portfolio.id}
+                  formatCurrency={p.formatCurrency}
+                />
+              </>
             )}
 
             {activeView === 'positions' && (
