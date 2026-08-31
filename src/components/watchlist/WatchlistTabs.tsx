@@ -29,19 +29,21 @@ function InlineNameInput({
 }) {
   const [value, setValue] = useState(initial)
   const inputRef = useRef<HTMLInputElement>(null)
+  // Verhindert Doppel-Feuern (Enter löst Submit aus, danach feuert noch Blur)
+  const doneRef = useRef(false)
 
   useEffect(() => {
     inputRef.current?.focus()
     inputRef.current?.select()
   }, [])
 
-  const submit = () => {
+  // Enter/Blur übernehmen den Namen (wenn nicht leer), Escape bricht ab
+  const finish = (commit: boolean) => {
+    if (doneRef.current) return
+    doneRef.current = true
     const name = value.trim()
-    if (name.length === 0) {
-      onCancel()
-      return
-    }
-    onSubmit(name)
+    if (commit && name.length > 0) onSubmit(name)
+    else onCancel()
   }
 
   return (
@@ -50,13 +52,13 @@ function InlineNameInput({
       value={value}
       onChange={e => setValue(e.target.value)}
       onKeyDown={e => {
-        if (e.key === 'Enter') submit()
-        if (e.key === 'Escape') onCancel()
+        if (e.key === 'Enter') finish(true)
+        if (e.key === 'Escape') finish(false)
       }}
-      onBlur={onCancel}
+      onBlur={() => finish(true)}
       maxLength={40}
       placeholder="Name der Liste"
-      className="h-8 w-36 px-3 rounded-full bg-white/[0.06] border border-white/[0.12] text-[12px] text-white placeholder-white/25 outline-none focus:border-white/25"
+      className="h-8 w-40 px-3.5 rounded-full bg-white/[0.06] border border-white/[0.12] text-[12px] text-white placeholder-white/25 outline-none focus-visible:outline-none focus:border-emerald-500/50"
     />
   )
 }

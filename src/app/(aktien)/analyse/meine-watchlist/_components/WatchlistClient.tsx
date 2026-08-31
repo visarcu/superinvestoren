@@ -73,6 +73,7 @@ export default function WatchlistClient() {
 
         if (cancelled) return
 
+        if (groupsRes.error) console.error('[WatchlistClient] groups load error:', groupsRes.error)
         setGroups(groupsRes.data ?? [])
         setIsPremium(hasPremiumAccess(profileRes.data))
 
@@ -251,7 +252,10 @@ export default function WatchlistClient() {
         .single()
       if (error) {
         if (error.code === '23505') alert(`Eine Liste namens "${name}" existiert bereits.`)
-        else console.error('[WatchlistClient] create group error:', error)
+        else {
+          console.error('[WatchlistClient] create group error:', error)
+          alert(`Liste konnte nicht angelegt werden: ${error.message}`)
+        }
         return
       }
       setGroups(prev => [...prev, data])
@@ -270,7 +274,10 @@ export default function WatchlistClient() {
       .eq('user_id', user.id)
     if (error) {
       if (error.code === '23505') alert(`Eine Liste namens "${name}" existiert bereits.`)
-      else console.error('[WatchlistClient] rename group error:', error)
+      else {
+        console.error('[WatchlistClient] rename group error:', error)
+        alert(`Liste konnte nicht umbenannt werden: ${error.message}`)
+      }
       return
     }
     setGroups(prev => prev.map(g => (g.id === id ? { ...g, name } : g)))
@@ -323,7 +330,10 @@ export default function WatchlistClient() {
           .select('id, ticker, created_at, group_id')
           .single()
         if (error) {
-          if (error.code !== '23505') console.error('[WatchlistClient] add to group error:', error)
+          if (error.code !== '23505') {
+            console.error('[WatchlistClient] add to group error:', error)
+            alert(`Konnte nicht zur Liste hinzugefügt werden: ${error.message}`)
+          }
           return
         }
         setItems(prev => [data, ...prev])
