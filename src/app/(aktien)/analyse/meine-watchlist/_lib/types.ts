@@ -4,7 +4,11 @@ export interface WatchlistItem {
   id: string
   ticker: string
   created_at: string
+  // null = Standard-Watchlist ("Alle"), sonst Zuordnung zu einer benannten Liste
+  group_id: string | null
 }
+
+export type { WatchlistGroup } from '@/components/watchlist/types'
 
 export interface StockData {
   ticker: string

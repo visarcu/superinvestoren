@@ -153,13 +153,18 @@ async function handleWatchlistCheck(queryTestUserId: string | null = null) {
           continue
         }
 
-        totalTickersChecked += watchlistItems.length
+        // Ein Ticker kann in mehreren Listen liegen → nur einmal prüfen
+        const uniqueItems = Array.from(new Set(watchlistItems.map(w => w.ticker))).map(ticker => ({
+          ticker,
+        }))
+
+        totalTickersChecked += uniqueItems.length
 
         const dippedStocks = []
         const inAppNotificationsToCreate = []
 
         // 3. Für jeden Ticker: Aktuellen Kurs prüfen
-        for (const item of watchlistItems) {
+        for (const item of uniqueItems) {
           try {
             // FMP API Call
             const res = await fetch(

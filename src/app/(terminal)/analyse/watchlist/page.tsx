@@ -16,11 +16,17 @@ import {
 } from '@heroicons/react/24/outline';
 import Logo from '@/components/Logo';
 import { fmtNum, fmtPercent, fmtVolume } from '@/utils/formatters';
+import { hasPremiumAccess } from '@/lib/premiumAccess';
+import WatchlistTabs from '@/components/watchlist/WatchlistTabs';
+import WatchlistItemMenu from '@/components/watchlist/WatchlistItemMenu';
+import type { WatchlistGroup } from '@/components/watchlist/types';
 
 interface WatchlistItem {
   id: string;
   ticker: string;
   created_at: string;
+  // null = Standard-Watchlist ("Alle"), sonst Zuordnung zu einer benannten Liste
+  group_id: string | null;
 }
 
 interface StockData {
@@ -54,6 +60,9 @@ type SortDirection = 'asc' | 'desc';
 type ViewMode = 'list' | 'grid';
 export default function WatchlistPage() {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
+  const [groups, setGroups] = useState<WatchlistGroup[]>([]);
+  const [activeGroupId, setActiveGroupId] = useState<'all' | string>('all');
+  const [isPremium, setIsPremium] = useState(false);
   const [stockData, setStockData] = useState<Record<string, StockData>>({});
   const [earningsEvents, setEarningsEvents] = useState<EarningsEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -93,20 +102,38 @@ export default function WatchlistPage() {
 
         setUser(session.user);
 
-        const { data, error: dbErr } = await supabase
-          .from('watchlists')
-          .select('id, ticker, created_at')
-          .eq('user_id', session.user.id)
-          .order('created_at', { ascending: false });
+        const [itemsRes, groupsRes, profileRes] = await Promise.all([
+          supabase
+            .from('watchlists')
+            .select('id, ticker, created_at, group_id')
+            .eq('user_id', session.user.id)
+            .order('created_at', { ascending: false }),
+          supabase
+            .from('watchlist_groups')
+            .select('id, name, position')
+            .eq('user_id', session.user.id)
+            .order('position', { ascending: true })
+            .order('created_at', { ascending: true }),
+          supabase
+            .from('profiles')
+            .select('is_premium, subscription_status, subscription_end_date')
+            .eq('user_id', session.user.id)
+            .maybeSingle(),
+        ]);
 
-        if (dbErr) {
-          console.error('[Watchlist] DB Error:', dbErr.message);
+        setGroups(groupsRes.data ?? []);
+        setIsPremium(hasPremiumAccess(profileRes.data));
+
+        if (itemsRes.error) {
+          console.error('[Watchlist] DB Error:', itemsRes.error.message);
           setWatchlistItems([]);
         } else {
-          setWatchlistItems(data || []);
+          const data = itemsRes.data || [];
+          setWatchlistItems(data);
 
-          if (data && data.length > 0) {
-            const tickers = data.map(item => item.ticker);
+          // Ein Ticker kann in mehreren Listen liegen → Daten nur einmal laden
+          const tickers = Array.from(new Set(data.map(item => item.ticker)));
+          if (tickers.length > 0) {
             await Promise.all([
               loadStockData(tickers),
               loadEarningsData(tickers, session.user.id)
@@ -220,31 +247,146 @@ export default function WatchlistPage() {
     }
   }
 
-  async function removeFromWatchlist(id: string, ticker: string) {
-    if (!confirm(`${ticker} aus der Watchlist entfernen?`)) {
-      return;
-    }
+  // Im "Alle"-Tab: Ticker komplett entfernen (inkl. aller Listen).
+  // In einer Liste: nur den Eintrag dieser Liste entfernen.
+  async function removeFromWatchlist(item: WatchlistItem) {
+    if (!user) return;
+    const { ticker } = item;
 
     try {
-      const { error } = await supabase
-        .from('watchlists')
-        .delete()
-        .eq('id', id)
-        .eq('user_id', user.id);
+      if (activeGroupId === 'all') {
+        const inGroups = (memberGroupsByTicker.get(ticker)?.size ?? 0) > 0;
+        const msg = inGroups
+          ? `${ticker} aus der Watchlist und allen Listen entfernen?`
+          : `${ticker} aus der Watchlist entfernen?`;
+        if (!confirm(msg)) return;
 
-      if (error) {
-        console.error('[Watchlist] Remove Error:', error);
-        alert('Fehler beim Entfernen');
+        const { error } = await supabase
+          .from('watchlists')
+          .delete()
+          .eq('ticker', ticker)
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('[Watchlist] Remove Error:', error);
+          alert('Fehler beim Entfernen');
+        } else {
+          setWatchlistItems(prev => prev.filter(i => i.ticker !== ticker));
+          setStockData(prev => {
+            const newData = { ...prev };
+            delete newData[ticker];
+            return newData;
+          });
+        }
       } else {
-        setWatchlistItems(prev => prev.filter(item => item.id !== id));
-        setStockData(prev => {
-          const newData = { ...prev };
-          delete newData[ticker];
-          return newData;
-        });
+        const groupName = groups.find(g => g.id === activeGroupId)?.name ?? 'dieser Liste';
+        if (!confirm(`${ticker} aus "${groupName}" entfernen?`)) return;
+
+        const { error } = await supabase
+          .from('watchlists')
+          .delete()
+          .eq('id', item.id)
+          .eq('user_id', user.id);
+
+        if (error) {
+          console.error('[Watchlist] Remove Error:', error);
+          alert('Fehler beim Entfernen');
+        } else {
+          setWatchlistItems(prev => prev.filter(i => i.id !== item.id));
+        }
       }
     } catch (error) {
       console.error('[Watchlist] Unexpected remove error:', error);
+    }
+  }
+
+  // ─── Listen-Verwaltung ────────────────────────────────────────────────
+
+  async function createGroup(name: string) {
+    if (!user) return;
+    const { data, error } = await supabase
+      .from('watchlist_groups')
+      .insert({ user_id: user.id, name, position: groups.length })
+      .select('id, name, position')
+      .single();
+    if (error) {
+      if (error.code === '23505') alert(`Eine Liste namens "${name}" existiert bereits.`);
+      else console.error('[Watchlist] create group error:', error);
+      return;
+    }
+    setGroups(prev => [...prev, data]);
+    setActiveGroupId(data.id);
+  }
+
+  async function renameGroup(id: string, name: string) {
+    if (!user) return;
+    const { error } = await supabase
+      .from('watchlist_groups')
+      .update({ name })
+      .eq('id', id)
+      .eq('user_id', user.id);
+    if (error) {
+      if (error.code === '23505') alert(`Eine Liste namens "${name}" existiert bereits.`);
+      else console.error('[Watchlist] rename group error:', error);
+      return;
+    }
+    setGroups(prev => prev.map(g => (g.id === id ? { ...g, name } : g)));
+  }
+
+  async function deleteGroup(id: string) {
+    if (!user) return;
+    const group = groups.find(g => g.id === id);
+    if (!group) return;
+    const ok = confirm(
+      `Liste "${group.name}" löschen?\nAktien, die auch in "Alle" oder anderen Listen gespeichert sind, bleiben erhalten.`
+    );
+    if (!ok) return;
+    const { error } = await supabase
+      .from('watchlist_groups')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+    if (error) {
+      console.error('[Watchlist] delete group error:', error);
+      alert('Fehler beim Löschen der Liste');
+      return;
+    }
+    // Einträge der Liste werden per ON DELETE CASCADE mitgelöscht
+    setGroups(prev => prev.filter(g => g.id !== id));
+    setWatchlistItems(prev => prev.filter(i => i.group_id !== id));
+    if (activeGroupId === id) setActiveGroupId('all');
+  }
+
+  // Ticker einer Liste hinzufügen / daraus entfernen (Pro-Zeile-Menü)
+  async function toggleItemGroup(ticker: string, groupId: string, currentlyIn: boolean) {
+    if (!user) return;
+    try {
+      if (currentlyIn) {
+        const { error } = await supabase
+          .from('watchlists')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('ticker', ticker)
+          .eq('group_id', groupId);
+        if (error) {
+          console.error('[Watchlist] remove from group error:', error);
+          return;
+        }
+        setWatchlistItems(prev => prev.filter(i => !(i.ticker === ticker && i.group_id === groupId)));
+      } else {
+        const { data, error } = await supabase
+          .from('watchlists')
+          .insert({ user_id: user.id, ticker, group_id: groupId })
+          .select('id, ticker, created_at, group_id')
+          .single();
+        if (error) {
+          if (error.code !== '23505') console.error('[Watchlist] add to group error:', error);
+          return;
+        }
+        setWatchlistItems(prev => [data, ...prev]);
+      }
+    } catch (error) {
+      console.error('[Watchlist] toggle group unexpected:', error);
     }
   }
 
@@ -262,8 +404,52 @@ export default function WatchlistPage() {
     return earningsEvents.find(e => e.symbol === ticker);
   };
 
+  const distinctTickers = useMemo(
+    () => Array.from(new Set(watchlistItems.map(i => i.ticker))),
+    [watchlistItems]
+  );
+
+  // Welche Listen enthalten einen Ticker? (für das Pro-Zeile-Menü)
+  const memberGroupsByTicker = useMemo(() => {
+    const map = new Map<string, Set<string>>();
+    for (const it of watchlistItems) {
+      if (!it.group_id) continue;
+      let set = map.get(it.ticker);
+      if (!set) {
+        set = new Set();
+        map.set(it.ticker, set);
+      }
+      set.add(it.group_id);
+    }
+    return map;
+  }, [watchlistItems]);
+
+  // Sichtbare Items je Tab: "Alle" = Union aller Listen (pro Ticker eine Zeile),
+  // sonst nur die Einträge der aktiven Liste.
+  const visibleItems = useMemo(() => {
+    if (activeGroupId === 'all') {
+      const seen = new Map<string, WatchlistItem>();
+      for (const it of watchlistItems) {
+        const prev = seen.get(it.ticker);
+        // Ungruppierte Zeile bevorzugen, damit Entfernen die Standard-Zeile trifft
+        if (!prev || (prev.group_id !== null && it.group_id === null)) seen.set(it.ticker, it);
+      }
+      return Array.from(seen.values());
+    }
+    return watchlistItems.filter(i => i.group_id === activeGroupId);
+  }, [watchlistItems, activeGroupId]);
+
+  // Tab-Zähler
+  const countByGroup = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const it of watchlistItems) {
+      if (it.group_id) counts[it.group_id] = (counts[it.group_id] ?? 0) + 1;
+    }
+    return counts;
+  }, [watchlistItems]);
+
   const sortedItems = useMemo(() => {
-    return [...watchlistItems].sort((a, b) => {
+    return [...visibleItems].sort((a, b) => {
       const dataA = stockData[a.ticker];
       const dataB = stockData[b.ticker];
 
@@ -301,7 +487,7 @@ export default function WatchlistPage() {
 
       return sortDirection === 'asc' ? compareValue : -compareValue;
     });
-  }, [watchlistItems, stockData, sortColumn, sortDirection, earningsEvents]);
+  }, [visibleItems, stockData, sortColumn, sortDirection, earningsEvents]);
 
   const formatEarningsDate = (dateString: string, time: string) => {
     const date = new Date(dateString);
@@ -363,10 +549,9 @@ export default function WatchlistPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => {
-                if (watchlistItems.length > 0) {
-                  const tickers = watchlistItems.map(item => item.ticker);
-                  loadStockData(tickers);
-                  if (user?.id) loadEarningsData(tickers, user.id);
+                if (distinctTickers.length > 0) {
+                  loadStockData(distinctTickers);
+                  if (user?.id) loadEarningsData(distinctTickers, user.id);
                 }
               }}
               disabled={dataLoading}
@@ -511,7 +696,28 @@ export default function WatchlistPage() {
                 </div>
               </div>
 
-              {viewMode === 'list' ? (
+              {/* Benannte Listen (Premium) */}
+              <WatchlistTabs
+                groups={groups}
+                activeId={activeGroupId}
+                allCount={distinctTickers.length}
+                countByGroup={countByGroup}
+                isPremium={isPremium}
+                onSelect={setActiveGroupId}
+                onCreate={createGroup}
+                onRename={renameGroup}
+                onDelete={deleteGroup}
+              />
+
+              {visibleItems.length === 0 ? (
+                /* Aktive Liste ist leer */
+                <div className="bg-[#111111] border border-neutral-800 rounded-xl py-16 text-center">
+                  <p className="text-neutral-400 text-sm font-medium">Diese Liste ist noch leer.</p>
+                  <p className="text-neutral-600 text-xs mt-1">
+                    Füge Aktien über das Listen-Symbol in der Tabelle hinzu — oder über den Stern auf einer Aktienseite.
+                  </p>
+                </div>
+              ) : viewMode === 'list' ? (
                 /* Table View */
                 <div className="bg-[#111111] border border-neutral-800 rounded-xl overflow-hidden">
                   <div className="overflow-x-auto">
@@ -644,12 +850,23 @@ export default function WatchlistPage() {
 
                               {/* Actions */}
                               <td className="px-4 py-3">
-                                <button
-                                  onClick={() => removeFromWatchlist(item.id, item.ticker)}
-                                  className="p-1.5 text-neutral-500 hover:text-red-400 transition-colors rounded hover:bg-red-400/10"
-                                >
-                                  <TrashIcon className="w-4 h-4" />
-                                </button>
+                                <div className="flex items-center justify-end gap-1">
+                                  <WatchlistItemMenu
+                                    ticker={item.ticker}
+                                    groups={groups}
+                                    memberGroupIds={memberGroupsByTicker.get(item.ticker) ?? new Set()}
+                                    onToggle={(groupId, currentlyIn) =>
+                                      toggleItemGroup(item.ticker, groupId, currentlyIn)
+                                    }
+                                    hoverReveal={false}
+                                  />
+                                  <button
+                                    onClick={() => removeFromWatchlist(item)}
+                                    className="p-1.5 text-neutral-500 hover:text-red-400 transition-colors rounded hover:bg-red-400/10"
+                                  >
+                                    <TrashIcon className="w-4 h-4" />
+                                  </button>
+                                </div>
                               </td>
                             </tr>
                           );
@@ -693,6 +910,15 @@ export default function WatchlistPage() {
                               {fmtPercent(data.changePercent)}
                             </span>
                           )}
+                          <WatchlistItemMenu
+                            ticker={item.ticker}
+                            groups={groups}
+                            memberGroupIds={memberGroupsByTicker.get(item.ticker) ?? new Set()}
+                            onToggle={(groupId, currentlyIn) =>
+                              toggleItemGroup(item.ticker, groupId, currentlyIn)
+                            }
+                            hoverReveal={false}
+                          />
                         </div>
 
                         {/* Price & Details */}

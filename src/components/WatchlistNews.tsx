@@ -41,7 +41,8 @@ const WatchlistNews = React.memo(() => {
             .limit(5) // Limit to top 5 for performance
           
           if (watchlistItems && watchlistItems.length > 0) {
-            setWatchlistTickers(watchlistItems.map(item => item.ticker))
+            // Ein Ticker kann in mehreren Listen liegen → deduplizieren
+            setWatchlistTickers(Array.from(new Set(watchlistItems.map(item => item.ticker))))
           } else {
             setError('Keine Aktien in der Watchlist')
             setLoading(false)

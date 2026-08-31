@@ -3,7 +3,15 @@
 import React from 'react'
 import Link from 'next/link'
 import { fmtPrice, fmtPct, fmtVolume, formatEarningsDate } from '../_lib/format'
-import type { WatchlistItem, StockData, EarningsEvent, SortColumn, SortDirection } from '../_lib/types'
+import WatchlistItemMenu from '@/components/watchlist/WatchlistItemMenu'
+import type {
+  WatchlistItem,
+  WatchlistGroup,
+  StockData,
+  EarningsEvent,
+  SortColumn,
+  SortDirection,
+} from '../_lib/types'
 
 interface WatchlistListProps {
   items: WatchlistItem[]
@@ -12,7 +20,10 @@ interface WatchlistListProps {
   sortColumn: SortColumn
   sortDirection: SortDirection
   onSort: (col: SortColumn) => void
-  onRemove: (id: string, ticker: string) => void
+  onRemove: (item: WatchlistItem) => void
+  groups: WatchlistGroup[]
+  memberGroupsByTicker: Map<string, Set<string>>
+  onToggleGroup: (ticker: string, groupId: string, currentlyIn: boolean) => void
 }
 
 const ChevronIcon = ({ direction }: { direction: SortDirection }) => (
@@ -61,6 +72,9 @@ export default function WatchlistList({
   sortDirection,
   onSort,
   onRemove,
+  groups,
+  memberGroupsByTicker,
+  onToggleGroup,
 }: WatchlistListProps) {
   const getNextEarnings = (ticker: string): EarningsEvent | undefined =>
     earningsEvents.find(e => e.symbol === ticker)
@@ -77,7 +91,7 @@ export default function WatchlistList({
               <SortHeader column="revenueGrowthYOY" label="Umsatz YoY" align="right" sortColumn={sortColumn} sortDirection={sortDirection} onSort={onSort} />
               <SortHeader column="earnings" label="Earnings" sortColumn={sortColumn} sortDirection={sortDirection} onSort={onSort} />
               <SortHeader column="volume" label="Volumen" align="right" sortColumn={sortColumn} sortDirection={sortDirection} onSort={onSort} />
-              <th className="w-12" aria-label="Aktionen" />
+              <th className="w-20" aria-label="Aktionen" />
             </tr>
           </thead>
           <tbody>
@@ -175,24 +189,34 @@ export default function WatchlistList({
                     </p>
                   </td>
 
-                  {/* Remove */}
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => onRemove(item.id, item.ticker)}
-                      className="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
-                      title={`${item.ticker} aus Watchlist entfernen`}
-                      aria-label={`${item.ticker} aus Watchlist entfernen`}
-                    >
-                      <svg
-                        className="w-3.5 h-3.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
+                  {/* Aktionen: Listen-Menü + Entfernen */}
+                  <td className="px-4 py-3">
+                    <div className="flex items-center justify-end gap-1">
+                      <WatchlistItemMenu
+                        ticker={item.ticker}
+                        groups={groups}
+                        memberGroupIds={memberGroupsByTicker.get(item.ticker) ?? new Set()}
+                        onToggle={(groupId, currentlyIn) =>
+                          onToggleGroup(item.ticker, groupId, currentlyIn)
+                        }
+                      />
+                      <button
+                        onClick={() => onRemove(item)}
+                        className="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                        title={`${item.ticker} aus Watchlist entfernen`}
+                        aria-label={`${item.ticker} aus Watchlist entfernen`}
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
+                        <svg
+                          className="w-3.5 h-3.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               )

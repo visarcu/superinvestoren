@@ -3,12 +3,15 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import { hasPremiumAccess } from '@/lib/premiumAccess'
 import WatchlistHeader from './WatchlistHeader'
 import WatchlistEmpty from './WatchlistEmpty'
 import WatchlistList from './WatchlistList'
 import WatchlistGrid from './WatchlistGrid'
+import WatchlistTabs from '@/components/watchlist/WatchlistTabs'
 import type {
   WatchlistItem,
+  WatchlistGroup,
   StockData,
   EarningsEvent,
   SortColumn,
@@ -18,6 +21,9 @@ import type {
 
 export default function WatchlistClient() {
   const [items, setItems] = useState<WatchlistItem[]>([])
+  const [groups, setGroups] = useState<WatchlistGroup[]>([])
+  const [activeGroupId, setActiveGroupId] = useState<'all' | string>('all')
+  const [isPremium, setIsPremium] = useState(false)
   const [stockData, setStockData] = useState<Record<string, StockData>>({})
   const [earningsEvents, setEarningsEvents] = useState<EarningsEvent[]>([])
   const [loading, setLoading] = useState(true)
@@ -28,7 +34,7 @@ export default function WatchlistClient() {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const router = useRouter()
 
-  // Initial load: Auth + Watchlist + Stock-Data
+  // Initial load: Auth + Watchlist + Listen + Stock-Data
   useEffect(() => {
     let cancelled = false
     async function load() {
@@ -46,22 +52,38 @@ export default function WatchlistClient() {
         if (cancelled) return
         setUser({ id: session.user.id })
 
-        const { data, error } = await supabase
-          .from('watchlists')
-          .select('id, ticker, created_at')
-          .eq('user_id', session.user.id)
-          .order('created_at', { ascending: false })
+        const [itemsRes, groupsRes, profileRes] = await Promise.all([
+          supabase
+            .from('watchlists')
+            .select('id, ticker, created_at, group_id')
+            .eq('user_id', session.user.id)
+            .order('created_at', { ascending: false }),
+          supabase
+            .from('watchlist_groups')
+            .select('id, name, position')
+            .eq('user_id', session.user.id)
+            .order('position', { ascending: true })
+            .order('created_at', { ascending: true }),
+          supabase
+            .from('profiles')
+            .select('is_premium, subscription_status, subscription_end_date')
+            .eq('user_id', session.user.id)
+            .maybeSingle(),
+        ])
 
         if (cancelled) return
 
-        if (error || !data) {
+        setGroups(groupsRes.data ?? [])
+        setIsPremium(hasPremiumAccess(profileRes.data))
+
+        if (itemsRes.error || !itemsRes.data) {
           setItems([])
           return
         }
 
-        setItems(data)
-        if (data.length > 0) {
-          const tickers = data.map(d => d.ticker)
+        setItems(itemsRes.data)
+        const tickers = Array.from(new Set(itemsRes.data.map(d => d.ticker)))
+        if (tickers.length > 0) {
           await Promise.all([fetchStockData(tickers, cancelled), fetchEarnings(tickers, cancelled)])
         }
       } catch (err) {
@@ -176,29 +198,184 @@ export default function WatchlistClient() {
     }
   }, [])
 
+  const distinctTickers = useMemo(() => Array.from(new Set(items.map(i => i.ticker))), [items])
+
   const refresh = async () => {
-    if (items.length === 0 || refreshing) return
+    if (distinctTickers.length === 0 || refreshing) return
     setRefreshing(true)
-    const tickers = items.map(i => i.ticker)
-    await Promise.all([fetchStockData(tickers), fetchEarnings(tickers)])
+    await Promise.all([fetchStockData(distinctTickers), fetchEarnings(distinctTickers)])
     setRefreshing(false)
   }
 
-  const removeItem = async (id: string, ticker: string) => {
-    if (!user || !confirm(`${ticker} aus der Watchlist entfernen?`)) return
+  // Welche Listen enthalten einen Ticker? (für das Pro-Zeile-Menü)
+  const memberGroupsByTicker = useMemo(() => {
+    const map = new Map<string, Set<string>>()
+    for (const it of items) {
+      if (!it.group_id) continue
+      let set = map.get(it.ticker)
+      if (!set) {
+        set = new Set()
+        map.set(it.ticker, set)
+      }
+      set.add(it.group_id)
+    }
+    return map
+  }, [items])
+
+  // Sichtbare Items je Tab: "Alle" = Union aller Listen (pro Ticker eine Zeile),
+  // sonst nur die Einträge der aktiven Liste.
+  const visibleItems = useMemo(() => {
+    if (activeGroupId === 'all') {
+      const seen = new Map<string, WatchlistItem>()
+      for (const it of items) {
+        const prev = seen.get(it.ticker)
+        // Ungruppierte Zeile bevorzugen, damit Entfernen die Standard-Zeile trifft
+        if (!prev || (prev.group_id !== null && it.group_id === null)) seen.set(it.ticker, it)
+      }
+      return Array.from(seen.values())
+    }
+    return items.filter(i => i.group_id === activeGroupId)
+  }, [items, activeGroupId])
+
+  const activeGroup = activeGroupId === 'all' ? null : groups.find(g => g.id === activeGroupId) ?? null
+
+  // ─── Listen-Verwaltung ────────────────────────────────────────────────
+
+  const createGroup = async (name: string) => {
+    if (!user) return
     try {
-      const { error } = await supabase.from('watchlists').delete().eq('id', id).eq('user_id', user.id)
+      const { data, error } = await supabase
+        .from('watchlist_groups')
+        .insert({ user_id: user.id, name, position: groups.length })
+        .select('id, name, position')
+        .single()
       if (error) {
-        console.error('[WatchlistClient] remove error:', error)
-        alert('Fehler beim Entfernen')
+        if (error.code === '23505') alert(`Eine Liste namens "${name}" existiert bereits.`)
+        else console.error('[WatchlistClient] create group error:', error)
         return
       }
-      setItems(prev => prev.filter(i => i.id !== id))
-      setStockData(prev => {
-        const next = { ...prev }
-        delete next[ticker]
-        return next
-      })
+      setGroups(prev => [...prev, data])
+      setActiveGroupId(data.id)
+    } catch (err) {
+      console.error('[WatchlistClient] create group unexpected:', err)
+    }
+  }
+
+  const renameGroup = async (id: string, name: string) => {
+    if (!user) return
+    const { error } = await supabase
+      .from('watchlist_groups')
+      .update({ name })
+      .eq('id', id)
+      .eq('user_id', user.id)
+    if (error) {
+      if (error.code === '23505') alert(`Eine Liste namens "${name}" existiert bereits.`)
+      else console.error('[WatchlistClient] rename group error:', error)
+      return
+    }
+    setGroups(prev => prev.map(g => (g.id === id ? { ...g, name } : g)))
+  }
+
+  const deleteGroup = async (id: string) => {
+    if (!user) return
+    const group = groups.find(g => g.id === id)
+    if (!group) return
+    const ok = confirm(
+      `Liste "${group.name}" löschen?\nAktien, die auch in "Alle" oder anderen Listen gespeichert sind, bleiben erhalten.`
+    )
+    if (!ok) return
+    const { error } = await supabase
+      .from('watchlist_groups')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id)
+    if (error) {
+      console.error('[WatchlistClient] delete group error:', error)
+      alert('Fehler beim Löschen der Liste')
+      return
+    }
+    // Einträge der Liste werden per ON DELETE CASCADE mitgelöscht
+    setGroups(prev => prev.filter(g => g.id !== id))
+    setItems(prev => prev.filter(i => i.group_id !== id))
+    if (activeGroupId === id) setActiveGroupId('all')
+  }
+
+  // Ticker einer Liste hinzufügen / daraus entfernen (Pro-Zeile-Menü)
+  const toggleItemGroup = async (ticker: string, groupId: string, currentlyIn: boolean) => {
+    if (!user) return
+    try {
+      if (currentlyIn) {
+        const { error } = await supabase
+          .from('watchlists')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('ticker', ticker)
+          .eq('group_id', groupId)
+        if (error) {
+          console.error('[WatchlistClient] remove from group error:', error)
+          return
+        }
+        setItems(prev => prev.filter(i => !(i.ticker === ticker && i.group_id === groupId)))
+      } else {
+        const { data, error } = await supabase
+          .from('watchlists')
+          .insert({ user_id: user.id, ticker, group_id: groupId })
+          .select('id, ticker, created_at, group_id')
+          .single()
+        if (error) {
+          if (error.code !== '23505') console.error('[WatchlistClient] add to group error:', error)
+          return
+        }
+        setItems(prev => [data, ...prev])
+      }
+    } catch (err) {
+      console.error('[WatchlistClient] toggle group unexpected:', err)
+    }
+  }
+
+  // ─── Entfernen ────────────────────────────────────────────────────────
+  // Im "Alle"-Tab: Ticker komplett entfernen (inkl. aller Listen).
+  // In einer Liste: nur den Eintrag dieser Liste entfernen.
+  const removeItem = async (item: WatchlistItem) => {
+    if (!user) return
+    const { ticker } = item
+    try {
+      if (activeGroupId === 'all') {
+        const inGroups = (memberGroupsByTicker.get(ticker)?.size ?? 0) > 0
+        const msg = inGroups
+          ? `${ticker} aus der Watchlist und allen Listen entfernen?`
+          : `${ticker} aus der Watchlist entfernen?`
+        if (!confirm(msg)) return
+        const { error } = await supabase
+          .from('watchlists')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('ticker', ticker)
+        if (error) {
+          console.error('[WatchlistClient] remove error:', error)
+          alert('Fehler beim Entfernen')
+          return
+        }
+        setItems(prev => prev.filter(i => i.ticker !== ticker))
+        setStockData(prev => {
+          const next = { ...prev }
+          delete next[ticker]
+          return next
+        })
+      } else {
+        if (!confirm(`${ticker} aus "${activeGroup?.name ?? 'dieser Liste'}" entfernen?`)) return
+        const { error } = await supabase
+          .from('watchlists')
+          .delete()
+          .eq('id', item.id)
+          .eq('user_id', user.id)
+        if (error) {
+          console.error('[WatchlistClient] remove error:', error)
+          alert('Fehler beim Entfernen')
+          return
+        }
+        setItems(prev => prev.filter(i => i.id !== item.id))
+      }
     } catch (err) {
       console.error('[WatchlistClient] remove unexpected:', err)
     }
@@ -216,7 +393,7 @@ export default function WatchlistClient() {
   // Sortierte Items
   const sortedItems = useMemo(() => {
     const getNextEarnings = (ticker: string) => earningsEvents.find(e => e.symbol === ticker)
-    return [...items].sort((a, b) => {
+    return [...visibleItems].sort((a, b) => {
       const dataA = stockData[a.ticker]
       const dataB = stockData[b.ticker]
       let cmp = 0
@@ -249,7 +426,16 @@ export default function WatchlistClient() {
       }
       return sortDirection === 'asc' ? cmp : -cmp
     })
-  }, [items, stockData, sortColumn, sortDirection, earningsEvents])
+  }, [visibleItems, stockData, sortColumn, sortDirection, earningsEvents])
+
+  // Tab-Zähler
+  const countByGroup = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const it of items) {
+      if (it.group_id) counts[it.group_id] = (counts[it.group_id] ?? 0) + 1
+    }
+    return counts
+  }, [items])
 
   // Loading state
   if (loading) {
@@ -264,15 +450,27 @@ export default function WatchlistClient() {
     <div className="min-h-screen bg-[#06060e] text-white">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 py-8 pb-32">
         <WatchlistHeader
-          count={items.length}
+          count={visibleItems.length}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
           onRefresh={refresh}
           refreshing={refreshing}
         />
 
-        {items.length === 0 ? (
-          <WatchlistEmpty />
+        <WatchlistTabs
+          groups={groups}
+          activeId={activeGroupId}
+          allCount={distinctTickers.length}
+          countByGroup={countByGroup}
+          isPremium={isPremium}
+          onSelect={setActiveGroupId}
+          onCreate={createGroup}
+          onRename={renameGroup}
+          onDelete={deleteGroup}
+        />
+
+        {visibleItems.length === 0 ? (
+          <WatchlistEmpty listName={activeGroup?.name} />
         ) : viewMode === 'list' ? (
           <WatchlistList
             items={sortedItems}
@@ -282,6 +480,9 @@ export default function WatchlistClient() {
             sortDirection={sortDirection}
             onSort={handleSort}
             onRemove={removeItem}
+            groups={groups}
+            memberGroupsByTicker={memberGroupsByTicker}
+            onToggleGroup={toggleItemGroup}
           />
         ) : (
           <WatchlistGrid
@@ -289,6 +490,9 @@ export default function WatchlistClient() {
             stockData={stockData}
             earningsEvents={earningsEvents}
             onRemove={removeItem}
+            groups={groups}
+            memberGroupsByTicker={memberGroupsByTicker}
+            onToggleGroup={toggleItemGroup}
           />
         )}
       </div>

@@ -3,16 +3,28 @@
 import React from 'react'
 import Link from 'next/link'
 import { fmtPrice, fmtPct, fmtMarketCap, formatEarningsDate } from '../_lib/format'
-import type { WatchlistItem, StockData, EarningsEvent } from '../_lib/types'
+import WatchlistItemMenu from '@/components/watchlist/WatchlistItemMenu'
+import type { WatchlistItem, WatchlistGroup, StockData, EarningsEvent } from '../_lib/types'
 
 interface WatchlistGridProps {
   items: WatchlistItem[]
   stockData: Record<string, StockData>
   earningsEvents: EarningsEvent[]
-  onRemove: (id: string, ticker: string) => void
+  onRemove: (item: WatchlistItem) => void
+  groups: WatchlistGroup[]
+  memberGroupsByTicker: Map<string, Set<string>>
+  onToggleGroup: (ticker: string, groupId: string, currentlyIn: boolean) => void
 }
 
-export default function WatchlistGrid({ items, stockData, earningsEvents, onRemove }: WatchlistGridProps) {
+export default function WatchlistGrid({
+  items,
+  stockData,
+  earningsEvents,
+  onRemove,
+  groups,
+  memberGroupsByTicker,
+  onToggleGroup,
+}: WatchlistGridProps) {
   const getNextEarnings = (ticker: string): EarningsEvent | undefined =>
     earningsEvents.find(e => e.symbol === ticker)
 
@@ -34,17 +46,25 @@ export default function WatchlistGrid({ items, stockData, earningsEvents, onRemo
             key={item.id}
             className="relative bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.08] transition-all group"
           >
-            {/* Remove-Button (top right, hover) */}
-            <button
-              onClick={() => onRemove(item.id, item.ticker)}
-              className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all z-10"
-              title={`${item.ticker} aus Watchlist entfernen`}
-              aria-label={`${item.ticker} aus Watchlist entfernen`}
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+            {/* Aktionen (top right, hover): Listen-Menü + Entfernen */}
+            <div className="absolute top-3 right-3 flex items-center gap-1 z-10">
+              <WatchlistItemMenu
+                ticker={item.ticker}
+                groups={groups}
+                memberGroupIds={memberGroupsByTicker.get(item.ticker) ?? new Set()}
+                onToggle={(groupId, currentlyIn) => onToggleGroup(item.ticker, groupId, currentlyIn)}
+              />
+              <button
+                onClick={() => onRemove(item)}
+                className="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                title={`${item.ticker} aus Watchlist entfernen`}
+                aria-label={`${item.ticker} aus Watchlist entfernen`}
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
 
             <Link href={`/analyse/aktien/${item.ticker}`} className="block">
               {/* Header: Logo + Ticker + Name */}
@@ -58,7 +78,7 @@ export default function WatchlistGrid({ items, stockData, earningsEvents, onRemo
                     ;(e.target as HTMLImageElement).style.display = 'none'
                   }}
                 />
-                <div className="min-w-0 flex-1 pr-8">
+                <div className="min-w-0 flex-1 pr-16">
                   <p className="text-[14px] font-bold text-white tracking-tight">{item.ticker}</p>
                   <p className="text-[11px] text-white/30 truncate">{data?.companyName ?? '–'}</p>
                 </div>

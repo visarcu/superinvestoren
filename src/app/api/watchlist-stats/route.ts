@@ -51,15 +51,21 @@ export async function GET() {
       })
     }
     
-    // Zähle die Häufigkeit jedes Tickers
+    // Zähle die Häufigkeit jedes Tickers.
+    // Pro (User, Ticker) nur einmal zählen – ein Ticker kann in mehreren
+    // Listen desselben Users liegen (watchlists.group_id).
     const tickerCounts = new Map<string, number>()
     const uniqueUsers = new Set<string>()
-    
+    const seenUserTicker = new Set<string>()
+
     data.forEach(item => {
-      // Zähle jeden Ticker
-      const count = tickerCounts.get(item.ticker) || 0
-      tickerCounts.set(item.ticker, count + 1)
-      
+      const key = `${item.user_id}:${item.ticker}`
+      if (!seenUserTicker.has(key)) {
+        seenUserTicker.add(key)
+        const count = tickerCounts.get(item.ticker) || 0
+        tickerCounts.set(item.ticker, count + 1)
+      }
+
       // Sammle unique User IDs
       if (item.user_id) {
         uniqueUsers.add(item.user_id)

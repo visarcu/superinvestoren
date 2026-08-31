@@ -103,7 +103,10 @@ export default function DividendsCalendarPage() {
           console.error('[Dividenden] Watchlist konnte nicht geladen werden:', watchlistError)
           setWatchlistSymbols([])
         } else {
-          const symbols = (watchlistData || []).map((item: { ticker: string }) => item.ticker.toUpperCase())
+          // Ein Ticker kann in mehreren Listen liegen → deduplizieren
+          const symbols = Array.from(
+            new Set((watchlistData || []).map((item: { ticker: string }) => item.ticker.toUpperCase()))
+          )
           setWatchlistSymbols(symbols)
         }
 

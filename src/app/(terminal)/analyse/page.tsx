@@ -203,7 +203,8 @@ export default function ModernDashboard() {
             .eq('user_id', session.user.id)
 
           if (watchlistData) {
-            setWatchlistTickers(watchlistData.map(item => item.ticker))
+            // Ein Ticker kann in mehreren Listen liegen → deduplizieren
+            setWatchlistTickers(Array.from(new Set(watchlistData.map(item => item.ticker))))
           }
 
           // Load user profile for name

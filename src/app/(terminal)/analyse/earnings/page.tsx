@@ -68,9 +68,14 @@ export default function EarningsCalendarPage() {
           console.error('DB Error:', dbErr.message)
           setError('Fehler beim Laden der Watchlist')
         } else {
-          setWatchlistItems(data || [])
-          if (data && data.length > 0) {
-            loadEarningsData(data.map(item => item.ticker))
+          // Ein Ticker kann in mehreren Listen liegen → pro Ticker eine Zeile
+          const seen = new Set<string>()
+          const unique = (data || []).filter(item =>
+            seen.has(item.ticker) ? false : (seen.add(item.ticker), true)
+          )
+          setWatchlistItems(unique)
+          if (unique.length > 0) {
+            loadEarningsData(unique.map(item => item.ticker))
           }
         }
       } catch (error) {

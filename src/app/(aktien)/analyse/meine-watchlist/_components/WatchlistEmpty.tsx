@@ -3,7 +3,36 @@
 import React from 'react'
 import Link from 'next/link'
 
-export default function WatchlistEmpty() {
+export default function WatchlistEmpty({ listName }: { listName?: string }) {
+  if (listName) {
+    return (
+      <div className="w-full max-w-md mx-auto text-center py-32">
+        <div className="w-14 h-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-5">
+          <svg
+            className="w-6 h-6 text-white/35"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
+            />
+          </svg>
+        </div>
+        <h3 className="text-[15px] font-semibold text-white/80 mb-2">
+          &bdquo;{listName}&ldquo; ist noch leer
+        </h3>
+        <p className="text-[12px] text-white/30 leading-relaxed">
+          Füge Aktien über das Listen-Symbol in der Watchlist hinzu — oder direkt über den Stern auf
+          einer Aktienseite.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <div className="w-full max-w-md mx-auto text-center py-32">
       <div className="w-14 h-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-5">
