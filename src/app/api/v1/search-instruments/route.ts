@@ -124,6 +124,21 @@ async function resolveViaOpenFIGI(
       'AT', 'AU',
       'JT', 'HK', 'SP', 'KS',
     ]
+    // Bei ISINs zuerst die Heimatbörse aus dem Ländercode: für JP3898400001
+    // lieferte die Deutschland-Präferenz 'MBI.DE' — eine Zweitnotierung ohne
+    // Kursdaten bei FMP/EODHD/Yahoo ("keine Daten vorhanden" beim Nutzer).
+    // Die Heimatnotierung (8058.T) ist die liquide mit voller Abdeckung.
+    // DE/IE/LU bleiben unverändert (Heimat = deutsche Präferenz bzw. Fonds).
+    const HOME_EXCHANGES: Record<string, string[]> = {
+      JP: ['JT'], US: ['US', 'UN', 'UQ', 'UW'], GB: ['LN'], FR: ['FP'],
+      NL: ['NA'], IT: ['IM'], ES: ['SM'], CH: ['SW', 'VX'], AT: ['AV'],
+      BE: ['BB'], CA: ['CT', 'CN'], AU: ['AT', 'AU'], HK: ['HK'],
+      SG: ['SP'], KR: ['KS'],
+    }
+    const homeOrder = idType === 'ID_ISIN'
+      ? HOME_EXCHANGES[idValue.slice(0, 2).toUpperCase()] || []
+      : []
+    const effectiveOrder = [...homeOrder, ...order.filter(x => !homeOrder.includes(x))]
     const suffix: Record<string, string> = {
       // Deutsche Börsen
       GR: '.DE', GY: '.DE', GF: '.DE',
@@ -142,9 +157,9 @@ async function resolveViaOpenFIGI(
       JT: '.T', HK: '.HK', SP: '.SI', KS: '.KS',
     }
     let best = matches[0]
-    let bestRank = order.indexOf(best.exchCode)
+    let bestRank = effectiveOrder.indexOf(best.exchCode)
     for (const m of matches) {
-      const r = order.indexOf(m.exchCode)
+      const r = effectiveOrder.indexOf(m.exchCode)
       if (r !== -1 && (bestRank === -1 || r < bestRank)) {
         bestRank = r
         best = m
