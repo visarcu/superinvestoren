@@ -45,17 +45,8 @@ interface PortfolioStockDetailProps {
   ticker: string
 }
 
-// Lokale EUR-Formatter — Portfolio-Werte sind durchgehend in EUR umgerechnet,
-// daher fix EUR hier (statt useCurrency, das initial USD als Default hat).
-const formatStockPriceEUR = (price: number): string => {
-  if (!price && price !== 0) return '–'
-  const formatted = new Intl.NumberFormat('de-DE', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(price)
-  return `${formatted} €`
-}
-
+// Lokaler Prozent-Formatter — Portfolio-Werte sind durchgehend in EUR
+// umgerechnet (statt useCurrency, das initial USD als Default hat).
 const formatPercentageDE = (value: number, showSign = true): string => {
   if (!value && value !== 0) return '–'
   const formatted = new Intl.NumberFormat('de-DE', {
@@ -66,13 +57,55 @@ const formatPercentageDE = (value: number, showSign = true): string => {
   return `${sign}${formatted}%`
 }
 
+const formatQuantity = (value: number): string =>
+  value.toLocaleString('de-DE', { maximumFractionDigits: 4 })
+
+// Flache Karten wie im Portfolio-Workspace
+const CARD = 'bg-theme-card border border-theme rounded-xl'
+const STAT_CARD = `${CARD} p-4`
+
+// Kennzahl-Zeile im Detail-Panel
+function DetailRow({
+  label,
+  value,
+  valueClass = 'text-theme-primary',
+}: {
+  label: string
+  value: string
+  valueClass?: string
+}) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 py-2">
+      <span className="text-[12px] text-neutral-500">{label}</span>
+      <span className={`text-[13px] font-medium tabular-nums ${valueClass}`}>{value}</span>
+    </div>
+  )
+}
+
+// Platzhalter, solange Kurse und Buchungen laden — Kopfzeile steht schon
+function StockDetailSkeleton() {
+  return (
+    <div className="animate-pulse">
+      <div className="mb-5 h-14 w-72 max-w-full rounded-xl border border-theme bg-theme-card" />
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {[1, 2, 3, 4].map(item => (
+          <div key={item} className="h-28 rounded-xl border border-theme bg-theme-card" />
+        ))}
+      </div>
+      <div className="mt-4 grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+        <div className="h-[430px] rounded-xl border border-theme bg-theme-card" />
+        <div className="h-[430px] rounded-xl border border-theme bg-theme-card" />
+      </div>
+    </div>
+  )
+}
+
 export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const portfolioId = searchParams.get('portfolioId')
   const returnTo = searchParams.get('returnTo')
   const totalValueParam = parseFloat(searchParams.get('totalValue') || '0')
-  const formatStockPrice = formatStockPriceEUR
   const formatPercentage = formatPercentageDE
 
   const [history, setHistory] = useState<{ date: string; close: number }[]>([])
@@ -101,7 +134,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   }, [totalValueParam, performance])
 
   // ETF-Info: Hook lädt Daten für unbekannte ETFs, danach findet getETFBySymbol sie im Cache
-  const { loading: etfLoading, fetchedCount } = useETFInfo([ticker])
+  const { fetchedCount } = useETFInfo([ticker])
   const etfInfo = useMemo(() => getETFBySymbol(ticker), [ticker, fetchedCount])
 
   // Daten laden
@@ -482,543 +515,574 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex min-h-[70vh] items-center justify-center">
-        <div className="bg-theme-card border border-theme rounded-xl px-5 py-4">
-          <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-white/[0.08] border-t-emerald-400" />
-          <p className="mt-3 text-xs text-neutral-500">Position wird geladen...</p>
-        </div>
-      </div>
-    )
-  }
+  // Ordergebühren aller Buchungen (Kaufgebühren stecken bereits in der Kostenbasis)
+  const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
+  const isClosed = !!performance && performance.remainingQuantity === 0
+  const hasReturnBreakdown =
+    !!performance && (performance.totalRealizedGain !== 0 || performance.totalDividends > 0 || totalFees > 0)
+  const depotLabel = !portfolioId || portfolioId === 'all' ? 'Alle Depots' : null
+
+  // ETF-Kosten: nur mit bekannter TER und offener Position berechenbar
+  const etfYearCost =
+    etfInfo?.ter !== undefined && performance && performance.currentValue > 0
+      ? calculateTERCost(performance.currentValue, etfInfo.ter)
+      : null
+  const etfSavings =
+    etfInfo?.ter !== undefined && etfInfo.ter > 0.20 && performance && performance.currentValue > 0
+      ? calculateTERSavings(performance.currentValue, etfInfo.ter)
+      : null
+  const showEtfSavings = !!etfSavings && etfSavings.savingsPerYear >= 1
 
   return (
-    <div className="w-full space-y-5">
-      <div className="sticky top-0 z-20 -mx-4 border-b border-theme bg-theme-primary px-4 py-3 sm:-mx-6 sm:px-6 xl:-mx-8 xl:px-8">
-        <div className="flex items-center justify-between gap-4">
+    <div className="min-h-screen bg-theme-primary text-theme-primary">
+      {/* Kopfzeile — gleiche Optik wie im Portfolio-Workspace */}
+      <header className="sticky top-0 z-50 border-b border-theme bg-theme-primary">
+        <div className="flex h-14 w-full items-center justify-between gap-4 px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <button
+              type="button"
               onClick={handleBack}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-neutral-400 transition-colors hover:border-emerald-400/30 hover:bg-emerald-400/[0.06] hover:text-white"
-              aria-label="Zurück"
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
+              title="Zurück zum Portfolio"
+              aria-label="Zurück zum Portfolio"
             >
               <ArrowLeftIcon className="h-4 w-4" />
             </button>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/25 bg-emerald-400/[0.07]">
-              <Logo ticker={ticker} alt={ticker} className="h-6 w-6" padding="none" />
-            </div>
+            <Logo ticker={ticker} alt={ticker} className="h-6 w-6 shrink-0 rounded-md" padding="none" />
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-emerald-300/80">
-                Portfolio Position
-              </p>
-              <h1 className="truncate text-base font-semibold tracking-tight text-white">
+              <p className="truncate text-sm font-semibold leading-tight text-theme-primary">
                 {stockName || ticker}
-              </h1>
+              </p>
+              <p className="truncate text-[11px] text-theme-muted">
+                {ticker}{depotLabel ? ` · ${depotLabel}` : ''}
+              </p>
             </div>
           </div>
 
           <button
+            type="button"
             onClick={handleBack}
-            className="hidden h-10 items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 text-sm text-neutral-300 transition-colors hover:border-emerald-400/30 hover:bg-emerald-400/[0.06] hover:text-white sm:flex"
+            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white sm:inline-flex"
           >
-            Zurück zum Portfolio
+            Zum Portfolio
           </button>
         </div>
-      </div>
+      </header>
 
-      <section className="bg-theme-card border border-theme overflow-hidden rounded-xl">
-        <div className="flex flex-col gap-6 px-5 py-6 sm:px-7 lg:flex-row lg:items-end lg:justify-between">
-          <div className="min-w-0">
-            <div className="mb-4 flex items-center gap-3">
-              <Logo ticker={ticker} alt={ticker} className="h-12 w-12 rounded-xl" padding="none" />
-              <div className="min-w-0">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-emerald-300/80">
-                  {ticker}
-                </p>
-                <h2 className="truncate text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                  {stockName || ticker}
-                </h2>
-              </div>
-            </div>
-            <div className="flex flex-wrap items-end gap-x-5 gap-y-2">
-              <p className="text-4xl font-semibold tracking-tight text-white tabular-nums sm:text-5xl">
-                {currentPriceEUR !== null ? formatCurrency(currentPriceEUR) : '–'}
-              </p>
-              {performance && (
-                <p className={`pb-1 text-sm font-medium tabular-nums ${perfColor(totalReturnPercent)}`}>
-                  {totalReturnPercent >= 0 ? '+' : ''}{formatPercentage(totalReturnPercent)} gesamt
-                </p>
-              )}
-              {allocation !== null && (
-                <p className="pb-1 text-sm text-neutral-500 tabular-nums">
-                  {allocation.toFixed(1)}% Portfolioanteil
-                </p>
-              )}
-            </div>
-          </div>
-
-          {performance && (
-            <div className="grid min-w-full grid-cols-2 gap-2 sm:min-w-[440px] lg:min-w-[520px]">
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Gesamtrendite</p>
-                <p className={`mt-2 text-xl font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
-                  {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
-                </p>
-              </div>
-              <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
-                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Position</p>
-                <p className="mt-2 text-2xl font-semibold text-white tabular-nums">
-                  {performance.remainingQuantity > 0
-                    ? performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })
-                    : '0'}
-                </p>
-                <p className="mt-1 text-[11px] text-neutral-500">
-                  {performance.remainingQuantity > 0 ? 'Stück aktuell' : 'Position geschlossen'}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Chart */}
-      <section className="bg-theme-card border border-theme min-h-[560px] overflow-hidden rounded-xl">
-        {history.length > 0 ? (
-          <WorkingStockChart
-            ticker={ticker}
-            data={history}
-            purchaseMarkers={chartMarkers.length > 0 ? chartMarkers : undefined}
-            displayCurrency="EUR"
-            chartHeightClass="h-[430px] xl:h-[520px]"
-          />
+      <main className="w-full px-6 py-5 pb-20 lg:px-8">
+        {loading ? (
+          <StockDetailSkeleton />
         ) : (
-          <div className="flex min-h-[520px] items-center justify-center p-10 text-center">
-            <p className="text-sm text-neutral-500">Keine Kursdaten verfügbar</p>
-          </div>
-        )}
-      </section>
-
-      {/* Performance Cards */}
-      {performance && currentPriceEUR !== null && (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {/* Kursgewinn — bei geschlossener Position den realisierten Kursgewinn zeigen */}
-          <div className="bg-theme-card border border-theme rounded-xl p-5">
-            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
-              {performance.remainingQuantity === 0 ? 'Realisierter Kursgewinn' : 'Kursgewinn'}
-            </p>
-            {performance.remainingQuantity === 0 ? (
-              <>
-                <p className={`text-2xl font-semibold tracking-tight tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
-                  {performance.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.totalRealizedGain)}
-                </p>
-                {performance.totalInvested > 0 && (
-                  <p className={`mt-1 text-xs tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
-                    {performance.totalRealizedGain >= 0 ? '+' : ''}{((performance.totalRealizedGain / performance.totalInvested) * 100).toFixed(1)}%
-                  </p>
-                )}
-              </>
-            ) : (
-              <>
-                <p className={`text-2xl font-semibold tracking-tight tabular-nums ${perfColor(performance.unrealizedGain)}`}>
-                  {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
-                </p>
-                <p className={`mt-1 text-xs tabular-nums ${perfColor(performance.unrealizedGainPercent)}`}>
-                  {performance.unrealizedGainPercent >= 0 ? '+' : ''}{performance.unrealizedGainPercent.toFixed(1)}%
-                </p>
-              </>
-            )}
-          </div>
-
-          <div className="bg-theme-card border border-theme rounded-xl p-5">
-            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Realisiert</p>
-            <p className={`text-2xl font-semibold tracking-tight tabular-nums ${performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-600'}`}>
-              {performance.totalRealizedGain !== 0
-                ? `${performance.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(performance.totalRealizedGain)}`
-                : formatCurrency(0)
-              }
-            </p>
-          </div>
-
-          <div className="bg-theme-card border border-theme rounded-xl p-5">
-            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Dividenden</p>
-            <p className={`text-2xl font-semibold tracking-tight tabular-nums ${performance.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
-              {performance.totalDividends > 0
-                ? `+${formatCurrency(performance.totalDividends)}`
-                : formatCurrency(0)
-              }
-            </p>
-          </div>
-
-          <div className="bg-theme-card border border-theme rounded-xl p-5">
-            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
-              {performance.remainingQuantity === 0 ? 'Status' : 'Aktueller Wert'}
-            </p>
-            {performance.remainingQuantity === 0 ? (
-              <>
-                <p className="text-2xl font-semibold tracking-tight text-neutral-400">Geschlossen</p>
-                <p className="mt-1 text-xs text-neutral-500">Position verkauft</p>
-              </>
-            ) : (
-              <>
-                <p className="text-2xl font-semibold tracking-tight text-white tabular-nums">
-                  {formatCurrency(performance.currentValue)}
-                </p>
-                <p className="mt-1 text-xs text-neutral-500 tabular-nums">
-                  {performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.
-                  {allocation !== null && <> · {allocation.toFixed(1)}%</>}
-                </p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Rendite-Aufschlüsselung: Kurs-Performance vs. Währungs-Effekt */}
-      {fxSplit && Math.abs(fxSplit.plFromFx) > 0.01 && (
-        <section className="bg-theme-card border border-theme rounded-xl p-5">
-          <div className="mb-3 flex items-baseline gap-2">
-            <h3 className="text-[13px] font-semibold text-theme-primary tracking-tight">Rendite-Aufschlüsselung</h3>
-            <span className="text-[10px] text-neutral-500">Aktienkurs vs. Währung</span>
-          </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <div className="rounded-lg border border-theme bg-theme-secondary px-4 py-3">
-              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Kurs-Performance</p>
-              <p className={`text-lg font-semibold tabular-nums ${perfColor(fxSplit.plExclFx)}`}>
-                {fxSplit.plExclFx >= 0 ? '+' : ''}{formatCurrency(fxSplit.plExclFx)}
-              </p>
-              <p className="mt-0.5 text-[10px] text-neutral-500">Wenn der Wechselkurs seit dem Kauf gleich geblieben wäre</p>
-            </div>
-            <div className="rounded-lg border border-theme bg-theme-secondary px-4 py-3">
-              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Währungs-Effekt</p>
-              <p className={`text-lg font-semibold tabular-nums ${perfColor(fxSplit.plFromFx)}`}>
-                {fxSplit.plFromFx >= 0 ? '+' : ''}{formatCurrency(fxSplit.plFromFx)}
-              </p>
-              <p className="mt-0.5 text-[10px] text-neutral-500">Nur durch die Wechselkurs-Bewegung seit dem Kauf</p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Gebühren / Orderkosten */}
-      {(() => {
-        const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
-        if (totalFees <= 0) return null
-        return (
-          <div className="mt-2 px-4 py-2.5 bg-white/[0.04] border border-white/[0.06] rounded-xl flex items-center justify-between">
-            <p className="text-[11px] text-neutral-500 uppercase tracking-wider">Ordergebühren gesamt</p>
-            <p className="text-[13px] font-semibold text-amber-400/90 tabular-nums">
-              {formatCurrency(totalFees)}
-            </p>
-          </div>
-        )
-      })()}
-
-      {/* ETF TER-Kosten */}
-      {etfInfo?.ter !== undefined && performance && performance.currentValue > 0 && (
-        (() => {
-          const yearCost = calculateTERCost(performance.currentValue, etfInfo.ter)
-          const savings = calculateTERSavings(performance.currentValue, etfInfo.ter)
-          const showSavings = etfInfo.ter > 0.20 && savings.savingsPerYear >= 1
-
-          return (
-            <div className="mt-5 bg-theme-card border border-theme rounded-xl p-5">
-              <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mb-3">ETF-Kosten</h3>
-
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div>
-                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">TER</p>
-                  <p className="text-[13px] font-semibold text-white tabular-nums">{formatTER(etfInfo.ter)}</p>
+          <>
+            {/* Titelzeile mit den Kernzahlen — analog zur Depot-Kopfzeile */}
+            <section className="mb-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <h1 className="text-xl font-semibold text-theme-primary">{stockName || ticker}</h1>
+                    <span className="text-sm text-neutral-500">
+                      {ticker}
+                      {allTransactions.length > 0 && (
+                        <> · {allTransactions.length} Buchung{allTransactions.length === 1 ? '' : 'en'}</>
+                      )}
+                    </span>
+                  </div>
+                  <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span className="text-2xl font-semibold text-theme-primary tabular-nums">
+                      {currentPriceEUR !== null ? formatCurrency(currentPriceEUR) : '–'}
+                    </span>
+                    {performance && (
+                      <>
+                        <span className={`text-sm font-medium tabular-nums ${perfColor(performance.totalReturn)}`}>
+                          {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)} · {formatPercentage(totalReturnPercent)}
+                        </span>
+                        <span className="text-sm text-neutral-500">gesamt</span>
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Jährl. Kosten</p>
-                  <p className="text-[13px] font-semibold text-white tabular-nums">{formatCurrency(yearCost)}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Anbieter</p>
-                  <p className="text-[13px] font-semibold text-white truncate">{etfInfo.issuer}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Kategorie</p>
-                  <p className="text-[13px] font-semibold text-white truncate">{etfInfo.category}</p>
-                </div>
-              </div>
 
-              {showSavings && (
-                <div className="mt-4 bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
-                  <div className="flex items-start gap-2.5">
-                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-[12px] font-medium text-amber-300 mb-1">
-                        Sparpotenzial: {formatCurrency(savings.savingsPerYear)}/Jahr
+                {performance && (
+                  <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                    <div>
+                      <p className="text-[11px] text-neutral-500">Bestand</p>
+                      <p className="text-sm font-medium text-theme-primary tabular-nums">
+                        {isClosed ? 'Verkauft' : `${formatQuantity(performance.remainingQuantity)} Stk.`}
                       </p>
-                      <p className="text-[11px] text-neutral-400 leading-relaxed">
-                        Mit einer TER von 0,20% würdest du {formatCurrency(savings.savingsPerYear)}/Jahr sparen ({formatCurrency(savings.savingsOver5Years)} über 5 Jahre, {formatCurrency(savings.savingsOver10Years)} über 10 Jahre).
+                    </div>
+                    <div>
+                      <p className="text-[11px] text-neutral-500">Ø Einstand</p>
+                      <p className="text-sm font-medium text-theme-primary tabular-nums">
+                        {performance.currentAvgCostBasis > 0 ? formatCurrency(performance.currentAvgCostBasis) : '–'}
                       </p>
-                      <p className="text-[10px] text-neutral-600 mt-2">
-                        Keine Anlageberatung. Tatsächliche Kosten können abweichen.
+                    </div>
+                    <div>
+                      <p className="text-[11px] text-neutral-500">Depotanteil</p>
+                      <p className="text-sm font-medium text-theme-primary tabular-nums">
+                        {allocation !== null ? `${allocation.toFixed(1)} %` : '–'}
                       </p>
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          )
-        })()
-      )}
+                )}
+              </div>
+            </section>
 
-      {/* Investment-Case (geteilt mit mein-portfolio: gleiche DB-Spalten) */}
-      <InvestmentCaseCard ticker={ticker} portfolioId={portfolioId} />
-
-      {/* Multi-Depot Breakdown */}
-      {isMultiDepot && depotBreakdowns.length > 1 && (
-        <div className="mt-5">
-          <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mb-3">Aufschlüsselung nach Depot</h3>
-
-          <div className="space-y-2">
-            {depotBreakdowns.map((depot) => {
-              const brokerName = getBrokerDisplayName(depot.brokerType, depot.brokerName)
-              const brokerCol = getBrokerColor(depot.brokerType, depot.brokerColor)
-              const p = depot.performance
-
-              return (
-                <div
-                  key={depot.portfolioId}
-                  className="bg-theme-card border border-theme rounded-xl p-4"
-                >
-                  {/* Depot Header */}
-                  <div className="flex items-center gap-2.5 mb-3 pb-3 border-b border-white/[0.06]">
-                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: brokerCol }} />
-                    <span className="text-[13px] font-semibold text-white">{depot.portfolioName}</span>
-                    {brokerName !== depot.portfolioName && (
-                      <span className="text-[11px] text-neutral-500">{brokerName}</span>
+            <div className="space-y-4">
+              {/* Kennzahlen */}
+              {performance && (
+                <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                  <div className={STAT_CARD}>
+                    <p className="mb-1 text-xs text-neutral-500">Positionswert</p>
+                    {isClosed ? (
+                      <>
+                        <p className="text-lg font-semibold text-neutral-500 dark:text-neutral-400">Geschlossen</p>
+                        <p className="mt-1 text-xs text-neutral-500">Position vollständig verkauft</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-lg font-semibold text-theme-primary tabular-nums">
+                          {formatCurrency(performance.currentValue)}
+                        </p>
+                        <p className="mt-1 text-xs text-neutral-500 tabular-nums">
+                          {formatQuantity(performance.remainingQuantity)} Stk.
+                          {allocation !== null && <> · {allocation.toFixed(1)} % Depotanteil</>}
+                        </p>
+                      </>
                     )}
                   </div>
 
-                  {/* Depot Stats */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className={STAT_CARD}>
+                    <p className="mb-1 text-xs text-neutral-500">
+                      {isClosed ? 'Realisierter Kursgewinn' : 'Kursgewinn'}
+                    </p>
+                    {isClosed ? (
+                      <>
+                        <p className={`text-lg font-semibold tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
+                          {performance.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.totalRealizedGain)}
+                        </p>
+                        {performance.totalInvested > 0 && (
+                          <p className={`mt-1 text-xs tabular-nums ${perfColor(performance.totalRealizedGain, 'muted')}`}>
+                            {formatPercentage((performance.totalRealizedGain / performance.totalInvested) * 100)} auf den Einsatz
+                          </p>
+                        )}
+                      </>
+                    ) : (
+                      <>
+                        <p className={`text-lg font-semibold tabular-nums ${perfColor(performance.unrealizedGain)}`}>
+                          {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
+                        </p>
+                        <p className={`mt-1 text-xs tabular-nums ${perfColor(performance.unrealizedGainPercent, 'muted')}`}>
+                          {formatPercentage(performance.unrealizedGainPercent)} unrealisiert
+                        </p>
+                      </>
+                    )}
+                  </div>
+
+                  <div className={STAT_CARD}>
+                    <p className="mb-1 text-xs text-neutral-500">Gesamtrendite</p>
+                    <p className={`text-lg font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
+                      {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
+                    </p>
+                    <p className={`mt-1 text-xs tabular-nums ${perfColor(totalReturnPercent, 'muted')}`}>
+                      {formatPercentage(totalReturnPercent)} gesamt
+                    </p>
+
+                    {hasReturnBreakdown && (
+                      <div className="mt-2 space-y-0.5 border-t border-neutral-100 pt-2 dark:border-white/[0.05]">
+                        <div className="flex justify-between text-[10px]">
+                          <span className="text-neutral-500">Kursgewinn</span>
+                          <span className={`tabular-nums ${perfColor(performance.unrealizedGain, 'muted')}`}>
+                            {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-[10px]">
+                          <span className="text-neutral-500">Realisiert</span>
+                          <span className={`tabular-nums ${perfColor(performance.totalRealizedGain, 'muted')}`}>
+                            {performance.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.totalRealizedGain)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between text-[10px]">
+                          <span className="text-neutral-500">Dividenden</span>
+                          <span className="tabular-nums text-emerald-600/70 dark:text-emerald-400/70">
+                            +{formatCurrency(performance.totalDividends)}
+                          </span>
+                        </div>
+                        {totalFees > 0 && (
+                          <div className="flex justify-between text-[10px]">
+                            <span className="text-neutral-500">Ordergebühren</span>
+                            <span className="tabular-nums text-amber-600/70 dark:text-amber-400/70">
+                              -{formatCurrency(totalFees)}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className={STAT_CARD}>
+                    <p className="mb-1 text-xs text-neutral-500">Kostenbasis</p>
+                    <p className="text-lg font-semibold text-theme-primary tabular-nums">
+                      {formatCurrency(performance.totalCostBasis)}
+                    </p>
+                    <p className="mt-1 text-xs text-neutral-500 tabular-nums">
+                      {performance.currentAvgCostBasis > 0
+                        ? `Ø ${formatCurrency(performance.currentAvgCostBasis)} je Stück`
+                        : `${formatCurrency(performance.totalInvested)} investiert`}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Chart + Positionsdetails */}
+              <div className="grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+                {history.length > 0 ? (
+                  <WorkingStockChart
+                    ticker={ticker}
+                    data={history}
+                    purchaseMarkers={chartMarkers.length > 0 ? chartMarkers : undefined}
+                    displayCurrency="EUR"
+                    chartHeightClass="h-[280px] xl:h-[320px]"
+                  />
+                ) : (
+                  <section className={`${CARD} flex min-h-[280px] items-center justify-center p-6 text-center`}>
+                    <p className="text-sm text-neutral-500">Keine Kursdaten verfügbar</p>
+                  </section>
+                )}
+
+                <section className={`${CARD} p-5`}>
+                  <h2 className="text-sm font-medium text-theme-primary">Positionsdetails</h2>
+                  <p className="mt-1 text-xs text-theme-muted">Alle Werte in Euro</p>
+
+                  <div className="mt-4 divide-y divide-neutral-100 dark:divide-white/[0.05]">
+                    <DetailRow
+                      label="Aktueller Kurs"
+                      value={currentPriceEUR !== null ? formatCurrency(currentPriceEUR) : '–'}
+                    />
+                    {performance && (
+                      <>
+                        <DetailRow
+                          label="Ø Einstand"
+                          value={performance.currentAvgCostBasis > 0 ? formatCurrency(performance.currentAvgCostBasis) : '–'}
+                        />
+                        <DetailRow
+                          label="Bestand"
+                          value={isClosed ? 'Verkauft' : `${formatQuantity(performance.remainingQuantity)} Stk.`}
+                        />
+                        <DetailRow label="Kostenbasis" value={formatCurrency(performance.totalCostBasis)} />
+                        <DetailRow label="Investiert gesamt" value={formatCurrency(performance.totalInvested)} />
+                        <DetailRow
+                          label="Realisiert"
+                          value={`${performance.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(performance.totalRealizedGain)}`}
+                          valueClass={performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-500'}
+                        />
+                        <DetailRow
+                          label="Dividenden"
+                          value={`+${formatCurrency(performance.totalDividends)}`}
+                          valueClass={performance.totalDividends > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-500'}
+                        />
+                      </>
+                    )}
+                    {totalFees > 0 && (
+                      <DetailRow
+                        label="Ordergebühren"
+                        value={`-${formatCurrency(totalFees)}`}
+                        valueClass="text-amber-600 dark:text-amber-400"
+                      />
+                    )}
+                    {allocation !== null && (
+                      <DetailRow label="Depotanteil" value={`${allocation.toFixed(1)} %`} />
+                    )}
+                    {isMultiDepot && depotBreakdowns.length > 1 && (
+                      <DetailRow label="Depots" value={`${depotBreakdowns.length}`} />
+                    )}
+                    {etfInfo?.ter !== undefined && (
+                      <>
+                        <DetailRow label="TER" value={formatTER(etfInfo.ter)} />
+                        {etfYearCost !== null && (
+                          <DetailRow label="Jährl. ETF-Kosten" value={formatCurrency(etfYearCost)} />
+                        )}
+                        {etfInfo.issuer && <DetailRow label="Anbieter" value={etfInfo.issuer} />}
+                        {etfInfo.category && <DetailRow label="Kategorie" value={etfInfo.category} />}
+                      </>
+                    )}
+                  </div>
+
+                  {showEtfSavings && etfSavings && (
+                    <div className="mt-4 rounded-lg border border-amber-500/20 bg-amber-500/[0.06] p-3">
+                      <div className="flex items-start gap-2.5">
+                        <ExclamationTriangleIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-500 dark:text-amber-400" />
+                        <div className="min-w-0">
+                          <p className="text-[12px] font-medium text-amber-700 dark:text-amber-300">
+                            Sparpotenzial: {formatCurrency(etfSavings.savingsPerYear)}/Jahr
+                          </p>
+                          <p className="mt-1 text-[11px] leading-relaxed text-theme-muted">
+                            Mit einer TER von 0,20 % wären es {formatCurrency(etfSavings.savingsOver5Years)} über 5 Jahre
+                            und {formatCurrency(etfSavings.savingsOver10Years)} über 10 Jahre.
+                          </p>
+                          <p className="mt-1.5 text-[10px] text-neutral-500">
+                            Keine Anlageberatung. Tatsächliche Kosten können abweichen.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </section>
+              </div>
+
+              {/* Währungseffekt + Investment-Case */}
+              <div className="grid gap-4 lg:grid-cols-2">
+                  {fxSplit && Math.abs(fxSplit.plFromFx) > 0.01 && (
+                    <section className={`${CARD} p-5`}>
+                      <h2 className="text-sm font-medium text-theme-primary">Rendite-Aufschlüsselung</h2>
+                      <p className="mt-1 text-xs text-theme-muted">Aktienkurs und Währung getrennt</p>
+                      <div className="mt-4 space-y-2">
+                        <div className="flex items-center justify-between gap-3 rounded-lg border border-theme bg-theme-secondary px-3.5 py-2.5">
+                          <div className="min-w-0">
+                            <p className="text-[13px] font-medium text-theme-primary">Kurs-Performance</p>
+                            <p className="mt-0.5 text-[11px] text-neutral-500">
+                              Wechselkurs seit Kauf unverändert gedacht
+                            </p>
+                          </div>
+                          <p className={`shrink-0 text-sm font-semibold tabular-nums ${perfColor(fxSplit.plExclFx)}`}>
+                            {fxSplit.plExclFx >= 0 ? '+' : ''}{formatCurrency(fxSplit.plExclFx)}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between gap-3 rounded-lg border border-theme bg-theme-secondary px-3.5 py-2.5">
+                          <div className="min-w-0">
+                            <p className="text-[13px] font-medium text-theme-primary">Währungs-Effekt</p>
+                            <p className="mt-0.5 text-[11px] text-neutral-500">
+                              Nur aus der Wechselkurs-Bewegung seit Kauf
+                            </p>
+                          </div>
+                          <p className={`shrink-0 text-sm font-semibold tabular-nums ${perfColor(fxSplit.plFromFx)}`}>
+                            {fxSplit.plFromFx >= 0 ? '+' : ''}{formatCurrency(fxSplit.plFromFx)}
+                          </p>
+                        </div>
+                      </div>
+                    </section>
+                  )}
+
+                  {/* Investment-Case (geteilt mit mein-portfolio: gleiche DB-Spalten) */}
+                  <InvestmentCaseCard ticker={ticker} portfolioId={portfolioId} />
+              </div>
+
+              {/* Aufschlüsselung nach Depot */}
+              {isMultiDepot && depotBreakdowns.length > 1 && (
+                <section className={`${CARD} p-5`}>
+                  <h2 className="text-sm font-medium text-theme-primary">Aufschlüsselung nach Depot</h2>
+                  <p className="mt-1 text-xs text-theme-muted">
+                    {depotBreakdowns.length} Depots mit einer Position in {ticker}
+                  </p>
+
+                  <div className="mt-4">
+                    <div className="hidden grid-cols-12 gap-4 px-2 pb-2 text-xs font-medium text-neutral-500 sm:grid">
+                      <div className="col-span-4">Depot</div>
+                      <div className="col-span-2 text-right">Bestand</div>
+                      <div className="col-span-2 text-right">Kursgewinn</div>
+                      <div className="col-span-2 text-right">Realisiert</div>
+                      <div className="col-span-2 text-right">Dividenden</div>
+                    </div>
+
+                    {depotBreakdowns.map(depot => {
+                      const brokerName = getBrokerDisplayName(depot.brokerType, depot.brokerName)
+                      const brokerCol = getBrokerColor(depot.brokerType, depot.brokerColor)
+                      const p = depot.performance
+
+                      return (
+                        <div
+                          key={depot.portfolioId}
+                          className="grid grid-cols-2 gap-x-4 gap-y-2 border-b border-neutral-100 px-2 py-3 last:border-b-0 dark:border-white/[0.05] sm:grid-cols-12 sm:items-center sm:gap-4"
+                        >
+                          <div className="col-span-2 flex min-w-0 items-center gap-2.5 sm:col-span-4">
+                            <span
+                              className="h-2 w-2 flex-shrink-0 rounded-full"
+                              style={{ backgroundColor: brokerCol }}
+                            />
+                            <span className="truncate text-[13px] font-medium text-theme-primary">
+                              {depot.portfolioName}
+                            </span>
+                            {brokerName !== depot.portfolioName && (
+                              <span className="hidden truncate text-[11px] text-neutral-500 sm:inline">{brokerName}</span>
+                            )}
+                          </div>
+
+                          <div className="sm:col-span-2 sm:text-right">
+                            <p className="text-[11px] text-neutral-500 sm:hidden">Bestand</p>
+                            <p className="text-[13px] text-theme-primary tabular-nums">
+                              {p.remainingQuantity > 0 ? `${formatQuantity(p.remainingQuantity)} Stk.` : 'Verkauft'}
+                            </p>
+                          </div>
+
+                          <div className="sm:col-span-2 sm:text-right">
+                            <p className="text-[11px] text-neutral-500 sm:hidden">Kursgewinn</p>
+                            <p className={`text-[13px] font-medium tabular-nums ${perfColor(p.unrealizedGain)}`}>
+                              {p.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(p.unrealizedGain)}
+                            </p>
+                          </div>
+
+                          <div className="sm:col-span-2 sm:text-right">
+                            <p className="text-[11px] text-neutral-500 sm:hidden">Realisiert</p>
+                            <p className={`text-[13px] tabular-nums ${p.totalRealizedGain !== 0 ? perfColor(p.totalRealizedGain) : 'text-neutral-500'}`}>
+                              {p.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(p.totalRealizedGain)}
+                            </p>
+                          </div>
+
+                          <div className="sm:col-span-2 sm:text-right">
+                            <p className="text-[11px] text-neutral-500 sm:hidden">Dividenden</p>
+                            <p className={`text-[13px] tabular-nums ${p.totalDividends > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-500'}`}>
+                              +{formatCurrency(p.totalDividends)}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </section>
+              )}
+
+              {/* Transaktionen */}
+              {allTransactions.length > 0 && currentPriceEUR !== null && performance ? (
+                <section className={`${CARD} p-5`}>
+                  <div className="mb-4 flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Position</p>
-                      <p className="text-[13px] font-semibold text-white tabular-nums">
-                        {p.remainingQuantity > 0
-                          ? `${p.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.`
-                          : 'Verkauft'
-                        }
+                      <h2 className="text-sm font-medium text-theme-primary">Transaktionen</h2>
+                      <p className="mt-1 text-xs text-theme-muted">
+                        {allTransactions.length} Buchung{allTransactions.length !== 1 ? 'en' : ''} · chronologisch ·
+                        {' '}Kürzel wie im Chart
                       </p>
                     </div>
-                    <div>
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Kursgewinn</p>
-                      <p className={`text-[13px] font-semibold tabular-nums ${perfColor(p.unrealizedGain)}`}>
-                        {p.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(p.unrealizedGain)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Realisiert</p>
-                      <p className={`text-[13px] font-semibold tabular-nums ${p.totalRealizedGain !== 0 ? perfColor(p.totalRealizedGain) : 'text-neutral-600'}`}>
-                        {p.totalRealizedGain !== 0
-                          ? `${p.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(p.totalRealizedGain)}`
-                          : formatCurrency(0)
-                        }
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Dividenden</p>
-                      <p className={`text-[13px] font-semibold tabular-nums ${p.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
-                        {p.totalDividends > 0 ? `+${formatCurrency(p.totalDividends)}` : formatCurrency(0)}
+                    <div className="shrink-0 text-right">
+                      <p className="text-[11px] text-neutral-500">Ergebnis gesamt</p>
+                      <p className={`whitespace-nowrap text-sm font-medium tabular-nums ${perfColor(performance.totalReturn)}`}>
+                        {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
                       </p>
                     </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
 
-      {/* Transaktionshistorie */}
-      {allTransactions.length > 0 && currentPriceEUR !== null && performance && (
-        <div className="mt-5 bg-theme-card border border-theme rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-white/[0.06]">
-            <h3 className="text-sm font-medium text-white">Transaktionen</h3>
-            <p className="text-[11px] text-neutral-500 mt-0.5">
-              {allTransactions.length} Buchung{allTransactions.length !== 1 ? 'en' : ''} · chronologisch
-            </p>
-          </div>
+                  <div className="hidden grid-cols-12 gap-4 px-2 pb-2 text-xs font-medium text-neutral-500 sm:grid">
+                    <div className="col-span-3">Datum</div>
+                    <div className="col-span-2">Typ</div>
+                    <div className="col-span-3 text-right">Stück × Kurs</div>
+                    <div className="col-span-2 text-right">Betrag</div>
+                    <div className="col-span-2 text-right">Ergebnis</div>
+                  </div>
 
-          <div>
-            {(() => {
-              const sorted = [...allTransactions].sort(
-                (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-              )
-              let buyIdx = 0
-              let sellIdx = 0
-              let divIdx = 0
-              let transferIdx = 0
+                  {(() => {
+                    const sorted = [...allTransactions].sort(
+                      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+                    )
+                    // Laufende Nummern je Typ — gleiche Kürzel wie die Chart-Marker
+                    const count = { buy: 0, sell: 0, dividend: 0, transfer: 0 }
 
-              return sorted.map((tx) => {
-                if (tx.type === 'buy') {
-                  buyIdx++
-                  const label = `K${buyIdx}`
-                  const cost = tx.quantity * tx.price
-                  const value = tx.quantity * currentPriceEUR
-                  const gainLoss = value - cost
-                  const gainLossPercent = cost > 0 ? (gainLoss / cost) * 100 : 0
-                  const isPositive = gainLoss >= 0
+                    return sorted.map(tx => {
+                      let badge = ''
+                      let badgeClass = ''
+                      let typeLabel = ''
+                      let typeClass = ''
+                      let detail: string | null = null
+                      let amount: string | null = null
+                      let resultValue: number | null = null
+                      let resultPercent: number | null = null
 
-                  return (
-                    <div
-                      key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="w-6 h-6 flex items-center justify-center bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-full tabular-nums">
-                          {label}
-                        </span>
-                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
-                      </div>
-                      <span className="text-[11px] text-emerald-400/70 font-medium uppercase tracking-wider">Kauf</span>
-                      <div className="text-[12px] text-neutral-300 tabular-nums text-right">
-                        {tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} × {formatCurrency(tx.price)}
-                      </div>
-                      <div className="text-right min-w-[100px]">
-                        <p className={`text-[13px] font-semibold tabular-nums ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                          {isPositive ? '+' : ''}{formatCurrency(gainLoss)}
-                        </p>
-                        <p className={`text-[10px] tabular-nums ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
-                          {isPositive ? '+' : ''}{gainLossPercent.toFixed(1)}%
-                        </p>
-                      </div>
-                    </div>
-                  )
-                }
+                      if (tx.type === 'buy') {
+                        badge = `K${++count.buy}`
+                        badgeClass = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                        typeLabel = 'Kauf'
+                        typeClass = 'text-emerald-600/90 dark:text-emerald-400/80'
+                        const cost = tx.quantity * tx.price
+                        detail = `${formatQuantity(tx.quantity)} × ${formatCurrency(tx.price)}`
+                        amount = formatCurrency(cost)
+                        resultValue = tx.quantity * currentPriceEUR - cost
+                        resultPercent = cost > 0 ? (resultValue / cost) * 100 : 0
+                      } else if (tx.type === 'sell') {
+                        badge = `V${++count.sell}`
+                        badgeClass = 'bg-red-500/10 text-red-600 dark:text-red-400'
+                        typeLabel = 'Verkauf'
+                        typeClass = 'text-red-600/90 dark:text-red-400/80'
+                        const rgInfo = performance.realizedGainByTxId.get(tx.id)
+                        detail = `${formatQuantity(tx.quantity)} × ${formatCurrency(tx.price)}`
+                        amount = formatCurrency(tx.quantity * tx.price)
+                        resultValue = rgInfo?.realizedGain ?? 0
+                        resultPercent = rgInfo?.realizedGainPercent ?? 0
+                      } else if (tx.type === 'dividend') {
+                        badge = `D${++count.dividend}`
+                        badgeClass = 'bg-blue-500/10 text-blue-600 dark:text-blue-400'
+                        typeLabel = 'Dividende'
+                        typeClass = 'text-blue-600/90 dark:text-blue-400/80'
+                        resultValue = tx.total_value
+                      } else {
+                        const isIn = tx.type === 'transfer_in'
+                        badge = `T${++count.transfer}`
+                        badgeClass = 'bg-violet-500/10 text-violet-600 dark:text-violet-400'
+                        typeLabel = isIn ? 'Einbuchung' : 'Ausbuchung'
+                        typeClass = 'text-violet-600/90 dark:text-violet-400/80'
+                        detail = `${formatQuantity(tx.quantity)} × ${formatCurrency(tx.price)}`
+                        amount = formatCurrency(tx.quantity * tx.price)
+                      }
 
-                if (tx.type === 'sell') {
-                  sellIdx++
-                  const label = `V${sellIdx}`
-                  const rgInfo = performance.realizedGainByTxId.get(tx.id)
-                  const realizedGain = rgInfo?.realizedGain ?? 0
-                  const realizedPercent = rgInfo?.realizedGainPercent ?? 0
-                  const isPositive = realizedGain >= 0
+                      return (
+                        <div
+                          key={tx.id}
+                          className="grid grid-cols-2 gap-x-4 gap-y-1 rounded-lg border-b border-neutral-100 px-2 py-2.5 transition-colors last:border-b-0 hover:bg-neutral-50 dark:border-white/[0.05] dark:hover:bg-white/[0.04] sm:grid-cols-12 sm:items-center sm:gap-4"
+                        >
+                          <div className="col-span-2 flex items-center gap-2.5 sm:col-span-3">
+                            <span
+                              className={`inline-flex h-5 min-w-[1.5rem] items-center justify-center rounded-md px-1 text-[10px] font-semibold tabular-nums ${badgeClass}`}
+                            >
+                              {badge}
+                            </span>
+                            <span className="text-[12px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
+                            <span className={`text-[12px] font-medium sm:hidden ${typeClass}`}>{typeLabel}</span>
+                          </div>
 
-                  return (
-                    <div
-                      key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="w-6 h-6 flex items-center justify-center bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-bold rounded-full tabular-nums">
-                          {label}
-                        </span>
-                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
-                      </div>
-                      <span className="text-[11px] text-red-400/70 font-medium uppercase tracking-wider">Verkauf</span>
-                      <div className="text-[12px] text-neutral-300 tabular-nums text-right">
-                        {tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} × {formatCurrency(tx.price)}
-                      </div>
-                      <div className="text-right min-w-[100px]">
-                        <p className={`text-[13px] font-semibold tabular-nums ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                          {isPositive ? '+' : ''}{formatCurrency(realizedGain)}
-                        </p>
-                        <p className={`text-[10px] tabular-nums ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
-                          {isPositive ? '+' : ''}{realizedPercent.toFixed(1)}%
-                        </p>
-                      </div>
-                    </div>
-                  )
-                }
+                          <div className={`hidden text-[12px] font-medium sm:col-span-2 sm:block ${typeClass}`}>
+                            {typeLabel}
+                          </div>
 
-                if (tx.type === 'dividend') {
-                  divIdx++
-                  const label = `D${divIdx}`
+                          <div className="text-[12px] text-neutral-500 tabular-nums sm:col-span-3 sm:text-right">
+                            {detail ?? '–'}
+                          </div>
 
-                  return (
-                    <div
-                      key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="w-6 h-6 flex items-center justify-center bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold rounded-full tabular-nums">
-                          {label}
-                        </span>
-                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
-                      </div>
-                      <span className="text-[11px] text-blue-400/70 font-medium uppercase tracking-wider">Dividende</span>
-                      <div />
-                      <div className="text-right min-w-[100px]">
-                        <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
-                          +{formatCurrency(tx.total_value)}
-                        </p>
-                      </div>
-                    </div>
-                  )
-                }
+                          <div className="hidden text-[12px] text-theme-primary tabular-nums sm:col-span-2 sm:block sm:text-right">
+                            {amount ?? '–'}
+                          </div>
 
-                if (tx.type === 'transfer_in' || tx.type === 'transfer_out') {
-                  transferIdx++
-                  const label = `T${transferIdx}`
-                  const isIn = tx.type === 'transfer_in'
-
-                  return (
-                    <div
-                      key={tx.id}
-                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-white/[0.05] hover:bg-white/[0.04] transition-colors"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <span className="w-6 h-6 flex items-center justify-center bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[10px] font-bold rounded-full tabular-nums">
-                          {label}
-                        </span>
-                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
-                      </div>
-                      <span className="text-[11px] text-violet-400/70 font-medium uppercase tracking-wider">{isIn ? 'Einbuchung' : 'Ausbuchung'}</span>
-                      <div className="text-[12px] text-neutral-300 tabular-nums text-right">
-                        {tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} × {formatCurrency(tx.price)}
-                      </div>
-                      <div className="text-right min-w-[100px]">
-                        <p className="text-[12px] text-neutral-400 tabular-nums">
-                          {formatCurrency(tx.quantity * tx.price)}
-                        </p>
-                      </div>
-                    </div>
-                  )
-                }
-
-                return null
-              })
-            })()}
-
-            {/* Gesamt-Zeile */}
-            {allTransactions.length > 1 && performance && (
-              <div className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-3 bg-white/[0.03]">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 flex items-center justify-center bg-white/[0.08] border border-white/[0.14] text-neutral-300 text-[10px] font-bold rounded-full">
-                    Σ
-                  </span>
-                  <span className="text-[11px] text-neutral-400 font-medium uppercase tracking-wider">Gesamt</span>
-                </div>
-                <div />
-                <div className="text-[12px] text-neutral-300 tabular-nums text-right">
-                  {performance.remainingQuantity > 0
-                    ? `${performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.`
-                    : 'Position geschlossen'
-                  }
-                </div>
-                <div className="text-right min-w-[100px]">
-                  <p className={`text-[13px] font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
-                    {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Keine Transaktionen */}
-      {allTransactions.length === 0 && !loading && (
-        <div className="mt-5 bg-theme-card border border-theme rounded-xl border-dashed p-10 text-center">
-          <p className="text-[13px] text-neutral-500">Keine Transaktionen für {ticker} vorhanden.</p>
-        </div>
-      )}
+                          <div className="text-right sm:col-span-2">
+                            {resultValue !== null ? (
+                              <>
+                                <p className={`text-[13px] font-semibold tabular-nums ${perfColor(resultValue)}`}>
+                                  {resultValue >= 0 ? '+' : ''}{formatCurrency(resultValue)}
+                                </p>
+                                {resultPercent !== null && (
+                                  <p className={`text-[10px] tabular-nums ${perfColor(resultPercent, 'muted')}`}>
+                                    {formatPercentage(resultPercent)}
+                                  </p>
+                                )}
+                              </>
+                            ) : (
+                              // Übertrag: Betrag-Spalte ist mobil ausgeblendet → hier einblenden
+                              <p className="text-[12px] text-neutral-500 tabular-nums">
+                                <span className="sm:hidden">{amount ?? '–'}</span>
+                                <span className="hidden sm:inline">–</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })
+                  })()}
+                </section>
+              ) : (
+                allTransactions.length === 0 && (
+                  <section className={`${CARD} border-dashed p-10 text-center`}>
+                    <p className="text-[13px] text-neutral-500">Keine Transaktionen für {ticker} vorhanden.</p>
+                  </section>
+                )
+              )}
+            </div>
+          </>
+        )}
+      </main>
     </div>
   )
 }

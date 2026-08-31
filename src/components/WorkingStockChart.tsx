@@ -537,13 +537,26 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
   const resolvedMarkers = useMemo(() => {
     if (!purchaseMarkers?.length || !chartData.length || selectedMode !== 'price') return []
 
+    // Nur Buchungen aus dem sichtbaren Zeitfenster: alles davor/danach würde
+    // sonst an den Chartrand geschnappt — mit falschem Datum und, bei Kursen
+    // aus der Zeit vor einem Split, einem Preis, der die Y-Skala sprengt.
+    const dayMs = 24 * 60 * 60 * 1000
+    const firstTime = new Date(String(chartData[0].date)).getTime()
+    const lastTime = new Date(String(chartData[chartData.length - 1].date)).getTime()
+    const spacing = chartData.length > 1 ? (lastTime - firstTime) / (chartData.length - 1) : 0
+    const tolerance = Math.max(spacing, dayMs)
+
     return purchaseMarkers.map(marker => {
+      const markerTime = new Date(marker.date).getTime()
+      if (!Number.isFinite(markerTime)) return null
+      if (markerTime < firstTime - tolerance || markerTime > lastTime + tolerance) return null
+
       // Exakten Match oder nächsten Datenpunkt finden (für X-Achse)
       let bestMatch = chartData[0]
       let bestDiff = Infinity
 
       for (const point of chartData) {
-        const diff = Math.abs(new Date(point.date).getTime() - new Date(marker.date).getTime())
+        const diff = Math.abs(new Date(String(point.date)).getTime() - markerTime)
         if (diff < bestDiff) {
           bestDiff = diff
           bestMatch = point
@@ -554,8 +567,10 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       if (typeof chartValue !== 'number') return null
 
       // Kaufpreis verwenden wenn verfügbar (zeigt echten EK statt Schlusskurs),
-      // Fallback auf Chart-Schlusskurs wenn priceEUR fehlt oder 0
-      const yValue = marker.priceEUR > 0 ? marker.priceEUR : chartValue
+      // Fallback auf Chart-Schlusskurs wenn priceEUR fehlt oder 0.
+      // Dividendenmarker tragen den Ausschüttungsbetrag statt eines Kurses —
+      // die gehören auf die Kurslinie, sonst rutschen sie unter den Chart.
+      const yValue = marker.type === 'dividend' || marker.priceEUR <= 0 ? chartValue : marker.priceEUR
 
       return {
         date: bestMatch.date,
@@ -586,11 +601,17 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
 
     const dataLo = lo
     const dataHi = hi
+    // Marker dürfen die Skala nur begrenzt dehnen: ein unbereinigter Kurs aus
+    // der Zeit vor einem Split (Buchung trägt den alten Preis) würde die
+    // Kurslinie sonst zu einem flachen Strich am unteren Rand stauchen.
+    const stretchLimit = (dataHi - dataLo || Math.abs(dataHi) || 1) * 0.25
     for (const m of resolvedMarkers) {
-      // Dividendenmarker tragen den Ausschüttungsbetrag (kein Kurs) — würden die
-      // Skala verzerren; nur echte Kurspreise (Kauf/Verkauf/Spin-off) einbeziehen.
+      // Dividendenmarker liegen auf der Kurslinie und ändern die Skala nicht.
       if (m.type === 'dividend') continue
-      if (typeof m.value === 'number' && m.value > 0) { lo = Math.min(lo, m.value); hi = Math.max(hi, m.value) }
+      if (typeof m.value !== 'number' || m.value <= 0) continue
+      if (m.value < dataLo - stretchLimit || m.value > dataHi + stretchLimit) continue
+      lo = Math.min(lo, m.value)
+      hi = Math.max(hi, m.value)
     }
     if (lo >= dataLo && hi <= dataHi) return ['dataMin', 'dataMax']
 

@@ -115,15 +115,15 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
   )
 
   return (
-    <div className="mt-5 px-4 py-4 bg-white/[0.04] border border-white/[0.06] rounded-xl">
+    <div className="bg-theme-card border border-theme rounded-xl p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider">Mein Investment-Case</p>
+          <h2 className="text-sm font-medium text-theme-primary">Mein Investment-Case</h2>
           {updatedAt && !editing && (
-            <p className="text-[10px] text-neutral-600 mt-0.5">
+            <p className="mt-1 text-xs text-theme-muted">
               Zuletzt aktualisiert {new Date(updatedAt).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}
               {ageInMonths !== null && ageInMonths >= 6 && (
-                <span className="text-amber-400/80 ml-2">· vor {ageInMonths} Monaten — noch aktuell?</span>
+                <span className="ml-2 text-amber-600 dark:text-amber-400/80">· vor {ageInMonths} Monaten — noch aktuell?</span>
               )}
             </p>
           )}
@@ -131,7 +131,7 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            className="text-[11px] text-neutral-500 hover:text-neutral-300 transition-colors flex items-center gap-1.5 flex-shrink-0"
+            className="flex flex-shrink-0 items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] text-neutral-500 transition-colors hover:bg-white/[0.06] hover:text-theme-primary"
           >
             {pencil}
             {text ? 'Bearbeiten' : 'Case schreiben'}
@@ -146,11 +146,11 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
             onChange={e => setText(e.target.value.slice(0, MAX_LENGTH))}
             placeholder={`Warum hast du ${ticker} gekauft? Z.B. "KGV unter 20, starker Cashflow, Buyback-Programm — Verkauf nur, wenn die Marge unter 40% fällt."`}
             rows={4}
-            className="w-full bg-white/[0.03] border border-white/[0.08] rounded-lg px-3 py-2.5 text-[13px] text-neutral-200 placeholder:text-neutral-600 focus:outline-none focus:border-white/[0.18] transition-colors resize-none"
+            className="w-full resize-none rounded-lg border border-theme bg-theme-secondary px-3 py-2.5 text-[13px] text-theme-primary transition-colors placeholder:text-neutral-500 focus:border-teal-400/40 focus:outline-none"
             autoFocus
           />
           <div className="flex items-center justify-between mt-2">
-            <span className={`text-[10px] tabular-nums ${MAX_LENGTH - text.length < 50 ? 'text-amber-400' : 'text-neutral-600'}`}>
+            <span className={`text-[10px] tabular-nums ${MAX_LENGTH - text.length < 50 ? 'text-amber-500 dark:text-amber-400' : 'text-neutral-500'}`}>
               {text.length}/{MAX_LENGTH}
             </span>
             <div className="flex items-center gap-2">
@@ -173,9 +173,9 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
           </div>
         </div>
       ) : text ? (
-        <p className="mt-2.5 text-[13px] text-neutral-300 leading-relaxed whitespace-pre-wrap">{text}</p>
+        <p className="mt-3 whitespace-pre-wrap text-[13px] leading-relaxed text-theme-secondary">{text}</p>
       ) : (
-        <p className="mt-2 text-[12px] text-neutral-600">
+        <p className="mt-3 text-[12px] text-neutral-500">
           Warum hast du {ticker} gekauft? Schreib es auf — hilft gegen Panik-Verkäufe und FOMO.
         </p>
       )}
