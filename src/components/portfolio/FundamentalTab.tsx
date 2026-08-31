@@ -274,6 +274,33 @@ export default function FundamentalTab({ holdings, formatCurrency }: Fundamental
             />
           </div>
 
+          {coverage.restricted.length > 0 && (
+            <div className="mt-4">
+              <p className="text-[10px] font-medium text-theme-muted uppercase tracking-[0.14em] mb-2">
+                Ohne Bewertungskennzahlen
+              </p>
+              <ul className="space-y-1">
+                {coverage.restricted.map(r => (
+                  <li key={r.symbol} className="flex items-baseline justify-between gap-3 text-[11px]">
+                    <span className="text-theme-secondary truncate">
+                      {r.symbol}
+                      <span className="text-theme-muted"> · {r.name}</span>
+                    </span>
+                    <span className="text-theme-muted shrink-0 tabular-nums">
+                      {formatCurrency(r.value)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-[10px] text-theme-muted leading-relaxed mt-3">
+                Bei diesen Positionen passen Notierungs- und Berichtswährung nicht sicher
+                zusammen (z.&nbsp;B. Londoner Kurse in Pence oder ADRs mit unbekanntem
+                Bezugsverhältnis). KGV, KUV und FCF-Rendite bleiben deshalb außen vor —
+                Margen, Wachstum und Verschuldung fließen weiterhin ein.
+              </p>
+            </div>
+          )}
+
           {coverage.missing.length > 0 && (
             <div className="mt-4">
               <p className="text-[10px] font-medium text-theme-muted uppercase tracking-[0.14em] mb-2">

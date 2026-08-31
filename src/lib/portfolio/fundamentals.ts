@@ -6,6 +6,7 @@
 // der Kurs aus der Notierungswährung der Position — beide müssen zueinander passen.
 
 import type { SecFinancialPeriod, FinancialDataSource } from '@/lib/sec/secFinancialService'
+import { isForeignFilerOverride } from '@/lib/sec/cikMapping'
 
 /** Eine Depotposition, so wie sie das Frontend kennt. */
 export interface PositionInput {
@@ -24,6 +25,11 @@ export interface PositionFundamentals {
   value: number
   source: FinancialDataSource
   fiscalYear: number | null
+  /**
+   * Passen Notierungs- und Berichtswährung sicher zusammen?
+   * Wenn nein, bleiben die kursbasierten Kennzahlen (KGV, KUV, FCF-Rendite) null.
+   */
+  priceCurrencyOk: boolean
   peRatio: number | null
   psRatio: number | null
   fcfYield: number | null
@@ -32,6 +38,11 @@ export interface PositionFundamentals {
   earningsGrowth3y: number | null
   netDebtToFcf: number | null
   dividendCoverage: number | null
+  // Rohbausteine für die Look-Through-Aggregation (Berichtswährung, absolut).
+  netDebt: number | null
+  freeCashFlow: number | null
+  /** Ausgeschüttete Dividenden als positiver Betrag; null, wenn keine gezahlt. */
+  dividendsPaid: number | null
 }
 
 /** Ein aggregierter Wert plus die Angabe, worauf er beruht. */
@@ -50,6 +61,18 @@ export interface MissingPosition {
   reason: 'keine-fundamentaldaten' | 'kein-kurs'
 }
 
+/**
+ * Position mit Fundamentaldaten, die aber nicht in die kursbasierten
+ * Kennzahlen (KGV, KUV, FCF-Rendite) einfließt — Margen, Wachstum und
+ * Verschuldung werden weiterhin berücksichtigt.
+ */
+export interface RestrictedPosition {
+  symbol: string
+  name: string
+  value: number
+  reason: 'waehrung-unsicher'
+}
+
 export interface PortfolioFundamentals {
   peRatio: AggregatedMetric
   psRatio: AggregatedMetric
@@ -65,6 +88,8 @@ export interface PortfolioFundamentals {
     coveredValue: number
     totalValue: number
     missing: MissingPosition[]
+    /** Abgedeckt, aber ohne kursbasierte Kennzahlen (Währung unsicher). */
+    restricted: RestrictedPosition[]
   }
   positions: PositionFundamentals[]
 }
@@ -73,6 +98,35 @@ export interface PortfolioFundamentals {
 
 function isFinite(n: number | null | undefined): n is number {
   return typeof n === 'number' && Number.isFinite(n)
+}
+
+/** US-Aktienklassen wie BRK.B — Punkt-Suffix, aber kein Börsen-Suffix. */
+const US_CLASS_SUFFIXES = new Set(['A', 'B', 'C'])
+
+/** Börsen-Suffix (Yahoo-Notation, z.B. "BMW.DE" → "DE"); null bei US-Listing. */
+function exchangeSuffix(symbol: string): string | null {
+  const idx = symbol.lastIndexOf('.')
+  if (idx < 0) return null
+  const suffix = symbol.slice(idx + 1)
+  return US_CLASS_SUFFIXES.has(suffix) ? null : suffix
+}
+
+/**
+ * Kursbasierte Kennzahlen nur, wenn Notierungs- und Berichtswährung sicher
+ * zusammenpassen. Ein genereller FX/ADR-Umrechner ist hier nicht möglich:
+ * die Berichtswährung geht beim XBRL-Parsen verloren, ADR-Bezugsverhältnisse
+ * (z.B. BP 1:6) kennen wir nicht. Londoner Kurse sind zudem in Pence (GBX).
+ * Sicher sind deshalb nur:
+ *   - US-Listing ohne Börsen-Suffix mit SEC-Daten, sofern kein Override auf
+ *     einen ausländischen 20-F-Filer (siehe cikMapping)
+ *   - .DE-Listing mit eigenen DAX-Daten (EUR/EUR)
+ */
+export function priceCurrencyMatches(symbol: string, source: FinancialDataSource): boolean {
+  const normalized = symbol.toUpperCase().trim()
+  const suffix = exchangeSuffix(normalized)
+  if (source === 'finclue-manual') return suffix === 'DE'
+  if (source === 'sec-xbrl') return suffix === null && !isForeignFilerOverride(normalized)
+  return false
 }
 
 /** Division, die bei 0, null oder Unendlich sauber null liefert. */
@@ -147,6 +201,36 @@ function weightedRatio(
   }
 }
 
+/**
+ * Look-Through-Aggregation: gewichtete Summe der Zähler ÷ gewichtete Summe
+ * der Nenner. Bewusst NICHT der gewichtete Mittelwert der Einzel-Verhältnisse:
+ * den dominiert eine einzige Position mit Mini-Nenner (z.B. FCF nahe null).
+ * Nenner müssen positiv sein — dieselbe Ausschlussregel wie je Position.
+ */
+function ratioOfSums(
+  entries: Array<{ weight: number; numerator: number | null; denominator: number | null }>,
+  totalValue: number,
+): AggregatedMetric {
+  const usable = entries.filter(
+    e => isFinite(e.numerator) && isFinite(e.denominator) && e.denominator > 0 && e.weight > 0,
+  )
+  const weightSum = usable.reduce((sum, e) => sum + e.weight, 0)
+
+  if (usable.length === 0 || weightSum === 0) {
+    return { value: null, positions: 0, valueShare: 0 }
+  }
+
+  const numerator = usable.reduce((sum, e) => sum + e.weight * (e.numerator as number), 0)
+  const denominator = usable.reduce((sum, e) => sum + e.weight * (e.denominator as number), 0)
+
+  return {
+    // denominator > 0 ist durch den Filter garantiert.
+    value: numerator / denominator,
+    positions: usable.length,
+    valueShare: totalValue > 0 ? weightSum / totalValue : 0,
+  }
+}
+
 // ─── Kennzahlen je Position ──────────────────────────────────────────────────
 
 /**
@@ -164,6 +248,7 @@ export function computePositionFundamentals(
     value: position.value,
     source,
     fiscalYear: null,
+    priceCurrencyOk: priceCurrencyMatches(position.symbol, source),
     peRatio: null,
     psRatio: null,
     fcfYield: null,
@@ -172,6 +257,9 @@ export function computePositionFundamentals(
     earningsGrowth3y: null,
     netDebtToFcf: null,
     dividendCoverage: null,
+    netDebt: null,
+    freeCashFlow: null,
+    dividendsPaid: null,
   }
 
   const annual = periods
@@ -183,28 +271,50 @@ export function computePositionFundamentals(
 
   base.fiscalYear = latest.fiscalYear
 
-  // Marktkapitalisierung: Kurs × ausstehende Aktien, beides in Notierungswährung.
-  const marketCap =
-    isFinite(position.price) && isFinite(latest.sharesOutstanding) && latest.sharesOutstanding > 0
-      ? position.price * latest.sharesOutstanding
-      : null
+  // Kursbasierte Kennzahlen nur bei sicherem Währungs-Match (siehe
+  // priceCurrencyMatches) — sonst käme z.B. Pence ÷ USD-EPS heraus.
+  if (base.priceCurrencyOk) {
+    // Marktkapitalisierung: Kurs × ausstehende Aktien, beides in Notierungswährung.
+    const marketCap =
+      isFinite(position.price) && isFinite(latest.sharesOutstanding) && latest.sharesOutstanding > 0
+        ? position.price * latest.sharesOutstanding
+        : null
 
-  base.peRatio = divide(position.price, latest.eps)
-  base.psRatio = divide(marketCap, latest.revenue)
-  base.fcfYield = divide(latest.freeCashFlow, marketCap)
+    base.peRatio = divide(position.price, latest.eps)
+    base.psRatio = divide(marketCap, latest.revenue)
+    base.fcfYield = divide(latest.freeCashFlow, marketCap)
+  }
+
   base.netMargin = divide(latest.netIncome, latest.revenue)
+  base.freeCashFlow = isFinite(latest.freeCashFlow) ? latest.freeCashFlow : null
 
   // Nettoverschuldung im Verhältnis zum Free Cashflow.
   // Bewusst nicht Net Debt / EBITDA: EBITDA liefern die SEC-Daten nicht,
   // und FCF ist für die Frage "wie schnell wäre die Schuld getilgt" ohnehin ehrlicher.
-  if (isFinite(latest.totalDebt) && isFinite(latest.freeCashFlow) && latest.freeCashFlow > 0) {
-    const netDebt = latest.totalDebt - (isFinite(latest.cash) ? latest.cash : 0)
-    base.netDebtToFcf = netDebt / latest.freeCashFlow
+  //
+  // Fehlender Debt-Tag trotz nachweislich geladener Bilanz gilt als schuldenfrei
+  // (totalDebt = 0) — aber nur bei US-GAAP-Filern: dort ist der LongTermDebt-Tag
+  // gemappt und sein Fehlen aussagekräftig. Für IFRS-20-F-Filer mappt der Parser
+  // totalDebt nie, für manuelle DAX-Daten hieße Fehlen nur "noch nicht eingepflegt".
+  const domesticSecFiler = source === 'sec-xbrl' && base.priceCurrencyOk
+  const balanceSheetLoaded = isFinite(latest.totalAssets) && isFinite(latest.totalLiabilities)
+  const totalDebt = isFinite(latest.totalDebt)
+    ? latest.totalDebt
+    : domesticSecFiler && balanceSheetLoaded
+      ? 0
+      : null
+
+  if (totalDebt !== null) {
+    base.netDebt = totalDebt - (isFinite(latest.cash) ? latest.cash : 0)
+    if (isFinite(latest.freeCashFlow) && latest.freeCashFlow > 0) {
+      base.netDebtToFcf = base.netDebt / latest.freeCashFlow
+    }
   }
 
   // dividendsPaid kommt als Abfluss (negativ) aus der Kapitalflussrechnung.
   if (isFinite(latest.dividendsPaid) && latest.dividendsPaid !== 0) {
-    base.dividendCoverage = divide(latest.freeCashFlow, Math.abs(latest.dividendsPaid))
+    base.dividendsPaid = Math.abs(latest.dividendsPaid)
+    base.dividendCoverage = divide(latest.freeCashFlow, base.dividendsPaid)
   }
 
   // Wachstum über bis zu 3 Jahre — kürzer, wenn weniger Historie vorliegt.
@@ -240,14 +350,31 @@ export function aggregatePortfolioFundamentals(
     netMargin: weightedMean(pick('netMargin'), totalValue),
     revenueGrowth3y: weightedMean(pick('revenueGrowth3y'), totalValue),
     earningsGrowth3y: weightedMean(pick('earningsGrowth3y'), totalValue),
-    netDebtToFcf: weightedMean(pick('netDebtToFcf'), totalValue),
-    dividendCoverage: weightedMean(pick('dividendCoverage'), totalValue),
+    // Verhältniszahlen als Ratio-of-Sums (Look-Through): der gewichtete Schnitt
+    // der Einzel-Ratios ließe Ausreißer mit Mini-Nenner dominieren.
+    netDebtToFcf: ratioOfSums(
+      positions.map(p => ({ weight: p.value, numerator: p.netDebt, denominator: p.freeCashFlow })),
+      totalValue,
+    ),
+    dividendCoverage: ratioOfSums(
+      positions.map(p => ({ weight: p.value, numerator: p.freeCashFlow, denominator: p.dividendsPaid })),
+      totalValue,
+    ),
     coverage: {
       coveredPositions: positions.length,
       totalPositions: positions.length + missing.length,
       coveredValue,
       totalValue,
       missing: [...missing].sort((a, b) => b.value - a.value),
+      restricted: positions
+        .filter(p => !p.priceCurrencyOk)
+        .map(p => ({
+          symbol: p.symbol,
+          name: p.name,
+          value: p.value,
+          reason: 'waehrung-unsicher' as const,
+        }))
+        .sort((a, b) => b.value - a.value),
     },
     positions: [...positions].sort((a, b) => b.value - a.value),
   }

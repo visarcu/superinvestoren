@@ -6,14 +6,18 @@
 // ─── Hardcoded Overrides (Sonderfälle) ───────────────────────────────────────
 // Nur für Ticker die in der SEC-Datei anders heißen oder mehrere Klassen haben.
 
-const TICKER_OVERRIDES: Record<string, string> = {
+const US_TICKER_OVERRIDES: Record<string, string> = {
   GOOG: '1652044',      // Alphabet Class C (SEC listet nur GOOGL)
   'BRK.B': '1067983',
   'BRK-B': '1067983',
   BRK_B: '1067983',
+}
 
-  // ── EU-Firmen mit SEC 20-F Filings ─────────────────────────
-  // Diese europäischen Firmen haben US-Listings und filen bei der SEC
+// ── EU-Firmen mit SEC 20-F Filings ─────────────────────────
+// Diese europäischen Firmen haben US-Listings und filen bei der SEC.
+// Achtung: Berichtswährung und ADR-Bezugsverhältnis (z.B. BP 1:6) sind bei
+// diesen Filern unbekannt — kursbasierte Kennzahlen sind damit nicht sicher.
+const FOREIGN_FILER_OVERRIDES: Record<string, string> = {
   SAP: '1000184',         // SAP SE (NYSE: SAP)
   'SAP.DE': '1000184',
   ASML: '937966',         // ASML Holding NV (NASDAQ: ASML)
@@ -42,6 +46,22 @@ const TICKER_OVERRIDES: Record<string, string> = {
   BUD: '1367693',         // Anheuser-Busch InBev (NYSE: BUD)
   ABB: '1889437',         // ABB Ltd (NYSE: ABB)
   'ABBN.SW': '1889437',
+}
+
+const TICKER_OVERRIDES: Record<string, string> = {
+  ...US_TICKER_OVERRIDES,
+  ...FOREIGN_FILER_OVERRIDES,
+}
+
+/**
+ * True, wenn der Ticker per Override auf einen ausländischen 20-F-Filer zeigt.
+ * Dann passen Quote-Währung und SEC-Berichtswährung nicht sicher zusammen.
+ */
+export function isForeignFilerOverride(ticker: string): boolean {
+  return Object.prototype.hasOwnProperty.call(
+    FOREIGN_FILER_OVERRIDES,
+    ticker.toUpperCase().trim(),
+  )
 }
 
 // ─── Auto-Lookup Cache ───────────────────────────────────────────────────────

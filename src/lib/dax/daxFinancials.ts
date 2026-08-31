@@ -68,7 +68,7 @@ function statementToPeriod(s: any): SecFinancialPeriod {
     grossProfit: m(s.grossProfit),
     operatingIncome: m(s.operatingIncome),
     costOfRevenue: m(s.costOfRevenue),
-    eps: s.eps ?? null,          // EPS bleibt unskaliert (pro Aktie)
+    eps: s.epsDiluted ?? s.eps ?? null, // wie SEC-Pfad: Diluted bevorzugt, unskaliert (pro Aktie)
     epsBasic: s.eps ?? null,
     rd: m(s.rAndD),
     sga: m(s.sgA),
@@ -88,7 +88,7 @@ function statementToPeriod(s: any): SecFinancialPeriod {
     accountsPayable: null,
     goodwill: m(s.goodwill),
     propertyPlantEquip: m(s.ppE),
-    sharesOutstanding: s.sharesOutstanding ?? null,
+    sharesOutstanding: m(s.sharesOutstanding), // DB speichert Mio (Admin-Upload teilt durch 1e6)
     // Cash Flow
     operatingCashFlow: m(s.operatingCashFlow),
     capex: m(s.capex),
@@ -125,14 +125,18 @@ export async function getDaxFinancials(
       ? { in: ['Q1', 'Q2', 'Q3', 'Q4', 'H1', '9M'] }
       : 'FY'
 
+  // DESC + take, damit bei mehr Jahrgängen die NEUESTEN kommen (asc+take
+  // lieferte die ältesten) — danach zurück in die chronologische Reihenfolge,
+  // die die Aufrufer erwarten (letzter Eintrag = neueste Periode).
   const statements = await prisma.financialStatement.findMany({
     where: {
       ticker: company.ticker,
       fiscalPeriod: fiscalPeriodFilter as any,
     },
-    orderBy: [{ fiscalYear: 'asc' }, { periodEnd: 'asc' }],
+    orderBy: [{ fiscalYear: 'desc' }, { periodEnd: 'desc' }],
     take: options.years ?? 10,
   })
+  statements.reverse()
 
   // DAX-Firma ohne eigene Daten → leere Response mit Hinweis
   if (statements.length === 0) {

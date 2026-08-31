@@ -92,10 +92,24 @@ export default function AnalysisTab({
 }: AnalysisTabProps) {
   const stockValue = useMemo(() => holdings.reduce((s, h) => s + h.value, 0), [holdings])
 
+  // In der Alle-Depots-Ansicht liefert usePortfolio eine Zeile pro Depot UND
+  // Position — für Konzentrationskennzahlen zählt aber die Gesamtposition je
+  // Wertpapier (VWCE mit je 30 % in zwei Depots ist EINE 60-%-Position, nicht
+  // zwei kleine). Daher vor HHI/Top-N nach Symbol aggregieren.
+  const positionsBySymbol = useMemo(() => {
+    const map = new Map<string, { symbol: string; value: number }>()
+    for (const h of holdings) {
+      const existing = map.get(h.symbol)
+      if (existing) existing.value += h.value
+      else map.set(h.symbol, { symbol: h.symbol, value: h.value })
+    }
+    return Array.from(map.values())
+  }, [holdings])
+
   // === Konzentration ===
   const concentration = useMemo(() => {
     if (stockValue === 0) return null
-    const sorted = [...holdings].sort((a, b) => b.value - a.value)
+    const sorted = [...positionsBySymbol].sort((a, b) => b.value - a.value)
     const top1 = sorted[0]?.value || 0
     const top3 = sorted.slice(0, 3).reduce((s, h) => s + h.value, 0)
     const top5 = sorted.slice(0, 5).reduce((s, h) => s + h.value, 0)
@@ -114,9 +128,9 @@ export default function AnalysisTab({
       top10Percent: (top10 / stockValue) * 100,
       hhi,
       diversificationScore,
-      totalPositions: holdings.length,
+      totalPositions: positionsBySymbol.length,
     }
-  }, [holdings, stockValue])
+  }, [positionsBySymbol, stockValue])
 
   // === Asset-Klassen-Verteilung ===
   const assetClasses = useMemo(() => {

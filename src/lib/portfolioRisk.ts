@@ -17,6 +17,8 @@ export interface SeriesPoint {
 export interface RiskMeasures {
   periodDays: number
   annualizedReturnPct: number
+  /** Gesamtrendite über das Serienfenster — fürs UI bei Fenstern < 1 Jahr */
+  totalReturnPct: number
   volatilityPct: number
   downsideDeviationPct: number
   sharpe: number | null
@@ -181,6 +183,7 @@ export function computeRiskMeasures(
   return {
     periodDays: Math.round((new Date(last.date).getTime() - new Date(first.date).getTime()) / 86400000),
     annualizedReturnPct: Math.round(annRet * 100) / 100,
+    totalReturnPct: Math.round((last.value / first.value - 1) * 10000) / 100,
     volatilityPct: Math.round(vol * 100) / 100,
     downsideDeviationPct: Math.round(downsideDev * 100) / 100,
     sharpe: sharpe !== null ? Math.round(sharpe * 100) / 100 : null,

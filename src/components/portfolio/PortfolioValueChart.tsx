@@ -103,6 +103,7 @@ interface BenchmarkComparison {
 interface RiskMeasures {
   periodDays: number
   annualizedReturnPct: number
+  totalReturnPct: number
   volatilityPct: number
   downsideDeviationPct: number
   sharpe: number | null
@@ -830,7 +831,12 @@ export default function PortfolioValueChart({
                   </thead>
                   <tbody className="tabular-nums">
                     {([
-                      ['Rendite p.a.', (m: RiskMeasures) => `${m.annualizedReturnPct >= 0 ? '+' : ''}${m.annualizedReturnPct.toFixed(1)}%`],
+                      // Unter 1 Jahr keine p.a.-Hochrechnung — dieselbe Regel
+                      // wie beim Benchmark-Vergleich: der Exponent >1 bläst
+                      // jede Differenz auf und suggeriert Scheinpräzision.
+                      risk.portfolio.periodDays < 365
+                        ? ['Rendite gesamt', (m: RiskMeasures) => `${m.totalReturnPct >= 0 ? '+' : ''}${m.totalReturnPct.toFixed(1)}%`]
+                        : ['Rendite p.a.', (m: RiskMeasures) => `${m.annualizedReturnPct >= 0 ? '+' : ''}${m.annualizedReturnPct.toFixed(1)}%`],
                       ['Sharpe Ratio', (m: RiskMeasures) => m.sharpe !== null ? m.sharpe.toFixed(2) : '—'],
                       ['Sortino Ratio', (m: RiskMeasures) => m.sortino !== null ? m.sortino.toFixed(2) : '—'],
                       ['Volatilität p.a.', (m: RiskMeasures) => `${m.volatilityPct.toFixed(1)}%`],

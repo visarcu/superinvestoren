@@ -154,11 +154,14 @@ export default function QuickStats({
             <p>
               <span className="font-medium text-neutral-800 dark:text-neutral-200">Dividenden:</span> Erhaltene Dividendenzahlungen.
             </p>
+            <p>
+              <span className="font-medium text-neutral-800 dark:text-neutral-200">Gebühren:</span> Verkaufs- und sonstige Gebühren werden abgezogen. Kaufgebühren stecken bereits im Einstandspreis und damit im Kursgewinn.
+            </p>
             <p className="mt-1 text-neutral-500">
-              Formel: Kursgewinn + Realisiert + Dividenden
+              Formel: Kursgewinn + Realisiert + Dividenden − Gebühren (ohne Kaufgebühren)
             </p>
             <p className="text-neutral-500">
-              Der Prozentwert ist bezogen auf das gesamte investierte Kapital.
+              Der Prozentwert ist bezogen auf die Kostenbasis der aktuell gehaltenen Positionen (zzgl. Gebühren) — nicht auf das gesamte jemals investierte Kapital.
             </p>
           </InfoTooltip>
         </p>

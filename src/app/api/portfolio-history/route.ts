@@ -68,6 +68,28 @@ function isGBXTicker(symbol: string): boolean {
   return /\.L$/i.test(symbol)
 }
 
+// Kurs-Währung je Börsen-Suffix. FMP/Yahoo liefern Kurse in der Heimatwährung
+// des Listings (verifiziert u. a. NESN.SW in CHF, 8035.T in JPY) — ohne diese
+// Zuordnung liefen alle Nicht-EUR/GBX-Titel als USD durch die Umrechnung.
+// EUR-Suffixe deckt isEURTicker ab, London (Pence) isGBXTicker.
+const SUFFIX_CURRENCY: Record<string, string> = {
+  SW: 'CHF', T: 'JPY', TO: 'CAD', V: 'CAD', AX: 'AUD', HK: 'HKD',
+  KS: 'KRW', KQ: 'KRW', TW: 'TWD', TWO: 'TWD', SS: 'CNY', SZ: 'CNY',
+  SA: 'BRL', ST: 'SEK', OL: 'NOK', CO: 'DKK', NS: 'INR', BO: 'INR',
+  JK: 'IDR', BK: 'THB', SI: 'SGD', NZ: 'NZD', WA: 'PLN', IS: 'TRY',
+  MX: 'MXN', SR: 'SAR', QA: 'QAR', KW: 'KWD', JO: 'ZAR',
+}
+
+// Notfall-Näherungsraten (ccy→EUR), nur falls keine FX-Historie geladen werden
+// konnte — gleiche Rolle wie GBP_EUR_APPROX. Die Größenordnung muss stimmen:
+// vorher wurde in dem Fall der USD-Kurs angewandt (JPY-Titel ~150× daneben).
+const FX_EUR_APPROX: Record<string, number> = {
+  CHF: 1.06, JPY: 0.006, CAD: 0.66, AUD: 0.6, HKD: 0.11, KRW: 0.00063,
+  TWD: 0.028, CNY: 0.12, BRL: 0.16, SEK: 0.088, NOK: 0.085, DKK: 0.134,
+  INR: 0.01, IDR: 0.000055, THB: 0.026, SGD: 0.68, NZD: 0.55, PLN: 0.23,
+  TRY: 0.021, MXN: 0.047, SAR: 0.24, QAR: 0.25, KWD: 2.9, ZAR: 0.049,
+}
+
 // In-memory cache für API-Responses (24h TTL)
 const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number }>()
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 Stunden
@@ -499,6 +521,18 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Notierungswährung je Symbol: Instrument-Währung (Fallback-Lader) hat
+    // Vorrang vor der Suffix-Heuristik; ohne Suffix gilt USD.
+    const quoteCurrency = (symbol: string): string => {
+      const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
+      if (instrumentCurrency) return instrumentCurrency
+      if (isEURTicker(symbol)) return 'EUR'
+      if (isGBXTicker(symbol)) return 'GBX'
+      const dot = symbol.lastIndexOf('.')
+      if (dot < 0) return 'USD'
+      return SUFFIX_CURRENCY[symbol.slice(dot + 1).toUpperCase()] || 'USD'
+    }
+
     // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien und Benchmarks
     const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s)) ||
       [...priceCurrencyBySymbol.values()].some(c => c === 'GBX' || c === 'GBP')
@@ -560,6 +594,31 @@ export async function POST(request: NextRequest) {
       })())
     }
 
+    // 2c. FX-Historien für alle weiteren Notierungswährungen (CHF, JPY, CAD, …).
+    // FMP führt Paare mal als CCYEUR, mal nur als EURCCY — beide Richtungen
+    // versuchen, invertiert übernehmen.
+    const extraCurrencies = [...new Set(uniqueSymbols.map(quoteCurrency))]
+      .filter(c => !['EUR', 'USD', 'GBP', 'GBX'].includes(c))
+    const fxEurRateByCurrency = new Map<string, Map<string, number>>()
+    extraCurrencies.forEach(ccy => {
+      const rateMap = new Map<string, number>()
+      fxEurRateByCurrency.set(ccy, rateMap)
+      fxPromises.push((async () => {
+        try {
+          const direct = await fetchHistoricalPrices(`${ccy}EUR`, fromDate, toDate)
+          if (direct.length > 0) {
+            direct.forEach(day => { if (day.close > 0) rateMap.set(day.date, day.close) })
+          } else {
+            const inverse = await fetchHistoricalPrices(`EUR${ccy}`, fromDate, toDate)
+            inverse.forEach(day => { if (day.close > 0) rateMap.set(day.date, 1 / day.close) })
+          }
+          console.log(`💱 ${ccy}/EUR history: ${rateMap.size} data points`)
+        } catch (e) {
+          console.error(`Error loading ${ccy}/EUR history:`, e)
+        }
+      })())
+    })
+
     await Promise.all(fxPromises)
 
     // Hilfsfunktionen: Nächsten verfügbaren Kurs finden (für Tage ohne FX-Daten)
@@ -614,20 +673,23 @@ export async function POST(request: NextRequest) {
       return null
     }
 
-    // Börsenkurs → EUR (gleiche Logik wie im Tages-Loop unten).
-    // Kam der Kurs über die Stammdaten-Notierung (Pseudo-Ticker wie 'MUV2.EU'),
-    // zählt DEREN Währung — die Suffix-Heuristik kennt '.EU' nicht und würde
-    // EUR-Kurse fälschlich als USD umrechnen.
+    // Börsenkurs → EUR anhand der Notierungswährung (quoteCurrency: Instrument-
+    // Währung vor Suffix-Heuristik — Pseudo-Ticker wie 'MUV2.EU' kämen sonst
+    // fälschlich als USD daher). CHF/JPY/CAD & Co. laufen über die in 2c
+    // geladenen FX-Historien; ohne Daten greift die Näherungsrate, und erst
+    // als letztes das alte USD-Verhalten.
     function toEurPrice(symbol: string, price: number, date: string): number {
-      const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
-      if (instrumentCurrency) {
-        if (instrumentCurrency === 'EUR') return price
-        if (instrumentCurrency === 'GBX') return (price / 100) * getGBPEURRateForDate(date)
-        if (instrumentCurrency === 'GBP') return price * getGBPEURRateForDate(date)
-        return price * getEURRateForDate(date)
+      const ccy = quoteCurrency(symbol)
+      if (ccy === 'EUR') return price
+      if (ccy === 'GBX') return (price / 100) * getGBPEURRateForDate(date)
+      if (ccy === 'GBP') return price * getGBPEURRateForDate(date)
+      if (ccy === 'USD') return price * getEURRateForDate(date)
+      const rateMap = fxEurRateByCurrency.get(ccy)
+      if (rateMap && rateMap.size > 0) {
+        return price * getRateForDate(rateMap, date, FX_EUR_APPROX[ccy] ?? 1)
       }
-      if (isEURTicker(symbol)) return price
-      if (isGBXTicker(symbol)) return (price / 100) * getGBPEURRateForDate(date)
+      const approx = FX_EUR_APPROX[ccy]
+      if (approx) return price * approx
       return price * getEURRateForDate(date)
     }
 
@@ -706,24 +768,40 @@ export async function POST(request: NextRequest) {
         if (useTransactions) {
           const txs = transactionsBySymbol.get(symbol) || []
 
-          let sharesOwned = 0
-          let costBasis = 0 // In EUR (was der User bezahlt hat)
-
+          // Ø-Kosten je Depot getrennt führen: in der Alle-Depots-Ansicht
+          // enthält die Tx-Liste dasselbe Symbol aus mehreren Depots — ein
+          // Verkauf in Depot B würde sonst mit dem über beide Depots
+          // gemischten Durchschnittskurs reduziert und die Kostenbasis-Linie
+          // verfälschen. Ohne portfolio_id (Einzel-Depot) bleibt alles ein Slot.
+          const costByDepot = new Map<string, { shares: number; cost: number }>()
           txs.forEach(tx => {
             if (tx.date <= date) {
+              const slotKey = tx.portfolio_id || ''
+              let slot = costByDepot.get(slotKey)
+              if (!slot) {
+                slot = { shares: 0, cost: 0 }
+                costByDepot.set(slotKey, slot)
+              }
               // buy + transfer_in erhöhen Bestand — bei transfer_in nutzen wir den
               // historischen Schlusskurs als Kostenbasis (beim Import bereits in
               // price geschrieben). Wenn price=0 (unbekannt), fehlt die Kostenbasis
               // für totalInvested — das ist akzeptabel, der Bestand stimmt trotzdem.
               if (tx.type === 'buy' || tx.type === 'transfer_in') {
-                sharesOwned += tx.quantity
-                costBasis += txValue(tx) + (tx.type === 'buy' ? txFee(tx) : 0)
+                slot.shares += tx.quantity
+                slot.cost += txValue(tx) + (tx.type === 'buy' ? txFee(tx) : 0)
               } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-                const avgCost = sharesOwned > 0 ? costBasis / sharesOwned : 0
-                sharesOwned -= tx.quantity
-                costBasis -= tx.quantity * avgCost
+                const avgCost = slot.shares > 0 ? slot.cost / slot.shares : 0
+                slot.shares -= tx.quantity
+                slot.cost -= tx.quantity * avgCost
               }
             }
+          })
+
+          let sharesOwned = 0
+          let costBasis = 0 // In EUR (was der User bezahlt hat)
+          costByDepot.forEach(slot => {
+            sharesOwned += slot.shares
+            costBasis += slot.cost
           })
 
           if (sharesOwned > 0) {
@@ -1138,7 +1216,17 @@ export async function POST(request: NextRequest) {
               date: point.date,
               value: 1 + (twrByDate.get(point.date) || 0) / 100,
             }))
-            const vtSeries = vtBenchmark.map(p => ({ date: p.date, value: p.close }))
+            // Benchmark-Serien aufs Depot-Fenster clippen: fromDate liegt bis
+            // zu 7 Tage VOR dem ersten Chart-Tag (Ladepuffer). Ungeclippt
+            // enthielte die Benchmark-Spalte Handelstage, die das Depot nie
+            // erlebt hat — bei Sub-Jahres-Fenstern kippte dadurch das
+            // p.a.-Ranking der Tabelle gegen die (fensterkonforme)
+            // Benchmark-Headline.
+            const clipToChart = (series: Array<{ date: string; close: number }>) =>
+              series
+                .filter(p => p.date >= firstPortfolioDate)
+                .map(p => ({ date: p.date, value: p.close }))
+            const vtSeries = clipToChart(vtBenchmark)
 
             const xeonHistory = await fetchHistoricalPrices('XEON.DE', fromDate, toDate)
             const riskFreePct = annualizedReturnPct(
@@ -1149,8 +1237,8 @@ export async function POST(request: NextRequest) {
               riskFreePct: riskFreePct !== null ? round2(riskFreePct) : null,
               portfolio: computeRiskMeasures(portfolioWealth, riskFreePct, vtSeries),
               ftseAllWorld: computeRiskMeasures(vtSeries, riskFreePct),
-              sp500: computeRiskMeasures(spyBenchmark.map(p => ({ date: p.date, value: p.close })), riskFreePct),
-              msciWorld: computeRiskMeasures(urthBenchmark.map(p => ({ date: p.date, value: p.close })), riskFreePct),
+              sp500: computeRiskMeasures(clipToChart(spyBenchmark), riskFreePct),
+              msciWorld: computeRiskMeasures(clipToChart(urthBenchmark), riskFreePct),
             }
           }
 
@@ -1224,22 +1312,55 @@ export async function POST(request: NextRequest) {
                 fxWindow.forEach(day => {
                   if (day.close > 0) fxWindowMap.set(day.date, 1 / day.close)
                 })
-                const windowUsdToEur = (date: string): number =>
-                  fxWindowMap.size > 0 ? getRateForDate(fxWindowMap, date, 0.92) : 1
+
+                // Fenster-FX je Notierungswährung — die Krisen-Wechselkurse von
+                // damals (2008: GBP −20 % ggü. EUR), nicht die heutigen. Ohne
+                // Daten fürs Fenster bleibt es bei der reinen Preisrendite.
+                const windowCurrencies = new Set<string>()
+                weightBySymbol.forEach((_, symbol) => windowCurrencies.add(quoteCurrency(symbol)))
+                const windowFxByCurrency = new Map<string, Map<string, number>>()
+                await Promise.all(
+                  [...windowCurrencies]
+                    .filter(c => c !== 'EUR' && c !== 'USD' && c !== 'GBX')
+                    .concat(windowCurrencies.has('GBX') ? ['GBP'] : [])
+                    .map(async rawCcy => {
+                      const ccy = rawCcy === 'GBX' ? 'GBP' : rawCcy
+                      if (windowFxByCurrency.has(ccy)) return
+                      const rateMap = new Map<string, number>()
+                      windowFxByCurrency.set(ccy, rateMap)
+                      try {
+                        if (ccy === 'GBP') {
+                          // GBP→EUR über Kreuzrate GBPUSD × (USD→EUR), wie im Haupt-Loader
+                          const gbpUsd = await fetchHistoricalPrices('GBPUSD', scenario.from, scenario.to)
+                          gbpUsd.forEach(day => {
+                            const usdToEur = fxWindowMap.get(day.date)
+                            if (day.close > 0 && usdToEur) rateMap.set(day.date, day.close * usdToEur)
+                          })
+                        } else {
+                          const direct = await fetchHistoricalPrices(`${ccy}EUR`, scenario.from, scenario.to)
+                          if (direct.length > 0) {
+                            direct.forEach(day => { if (day.close > 0) rateMap.set(day.date, day.close) })
+                          } else {
+                            const inverse = await fetchHistoricalPrices(`EUR${ccy}`, scenario.from, scenario.to)
+                            inverse.forEach(day => { if (day.close > 0) rateMap.set(day.date, 1 / day.close) })
+                          }
+                        }
+                      } catch { /* Fenster ohne FX → Preisrendite */ }
+                    })
+                )
 
                 const toWindowEurSeries = (symbol: string, history: HistoricalDataPoint[]): QuantSeriesPoint[] => {
-                  const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
-                  const isNonUsd = instrumentCurrency
-                    ? instrumentCurrency !== 'USD'
-                    : isEURTicker(symbol) || isGBXTicker(symbol)
+                  const ccy = quoteCurrency(symbol)
+                  const rateMap = ccy === 'USD'
+                    ? fxWindowMap
+                    : windowFxByCurrency.get(ccy === 'GBX' ? 'GBP' : ccy)
+                  const hasFx = ccy !== 'EUR' && !!rateMap && rateMap.size > 0
                   return history
                     .filter(d => d.close > 0)
                     .map(d => ({
                       date: d.date,
-                      // GBX-Titel: nur Preisrendite (GBP-FX-Historie laden wir
-                      // fürs Fenster nicht — der ÷100-Faktor kürzt sich in der
-                      // Rendite ohnehin raus). USD-Titel: mit Fenster-FX.
-                      value: isNonUsd ? d.close : d.close * windowUsdToEur(d.date),
+                      // GBX: ÷100 kürzt sich in der Rendite — Rohkurs × GBP-Rate reicht.
+                      value: hasFx ? d.close * getRateForDate(rateMap!, d.date, 1) : d.close,
                     }))
                 }
 

@@ -39,17 +39,26 @@ const CASH_LEDGER_EPSILON = 1
 
 // TWR-Links ohne Aussagekraft überspringen (Return des Tages = 0 gewertet):
 // Wenn der externe Flow die Bewertungsbasis dominiert oder das Depot winzig
-// ist, besteht der Tages-Return fast nur aus Flow-Timing-Rauschen (Flow wird
+// ist, kann der Tages-Return aus Flow-Timing-Rauschen bestehen (Flow wird
 // dem nächsten Chart-Tag zugeordnet, Kurs stellt sich einen Tag versetzt ein).
 // In der Sparplan-Startphase (Depotwert < Monatsrate) erzeugte das dauerhaft
 // zweistellige Phantom-Verluste, die für immer in der Kette blieben.
-// Profi-Tools (z.B. Portfolio Performance) guarden solche Perioden genauso.
+// Flow-dominierte Tage pauschal zu verwerfen würde aber auch den ECHTEN
+// Marktreturn dieser Tage löschen — bei Sparplänen in kleine Depots fliegt
+// sonst jeder Ausführungstag raus und der Benchmark-Vergleich verzerrt
+// systematisch. Deshalb: der Link zählt, solange der Tages-Return plausibel
+// ist; nur unplausible Ausreißer (das eigentliche Timing-Rauschen) werden
+// übersprungen.
 const TWR_MIN_BASE_VALUE = 500
 const TWR_FLOW_DOMINANCE_LIMIT = 0.5
+// Echte Markttage liegen bei ±1–3 %; Timing-Rauschen bei dominantem Flow
+// erzeugt Links von ±30–100 %. 10 % trennt beides mit Puffer.
+const TWR_NOISE_RETURN_LIMIT = 0.1
 
-function isMeaningfulTwrLink(prevValue: number, externalFlow: number): boolean {
+function isMeaningfulTwrLink(prevValue: number, externalFlow: number, linkReturn: number): boolean {
   if (prevValue < TWR_MIN_BASE_VALUE) return false
-  return Math.abs(externalFlow) <= TWR_FLOW_DOMINANCE_LIMIT * prevValue
+  if (Math.abs(externalFlow) <= TWR_FLOW_DOMINANCE_LIMIT * prevValue) return true
+  return Math.abs(linkReturn - 1) <= TWR_NOISE_RETURN_LIMIT
 }
 
 function transactionAmount(tx: PortfolioTwrTransaction): number {
@@ -191,7 +200,11 @@ function calculateCashInclusiveTwrByDate(
     const externalFlow = externalFlowByDate.get(chartData[i].date) || 0
     const adjustedStartValue = prevTotalValue + externalFlow
 
-    if (adjustedStartValue > 0 && currentTotalValue >= 0 && isMeaningfulTwrLink(prevTotalValue, externalFlow)) {
+    if (
+      adjustedStartValue > 0 &&
+      currentTotalValue >= 0 &&
+      isMeaningfulTwrLink(prevTotalValue, externalFlow, currentTotalValue / adjustedStartValue)
+    ) {
       cumulativeTWR *= currentTotalValue / adjustedStartValue
     }
 
@@ -232,7 +245,11 @@ function calculateSecurityOnlyTwrByDate(
     const adjustedStartValue = chartData[i - 1].value + externalFlow
     const currentValueWithIncome = chartData[i].value + (incomeByDate.get(currentDate) || 0)
 
-    if (adjustedStartValue > 0 && currentValueWithIncome >= 0 && isMeaningfulTwrLink(chartData[i - 1].value, externalFlow)) {
+    if (
+      adjustedStartValue > 0 &&
+      currentValueWithIncome >= 0 &&
+      isMeaningfulTwrLink(chartData[i - 1].value, externalFlow, currentValueWithIncome / adjustedStartValue)
+    ) {
       cumulativeTWR *= currentValueWithIncome / adjustedStartValue
     }
 
