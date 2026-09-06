@@ -51,7 +51,7 @@ export class StripeAuth {
       // Erstelle Checkout Session
       const session = await stripe.checkout.sessions.create({
         customer: customerId,
-        payment_method_types: ['card'],
+        payment_method_types: ['card', 'paypal', 'sepa_debit'],
         mode: 'subscription',
         line_items: [
           {

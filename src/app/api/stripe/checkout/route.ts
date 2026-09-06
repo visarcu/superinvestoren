@@ -194,7 +194,7 @@ export async function POST(request: NextRequest) {
     
     const sessionData: any = {
       customer: customerId,
-      payment_method_types: ['card'],
+      payment_method_types: ['card', 'paypal', 'sepa_debit'],
       mode: 'subscription',
       allow_promotion_codes: true,
       line_items: [
