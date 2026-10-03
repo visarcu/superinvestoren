@@ -32,6 +32,10 @@ import { getInstrumentsForSymbols, resolveSymbolViaSearch } from '@/lib/marketDa
 import { yahooSymbolFromEodhd } from '@/lib/marketData/symbols'
 import type { Instrument } from '@/lib/marketData/types'
 import factorFile from '@/data/factors/developed5FactorsDaily.json'
+import { downsampleLttb } from '@/lib/downsampleSeries'
+
+// Max. Punkte pro Chart-Reihe (~1 Handelsjahr in Tagesauflösung)
+const CHART_MAX_POINTS = 260
 
 interface HistoricalDataPoint {
   date: string
@@ -967,14 +971,9 @@ export async function POST(request: NextRequest) {
       return { date: point.date, value, invested, performance, costBasis, contributed }
     })
 
-    // Reduziere Datenpunkte für bessere Performance
-    let sampledData = displayChartData
-    if (displayChartData.length > 60) {
-      const step = Math.ceil(displayChartData.length / 60)
-      sampledData = displayChartData.filter((_, index) =>
-        index % step === 0 || index === displayChartData.length - 1
-      )
-    }
+    // Datenpunkte für den Chart reduzieren: bis ~1 Jahr volle Tagesauflösung,
+    // darüber LTTB, damit Hochs/Tiefs erhalten bleiben
+    const sampledData = downsampleLttb(displayChartData, CHART_MAX_POINTS, p => p.value)
 
     // Holdings-Fallback (keine Transaktionen in der DB): synthetische Buys aus
     // purchase_date/purchase_price ableiten. Ohne diese Flows würde der TWR
@@ -1575,14 +1574,7 @@ export async function POST(request: NextRequest) {
       console.error('Error fetching benchmark data:', benchmarkError)
     }
 
-    // Sample performance data
-    let sampledPerformance = performanceData
-    if (performanceData.length > 60) {
-      const step = Math.ceil(performanceData.length / 60)
-      sampledPerformance = performanceData.filter((_, index) =>
-        index % step === 0 || index === performanceData.length - 1
-      )
-    }
+    const sampledPerformance = downsampleLttb(performanceData, CHART_MAX_POINTS, p => p.portfolioPerformance)
 
     return NextResponse.json({
       success: true,
