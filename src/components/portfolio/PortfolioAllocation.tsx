@@ -33,6 +33,13 @@ const SLICE_COLORS = [
 ]
 const REST_COLOR = '#404040' // neutral-700 für "Andere"
 const CASH_COLOR = '#525252' // neutral-600 für Cash
+const TOP_N = 11
+
+// Über die Palette hinaus ("Alle anzeigen") eindeutige Farben per Goldenem Winkel
+function sliceColor(index: number): string {
+  if (index < SLICE_COLORS.length) return SLICE_COLORS[index]
+  return `hsl(${Math.round((index * 137.508) % 360)}, 60%, 55%)`
+}
 
 interface Slice {
   name: string
@@ -52,6 +59,9 @@ export default function PortfolioAllocation({
   includeCash,
 }: PortfolioAllocationProps) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
+  // Alle Positionen einzeln statt Top 11 + "Andere"
+  const [showAll, setShowAll] = useState(false)
+  const positionCount = holdings.filter(h => h.value > 0).length
 
   const slices = useMemo<Slice[]>(() => {
     const stockValue = holdings.reduce((s, h) => s + h.value, 0)
@@ -63,10 +73,10 @@ export default function PortfolioAllocation({
       .filter(h => h.value > 0)
       .sort((a, b) => b.value - a.value)
 
-    // Top N + "Andere" — wir zeigen max 11 Positionen explizit, Rest bündeln
-    const TOP_N = 11
-    const top = sorted.slice(0, TOP_N)
-    const rest = sorted.slice(TOP_N)
+    // Top N + "Andere" — standardmäßig max 11 Positionen explizit, Rest bündeln
+    const limit = showAll ? sorted.length : TOP_N
+    const top = sorted.slice(0, limit)
+    const rest = sorted.slice(limit)
     const restValue = rest.reduce((s, h) => s + h.value, 0)
 
     const slices: Slice[] = top.map((h, i) => ({
@@ -74,7 +84,7 @@ export default function PortfolioAllocation({
       symbol: h.symbol,
       value: h.value,
       percent: (h.value / denominator) * 100,
-      color: SLICE_COLORS[i % SLICE_COLORS.length],
+      color: sliceColor(i),
     }))
 
     if (restValue > 0) {
@@ -100,7 +110,7 @@ export default function PortfolioAllocation({
     }
 
     return slices
-  }, [holdings, cashPosition, includeCash])
+  }, [holdings, cashPosition, includeCash, showAll])
 
   const displayedTotal = useMemo(() => {
     return slices.reduce((s, sl) => s + sl.value, 0)
@@ -129,7 +139,7 @@ export default function PortfolioAllocation({
               cy="50%"
               innerRadius="68%"
               outerRadius="98%"
-              paddingAngle={1.5}
+              paddingAngle={slices.length > 24 ? 0 : 1.5}
               stroke="var(--color-bg-card)"
               strokeWidth={2}
               startAngle={90}
@@ -189,7 +199,8 @@ export default function PortfolioAllocation({
 
       {/* Legend rechts */}
       <div className="space-y-0">
-        {slices.slice(0, 12).map((s, i) => (
+        <div className={showAll ? 'max-h-[420px] overflow-y-auto pr-1' : ''}>
+        {slices.map((s, i) => (
           <div
             key={s.symbol + i}
             className={`flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer transition-colors ${
@@ -222,6 +233,15 @@ export default function PortfolioAllocation({
             </div>
           </div>
         ))}
+        </div>
+        {positionCount > TOP_N && (
+          <button
+            onClick={() => { setShowAll(v => !v); setHoveredIdx(null) }}
+            className="mt-1 w-full rounded-lg px-2 py-1.5 text-left text-[11px] text-theme-muted transition-colors hover:bg-theme-hover hover:text-theme-primary"
+          >
+            {showAll ? 'Weniger anzeigen' : `Alle ${positionCount} Positionen anzeigen`}
+          </button>
+        )}
       </div>
     </div>
   )

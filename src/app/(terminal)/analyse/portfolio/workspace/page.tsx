@@ -25,7 +25,7 @@ import SoldPositions from '@/components/portfolio/SoldPositions'
 import FreshMoneyCard from '@/components/portfolio/FreshMoneyCard'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
-import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
+import RealizedGainsTab from '@/components/portfolio/RealizedGainsTab'
 import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
 import PremiumUpgradeModal from '@/components/portfolio/PremiumUpgradeModal'
 import EditPositionModal from '@/components/portfolio/EditPositionModal'
@@ -65,7 +65,7 @@ import {
   WalletIcon,
 } from '@heroicons/react/24/outline'
 
-type WorkspaceView = 'overview' | 'assets' | 'accounts' | 'cashflow' | 'positions' | 'analysis' | 'fundamental' | 'dividends' | 'transactions' | 'ai'
+type WorkspaceView = 'overview' | 'assets' | 'accounts' | 'cashflow' | 'positions' | 'analysis' | 'fundamental' | 'dividends' | 'realized' | 'transactions' | 'ai'
 
 const ACTIVE_VIEWS: Array<{
   key: WorkspaceView
@@ -80,6 +80,7 @@ const ACTIVE_VIEWS: Array<{
   { key: 'analysis', label: 'Analyse', icon: ChartPieIcon },
   { key: 'fundamental', label: 'Fundamental', icon: CalculatorIcon },
   { key: 'dividends', label: 'Dividenden', icon: BanknotesIcon },
+  { key: 'realized', label: 'Realisiert', icon: ChartBarIcon },
   { key: 'transactions', label: 'Transaktionen', icon: DocumentTextIcon },
   { key: 'ai', label: 'KI-Analyse', icon: CpuChipIcon },
 ]
@@ -101,6 +102,7 @@ const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
   { key: 'accounts', view: 'accounts', label: 'Konten', description: 'Salden und Buchungen per Eingabe', icon: CreditCardIcon },
   { key: 'cashflow', view: 'cashflow', label: 'Cashflow', description: 'Einnahmen und Ausgaben aus Buchungen', icon: ArrowsRightLeftIcon },
   { key: 'dividends', view: 'dividends', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon, premium: true },
+  { key: 'realized', view: 'realized', label: 'Realisierte Gewinne', description: 'Verkäufe nach Jahren', icon: ChartBarIcon },
   { key: 'transactions', view: 'transactions', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon, premium: true },
   { key: 'analysis', view: 'analysis', label: 'Analyse', description: 'Struktur und Konzentration', icon: ChartPieIcon },
   { key: 'fundamental', view: 'fundamental', label: 'Fundamental', description: 'Kennzahlen des Depots, wertgewichtet', icon: CalculatorIcon },
@@ -439,7 +441,6 @@ export default function PortfolioWorkspacePage() {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [showRealizedGains, setShowRealizedGains] = useState(false)
   const activeView = parseView(searchParams.get('view'))
 
   // Positions-Aktionen (Edit/Delete/Top-Up/Cash) — gleiche Modale wie im Dashboard
@@ -790,7 +791,7 @@ export default function PortfolioWorkspacePage() {
                   formatPercentage={p.formatPercentage}
                   onCashClick={p.isAllDepotsView ? undefined : () => setShowCashModal(true)}
                   onCreditClick={p.isAllDepotsView ? undefined : () => setShowCreditModal(true)}
-                  onRealizedClick={() => setShowRealizedGains(true)}
+                  onRealizedClick={() => openView('realized')}
                 />
 
                 {/* Durchblick-Insights: die wichtigsten Look-Through-Erkenntnisse
@@ -1028,6 +1029,16 @@ export default function PortfolioWorkspacePage() {
               />
             )}
 
+            {activeView === 'realized' && (
+              <RealizedGainsTab
+                transactions={p.transactions}
+                realizedGainByTxId={p.realizedGainByTxId}
+                formatCurrency={p.formatCurrency}
+                formatPercentage={p.formatPercentage}
+                isAllDepotsView={p.isAllDepotsView}
+              />
+            )}
+
             {activeView === 'transactions' && (
               <>
                 <QuickTradeEntry
@@ -1061,14 +1072,6 @@ export default function PortfolioWorkspacePage() {
       </div>
         </main>
       </div>
-      <RealizedGainsModal
-        open={showRealizedGains}
-        onClose={() => setShowRealizedGains(false)}
-        transactions={p.transactions}
-        realizedGainByTxId={p.realizedGainByTxId}
-        formatCurrency={p.formatCurrency}
-        formatPercentage={p.formatPercentage}
-      />
       <EditPositionModal
         holding={editingPosition}
         onClose={() => setEditingPosition(null)}

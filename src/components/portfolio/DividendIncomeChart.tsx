@@ -98,7 +98,15 @@ function getRangeStart(transactions: Transaction[], range: TimeRange): Date {
   return new Date(oldest.getFullYear(), oldest.getMonth(), 1)
 }
 
-function buildSeries(totals: Map<string, number>, maxItems = 8): Series[] {
+// Über die Palette hinaus ("Alle anzeigen") eindeutige Farben per Goldenem Winkel
+function seriesColor(index: number): string {
+  if (index < SERIES_COLORS.length) return SERIES_COLORS[index]
+  return `hsl(${Math.round((index * 137.508) % 360)}, 60%, 58%)`
+}
+
+const DEFAULT_MAX_SERIES = 8
+
+function buildSeries(totals: Map<string, number>, maxItems = DEFAULT_MAX_SERIES): Series[] {
   const sorted = Array.from(totals.entries())
     .filter(([, total]) => total > 0)
     .sort((a, b) => b[1] - a[1])
@@ -107,7 +115,7 @@ function buildSeries(totals: Map<string, number>, maxItems = 8): Series[] {
     key: `s${index}`,
     label: symbol,
     total,
-    color: SERIES_COLORS[index % SERIES_COLORS.length],
+    color: seriesColor(index),
   }))
 
   const remaining = sorted.slice(maxItems)
@@ -154,7 +162,7 @@ function DividendTooltip({
         </div>
       )}
       <div className="max-h-56 space-y-1 overflow-y-auto pr-1">
-        {items.slice(0, 10).map(item => (
+        {items.map(item => (
           <div key={item.key} className="flex items-center justify-between gap-5">
             <span className="flex min-w-0 items-center gap-2 text-neutral-300">
               <span className="h-2 w-2 rounded-sm" style={{ backgroundColor: item.color }} />
@@ -174,6 +182,8 @@ export default function DividendIncomeChart({
 }: DividendIncomeChartProps) {
   const [selectedRange, setSelectedRange] = useState<TimeRange>('24M')
   const [chartView, setChartView] = useState<ChartView>('monthly')
+  // Alle Positionen einzeln statt Top 8 + "Weitere"
+  const [showAllSeries, setShowAllSeries] = useState(false)
 
   const dividendTransactions = useMemo(() => {
     return transactions
@@ -282,7 +292,7 @@ export default function DividendIncomeChart({
       month.set(symbol, (month.get(symbol) || 0) + tx.total_value)
     }
 
-    const series = buildSeries(symbolTotals)
+    const series = buildSeries(symbolTotals, showAllSeries ? Infinity : DEFAULT_MAX_SERIES)
     const points: ChartPoint[] = []
     const cumulativeBySeries = new Map<string, number>()
     let cumulative = 0
@@ -415,7 +425,7 @@ export default function DividendIncomeChart({
       rangeTotal: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0),
       monthlyAverage: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0) / averageMonthCount,
     }
-  }, [chartView, dividendTransactions, selectedRange])
+  }, [chartView, dividendTransactions, selectedRange, showAllSeries])
 
   const breakdownData = useMemo(() => {
     const total = chartModel.series.reduce((sum, s) => sum + s.total, 0)
@@ -475,7 +485,7 @@ export default function DividendIncomeChart({
       </div>
 
       {chartView === 'breakdown' ? (
-        <div className="h-[300px]">
+        <div style={{ height: Math.max(300, breakdownData.length * 26 + 40) }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={breakdownData}
@@ -577,7 +587,7 @@ export default function DividendIncomeChart({
 
       {chartModel.series.length > 0 && (
         <div className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-1">
-          {chartModel.series.slice(0, 9).map(series => (
+          {chartModel.series.map(series => (
             <div key={series.key} className="flex items-center gap-1.5 text-[11px] text-neutral-500">
               <span className="h-2 w-2 rounded-sm" style={{ backgroundColor: series.color }} />
               <span>{series.label}</span>
@@ -589,6 +599,17 @@ export default function DividendIncomeChart({
               <span>Ø monatl. Einkommen (TTM)</span>
             </div>
           )}
+        </div>
+      )}
+
+      {(showAllSeries || chartModel.series.some(s => s.key === 'other')) && (
+        <div className="mt-2 flex justify-center">
+          <button
+            onClick={() => setShowAllSeries(v => !v)}
+            className="rounded-md px-2.5 py-1 text-[11px] text-neutral-500 transition-colors hover:bg-white/[0.04] hover:text-neutral-300"
+          >
+            {showAllSeries ? 'Weniger anzeigen' : 'Alle Positionen anzeigen'}
+          </button>
         </div>
       )}
     </div>

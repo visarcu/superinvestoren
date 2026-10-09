@@ -528,6 +528,12 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
   // Ordergebühren aller Buchungen (Kaufgebühren stecken bereits in der Kostenbasis)
   const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
+  // Gebührenquote: Ordergebühren relativ zum gesamten Kaufvolumen der Position
+  const feePercent = performance && performance.totalInvested > 0 && totalFees > 0
+    ? (totalFees / performance.totalInvested) * 100
+    : null
+  const formatFeePercent = (v: number) =>
+    `${v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`
   const isClosed = !!performance && performance.remainingQuantity === 0
   const hasReturnBreakdown =
     !!performance && (performance.totalRealizedGain !== 0 || performance.totalDividends > 0 || totalFees > 0)
@@ -723,6 +729,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                             <span className="text-neutral-500">Ordergebühren</span>
                             <span className="tabular-nums text-amber-600/70 dark:text-amber-400/70">
                               -{formatCurrency(totalFees)}
+                              {feePercent !== null && <span className="text-neutral-500"> ({formatFeePercent(feePercent)})</span>}
                             </span>
                           </div>
                         )}
@@ -798,6 +805,12 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                         label="Ordergebühren"
                         value={`-${formatCurrency(totalFees)}`}
                         valueClass="text-amber-600 dark:text-amber-400"
+                      />
+                    )}
+                    {feePercent !== null && (
+                      <DetailRow
+                        label="Gebührenquote"
+                        value={`${formatFeePercent(feePercent)} vom Kaufvolumen`}
                       />
                     )}
                     {allocation !== null && (
