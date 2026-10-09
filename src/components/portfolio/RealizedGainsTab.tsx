@@ -348,8 +348,8 @@ export default function RealizedGainsTab({
         </div>
 
         <p className="border-t border-theme px-5 py-2.5 text-[10px] text-theme-muted">
-          Durchschnittskostenmethode. Kaufgebühren stecken in der Kaufbasis, Verkaufsgebühren sind separat
-          ausgewiesen. Keine Steuerberechnung — für die Steuer gilt die Abrechnung deines Brokers.
+          Durchschnittskostenmethode. Kauf- und Verkaufsgebühren sind im Gewinn/Verlust bereits abgezogen.
+          Keine Steuerberechnung — für die Steuer gilt die Abrechnung deines Brokers.
         </p>
       </div>
     </div>
