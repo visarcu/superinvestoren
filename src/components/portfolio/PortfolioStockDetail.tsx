@@ -412,6 +412,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           date: tx.date,
           priceEUR: tx.price,
           quantity: tx.quantity,
+          totalEUR: Number(tx.total_value) || undefined,
+          feeEUR: Number(tx.fee) || undefined,
           label: `K${buyCount}`,
           type: 'buy',
         })
@@ -422,6 +424,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             date: tx.date,
             priceEUR: tx.price,
             quantity: tx.quantity,
+            totalEUR: Number(tx.total_value) || undefined,
+            feeEUR: Number(tx.fee) || undefined,
             label: 'SO',
             type: 'spinoff',
           })
@@ -431,8 +435,11 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             date: tx.date,
             priceEUR: tx.price,
             quantity: tx.quantity,
+            totalEUR: Number(tx.total_value) || undefined,
+            feeEUR: Number(tx.fee) || undefined,
             label: `E${transferInCount}`,
             type: 'buy',
+            title: 'Einbuchung',
           })
         }
       } else if (tx.type === 'sell') {
@@ -441,6 +448,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           date: tx.date,
           priceEUR: tx.price,
           quantity: tx.quantity,
+          totalEUR: Number(tx.total_value) || undefined,
+          feeEUR: Number(tx.fee) || undefined,
           label: `V${sellCount}`,
           type: 'sell',
         })
@@ -450,6 +459,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           date: tx.date,
           priceEUR: tx.price,
           quantity: tx.quantity,
+          totalEUR: Number(tx.total_value) || undefined,
+          feeEUR: Number(tx.fee) || undefined,
           label: `D${dividendCount}`,
           type: 'dividend',
         })

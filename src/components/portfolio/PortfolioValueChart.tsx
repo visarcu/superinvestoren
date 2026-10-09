@@ -36,6 +36,8 @@ interface PortfolioValueChartProps {
   }>
   cashPosition: number
   formatCurrency: (amount: number) => string
+  /** Öffnet den Import — für den Hinweis, wenn Ein-/Auszahlungen fehlen */
+  onImportClick?: () => void
 }
 
 type TimeRange = '1M' | '3M' | '6M' | '1Y' | 'MAX'
@@ -161,7 +163,8 @@ export default function PortfolioValueChart({
   portfolioIds,
   holdings,
   cashPosition,
-  formatCurrency
+  formatCurrency,
+  onImportClick
 }: PortfolioValueChartProps) {
   const [selectedRange, setSelectedRange] = useState<TimeRange>('MAX')
   const [chartView, setChartView] = useState<ChartView>('value')
@@ -174,6 +177,9 @@ export default function PortfolioValueChart({
   // 'deposits': Wert inkl. Cash vs. echte Einzahlungen (Cash-Ledger vorhanden).
   // 'cost_basis': Wertpapierwert vs. Kostenbasis (Fallback ohne Cash-Daten).
   const [investedMode, setInvestedMode] = useState<'deposits' | 'cost_basis'>('cost_basis')
+  // Warum "Eingezahlt" nur geschätzt ist: keine Ein-/Auszahlungen erfasst
+  // ('missing') oder erfasst, passen aber nicht zum Cash-Bestand ('mismatch')
+  const [cashLedger, setCashLedger] = useState<'ok' | 'missing' | 'mismatch' | null>(null)
   const [loading, setLoading] = useState(true)
 
   const fetchData = useCallback(async () => {
@@ -280,6 +286,7 @@ export default function PortfolioValueChart({
       setRisk(result.riskMeasures || null)
       setRiskLocked(!!result.riskMeasuresLocked)
       setInvestedMode(mode)
+      setCashLedger(result.meta?.cashLedger ?? null)
     } catch (error) {
       console.error('Chart data fetch error:', error)
     } finally {
@@ -625,6 +632,26 @@ export default function PortfolioValueChart({
           )
         )}
       </div>
+
+      {/* Hinweis: "Eingezahlt" ist nur geschätzt, solange Ein-/Auszahlungen fehlen */}
+      {!loading && chartView === 'value' && showContributedLine && investedMode === 'cost_basis' &&
+        (cashLedger === 'missing' || cashLedger === 'mismatch') && (
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2">
+          <p className="text-[11px] leading-relaxed text-amber-200/90">
+            {cashLedger === 'missing'
+              ? '„Eingezahlt“ ist geschätzt — es sind keine Ein-/Auszahlungen erfasst. Guthaben auf deinem Verrechnungskonto fehlt daher in der Rechnung. Importiere die Cash-Bewegungen deines Brokers für den exakten Wert.'
+              : '„Eingezahlt“ ist geschätzt — deine erfassten Ein-/Auszahlungen passen nicht zum Cash-Bestand des Depots. Prüfe, ob alle Ein-/Auszahlungen importiert sind.'}
+          </p>
+          {onImportClick && (
+            <button
+              onClick={onImportClick}
+              className="shrink-0 rounded-md border border-amber-400/30 px-2.5 py-1 text-[11px] font-medium text-amber-200 transition-colors hover:bg-amber-400/10"
+            >
+              Ein-/Auszahlungen importieren
+            </button>
+          )}
+        </div>
+      )}
 
       {/* Erklärung der Kapital-Linien (je nach Datenlage) */}
       {!loading && chartView === 'value' && valueData.length > 0 && (

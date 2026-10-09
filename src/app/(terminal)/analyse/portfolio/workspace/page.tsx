@@ -850,6 +850,7 @@ export default function PortfolioWorkspacePage() {
                       }))}
                       cashPosition={p.cashPosition}
                       formatCurrency={p.formatCurrency}
+                      onImportClick={p.portfolio?.id && p.portfolio.id !== 'all' ? () => setShowCSVImport(true) : undefined}
                     />
                   </section>
 

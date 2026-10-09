@@ -910,6 +910,16 @@ export async function POST(request: NextRequest) {
       ? calculateDepositBasedSeries({ chartData, transactions: twrTransactions, cashPosition })
       : null
     const investedMode: 'deposits' | 'cost_basis' = depositSeries ? 'deposits' : 'cost_basis'
+    // Warum keine echten Einzahlungen? 'missing' = keine Ein-/Auszahlungen
+    // erfasst, 'mismatch' = vorhanden, aber passen nicht zum Cash-Bestand.
+    // Das UI zeigt "Eingezahlt" dann als Schätzung mit Import-Hinweis.
+    const cashLedger: 'ok' | 'missing' | 'mismatch' | undefined = depositSeries
+      ? 'ok'
+      : !useTransactions
+        ? undefined
+        : twrTransactions.some(tx => tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal')
+          ? 'mismatch'
+          : 'missing'
 
     // 6c. Eingezahltes Kapital je Datum — die zweite Kapital-Linie neben der
     // Kostenbasis. Mit plausiblem Cash-Ledger sind das die echten Netto-
@@ -1595,6 +1605,7 @@ export async function POST(request: NextRequest) {
         // 'deposits': Wert inkl. Cash vs. kumulierte Netto-Einzahlungen.
         // 'cost_basis': Wertpapierwert vs. Kostenbasis der Positionen.
         investedMode,
+        cashLedger,
         dateRange: {
           from: chartData[0]?.date || null,
           to: chartData[chartData.length - 1]?.date || null

@@ -31,6 +31,51 @@ export interface PurchaseMarker {
   quantity: number
   label: string     // "K1", "K2", "V1", "V2", "D1", "SO", ...
   type?: 'buy' | 'sell' | 'dividend' | 'spinoff'  // Default: 'buy'
+  /** Für den Hover-Tooltip: Buchungsbetrag (ohne Gebühr) und Gebühr in EUR */
+  totalEUR?: number
+  feeEUR?: number
+  /** Für den Hover-Tooltip: abweichender Titel, z. B. "Einbuchung" */
+  title?: string
+}
+
+type ResolvedMarker = {
+  date: string
+  value: number
+  label: string
+  type: 'buy' | 'sell' | 'dividend' | 'spinoff'
+  source: PurchaseMarker
+}
+
+const MARKER_TITLES: Record<ResolvedMarker['type'], string> = {
+  buy: 'Kauf',
+  sell: 'Verkauf',
+  dividend: 'Dividende',
+  spinoff: 'Spin-off',
+}
+
+// Kauf-/Verkaufs-/Dividendenpunkt mit Hover-Fläche (custom shape der ReferenceDot)
+function PurchaseDotShape(props: any) {
+  const { cx, cy, r, fill, stroke, marker, onHover } = props as {
+    cx?: number
+    cy?: number
+    r: number
+    fill: string
+    stroke: string
+    marker: ResolvedMarker
+    onHover: (marker: ResolvedMarker | null, x: number, y: number) => void
+  }
+  if (typeof cx !== 'number' || typeof cy !== 'number') return null
+  return (
+    <g
+      style={{ cursor: 'default' }}
+      onMouseEnter={() => onHover(marker, cx, cy)}
+      onMouseLeave={() => onHover(null, cx, cy)}
+    >
+      <circle cx={cx} cy={cy} r={r} fill={fill} stroke={stroke} strokeWidth={2} />
+      {/* Unsichtbare größere Hover-Fläche */}
+      <circle cx={cx} cy={cy} r={12} fill="transparent" />
+    </g>
+  )
 }
 
 interface Props {
@@ -278,6 +323,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
   const [showCongress, setShowCongress] = useState(true)
   const [activeCluster, setActiveCluster] = useState<{ cluster: SmartMoneyCluster; x: number; y: number } | null>(null)
   const [activeInsiderDay, setActiveInsiderDay] = useState<{ group: InsiderDayGroup; x: number; y: number } | null>(null)
+  const [hoveredMarker, setHoveredMarker] = useState<{ marker: ResolvedMarker; x: number; y: number } | null>(null)
   const [activeCongressDay, setActiveCongressDay] = useState<{ group: CongressDayGroup; x: number; y: number } | null>(null)
   const [intradayData, setIntradayData] = useState<StockData[] | null>(null)
   const [intradayLoading, setIntradayLoading] = useState(false)
@@ -577,9 +623,13 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
         value: yValue,
         label: marker.label,
         type: marker.type || 'buy',
+        source: marker,
       }
-    }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' | 'dividend' | 'spinoff' }[]
+    }).filter(Boolean) as ResolvedMarker[]
   }, [purchaseMarkers, chartData, selectedMode, ticker])
+
+  // Marker neu berechnet (Range/Modus gewechselt) → alten Tooltip verwerfen
+  useEffect(() => setHoveredMarker(null), [resolvedMarkers])
 
   // Y-Achsen-Bereich: Kauf-/Verkaufsmarker mit einbeziehen. Die Kurslinie ist
   // (je nach Range) tagesgesampelt — kaufte man exakt an einem Intraday-Hoch/
@@ -798,6 +848,10 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     setActiveCluster(prev =>
       prev?.cluster.quarter === cluster.quarter ? null : { cluster, x, y }
     )
+  }, [])
+
+  const handleMarkerHover = useCallback((marker: ResolvedMarker | null, x: number, y: number) => {
+    setHoveredMarker(marker ? { marker, x, y } : null)
   }, [])
 
   const handleInsiderSelect = useCallback((group: InsiderDayGroup, x: number, y: number) => {
@@ -1153,6 +1207,15 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
                   stroke={dotStroke}
                   strokeWidth={2}
                   isFront
+                  shape={
+                    <PurchaseDotShape
+                      r={isDividend ? 5 : 6}
+                      fill={dotFill}
+                      stroke={dotStroke}
+                      marker={marker}
+                      onHover={handleMarkerHover}
+                    />
+                  }
                   label={{
                     value: marker.label,
                     position: isDividend ? 'bottom' : 'top',
@@ -1270,6 +1333,62 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
             </div>
           </>
         )}
+
+        {/* Kauf/Verkauf-Tooltip */}
+        {hoveredMarker && (() => {
+          const { marker, x, y } = hoveredMarker
+          const src = marker.source
+          const eur = (v: number) =>
+            `${v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
+          const isDividend = marker.type === 'dividend'
+          const total = src.totalEUR ?? (src.quantity > 0 && src.priceEUR > 0 ? src.quantity * src.priceEUR : 0)
+          const fee = src.feeEUR ?? 0
+          const color = isDividend ? 'text-emerald-400' : marker.type === 'sell' ? 'text-red-400' : marker.type === 'spinoff' ? 'text-purple-400' : 'text-blue-400'
+          const width = 208
+          return (
+            <div
+              className="pointer-events-none absolute z-20 rounded-lg border border-theme-light bg-theme-card px-3 py-2 shadow-xl"
+              style={{
+                width,
+                left: Math.min(Math.max(x - width / 2, 8), Math.max((chartAreaRef.current?.clientWidth ?? 600) - width - 8, 8)),
+                // Über dem Punkt, bei zu wenig Platz darunter
+                top: y > 110 ? y - 100 : y + 16,
+              }}
+            >
+              <p className="text-xs font-semibold text-theme-primary">
+                <span className={color}>{marker.label}</span>
+                {' · '}{src.title ?? MARKER_TITLES[marker.type]}
+                <span className="font-normal text-theme-muted"> · {new Date(src.date).toLocaleDateString('de-DE')}</span>
+              </p>
+              <div className="mt-1.5 space-y-0.5 text-[11px] tabular-nums">
+                {!isDividend && src.quantity > 0 && (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-theme-muted">Stück</span>
+                    <span className="text-theme-primary">{src.quantity.toLocaleString('de-DE', { maximumFractionDigits: 6 })}</span>
+                  </div>
+                )}
+                {!isDividend && src.priceEUR > 0 && (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-theme-muted">Kurs</span>
+                    <span className="text-theme-primary">{eur(src.priceEUR)}</span>
+                  </div>
+                )}
+                {total > 0 && (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-theme-muted">{isDividend ? 'Betrag' : 'Volumen'}</span>
+                    <span className="text-theme-primary">{eur(total)}</span>
+                  </div>
+                )}
+                {fee > 0 && (
+                  <div className="flex justify-between gap-3">
+                    <span className="text-theme-muted">Gebühren</span>
+                    <span className="text-theme-primary">{eur(fee)}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )
+        })()}
 
         {/* Insider-Popover */}
         {activeInsiderDay && (
