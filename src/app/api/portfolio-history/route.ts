@@ -944,7 +944,8 @@ export async function POST(request: NextRequest) {
         if (amount <= 0) continue
         let flow = 0
         if (tx.type === 'buy') flow = amount + txFee(tx)
-        else if (tx.type === 'sell') flow = -amount
+        // Netto-Erlös: die Verkaufsgebühr bleibt nicht als Cash übrig
+        else if (tx.type === 'sell') flow = -(amount - txFee(tx))
         else if (tx.type === 'dividend') flow = -amount
         else if (tx.type === 'transfer_in') flow = amount
         else if (tx.type === 'transfer_out') flow = -amount

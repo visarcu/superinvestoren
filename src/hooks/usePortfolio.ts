@@ -212,10 +212,12 @@ function calculateRealizedGains(transactions: Transaction[]): {
 
       const avgCostPerShare = pos.totalCost / pos.totalShares
       // Erlös aus total_value (Fallback price×qty) — tx.price allein kann bei
-      // Importen 0 oder gerundet sein. Bei Überverkauf nur den vorhandenen
-      // Bestand realisieren.
+      // Importen 0 oder gerundet sein. Verkaufsgebühren mindern den Erlös
+      // (Kaufgebühren stecken bereits in der Kostenbasis). Bei Überverkauf nur
+      // den vorhandenen Bestand realisieren.
       const sellQuantity = Math.min(tx.quantity, pos.totalShares)
-      const proceedsPerShare = tx.quantity > 0 ? transactionAmount(tx) / tx.quantity : 0
+      const sellFee = Math.abs(Number(tx.fee) || 0)
+      const proceedsPerShare = tx.quantity > 0 ? (transactionAmount(tx) - sellFee) / tx.quantity : 0
       const realizedGain = (proceedsPerShare - avgCostPerShare) * sellQuantity
       const realizedGainPercent = avgCostPerShare > 0
         ? ((proceedsPerShare - avgCostPerShare) / avgCostPerShare) * 100
@@ -372,14 +374,17 @@ export function calculateHistoricalPerfByDepot(
       if (tx.type === 'buy' || tx.type === 'transfer_in') {
         const pos = positions.get(sym) || { shares: 0, cost: 0 }
         pos.shares += tx.quantity
-        pos.cost += tx.quantity * tx.price
+        // Kaufgebühr gehört zur Kostenbasis (wie calculateRealizedGains)
+        pos.cost += tx.quantity * tx.price + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
         positions.set(sym, pos)
       } else if (tx.type === 'sell') {
         const pos = positions.get(sym)
         if (pos && pos.shares > 0) {
           const avgCost = pos.cost / pos.shares
           const sellQty = Math.min(tx.quantity, pos.shares)
-          agg.realized += (tx.price - avgCost) * sellQty
+          // Verkaufsgebühr anteilig auf die realisierte Menge
+          const sellFee = Math.abs(Number(tx.fee) || 0) * (tx.quantity > 0 ? sellQty / tx.quantity : 0)
+          agg.realized += (tx.price - avgCost) * sellQty - sellFee
           pos.cost -= sellQty * avgCost
           pos.shares -= sellQty
           if (pos.shares <= 0.0001) { pos.shares = 0; pos.cost = 0 }

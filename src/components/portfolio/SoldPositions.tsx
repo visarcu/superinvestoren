@@ -15,6 +15,7 @@ interface Transaction {
   quantity: number
   price: number
   total_value: number
+  fee?: number
   date: string
 }
 
@@ -77,7 +78,8 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
       for (const tx of sorted) {
         if (tx.type === 'buy' || tx.type === 'transfer_in') {
           totalShares += tx.quantity
-          totalCost += tx.quantity * tx.price
+          // Kaufgebühren erhöhen die Kostenbasis, Verkaufsgebühren mindern den Erlös
+          totalCost += tx.quantity * tx.price + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
           totalSharesBought += tx.quantity
           if (!firstName) firstName = tx.name
           if (!firstBuyDate) firstBuyDate = tx.date
@@ -85,7 +87,7 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
           const avgCost = totalShares > 0 ? totalCost / totalShares : 0
           totalShares -= tx.quantity
           totalCost -= tx.quantity * avgCost
-          totalSellRevenue += tx.quantity * tx.price
+          totalSellRevenue += tx.quantity * tx.price - Math.abs(Number(tx.fee) || 0)
           totalSharesSold += tx.quantity
           lastSellDate = tx.date
 
@@ -113,7 +115,7 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
       if (totalShares <= 0.0001 && totalSharesSold > 0) {
         const totalInvested = totalSharesBought > 0
           ? (sorted.filter(t => t.type === 'buy' || t.type === 'transfer_in')
-              .reduce((sum, t) => sum + t.quantity * t.price, 0))
+              .reduce((sum, t) => sum + t.quantity * t.price + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0), 0))
           : 0
 
         const realizedGain = totalSellRevenue - totalInvested

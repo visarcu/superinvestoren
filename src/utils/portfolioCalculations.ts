@@ -77,8 +77,9 @@ export function calculateSymbolPerformance(
       const avgCostPerShare = totalCost / totalShares
       // Verkaufsgebühren reduzieren den realisierten Gewinn
       const realizedGain = (tx.price - avgCostPerShare) * tx.quantity - fee
+      const netPricePerShare = tx.quantity > 0 ? tx.price - fee / tx.quantity : tx.price
       const realizedGainPercent = avgCostPerShare > 0
-        ? ((tx.price - avgCostPerShare) / avgCostPerShare) * 100
+        ? ((netPricePerShare - avgCostPerShare) / avgCostPerShare) * 100
         : 0
 
       totalRealizedGain += realizedGain

@@ -35,11 +35,6 @@ const REST_COLOR = '#404040' // neutral-700 für "Andere"
 const CASH_COLOR = '#525252' // neutral-600 für Cash
 const TOP_N = 11
 
-// Über die Palette hinaus ("Alle anzeigen") eindeutige Farben per Goldenem Winkel
-function sliceColor(index: number): string {
-  if (index < SLICE_COLORS.length) return SLICE_COLORS[index]
-  return `hsl(${Math.round((index * 137.508) % 360)}, 60%, 55%)`
-}
 
 interface Slice {
   name: string
@@ -59,24 +54,24 @@ export default function PortfolioAllocation({
   includeCash,
 }: PortfolioAllocationProps) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
-  // Alle Positionen einzeln statt Top 11 + "Andere"
+  // "Alle anzeigen" klappt nur die Legende auf — der Donut bleibt bei
+  // Top 11 + "Andere", sonst zerfällt er in unlesbare Mini-Segmente
   const [showAll, setShowAll] = useState(false)
   const positionCount = holdings.filter(h => h.value > 0).length
 
-  const slices = useMemo<Slice[]>(() => {
+  const { slices, restItems } = useMemo<{ slices: Slice[]; restItems: Slice[] }>(() => {
     const stockValue = holdings.reduce((s, h) => s + h.value, 0)
     const denominator = includeCash ? stockValue + Math.max(0, cashPosition) : stockValue
-    if (denominator <= 0) return []
+    if (denominator <= 0) return { slices: [], restItems: [] }
 
     // Holdings sortiert nach Wert
     const sorted = [...holdings]
       .filter(h => h.value > 0)
       .sort((a, b) => b.value - a.value)
 
-    // Top N + "Andere" — standardmäßig max 11 Positionen explizit, Rest bündeln
-    const limit = showAll ? sorted.length : TOP_N
-    const top = sorted.slice(0, limit)
-    const rest = sorted.slice(limit)
+    // Top N + "Andere" — max 11 Positionen explizit, Rest bündeln
+    const top = sorted.slice(0, TOP_N)
+    const rest = sorted.slice(TOP_N)
     const restValue = rest.reduce((s, h) => s + h.value, 0)
 
     const slices: Slice[] = top.map((h, i) => ({
@@ -84,7 +79,7 @@ export default function PortfolioAllocation({
       symbol: h.symbol,
       value: h.value,
       percent: (h.value / denominator) * 100,
-      color: sliceColor(i),
+      color: SLICE_COLORS[i % SLICE_COLORS.length],
     }))
 
     if (restValue > 0) {
@@ -109,8 +104,30 @@ export default function PortfolioAllocation({
       })
     }
 
-    return slices
-  }, [holdings, cashPosition, includeCash, showAll])
+    const restItems: Slice[] = rest.map(h => ({
+      name: h.name || h.symbol,
+      symbol: h.symbol,
+      value: h.value,
+      percent: (h.value / denominator) * 100,
+      color: REST_COLOR,
+    }))
+
+    return { slices, restItems }
+  }, [holdings, cashPosition, includeCash])
+
+  // Legende: Donut-Segmente; aufgeklappt statt "Andere" jede Einzelposition.
+  // sliceIdx verknüpft eine Zeile mit ihrem Segment (für das Hover-Highlight).
+  const legendItems = useMemo(() => {
+    const items: Array<{ slice: Slice; sliceIdx: number }> = []
+    slices.forEach((slice, sliceIdx) => {
+      if (slice.isOther && showAll) {
+        restItems.forEach(item => items.push({ slice: item, sliceIdx }))
+      } else {
+        items.push({ slice, sliceIdx })
+      }
+    })
+    return items
+  }, [slices, restItems, showAll])
 
   const displayedTotal = useMemo(() => {
     return slices.reduce((s, sl) => s + sl.value, 0)
@@ -139,7 +156,7 @@ export default function PortfolioAllocation({
               cy="50%"
               innerRadius="68%"
               outerRadius="98%"
-              paddingAngle={slices.length > 24 ? 0 : 1.5}
+              paddingAngle={1.5}
               stroke="var(--color-bg-card)"
               strokeWidth={2}
               startAngle={90}
@@ -189,7 +206,7 @@ export default function PortfolioAllocation({
                   {formatCurrency(displayedTotal)}
                 </p>
                 <p className="text-[11px] text-neutral-500 tabular-nums">
-                  {slices.length} {slices.length === 1 ? 'Position' : 'Positionen'}
+                  {positionCount} {positionCount === 1 ? 'Position' : 'Positionen'}
                 </p>
               </>
             )}
@@ -198,46 +215,46 @@ export default function PortfolioAllocation({
       </div>
 
       {/* Legend rechts */}
-      <div className="space-y-0">
-        <div className={showAll ? 'max-h-[420px] overflow-y-auto pr-1' : ''}>
-        {slices.map((s, i) => (
-          <div
-            key={s.symbol + i}
-            className={`flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer transition-colors ${
-              hoveredIdx === i ? 'bg-theme-hover' : 'hover:bg-theme-hover'
-            }`}
-            onMouseEnter={() => setHoveredIdx(i)}
-            onMouseLeave={() => setHoveredIdx(null)}
-          >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <span
-                className="w-2.5 h-2.5 rounded-sm flex-shrink-0"
-                style={{ backgroundColor: s.color }}
-              />
-              <div className="min-w-0">
-                <p className="text-[12px] font-medium text-theme-primary truncate">
-                  {s.symbol === 'CASH' ? 'Cash' : s.symbol === '...' ? `Andere (${s.name.split(' ')[0]})` : s.symbol}
+      <div className="min-w-0">
+        <div className={showAll ? 'max-h-[280px] overflow-y-auto pr-1' : ''}>
+          {legendItems.map(({ slice: s, sliceIdx }, i) => (
+            <div
+              key={s.symbol + i}
+              className={`flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer transition-colors ${
+                hoveredIdx === sliceIdx && !(showAll && slices[sliceIdx]?.isOther) ? 'bg-theme-hover' : 'hover:bg-theme-hover'
+              }`}
+              onMouseEnter={() => setHoveredIdx(sliceIdx)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            >
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span
+                  className="w-2.5 h-2.5 rounded-sm flex-shrink-0"
+                  style={{ backgroundColor: s.color }}
+                />
+                <div className="min-w-0">
+                  <p className="text-[12px] font-medium text-theme-primary truncate">
+                    {s.symbol === 'CASH' ? 'Cash' : s.symbol === '...' ? `Andere (${s.name.split(' ')[0]})` : s.symbol}
+                  </p>
+                  {!s.isCash && !s.isOther && (
+                    <p className="text-[10px] text-theme-muted truncate">{s.name}</p>
+                  )}
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0 ml-3">
+                <p className="text-[12px] font-medium text-theme-primary tabular-nums">
+                  {s.percent.toFixed(1)}%
                 </p>
-                {!s.isCash && !s.isOther && (
-                  <p className="text-[10px] text-theme-muted truncate">{s.name}</p>
-                )}
+                <p className="text-[10px] text-theme-muted tabular-nums">
+                  {formatCurrency(s.value)}
+                </p>
               </div>
             </div>
-            <div className="text-right flex-shrink-0 ml-3">
-              <p className="text-[12px] font-medium text-theme-primary tabular-nums">
-                {s.percent.toFixed(1)}%
-              </p>
-              <p className="text-[10px] text-theme-muted tabular-nums">
-                {formatCurrency(s.value)}
-              </p>
-            </div>
-          </div>
-        ))}
+          ))}
         </div>
-        {positionCount > TOP_N && (
+        {restItems.length > 0 && (
           <button
             onClick={() => { setShowAll(v => !v); setHoveredIdx(null) }}
-            className="mt-1 w-full rounded-lg px-2 py-1.5 text-left text-[11px] text-theme-muted transition-colors hover:bg-theme-hover hover:text-theme-primary"
+            className="mt-1 w-full rounded-lg px-2 py-1.5 text-left text-[11px] text-theme-muted transition-colors hover:bg-theme-hover hover:text-theme-primary focus:outline-none"
           >
             {showAll ? 'Weniger anzeigen' : `Alle ${positionCount} Positionen anzeigen`}
           </button>
