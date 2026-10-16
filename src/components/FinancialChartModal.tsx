@@ -18,6 +18,9 @@ import {
 } from 'recharts'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { SegmentSeries, loadSegmentSeries, sliceSegmentSeries } from '@/lib/revenueSegments'
+import { SegmentLegend, SegmentTooltip, renderSegmentBars, unassignedPatternDefs } from './SegmentChartParts'
+import SegmentSharesView from './SegmentSharesView'
 
 type MetricKey =
   | 'revenue'
@@ -241,132 +244,6 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
   }
 }
 
-// ✅ SEGMENT DATA FETCHER - AUCH MIT QUALTRIM LOGIK
-async function fetchProductSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-  try {
-    const res = await fetch(
-      `/api/revenue-segmentation/${ticker}?type=product&period=${period}&structure=flat`
-    )
-    
-    if (!res.ok) return []
-    
-    const response = await res.json()
-    const data = response.success ? response.data : []
-
-    if (!Array.isArray(data) || data.length === 0) return []
-
-    // ✅ QUALTRIM: Bei Quarterly mehr Datenpunkte
-    const dataPoints = period === 'quarterly' ? years * 4 : years
-
-    // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
-    const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
-
-    const transformed = data.map((yearData: any) => {
-      const dateKey = Object.keys(yearData)[0]
-      const segments = yearData[dateKey]
-
-      if (!dateKey || !segments) return null
-
-      const label = effectiveQuarterly
-        ? formatQuarterLabel(dateKey)
-        : dateKey.substring(0, 4)
-      
-      const result: any = { label }
-      
-      Object.entries(segments).forEach(([segmentName, value]) => {
-        if (typeof value === 'number' && value > 0) {
-          const shortName = segmentName.length > 25 
-            ? segmentName.substring(0, 22) + '...' 
-            : segmentName
-          result[shortName] = value
-        }
-      })
-      
-      return result
-    })
-    .filter(Boolean)
-    .reverse()
-    .slice(-dataPoints)
-    
-    // Entferne Jahre wo alle Segmente 0 sind
-    return transformed.filter((yearData: any) => {
-      const segmentKeys = Object.keys(yearData).filter(key => key !== 'label')
-      return segmentKeys.some(key => (yearData[key] || 0) > 0)
-    })
-  } catch (error) {
-    console.error('Error fetching product segment data:', error)
-    return []
-  }
-}
-
-async function fetchGeographicSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-  try {
-    const res = await fetch(
-      `/api/revenue-segmentation/${ticker}?type=geographic&period=${period}&structure=flat`
-    )
-    
-    if (!res.ok) return []
-    
-    const response = await res.json()
-    const data = response.success ? response.data : []
-
-    if (!Array.isArray(data) || data.length === 0) return []
-
-    // ✅ QUALTRIM: Bei Quarterly mehr Datenpunkte
-    const dataPoints = period === 'quarterly' ? years * 4 : years
-
-    // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
-    const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
-
-    const transformed = data.map((yearData: any) => {
-      let dateKey = ''
-      let segments: any = {}
-
-      const firstKey = Object.keys(yearData)[0]
-
-      if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        dateKey = firstKey
-        segments = yearData[firstKey]
-      } else if (yearData.date) {
-        dateKey = yearData.date
-        segments = { ...yearData }
-        delete segments.date
-        delete segments.symbol
-      }
-
-      if (!dateKey || Object.keys(segments).length === 0) return null
-
-      const label = effectiveQuarterly
-        ? formatQuarterLabel(dateKey)
-        : dateKey.substring(0, 4)
-      
-      const result: any = { label }
-      
-      Object.entries(segments).forEach(([segmentName, value]) => {
-        if (typeof value === 'number' && value > 0) {
-          const shortName = segmentName.length > 25 
-            ? segmentName.substring(0, 22) + '...' 
-            : segmentName
-          result[shortName] = value
-        }
-      })
-      
-      return result
-    })
-    .filter(Boolean)
-    .reverse()
-    .slice(-dataPoints)
-    
-    return transformed.filter((yearData: any) => {
-      const segmentKeys = Object.keys(yearData).filter(key => key !== 'label')
-      return segmentKeys.some(key => (yearData[key] || 0) > 0)
-    })
-  } catch (error) {
-    console.error('Error fetching geographic segment data:', error)
-    return []
-  }
-}
-
 const METRICS = [
   { key: 'revenue' as const, name: 'Umsatz', shortName: 'Umsatz', fill: 'rgba(59,130,246,0.8)', stroke: '#3b82f6' },
   { key: 'ebitda' as const, name: 'EBITDA', shortName: 'EBITDA', fill: 'rgba(16,185,129,0.8)', stroke: '#10b981' },
@@ -385,8 +262,6 @@ const METRICS = [
   { key: 'geographicSegments' as const, name: 'Geo-Segmente', shortName: 'Geo-Segmente', fill: 'rgba(16,185,129,0.8)', stroke: '#10b981' },
 ]
 
-const SEGMENT_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16', '#EC4899', '#F97316', '#14B8A6']
-
 export default function FinancialChartModal({
   isOpen,
   onClose,
@@ -397,7 +272,12 @@ export default function FinancialChartModal({
 }: FinancialChartModalProps) {
   const [years, setYears] = useState(isPremium ? 10 : 5)
   const [data, setData] = useState<any[]>([])
-  const [segmentData, setSegmentData] = useState<any[]>([])
+  const [segmentSeries, setSegmentSeries] = useState<SegmentSeries | null>(null)
+  const [segmentView, setSegmentView] = useState<'history' | 'shares'>('history')
+  const [selectedSegmentLabel, setSelectedSegmentLabel] = useState<string | null>(null)
+  const [hoveredSegmentLabel, setHoveredSegmentLabel] = useState<string | null>(null)
+  // Ab lg Verlauf und Anteile nebeneinander, darunter per Umschalter
+  const [isWide, setIsWide] = useState(false)
   const [loading, setLoading] = useState(false)
   const [viewMode, setViewMode] = useState<'absolute' | 'growth'>('absolute')
   
@@ -413,12 +293,9 @@ export default function FinancialChartModal({
     async function loadData() {
       setLoading(true)
       try {
-        if (metricKey === 'revenueSegments') {
-          const result = await fetchProductSegmentData(ticker, years, period)
-          setSegmentData(result)
-        } else if (metricKey === 'geographicSegments') {
-          const result = await fetchGeographicSegmentData(ticker, years, period)
-          setSegmentData(result)
+        if (metricKey === 'revenueSegments' || metricKey === 'geographicSegments') {
+          const type = metricKey === 'revenueSegments' ? 'product' : 'geographic'
+          setSegmentSeries(await loadSegmentSeries(ticker, type, period))
         } else {
           const result = await fetchFinancialData(ticker, years, period)
           setData(result)
@@ -426,7 +303,7 @@ export default function FinancialChartModal({
       } catch (error) {
         console.error('Failed to load data:', error)
         setData([])
-        setSegmentData([])
+        setSegmentSeries(null)
       } finally {
         setLoading(false)
       }
@@ -434,6 +311,21 @@ export default function FinancialChartModal({
 
     loadData()
   }, [isOpen, metricKey, ticker, years, period])
+
+  // Neuer Chart → wieder mit dem Verlauf und der jüngsten Periode starten
+  useEffect(() => {
+    setSegmentView('history')
+    setSelectedSegmentLabel(null)
+    setHoveredSegmentLabel(null)
+  }, [metricKey, ticker, period])
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setIsWide(query.matches)
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
 
   // Cap years at 5 for free users
   useEffect(() => {
@@ -463,6 +355,10 @@ export default function FinancialChartModal({
   const metricName = metric?.name || metricKey
 
   const isSegmentChart = metricKey === 'revenueSegments' || metricKey === 'geographicSegments'
+  const visibleSegments = segmentSeries
+    ? sliceSegmentSeries(segmentSeries, segmentSeries.isQuarterly ? years * 4 : years)
+    : null
+  const segmentPatternId = `segment-unassigned-modal-${metricKey}`
   // CAGR: Korrekte Periodenanzahl (quarterly: 4 pro Jahr, annual: 1 pro Jahr) + 1 für Start/End
   const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 5 : 2) : null
   const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 13 : 4) : null
@@ -489,6 +385,84 @@ export default function FinancialChartModal({
       return { angle: -45, fontSize: 11, interval: 1 }
     }
     return { angle: 0, fontSize: 12, interval: 0 }
+  }
+
+  // Segment-Verlauf. split = neben der Anteils-Spalte: Hover zeigt die Periode rechts,
+  // Klick hält sie fest. Sonst führt ein Klick in die Anteils-Ansicht.
+  const renderSegmentHistory = (segments: SegmentSeries, split: boolean) => {
+    const xAxisConfig = getXAxisConfig(segments.periods.length)
+    const unit = segments.isQuarterly ? 'Quartal' : 'Jahr'
+    return (
+      <div className="w-full h-full flex flex-col gap-4 min-w-0">
+        <div className="flex-1 min-h-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={segments.periods}
+              margin={{ top: 20, right: split ? 10 : 30, bottom: 0, left: split ? 10 : 80 }}
+              onMouseMove={split ? (state: any) => {
+                setHoveredSegmentLabel(state?.activeLabel != null ? String(state.activeLabel) : null)
+              } : undefined}
+              onMouseLeave={split ? () => setHoveredSegmentLabel(null) : undefined}
+              onClick={(state: any) => {
+                if (state?.activeLabel == null) return
+                const label = String(state.activeLabel)
+                if (split) {
+                  setSelectedSegmentLabel(current => current === label ? null : label)
+                } else {
+                  setSelectedSegmentLabel(label)
+                  setSegmentView('shares')
+                }
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              {unassignedPatternDefs(segmentPatternId)}
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
+              <XAxis
+                dataKey="label"
+                axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                tickLine={false}
+                tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                angle={xAxisConfig.angle}
+                textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                height={xAxisConfig.angle ? 60 : 30}
+                interval={xAxisConfig.interval}
+              />
+              <YAxis
+                tickFormatter={formatAxisValueDE}
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                width={70}
+              />
+              <RechartsTooltip
+                cursor={{ fill: 'rgba(148, 163, 184, 0.08)' }}
+                // Neben der Anteils-Spalte zeigt die Spalte die Werte — kein zusätzlicher Tooltip
+                content={split ? () => null : ({ active, payload }) => (
+                  <SegmentTooltip
+                    active={active}
+                    payload={payload as any[]}
+                    series={segments}
+                    variant="modal"
+                    formatCurrency={formatCurrency}
+                  />
+                )}
+              />
+              {renderSegmentBars(segments, segmentPatternId, split ? selectedSegmentLabel : null)}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="shrink-0 space-y-2">
+          <SegmentLegend series={segments} patternId={segmentPatternId} />
+          <p className="text-center text-[11px] text-theme-muted">
+            {!split
+              ? `Klick auf einen Balken zeigt die Anteile ${segments.isQuarterly ? 'dieses Quartals' : 'dieses Jahres'}`
+              : selectedSegmentLabel
+                ? `${selectedSegmentLabel} festgehalten · erneut klicken zum Lösen`
+                : `Fahre über die Balken für die Anteile · Klick hält das ${unit} fest`}
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -553,6 +527,25 @@ export default function FinancialChartModal({
               </div>
             )}
 
+            {/* Segment-Ansicht auf schmalen Screens: Verlauf (Balken) oder Anteile (Donut) */}
+            {isSegmentChart && visibleSegments && !isWide && (
+              <div className="flex bg-theme-tertiary rounded-lg p-0.5 border border-theme">
+                {([['history', 'Verlauf'], ['shares', 'Anteile']] as const).map(([view, label]) => (
+                  <button
+                    key={view}
+                    onClick={() => setSegmentView(view)}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
+                      segmentView === view
+                        ? 'bg-brand text-white shadow-sm'
+                        : 'text-theme-secondary hover:text-theme-primary'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
+
             {/* Years Selector - QUALTRIM STYLE DROPDOWN */}
             {isPremium ? (
               <select
@@ -587,7 +580,7 @@ export default function FinancialChartModal({
         </div>
 
         {/* CHART AREA */}
-        <div className="flex-1 bg-theme-primary p-6">
+        <div className="flex-1 min-h-0 bg-theme-primary p-6">
           {loading ? (
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
@@ -597,158 +590,44 @@ export default function FinancialChartModal({
                 </p>
               </div>
             </div>
+          ) : isSegmentChart ? (
+            !visibleSegments ? (
+              <div className="flex items-center justify-center h-full">
+                <p className="text-theme-muted text-sm">Keine Segment-Daten verfügbar</p>
+              </div>
+            ) : isWide ? (
+              <div className="h-full grid grid-cols-[minmax(0,1.6fr),minmax(0,1fr)] gap-6">
+                {renderSegmentHistory(visibleSegments, true)}
+                <div className="min-h-0 bg-theme-card border border-theme rounded-xl p-5">
+                  <SegmentSharesView
+                    layout="stacked"
+                    series={visibleSegments}
+                    allPeriods={segmentSeries?.periods || []}
+                    selectedLabel={hoveredSegmentLabel ?? selectedSegmentLabel}
+                    onSelectLabel={setSelectedSegmentLabel}
+                    patternId={`${segmentPatternId}-shares`}
+                    formatCurrency={formatCurrency}
+                  />
+                </div>
+              </div>
+            ) : segmentView === 'shares' ? (
+              <SegmentSharesView
+                series={visibleSegments}
+                allPeriods={segmentSeries?.periods || []}
+                selectedLabel={selectedSegmentLabel}
+                onSelectLabel={setSelectedSegmentLabel}
+                patternId={`${segmentPatternId}-shares`}
+                formatCurrency={formatCurrency}
+              />
+            ) : (
+              renderSegmentHistory(visibleSegments, false)
+            )
           ) : (
             <div className="w-full h-full">
               <ResponsiveContainer width="100%" height="100%">
                 {(() => {
                   // Dynamische X-Achsen Einstellungen
-                  const currentData = isSegmentChart ? segmentData : data
-                  const xAxisConfig = getXAxisConfig(currentData.length)
-
-                  // ✅ REVENUE SEGMENTS CHART
-                  if (metricKey === 'revenueSegments') {
-                    const allSegmentKeys = new Set<string>()
-                    segmentData.forEach(yearData => {
-                      Object.keys(yearData).forEach(key => {
-                        if (key !== 'label' && segmentData.some(year => (year[key] || 0) > 0)) {
-                          allSegmentKeys.add(key)
-                        }
-                      })
-                    })
-                    const segmentKeys = Array.from(allSegmentKeys)
-                    
-                    return (
-                      <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
-                        <XAxis 
-                          dataKey="label" 
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={false}
-                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
-                          angle={xAxisConfig.angle}
-                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
-                          height={70}
-                          interval={xAxisConfig.interval}
-                        />
-                        <YAxis 
-                          tickFormatter={formatAxisValueDE}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
-                          width={70}
-                        />
-                        <RechartsTooltip
-                          cursor={false}
-                          content={({ active, payload, label }) => {
-                            if (!active || !payload) return null
-                            const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
-                            const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
-
-                            return (
-                              <div style={{ ...tooltipContainerStyle, padding: '10px 14px' }}>
-                                <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>{label}</p>
-                                {nonZeroPayload.slice(0, 8).map((entry, index) => (
-                                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', marginBottom: '2px' }}>
-                                    <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span style={{ color: '#f1f5f9', fontWeight: 500 }}>{formatCurrency(entry.value as number)}</span>
-                                  </div>
-                                ))}
-                                {nonZeroPayload.length > 8 && (
-                                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>+{nonZeroPayload.length - 8} weitere...</div>
-                                )}
-                                <div style={{ borderTop: '1px solid rgba(148, 163, 184, 0.2)', marginTop: '8px', paddingTop: '6px' }}>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', fontWeight: 700 }}>
-                                    <span style={{ color: '#94a3b8' }}>Gesamt:</span>
-                                    <span style={{ color: '#f1f5f9' }}>{formatCurrency(total)}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          }}
-                        />
-                        {segmentKeys.map((segment, index) => (
-                          <Bar
-                            key={segment}
-                            dataKey={segment}
-                            stackId="a"
-                            fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
-                            radius={index === segmentKeys.length - 1 ? [3, 3, 0, 0] : [0, 0, 0, 0]}
-                          />
-                        ))}
-                      </BarChart>
-                    )
-                  }
-
-                  // ✅ GEOGRAPHIC SEGMENTS CHART
-                  if (metricKey === 'geographicSegments') {
-                    const allSegmentKeys = new Set<string>()
-                    segmentData.forEach(yearData => {
-                      Object.keys(yearData).forEach(key => {
-                        if (key !== 'label' && segmentData.some(year => (year[key] || 0) > 0)) {
-                          allSegmentKeys.add(key)
-                        }
-                      })
-                    })
-                    const segmentKeys = Array.from(allSegmentKeys)
-
-                    return (
-                      <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
-                        <XAxis
-                          dataKey="label"
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={false}
-                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
-                          angle={xAxisConfig.angle}
-                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
-                          height={70}
-                          interval={xAxisConfig.interval}
-                        />
-                        <YAxis
-                          tickFormatter={formatAxisValueDE}
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
-                          width={70}
-                        />
-                        <RechartsTooltip
-                          cursor={false}
-                          content={({ active, payload, label }) => {
-                            if (!active || !payload) return null
-                            const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
-                            const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
-                            
-                            return (
-                              <div style={{ ...tooltipContainerStyle, padding: '10px 14px' }}>
-                                <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>{label}</p>
-                                {nonZeroPayload.slice(0, 8).map((entry, index) => (
-                                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', marginBottom: '2px' }}>
-                                    <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span style={{ color: '#f1f5f9', fontWeight: 500 }}>{formatCurrency(entry.value as number)}</span>
-                                  </div>
-                                ))}
-                                <div style={{ borderTop: '1px solid rgba(148, 163, 184, 0.2)', marginTop: '8px', paddingTop: '6px' }}>
-                                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', fontWeight: 700 }}>
-                                    <span style={{ color: '#94a3b8' }}>Gesamt:</span>
-                                    <span style={{ color: '#f1f5f9' }}>{formatCurrency(total)}</span>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          }}
-                        />
-                        {segmentKeys.map((segment, index) => (
-                          <Bar
-                            key={segment}
-                            dataKey={segment}
-                            stackId="a"
-                            fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
-                            radius={index === segmentKeys.length - 1 ? [3, 3, 0, 0] : [0, 0, 0, 0]}
-                          />
-                        ))}
-                      </BarChart>
-                    )
-                  }
+                  const xAxisConfig = getXAxisConfig(data.length)
 
                   // ✅ PROFIT MARGIN CHART (mit Median + Growth-Modus)
                   if (metricKey === 'profitMargin') {

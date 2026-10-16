@@ -17,6 +17,8 @@ import {
 import { ArrowsPointingOutIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import { useCurrency } from '@/lib/CurrencyContext'
 import FinancialChartModal from './FinancialChartModal'
+import { SegmentSeries, SegmentType, loadSegmentSeries, sliceSegmentSeries } from '@/lib/revenueSegments'
+import { SegmentTooltip, renderSegmentBars, unassignedPatternDefs } from './SegmentChartParts'
 import { useChartPresets } from '@/hooks/useChartPresets'
 import { ChartPreset } from '@/types/chartPresets'
 
@@ -616,6 +618,8 @@ function MetricTooltip({ metricKey, className = "" }: { metricKey: MetricKey, cl
         ref={buttonRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setShowTooltip(false)}
+        // Kachel ist selbst klickbar (öffnet das Modal) — Info-Icon soll das nicht auslösen
+        onClick={(e) => e.stopPropagation()}
         className={`p-0.5 hover:bg-theme-tertiary rounded transition-colors ${className}`}
       >
         <InformationCircleIcon className="w-3.5 h-3.5 text-theme-muted hover:text-theme-secondary" />
@@ -717,7 +721,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
   }
 
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+    <div onClick={onExpand} className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
@@ -725,7 +729,8 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
         </div>
         <button 
           onClick={onExpand}
-          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+          title="Vergrößern"
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-60 group-hover:opacity-100"
         >
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
@@ -926,7 +931,7 @@ function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[],
   }
 
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+    <div onClick={onExpand} className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
@@ -934,7 +939,8 @@ function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[],
         </div>
         <button 
           onClick={onExpand}
-          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+          title="Vergrößern"
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-60 group-hover:opacity-100"
         >
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
@@ -1009,221 +1015,97 @@ function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[],
     </div>
   )
 }
-// KORRIGIERTE RevenueSegmentsChart Funktion für FinancialAnalysisClient.tsx
-function RevenueSegmentsChart({
+// Segment-Kachel (Produkte oder Regionen): gestapelte Balken mit festen Segmentfarben
+// und grau schraffiertem Umsatzanteil, den FMP keinem Segment zuordnet
+function SegmentsChart({
   ticker,
+  type,
+  metricKey,
+  title,
+  emptyText,
   onExpand,
-  isPremium,
   period = 'annual',
   maxYears = 10
 }: {
   ticker: string,
+  type: SegmentType,
+  metricKey: MetricKey,
+  title: string,
+  emptyText: string,
   onExpand: () => void,
-  isPremium: boolean,
   period?: 'annual' | 'quarterly',
   maxYears?: number
 }) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
-  const [segmentData, setSegmentData] = useState<any[]>([])
+  const [series, setSeries] = useState<SegmentSeries | null>(null)
   const [loading, setLoading] = useState(true)
+  const patternId = `segment-unassigned-card-${type}`
 
   useEffect(() => {
-    async function loadSegments() {
-      if (!ticker) {
-        setLoading(false)
-        return
-      }
+    let cancelled = false
+    setLoading(true)
 
-      try {
-        const apiPeriod = period === 'quarterly' ? 'quarter' : 'annual'
-        const url = `/api/revenue-segmentation/${ticker}?type=product&period=${apiPeriod}&structure=flat`
-        
-        console.log('🔍 [RevenueSegments] API URL:', url)
-        
-        const res = await fetch(url)
-        console.log('🔍 [RevenueSegments] Response Status:', res.status)
-        
-        if (!res.ok) {
-          console.error('❌ [RevenueSegments] API request failed:', res.statusText)
-          setSegmentData([])
-          return
-        }
-        
-        const response = await res.json()
-        console.log('📊 [RevenueSegments] Raw API Response:', JSON.stringify(response, null, 2))
-        
-        const data = response.success ? response.data : []
-        if (!Array.isArray(data) || data.length === 0) {
-          console.warn('⚠️ [RevenueSegments] No data or invalid format')
-          setSegmentData([])
-          return
-        }
+    loadSegmentSeries(ticker, type, period)
+      .then(result => { if (!cancelled) setSeries(result) })
+      .catch(error => {
+        console.error(`Failed to load ${type} segment data:`, error)
+        if (!cancelled) setSeries(null)
+      })
+      .finally(() => { if (!cancelled) setLoading(false) })
 
-        // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
-        const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
+    return () => { cancelled = true }
+  }, [ticker, type, period])
 
-        // Transform the data
-        const transformed = data
-          .map((yearData: any, index: number) => {
-            console.log(`📅 [RevenueSegments] Processing year ${index}:`, yearData)
-            
-            // Get the date key (first key in the object)
-            const dateKey = Object.keys(yearData)[0]
-            console.log(`📅 [RevenueSegments] Date key:`, dateKey)
-            
-            if (!dateKey) {
-              console.warn(`⚠️ [RevenueSegments] No date key for index ${index}`)
-              return null
-            }
-            
-            const segments = yearData[dateKey]
-            console.log(`📅 [RevenueSegments] Segments for ${dateKey}:`, segments)
-            
-            if (!segments || typeof segments !== 'object') {
-              console.warn(`⚠️ [RevenueSegments] No segments for ${dateKey}`)
-              return null
-            }
-            
-            const segmentKeys = Object.keys(segments)
-            console.log(`📅 [RevenueSegments] Segment keys for ${dateKey}:`, segmentKeys)
-            
-            if (segmentKeys.length === 0) {
-              console.warn(`⚠️ [RevenueSegments] Empty segments for ${dateKey}`)
-              return null
-            }
+  const header = (
+    <div className="flex items-center gap-2">
+      <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+      <MetricTooltip metricKey={metricKey} />
+    </div>
+  )
 
-            // Extract label from date
-            const label = effectiveQuarterly
-              ? formatQuarterLabel(dateKey)
-              : dateKey.substring(0, 4)
-            const result: any = { label }
-            
-            // Add all segments
-            Object.entries(segments).forEach(([segmentName, value]) => {
-        
-              
-              if (typeof value === 'number' && value > 0) {
-                // Shorten long segment names
-                const shortName = segmentName.length > 25 
-                  ? segmentName.substring(0, 22) + '...' 
-                  : segmentName
-                result[shortName] = value
-              }
-            })
-            
-  
-            return result
-          })
-          .filter(Boolean) // Remove null values
-          .reverse() // Sort chronologically (oldest first)
-   
-        
-        setSegmentData(transformed.slice(-maxYears))
-
-      } catch (error) {
-
-        setSegmentData([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadSegments()
-  }, [ticker, isPremium, period])
-
-  // Loading State
   if (loading) {
     return (
       <div className="bg-theme-card rounded-lg p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Produkten</h3>
-        </div>
+        <div className="flex items-center justify-between mb-3">{header}</div>
         <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
       </div>
     )
   }
 
-  // No Data State
-  if (segmentData.length === 0) {
+  if (!series) {
     return (
       <div className="bg-theme-card rounded-lg p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Produkten</h3>
-        </div>
+        <div className="flex items-center justify-between mb-3">{header}</div>
         <div className="aspect-square flex items-center justify-center">
-          <p className="text-theme-secondary text-xs">Keine Segment-Daten verfügbar</p>
+          <p className="text-theme-secondary text-xs">{emptyText}</p>
         </div>
       </div>
     )
   }
 
-  // ✅ CHART RENDERING - UNION ALLER SEGMENTE MIT POSITIVEN WERTEN (wie im Modal)
-  const allSegmentKeys = new Set<string>()
-  segmentData.forEach(yearData => {
-    Object.keys(yearData).forEach(key => {
-      if (key !== 'label') {
-        // ✅ NUR KEYS MIT WERTEN > 0 IN MINDESTENS EINEM JAHR
-        const hasPositiveValue = segmentData.some(year => (year[key] || 0) > 0)
-        if (hasPositiveValue) {
-          allSegmentKeys.add(key)
-        }
-      }
-    })
-  })
-  
-  const segmentKeys = Array.from(allSegmentKeys)
-  const SEGMENT_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16', '#EC4899']
-
-  console.log('🎨 [RevenueSegments] Rendering chart with:', { 
-    dataLength: segmentData.length, 
-    segmentKeys,
-    allSegments: segmentKeys.length,
-    firstDataPoint: segmentData[0] 
-  })
-
-  // ✅ NORMALISIERTE DATEN ERSTELLEN (fehlende Segmente = 0, aber Jahre ohne Segmente entfernen)
-  const normalizedData = segmentData.map(yearData => {
-    const normalized = { ...yearData }
-    segmentKeys.forEach(key => {
-      if (!(key in normalized)) {
-        normalized[key] = 0
-      }
-    })
-    return normalized
-  }).filter(yearData => {
-    // ✅ ENTFERNE JAHRE WO ALLE SEGMENTE 0 SIND
-    const hasAnyValue = segmentKeys.some(key => (yearData[key] || 0) > 0)
-    return hasAnyValue
-  })
+  const pointsPerYear = series.isQuarterly ? 4 : 1
+  const visible = sliceSegmentSeries(series, maxYears * pointsPerYear)
 
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+    <div onClick={onExpand} className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group cursor-pointer">
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-theme-primary">
-          Umsatz nach Produkten
-            {segmentData.length > 0 && (
-              <span className="text-xs text-theme-muted ml-2">
-                ({segmentData[0]?.label} - {segmentData[segmentData.length - 1]?.label})
-              </span>
-            )}
-          </h3>
-          <MetricTooltip metricKey="revenueSegments" />
-        </div>
-        <button 
+        {header}
+        <button
           onClick={onExpand}
-          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+          title="Vergrößern"
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-60 group-hover:opacity-100"
         >
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
       </div>
-      
+
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={normalizedData}  // ✅ Verwende normalisierte Daten
+          <BarChart
+            data={visible.periods}
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
+            {unassignedPatternDefs(patternId)}
             <CartesianGrid
               strokeDasharray="3 3"
               stroke="rgba(148, 163, 184, 0.5)"
@@ -1235,7 +1117,7 @@ function RevenueSegmentsChart({
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-              interval={getXAxisInterval(normalizedData.length)}
+              interval={getXAxisInterval(visible.periods.length)}
             />
             <YAxis
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
@@ -1246,52 +1128,17 @@ function RevenueSegmentsChart({
             />
             <RechartsTooltip
               cursor={false}
-              content={({ active, payload, label }) => {
-                if (!active || !payload) return null
-
-                // ✅ FILTERE 0-WERTE AUS DER TOOLTIP
-                const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
-                const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
-                
-                return (
-                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
-                    {nonZeroPayload.map((entry, index) => (
-                      <div key={index} className="flex justify-between gap-3 text-xs">
-                        <span style={{ color: entry.color }}>{entry.name}:</span>
-                        <span className="text-theme-primary font-medium">
-                          {formatCurrency(entry.value as number)}
-                        </span>
-                      </div>
-                    ))}
-                    <div className="border-t border-theme/20 mt-1 pt-1">
-                      <div className="flex justify-between gap-3 text-xs">
-                        <span className="text-theme-secondary">Gesamt:</span>
-                        <span className="text-theme-primary font-bold">
-                          {formatCurrency(total)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )
-              }}
-            />
-            
-            {/* ✅ NUR BARS FÜR SEGMENTE MIT WERTEN RENDERN */}
-            {segmentKeys.map((segment, index) => {
-              const hasAnyValue = normalizedData.some(year => (year[segment] || 0) > 0)
-              if (!hasAnyValue) return null
-              
-              return (
-                <Bar 
-                  key={segment}
-                  dataKey={segment}
-                  stackId="a"
-                  fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
-                  radius={index === segmentKeys.length - 1 ? [2, 2, 0, 0] : [0, 0, 0, 0]}
+              content={({ active, payload }) => (
+                <SegmentTooltip
+                  active={active}
+                  payload={payload as any[]}
+                  series={visible}
+                  variant="card"
+                  formatCurrency={formatCurrency}
                 />
-              )
-            }).filter(Boolean)}
+              )}
+            />
+            {renderSegmentBars(visible, patternId)}
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -1302,13 +1149,14 @@ function RevenueSegmentsChart({
 // ✅ VALUATION METRICS CHART COMPONENT (KGV, KUV, KBV)
 function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+    <div onClick={onExpand} className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-medium text-theme-primary">Bewertung</h3>
           <MetricTooltip metricKey="valuationMetrics" />
         </div>
-        <button onClick={onExpand} className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100">
+        <button onClick={onExpand} title="Vergrößern"
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-60 group-hover:opacity-100">
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
       </div>
@@ -1355,229 +1203,11 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
 }
 
 
-// VOLLSTÄNDIGE GeographicSegmentsChart Komponente
-
-function GeographicSegmentsChart({
-  ticker,
-  onExpand,
-  isPremium,
-  period = 'annual',
-  maxYears = 10
-}: {
-  ticker: string,
-  onExpand: () => void,
-  isPremium: boolean,
-  period?: 'annual' | 'quarterly',
-  maxYears?: number
-}) {
-  const { formatCurrency, formatAxisValueDE } = useCurrency()
-  const [segmentData, setSegmentData] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function loadSegments() {
-      try {
-        const apiPeriod = period === 'quarterly' ? 'quarter' : 'annual'
-        const res = await fetch(
-          `/api/revenue-segmentation/${ticker}?type=geographic&period=${apiPeriod}&structure=flat`
-        )
-        
-        if (res.ok) {
-          const response = await res.json()
-          console.log('📊 Raw geographic data:', response)
-          const data = response.success ? response.data : []
-
-          if (Array.isArray(data) && data.length > 0) {
-            // API kann bei fehlenden Jahresdaten auf Quartale zurückfallen — Labels danach richten
-            const effectiveQuarterly = period === 'quarterly' || response.period === 'quarter'
-            const transformed = data.map((yearData: any) => {
-              let year = ''
-              let segments: any = {}
-
-              const firstKey = Object.keys(yearData)[0]
-
-              if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                year = effectiveQuarterly
-                  ? formatQuarterLabel(firstKey)
-                  : firstKey.substring(0, 4)
-                segments = yearData[firstKey]
-              } else if (yearData.date) {
-                year = effectiveQuarterly
-                  ? formatQuarterLabel(yearData.date)
-                  : yearData.date.substring(0, 4)
-                segments = { ...yearData }
-                delete segments.date
-                delete segments.symbol
-              }
-              
-              if (!year || Object.keys(segments).length === 0) return null
-              
-              const result: any = { label: year }
-              
-              Object.entries(segments).forEach(([segmentName, value]) => {
-                if (typeof value === 'number' && value > 0) {
-                  const shortName = segmentName.length > 20 
-                    ? segmentName.substring(0, 17) + '...' 
-                    : segmentName
-                  result[shortName] = value
-                }
-              })
-              
-              return result
-            })
-            .filter(Boolean)
-            .reverse()
-            .slice(-maxYears)
-
-            console.log('✅ Transformed geographic segments:', transformed)
-            setSegmentData(transformed)
-          }
-        }
-      } catch (error) {
-        console.error('Failed to load geographic segment data:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    if (ticker) {
-      loadSegments()
-    } else {
-      setLoading(false)
-    }
-  }, [ticker, isPremium, period])
-
-  // Loading State
-  if (loading) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Regionen</h3>
-        </div>
-        <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
-      </div>
-    )
-  }
-
-  // No Data State
-  if (segmentData.length === 0) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Regionen</h3>
-        </div>
-        <div className="aspect-square flex items-center justify-center">
-          <p className="text-theme-secondary text-xs">Keine geografischen Daten verfügbar</p>
-        </div>
-      </div>
-    )
-  }
-
-  // Chart Rendering
-  const segmentKeys = Object.keys(segmentData[0] || {}).filter(key => key !== 'label')
-  const GEO_COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4', '#EC4899', '#84CC16']
-
-  return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-theme-primary">
-        Umsatz nach Regionen
-          {segmentData.length > 0 && (
-            <span className="text-xs text-theme-muted ml-2">
-              ({segmentData[0]?.label} - {segmentData[segmentData.length - 1]?.label})
-            </span>
-          )}
-        </h3>
-        <button 
-          onClick={onExpand}
-          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
-        >
-          <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
-        </button>
-      </div>
-      
-      <div className="aspect-square">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={segmentData} 
-            margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
-          >
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.5)"
-              horizontal={true}
-              vertical={false}
-            />
-            <XAxis
-              dataKey="label"
-              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-              interval={getXAxisInterval(segmentData.length)}
-            />
-            <YAxis
-              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-              tickFormatter={(value) => formatAxisValueDE(value)}
-              width={35}
-            />
-            <RechartsTooltip
-              cursor={false}
-              content={({ active, payload, label }) => {
-                if (!active || !payload) return null
-                const total = payload.reduce((sum, entry) => sum + (entry.value as number), 0)
-                
-                return (
-                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
-                    {payload.slice(0, 5).map((entry, index) => (
-                      <div key={index} className="flex justify-between gap-3 text-xs">
-                        <span style={{ color: entry.color }}>{entry.name}:</span>
-                        <span className="text-theme-primary font-medium">
-                          {formatCurrency(entry.value as number)}
-                        </span>
-                      </div>
-                    ))}
-                    {payload.length > 5 && (
-                      <div className="text-xs text-theme-secondary">+{payload.length - 5} weitere...</div>
-                    )}
-                    <div className="border-t border-theme/20 mt-1 pt-1">
-                      <div className="flex justify-between gap-3 text-xs">
-                        <span className="text-theme-secondary">Gesamt:</span>
-                        <span className="text-theme-primary font-bold">
-                          {formatCurrency(total)}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )
-              }}
-            />
-            
-            {/* Stacked Bar Chart für Geo-Segmente */}
-            {segmentKeys.map((segment, index) => (
-              <Bar 
-                key={segment}
-                dataKey={segment}
-                stackId="a"
-                fill={GEO_COLORS[index % GEO_COLORS.length]}
-                radius={index === segmentKeys.length - 1 ? [2, 2, 0, 0] : [0, 0, 0, 0]}
-              />
-            ))}
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  )
-}
-
-
 function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
   const { formatAxisValueDE } = useCurrency()
 
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+    <div onClick={onExpand} className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <h3 className="text-sm font-medium text-theme-primary">Cash & Schulden</h3>
@@ -1585,7 +1215,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         </div>
         <button 
           onClick={onExpand}
-          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+          title="Vergrößern"
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-60 group-hover:opacity-100"
         >
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
@@ -1655,12 +1286,13 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
  function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
   
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+    <div onClick={onExpand} className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group cursor-pointer">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-sm font-medium text-theme-primary">KGV TTM</h3>
         <button 
           onClick={onExpand}
-          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
+          title="Vergrößern"
+          className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-60 group-hover:opacity-100"
         >
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
@@ -2400,11 +2032,14 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
           switch(metricKey) {
             case 'revenueSegments':
               return (
-                <RevenueSegmentsChart
+                <SegmentsChart
                   key={`${metricKey}-${period}`}
                   ticker={ticker}
+                  type="product"
+                  metricKey="revenueSegments"
+                  title="Umsatz nach Produkten"
+                  emptyText="Keine Segment-Daten verfügbar"
                   onExpand={() => setFullscreen('revenueSegments')}
-                  isPremium={isPremium}
                   period={period}
                   maxYears={isPremium ? years : 5}
                 />
@@ -2448,11 +2083,14 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               )
             case 'geographicSegments':
               return (
-                <GeographicSegmentsChart
+                <SegmentsChart
                   key={`${metricKey}-${period}`}
                   ticker={ticker}
+                  type="geographic"
+                  metricKey="geographicSegments"
+                  title="Umsatz nach Regionen"
+                  emptyText="Keine geografischen Daten verfügbar"
                   onExpand={() => setFullscreen('geographicSegments')}
-                  isPremium={isPremium}
                   period={period}
                   maxYears={isPremium ? years : 5}
                 />

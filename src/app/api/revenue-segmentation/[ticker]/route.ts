@@ -6,6 +6,12 @@ interface SegmentationData {
   [key: string]: any
 }
 
+interface ReportedRevenue {
+  date: string
+  fiscalYear: string
+  revenue: number
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
@@ -57,8 +63,32 @@ export async function GET(
       return Array.isArray(data) ? data : []
     }
 
+    // Gemeldeter Umsatz je Periode: Der Client gleicht damit ab, ob die Segmente
+    // den Umsatz vollständig abdecken (FMP lässt teils ganze Segmente weg)
+    const fetchRevenue = async (p: string): Promise<ReportedRevenue[]> => {
+      try {
+        const limit = p === 'quarter' ? 120 : 40
+        const response = await fetch(
+          `https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${p}&limit=${limit}&apikey=${apiKey}`,
+          { next: { revalidate: 3600 } }
+        )
+        if (!response.ok) return []
+        const data = await response.json()
+        if (!Array.isArray(data)) return []
+        return data
+          .filter((r: any) => r?.date && typeof r.revenue === 'number' && r.revenue > 0)
+          .map((r: any) => ({
+            date: r.date,
+            fiscalYear: String(r.calendarYear ?? r.fiscalYear ?? r.date.slice(0, 4)),
+            revenue: r.revenue,
+          }))
+      } catch {
+        return []
+      }
+    }
+
     let effectivePeriod = period
-    let segments = await fetchSegments(period)
+    let [segments, revenue] = await Promise.all([fetchSegments(period), fetchRevenue(period)])
 
     // Frisch gelistete Unternehmen (z.B. IPO im laufenden Jahr) haben noch keinen 10-K,
     // daher existieren nur Quartals-Segmente — dann darauf zurückfallen
@@ -67,6 +97,7 @@ export async function GET(
       if (quarterly.length > 0) {
         segments = quarterly
         effectivePeriod = 'quarter'
+        revenue = await fetchRevenue('quarter')
       }
     }
 
@@ -78,7 +109,8 @@ export async function GET(
       segmentType,
       ticker: ticker.toUpperCase(),
       period: effectivePeriod,
-      totalSegments: segments.length
+      totalSegments: segments.length,
+      revenue
     })
 
   } catch (error) {
