@@ -12,6 +12,12 @@ import { reconcileHoldings } from '@/lib/portfolioReconcile'
 import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates } from '@/lib/duplicateCheck'
 import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
+import {
+  NAME_MAX_LENGTH,
+  describeValidationIssues,
+  validateImportRows,
+  validateManualSymbol,
+} from '@/lib/importValidation'
 import type { FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import {
   IMPORT_BROKERS,
@@ -519,7 +525,10 @@ export default function CSVImportModal({
 
     for (const isin of unresolvedISINs) {
       const manual = manualMappings[isin]
-      if (manual && manual.trim()) {
+      // Ungültige Eingaben (ISIN, > 10 Zeichen) nicht übernehmen: Das Symbol
+      // landet in portfolio_transactions.symbol (varchar(10)). Am 09.08. brach
+      // daran ein TR-Import nach 550 von 710 Buchungen ab.
+      if (manual && manual.trim() && !validateManualSymbol(manual)) {
         const tx = parseResult?.transactions.find(t => t.isin === isin)
         newMap.set(isin, { symbol: manual.trim().toUpperCase(), name: tx?.name || manual, source: 'manual' })
       } else {
@@ -614,6 +623,13 @@ export default function CSVImportModal({
     return Array.from(duplicateIndices).map(i => txWithSymbols[i]).filter(Boolean)
   }, [cashFilteredTransactions, duplicateIndices])
 
+  // Alle Zeilen, die geschrieben würden, vorab gegen die Tabellengrenzen
+  // prüfen. Ein Fehler blockiert den ganzen Import — kein Teilimport.
+  const importValidationIssues = useMemo(
+    () => validateImportRows(cashFilteredTransactions.filter(t => t.symbol)),
+    [cashFilteredTransactions]
+  )
+
   // Summary
   const importSummary = useMemo(() => {
     if (!parseResult) return null
@@ -659,6 +675,15 @@ export default function CSVImportModal({
     setImportError(null)
 
     try {
+      // Vor jedem Schreibzugriff (auch vor Reset und Split-Anpassung) prüfen:
+      // Eine einzige ungültige Zeile würde sonst mitten im Import ihren Batch
+      // scheitern lassen.
+      if (importValidationIssues.length > 0) {
+        throw new Error(
+          `Import abgebrochen, nichts gespeichert: ${describeValidationIssues(importValidationIssues)}`
+        )
+      }
+
       // Optional: Bestehende Daten des Portfolios löschen (Reset)
       // Nur Transactions + Holdings löschen, NICHT das Portfolio selbst (cash_position, name etc. bleiben)
       if (resetBeforeImport) {
@@ -772,16 +797,22 @@ export default function CSVImportModal({
 
       let savedCount = 0
 
-      // Batch-Import
+      // Batch-Import. Die IDs vergeben wir selbst: Scheitert ein späterer
+      // Batch, entfernt der Rollback alle Zeilen dieses Laufs wieder — auch
+      // die des gescheiterten Batches, falls der Server ihn doch geschrieben
+      // hat und nur die Antwort verloren ging. Früher blieb ein halber Import
+      // stehen (TR-Depot e8ff32b0: 550 von 710 Buchungen, alle Verkäufe fehlten).
       const batchSize = 50
+      const attemptedIds: string[] = []
       for (let i = 0; i < txToImport.length; i += batchSize) {
         const batch = txToImport.slice(i, i + batchSize)
 
         const rows = batch.map(tx => ({
+          id: crypto.randomUUID(),
           portfolio_id: portfolioId,
           type: tx.type,
           symbol: tx.symbol!,
-          name: tx.name,
+          name: tx.name ? tx.name.slice(0, NAME_MAX_LENGTH) : tx.name,
           quantity: parseFloat(tx.quantity.toFixed(8)),
           price: parseFloat(tx.price.toFixed(4)),
           total_value: parseFloat(tx.totalValue.toFixed(2)),
@@ -789,12 +820,37 @@ export default function CSVImportModal({
           date: tx.date,
           notes: tx.notes,
         }))
+        attemptedIds.push(...rows.map(r => r.id))
 
         const { error } = await supabase
           .from('portfolio_transactions')
           .insert(rows)
 
-        if (error) throw error
+        if (error) {
+          let removed = 0
+          let notRemoved = 0
+          for (let j = 0; j < attemptedIds.length; j += 100) {
+            const chunk = attemptedIds.slice(j, j + 100)
+            const { error: deleteError, count } = await supabase
+              .from('portfolio_transactions')
+              .delete({ count: 'exact' })
+              .eq('portfolio_id', portfolioId)
+              .in('id', chunk)
+            if (deleteError) notRemoved += chunk.length
+            else removed += count ?? 0
+          }
+          const range = `${i + 1}–${i + batch.length} von ${txToImport.length}`
+          const outcome = notRemoved > 0
+            ? `${removed} Buchungen dieses Laufs wurden wieder entfernt, bis zu ${notRemoved} weitere nicht — bitte Depot prüfen.`
+            : `Die ${removed} bereits gespeicherten Buchungen dieses Laufs wurden wieder entfernt.`
+          const sideEffects = [
+            resetBeforeImport ? 'Das Depot wurde vor dem Import geleert.' : '',
+            dbSplitAdjustments > 0 ? `Die Split-Anpassung von ${dbSplitAdjustments} älteren Buchungen bleibt bestehen.` : '',
+          ].filter(Boolean).join(' ')
+          throw new Error(
+            `Import abgebrochen bei Buchung ${range}: ${error.message}. ${outcome}${sideEffects ? ` ${sideEffects}` : ''}`
+          )
+        }
 
         savedCount += rows.length
         setImportProgress({ current: Math.min(i + batchSize, txToImport.length), total: txToImport.length })
@@ -1011,7 +1067,7 @@ export default function CSVImportModal({
     } finally {
       setImporting(false)
     }
-  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport, isinMap])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport, isinMap, importValidationIssues])
 
   // Format helpers
   const formatCurrency = (amount: number) =>
@@ -1290,18 +1346,25 @@ export default function CSVImportModal({
                   <div className="space-y-2 mb-3">
                     {unresolvedISINs.map(isin => {
                       const tx = parseResult.transactions.find(t => t.isin === isin)
+                      // Kein maxLength am Feld: Eine eingefügte ISIN würde sonst
+                      // still auf 10 Zeichen gekürzt und als Unsinns-Ticker übernommen.
+                      const mappingError = validateManualSymbol(manualMappings[isin] || '')
                       return (
                         <div key={isin} className="flex items-center gap-2 p-2 bg-amber-500/5 border border-amber-500/10 rounded-lg">
                           <div className="flex-1 min-w-0">
                             <span className="text-xs font-mono text-neutral-400">{isin}</span>
                             {tx && <span className="text-xs text-neutral-500 ml-2">{tx.name}</span>}
+                            {mappingError && <p className="text-[11px] text-red-400 mt-0.5">{mappingError}</p>}
                           </div>
                           <input
                             type="text"
                             placeholder="Symbol"
                             value={manualMappings[isin] || ''}
                             onChange={(e) => handleManualMapping(isin, e.target.value)}
-                            className="w-24 px-2 py-1 bg-white/[0.08] border border-white/[0.14] rounded text-white text-xs uppercase"
+                            aria-invalid={!!mappingError}
+                            className={`w-24 px-2 py-1 bg-white/[0.08] border rounded text-white text-xs uppercase ${
+                              mappingError ? 'border-red-500/60' : 'border-white/[0.14]'
+                            }`}
                           />
                         </div>
                       )
@@ -1669,6 +1732,31 @@ export default function CSVImportModal({
                 </div>
               )}
 
+              {/* Ungültige Zeilen blockieren den ganzen Import — lieber gar
+                  nichts schreiben als einen halben Import stehen lassen. */}
+              {importValidationIssues.length > 0 && (
+                <div className="mb-4 p-3 rounded-xl bg-red-500/5 border border-red-500/20">
+                  <p className="text-[12px] font-medium text-red-400 mb-1">
+                    Import nicht möglich — {importValidationIssues.reduce((n, i) => n + i.count, 0)} Buchungen lassen sich so nicht speichern
+                  </p>
+                  <p className="text-[11px] text-neutral-400 mb-2">
+                    Es wird nichts geschrieben, solange diese Zeilen in der Datei bzw. Zuordnung stehen.
+                  </p>
+                  <ul className="space-y-1 max-h-40 overflow-y-auto">
+                    {importValidationIssues.map(issue => (
+                      <li key={`${issue.key}|${issue.message}`} className="text-[11px] text-neutral-300">
+                        <span className="font-mono text-neutral-400">{issue.isin || issue.key}</span>
+                        {issue.name && issue.isin && <span className="text-neutral-500 ml-1.5">{issue.name}</span>}
+                        <span className="block text-red-400/90">
+                          {issue.message} · {issue.count} Buchung{issue.count === 1 ? '' : 'en'}
+                          {issue.firstDate ? ` ab ${issue.firstDate}` : ''}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {importError && (
                 <div className="mb-4 p-3 rounded-xl bg-red-500/5 border border-red-500/20">
                   <p className="text-[12px] text-red-400">{importError}</p>
@@ -1881,7 +1969,7 @@ export default function CSVImportModal({
             {step === 'preview' && (
               <button
                 onClick={handleImport}
-                disabled={importing || !importSummary || importSummary.totalTransactions === 0 || checkingDuplicates}
+                disabled={importing || !importSummary || importSummary.totalTransactions === 0 || checkingDuplicates || importValidationIssues.length > 0}
                 className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-white/[0.08] disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 {importing ? (
