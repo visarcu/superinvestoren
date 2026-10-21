@@ -1,3 +1,6 @@
+import { spinoffGivenDates, stripSpinoffGivenMarkers, valueBeforeSpinoff } from '@/lib/spinoffAdjustment'
+import { stripSplitMarkers } from '@/lib/splitAdjustment'
+
 export type PortfolioTwrTransactionType =
   | 'buy'
   | 'sell'
@@ -24,7 +27,10 @@ export interface PortfolioTwrTransaction {
 
 interface MappedTransaction extends PortfolioTwrTransaction {
   chartDate: string
+  /** Tatsächlich geflossener Betrag (flowAmount) — für Cash und Geldflüsse. */
   amount: number
+  /** Gespeicherter Betrag, nach Spin-off-Aufteilung gekürzt — für die TWR. */
+  basisAmount: number
   feeAmount: number
 }
 
@@ -68,6 +74,40 @@ function transactionAmount(tx: PortfolioTwrTransaction): number {
   return Math.abs((Number(tx.quantity) || 0) * (Number(tx.price) || 0))
 }
 
+/**
+ * Betrag, der bei dieser Buchung tatsächlich geflossen ist.
+ *
+ * Die Spin-off-Kostenaufteilung kürzt price/total_value der Mutter-Käufe um
+ * den Anteil der Tochter (siehe spinoffAdjustment.ts). Für die Kostenbasis ist
+ * das richtig, für Geldflüsse nicht: Bezahlt wurde der volle Kaufpreis, und
+ * zwar am Kauftag. Cash-Konto, Schatten-Depot und Kapital-Linie rechnen
+ * deshalb hiermit — die TWR bewusst nicht (siehe SPIN-OFF-HINWEIS).
+ */
+export function flowAmount(tx: PortfolioTwrTransaction): number {
+  return valueBeforeSpinoff(transactionAmount(tx), tx.notes)
+}
+
+// Erkennungsmerkmale der Parser für Corporate Actions: "Freedom24 Spin-off
+// aus HON.US …", "Trading 212 · Stock Split (Open)", "Ticker-Umstellung · von …",
+// "Hauptposition nach Corp Action · …".
+const CORP_ACTION_NOTE = /spin-?off|split|ticker-umstellung|corp(orate)? action/i
+
+/**
+ * Corporate-Action-Überträge (Spin-offs, Splits, Ticker-Umstellungen) sind
+ * keine externen Kapitalflüsse: Der Wert wandert innerhalb des Depots von der
+ * alten auf die neue Position, zugeführt wurde nichts.
+ *
+ * Die Marker, die der Import nachträglich an gewöhnliche Buchungen hängt
+ * ("Aktiensplit … verrechnet", "Spin-off … Kostenbasis anteilig … abgegeben"),
+ * zählen dabei nicht. Früher reichte schon das Wort "split" irgendwo in den
+ * Notes — ein echter Depotübertrag fiel dann aus der Kapital-Linie, sobald
+ * später ein Split oder Spin-off der Aktie verrechnet wurde.
+ */
+export function isCorpActionTransfer(tx: Pick<PortfolioTwrTransaction, 'type' | 'notes'>): boolean {
+  if (tx.type !== 'transfer_in' && tx.type !== 'transfer_out') return false
+  return CORP_ACTION_NOTE.test(stripSplitMarkers(stripSpinoffGivenMarkers(tx.notes)))
+}
+
 function transactionFee(tx: PortfolioTwrTransaction): number {
   return Math.abs(Number(tx.fee) || 0)
 }
@@ -105,7 +145,8 @@ function mapTransactionsToChartDates(
       return {
         ...tx,
         chartDate,
-        amount: transactionAmount(tx),
+        amount: flowAmount(tx),
+        basisAmount: transactionAmount(tx),
         feeAmount: transactionFee(tx),
       }
     })
@@ -126,6 +167,9 @@ function calculateCashDelta(tx: MappedTransaction): number {
     case 'dividend':
       return tx.amount
     case 'buy':
+      // amount ist der volle Kaufpreis (flowAmount), auch nach einer
+      // Spin-off-Aufteilung. Der Import rechnet cash_position genauso; beide
+      // Seiten müssen zusammenpassen, sonst stimmt das Start-Cash nicht.
       return -(tx.amount + tx.feeAmount)
     case 'sell':
       return tx.amount - tx.feeAmount
@@ -134,6 +178,21 @@ function calculateCashDelta(tx: MappedTransaction): number {
   }
 }
 
+// SPIN-OFF-HINWEIS — warum die TWR mit Basisbeträgen rechnet und die
+// Tochter-Einbuchung als Zufluss zählt, Geldflüsse (Cash, Schatten-Depot,
+// Kapital-Linie) dagegen mit vollen Kaufpreisen und ohne Corp Actions:
+//
+// FMP und Yahoo bereinigen die Kurshistorie der Mutter um den Spin-off (als
+// Split mit krummem Verhältnis, z.B. SPGI 1057:1000 zum 01.07.2026). Vor dem
+// Spin-off notiert die Mutter im Chart also rechnerisch um den Tochter-Anteil
+// niedriger. Die Kostenaufteilung des Imports kürzt die Mutter-Käufe um fast
+// genau diesen Anteil — beide rechnen mit den Marktwerten am Spin-off-Tag. Die
+// gekürzten Beträge passen damit zu den Chartwerten, und die Tochter-Einbuchung
+// gleicht ihr Auftauchen im Chart aus.
+// Nachgerechnet am SPGI/MBGL-Spin-off gegen die unbereinigten Kurse:
+// Abweichung zur echten TWR 0,25 Pp mit diesem Modell, 0,94 Pp mit vollen
+// Kaufpreisen ohne Tochter-Zufluss. Für die geldgewichteten Rechnungen gilt das
+// Gegenteil — dort trifft das Modell mit vollen Beträgen das Ergebnis exakt.
 function calculateCashInclusiveTwrByDate(
   chartData: PortfolioTwrPoint[],
   mappedTransactions: MappedTransaction[],
@@ -159,9 +218,17 @@ function calculateCashInclusiveTwrByDate(
     } else if (tx.type === 'cash_withdrawal') {
       addToMap(externalFlowByDate, tx.chartDate, -tx.amount)
     } else if (tx.type === 'transfer_in') {
-      addToMap(externalFlowByDate, tx.chartDate, tx.amount)
+      // Basisbetrag und Corp Actions inklusive — siehe SPIN-OFF-HINWEIS oben.
+      addToMap(externalFlowByDate, tx.chartDate, tx.basisAmount)
     } else if (tx.type === 'transfer_out') {
-      addToMap(externalFlowByDate, tx.chartDate, -tx.amount)
+      addToMap(externalFlowByDate, tx.chartDate, -tx.basisAmount)
+    } else if (tx.type === 'buy' && tx.amount > tx.basisAmount) {
+      // Das Cash sinkt um den vollen Kaufpreis, der Chart bewertet die Mutter
+      // aber nur mit dem bereinigten Kurs. Die Differenz (der spätere
+      // Tochter-Anteil) verlässt das gemessene Depot und kehrt am Spin-off-Tag
+      // mit der Tochter-Einbuchung zurück. Ohne diesen Abfluss stünde ein
+      // dauerhafter Schein-Verlust in der Rendite.
+      addToMap(externalFlowByDate, tx.chartDate, -(tx.amount - tx.basisAmount))
     }
   }
 
@@ -222,10 +289,11 @@ function calculateSecurityOnlyTwrByDate(
   const incomeByDate = new Map<string, number>()
 
   for (const tx of mappedTransactions) {
+    // Basisbeträge und Corp Actions inklusive — siehe SPIN-OFF-HINWEIS oben.
     if (tx.type === 'buy' || tx.type === 'transfer_in') {
-      addToMap(externalFlowByDate, tx.chartDate, tx.amount + tx.feeAmount)
+      addToMap(externalFlowByDate, tx.chartDate, tx.basisAmount + tx.feeAmount)
     } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-      addToMap(externalFlowByDate, tx.chartDate, -(tx.amount - tx.feeAmount))
+      addToMap(externalFlowByDate, tx.chartDate, -(tx.basisAmount - tx.feeAmount))
     } else if (tx.type === 'dividend') {
       addToMap(incomeByDate, tx.chartDate, tx.amount)
     }
@@ -257,20 +325,6 @@ function calculateSecurityOnlyTwrByDate(
   }
 
   return twrByDate
-}
-
-// Corporate-Action-Überträge (Splits, Spin-offs, Ticker-Umstellungen) sind
-// keine externen Kapitalflüsse — der User hat kein Geld/Wertpapier zugeführt.
-function isCorpActionTransfer(tx: PortfolioTwrTransaction): boolean {
-  const notes = (tx.notes || '').toLowerCase()
-  return (
-    notes.includes('spin-off') ||
-    notes.includes('spinoff') ||
-    notes.includes('split') ||
-    notes.includes('ticker-umstellung') ||
-    notes.includes('corp action') ||
-    notes.includes('corporate action')
-  )
 }
 
 export interface DepositBasedSeries {
@@ -312,10 +366,25 @@ export function calculateDepositBasedSeries({
 
   const cashDeltaByDate = new Map<string, number>()
   const flowByDate = new Map<string, number>()
+  // Tochter-Anteil von Mutter-Käufen bis zum Spin-off: Das Cash ist um den
+  // vollen Kaufpreis gesunken, der Chart bewertet die Mutter bis dahin aber mit
+  // dem bereinigten Kurs (siehe SPIN-OFF-HINWEIS). Ohne den Anteil läge die
+  // Wert-Linie bis zum Spin-off um genau diesen Betrag zu tief.
+  const parkedDeltaByDate = new Map<string, number>()
   let totalDeposits = 0
 
   for (const tx of mapped) {
     addToMap(cashDeltaByDate, tx.chartDate, calculateCashDelta(tx))
+
+    const childShare = tx.type === 'buy' ? tx.amount - tx.basisAmount : 0
+    const spinoffDates = childShare > 0 ? spinoffGivenDates(tx.notes) : []
+    if (spinoffDates.length > 0) {
+      const releaseDate = findNextChartDate(sortedDates, spinoffDates[spinoffDates.length - 1])
+      if (releaseDate && releaseDate > tx.chartDate) {
+        addToMap(parkedDeltaByDate, tx.chartDate, childShare)
+        addToMap(parkedDeltaByDate, releaseDate, -childShare)
+      }
+    }
 
     if (tx.type === 'cash_deposit') {
       addToMap(flowByDate, tx.chartDate, tx.amount)
@@ -347,11 +416,13 @@ export function calculateDepositBasedSeries({
   const investedByDate = new Map<string, number>()
   let cash = startingCash
   let invested = 0
+  let parked = 0
 
   for (const point of chartData) {
     cash += cashDeltaByDate.get(point.date) || 0
     invested += flowByDate.get(point.date) || 0
-    valueByDate.set(point.date, point.value + cash)
+    parked += parkedDeltaByDate.get(point.date) || 0
+    valueByDate.set(point.date, point.value + cash + parked)
     investedByDate.set(point.date, invested)
   }
 
@@ -379,9 +450,11 @@ export interface BenchmarkComparisonResult {
  * in EUR, aufsteigend sortierbar).
  *
  * Für den Euro-Betrag wird ein Schatten-Depot simuliert: jeder externe
- * Wertpapier-Zufluss (buy/transfer_in inkl. Gebühren — identisch zum
- * Security-only-TWR-Flussmodell) kauft am selben Tag Benchmark-Anteile,
- * Abflüsse (sell/transfer_out) verkaufen sie. Dividenden bleiben im echten
+ * Wertpapier-Zufluss (buy/transfer_in inkl. Gebühren, Käufe mit vollem
+ * Kaufpreis) kauft am selben Tag Benchmark-Anteile, Abflüsse
+ * (sell/transfer_out) verkaufen sie. Corporate Actions fließen nicht ein: Ein
+ * Spin-off kauft im echten Depot nichts zu, also auch nicht im Schatten-Depot
+ * (anders als in der TWR, siehe SPIN-OFF-HINWEIS). Dividenden bleiben im echten
  * Depot beim User (erhöhen actualFinalValue), in der Benchmark stecken sie
  * bereits in der Total-Return-Serie. Die Differenz der Endwerte ist damit
  * die echte, geldgewichtete Antwort auf „Was hätte derselbe Einsatz im
@@ -435,15 +508,16 @@ export function calculateBenchmarkComparison({
       continue
     }
     if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) continue
+    if (isCorpActionTransfer(tx)) continue
 
     const price = priceAt(tx.date)
     if (!(price > 0)) continue
 
     if (tx.type === 'buy' || tx.type === 'transfer_in') {
-      units += (transactionAmount(tx) + transactionFee(tx)) / price
+      units += (flowAmount(tx) + transactionFee(tx)) / price
       hasFlows = true
     } else {
-      units -= (transactionAmount(tx) - transactionFee(tx)) / price
+      units -= (flowAmount(tx) - transactionFee(tx)) / price
       hasFlows = true
     }
   }

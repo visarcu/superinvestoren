@@ -43,3 +43,12 @@ export function appendSplitNote(
   const marker = splitAppliedNote(ratio, splitDate)
   return notes && notes.trim().length > 0 ? `${notes} · ${marker}` : marker
 }
+
+/**
+ * Notes ohne die Split-Marker. Der Marker hängt an gewöhnlichen Buchungen und
+ * sagt nichts über ihre Art — wer an den Notes eine Corporate Action erkennen
+ * will, darf ihn nicht mitlesen.
+ */
+export function stripSplitMarkers(notes: string | null | undefined): string {
+  return (notes || '').replace(/Aktiensplit \S+ vom \d{4}-\d{2}-\d{2} verrechnet/g, '')
+}

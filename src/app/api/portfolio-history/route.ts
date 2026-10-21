@@ -8,6 +8,8 @@ import {
   calculateBenchmarkComparison,
   calculateCashDragVsBenchmark,
   calculateDepositBasedSeries,
+  flowAmount,
+  isCorpActionTransfer,
 } from '@/lib/portfolioTwr'
 import { isETF } from '@/lib/etfUtils'
 import { computeRiskMeasures, annualizedReturnPct, type RiskMeasures } from '@/lib/portfolioRisk'
@@ -940,7 +942,10 @@ export async function POST(request: NextRequest) {
       ]
       const flowByDate = new Map<string, number>()
       for (const tx of contributionTxs) {
-        const amount = txValue(tx)
+        // Gleiches Flussmodell wie TWR und Benchmark: Corporate Actions führen
+        // kein Kapital zu, Käufe zählen mit dem vollen Kaufpreis.
+        if (isCorpActionTransfer(tx)) continue
+        const amount = flowAmount(tx)
         if (amount <= 0) continue
         let flow = 0
         if (tx.type === 'buy') flow = amount + txFee(tx)
@@ -1483,11 +1488,15 @@ export async function POST(request: NextRequest) {
                   if (tx.date > lastDate) return
                   const p = benchPriceAt(tx.date)
                   if (!(p > 0)) return
+                  // Wie im Headline-Vergleich: Eine Corporate Action kauft keine
+                  // Benchmark-Anteile, die Stücke zählen aber für den Endwert —
+                  // sonst stünde die Spin-off-Tochter mit Wert 0 in der Liste.
+                  const benchmarkUnits = isCorpActionTransfer(tx) ? 0 : flowAmount(tx) / p
                   if (tx.type === 'buy' || tx.type === 'transfer_in') {
-                    units += txValue(tx) / p
+                    units += benchmarkUnits
                     shares += Number(tx.quantity) || 0
                   } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-                    units -= txValue(tx) / p
+                    units -= benchmarkUnits
                     shares -= Number(tx.quantity) || 0
                   } else {
                     return

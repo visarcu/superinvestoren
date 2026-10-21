@@ -27,6 +27,7 @@ interface Transaction {
   total_value?: number
   fee?: number
   type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
+  notes?: string | null
 }
 
 // Erkennt ob ein Ticker in EUR notiert ist (DB nutzt FMP-Suffixe)
@@ -93,7 +94,7 @@ export async function POST(request: NextRequest) {
       for (let offset = 0; ; offset += PAGE_SIZE) {
         const { data: page } = await supabase
           .from('portfolio_transactions')
-          .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type')
+          .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type, notes')
           .in('portfolio_id', validIds)
           .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
           .order('date', { ascending: true })

@@ -13,6 +13,13 @@ import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates } from '@/lib/duplicateCheck'
 import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
 import {
+  appendSpinoffGivenNote,
+  appendSpinoffTakenNote,
+  hasSpinoffBasisTaken,
+  hasSpinoffGiven,
+  valueBeforeSpinoff,
+} from '@/lib/spinoffAdjustment'
+import {
   NAME_MAX_LENGTH,
   describeValidationIssues,
   validateImportRows,
@@ -901,7 +908,7 @@ export default function CSVImportModal({
           // Kostenbasis-Übertragung nur wenn noch nicht geschehen (idempotent).
           // Die Holdings-Rekonstruktion unten läuft in JEDEM Fall — sonst fehlt
           // die Kind-Position, wenn ihre Buchung beim Re-Import ein Duplikat war.
-          if (!(childTx.notes || '').includes('Kostenbasis anteilig')) {
+          if (!hasSpinoffBasisTaken(childTx.notes)) {
             // Bestand + Kostenbasis der Mutter am Spin-off-Tag aus Transaktionen
             // (Durchschnittskosten, Käufe vor Verkäufen am selben Tag)
             const { data: parentTxs } = await supabase
@@ -960,14 +967,14 @@ export default function CSVImportModal({
                   .update({
                     price: parseFloat((childBasis / childQty).toFixed(4)),
                     total_value: parseFloat(childBasis.toFixed(2)),
-                    notes: `${childTx.notes || ''} · Kostenbasis anteilig (${pct} %) von ${parentSymbol} übernommen`,
+                    notes: appendSpinoffTakenNote(childTx.notes, parentSymbol, pct),
                   })
                   .eq('id', childTx.id)
 
                 // 2) Kauf-Transaktionen der Mutter anteilig entlasten
                 for (const t of orderedParentTxs) {
                   if (t.type !== 'buy' && t.type !== 'transfer_in') continue
-                  if ((t.notes || '').includes(`Spin-off ${childSymbol} vom ${spinoff.date}`)) continue
+                  if (hasSpinoffGiven(t.notes, childSymbol, spinoff.date)) continue
                   const tv = Number(t.total_value) || 0
                   const price = Number(t.price) || 0
                   await supabase
@@ -975,7 +982,7 @@ export default function CSVImportModal({
                     .update({
                       price: price > 0 ? parseFloat((price * (1 - fraction)).toFixed(4)) : price,
                       total_value: tv > 0 ? parseFloat((tv * (1 - fraction)).toFixed(2)) : tv,
-                      notes: `${t.notes ? `${t.notes} · ` : ''}Spin-off ${childSymbol} vom ${spinoff.date}: Kostenbasis anteilig (−${pct} %) abgegeben`,
+                      notes: appendSpinoffGivenNote(t.notes, childSymbol, spinoff.date, pct),
                     })
                     .eq('id', t.id)
                 }
@@ -1013,7 +1020,7 @@ export default function CSVImportModal({
       if (cashMode === 'include') {
         const { data: allPortfolioTx } = await supabase
           .from('portfolio_transactions')
-          .select('type, total_value, fee')
+          .select('type, total_value, fee, notes')
           .eq('portfolio_id', portfolioId)
 
         if (allPortfolioTx && allPortfolioTx.length > 0) {
@@ -1024,13 +1031,17 @@ export default function CSVImportModal({
           if (hasCashFlowData) {
             // Gebühren mit einrechnen: total_value ist bei Käufen/Verkäufen ohne
             // Gebühr gespeichert, das Konto wird aber inkl. Gebühr belastet.
+            // Käufe, die bei einem Spin-off Kostenbasis abgegeben haben, mit
+            // ihrem ursprünglichen Betrag: Die Aufteilung verschiebt nur den
+            // Einstand zwischen Mutter und Tochter — vom Konto ging der volle
+            // Kaufpreis ab.
             const totalCash = allPortfolioTx.reduce((sum, tx) => {
               const val = Number(tx.total_value) || 0
               const fee = Math.abs(Number(tx.fee) || 0)
               switch (tx.type) {
                 case 'cash_deposit':   return sum + val
                 case 'cash_withdrawal': return sum - val
-                case 'buy':            return sum - val - fee
+                case 'buy':            return sum - valueBeforeSpinoff(val, tx.notes) - fee
                 case 'sell':           return sum + val - fee
                 case 'dividend':       return sum + val
                 default:               return sum

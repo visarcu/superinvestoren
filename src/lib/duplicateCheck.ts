@@ -1,5 +1,6 @@
 // src/lib/duplicateCheck.ts — Duplikat-Erkennung für Portfolio-Transaktionen
 import { supabase } from '@/lib/supabaseClient'
+import { hasSpinoffBasisTaken, valueBeforeSpinoff } from '@/lib/spinoffAdjustment'
 
 export interface DuplicateCheckParams {
   portfolioId: string
@@ -48,6 +49,40 @@ export function pricesMatch(a: number, b: number): boolean {
 }
 
 /**
+ * Passt eine gespeicherte Transaktion preislich zu einer aus der Datei?
+ *
+ * Die Spin-off-Kostenaufteilung schreibt gespeicherte Preise nachträglich um
+ * (siehe spinoffAdjustment.ts), die Broker-Datei enthält beim Re-Import aber
+ * weiter den Originalpreis. Gegen den umgeschriebenen Preis verglichen galt
+ * derselbe Kauf als neu: Bei einem Freedom24-Depot standen dadurch Honeywell,
+ * die Aerospace-Abspaltung, S&P Global und Mobility nach dem zweiten Import
+ * doppelt im Bestand — und die doppelten Käufe zogen den Cash ins Minus.
+ */
+function storedPriceMatches(stored: { price: unknown; notes?: string | null }, price: number): boolean {
+  const storedPrice = Number(stored.price) || 0
+  if (pricesMatch(storedPrice, price)) return true
+  // Tochter-Einbuchung: Der Marktwert aus der Datei wurde durch einen Anteil an
+  // der Mutter-Kostenbasis ersetzt und ist nicht rekonstruierbar. Gleiches
+  // Symbol, Datum und Stückzahl beschreiben dann dieselbe Einbuchung.
+  if (hasSpinoffBasisTaken(stored.notes)) return true
+  return pricesMatch(valueBeforeSpinoff(storedPrice, stored.notes), price)
+}
+
+/** Beschreibt die gespeicherte Zeile dieselbe Transaktion wie die neue? */
+export function matchesStoredTransaction(
+  stored: { type: string; symbol: string; date: string; quantity: unknown; price: unknown; notes?: string | null },
+  tx: { type: string; symbol: string; date: string; quantity: number; price: number }
+): boolean {
+  return (
+    stored.type === tx.type &&
+    stored.symbol === tx.symbol &&
+    stored.date === tx.date &&
+    quantitiesMatch(Number(stored.quantity), tx.quantity) &&
+    storedPriceMatches(stored, tx.price)
+  )
+}
+
+/**
  * Prüft ob eine ähnliche Transaktion bereits existiert.
  * Matcht auf: portfolio_id, type, symbol, date + Toleranz bei quantity/price.
  * Gibt die erste übereinstimmende Transaktion zurück, oder null.
@@ -59,7 +94,7 @@ export async function checkDuplicateTransaction(
 
   const { data } = await supabase
     .from('portfolio_transactions')
-    .select('id, type, symbol, date, quantity, price, total_value')
+    .select('id, type, symbol, date, quantity, price, total_value, notes')
     .eq('portfolio_id', portfolioId)
     .eq('type', type)
     .eq('symbol', symbol)
@@ -70,7 +105,7 @@ export async function checkDuplicateTransaction(
 
   // Menge und Preis mit Toleranz vergleichen
   const match = data.find((tx: any) =>
-    quantitiesMatch(tx.quantity, quantity) && pricesMatch(tx.price, price)
+    quantitiesMatch(Number(tx.quantity), quantity) && storedPriceMatches(tx, price)
   )
 
   return match || null
@@ -94,7 +129,7 @@ export async function checkBulkDuplicates(
   // Alle bestehenden Transaktionen des Portfolios laden
   const { data: existing } = await supabase
     .from('portfolio_transactions')
-    .select('type, symbol, date, quantity, price')
+    .select('type, symbol, date, quantity, price, notes')
     .eq('portfolio_id', portfolioId)
 
   if (!existing || existing.length === 0) return new Set()
@@ -103,13 +138,7 @@ export async function checkBulkDuplicates(
 
   for (let i = 0; i < transactions.length; i++) {
     const tx = transactions[i]
-    const isDuplicate = existing.some((ex: any) =>
-      ex.type === tx.type &&
-      ex.symbol === tx.symbol &&
-      ex.date === tx.date &&
-      quantitiesMatch(ex.quantity, tx.quantity) &&
-      pricesMatch(ex.price, tx.price)
-    )
+    const isDuplicate = existing.some((ex: any) => matchesStoredTransaction(ex, tx))
     if (isDuplicate) {
       duplicateIndices.add(i)
     }
