@@ -18,7 +18,7 @@ import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
 
 import { createClient } from '@supabase/supabase-js'
-import { reconcileHoldings } from '../src/lib/portfolioReconcile'
+import { loadAllRows, reconcileHoldings } from '../src/lib/portfolioReconcile'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -52,9 +52,11 @@ interface Finding {
 async function main() {
   const findings: Finding[] = []
 
-  let query = supabase.from('portfolios').select('id, name, broker_type')
-  if (ONLY_PORTFOLIO) query = query.eq('id', ONLY_PORTFOLIO)
-  const { data: portfolios, error } = await query
+  const { data: portfolios, error } = await loadAllRows((from, to) => {
+    let query = supabase.from('portfolios').select('id, name, broker_type')
+    if (ONLY_PORTFOLIO) query = query.eq('id', ONLY_PORTFOLIO)
+    return query.order('id', { ascending: true }).range(from, to)
+  })
   if (error) throw error
 
   console.log(`Depots: ${portfolios?.length ?? 0}${FIX ? '  (--fix aktiv: Bestände werden korrigiert)' : ''}\n`)
@@ -113,11 +115,17 @@ async function main() {
   // Mit Wiederholung: nach den vielen Abgleich-Requests scheitert diese Abfrage
   // gelegentlich am Netz. Vorher verschwand der Fehler still — das Audit meldete
   // dann seelenruhig "0 Positionen geprüft" und keine Befunde.
+  // Seitenweise, weil die Bestände aller Depots zusammen über die 1000 Zeilen
+  // wachsen, die PostgREST je Anfrage liefert.
   let holdings: any[] | null = null
   for (let attempt = 1; attempt <= 3; attempt++) {
-    const { data, error } = await supabase
-      .from('portfolio_holdings')
-      .select('portfolio_id, symbol, name, quantity, purchase_price, purchase_date')
+    const { data, error } = await loadAllRows((from, to) =>
+      supabase
+        .from('portfolio_holdings')
+        .select('portfolio_id, symbol, name, quantity, purchase_price, purchase_date')
+        .order('id', { ascending: true })
+        .range(from, to)
+    )
     if (!error) {
       holdings = data
       break
