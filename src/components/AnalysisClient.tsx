@@ -965,6 +965,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 congressEvents={congressEvents}
                 week52High={week52High}
                 week52Low={week52Low}
+                enableBenchmark
               />
             ) : (
               <div className="bg-theme-card rounded-xl border border-theme-light p-6 flex items-center justify-center min-h-[450px]">

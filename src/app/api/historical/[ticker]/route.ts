@@ -135,6 +135,10 @@ export async function GET(
   const rawTicker = params.ticker
   const apiKey = process.env.FMP_API_KEY
   const convertToEUR = request.nextUrl.searchParams.get('convertToEUR') === 'true'
+  // Optionaler Startpunkt (YYYY-MM-DD): Indizes wie ^GSPC liefern Daten bis
+  // 1927 zurück — für einen Vergleich reicht der Zeitraum der Aktie.
+  const fromParam = request.nextUrl.searchParams.get('from')
+  const from = fromParam && /^\d{4}-\d{2}-\d{2}$/.test(fromParam) ? fromParam : null
 
   if (!apiKey) {
     return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
@@ -171,6 +175,8 @@ export async function GET(
     historical: { date: string; close: number }[],
     extra: Record<string, unknown> = {},
   ) {
+    if (from) historical = historical.filter(h => h.date >= from)
+
     // EUR-Konvertierung: London (.L) liefert Kurse typischerweise in GBX/Pence,
     // nicht in GBP. Für Portfolio-Charts müssen wir daher /100 und GBP→EUR rechnen.
     if (convertToEUR && isGbxTicker && historical.length > 0) {

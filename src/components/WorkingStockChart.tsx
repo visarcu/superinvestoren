@@ -11,7 +11,8 @@ import {
   Line,
   ReferenceDot,
   ReferenceLine,
-  ReferenceArea
+  ReferenceArea,
+  CartesianGrid
 } from 'recharts'
 import { ArrowsPointingOutIcon, XMarkIcon, ArrowTopRightOnSquareIcon, ShareIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
@@ -23,6 +24,14 @@ import type { CongressEvent, InsiderEvent, SmartMoneyEvent } from '@/lib/smartMo
 interface StockData {
   date: string
   close: number
+}
+
+// Eine Chart-Zeile: Werte liegen unter dem Ticker bzw. BENCHMARK_KEY
+type ChartRow = {
+  date: string
+  formattedDate: string
+  ma50: number | null
+  [key: string]: string | number | null
 }
 
 export interface PurchaseMarker {
@@ -94,6 +103,8 @@ interface Props {
   displayCurrency?: 'EUR' | 'USD' | 'GBP' | 'CHF'
   /** Explizite Chart-Höhe für Layouts, in denen ResponsiveContainer sonst keine feste Höhe bekommt. */
   chartHeightClass?: string
+  /** Schalter "vs. S&P 500" im Performance-Modus anbieten (nur bei Kursen in Originalwährung sinnvoll) */
+  enableBenchmark?: boolean
 }
 
 const TIME_RANGES = [
@@ -113,6 +124,24 @@ const CHART_MODES = [
   { id: 'price', label: 'Preis' },
   { id: 'total_return', label: 'Performance' },
 ]
+
+// ─── Benchmark (S&P 500) ────────────────────────────────────────────────────
+// Kursindex ohne Dividenden — passend zur Performance-Linie, die ebenfalls
+// nur die Kursentwicklung zeigt. Neutrales Grau und dünner als die Aktie;
+// Legende, Header-Zeile und Tooltip benennen beide Linien, damit sie auch
+// ohne Farbsehen trennbar sind.
+const BENCHMARK_KEY = 'sp500'
+const BENCHMARK_SYMBOL = '^GSPC'
+const BENCHMARK_LABEL = 'S&P 500'
+const BENCHMARK_COLOR = '#6b7280'
+
+function formatPointSpread(value: number): string {
+  const formatted = new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Math.abs(value))
+  return `${value >= 0 ? '+' : '-'}${formatted} PP`
+}
 
 // ─── Smart-Money-Layer (Superinvestor-Quartals-Bänder) ─────────────────────
 
@@ -312,7 +341,7 @@ function SmartMoneyBandLabel(props: any) {
   )
 }
 
-export default function WorkingStockChart({ ticker, data, purchaseMarkers, smartMoneyEvents, insiderEvents, congressEvents, week52High, week52Low, displayCurrency, chartHeightClass }: Props) {
+export default function WorkingStockChart({ ticker, data, purchaseMarkers, smartMoneyEvents, insiderEvents, congressEvents, week52High, week52Low, displayCurrency, chartHeightClass, enableBenchmark }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -327,6 +356,9 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
   const [activeCongressDay, setActiveCongressDay] = useState<{ group: CongressDayGroup; x: number; y: number } | null>(null)
   const [intradayData, setIntradayData] = useState<StockData[] | null>(null)
   const [intradayLoading, setIntradayLoading] = useState(false)
+  const [showBenchmark, setShowBenchmark] = useState(false)
+  const [benchmarkHistory, setBenchmarkHistory] = useState<StockData[]>([])
+  const [benchmarkStatus, setBenchmarkStatus] = useState<'idle' | 'loading' | 'ready' | 'error'>('idle')
   const [chartSizeKey, setChartSizeKey] = useState('initial')
   const chartContainerRef = useRef<HTMLDivElement>(null)
   const chartAreaRef = useRef<HTMLDivElement>(null)
@@ -361,6 +393,48 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
 
     return () => { cancelled = true }
   }, [selectedRange, ticker])
+
+  // S&P 500 erst beim Einschalten laden — ab einer Woche vor dem ersten
+  // Kurstag, damit der erste Chartpunkt schon einen Indexwert als Basis hat.
+  const benchmarkFrom = useMemo(() => {
+    if (!data.length) return null
+    let earliest = data[0].date
+    for (const d of data) if (d.date < earliest) earliest = d.date
+    const start = new Date(`${earliest.slice(0, 10)}T00:00:00Z`)
+    start.setUTCDate(start.getUTCDate() - 7)
+    return start.toISOString().slice(0, 10)
+  }, [data])
+
+  const benchmarkLoadedFrom = useRef<string | null>(null)
+
+  useEffect(() => {
+    if (!enableBenchmark || !showBenchmark || !benchmarkFrom) return
+    if (benchmarkLoadedFrom.current === benchmarkFrom) return
+
+    let cancelled = false
+    setBenchmarkStatus('loading')
+
+    fetch(`/api/historical/${encodeURIComponent(BENCHMARK_SYMBOL)}?from=${benchmarkFrom}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json()
+      })
+      .then(json => {
+        if (cancelled) return
+        const hist = ((json?.historical || []) as StockData[])
+          .filter(h => typeof h.close === 'number' && h.close > 0)
+          .map(h => ({ date: h.date.slice(0, 10), close: h.close }))
+          .sort((a, b) => a.date.localeCompare(b.date))
+        setBenchmarkHistory(hist)
+        setBenchmarkStatus(hist.length ? 'ready' : 'error')
+        if (hist.length) benchmarkLoadedFrom.current = benchmarkFrom
+      })
+      .catch(() => {
+        if (!cancelled) setBenchmarkStatus('error')
+      })
+
+    return () => { cancelled = true }
+  }, [enableBenchmark, showBenchmark, benchmarkFrom])
 
   // Währung basierend auf Ticker erkennen (z.B. G24.DE → EUR, AAPL → USD).
   // displayCurrency-Prop überschreibt das, falls data bereits umgerechnet wurde.
@@ -439,8 +513,17 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     })
   }
 
+  // Vergleich nur im Performance-Modus — 1D hätte Intraday-Zeitstempel, für
+  // die es keine Tageswerte des Index gibt. Im Preis-Modus bleibt die Wahl
+  // gemerkt, der Schalter sieht aber aus wie aus.
+  const benchmarkOn = !!enableBenchmark && showBenchmark && selectedMode === 'total_return' && selectedRange !== '1D'
+  const benchmarkActive = benchmarkOn && benchmarkStatus === 'ready' && benchmarkHistory.length > 0
+  const benchmarkBasis = tickerCurrency !== 'USD'
+    ? `Index in USD, Aktie in ${tickerCurrency}`
+    : 'Kursentwicklung ohne Dividenden'
+
   // Chart data
-  const chartData = useMemo(() => {
+  const chartData = useMemo((): ChartRow[] => {
     // 1D: Intraday-Daten verwenden
     if (selectedRange === '1D') {
       if (!intradayData?.length) return []
@@ -476,8 +559,24 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       })
     }))
 
-    return result
-  }, [data, selectedRange, selectedMode, ticker, showMA, intradayData])
+    if (!benchmarkActive) return result
+
+    // Index auf die Kurstage der Aktie legen: letzter Indexschluss am oder vor
+    // dem Tag (Feiertage unterscheiden sich je Börse), Basis ist derselbe
+    // Starttag wie bei der Aktie.
+    let j = -1
+    let base: number | null = null
+    return result.map(point => {
+      const day = String(point.date).slice(0, 10)
+      while (j + 1 < benchmarkHistory.length && benchmarkHistory[j + 1].date <= day) j++
+      const close = j >= 0 ? benchmarkHistory[j].close : null
+      if (close !== null && base === null) base = close
+      return {
+        ...point,
+        [BENCHMARK_KEY]: close !== null && base ? ((close - base) / base) * 100 : null,
+      }
+    })
+  }, [data, selectedRange, selectedMode, ticker, showMA, intradayData, benchmarkActive, benchmarkHistory])
 
   // Current price & stats
   const currentPrice = useMemo(() => {
@@ -491,14 +590,26 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     const firstValue = chartData[0][ticker] as number
     const lastValue = chartData[chartData.length - 1][ticker] as number
 
-    if (typeof firstValue !== 'number' || typeof lastValue !== 'number' || firstValue <= 0) return null
-
+    // Performance-Modus: die Linie startet bei 0 %, der letzte Wert IST die
+    // Veränderung — die firstValue-Prüfung unten würde hier immer abbrechen
     if (selectedMode === 'total_return') {
-      return { changePercent: lastValue }
+      return typeof lastValue === 'number' ? { changePercent: lastValue } : null
     }
+
+    if (typeof firstValue !== 'number' || typeof lastValue !== 'number' || firstValue <= 0) return null
 
     return { changePercent: ((lastValue - firstValue) / firstValue) * 100 }
   }, [chartData, ticker, selectedMode])
+
+  // Vorsprung der Aktie gegenüber dem S&P 500 im gewählten Zeitraum (in PP)
+  const benchmarkStats = useMemo(() => {
+    if (!benchmarkActive || !chartData.length) return null
+    const last = chartData[chartData.length - 1]
+    const stockValue = last[ticker]
+    const benchmarkValue = last[BENCHMARK_KEY]
+    if (typeof stockValue !== 'number' || typeof benchmarkValue !== 'number') return null
+    return { benchmarkPercent: benchmarkValue, spread: stockValue - benchmarkValue }
+  }, [benchmarkActive, chartData, ticker])
 
   // Fullscreen
   const toggleFullscreen = async () => {
@@ -564,17 +675,24 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     return (
       <div className="bg-theme-card border border-theme-light rounded-lg p-3 shadow-lg">
         <p className="text-xs text-theme-muted mb-2">{data.formattedDate}</p>
-        {payload.map((entry: any, index: number) => {
+        {/* Aktie vor dem Index, auch wenn die Indexlinie zuerst gezeichnet wird */}
+        {[...payload].sort((a: any, b: any) => (a.dataKey === ticker ? -1 : b.dataKey === ticker ? 1 : 0)).map((entry: any, index: number) => {
           if (entry.dataKey === 'ma50') return null
+          if (typeof entry.value !== 'number') return null
           return (
             <div key={index} className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
               <span className="text-sm text-theme-primary font-medium">
-                {entry.dataKey}: {formatValue(entry.value)}
+                {entry.name ?? entry.dataKey}: {formatValue(entry.value)}
               </span>
             </div>
           )
         })}
+        {benchmarkActive && typeof data[ticker] === 'number' && typeof data[BENCHMARK_KEY] === 'number' && (
+          <p className="mt-1.5 pt-1.5 border-t border-theme-light text-xs text-theme-muted tabular-nums">
+            Vorsprung: <span className="text-theme-primary font-medium">{formatPointSpread(data[ticker] - data[BENCHMARK_KEY])}</span>
+          </p>
+        )}
       </div>
     )
   }
@@ -675,6 +793,9 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
   // Smart-Money-Events zu Quartals-Clustern gruppieren und auf sichtbare
   // Chart-Datenpunkte mappen (Kategorie-X-Achse braucht exakte date-Werte)
   const smartMoneyClusters = useMemo((): SmartMoneyCluster[] => {
+    // Im Index-Vergleich zählt nur der Abstand der beiden Linien — Bänder,
+    // Insider- und Kongress-Punkte bleiben dort aus
+    if (benchmarkOn) return []
     if (!showSmartMoney || !smartMoneyEvents?.length || !chartData.length) return []
     if (!SMART_MONEY_RANGES.has(selectedRange)) return []
 
@@ -712,14 +833,17 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     })
 
     return clusters.sort((a, b) => a.quarter.localeCompare(b.quarter))
-  }, [showSmartMoney, smartMoneyEvents, chartData, selectedRange])
+  }, [benchmarkOn, showSmartMoney, smartMoneyEvents, chartData, selectedRange])
 
   // Insider-Events auf sichtbare Chart-Tage mappen und pro Tag gruppieren.
-  // Y-Position = Transaktionspreis (zeigt, WO der Insider gekauft hat) —
-  // deshalb nur im Preis-Modus; 1D (Intraday) hat keine Tages-X-Achse.
+  // Preis-Modus: Y-Position = Transaktionspreis (zeigt, WO der Insider gekauft
+  // hat). Performance-Modus: die Achse ist in Prozent, dort sitzt der Punkt
+  // auf der Linie des Handelstags. 1D (Intraday) hat keine Tages-X-Achse.
   const insiderDayGroups = useMemo((): InsiderDayGroup[] => {
+    if (benchmarkOn) return []
     if (!showInsiders || !insiderEvents?.length || !chartData.length) return []
-    if (selectedMode !== 'price' || selectedRange === '1D') return []
+    if (selectedRange === '1D') return []
+    const onLine = selectedMode !== 'price'
 
     const firstDate = String(chartData[0].date).slice(0, 10)
     const lastDate = String(chartData[chartData.length - 1].date).slice(0, 10)
@@ -729,18 +853,21 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       if (ev.date < firstDate || ev.date > lastDate) continue
 
       // Nächstgelegenen Chart-Datenpunkt finden (Wochenend-Trades → Handelstag)
-      let bestDate: string | null = null
+      let bestPoint: any = null
       let bestDiff = Infinity
       const evTime = new Date(ev.date).getTime()
       for (const point of chartData) {
         const diff = Math.abs(new Date(point.date).getTime() - evTime)
         if (diff < bestDiff) {
           bestDiff = diff
-          bestDate = point.date as string
+          bestPoint = point
         }
       }
-      if (!bestDate) continue
+      if (!bestPoint) continue
+      const lineValue = bestPoint[ticker]
+      if (onLine && typeof lineValue !== 'number') continue
 
+      const bestDate = bestPoint.date as string
       const existing = byDate.get(bestDate)
       if (existing) {
         existing.events.push(ev)
@@ -748,14 +875,14 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
         existing.buys += ev.action === 'buy' ? 1 : 0
         existing.sells += ev.action === 'sell' ? 1 : 0
         existing.cluster = existing.cluster || ev.clusterBuy
-        // Y-Position vom größten Trade des Tages
-        if (ev.price && ev.valueUsd >= Math.max(...existing.events.map(e => e.valueUsd))) {
+        // Preis-Modus: Y-Position vom größten Trade des Tages
+        if (!onLine && ev.price && ev.valueUsd >= Math.max(...existing.events.map(e => e.valueUsd))) {
           existing.y = ev.price
         }
       } else {
         byDate.set(bestDate, {
           date: bestDate,
-          y: ev.price ?? 0,
+          y: onLine ? lineValue : (ev.price ?? 0),
           buys: ev.action === 'buy' ? 1 : 0,
           sells: ev.action === 'sell' ? 1 : 0,
           cluster: ev.clusterBuy,
@@ -765,7 +892,8 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       }
     }
 
-    let groups = Array.from(byDate.values()).filter(g => g.y > 0)
+    // Auf der Performance-Linie sind auch 0 % und negative Werte gültig
+    let groups = Array.from(byDate.values()).filter(g => onLine ? Number.isFinite(g.y) : g.y > 0)
     for (const g of groups) g.events.sort((a, b) => b.valueUsd - a.valueUsd)
 
     // Deckeln: Cluster-Buys immer, Rest nach Volumen
@@ -777,13 +905,15 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     }
 
     return groups.sort((a, b) => a.date.localeCompare(b.date))
-  }, [showInsiders, insiderEvents, chartData, selectedMode, selectedRange])
+  }, [benchmarkOn, showInsiders, insiderEvents, chartData, selectedMode, selectedRange, ticker])
 
   // Kongress-Trades auf sichtbare Chart-Tage mappen. PTRs haben keinen Preis —
-  // der Diamant sitzt auf der Kurslinie des Handelstags.
+  // der Diamant sitzt auf der Linie des Handelstags (Preis oder Performance).
+  // 1D (Intraday) hat keine Tages-X-Achse.
   const congressDayGroups = useMemo((): CongressDayGroup[] => {
+    if (benchmarkOn) return []
     if (!showCongress || !congressEvents?.length || !chartData.length) return []
-    if (selectedMode !== 'price' || selectedRange === '1D') return []
+    if (selectedRange === '1D') return []
 
     const firstDate = String(chartData[0].date).slice(0, 10)
     const lastDate = String(chartData[chartData.length - 1].date).slice(0, 10)
@@ -833,7 +963,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     }
 
     return groups.sort((a, b) => a.date.localeCompare(b.date))
-  }, [showCongress, congressEvents, chartData, selectedMode, selectedRange, ticker])
+  }, [benchmarkOn, showCongress, congressEvents, chartData, selectedMode, selectedRange, ticker])
 
   // Popover schließen, wenn sich der Chart-Kontext ändert
   useEffect(() => {
@@ -883,7 +1013,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
         <div className="flex items-start justify-between">
           <div>
             <p className="text-xs text-theme-muted mb-1">{ticker} • Historischer Kursverlauf</p>
-            <div className="flex items-baseline gap-3">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span className="text-2xl font-semibold text-theme-primary">
                 {formatStockPrice(currentPrice)}
               </span>
@@ -894,6 +1024,21 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
               )}
               <span className="text-xs text-theme-muted">({selectedRange})</span>
             </div>
+            {/* Index-Vergleich: eine ruhige Zeile unter dem Kurs, nur der
+                Vorsprung trägt Farbe */}
+            {benchmarkStats && (
+              <p
+                className="mt-1.5 text-xs text-theme-muted tabular-nums"
+                title={`Vorsprung gegenüber dem ${BENCHMARK_LABEL} in Prozentpunkten (${benchmarkBasis})`}
+              >
+                {BENCHMARK_LABEL} {formatPercentage(benchmarkStats.benchmarkPercent)}
+                <span className="mx-1.5 opacity-50">·</span>
+                Vorsprung{' '}
+                <span className={`font-semibold ${benchmarkStats.spread >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {formatPointSpread(benchmarkStats.spread)}
+                </span>
+              </p>
+            )}
           </div>
 
           <div className="flex items-center gap-1">
@@ -928,8 +1073,8 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
 
       {/* Controls */}
       <div className="p-5 space-y-4">
-        {/* Mode & Time Range */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        {/* Mode & Time Range — umbrechen statt die Zeitraum-Leiste zu stauchen */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-x-4 gap-y-3">
           {/* Mode Selector */}
           <div className="flex items-center gap-2">
             <span className="text-xs text-theme-muted">Modus:</span>
@@ -951,7 +1096,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
           </div>
 
           {/* Time Range - Pill Style */}
-          <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg overflow-x-auto">
+          <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg overflow-x-auto sm:shrink-0 max-w-full">
             {TIME_RANGES.map(range => (
               <button
                 key={range.label}
@@ -966,6 +1111,38 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
               </button>
             ))}
           </div>
+
+          {/* S&P-500-Vergleich: in beiden Modi sichtbar, die Linie selbst gibt
+              es nur in Performance — ein Klick im Preis-Modus wechselt dorthin */}
+          {enableBenchmark && (
+            <button
+              onClick={() => {
+                if (selectedMode !== 'total_return') {
+                  setSelectedMode('total_return')
+                  setShowBenchmark(true)
+                } else {
+                  setShowBenchmark(!showBenchmark)
+                }
+              }}
+              disabled={selectedRange === '1D'}
+              title={selectedRange === '1D'
+                ? 'Ab 5D verfügbar'
+                : benchmarkStatus === 'error'
+                  ? `${BENCHMARK_LABEL} konnte nicht geladen werden`
+                  : selectedMode !== 'total_return'
+                    ? `Auf Performance wechseln und mit dem ${BENCHMARK_LABEL} vergleichen (${benchmarkBasis})`
+                    : `Mit dem ${BENCHMARK_LABEL} vergleichen (${benchmarkBasis})`}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border text-xs font-medium transition-all whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed ${
+                benchmarkOn
+                  ? 'bg-gray-500/20 border-gray-500/40 text-theme-primary'
+                  : 'bg-theme-secondary/30 border-theme-light text-theme-muted hover:text-theme-secondary'
+              } ${benchmarkOn && benchmarkStatus === 'loading' ? 'animate-pulse' : ''}`}
+            >
+              {/* Linien-Symbol wie im Chart: zeigt, dass eine Linie dazukommt */}
+              <span className="w-3 h-0.5 rounded-full inline-block" style={{ backgroundColor: BENCHMARK_COLOR }} />
+              vs. {BENCHMARK_LABEL}
+            </button>
+          )}
 
           {/* MA Toggle */}
           {selectedMode === 'price' && (
@@ -995,8 +1172,8 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
             </button>
           )}
 
-          {/* Smart-Money Toggle (Superinvestor-Quartale) */}
-          {smartMoneyEvents && smartMoneyEvents.length > 0 && (
+          {/* Smart-Money Toggle (Superinvestor-Quartale) — im Index-Vergleich aus */}
+          {!benchmarkOn && smartMoneyEvents && smartMoneyEvents.length > 0 && (
             <button
               onClick={() => setShowSmartMoney(!showSmartMoney)}
               title={SMART_MONEY_RANGES.has(selectedRange)
@@ -1013,7 +1190,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
           )}
 
           {/* Insider Toggle (Form 4, tagesgenau) */}
-          {insiderEvents && insiderEvents.length > 0 && (
+          {!benchmarkOn && insiderEvents && insiderEvents.length > 0 && (
             <button
               onClick={() => setShowInsiders(!showInsiders)}
               title="Insider-Käufe & -Verkäufe (Form 4, tagesgenau)"
@@ -1028,7 +1205,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
           )}
 
           {/* Kongress Toggle (PTR, tagesgenau) */}
-          {congressEvents && congressEvents.length > 0 && (
+          {!benchmarkOn && congressEvents && congressEvents.length > 0 && (
             <button
               onClick={() => setShowCongress(!showCongress)}
               title="Käufe & Verkäufe von US-Kongressmitgliedern (PTR, tagesgenau)"
@@ -1087,7 +1264,35 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
               interval="preserveStartEnd"
               minTickGap={80}
             />
-            <YAxis hide domain={yDomain} />
+            {benchmarkActive ? (
+              // Index-Vergleich: zwei Linien brauchen eine gemeinsame %-Skala
+              <YAxis
+                orientation="right"
+                domain={['auto', 'auto']}
+                axisLine={false}
+                tickLine={false}
+                width={64}
+                tickCount={5}
+                tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
+                tickFormatter={(value: number) =>
+                  `${new Intl.NumberFormat('de-DE', { maximumFractionDigits: 1 }).format(value)} %`}
+              />
+            ) : (
+              <YAxis hide domain={yDomain} />
+            )}
+            {benchmarkActive && (
+              <CartesianGrid
+                vertical={false}
+                stroke={isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)'}
+              />
+            )}
+            {benchmarkActive && (
+              <ReferenceLine
+                y={0}
+                stroke={isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.18)'}
+                strokeWidth={1}
+              />
+            )}
             <Tooltip content={renderTooltip} cursor={{ stroke: isDark ? '#4b5563' : '#d1d5db', strokeWidth: 1 }} />
 
             {/* Smart-Money-Quartalsbänder (Hintergrund, vor der Kurslinie).
@@ -1109,8 +1314,9 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
               )
             })}
 
-            {/* Performance Label */}
-            {performanceStats && (
+            {/* Performance Label — im Index-Vergleich stehen die Werte im
+                Header und an der %-Achse, dort bleibt die Fläche frei */}
+            {performanceStats && !benchmarkActive && (
               <text
                 x="97%"
                 y="25"
@@ -1121,6 +1327,20 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
               >
                 {formatPercentage(performanceStats.changePercent)}
               </text>
+            )}
+
+            {/* S&P 500 unter der Aktienlinie, damit die Aktie vorne liegt */}
+            {benchmarkActive && (
+              <Line
+                type="monotone"
+                dataKey={BENCHMARK_KEY}
+                name={BENCHMARK_LABEL}
+                stroke={BENCHMARK_COLOR}
+                strokeWidth={1.5}
+                dot={false}
+                activeDot={{ r: 3, fill: BENCHMARK_COLOR, strokeWidth: 0 }}
+                isAnimationActive={false}
+              />
             )}
 
             {/* Main Area/Line */}
@@ -1240,7 +1460,8 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
               />
             ))}
 
-            {/* Insider-Punkte: tagesgenau, auf Höhe des Transaktionspreises */}
+            {/* Insider-Punkte: tagesgenau, im Preis-Modus auf Höhe des
+                Transaktionspreises, im Performance-Modus auf der Linie */}
             {insiderDayGroups.map(group => (
               <ReferenceDot
                 key={`ins-${group.date}`}
@@ -1450,7 +1671,9 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
                 ))}
               </div>
               <p className="px-4 py-2 border-t border-theme-light text-[10px] text-theme-muted">
-                Form 4, tagesgenau · Punkt liegt auf Höhe des Transaktionspreises
+                Form 4, tagesgenau · {selectedMode === 'price'
+                  ? 'Punkt liegt auf Höhe des Transaktionspreises'
+                  : 'Punkt liegt auf der Performance-Linie des Handelstags'}
               </p>
             </div>
           </>
@@ -1531,8 +1754,23 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       </div>
 
       {/* Footer / Legende */}
-      {(resolvedMarkers.length > 0 || smartMoneyClusters.length > 0 || insiderDayGroups.length > 0 || congressDayGroups.length > 0 || (showMA && selectedMode === 'price') || (show52W && selectedMode === 'price')) && (
+      {(benchmarkActive || resolvedMarkers.length > 0 || smartMoneyClusters.length > 0 || insiderDayGroups.length > 0 || congressDayGroups.length > 0 || (showMA && selectedMode === 'price') || (show52W && selectedMode === 'price')) && (
         <div className="px-5 pb-4 flex flex-wrap items-center gap-x-4 gap-y-1">
+          {benchmarkActive && (
+            <>
+              <div className="flex items-center gap-2 text-xs text-theme-muted">
+                <div className="w-4 h-0.5 rounded-full" style={{ backgroundColor: chartColor }} />
+                <span>{ticker}</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs text-theme-muted">
+                <div className="w-4 h-0.5 rounded-full" style={{ backgroundColor: BENCHMARK_COLOR }} />
+                <span>{BENCHMARK_LABEL}</span>
+              </div>
+              <div className="text-xs text-theme-muted opacity-70">
+                Kursentwicklung ohne Dividenden{tickerCurrency !== 'USD' ? ' · Index in USD' : ''}
+              </div>
+            </>
+          )}
           {smartMoneyClusters.length > 0 && (
             <div className="flex items-center gap-1.5 text-xs text-theme-muted">
               <div className="w-3 h-3 rounded-sm bg-emerald-500/30 border border-emerald-500/50" />
