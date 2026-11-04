@@ -65792,7 +65792,7 @@ export const stocks: Stock[] = [
   {
     ticker: 'INIO',
     cusip:  'N52A8C105',
-    name:   'INNIO N.V. Ordinary Shares',
+    name:   'INNIO N.V.',
     sector: 'Industrials',
     metrics: [],
   },

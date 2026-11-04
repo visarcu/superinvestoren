@@ -1,6 +1,8 @@
 // scripts/update-stocks-screener.ts
 // Lädt alle US-Stocks mit umfangreichen Metriken für den Stock Finder
 // Ausführen: npm run update-screener
+// Einzelne Ticker nachtragen (z.B. frische IPOs), ohne Voll-Lauf:
+//   npm run update-screener -- --symbols=INIO,SPCX
 
 import fs from 'fs'
 import path from 'path'
@@ -355,7 +357,61 @@ async function enrichStockData(baseStock: any): Promise<ScreenerStock> {
 // MAIN
 // ============================================
 
+function parseSymbolsArg(): string[] {
+  const arg = process.argv.find(a => a.startsWith('--symbols='))
+  if (!arg) return []
+  return arg
+    .slice('--symbols='.length)
+    .split(',')
+    .map(s => s.trim().toUpperCase())
+    .filter(Boolean)
+}
+
+// Ergänzt bzw. ersetzt einzelne Ticker in der bestehenden JSON. Der FMP-Screener
+// führt frische IPOs oft noch nicht, deshalb kommen die Basisdaten aus dem Profil.
+// meta.updatedAt bleibt unverändert, weil der Rest der Datei nicht neu geladen wird.
+async function upsertSymbols(symbols: string[]) {
+  const existing = JSON.parse(fs.readFileSync(CONFIG.outputPath, 'utf-8'))
+  const stocks: ScreenerStock[] = existing.stocks || []
+
+  for (const symbol of symbols) {
+    const profile = (await fetchWithRetry(API.profile(symbol)))?.[0]
+    if (!profile) {
+      console.error(`❌ Kein FMP-Profil für ${symbol}, übersprungen`)
+      continue
+    }
+
+    const enriched = await enrichStockData({
+      symbol,
+      companyName: profile.companyName,
+      sector: profile.sector,
+      industry: profile.industry,
+      exchangeShortName: profile.exchangeShortName,
+      country: profile.country,
+      price: profile.price,
+      marketCap: profile.mktCap,
+      lastAnnualDividend: profile.lastDiv,
+    })
+
+    const idx = stocks.findIndex(s => s.symbol === symbol)
+    if (idx >= 0) stocks[idx] = enriched
+    else stocks.push(enriched)
+    console.log(`✓ ${symbol} ${idx >= 0 ? 'aktualisiert' : 'ergänzt'} (${enriched.name})`)
+  }
+
+  stocks.sort((a, b) => (b.marketCap || 0) - (a.marketCap || 0))
+  existing.meta = { ...existing.meta, totalStocks: stocks.length }
+  existing.stocks = stocks
+  fs.writeFileSync(CONFIG.outputPath, JSON.stringify(existing, null, 2), 'utf-8')
+}
+
 async function main() {
+  const onlySymbols = parseSymbolsArg()
+  if (onlySymbols.length > 0) {
+    await upsertSymbols(onlySymbols)
+    return
+  }
+
   console.log('🚀 Stock Screener Update gestartet')
   console.log(`📅 ${new Date().toISOString()}`)
   console.log('─'.repeat(50))
