@@ -41,6 +41,7 @@ import Sidebar from '@/components/layout/Sidebar'
 import Logo from '@/components/Logo'
 import { ProductTour } from '@/components/tour/ProductTour'
 import { stocks } from '@/data/stocks'
+import { depotHref, fromDepotPath, isOnDepotHost, mainSiteHref } from '@/lib/siteHosts'
 import { searchETFs } from '@/lib/etfUtils'
 import ScoreBadge from '@/components/ScoreBadge'
 
@@ -127,7 +128,7 @@ interface CommandPaletteItem {
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/analyse' },
   { id: 'compare', label: 'Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
-  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio/workspace?depot=all' },
+  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: depotHref('/analyse/portfolio/workspace?depot=all') },
   { id: 'watchlist', label: 'Watchlist', icon: BookmarkIcon, href: '/analyse/watchlist' },
   { id: 'calendar', label: 'Kalender', icon: CalendarIcon, href: '/analyse/calendar' },
   { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
@@ -581,6 +582,17 @@ const getMarketStatus = (() => {
   }
 })()
 
+// Login liegt immer auf der Hauptseite. Vom Depot-Host aus deshalb per
+// Vollnavigation dorthin, mit Rücksprung in den Tracker nach dem Login.
+function redirectToSignIn(router: ReturnType<typeof useRouter>) {
+  if (isOnDepotHost()) {
+    const back = fromDepotPath(window.location.pathname) + window.location.search
+    window.location.replace(mainSiteHref(`/auth/signin?redirect=${encodeURIComponent(back)}`))
+    return
+  }
+  router.replace('/auth/signin')
+}
+
 // ===== MAIN LAYOUT =====
 function LayoutContent({ children }: LayoutProps) {
   const pathname = usePathname()
@@ -635,7 +647,7 @@ function LayoutContent({ children }: LayoutProps) {
         const { data: { session }, error } = await supabase.auth.getSession()
         
         if (error || !session?.user) {
-          if (mounted) router.replace('/auth/signin')
+          if (mounted) redirectToSignIn(router)
           return
         }
 
@@ -665,7 +677,7 @@ function LayoutContent({ children }: LayoutProps) {
           }
         }
       } catch {
-        if (mounted) router.replace('/auth/signin')
+        if (mounted) redirectToSignIn(router)
       }
     }
 
@@ -674,7 +686,7 @@ function LayoutContent({ children }: LayoutProps) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return
       if (event === 'SIGNED_OUT' || !session) {
-        router.replace('/auth/signin')
+        redirectToSignIn(router)
         return
       }
       if (event === 'SIGNED_IN' && session) {
@@ -710,7 +722,10 @@ function LayoutContent({ children }: LayoutProps) {
 
   if (!user) return null
 
+  // Auf depot.finclue.de ist alles Tracker — ohne Terminal-Sidebar. Dort
+  // liefert usePathname() für den Workspace "/" statt des internen Pfads.
   const isPortfolioFocusRoute =
+    isOnDepotHost() ||
     pathname.startsWith('/analyse/portfolio/workspace') ||
     pathname.startsWith('/analyse/portfolio/stocks/')
 

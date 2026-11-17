@@ -132,7 +132,7 @@ export default function WatchlistClient() {
         if (!q || q.error) continue
         const screener = screenerMap[q.symbol] || {}
 
-        // 52W kommt aus dem Profile (EODHD); Volume aus dem Live-Quote (EODHD).
+        // 52W kommt aus dem Profile (FMP); Volume aus dem Live-Quote.
         // Wenn der aktive Provider nichts liefert (z.B. Finnhub Free), bleiben Felder null.
         const week52High = screener.week52High ?? 0
         const week52Low = screener.week52Low ?? 0

@@ -193,6 +193,15 @@ function calculateCashDelta(tx: MappedTransaction): number {
 // Abweichung zur echten TWR 0,25 Pp mit diesem Modell, 0,94 Pp mit vollen
 // Kaufpreisen ohne Tochter-Zufluss. Für die geldgewichteten Rechnungen gilt das
 // Gegenteil — dort trifft das Modell mit vollen Beträgen das Ergebnis exakt.
+//
+// Das Modell braucht beides: aufgeteilte Käufe UND eine vollständig bereinigte
+// Mutter-Historie. Kennt der Import die Mutter nicht (Trading 212, Trade
+// Republic) oder hat FMP nur einen Teil der Historie bereinigt (SPGI nur vom
+// 02.06. bis 30.06.2026), stellt die portfolio-history-Route beides vor dieser
+// Rechnung her (spinoffAdjustment.ts). Ist keine Bereinigung bekannt, gilt die
+// Mutter-Historie als unbereinigt: Die Tochter kommt dann ohne Kostenbasis an
+// und zählt nicht als Zufluss. T212-Depot mit SPGI/MBGL: vorher 16,29 %, mit
+// nachgeholter Aufteilung 18,57 %, gegen die echten Kurse 18,53 %.
 function calculateCashInclusiveTwrByDate(
   chartData: PortfolioTwrPoint[],
   mappedTransactions: MappedTransaction[],

@@ -1,15 +1,15 @@
 // src/lib/splitsService.ts
-// Stock-Splits-Service: DB-First mit EODHD-Refresh.
+// Stock-Splits-Service: DB-First mit FMP-Refresh.
 //
 // Splits sind historisch immutable → einmal in DB gecached, nicht mehr neu holen.
 // Refresh nur 1× pro Tag pro Symbol (in-memory Marker), um auch neue Splits
-// mitzubekommen, ohne EODHD bei jedem Request zu treffen.
+// mitzubekommen, ohne FMP bei jedem Request zu treffen.
 //
-// Quelle: EODHD /api/splits/{TICKER.EXCHANGE}
-// Response: [{ date: "YYYY-MM-DD", split: "4.000000/1.000000" }, ...]
+// Quelle: FMP /stable/splits?symbol={TICKER} — Symbole in unserer Schreibweise
+// (AAPL, SAP.DE), die FMP unverändert versteht.
 
 import { prisma } from '@/lib/prisma'
-import { toEodhdSymbol } from '@/lib/eodhdService'
+import { fetchFmpSplits } from '@/lib/marketData/splits'
 
 export interface StockSplit {
   symbol: string
@@ -19,7 +19,7 @@ export interface StockSplit {
   source: string
 }
 
-// In-memory: wann wurde welches Symbol zuletzt gegen EODHD geprüft?
+// In-memory: wann wurde welches Symbol zuletzt gegen FMP geprüft?
 // Verhindert Refresh-Spam bei Tickern ohne Splits (DB ist dort leer, also kein
 // Anker für Freshness-Check über fetchedAt).
 const lastFetchAttempt = new Map<string, number>()
@@ -32,7 +32,7 @@ export async function getStockSplits(symbol: string): Promise<StockSplit[]> {
   const isFresh = Date.now() - lastAttempt < REFRESH_TTL_MS
 
   if (!isFresh) {
-    await refreshFromEodhd(sym)
+    await refreshFromFmp(sym)
     lastFetchAttempt.set(sym, Date.now())
   }
 
@@ -50,28 +50,18 @@ export async function getStockSplits(symbol: string): Promise<StockSplit[]> {
   }))
 }
 
-async function refreshFromEodhd(symbol: string): Promise<void> {
-  const apiKey = process.env.EODHD_API_KEY
-  if (!apiKey) {
-    console.warn('[splitsService] EODHD_API_KEY not set, skipping refresh')
+async function refreshFromFmp(symbol: string): Promise<void> {
+  if (!process.env.FMP_API_KEY) {
+    console.warn('[splitsService] FMP_API_KEY not set, skipping refresh')
     return
   }
 
-  const eodhdSymbol = toEodhdSymbol(symbol)
-  const url = `https://eodhd.com/api/splits/${eodhdSymbol}?api_token=${apiKey}&fmt=json`
-
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10_000) })
-    if (!res.ok) {
-      console.warn(`[splitsService] EODHD ${res.status} for ${eodhdSymbol}`)
-      return
-    }
-    const data = await res.json()
-    if (!Array.isArray(data) || data.length === 0) return
+    const splits = await fetchFmpSplits(symbol)
 
-    for (const entry of data) {
-      const parsed = parseEodhdSplit(entry?.split)
-      if (!parsed || !entry?.date) continue
+    for (const entry of splits) {
+      const ratio = toIntegerRatio(entry.numerator, entry.denominator)
+      if (!ratio) continue
 
       const splitDate = new Date(entry.date)
       if (Number.isNaN(splitDate.getTime())) continue
@@ -81,17 +71,17 @@ async function refreshFromEodhd(symbol: string): Promise<void> {
           symbol_splitDate: { symbol, splitDate },
         },
         update: {
-          numerator: parsed.numerator,
-          denominator: parsed.denominator,
-          source: 'eodhd',
+          numerator: ratio.numerator,
+          denominator: ratio.denominator,
+          source: 'fmp',
           fetchedAt: new Date(),
         },
         create: {
           symbol,
           splitDate,
-          numerator: parsed.numerator,
-          denominator: parsed.denominator,
-          source: 'eodhd',
+          numerator: ratio.numerator,
+          denominator: ratio.denominator,
+          source: 'fmp',
         },
       })
     }
@@ -100,15 +90,18 @@ async function refreshFromEodhd(symbol: string): Promise<void> {
   }
 }
 
-// EODHD-Format "4.000000/1.000000" oder "4/1" → { numerator: 4, denominator: 1 }
-function parseEodhdSplit(split: unknown): { numerator: number; denominator: number } | null {
-  if (typeof split !== 'string') return null
-  const parts = split.split('/')
-  if (parts.length !== 2) return null
-  const num = parseFloat(parts[0])
-  const den = parseFloat(parts[1])
-  if (!Number.isFinite(num) || !Number.isFinite(den) || num <= 0 || den <= 0) return null
-  return { numerator: Math.round(num), denominator: Math.round(den) }
+// Die DB speichert ganzzahlige Verhältnisse; FMP liefert vereinzelt Dezimalwerte
+// (1.5/1) → auf ganze Zahlen skalieren (3/2).
+function toIntegerRatio(numerator: number, denominator: number): { numerator: number; denominator: number } | null {
+  if (!(numerator > 0) || !(denominator > 0)) return null
+  for (let scale = 1; scale <= 10_000; scale *= 10) {
+    const num = numerator * scale
+    const den = denominator * scale
+    if (Math.abs(num - Math.round(num)) < 1e-6 && Math.abs(den - Math.round(den)) < 1e-6) {
+      return { numerator: Math.round(num), denominator: Math.round(den) }
+    }
+  }
+  return null
 }
 
 /**

@@ -1,6 +1,6 @@
 // Finclue Data API v1 – Stock Splits
 // GET /api/v1/splits/{ticker}
-// Quelle: eigene DB-Tabelle StockSplit (gefüttert aus EODHD /api/splits)
+// Quelle: eigene DB-Tabelle StockSplit (gefüttert aus FMP /stable/splits)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getStockSplits } from '@/lib/splitsService'

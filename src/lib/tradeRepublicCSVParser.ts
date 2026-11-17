@@ -14,7 +14,9 @@
 //  • `shares` ist signed (negativ bei Verkauf/Ausbuchung).
 //  • `amount` ist aus Cash-Konto-Sicht signed (negativ bei Buy, positiv bei Sell/
 //    Dividend/Inbound). Immer in EUR (Account-Währung).
-//  • `fee` und `tax` sind negative Werte in der CSV (abs() verwenden).
+//  • `fee` und `tax` sind signed: negativ = Belastung, positiv = Erstattung.
+//    Die Kontobewegung einer Zeile ist amount + fee + tax — über den ganzen
+//    Export 12/2021–08/2026 ergibt das exakt den Cash-Stand (127,67 €).
 //  • `original_amount` + `original_currency` + `fx_rate` enthalten FX-Infos
 //    (z.B. für Dividenden von HK-Aktien), sind aber für den EUR-Account
 //    meist irrelevant weil `amount` bereits umgerechnet ist.
@@ -83,6 +85,10 @@ function toNumber(value: string): number {
   if (!value || value.trim() === '') return 0
   const n = parseFloat(value.trim())
   return isNaN(n) ? 0 : n
+}
+
+function round2(value: number): number {
+  return Math.round(value * 100) / 100
 }
 
 /**
@@ -257,40 +263,82 @@ function mapTransactionType(row: TRRow): MappedTransactionType | null {
   return null
 }
 
+// Original-Typ für Notizen, wenn relevant
+const TYPE_LABELS: Record<string, string> = {
+  REFERRAL: 'Werbeprämie',
+  STOCKPERK: 'Stockperk (Gratisaktie)',
+  PROMO: 'Aktionsprämie',
+  BONUS: 'Bonus',
+  INTEREST: 'Zinsgutschrift',
+  INTEREST_PAYOUT: 'Zinsgutschrift',
+  INTEREST_PAYMENT: 'Zinsgutschrift',
+  SEC_ACCOUNT: 'Steuerverrechnungskonto',
+  TAX_CORRECTION: 'Steuerkorrektur',
+  TAX_REFUND: 'Steuerrückerstattung',
+  TAX_OPTIMIZATION: 'Steueroptimierung',
+  FEE: 'Gebühr',
+  COMMISSION: 'Ordergebühr',
+  MONTHLY_FEE: 'Monatliche Gebühr',
+  SPLIT: 'Aktiensplit',
+  STOCK_DIVIDEND: 'Aktiendividende',
+  UNBUNDLING: 'Abspaltung / Unbundling',
+  SPINOFF: 'Spin-off',
+  MERGER: 'Fusion',
+  REDEMPTION: 'Rückzahlung',
+  WRITE_OFF: 'Ausbuchung (Write-off)',
+  DELISTING: 'Delisting',
+  SAVINGS_PLAN: 'Sparplan',
+  SAVINGSPLAN: 'Sparplan',
+  CARD_PAYMENT: 'Kartenzahlung',
+  CUSTOMER_INPAYMENT: 'Einzahlung',
+  EXCHANGE: 'Barausgleich',
+}
+
+/**
+ * Eigene Cash-Buchung für Steuern/Gebühren, die weder im Betrag noch im
+ * fee-Feld der Hauptbuchung stecken: Kapitalertragsteuer auf Zinsen,
+ * Erstattungen aus der Verlustverrechnung (TAX_OPTIMIZATION, amount 0),
+ * Gebühr bei Karteneinzahlung. feePart/taxPart sind aus Konto-Sicht signed.
+ *
+ * Bewusst eine Zusatzzeile statt den Betrag der Hauptbuchung zu ändern: Der
+ * Duplikat-Check vergleicht den Preis — eine Zinsgutschrift von 0,53 € als
+ * 0,40 € netto gälte beim Re-Import als neu und stünde doppelt im Depot.
+ */
+function taxFeeCashRow(row: TRRow, feePart: number, taxPart: number): ParsedTransaction | null {
+  const delta = round2(feePart + taxPart)
+  if (Math.abs(delta) < 0.01) return null
+  const incoming = delta > 0
+  const kind = Math.abs(taxPart) >= 0.005 && Math.abs(feePart) >= 0.005
+    ? 'Steuern/Gebühren'
+    : Math.abs(taxPart) >= 0.005 ? 'Steuer' : 'Gebühr'
+  const label = incoming
+    ? kind === 'Steuer' ? 'Steuererstattung' : kind === 'Gebühr' ? 'Gebührenerstattung' : 'Erstattung Steuern/Gebühren'
+    : kind
+  const context = row.name || TYPE_LABELS[row.type] || row.type
+  return {
+    date: row.date,
+    time: row.datetime ? row.datetime.slice(11, 19) : undefined,
+    type: incoming ? 'cash_deposit' : 'cash_withdrawal',
+    isin: '',
+    symbol: 'CASH',
+    name: `${label} · ${context}`,
+    quantity: 1,
+    price: Math.abs(delta),
+    totalValue: Math.abs(delta),
+    fee: 0,
+    tax: 0,
+    notes: `${label} · ${context} · CSV-Import (Trade Republic)`,
+    originalType: `${row.category}·${row.type}`,
+  }
+}
+
 /**
  * Notiz-Text generieren
  */
 function generateNotes(row: TRRow, mappedType: MappedTransactionType): string {
   const parts: string[] = []
 
-  // Original-Typ vermerken, wenn relevant
-  const typeLabels: Record<string, string> = {
-    REFERRAL: 'Werbeprämie',
-    STOCKPERK: 'Stockperk (Gratisaktie)',
-    PROMO: 'Aktionsprämie',
-    BONUS: 'Bonus',
-    INTEREST: 'Zinsgutschrift',
-    INTEREST_PAYOUT: 'Zinsgutschrift',
-    SEC_ACCOUNT: 'Steuerverrechnungskonto',
-    TAX_CORRECTION: 'Steuerkorrektur',
-    TAX_REFUND: 'Steuerrückerstattung',
-    TAX_OPTIMIZATION: 'Steueroptimierung',
-    FEE: 'Gebühr',
-    COMMISSION: 'Ordergebühr',
-    MONTHLY_FEE: 'Monatliche Gebühr',
-    SPLIT: 'Aktiensplit',
-    STOCK_DIVIDEND: 'Aktiendividende',
-    UNBUNDLING: 'Abspaltung / Unbundling',
-    SPINOFF: 'Spin-off',
-    MERGER: 'Fusion',
-    REDEMPTION: 'Rückzahlung',
-    WRITE_OFF: 'Ausbuchung (Write-off)',
-    DELISTING: 'Delisting',
-    SAVINGS_PLAN: 'Sparplan',
-    SAVINGSPLAN: 'Sparplan',
-    CARD_PAYMENT: 'Kartenzahlung',
-  }
-  if (typeLabels[row.type]) parts.push(typeLabels[row.type])
+  if (TYPE_LABELS[row.type]) parts.push(TYPE_LABELS[row.type])
 
   // FX-Info bei Fremdwährung
   if (row.originalCurrency && row.originalCurrency !== 'EUR' && row.originalAmount) {
@@ -378,6 +426,7 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
   const get = (fields: string[], i: number) =>
     i >= 0 && i < fields.length ? fields[i].replace(/^"|"$/g, '') : ''
 
+  const rows: { line: number; row: TRRow }[] = []
   for (let i = 1; i < lines.length; i++) {
     const rawFields = parseCSVLine(lines[i])
 
@@ -407,11 +456,41 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
       description: get(rawFields, iDescription),
       transactionId: get(rawFields, iTxId),
     }
+    rows.push({ line: i + 1, row })
+  }
+
+  // Private Markets (ELTIF): TR zieht den Betrag bei Ordereingabe als
+  // CASH·PRIVATE_MARKET_BUY ab, der spätere Kauf kommt ohne amount. Wir buchen
+  // den Abfluss mit dem Kauf (Kurs × Stück) — beide zu buchen zog ihn doppelt
+  // ab (Apollo-ELTIF 01/2026: −100 € statt −50 €).
+  const prepaidIsins = new Set(
+    rows
+      .filter(({ row }) => row.category === 'TRADING' && row.amount === 0 && row.shares > 0 && row.symbol)
+      .map(({ row }) => row.symbol)
+  )
+
+  for (const { line, row } of rows) {
+    if (row.category === 'CASH' && row.type === 'PRIVATE_MARKET_BUY' && prepaidIsins.has(row.symbol)) {
+      skipped.push({
+        row: line,
+        reason: 'Vorauszahlung Private Markets — im Kauf enthalten',
+        data: `${row.name || row.symbol} ${row.amount}${row.currency}`,
+      })
+      continue
+    }
 
     const mapped = mapTransactionType(row)
     if (!mapped) {
+      // Reine Steuerbuchung ohne amount, z.B. TAX_OPTIMIZATION (Erstattung aus
+      // der Verlustverrechnung) oder SEC_ACCOUNT — bewegt trotzdem Cash.
+      const taxOnly = row.amount === 0 ? taxFeeCashRow(row, row.fee, row.tax) : null
+      if (taxOnly) {
+        transactions.push(taxOnly)
+        typeCounts[taxOnly.type] = (typeCounts[taxOnly.type] || 0) + 1
+        continue
+      }
       skipped.push({
-        row: i + 1,
+        row: line,
         reason: `Nicht unterstützter Typ: ${row.category}·${row.type}`,
         data: `${row.name || row.symbol} ${row.amount}${row.currency}`,
       })
@@ -454,7 +533,8 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
 
     // Dividende: quantity=1, price=totalValue netto nach Quellensteuer.
     // TR-CSV hat amount = brutto-Ausschüttung, tax = zusätzlich abgezogene
-    // Quellensteuer (negativer Wert). Netto-Cashflow = amount - |tax|.
+    // Quellensteuer (negativer Wert). Netto-Cashflow = amount - |tax|
+    // (eine seltene FX-Gebühr bucht der Block unten als eigene Zeile).
     // Das ist auch die Zahl, die Parqet anzeigt und das Deutsche Tax-Reporting
     // erwartet (was tatsächlich auf dem Konto ankam).
     if (mapped === 'dividend') {
@@ -480,8 +560,40 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
       parsed.totalValue = 0
     }
 
+    // Steuern und Gebühren auf das Cash-Modell abbilden (Kontobewegung laut
+    // TR: amount + fee + tax). portfolio_transactions hat keine Steuer-Spalte,
+    // der Import rechnet Kauf −(total_value + fee) und Verkauf total_value − fee.
+    let correction: ParsedTransaction | null = null
+    if (mapped === 'buy' || mapped === 'sell') {
+      // Einbehaltene Steuer (Verkauf Spotify 29.07.2025: Kurswert 537,00,
+      // Gebühr −1,00, Steuer −121,36) läuft über fee — sonst lag der Cash um die
+      // Steuer zu hoch und der realisierte Gewinn stand vor Steuern da. Der Kurs
+      // bleibt der Ausführungskurs, an dem der Duplikat-Check frühere Importe
+      // wiedererkennt. Eine Erstattung (positiv) kann fee nicht tragen, weil
+      // der Import fee immer abzieht → eigene Gutschrift.
+      parsed.fee = round2(Math.max(0, -row.fee) + Math.max(0, -row.tax))
+      parsed.tax = 0
+      correction = taxFeeCashRow(row, Math.max(0, row.fee), Math.max(0, row.tax))
+    } else {
+      // Dividende/Cash: totalValue bleibt wie bisher (Duplikat-Check), der Rest
+      // der Kontobewegung — Steuer auf Zinsen, Gebühr bei Karteneinzahlung,
+      // Steuerrückgabe bei Dividenden-Storno — wird eigene Cash-Zeile.
+      // Corporate Actions: amount bleibt wie bisher unbeachtet.
+      const booked =
+        parsed.isFromCorpAction ? row.amount
+        : mapped === 'dividend' || mapped === 'cash_deposit' ? parsed.totalValue
+        : mapped === 'cash_withdrawal' ? -parsed.totalValue
+        : row.amount
+      const rest = row.amount + row.fee + row.tax - booked
+      correction = taxFeeCashRow(row, row.fee, rest - row.fee)
+    }
+
     transactions.push(parsed)
     typeCounts[mapped] = (typeCounts[mapped] || 0) + 1
+    if (correction) {
+      transactions.push(correction)
+      typeCounts[correction.type] = (typeCounts[correction.type] || 0) + 1
+    }
   }
 
   // Corporate-Actions normalisieren (erkennt Splits und Ticker-Renames aus

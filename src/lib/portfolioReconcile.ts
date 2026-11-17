@@ -235,14 +235,14 @@ const PAGE_SIZE = 1000
  * verrutschen die Seitengrenzen. Bei einem Fehler zählt das Ergebnis nicht —
  * ein Abgleich auf halben Daten richtet mehr Schaden an als keiner.
  */
-export async function loadAllRows<T = any>(
-  page: (from: number, to: number) => PromiseLike<{ data: unknown[] | null; error: { message: string } | null }>
+export async function loadAllRows<T>(
+  page: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: { message: string } | null }>
 ): Promise<{ data: T[]; error: { message: string } | null }> {
   const rows: T[] = []
   for (let offset = 0; ; offset += PAGE_SIZE) {
     const { data, error } = await page(offset, offset + PAGE_SIZE - 1)
     if (error) return { data: [], error }
-    rows.push(...((data || []) as T[]))
+    rows.push(...(data || []))
     if (!data || data.length < PAGE_SIZE) return { data: rows, error: null }
   }
 }

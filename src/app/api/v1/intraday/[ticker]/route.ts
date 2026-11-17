@@ -1,8 +1,7 @@
 // Finclue Data API v1 – Intraday-Kurse für schöne 1D / 1W Charts
 // GET /api/v1/intraday/AAPL?interval=5m&range=1d
 //
-// Reihenfolge: EODHD Intraday → Yahoo Fallback.
-// EODHD Intraday (im EOD+Intraday Plan enthalten) liefert 1m/5m/1h Bars.
+// Quelle: Yahoo Chart-API (1m/5m/15m/30m/1h Bars mit UTC-Timestamps).
 
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -22,11 +21,11 @@ const VALID_RANGES = ['1d', '5d', '1mo', '3mo'] as const
 type Interval = (typeof VALID_INTERVALS)[number]
 type Range = (typeof VALID_RANGES)[number]
 
-const RANGE_DAYS: Record<Range, number> = { '1d': 1, '5d': 7, '1mo': 30, '3mo': 95 }
-
-// Yahoo-Symbol-Normalisierung (für Fallback). EODHD-Suffixe werden umgewandelt.
+// Yahoo-Symbol-Normalisierung. Akzeptiert unsere Schreibweise (FMP: BTCUSD)
+// und die frühere EODHD-Notation älterer Clients (GSPC.INDX, BMW.XETRA).
 function toYahooSymbol(raw: string): string {
   const upper = raw.toUpperCase()
+  if (/^(BTC|ETH)USD$/.test(upper)) return `${upper.slice(0, 3)}-USD`
   const indexMap: Record<string, string> = {
     'GSPC.INDX': '^GSPC',
     'NDX.INDX': '^NDX',
@@ -40,62 +39,6 @@ function toYahooSymbol(raw: string): string {
   if (upper.endsWith('.XETRA')) return upper.replace('.XETRA', '.DE')
   if (upper.endsWith('.LSE')) return upper.replace('.LSE', '.L')
   return upper
-}
-
-// EODHD Intraday akzeptiert Intervalle: 1m, 5m, 1h
-function eodhdInterval(interval: Interval): '1m' | '5m' | '1h' | null {
-  if (interval === '1m') return '1m'
-  if (interval === '5m' || interval === '15m' || interval === '30m') return '5m'
-  if (interval === '1h') return '1h'
-  return null
-}
-
-async function fetchEodhd(
-  ticker: string,
-  interval: Interval,
-  range: Range
-): Promise<{ points: IntradayPoint[]; source: 'eodhd' } | null> {
-  const apiKey = process.env.EODHD_API_KEY
-  if (!apiKey) return null
-  const eodInterval = eodhdInterval(interval)
-  if (!eodInterval) return null
-
-  const days = RANGE_DAYS[range]
-  const now = Math.floor(Date.now() / 1000)
-  const from = now - days * 24 * 60 * 60
-
-  try {
-    const url = `https://eodhd.com/api/intraday/${encodeURIComponent(ticker)}?interval=${eodInterval}&from=${from}&to=${now}&api_token=${apiKey}&fmt=json`
-    const res = await fetch(url, {
-      signal: AbortSignal.timeout(10_000),
-      next: { revalidate: 60 },
-    })
-    if (!res.ok) return null
-    const raw = await res.json()
-    if (!Array.isArray(raw) || raw.length === 0) return null
-
-    const points: IntradayPoint[] = raw
-      .filter((r: any) => r.close && r.close > 0)
-      .map((r: any) => {
-        const ts = typeof r.timestamp === 'number' ? r.timestamp : new Date(r.datetime).getTime() / 1000
-        const d = new Date(ts * 1000)
-        return {
-          timestamp: ts,
-          date: d.toISOString().slice(0, 10),
-          time: d.toISOString().slice(11, 16),
-          close: r.close,
-          open: r.open ?? undefined,
-          high: r.high ?? undefined,
-          low: r.low ?? undefined,
-          volume: r.volume ?? undefined,
-        }
-      })
-
-    if (points.length === 0) return null
-    return { points, source: 'eodhd' }
-  } catch {
-    return null
-  }
 }
 
 async function fetchYahoo(
@@ -163,24 +106,6 @@ export async function GET(request: NextRequest, { params }: { params: { ticker: 
     return NextResponse.json({ error: 'Invalid range' }, { status: 400 })
   }
 
-  // 1) EODHD versuchen
-  const eodhd = await fetchEodhd(ticker, interval, range)
-  if (eodhd) {
-    return NextResponse.json(
-      {
-        symbol: ticker,
-        interval,
-        range,
-        points: eodhd.points,
-        count: eodhd.points.length,
-        source: 'eodhd',
-        fetchedAt: new Date().toISOString(),
-      },
-      { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=120' } }
-    )
-  }
-
-  // 2) Yahoo-Fallback
   const yahoo = await fetchYahoo(ticker, interval, range)
   if (yahoo) {
     return NextResponse.json(

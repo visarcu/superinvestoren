@@ -12,7 +12,7 @@ interface Props {
 interface ResolverStats {
   cache: number
   master: number
-  eodhd: number
+  fmp: number
   unknown: number
 }
 
@@ -30,7 +30,7 @@ export default function ImportStepResolve({ transactions, onDone, onBack }: Prop
       setError(null)
 
       // ISIN + Name-Hint sammeln (pro ISIN erster Name aus Tx).
-      // Der Name hilft EODHD beim Fallback falls ISIN delisted/umbenannt ist.
+      // Der Name hilft der FMP-Suche beim Fallback falls ISIN delisted/umbenannt ist.
       const pendingMap = new Map<string, string>()
       for (const t of transactions) {
         if (!t.isin || t.symbol) continue
@@ -60,7 +60,7 @@ export default function ImportStepResolve({ transactions, onDone, onBack }: Prop
           }
           if (!cancelled) setStats(data.stats || null)
         } else {
-          if (!cancelled) setStats({ cache: 0, master: 0, eodhd: 0, unknown: 0 })
+          if (!cancelled) setStats({ cache: 0, master: 0, fmp: 0, unknown: 0 })
         }
 
         const enriched = transactions.map(t => {
@@ -95,7 +95,7 @@ export default function ImportStepResolve({ transactions, onDone, onBack }: Prop
     new Set(resolvedTxs.filter(t => t.isin && !t.resolvedTicker && !t.symbol).map(t => t.isin))
   )
 
-  const totalResolved = stats ? stats.cache + stats.master + stats.eodhd : 0
+  const totalResolved = stats ? stats.cache + stats.master + stats.fmp : 0
   const totalIsins = totalResolved + (stats?.unknown ?? 0)
   const coverage = totalIsins > 0 ? Math.round((totalResolved / totalIsins) * 100) : 100
 
@@ -165,7 +165,7 @@ export default function ImportStepResolve({ transactions, onDone, onBack }: Prop
               <div className="grid grid-cols-4 divide-x divide-white/[0.04]">
                 <StatCell label="Cache" value={stats.cache} />
                 <StatCell label="Master" value={stats.master} />
-                <StatCell label="EODHD" value={stats.eodhd} />
+                <StatCell label="FMP" value={stats.fmp} />
                 <StatCell
                   label="Unbekannt"
                   value={stats.unknown}

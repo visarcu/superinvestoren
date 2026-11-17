@@ -7,7 +7,7 @@ export const SOURCE_HEADER = 'x-finclue-sources'
 
 /**
  * "eigen"  = Daten, die uns gehören (SEC EDGAR, ESEF, eigene DB) — die wollen wir.
- * "fremd"  = zugekaufte Vendor-Daten (FMP, EODHD, Finnhub) — die wollen wir ablösen.
+ * "fremd"  = zugekaufte Vendor-Daten (FMP, Finnhub) — die wollen wir ablösen.
  */
 export type SourceOwnership = 'eigen' | 'fremd' | 'unbekannt'
 

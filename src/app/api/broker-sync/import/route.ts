@@ -3,7 +3,7 @@
 // Finclue-Depot übernehmen. Schreibt portfolio_holdings + buy-Transaktionen
 // (Kaufpreis = entryQuote des Brokers, Datum = heute) und setzt den Cash-
 // Bestand aus dem Verrechnungskonto. Symbole werden über /api/v1/isin-search
-// aufgelöst (DB-Cache → Master → EODHD); nicht auflösbare ISINs werden
+// aufgelöst (DB-Cache → Master → FMP); nicht auflösbare ISINs werden
 // übersprungen und im Ergebnis gemeldet.
 //
 // Sicherung: Nur leere Depots (0 Positionen) dürfen befüllt werden — kein

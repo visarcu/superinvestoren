@@ -21,6 +21,7 @@ dotenv.config({ path: '.env.local' })
 
 import { createClient } from '@supabase/supabase-js'
 import { fetchSplits, splitLooksUnapplied, type SplitEvent } from '../src/lib/marketData/splits'
+import { hasPseudoSuffix, yahooSymbolFromEodhd } from '../src/lib/marketData/symbols'
 import { appendSplitNote, hasSplitApplied } from '../src/lib/splitAdjustment'
 import { reconcileHoldings } from '../src/lib/portfolioReconcile'
 
@@ -38,7 +39,7 @@ interface Candidate {
   portfolioId: string
   depot: string
   symbol: string
-  eodhdSymbol: string
+  fmpSymbol: string
   purchasePrice: number
   quantity: number
   earliestDate: string
@@ -47,8 +48,8 @@ interface Candidate {
 }
 
 async function main() {
-  if (!process.env.EODHD_API_KEY) {
-    console.error('EODHD_API_KEY fehlt — ohne den Key gibt es keine Split-Daten.')
+  if (!process.env.FMP_API_KEY) {
+    console.error('FMP_API_KEY fehlt — ohne den Key gibt es keine Split-Daten.')
     process.exit(1)
   }
 
@@ -77,16 +78,19 @@ async function main() {
     (portfolios || []).map(p => [p.id, `${p.name} (${p.broker_type || 'manual'})`])
   )
 
-  // --- Stammdaten für die EODHD-Symbole ---
+  // --- Börsenticker je Symbol (Broker-Alias VHYL.DE → VGWD.DE) ---
+  // Die Notierung steht als Code.Börse in der historisch benannten Spalte
+  // eodhd_symbol; FMP versteht sie in Yahoo-Schreibweise.
   const symbols = [...new Set(rows.map(r => String(r.symbol).toUpperCase()))]
-  const eodhdBySymbol = new Map<string, string>()
+  const fmpBySymbol = new Map<string, string>()
   for (let i = 0; i < symbols.length; i += 400) {
     const { data } = await supabase
       .from('instrument_aliases')
       .select('alias, eodhd_symbol')
       .in('alias', symbols.slice(i, i + 400))
     for (const row of (data || []) as { alias: string; eodhd_symbol: string | null }[]) {
-      if (row.eodhd_symbol) eodhdBySymbol.set(row.alias.toUpperCase(), row.eodhd_symbol)
+      const listing = yahooSymbolFromEodhd(row.eodhd_symbol)
+      if (listing) fmpBySymbol.set(row.alias.toUpperCase(), listing)
     }
   }
 
@@ -111,10 +115,12 @@ async function main() {
 
   for (const row of rows) {
     const symbol = String(row.symbol).toUpperCase()
-    const eodhdSymbol = eodhdBySymbol.get(symbol)
+    // Ohne Stammsatz das Symbol selbst — außer Broker-Sammelsuffixen ('.EU'),
+    // die keine Börse bezeichnen.
+    const fmpSymbol = fmpBySymbol.get(symbol) || (hasPseudoSuffix(symbol) ? null : symbol)
     const depot = depotById.get(row.portfolio_id) || row.portfolio_id
 
-    if (!eodhdSymbol) {
+    if (!fmpSymbol) {
       skipped.push(`${symbol} — kein Stammsatz`)
       continue
     }
@@ -136,7 +142,7 @@ async function main() {
       continue
     }
 
-    const splits = await fetchSplits(eodhdSymbol, earliestDate)
+    const splits = await fetchSplits(fmpSymbol, earliestDate)
     if (splits.length === 0) continue
 
     const currentPrice = prices.get(symbol) || 0
@@ -149,7 +155,7 @@ async function main() {
       portfolioId: row.portfolio_id,
       depot,
       symbol,
-      eodhdSymbol,
+      fmpSymbol,
       purchasePrice: Number(row.purchase_price) || 0,
       quantity: Number(row.quantity) || 0,
       earliestDate,

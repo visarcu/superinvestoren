@@ -5,10 +5,11 @@
 //  • Dividenden
 //  • Einzahlungen / Auszahlungen (Cash)
 //
-// Hinweis: Trading 212 liefert alle EUR-Beträge umgerechnet (inkl. FX-Gebühr).
-// Der Parser nutzt den EUR-Wert als totalValue, damit die Finclue-Cash-Logik
-// identisch zu den anderen Brokern funktioniert. Instrument-Currency (USD etc.)
-// wird in den Notes vermerkt.
+// Hinweis: Trading 212 liefert alle EUR-Beträge umgerechnet. Die Spalte "Wert"
+// ist bei Käufen die Kontobewegung inklusive FX-Gebühr — der Parser zieht die
+// Gebühr ab und speichert den reinen Kurswert als totalValue, damit die
+// Finclue-Cash-Logik (Kurswert + Gebühr) identisch zu den anderen Brokern
+// funktioniert. Instrument-Currency (USD etc.) wird in den Notes vermerkt.
 //
 // CSV-Export ist bei Trading 212 vollständiger (Menu → History → Export) und
 // sollte langfristig bevorzugt werden. PDF-Support existiert, weil User die
@@ -98,6 +99,38 @@ function splitQtyPriceValue(combined: string): { qty: number; price: number; val
   return best ? { qty: best.qty, price: best.price, value: best.value } : null
 }
 
+function round2(value: number): number {
+  return Math.round(value * 100) / 100
+}
+
+/**
+ * Kurswert eines Trades in EUR ohne FX-Gebühr.
+ *
+ * Die EUR-Spalte "Wert" ist bei Käufen die Abbuchung inklusive FX-Gebühr
+ * (Auszug Feb 2026, BKNG: 354,11 USD / 1,18214 = 299,55 € Kurswert, Gebühr
+ * 0,45 €, Wert 300 €; an allen sechs FX-Käufen Feb/Mär 2026 nachgerechnet).
+ * Unser Cash-Modell zieht Kurswert UND Gebühr ab — mit "Wert" als Kurswert
+ * zählte die Gebühr doppelt, im Cash wie in der Kostenbasis. Für
+ * Fremdwährungs-Verkäufe liegt noch kein Auszug vor; wir prüfen daher gegen
+ * Ursprungswert / Devisenkurs, ob die Gebühr im Wert steckt, und fallen sonst
+ * auf die Kauf-Konvention zurück (Verkauf: Gutschrift nach Abzug der Gebühr).
+ */
+function tradeValueExFee(
+  isBuy: boolean,
+  eurValue: number,
+  fxFee: number,
+  instrumentValue: number,
+  fxRate: number
+): number {
+  if (fxFee <= 0) return eurValue
+  const feeIncluded = isBuy ? eurValue - fxFee : eurValue + fxFee
+  if (!(instrumentValue > 0) || !(fxRate > 0)) return round2(feeIncluded)
+  const computed = instrumentValue / fxRate
+  return Math.abs(feeIncluded - computed) <= Math.abs(eurValue - computed)
+    ? round2(feeIncluded)
+    : eurValue
+}
+
 /**
  * Parst ausgeführte Aufträge (Kauf/Verkauf) aus dem "Invest-Konto"-Block.
  *
@@ -167,17 +200,19 @@ function parseTrades(sectionText: string): Trading212ParsedTransaction[] {
     }
 
     if (eurValue <= 0 || split.qty <= 0) continue
-    const eurPrice = split.qty > 0 ? eurValue / split.qty : 0
+    const isBuy = cur.action === 'Kaufen'
+    const tradeValue = tradeValueExFee(isBuy, eurValue, fxFee, split.value, fxRate)
+    const eurPrice = split.qty > 0 ? tradeValue / split.qty : 0
     trades.push({
-      type: cur.action === 'Kaufen' ? 'buy' : 'sell',
+      type: isBuy ? 'buy' : 'sell',
       name: cur.symbol,
       isin: cur.isin,
       symbol: cur.symbol,
       quantity: split.qty,
       price: parseFloat(eurPrice.toFixed(6)),
-      totalValue: eurValue,
+      totalValue: tradeValue,
       fees: fxFee,
-      endAmount: cur.action === 'Kaufen' ? eurValue + fxFee : eurValue - fxFee,
+      endAmount: round2(isBuy ? tradeValue + fxFee : tradeValue - fxFee),
       date: cur.date,
       currency: 'EUR',
       exchange: `${cur.currency} · Trading 212`,
@@ -198,11 +233,82 @@ function parseTrades(sectionText: string): Trading212ParsedTransaction[] {
  * Felder:
  *   SYMBOL ISIN CURRENCY LAND QUANTITY DATUM ZEIT BETRAG_PRO_AKTIE GESAMT QST_RATE WHT_BETRAG DEVISENKURS ACCOUNT_CURRENCY STEUERN NETTOBETRAG
  */
+
+/** Zahl-Fragment aus pdf-parse: höchstens ein Punkt, keine führende Null vor Ziffern. */
+function isNumberPart(s: string): boolean {
+  return (
+    s.length > 0 &&
+    !s.startsWith('.') &&
+    !s.endsWith('.') &&
+    (s.match(/\./g) || []).length <= 1 &&
+    !/^0\d/.test(s)
+  )
+}
+
+/**
+ * Wie bei den Aufträgen klebt pdf-parse die Dividenden-Spalten zusammen:
+ * "0.970.822115%" = Betrag pro Aktie 0.97 | Gesamt 0.8221 | QST 15 %,
+ * "0.123320.85966" = WHT 0.12332 | Devisenkurs 0.85966. Wir probieren alle
+ * Splits und nehmen den, bei dem Stück × Betrag ≈ Gesamt, Gesamt × QST ≈ WHT
+ * und (Gesamt − WHT) × Kurs − Steuern ≈ Netto passen.
+ */
+function splitDividendFields(
+  quantity: number,
+  beforePercent: string,
+  afterPercent: string,
+  taxes: number,
+  net: number
+): { perShare: number; gross: number; whtRate: number; whtAmount: number; fxRate: number } | null {
+  let best: { perShare: number; gross: number; whtRate: number; whtAmount: number; fxRate: number; error: number } | null = null
+
+  for (let i = 1; i < beforePercent.length - 1; i++) {
+    for (let j = i + 1; j < beforePercent.length; j++) {
+      const sPerShare = beforePercent.slice(0, i)
+      const sGross = beforePercent.slice(i, j)
+      const sRate = beforePercent.slice(j)
+      if (!isNumberPart(sPerShare) || !isNumberPart(sGross) || !isNumberPart(sRate)) continue
+      const perShare = parseFloat(sPerShare)
+      const gross = parseFloat(sGross)
+      const whtRate = parseFloat(sRate)
+      if (!(perShare > 0) || !(gross > 0) || !(whtRate >= 0) || whtRate > 100) continue
+      const grossError = Math.abs(quantity * perShare - gross) / gross
+      if (grossError > 0.015) continue
+
+      for (let k = 1; k < afterPercent.length; k++) {
+        const sWht = afterPercent.slice(0, k)
+        const sFx = afterPercent.slice(k)
+        if (!isNumberPart(sWht) || !isNumberPart(sFx)) continue
+        const whtAmount = parseFloat(sWht)
+        const fxRate = parseFloat(sFx)
+        if (!(whtAmount >= 0) || !(fxRate > 0)) continue
+        const whtError = Math.abs(gross * whtRate / 100 - whtAmount) / gross
+        if (whtError > 0.005) continue
+        // Devisenkurs bei Dividenden: EUR je Instrument-Währung (0,86) — zur
+        // Sicherheit auch die Gegenrichtung zulassen
+        const afterWht = gross - whtAmount
+        const netError = Math.min(
+          Math.abs(afterWht * fxRate - taxes - net),
+          Math.abs(afterWht / fxRate - taxes - net)
+        )
+        // Netto und Steuern sind auf Cent gerundet
+        if (netError > 0.011) continue
+        const error = grossError + whtError + netError / Math.max(net, 0.01)
+        if (!best || error < best.error) best = { perShare, gross, whtRate, whtAmount, fxRate, error }
+      }
+    }
+  }
+
+  return best
+    ? { perShare: best.perShare, gross: best.gross, whtRate: best.whtRate, whtAmount: best.whtAmount, fxRate: best.fxRate }
+    : null
+}
+
 function parseDividends(sectionText: string): Trading212ParsedTransaction[] {
   const divs: Trading212ParsedTransaction[] = []
 
   // Dividenden-Zeilen — sehr spezifisches Format mit Land, QST-Rate, etc.
-  const divRegex = /([A-Z0-9.]+?)([A-Z]{2}[A-Z0-9]{10})([A-Z]{3})(?:Vereinigte\s*Staaten|Deutschland|Irland|Luxemburg|Niederlande|Frankreich|Schweiz|Großbritannien|Kanada)([\d.]+)(\d{2}\.\d{2}\.\d{4})\s*\d{2}:\d{2}([\d.]+)([\d.]+)(\d+%)([\d.]+)([\d.]+)([A-Z]{3})(-?[\d.]+)€([\d.]+)/g
+  // Gruppe 6 = Betrag pro Aktie + Gesamt + QST (bis "%"), Gruppe 7 = WHT + Devisenkurs
+  const divRegex = /([A-Z0-9.]+?)([A-Z]{2}[A-Z0-9]{10})([A-Z]{3})(?:Vereinigte\s*Staaten|Deutschland|Irland|Luxemburg|Niederlande|Frankreich|Schweiz|Großbritannien|Kanada)([\d.]+)(\d{2}\.\d{2}\.\d{4})\s*\d{2}:\d{2}([\d.]+)%([\d.]+)([A-Z]{3})(-?[\d.]+)€([\d.]+)/g
 
   let match: RegExpExecArray | null
   while ((match = divRegex.exec(sectionText)) !== null) {
@@ -211,13 +317,9 @@ function parseDividends(sectionText: string): Trading212ParsedTransaction[] {
     const instrumentCurrency = match[3]
     const quantity = parseNum(match[4])
     const germanDate = match[5]
-    const perShare = parseNum(match[6])
-    const gross = parseNum(match[7])
-    const whtRate = match[8]
-    const whtAmount = parseNum(match[9])
-    const fxRate = parseNum(match[10])
-    const taxes = Math.abs(parseNum(match[12]))
-    const net = parseNum(match[13])
+    const taxes = Math.abs(parseNum(match[9]))
+    const net = parseNum(match[10])
+    const fields = splitDividendFields(quantity, match[6], match[7], taxes, net)
 
     const dateMatch = germanDate.match(/(\d{2})\.(\d{2})\.(\d{4})/)
     if (!dateMatch) continue
@@ -233,12 +335,20 @@ function parseDividends(sectionText: string): Trading212ParsedTransaction[] {
       quantity,
       price: quantity > 0 ? net / quantity : 0,
       totalValue: net,
-      fees: taxes + whtAmount,
+      // Steuern und Quellensteuer sind im Nettobetrag schon abgezogen (WHT
+      // zudem in Instrument-Währung) — als fee zählten sie in der
+      // Gebührenquote als Ordergebühr. Wie im CSV-Parser: fee 0, Details in
+      // den Notes.
+      fees: 0,
       endAmount: net,
       date: isoDate,
       currency: 'EUR',
       exchange: `${instrumentCurrency} · Trading 212`,
-      notes: `Trading 212 · Dividende · ${quantity.toFixed(6)} × ${perShare.toFixed(4)} ${instrumentCurrency} = ${gross.toFixed(2)} ${instrumentCurrency} brutto · QST ${whtRate} (${whtAmount.toFixed(2)}) · FX ${fxRate.toFixed(4)} · Steuern ${taxes.toFixed(2)}€`,
+      // Ohne eindeutigen Split nur die sicheren Felder (Netto und Steuern
+      // stehen getrennt durch "€" bzw. Kontowährung) — lieber knapp als falsch
+      notes: fields
+        ? `Trading 212 · Dividende · ${quantity.toFixed(6)} × ${fields.perShare.toFixed(4)} ${instrumentCurrency} = ${fields.gross.toFixed(2)} ${instrumentCurrency} brutto · QST ${fields.whtRate}% (${fields.whtAmount.toFixed(2)}) · FX ${fields.fxRate.toFixed(4)} · Steuern ${taxes.toFixed(2)}€`
+        : `Trading 212 · Dividende · Steuern ${taxes.toFixed(2)}€`,
     })
   }
 

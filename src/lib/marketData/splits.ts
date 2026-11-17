@@ -1,5 +1,5 @@
 // src/lib/marketData/splits.ts
-// Aktiensplits aus EODHD.
+// Aktiensplits aus FMP.
 //
 // Der Import verrechnet nur Splits, die im Broker-Report stehen. Ein Split, der
 // NACH dem letzten Import passiert, bleibt sonst unbemerkt — die Position zeigt
@@ -10,48 +10,56 @@ export interface SplitEvent {
   date: string
   /** Faktor: 200:1 → 200 (Stückzahl × 200, Kurs ÷ 200). */
   ratio: number
-  /** Rohwert von EODHD, für Notizen und Nachvollziehbarkeit. */
+  /** Verhältnis als Text ("200/1"), für Notizen und Nachvollziehbarkeit. */
   raw: string
 }
 
-/** "200.000000/1.000000" → 200 */
-export function parseSplitRatio(raw: string): number | null {
-  const [numerator, denominator] = String(raw || '').split('/').map(Number)
-  if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) return null
-  const ratio = numerator / denominator
-  if (!Number.isFinite(ratio) || ratio <= 0) return null
-  return ratio
+export interface FmpSplit {
+  date: string
+  numerator: number
+  denominator: number
 }
 
 /**
- * Splits eines Papiers ab einem Datum. Leeres Array bei jedem Problem —
- * ein Ausfall der Abfrage darf keine Korrektur auslösen.
+ * Alle Splits eines Papiers laut FMP (Symbol in FMP-Schreibweise: AAPL,
+ * SAP.DE), neueste zuerst. Leeres Array bei jedem Problem.
  */
-export async function fetchSplits(eodhdSymbol: string, fromDate: string): Promise<SplitEvent[]> {
-  if (!process.env.EODHD_API_KEY || !eodhdSymbol || !fromDate) return []
-
+export async function fetchFmpSplits(fmpSymbol: string): Promise<FmpSplit[]> {
+  if (!process.env.FMP_API_KEY || !fmpSymbol) return []
   try {
     const res = await fetch(
-      `https://eodhd.com/api/splits/${encodeURIComponent(eodhdSymbol)}?from=${fromDate}` +
-        `&api_token=${process.env.EODHD_API_KEY}&fmt=json`,
+      `https://financialmodelingprep.com/stable/splits?symbol=${encodeURIComponent(fmpSymbol)}` +
+        `&apikey=${process.env.FMP_API_KEY}`,
       { signal: AbortSignal.timeout(8000) }
     )
     if (!res.ok) return []
-
     const data = await res.json()
     if (!Array.isArray(data)) return []
-
     return data
-      .map(entry => {
-        const ratio = parseSplitRatio(entry?.split)
-        if (!ratio || ratio === 1 || !entry?.date) return null
-        return { date: String(entry.date), ratio, raw: String(entry.split) } satisfies SplitEvent
-      })
-      .filter((s): s is SplitEvent => s !== null)
-      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(entry => ({
+        date: String(entry?.date || '').slice(0, 10),
+        numerator: Number(entry?.numerator),
+        denominator: Number(entry?.denominator),
+      }))
+      .filter(s => /^\d{4}-\d{2}-\d{2}$/.test(s.date) && s.numerator > 0 && s.denominator > 0)
+      .sort((a, b) => b.date.localeCompare(a.date))
   } catch {
     return []
   }
+}
+
+/**
+ * Splits eines Papiers ab einem Datum, älteste zuerst. Leeres Array bei jedem
+ * Problem — ein Ausfall der Abfrage darf keine Korrektur auslösen.
+ */
+export async function fetchSplits(fmpSymbol: string, fromDate: string): Promise<SplitEvent[]> {
+  if (!fromDate) return []
+  const splits = await fetchFmpSplits(fmpSymbol)
+  return splits
+    .filter(s => s.date >= fromDate)
+    .map(s => ({ date: s.date, ratio: s.numerator / s.denominator, raw: `${s.numerator}/${s.denominator}` }))
+    .filter(s => Number.isFinite(s.ratio) && s.ratio !== 1)
+    .sort((a, b) => a.date.localeCompare(b.date))
 }
 
 /**

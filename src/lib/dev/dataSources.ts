@@ -30,8 +30,6 @@ const HOST_MAP: Array<[RegExp, string, SourceOwnership]> = [
   [/(^|\.)xbrl\.org$/i, 'esef', 'eigen'],
   [/(^|\.)supabase\.co$/i, 'supabase', 'eigen'],
   [/(^|\.)financialmodelingprep\.com$/i, 'fmp', 'fremd'],
-  [/(^|\.)eodhd\.com$/i, 'eodhd', 'fremd'],
-  [/(^|\.)eodhistoricaldata\.com$/i, 'eodhd', 'fremd'],
   [/(^|\.)finnhub\.io$/i, 'finnhub', 'fremd'],
   [/(^|\.)openai\.com$/i, 'openai', 'fremd'],
   [/(^|\.)pinecone\.io$/i, 'pinecone', 'fremd'],

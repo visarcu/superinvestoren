@@ -108,7 +108,7 @@ export const etfs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe',
-    isin: 'IE00BFNM3G45',
+    isin: 'LU0274209237',
     ter: 0.12
   },
   {
@@ -189,8 +189,8 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'LYXE.DE',
-    name: 'Lyxor MSCI World UCITS ETF',
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI World Swap II UCITS ETF Dist (ex Lyxor MSCI World)',
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global Developed',
     isin: 'FR0010315770',
@@ -301,7 +301,7 @@ export const etfs: ETF[] = [
   // FWRG.DE / FWIA.DE (Invesco FTSE All-World) — bereits oben definiert
   {
     symbol: 'WEBG.DE',
-    name: 'Amundi Prime All Country World UCITS ETF Acc',
+    name: 'Amundi Prime All Country World UCITS ETF Dist',
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global All-World',
@@ -350,8 +350,8 @@ export const etfs: ETF[] = [
     ter: 0.29
   },
   {
-    symbol: 'TDIV.DE',
-    name: 'iShares EURO STOXX Select Dividend 30 UCITS ETF',
+    symbol: 'EXSH.DE',
+    name: 'iShares STOXX Europe Select Dividend 30 UCITS ETF (DE)',
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Dividend',

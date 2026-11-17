@@ -89,6 +89,43 @@ function parseGermanNumber(value: string): number {
   return isNaN(num) ? 0 : num
 }
 
+function round2(value: number): number {
+  return Math.round(value * 100) / 100
+}
+
+// Handelsbuchungen: amount = Kurswert, fee und tax gehen zusätzlich vom Konto ab
+const TRADE_TYPES = new Set(['Buy', 'Sell', 'Savings plan', 'Reinvestment_Distribution'])
+
+/**
+ * Eigene Cash-Buchung für Steuern/Gebühren, die das fee-Feld nicht tragen
+ * kann: Steuererstattungen beim Verkauf (Verlustverrechnung, tax negativ) und
+ * die Gebühr auf Instant-Einzahlungen. delta ist aus Konto-Sicht signed.
+ */
+function taxFeeCashRow(
+  row: Pick<ScalableCSVRow, 'date' | 'time' | 'description' | 'type'>,
+  delta: number,
+  label: string
+): ParsedTransaction | null {
+  const value = round2(Math.abs(delta))
+  if (value < 0.01) return null
+  const description = row.description.replace(/^"|"$/g, '')
+  return {
+    date: row.date,
+    time: row.time || undefined,
+    type: delta > 0 ? 'cash_deposit' : 'cash_withdrawal',
+    isin: '',
+    symbol: 'CASH',
+    name: `${label} · ${description}`,
+    quantity: 1,
+    price: value,
+    totalValue: value,
+    fee: 0,
+    tax: 0,
+    notes: `${label} · ${description} · CSV-Import (Scalable Capital)`,
+    originalType: row.type,
+  }
+}
+
 /**
  * CSV-Zeile parsen (Semikolon-getrennt, Anführungszeichen beachten)
  */
@@ -216,6 +253,7 @@ function generateNotes(row: ScalableCSVRow, mappedType: MappedTransactionType): 
   // Gebühren und Steuern vermerken
   if (row.fee > 0) parts.push(`Gebühren: ${row.fee.toFixed(2)}€`)
   if (row.tax > 0) parts.push(`Steuern: ${row.tax.toFixed(2)}€`)
+  if (row.tax < 0 && TRADE_TYPES.has(row.type)) parts.push(`Steuererstattung: ${(-row.tax).toFixed(2)}€`)
 
   // CSV-Import Kennzeichnung
   parts.push('CSV-Import (Scalable Capital)')
@@ -309,10 +347,41 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
       parsed.price = parsed.totalValue
     }
 
+    // Steuern und Gebühren auf das Cash-Modell abbilden. portfolio_transactions
+    // hat keine Steuer-Spalte, der Import rechnet Kauf −(total_value + fee) und
+    // Verkauf total_value − fee.
+    const corrections: (ParsedTransaction | null)[] = []
+    const rowRef = { date, time, description, type }
+    if (TRADE_TYPES.has(type)) {
+      // amount ist der reine Kurswert (McDonald's 01.06.2026: 4,017845 × 235,35
+      // = 945,60), fee und tax gehen zusätzlich ab — positiv = Belastung,
+      // negativ = Erstattung aus der Verlustverrechnung. Belastungen laufen über
+      // fee, sonst lag der Cash um die Steuer zu hoch und der realisierte Gewinn
+      // stand vor Steuern da (beim Kauf: französische Finanztransaktionssteuer →
+      // Anschaffungskosten). Der Kurs bleibt der Ausführungskurs, an dem der
+      // Duplikat-Check frühere Importe wiedererkennt. Erstattungen kann fee
+      // nicht tragen (der Import zieht fee immer ab) → eigene Gutschrift.
+      parsed.fee = round2(Math.max(0, fee) + Math.max(0, tax))
+      parsed.tax = 0
+      corrections.push(taxFeeCashRow(rowRef, Math.max(0, -tax), 'Steuererstattung'))
+      corrections.push(taxFeeCashRow(rowRef, Math.max(0, -fee), 'Gebührenerstattung'))
+    } else if (fee !== 0) {
+      // Cash-Buchungen: amount ist schon netto, tax nur Info (Dividende Allianz
+      // 2026: 12,60 + 4,50 Steuer = 17,10 € brutto). Eine fee geht zusätzlich
+      // ab — die Gebühr auf Instant-Einzahlungen (0,69 %: 600 € → 4,14 €).
+      corrections.push(taxFeeCashRow(rowRef, -fee, fee > 0 ? 'Gebühr' : 'Gebührenerstattung'))
+    }
+
     transactions.push(parsed)
 
     // Typ-Zähler
     typeCounts[mappedType] = (typeCounts[mappedType] || 0) + 1
+
+    for (const correction of corrections) {
+      if (!correction) continue
+      transactions.push(correction)
+      typeCounts[correction.type] = (typeCounts[correction.type] || 0) + 1
+    }
   }
 
   // ===========================================================

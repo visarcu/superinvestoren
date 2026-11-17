@@ -1,6 +1,7 @@
 // src/lib/duplicateCheck.ts — Duplikat-Erkennung für Portfolio-Transaktionen
 import { supabase } from '@/lib/supabaseClient'
 import { hasSpinoffBasisTaken, valueBeforeSpinoff } from '@/lib/spinoffAdjustment'
+import { loadAllRows } from '@/lib/portfolioReconcile'
 
 export interface DuplicateCheckParams {
   portfolioId: string
@@ -126,13 +127,20 @@ export async function checkBulkDuplicates(
     price: number
   }>
 ): Promise<Set<number>> {
-  // Alle bestehenden Transaktionen des Portfolios laden
-  const { data: existing } = await supabase
-    .from('portfolio_transactions')
-    .select('type, symbol, date, quantity, price, notes')
-    .eq('portfolio_id', portfolioId)
+  // Alle bestehenden Transaktionen des Portfolios laden — seitenweise: Ein
+  // Depot mit 1926 Buchungen kam sonst nur mit 1000 zurück, und ein erneuter
+  // Upload hätte die übrigen als neu importiert.
+  const { data: existing, error } = await loadAllRows((from, to) =>
+    supabase
+      .from('portfolio_transactions')
+      .select('type, symbol, date, quantity, price, notes')
+      .eq('portfolio_id', portfolioId)
+      .order('id', { ascending: true })
+      .range(from, to)
+  )
+  if (error) throw new Error(`Duplikatprüfung: Buchungen nicht lesbar (${error.message})`)
 
-  if (!existing || existing.length === 0) return new Set()
+  if (existing.length === 0) return new Set()
 
   const duplicateIndices = new Set<number>()
 

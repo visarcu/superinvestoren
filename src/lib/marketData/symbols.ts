@@ -6,7 +6,7 @@ export function isIsin(value: string): boolean {
   return /^[A-Z]{2}[A-Z0-9]{9}\d$/.test(value.toUpperCase())
 }
 
-/** Ticker-Suffix (unsere Schreibweise) → EODHD-Börsencode. */
+/** Ticker-Suffix (unsere Schreibweise) → Börsencode der Stammdaten (XETRA, LSE …). */
 export const SUFFIX_TO_EXCHANGE: Record<string, string> = {
   DE: 'XETRA',
   F: 'F',
@@ -143,11 +143,11 @@ export function isCompatibleExchange(requestedSymbol: string, exchange: string |
 }
 
 /**
- * EODHD-Symbol → Yahoo-Schreibweise (VGWD.XETRA → VGWD.DE).
+ * Notierung der Stammdaten (Code.Börse, Spalte eodhd_symbol) → FMP-/Yahoo-
+ * Schreibweise (VGWD.XETRA → VGWD.DE).
  *
- * Wichtig für den Ausfall-Fall: Fällt EODHD aus, ist Yahoo die einzige Quelle
- * für viele Xetra-Papiere — aber nur unter dem echten Börsenticker. Der
- * Broker-Alias (VHYL.DE) existiert dort nicht.
+ * FMP und Yahoo kennen viele Xetra-Papiere nur unter dem echten Börsenticker.
+ * Der Broker-Alias (VHYL.DE) existiert dort nicht.
  */
 export function yahooSymbolFromEodhd(eodhdSymbol: string | null | undefined): string | null {
   if (!eodhdSymbol || !eodhdSymbol.includes('.')) return null

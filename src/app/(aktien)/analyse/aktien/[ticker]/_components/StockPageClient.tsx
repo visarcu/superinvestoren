@@ -162,7 +162,7 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
       .then(r => (r.ok ? r.json() : null))
       .then(d => {
         if (d?.historical) {
-          // adjClose ist split-adjustiert (EODHD adjusted_close), close ist raw.
+          // adjClose ist zusätzlich dividendenbereinigt, close nur split-bereinigt.
           // Für die Chart-Darstellung wollen wir adjustiert, sonst sehen Splits
           // wie ein Crash aus (z.B. NOW 5:1 am 18.12.2025).
           const sorted = [...d.historical]

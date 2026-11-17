@@ -19,6 +19,12 @@
  *          GBP = Pfund (wird automatisch * GBP/EUR umgerechnet)
  *          EUR = kein Umrechnen nötig
  *
+ * ACHTUNG: Nicht jede LSE-Linie notiert in Pence. Viele iShares-Linien
+ * (CSPX, IUIT, IEMA, WSML) notieren in USD, VWRL in Pfund — als GBp gelesen
+ * kam der Kurs rund 100× zu niedrig an. Die Währung vorher prüfen (Yahoo
+ * meta.currency). Am robustesten ist die Xetra-Notierung derselben ISIN in
+ * EUR, wenn FMP sie führt.
+ *
  * === FÜR US-LISTINGS (.DE Ticker aber eigentlich NYSE/NASDAQ) ===
  *
  * Wenn ein Ticker als .DE gespeichert ist, aber eigentlich ein US-Listing:
@@ -32,16 +38,17 @@ export const EXCHANGE_FALLBACKS: Record<string, { symbol: string; exchange: 'EUR
   // === VANGUARD ===
   'VHYL.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },   // Vanguard FTSE All-World High Div — Amsterdam
   'VHYD.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },   // Broker/Xetra Alias für Vanguard FTSE All-World High Div
-  'VWRL.DE': { symbol: 'VWRL.L',  exchange: 'GBp' },   // Vanguard FTSE All-World — LSE
-  'VWCE.DE': { symbol: 'VWCE.L',  exchange: 'GBp' },   // Vanguard FTSE All-World Acc — LSE
+  'VWRL.DE': { symbol: 'VGWL.DE', exchange: 'EUR' },   // Vanguard FTSE All-World — Xetra (VWRL.L notiert in Pfund)
+  // VWCE.DE: kein Eintrag — FMP führt VWCE.DE direkt, VWCE.L existiert nicht.
 
   // === iSHARES ===
-  'IEMA.DE': { symbol: 'IEMA.L',  exchange: 'GBp' },   // iShares MSCI EM UCITS ETF
-  'IUIT.DE': { symbol: 'IUIT.L',  exchange: 'GBp' },   // iShares S&P 500 IT Sector
-  'CSPX.DE': { symbol: 'CSPX.L',  exchange: 'GBp' },   // iShares Core S&P 500
+  // Xetra-Notierungen derselben ISIN; die LSE-Linien notieren in USD.
+  'IEMA.DE': { symbol: 'EUNM.DE', exchange: 'EUR' },   // iShares MSCI EM UCITS ETF
+  'IUIT.DE': { symbol: 'QDVE.DE', exchange: 'EUR' },   // iShares S&P 500 IT Sector
+  'CSPX.DE': { symbol: 'SXR8.DE', exchange: 'EUR' },   // iShares Core S&P 500
   'SWDA.DE': { symbol: 'SWDA.L',  exchange: 'GBp' },   // iShares Core MSCI World
   'HMWO.DE': { symbol: 'HMWO.L',  exchange: 'GBp' },   // HSBC MSCI World
-  'WSML.DE': { symbol: 'WSML.L',  exchange: 'GBp' },   // iShares MSCI World Small Cap
+  'WSML.DE': { symbol: 'IUSN.DE', exchange: 'EUR' },   // iShares MSCI World Small Cap
 
   // === INVESCO ===
   'EQQQ.DE': { symbol: 'EQQQ.L',  exchange: 'GBp' },   // Invesco NASDAQ-100
@@ -53,11 +60,9 @@ export const EXCHANGE_FALLBACKS: Record<string, { symbol: string; exchange: 'EUR
   // 'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBP' },
   // 'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBP' },
 
-  // === VANECK ===
-  'NUKL.DE': { symbol: 'NUKL.L',  exchange: 'GBp' },   // VanEck Uranium and Nuclear Technologies
-
-  // === GLOBAL X ===
-  'QYLE.DE': { symbol: 'QYLE.L',  exchange: 'GBp' },   // Global X Nasdaq 100 Covered Call
+  // NUKL.DE / QYLE.DE: kein Eintrag. NUKL.L und QYLE.L existieren nicht (die
+  // LSE-Linien heißen NUCL.L bzw. QYLD.L und notieren in USD); die Kurse kommen
+  // über etfMaster (Yahoo, Xetra-Notierung).
 
   // === EINZELAKTIEN ===
   'BHP.DE':  { symbol: 'BHP.L',   exchange: 'GBp' },   // BHP Group

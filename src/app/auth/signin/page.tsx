@@ -22,6 +22,11 @@ export default function SignInPage() {
     if (redirect === 'checkout' && plan) {
       return `/pricing?checkout=true&plan=${plan}`
     }
+    // Rücksprung, z. B. vom Depot-Host. Nur relative Pfade — "//evil.com"
+    // oder "/\evil.com" wären sonst offene Weiterleitungen.
+    if (redirect && redirect.startsWith('/') && !redirect.startsWith('//') && !redirect.startsWith('/\\')) {
+      return redirect
+    }
     return '/analyse'
   }
 

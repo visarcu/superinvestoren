@@ -10,7 +10,6 @@
     "start": "next start",
     "lint": "next lint",
     "check:isin": "tsx scripts/checkIsinIntegrity.ts",
-    "seed:instruments": "tsx scripts/seedInstruments.ts",
     "splits:check": "tsx scripts/applySplits.ts",
     "audit:portfolios": "tsx scripts/auditPortfolios.ts",
     "validate:etf-prices": "tsx scripts/validateEtfPrices.ts",

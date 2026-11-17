@@ -35,6 +35,14 @@ import { yahooSymbolFromEodhd } from '@/lib/marketData/symbols'
 import type { Instrument } from '@/lib/marketData/types'
 import factorFile from '@/data/factors/developed5FactorsDaily.json'
 import { downsampleLttb } from '@/lib/downsampleSeries'
+import {
+  applySpinoffCostSplit,
+  completeSpinoffAdjustment,
+  detectSpinoffEvents,
+  findSpinoffPriceAdjustment,
+  type SpinoffPriceAdjustment,
+  type SplitEvent,
+} from '@/lib/spinoffAdjustment'
 
 // Max. Punkte pro Chart-Reihe (~1 Handelsjahr in Tagesauflösung)
 const CHART_MAX_POINTS = 260
@@ -106,8 +114,22 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-// GBP→EUR Näherungsrate für Chart-Umrechnung (reicht für Trend-Darstellung)
+// GBP→EUR Notfallrate, nur falls für einen Tag keine FX-Historie vorliegt
 const GBP_EUR_APPROX = 1.17
+
+/**
+ * GBP→EUR je Handelstag, aufsteigend. Gemappte London-Notierungen
+ * (EXCHANGE_FALLBACKS / etfMaster, z.B. HMWO.DE → HMWO.L) kommen in Pence
+ * bzw. Pfund. Mit fester Rate trug ihre Wertlinie die GBP/EUR-Bewegung nicht
+ * mit — Wert und TWR dieser Positionen lagen um die Wechselkursänderung daneben.
+ */
+async function loadGbpEurRates(fromDate: string, toDate: string): Promise<Array<[string, number]>> {
+  const history = await fetchHistoricalPrices('EURGBP', fromDate, toDate)
+  return history
+    .filter(day => day.close > 0)
+    .map(day => [day.date, 1 / day.close] as [string, number])
+    .sort((a, b) => a[0].localeCompare(b[0]))
+}
 
 /**
  * Historische Preise für ein Symbol laden.
@@ -160,14 +182,26 @@ async function fetchHistoricalPrices(
       if (response.ok) {
         const data = await response.json()
         if (data.historical && Array.isArray(data.historical) && data.historical.length > 0) {
-          return data.historical
-            .map((item: { date: string; close: number; adjClose?: number }) => {
-              let close = adjusted && item.adjClose && item.adjClose > 0 ? item.adjClose : item.close
-              if (exchange === 'GBp') close = (close / 100) * GBP_EUR_APPROX
-              else if (exchange === 'GBP') close = close * GBP_EUR_APPROX
-              return { date: item.date, close }
-            })
+          const points: HistoricalDataPoint[] = data.historical
+            .map((item: { date: string; close: number; adjClose?: number }) => ({
+              date: item.date,
+              close: adjusted && item.adjClose && item.adjClose > 0 ? item.adjClose : item.close,
+            }))
             .reverse()
+          if (exchange !== 'GBp' && exchange !== 'GBP') return points
+
+          // Tageskurs des jeweiligen Handelstags (bzw. des letzten davor)
+          const rates = await loadGbpEurRates(fromDate, toDate)
+          let rateIdx = 0
+          let rate = rates[0]?.[1] ?? GBP_EUR_APPROX
+          return points.map(point => {
+            while (rateIdx < rates.length && rates[rateIdx][0] <= point.date) {
+              rate = rates[rateIdx][1]
+              rateIdx++
+            }
+            const pounds = exchange === 'GBp' ? point.close / 100 : point.close
+            return { date: point.date, close: pounds * rate }
+          })
         }
       }
     } catch { /* weiter zu Fallbacks */ }
@@ -276,6 +310,60 @@ async function fetchHistoricalPrices(
   // Cache speichern (auch leere Ergebnisse → verhindert wiederholte Requests)
   historyCache.set(cacheKey, { data: historicalData, timestamp: Date.now() })
   return historicalData
+}
+
+interface CorporateActionReference {
+  /** Split-bereinigte Schlusskurse (Yahoo bereinigt Spin-offs durchgehend) */
+  closes: Map<string, number>
+  splits: SplitEvent[]
+}
+
+const corporateActionCache = new Map<string, { data: CorporateActionReference | null; timestamp: number }>()
+
+/**
+ * Split-Ereignisse und bereinigte Kurse eines Spin-off-Mutterpapiers von Yahoo.
+ * Yahoo führt Spin-offs als Split mit krummem Verhältnis (SPGI 1057:1000 zum
+ * 01.07.2026); FMP kennt diesen Eintrag nicht und hat die Historie nur zum
+ * Teil bereinigt. Wird nur für erkannte Spin-off-Mütter geladen.
+ */
+async function fetchCorporateActionReference(
+  yahooSymbol: string,
+  fromDate: string,
+  toDate: string
+): Promise<CorporateActionReference | null> {
+  const cacheKey = `${yahooSymbol}_${fromDate}_${toDate}`
+  const cached = corporateActionCache.get(cacheKey)
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) return cached.data
+
+  let data: CorporateActionReference | null = null
+  try {
+    const period1 = Math.floor(Date.parse(fromDate) / 1000)
+    const period2 = Math.floor(Date.parse(toDate) / 1000) + 86400
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?period1=${period1}&period2=${period2}&interval=1d&events=splits`
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(10000) })
+    if (res.ok) {
+      const result = (await res.json())?.chart?.result?.[0]
+      if (result) {
+        const toDay = (ts: number) => new Date(ts * 1000).toISOString().split('T')[0]
+        const timestamps: number[] = result.timestamp || []
+        const closes: (number | null)[] = result.indicators?.quote?.[0]?.close || []
+        const closeMap = new Map<string, number>()
+        timestamps.forEach((ts, i) => {
+          const close = closes[i]
+          if (close && close > 0) closeMap.set(toDay(ts), close)
+        })
+        const splits = Object.values(
+          (result.events?.splits || {}) as Record<string, { date: number; numerator: number; denominator: number }>
+        )
+          .filter(s => s.numerator > 0 && s.denominator > 0)
+          .map(s => ({ date: toDay(s.date), numerator: s.numerator, denominator: s.denominator }))
+        data = { closes: closeMap, splits }
+      }
+    }
+  } catch { /* ohne Referenz bleibt die Kursreihe, wie sie ist */ }
+
+  corporateActionCache.set(cacheKey, { data, timestamp: Date.now() })
+  return data
 }
 
 export async function POST(request: NextRequest) {
@@ -505,7 +593,7 @@ export async function POST(request: NextRequest) {
           const raw = await fetchHistoricalPrices(symbol, fromDate, toDate)
           if (raw.length > 0) return raw
           // Rohe Kette leer → Stammdaten-Notierung versuchen; unbekannte
-          // Symbole einmalig über die EODHD-Suche lernen (persistiert).
+          // Symbole einmalig über die FMP-Suche lernen (persistiert).
           let instrument = instrumentsBySymbol.get(symbol.toUpperCase()) || null
           if (!instrument) {
             instrument = await resolveSymbolViaSearch(symbol).catch(() => null)
@@ -526,6 +614,41 @@ export async function POST(request: NextRequest) {
         pricesBySymbol.set(symbol, priceMap)
       })
     }
+
+    // 2a. Spin-off-Mütter: Die TWR rechnet bei Spin-offs mit bereinigten
+    // Mutter-Kursen und aufgeteilter Kostenbasis (SPIN-OFF-HINWEIS in
+    // portfolioTwr.ts). FMP bereinigt aber nicht immer die ganze Historie —
+    // SPGI ist nur vom 02.06. bis 30.06.2026 bereinigt, davor nicht, was am
+    // 02.06. einen Schein-Absturz von −7,9 % erzeugte. Hier wird die Reihe
+    // gegen Yahoo (durchgehend bereinigt) vervollständigt. Die gefundene
+    // Bereinigung je Spin-off braucht die Kostenaufteilung weiter unten.
+    const spinoffEvents = useTransactions ? detectSpinoffEvents(securityTransactions) : []
+    const spinoffKey = (parentSymbol: string, date: string) => `${parentSymbol}|${date}`
+    const spinoffAdjustments = new Map<string, SpinoffPriceAdjustment | null>()
+    const shiftDays = (date: string, days: number) =>
+      new Date(Date.parse(date) + days * 86400000).toISOString().split('T')[0]
+    const spinoffParents = [...new Set(spinoffEvents.map(e => e.parentSymbol))]
+      .filter(symbol => (pricesBySymbol.get(symbol)?.size || 0) > 0)
+    await Promise.all(spinoffParents.map(async parent => {
+      const events = spinoffEvents.filter(e => e.parentSymbol === parent)
+      const bookingDates = events.map(e => e.date).sort()
+      const referenceFrom = [fromDate, shiftDays(bookingDates[0], -40)].sort()[0]
+      const referenceTo = [toDate, shiftDays(bookingDates[bookingDates.length - 1], 15)].sort()[0]
+      const yahooSymbol = instrumentsBySymbol.get(parent.toUpperCase())?.yahooSymbol || parent
+      const reference = await fetchCorporateActionReference(yahooSymbol, referenceFrom, referenceTo)
+      const prices = pricesBySymbol.get(parent)!
+      for (const event of events) {
+        const key = spinoffKey(parent, event.date)
+        if (spinoffAdjustments.has(key)) continue
+        const adjustment = reference ? findSpinoffPriceAdjustment(reference.splits, event.date) : null
+        spinoffAdjustments.set(key, adjustment)
+        if (!reference || !adjustment) continue
+        const repaired = completeSpinoffAdjustment(prices, reference.closes, adjustment)
+        if (repaired > 0) {
+          console.log(`📊 ${parent}: Spin-off-Bereinigung (Faktor ${adjustment.factor.toFixed(4)}, Ex-Tag ${adjustment.exDate}) an ${repaired} Tagen nachgezogen`)
+        }
+      }
+    }))
 
     // Notierungswährung je Symbol: Instrument-Währung (Fallback-Lader) hat
     // Vorrang vor der Suffix-Heuristik; ohne Suffix gilt USD.
@@ -726,6 +849,34 @@ export async function POST(request: NextRequest) {
     })
     if (estimatedFlowCount > 0) {
       console.log(`📊 Estimated market value for ${estimatedFlowCount} zero-amount security transactions`)
+    }
+
+    // 3b. Spin-offs, deren Import die Mutter nicht kannte (Trading 212, Trade
+    // Republic): Kostenaufteilung im Speicher nachholen, passend zur
+    // Mutter-Historie aus 2a. Ohne bekannte Bereinigung (Kellanova/WK Kellogg
+    // 2023: FMP unbereinigt, echter Kursabschlag am Ex-Tag) bringt die Tochter
+    // keine eigene Kostenbasis mit — sonst zählte sie in der TWR als frisches
+    // Geld. Läuft nach der Marktwert-Schätzung, die sonst der Tochter wieder
+    // ihren Marktwert gäbe.
+    let spinoffSplitCount = 0
+    spinoffEvents.forEach(event => {
+      if (event.costSplit) return
+      // Steht die Mutter nicht im Chart (keine Kurse), fehlt ihr Wert ohnehin —
+      // dann gleicht die Tochter-Einbuchung als Zufluss genau das aus.
+      if (!getPriceForDate(event.parentSymbol, shiftDays(event.date, -1))) return
+      const adjustment = spinoffAdjustments.get(spinoffKey(event.parentSymbol, event.date)) ?? null
+      applySpinoffCostSplit({
+        event,
+        parentTxs: securityTransactions.filter(
+          tx => (tx.portfolio_id || '') === event.portfolioId && tx.symbol === event.parentSymbol
+        ),
+        fraction: adjustment ? 1 - 1 / adjustment.factor : 0,
+        exDate: adjustment?.exDate ?? event.date,
+      })
+      spinoffSplitCount++
+    })
+    if (spinoffSplitCount > 0) {
+      console.log(`📊 Spin-off cost split applied in memory for ${spinoffSplitCount} spin-off(s) without parent reference`)
     }
 
     // 4. Tracke den ersten Kauftag pro Symbol (für korrekte Startberechnung)

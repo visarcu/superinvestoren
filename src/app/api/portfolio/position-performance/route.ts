@@ -3,7 +3,7 @@
 // Response: { data: { AAPL: { "1W": { change, changePercent, ... } } } }
 
 import { NextResponse } from 'next/server'
-import { getEodhdHistorical, getEodhdFxHistory } from '@/lib/eodhdService'
+import { getDailyHistory, getFxHistory } from '@/lib/marketData/history'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
 const VALID_TIMEFRAMES = ['1D', '1W', '1M', '3M', '1Y'] as const
@@ -70,11 +70,11 @@ function getRateForDate(rateMap: Map<string, number>, date: string, fallback: nu
 }
 
 function findPriceOnOrBefore(
-  points: Array<{ date: string; close: number; adjusted_close?: number }>,
+  points: Array<{ date: string; close: number; adjClose?: number }>,
   targetDate: string,
 ) {
   const sorted = [...points]
-    .filter(p => p.date && ((p.adjusted_close ?? p.close) > 0))
+    .filter(p => p.date && ((p.adjClose ?? p.close) > 0))
     .sort((a, b) => a.date.localeCompare(b.date))
 
   let best: typeof sorted[number] | null = null
@@ -112,17 +112,17 @@ function samplePoints<T>(points: T[], maxPoints: number): T[] {
 
 function buildSparkline(
   symbol: string,
-  history: Array<{ date: string; close: number; adjusted_close?: number }>,
+  history: Array<{ date: string; close: number; adjClose?: number }>,
   startDate: string,
   currentPriceEUR: number,
   usdEurMap: Map<string, number>,
   gbpEurMap: Map<string, number>,
 ): SparklinePoint[] {
   const points = history
-    .filter(p => p.date >= startDate && ((p.adjusted_close ?? p.close) > 0))
+    .filter(p => p.date >= startDate && ((p.adjClose ?? p.close) > 0))
     .sort((a, b) => a.date.localeCompare(b.date))
     .map(point => {
-      const rawPrice = point.adjusted_close ?? point.close
+      const rawPrice = point.adjClose ?? point.close
       const value = toEURPrice(symbol, rawPrice, point.date, usdEurMap, gbpEurMap)
       return {
         date: point.date,
@@ -186,9 +186,9 @@ export async function POST(request: Request) {
     const needsGBP = historySymbols.some(isGBXTicker)
 
     const [usdEurMap, gbpEurMap, histories] = await Promise.all([
-      needsUSD ? getEodhdFxHistory('USDEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
-      needsGBP ? getEodhdFxHistory('GBPEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
-      Promise.all(historySymbols.map(symbol => getEodhdHistorical(symbol, fromDate, toDate))),
+      needsUSD ? getFxHistory('USDEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
+      needsGBP ? getFxHistory('GBPEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
+      Promise.all(historySymbols.map(symbol => getDailyHistory(symbol, fromDate, toDate))),
     ])
 
     const data: Record<string, Partial<Record<Timeframe, PerformancePoint>>> = {}
@@ -208,7 +208,7 @@ export async function POST(request: Request) {
         const startPoint = findPriceOnOrBefore(history, targetDate)
         if (!startPoint) continue
 
-        const rawStartPrice = startPoint.adjusted_close ?? startPoint.close
+        const rawStartPrice = startPoint.adjClose ?? startPoint.close
         const startPriceEUR = toEURPrice(historySymbol, rawStartPrice, startPoint.date, usdEurMap, gbpEurMap)
         if (!startPriceEUR || startPriceEUR <= 0) continue
 

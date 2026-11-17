@@ -2,8 +2,8 @@
 // Kurse für Depot, Watchlist und Detailseiten.
 //
 // Die Auflösung Symbol → Kursquelle liegt im Market-Data-Modul
-// (src/lib/marketData): Stammdaten je ISIN, EODHD für europäische Börsen,
-// FMP für US-Werte, Yahoo als letzte Instanz. Diese Route macht nur noch zwei
+// (src/lib/marketData): Stammdaten je ISIN, FMP unter Broker- und
+// Börsenticker, Yahoo als letzte Instanz. Diese Route macht nur noch zwei
 // Dinge: Symbole entgegennehmen und die Antwort in das Format bringen, das die
 // bestehenden Clients erwarten.
 //

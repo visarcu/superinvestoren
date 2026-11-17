@@ -2,7 +2,7 @@
 
 // src/components/dev/DataSourceOverlay.tsx
 // Dev-Only Overlay: zeigt auf localhost, welche Daten die gerade sichtbare Seite
-// aus eigenen Quellen (SEC/ESEF/DB) zieht und welche noch von Vendoren (FMP/EODHD) kommen.
+// aus eigenen Quellen (SEC/ESEF/DB) zieht und welche noch von Vendoren (FMP/Finnhub) kommen.
 //
 // Liest den x-finclue-sources Header, den withSources() an die Antworten hängt.
 // Rendert in Produktion grundsätzlich nichts.

@@ -8,9 +8,9 @@ import { resolveFMPTicker, isEUTicker } from '@/lib/tickerResolver'
 import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
-// GBP→EUR Näherungsrate für historische Umrechnung. Für Chart-Trend ist das
-// ausreichend — eine tagesgenaue historische FX-Rate ist pro Datenpunkt zu
-// teuer (N FMP-Calls) und ändert nichts am Wachstums-Pattern.
+// GBP→EUR Notfallrate, nur für Tage ohne geladene FX-Historie. Umgerechnet
+// wird mit dem Tageskurs (eine FX-Abfrage je Kursreihe): Mit fester Rate fehlte
+// in Charts gemappter London-Notierungen die GBP/EUR-Bewegung.
 const GBP_EUR_APPROX = 1.17
 
 /**
@@ -52,7 +52,7 @@ async function fetchYahooHistorical(symbol: string): Promise<{ date: string; clo
   }
 }
 
-// Historische FX-Raten holen (EODHD oder FMP Fallback)
+// Historische FX-Raten holen (FMP)
 async function fetchHistoricalFxRates(
   pair: string, // z.B. 'USDEUR'
   from: string,
@@ -60,27 +60,7 @@ async function fetchHistoricalFxRates(
   fmpApiKey: string,
 ): Promise<Map<string, number>> {
   const rateMap = new Map<string, number>()
-  const eodhd = process.env.EODHD_API_KEY
 
-  // Versuch 1: EODHD (bessere tägliche FX-Raten)
-  if (eodhd) {
-    try {
-      const symbol = pair.slice(0, 3) + pair.slice(3) + '.FOREX' // USDEUR → USDEUR.FOREX
-      const res = await fetch(
-        `https://eodhd.com/api/eod/${symbol}?from=${from}&to=${to}&api_token=${eodhd}&fmt=json`,
-        { signal: AbortSignal.timeout(5000) },
-      )
-      if (res.ok) {
-        const data = await res.json()
-        if (Array.isArray(data)) {
-          for (const d of data) rateMap.set(d.date, d.close)
-          if (rateMap.size > 0) return rateMap
-        }
-      }
-    } catch { /* Fallback zu FMP */ }
-  }
-
-  // Versuch 2: FMP historische FX-Raten
   try {
     const res = await fetch(
       `https://financialmodelingprep.com/api/v3/historical-price-full/${pair}?from=${from}&to=${to}&apikey=${fmpApiKey}`,
@@ -161,12 +141,13 @@ export async function GET(
     if (!res.ok) return []
     const data = await res.json()
     const hist: { date: string; close: number }[] = data?.historical || []
-    if (!exchange || exchange === 'EUR') return hist
+    if (!exchange || exchange === 'EUR' || hist.length === 0) return hist
+    const dates = hist.map(p => p.date).sort()
+    const fxRates = await fetchHistoricalFxRates('GBPEUR', dates[0], dates[dates.length - 1], apiKey!)
     return hist.map(p => {
-      let close = p.close
-      if (exchange === 'GBp') close = (p.close / 100) * GBP_EUR_APPROX
-      else if (exchange === 'GBP') close = p.close * GBP_EUR_APPROX
-      return { date: p.date, close: Math.round(close * 100) / 100 }
+      const rate = findClosestRate(fxRates, p.date) || GBP_EUR_APPROX
+      const pounds = exchange === 'GBp' ? p.close / 100 : p.close
+      return { date: p.date, close: Math.round(pounds * rate * 100) / 100 }
     })
   }
 

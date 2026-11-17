@@ -32,7 +32,7 @@ export interface NormalizedTransaction {
 
   // Wird im Resolve-Step gesetzt
   resolvedTicker?: string | null
-  resolvedSource?: 'cache' | 'master' | 'eodhd' | 'unknown'
+  resolvedSource?: 'cache' | 'master' | 'fmp' | 'unknown'
 }
 
 export interface ImportState {

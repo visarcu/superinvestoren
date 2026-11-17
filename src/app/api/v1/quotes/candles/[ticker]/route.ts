@@ -1,17 +1,17 @@
 // Finclue Data API v1 – Historical Price Candles
 // GET /api/v1/quotes/candles/{ticker}?timeframe=1Y
 // Primary: Finnhub (US-Aktien, kostenlos)
-// Fallback: EODHD (EU-Aktien, alle Exchanges)
+// Fallback: FMP-Tageskurse, Yahoo als Auffangnetz (EU-Aktien, alle Exchanges)
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getFinnhubCandles } from '@/lib/finnhubService'
-import { getEodhdHistorical } from '@/lib/eodhdService'
+import { getDailyHistory } from '@/lib/marketData/history'
 import { resolveEUTicker } from '@/lib/tickerResolver'
 
 const VALID_TIMEFRAMES = ['1D', '1W', '1M', '3M', '6M', '1Y', '5Y', 'ALL'] as const
 type Timeframe = typeof VALID_TIMEFRAMES[number]
 
-// Timeframe → Tage für EODHD (das arbeitet auf Datum-Basis)
+// Timeframe → Tage für die Tageskurse (arbeiten auf Datum-Basis)
 const TIMEFRAME_DAYS: Record<Timeframe, number> = {
   '1D': 5,
   '1W': 14,
@@ -46,7 +46,7 @@ export async function GET(
 
   try {
     // Primary: Finnhub (funktioniert hauptsächlich für US)
-    // Für EU-Firmen hat Finnhub Free oft keine Candles → direkt auf EODHD gehen
+    // Für EU-Firmen hat Finnhub Free oft keine Candles → direkt auf die Tageskurse gehen
     let candles: any[] = []
     let source = 'finnhub'
 
@@ -54,7 +54,7 @@ export async function GET(
       candles = await getFinnhubCandles(rawTicker, timeframe)
     }
 
-    // Fallback: EODHD (alle Exchanges, auch EU)
+    // Fallback: Tageskurse (alle Exchanges, auch EU)
     if (candles.length === 0) {
       const days = TIMEFRAME_DAYS[timeframe]
       const endDate = new Date()
@@ -63,7 +63,7 @@ export async function GET(
       const fromDate = startDate.toISOString().slice(0, 10)
       const toDate = endDate.toISOString().slice(0, 10)
 
-      const points = await getEodhdHistorical(lookupSymbol, fromDate, toDate)
+      const points = await getDailyHistory(lookupSymbol, fromDate, toDate)
       candles = points.map(p => ({
         date: p.date,
         timestamp: Math.floor(new Date(p.date).getTime() / 1000),
@@ -71,10 +71,10 @@ export async function GET(
         high: p.high,
         low: p.low,
         close: p.close,
-        adjustedClose: p.adjusted_close,
+        adjustedClose: p.adjClose,
         volume: p.volume,
       }))
-      source = 'eodhd'
+      source = 'fmp'
     }
 
     if (candles.length === 0) {
@@ -87,7 +87,7 @@ export async function GET(
       }, { status: 404 })
     }
 
-    // price = split-adjustierter Close (EODHD liefert adjusted_close nativ).
+    // price = bereinigter Close (adjClose aus den Tageskursen).
     // Fallback auf raw close wenn adjustedClose fehlt (z.B. Finnhub-Pfad).
     const chartData = candles
       .map((c: any) => ({

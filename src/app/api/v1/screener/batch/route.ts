@@ -2,9 +2,9 @@
 // GET /api/v1/screener/batch?symbols=AAPL,MSFT,GOOGL
 //
 // Liefert pro Symbol Stamm-/Fundamentaldaten für Watchlist, Screener etc.
-// Kombiniert eigene SEC-Income-Statements (Revenue Growth) mit dem aktiven
-// Quote-Provider (EODHD oder Finnhub – siehe src/lib/quoteProvider.ts).
-// EODHD liefert zusätzlich 52W-High/Low + P/E direkt im Profile-Call.
+// Kombiniert eigene SEC-Income-Statements (Revenue Growth) mit dem Profil
+// aus src/lib/quoteProvider.ts (FMP, Finnhub als Auffangnetz).
+// FMP liefert zusätzlich 52W-High/Low + P/E.
 //
 // Live-Kurs- und Tagesdaten kommen aus /api/v1/quotes/batch.
 
@@ -28,7 +28,7 @@ interface ScreenerEntry {
   revenueLatest: number | null
   revenueLatestYear: number | null
   source: {
-    profile: 'finnhub' | 'eodhd' | null
+    profile: 'finnhub' | 'fmp' | null
     fundamentals: 'sec' | null
   }
   error?: string

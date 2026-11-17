@@ -340,9 +340,11 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     note: 'Kein passender US-Zwilling verfügbar',
   },
   {
+    // TDIV ist der VanEck-Fonds (Eintrag oben), EXSG eine andere ISIN — diese
+    // hier ist der STOXX-Europe-Fonds mit Xetra-Ticker EXSH.
     isin: 'DE0002635299',
-    tickers: ['TDIV.DE', 'EXSG.DE'],
-    name: 'iShares EURO STOXX Select Dividend 30 UCITS ETF',
+    tickers: ['EXSH.DE'],
+    name: 'iShares STOXX Europe Select Dividend 30 UCITS ETF (DE)',
     proxies: null,
     exact: false,
     assetClass: 'equity',

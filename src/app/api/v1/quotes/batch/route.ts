@@ -1,8 +1,8 @@
 // Finclue Data API v1 – Batch Stock Quotes
 // GET /api/v1/quotes/batch?symbols=AAPL,MSFT,VHYL.DE
 //
-// Nutzt denselben Quote-Service wie /api/quotes: Stammdaten je ISIN, EODHD für
-// europäische Börsen, FMP für US-Werte, Yahoo als letzte Instanz.
+// Nutzt denselben Quote-Service wie /api/quotes: Stammdaten je ISIN, FMP unter
+// Broker- und Börsenticker, Yahoo als letzte Instanz.
 // Vorher lief hier eine eigene Kette ohne Stammdaten — Xetra-ETFs wie VHYL.DE
 // oder DEGC.DE kamen dadurch als 'not found' zurück.
 

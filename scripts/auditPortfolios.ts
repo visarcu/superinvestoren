@@ -5,7 +5,7 @@
 //   1. Bestand vs. Transaktionen  — dieselbe Logik wie der Import (portfolioReconcile)
 //   2. Stammdaten-Mapping         — löst jedes Symbol auf ein Instrument auf?
 //   3. Kursplausibilität          — aktueller Kurs im Verhältnis zum Kaufkurs
-//   4. Splits seit dem Kaufdatum  — via EODHD, erkennt unverarbeitete Kapitalmaßnahmen
+//   4. Splits seit dem Kaufdatum  — via FMP, erkennt unverarbeitete Kapitalmaßnahmen
 //
 // Laufzeit:
 //   npm run audit:portfolios                  → Bericht, ändert nichts
@@ -19,6 +19,8 @@ dotenv.config({ path: '.env.local' })
 
 import { createClient } from '@supabase/supabase-js'
 import { loadAllRows, reconcileHoldings } from '../src/lib/portfolioReconcile'
+import { fetchSplits } from '../src/lib/marketData/splits'
+import { yahooSymbolFromEodhd } from '../src/lib/marketData/symbols'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -146,7 +148,8 @@ async function main() {
 
   // 2. Mapping
   const mapped = new Set<string>()
-  const eodhdBySymbol = new Map<string, string>()
+  // Börsenticker der Notierung (Spalte eodhd_symbol = Code.Börse) für die Split-Abfrage
+  const fmpBySymbol = new Map<string, string>()
   for (let i = 0; i < symbols.length; i += 400) {
     const { data } = await supabase
       .from('instrument_aliases')
@@ -154,7 +157,8 @@ async function main() {
       .in('alias', symbols.slice(i, i + 400))
     for (const row of (data || []) as { alias: string; eodhd_symbol: string | null }[]) {
       mapped.add(row.alias.toUpperCase())
-      if (row.eodhd_symbol) eodhdBySymbol.set(row.alias.toUpperCase(), row.eodhd_symbol)
+      const listing = yahooSymbolFromEodhd(row.eodhd_symbol)
+      if (listing) fmpBySymbol.set(row.alias.toUpperCase(), listing)
     }
   }
 
@@ -225,24 +229,18 @@ async function main() {
 
   for (const row of splitCandidates) {
     const symbol = String(row.symbol || '').toUpperCase()
-    const eodhdSymbol = eodhdBySymbol.get(symbol)
-    if (!eodhdSymbol || !row.purchase_date || !process.env.EODHD_API_KEY) continue
-    try {
-      const res = await fetch(
-        `https://eodhd.com/api/splits/${encodeURIComponent(eodhdSymbol)}?from=${row.purchase_date}&api_token=${process.env.EODHD_API_KEY}&fmt=json`
-      )
-      if (!res.ok) continue
-      const splits = (await res.json()) as { date: string; split: string }[]
-      for (const split of Array.isArray(splits) ? splits : []) {
-        findings.push({
-          depot: depotById.get(row.portfolio_id) || row.portfolio_id,
-          symbol,
-          kategorie: 'Split',
-          befund: `Split ${split.split} am ${split.date} — nach dem Kauf (${row.purchase_date}), Stückzahl prüfen`,
-        })
-      }
-    } catch {
-      // Splits sind eine Zusatzinfo; ein Ausfall soll den Bericht nicht kippen.
+    const fmpSymbol = fmpBySymbol.get(symbol)
+    if (!fmpSymbol || !row.purchase_date || !process.env.FMP_API_KEY) continue
+    // fetchSplits liefert bei jedem Problem [] — Splits sind eine Zusatzinfo,
+    // ein Ausfall soll den Bericht nicht kippen.
+    const splits = await fetchSplits(fmpSymbol, row.purchase_date)
+    for (const split of splits) {
+      findings.push({
+        depot: depotById.get(row.portfolio_id) || row.portfolio_id,
+        symbol,
+        kategorie: 'Split',
+        befund: `Split ${split.raw} am ${split.date} — nach dem Kauf (${row.purchase_date}), Stückzahl prüfen`,
+      })
     }
   }
 

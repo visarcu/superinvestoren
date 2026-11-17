@@ -38,6 +38,7 @@ import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import BrokerSyncCard from '@/components/portfolio/BrokerSyncCard'
 import T212SyncCard from '@/components/portfolio/T212SyncCard'
 import { perfColor } from '@/utils/formatters'
+import { mainSiteHref } from '@/lib/siteHosts'
 import {
   ArrowDownTrayIcon,
   ArrowLeftIcon,
@@ -555,7 +556,7 @@ export default function PortfolioWorkspacePage() {
         <div className="flex h-14 w-full items-center justify-between gap-4 px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <Link
-              href="/analyse"
+              href={mainSiteHref('/analyse')}
               className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
               title="Zurück ins Terminal"
             >

@@ -5,15 +5,19 @@
 
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import type { Instrument } from './types'
-import { normalizeEodhdCurrency, searchEodhd } from './providers/eodhd'
+import {
+  fetchFmpIsin,
+  listingCodeForFmpSymbol,
+  searchFmpByIsin,
+  searchFmpByQuery,
+  type FmpListing,
+} from './providers/fmpSearch'
 import {
   hasPseudoSuffix,
   isCompatibleExchange,
   isIsin,
-  mapType,
   pickPreferredListing,
   pseudoSuffixCandidates,
-  yahooSymbolFor,
   yahooSymbolFromEodhd,
 } from './symbols'
 
@@ -105,7 +109,6 @@ export async function getInstrumentsForSymbols(symbols: string[]): Promise<Map<s
           exchange: alias.exchange || instrument.exchange,
           // Yahoo braucht den echten Börsenticker der Notierung, nicht den
           // Broker-Alias: 'VHYL.DE' kennt Yahoo nicht, 'VGWD.DE' schon.
-          // Ohne das bleibt bei einem EODHD-Ausfall gar kein Kurs übrig.
           yahooSymbol:
             yahooSymbolFromEodhd(alias.eodhd_symbol) ||
             instrument.yahooSymbol ||
@@ -226,59 +229,95 @@ export async function upsertInstruments(inputs: UpsertInstrumentInput[]): Promis
 }
 
 /**
- * Unbekanntes Symbol über die EODHD-Suche auflösen und dauerhaft ablegen.
+ * Unbekanntes Symbol über die FMP-Suche auflösen und dauerhaft ablegen.
  * Dadurch lernt der Stammsatz im Betrieb weiter — ein Symbol muss nur einmal
  * unbekannt sein.
  */
 export async function resolveSymbolViaSearch(symbol: string): Promise<Instrument | null> {
-  const query = isIsin(symbol) ? symbol : symbol.replace(/\.[A-Z]+$/i, '')
-  const hits = await searchEodhd(query)
-  if (hits.length === 0) return null
-
-  // Bei Ticker-Suche kann alles Mögliche zurückkommen; auf plausible Treffer filtern:
-  // gleicher Code UND ein Handelsplatz, der zum angefragten Suffix passt.
-  // Ohne die zweite Bedingung landete 'DRH.DE' bei DiamondRock Hospitality (NYSE).
   const wanted = symbol.toUpperCase()
-  const base = query.toUpperCase()
-  const candidates = isIsin(symbol)
-    ? hits
-    : hits.filter(h => h.Code?.toUpperCase() === base && isCompatibleExchange(wanted, h.Exchange))
-  if (candidates.length === 0) return null
+  let isin: string | null = null
+  let candidates: FmpListing[]
 
-  const preferred = pickPreferredListing(candidates, wanted)
-  if (!preferred) return null
+  if (isIsin(wanted)) {
+    isin = wanted
+    candidates = await searchFmpByIsin(wanted)
+  } else {
+    // Bei Ticker-Suche kann alles Mögliche zurückkommen; auf plausible Treffer filtern:
+    // gleicher Code UND ein Handelsplatz, der zum angefragten Suffix passt.
+    // Ohne die zweite Bedingung landete 'DRH.DE' bei DiamondRock Hospitality (NYSE).
+    const base = wanted.replace(/\.[A-Z]+$/, '')
+    const hits = await searchFmpByQuery(base)
+    candidates = hits.filter(h => listingBase(h.symbol) === base && isCompatibleExchange(wanted, h.exchange))
+  }
 
-  const isin = (preferred.ISIN || (isIsin(symbol) ? symbol : '')).toUpperCase()
+  const picked = pickPreferredListing(
+    candidates
+      .filter(l => l.exchange)
+      .map(l => ({ Code: listingBase(l.symbol), Exchange: l.exchange!, ISIN: l.isin || isin, listing: l })),
+    wanted
+  )
+  if (!picked) return null
+  const preferred = picked.listing
+
+  // Die Freitextsuche kennt keine ISIN — die steht erst im Profil der Notierung.
+  isin = (isin || preferred.isin || (await fetchFmpIsin(preferred.symbol)) || '').toUpperCase()
   if (!isIsin(isin)) return null
 
-  const instrument: UpsertInstrumentInput = {
-    isin,
-    name: preferred.Name || symbol,
-    type: mapType(preferred.Type),
-    currency: normalizeEodhdCurrency(preferred.Currency, preferred.Exchange),
-    exchange: preferred.Exchange,
-    eodhdSymbol: `${preferred.Code}.${preferred.Exchange}`,
-    yahooSymbol: yahooSymbolFor(preferred.Code, preferred.Exchange),
-    source: 'eodhd_search',
-    verified: false,
-    aliases: [wanted],
+  const listing = {
+    eodhdSymbol: listingCodeForFmpSymbol(preferred.symbol),
+    fmpSymbol: preferred.symbol,
+    // Yahoo nutzt für die geladenen Börsen dieselbe Schreibweise wie FMP.
+    yahooSymbol: preferred.symbol,
+    currency: preferred.currency,
+    exchange: preferred.exchange,
   }
 
   try {
-    await upsertInstruments([instrument])
+    // Gibt es das Instrument schon (andere Notierung), nur den Alias ergänzen —
+    // sonst würde die Hauptnotierung samt Währung überschrieben.
+    const { data: existingRow } = await supabaseAdmin.from('instruments').select(SELECT).eq('isin', isin).maybeSingle()
+    if (existingRow) {
+      const { error } = await supabaseAdmin.from('instrument_aliases').upsert(
+        [{
+          alias: wanted,
+          isin,
+          source: 'fmp_search',
+          eodhd_symbol: listing.eodhdSymbol,
+          currency: listing.currency,
+          exchange: listing.exchange,
+        }],
+        { onConflict: 'alias' }
+      )
+      if (error) throw error
+      const existing = toInstrument(existingRow as unknown as InstrumentRow)
+      return { ...existing, ...listing, currency: listing.currency || existing.currency }
+    }
+
+    await upsertInstruments([{
+      isin,
+      name: preferred.name || symbol,
+      type: preferred.type,
+      ...listing,
+      source: 'fmp_search',
+      verified: false,
+      aliases: [wanted],
+    }])
   } catch (err) {
     console.error('instrumentStore: Upsert nach Suche fehlgeschlagen', err)
   }
 
   return {
-    isin: instrument.isin,
-    name: instrument.name,
-    type: instrument.type || 'unknown',
-    currency: instrument.currency ?? null,
-    exchange: instrument.exchange ?? null,
-    eodhdSymbol: instrument.eodhdSymbol ?? null,
-    fmpSymbol: null,
-    yahooSymbol: instrument.yahooSymbol ?? null,
+    isin,
+    name: preferred.name || symbol,
+    type: preferred.type,
     verified: false,
+    ...listing,
   }
+}
+
+/** Basis-Code einer FMP-Notierung: 'CSKR.L' → 'CSKR'. */
+function listingBase(symbol: string): string {
+  const upper = symbol.toUpperCase()
+  const idx = upper.lastIndexOf('.')
+  return idx > 0 ? upper.slice(0, idx) : upper
 }

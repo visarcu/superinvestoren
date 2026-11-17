@@ -5,7 +5,7 @@
 // Auflösungs-Reihenfolge:
 //   1. DB-Cache (isin_resolutions) — einmal aufgelöst, nie wieder API-Call
 //   2. Production-Master (isinResolver.resolveISINLocally) — handkuratierte ETFs
-//   3. EODHD /api/search/{isin} — primär für unbekannte ISINs
+//   3. FMP-Suche per ISIN (alle Notierungen), sonst per Name aus dem Import
 //
 // Ergebnis wird in DB-Cache geschrieben, sodass jeder User-Import davon profitiert.
 
@@ -13,6 +13,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { resolveISINLocally } from '@/lib/isinResolver'
 import { stocks } from '@/data/stocks'
+import { searchFmpByIsin, searchFmpByQuery, type FmpListing } from '@/lib/marketData/providers/fmpSearch'
 
 interface ResolvedISIN {
   isin: string
@@ -22,48 +23,7 @@ interface ResolvedISIN {
   currency: string | null
   type: string | null
   country: string | null
-  source: 'cache' | 'master' | 'eodhd' | 'unknown'
-}
-
-// EODHD-Suffix → FMP-Suffix (DB nutzt FMP-Format intern, EODHD-Calls per toEodhdSymbol)
-function eodhdToFmpSuffix(exchange: string): string {
-  const map: Record<string, string> = {
-    XETRA: 'DE', // EODHD .XETRA → FMP .DE
-    LSE: 'L',
-    F: 'F',
-    DU: 'DU',
-    BE: 'BE',
-    HM: 'HM',
-    HA: 'HA',
-    MU: 'MU',
-    PA: 'PA',
-    AS: 'AS',
-    MI: 'MI',
-    MC: 'MC',
-    BR: 'BR',
-    LI: 'LI',
-    VI: 'VI',
-    CO: 'CP',
-    HE: 'HE',
-    SW: 'SW',
-    HK: 'HK',
-    TO: 'TO',
-    ST: 'ST',
-    OL: 'OL',
-    PR: 'PR',
-    WAR: 'WA',
-    BUD: 'BD',
-    JK: 'JK',
-    BSE: 'BO',
-    NSE: 'NS',
-    US: '', // US bekommt keinen Suffix im FMP-Format
-  }
-  return map[exchange] ?? exchange
-}
-
-function eodhdResultToTicker(code: string, exchange: string): string {
-  const fmpSuffix = eodhdToFmpSuffix(exchange)
-  return fmpSuffix ? `${code}.${fmpSuffix}` : code
+  source: 'cache' | 'master' | 'fmp' | 'unknown'
 }
 
 function getSupabase() {
@@ -163,7 +123,7 @@ async function resolveSingle(
 
   // 2b) Aktien-Master (stocks.ts mit CUSIP) — für alle Aktien mit
   // bekannter CUSIP (US/DE/UK/JP). Deckt die meisten populären Aktien ab
-  // und spart EODHD-Calls (kein API-Key-Verbrauch).
+  // und spart FMP-Calls.
   const cusip = cusipFromIsin(cleanIsin)
   if (cusip) {
     const stockMatch = getCusipMap().get(cusip)
@@ -192,27 +152,23 @@ async function resolveSingle(
     }
   }
 
-  // 3) EODHD — zuerst Direktsuche per ISIN, dann Name-Fallback
-  const apiKey = process.env.EODHD_API_KEY
-  if (apiKey) {
-    // 3a) ISIN-Direktsuche
-    const direct = await eodhdSearch(cleanIsin, apiKey)
-    const pick = pickBestMatch(direct, cleanIsin)
-    if (pick) {
-      return await persistAndReturn(cleanIsin, pick, 'eodhd', supabase)
-    }
+  // 3) FMP — zuerst Direktsuche per ISIN, dann Name-Fallback
+  const direct = await searchFmpByIsin(cleanIsin)
+  const pick = pickBestMatch(direct, cleanIsin)
+  if (pick) {
+    return await persistAndReturn(cleanIsin, pick, supabase)
+  }
 
-    // 3b) Name-Fallback: wenn CSV-Importer einen Namen mitgibt
-    // (z.B. "Unilever", "Vonovia"), suche danach bei EODHD
-    if (hintName && hintName.trim().length >= 3) {
-      const cleanedName = cleanNameForSearch(hintName)
-      if (cleanedName) {
-        const byName = await eodhdSearch(cleanedName, apiKey)
-        const isinCountry = cleanIsin.slice(0, 2)
-        const pickByName = pickBestMatchByName(byName, isinCountry, cleanedName)
-        if (pickByName) {
-          return await persistAndReturn(cleanIsin, pickByName, 'eodhd', supabase)
-        }
+  // 3b) Name-Fallback: wenn CSV-Importer einen Namen mitgibt
+  // (z.B. "Unilever", "Vonovia"), suche danach bei FMP
+  if (hintName && hintName.trim().length >= 3) {
+    const cleanedName = cleanNameForSearch(hintName)
+    if (cleanedName) {
+      const byName = await searchFmpByQuery(cleanedName)
+      const isinCountry = cleanIsin.slice(0, 2)
+      const pickByName = pickBestMatchByName(byName, isinCountry, cleanedName)
+      if (pickByName) {
+        return await persistAndReturn(cleanIsin, pickByName, supabase)
       }
     }
   }
@@ -229,20 +185,7 @@ async function resolveSingle(
   }
 }
 
-// EODHD /search Call mit revalidate-Cache
-async function eodhdSearch(query: string, apiKey: string): Promise<any[]> {
-  try {
-    const url = `https://eodhd.com/api/search/${encodeURIComponent(query)}?api_token=${apiKey}&fmt=json`
-    const res = await fetch(url, { next: { revalidate: 86400 } })
-    if (!res.ok) return []
-    const list = await res.json()
-    return Array.isArray(list) ? list : []
-  } catch {
-    return []
-  }
-}
-
-// Name für EODHD-Suche vorbereiten: Corporate-Suffixes und Klammer-Zusätze
+// Name für die FMP-Suche vorbereiten: Corporate-Suffixes und Klammer-Zusätze
 // rausstreichen, damit "Unilever" statt "Unilever (A)" gesucht wird.
 function cleanNameForSearch(name: string): string {
   return name
@@ -253,34 +196,36 @@ function cleanNameForSearch(name: string): string {
     .trim()
 }
 
-// Bei ISIN-Direktsuche: XETRA/US > erstes Common-Stock
-function pickBestMatch(list: any[], isin: string): any | null {
+// FMP führt Börsen nicht in unserer Schreibweise; der Code kommt aus dem
+// Ticker-Suffix (VOD.L → LSE, SAP.DE → XETRA, AAPL → US).
+
+// Bei ISIN-Direktsuche: Heimatbörse (DE/US/GB) > Xetra > erste handelbare Notierung.
+// Xetra vor fremden Heimatbörsen, weil deutsche Broker dort in EUR abrechnen.
+function pickBestMatch(list: FmpListing[], isin: string): FmpListing | null {
   if (!list || list.length === 0) return null
   const country = isin.slice(0, 2)
-  const preferredExchange =
+  const homeExchange =
     country === 'DE' ? 'XETRA' : country === 'US' ? 'US' : country === 'GB' ? 'LSE' : null
-  const matchingIsin = list.find((r: any) => r.ISIN === isin)
-  if (matchingIsin) return matchingIsin
-  if (preferredExchange) {
-    const byExchange = list.find((r: any) => r.Exchange === preferredExchange)
+  const matchingIsin = list.filter(r => r.isin === isin)
+  const pool = matchingIsin.length > 0 ? matchingIsin : list
+  for (const exchange of [homeExchange, 'XETRA']) {
+    const byExchange = exchange && pool.find(r => r.exchange === exchange && r.activelyTrading && !r.otc)
     if (byExchange) return byExchange
   }
-  return list.find((r: any) => r.Type === 'Common Stock') ?? list[0]
+  // searchFmpByIsin sortiert handelbare und Nicht-OTC-Notierungen nach vorn.
+  return pool[0]
 }
 
 // Bei Name-Suche: Match bevorzugt nach Country (aus ISIN-Prefix)
 function pickBestMatchByName(
-  list: any[],
+  list: FmpListing[],
   isinCountry: string,
   cleanedName: string
-): any | null {
+): FmpListing | null {
   if (!list || list.length === 0) return null
   const lowerQuery = cleanedName.toLowerCase()
-  // Nur Common-Stock / ETF berücksichtigen (keine Anleihen/Preferred)
-  const candidates = list.filter((r: any) => {
-    const t = (r.Type || '').toLowerCase()
-    return t === 'common stock' || t === 'etf' || t === 'fund'
-  })
+  // OTC-Zweitlinien (ADRs, Pink Sheets) sind nie die Notierung aus dem Depot
+  const candidates = list.filter(r => !r.otc && r.exchange)
   if (candidates.length === 0) return null
 
   // 1) passender Country aus ISIN-Prefix
@@ -297,13 +242,13 @@ function pickBestMatchByName(
   const preferredExchanges = countryMap[isinCountry] ?? []
 
   for (const exch of preferredExchanges) {
-    const found = candidates.find((r: any) => r.Exchange === exch)
+    const found = candidates.find(r => r.exchange === exch)
     if (found) return found
   }
 
   // 2) Name-Start-Match als Sanity-Check
-  const nameMatch = candidates.find((r: any) => {
-    const n = (r.Name || '').toLowerCase()
+  const nameMatch = candidates.find(r => {
+    const n = (r.name || '').toLowerCase()
     return n.startsWith(lowerQuery) || lowerQuery.startsWith(n.split(' ')[0])
   })
   if (nameMatch) return nameMatch
@@ -313,19 +258,19 @@ function pickBestMatchByName(
 
 async function persistAndReturn(
   isin: string,
-  pick: any,
-  source: 'eodhd' | 'master',
+  pick: FmpListing,
   supabase: ReturnType<typeof getSupabase>
 ): Promise<ResolvedISIN> {
   const result: ResolvedISIN = {
     isin,
-    ticker: eodhdResultToTicker(pick.Code, pick.Exchange),
-    name: pick.Name ?? null,
-    exchange: pick.Exchange ?? null,
-    currency: pick.Currency ?? null,
-    type: pick.Type ?? null,
-    country: pick.Country ?? null,
-    source,
+    // FMP-Schreibweise = unser internes Ticker-Format (SAP.DE, VOD.L, AAPL)
+    ticker: pick.symbol,
+    name: pick.name ?? null,
+    exchange: pick.exchange,
+    currency: pick.currency,
+    type: pick.type === 'unknown' ? null : pick.type,
+    country: isin.slice(0, 2),
+    source: 'fmp',
   }
   if (supabase) {
     await supabase.from('isin_resolutions').upsert({
@@ -336,7 +281,7 @@ async function persistAndReturn(
       currency: result.currency,
       type: result.type,
       country: result.country,
-      source,
+      source: 'fmp',
     })
   }
   return result
@@ -357,7 +302,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     // Zwei Eingabeformate unterstützen:
     //  1) { isins: [...] } — wie bisher
-    //  2) { pairs: [{ isin, name }] } — mit optionalem Name für EODHD-Fallback
+    //  2) { pairs: [{ isin, name }] } — mit optionalem Name für den Such-Fallback
     const isins: string[] = Array.isArray(body.isins) ? body.isins : []
     const pairs: { isin: string; name?: string }[] = Array.isArray(body.pairs)
       ? body.pairs
@@ -378,7 +323,7 @@ export async function POST(request: NextRequest) {
       stats: {
         cache: results.filter(r => r.source === 'cache').length,
         master: results.filter(r => r.source === 'master').length,
-        eodhd: results.filter(r => r.source === 'eodhd').length,
+        fmp: results.filter(r => r.source === 'fmp').length,
         unknown: results.filter(r => r.source === 'unknown').length,
       },
     })

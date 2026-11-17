@@ -103,14 +103,63 @@ function normalizeTicker(ticker: string, isin: string): string {
   return ticker
 }
 
+function round2(value: number): number {
+  return Math.round(value * 100) / 100
+}
+
+/**
+ * Kurswert aus Stückzahl × Kurs, umgerechnet in Kontowährung. Trading 212
+ * notiert den Kurs bei Trades als USD je EUR (1,18), bei Dividenden als EUR
+ * je USD (0,86) — wir nehmen die Richtung, die zum Gross Total passt.
+ */
+function computedTradeValue(shares: number, price: number, fxRate: number, gross: number): number | null {
+  if (!(shares > 0) || !(price > 0) || !(fxRate > 0)) return null
+  const raw = shares * price
+  const divided = raw / fxRate
+  const multiplied = raw * fxRate
+  return Math.abs(divided - gross) <= Math.abs(multiplied - gross) ? divided : multiplied
+}
+
+/**
+ * Kurswert eines Trades ohne FX-Gebühr.
+ *
+ * "Gross Total" ist bei Trading 212 die Kontobewegung: Käufe inklusive
+ * FX-Gebühr (BKNG 17.02.2026: 0,0856 × 4138 USD / 1,1821 = 299,55 € Kurswert,
+ * Gross Total 300,00 €, Gebühr 0,45 €). Unser Cash-Modell zieht Kurswert UND
+ * Gebühr ab — mit Gross Total als Kurswert zählte die Gebühr doppelt, im Cash
+ * wie in der Kostenbasis. Für Fremdwährungs-Verkäufe liegt noch kein Export
+ * vor; wir prüfen daher gegen den errechneten Kurswert, ob die Gebühr im Gross
+ * Total steckt, und fallen sonst auf die Kauf-Konvention zurück (Verkauf:
+ * Gutschrift nach Abzug der Gebühr).
+ */
+function tradeValueExFee(
+  isBuy: boolean,
+  gross: number,
+  fxFee: number,
+  shares: number,
+  price: number,
+  fxRate: number
+): number {
+  if (fxFee <= 0) return gross
+  const feeIncluded = isBuy ? gross - fxFee : gross + fxFee
+  const computed = computedTradeValue(shares, price, fxRate, gross)
+  if (computed === null) return round2(feeIncluded)
+  return Math.abs(feeIncluded - computed) <= Math.abs(gross - computed)
+    ? round2(feeIncluded)
+    : gross
+}
+
 /**
  * Parst ein Trading-212 CSV und liefert ParsedTransaction[].
  *
  * Action-Mapping:
  *   Deposit          → cash_deposit (inkl. Free Shares Promotion / Bonus)
  *   Withdrawal       → cash_withdrawal
- *   Market buy       → buy
- *   Market sell      → sell
+ *   Card debit       → cash_withdrawal (Kartenzahlung vom Invest-Konto)
+ *   Card …  (positiv)→ cash_deposit (z.B. Erstattung)
+ *   Spending cashback→ cash_deposit
+ *   Market buy       → buy  (totalValue = Kurswert ohne FX-Gebühr, fee = FX-Gebühr)
+ *   Market sell      → sell (fee = FX-Gebühr + einbehaltene Steuern)
  *   Limit buy/sell   → buy/sell (behandelt wie Market)
  *   Stop buy/sell    → buy/sell
  *   Dividend*        → dividend
@@ -163,6 +212,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     grossCurrency: col('Currency (Gross Total)'),
     wht: col('Withholding tax'),
     fxFee: col('Currency conversion fee'),
+    merchantName: col('Merchant name'),
     taxes: col('Taxes'),
     netTotal: col('Net Total'),
   }
@@ -237,11 +287,54 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
       continue
     }
 
+    // Trading-212-Karte: Zahlungen gehen direkt vom Cash des Invest-Kontos ab,
+    // Cashback wird dort gutgeschrieben. Ohne diese Buchungen stimmt der
+    // Cash-Saldo nicht (Depot mit 504 € Kartenumsatz: 516 € statt 29 €) und
+    // die cash-inklusive TWR rechnet mit Geld, das längst ausgegeben ist.
+    if (/^Card\b/i.test(action) || /cashback/i.test(action)) {
+      const amount = netTotal !== 0 ? netTotal : grossTotal
+      const amt = round2(Math.abs(amount))
+      if (amt <= 0) continue
+      const merchant = (fields[idx.merchantName] || '').trim()
+      const isCashback = /cashback/i.test(action)
+      const outgoing = amount < 0
+      const label = isCashback
+        ? 'Cashback'
+        : outgoing
+          ? `Kartenzahlung${merchant ? ` · ${merchant}` : ''}`
+          : `Kartengutschrift${merchant ? ` · ${merchant}` : ''}`
+      const type = outgoing ? 'cash_withdrawal' : 'cash_deposit'
+      transactions.push({
+        date,
+        type,
+        isin: '',
+        symbol: 'CASH',
+        name: isCashback ? 'Cashback' : merchant || (outgoing ? 'Kartenzahlung' : 'Kartengutschrift'),
+        quantity: 1,
+        price: amt,
+        totalValue: amt,
+        fee: 0,
+        tax: 0,
+        notes: `Trading 212 · ${label}`,
+        originalType: action,
+      })
+      byType[type] = (byType[type] || 0) + 1
+      continue
+    }
+
     // Käufe / Verkäufe (alle Order-Arten)
     const isBuy = /^(Market|Limit|Stop)\s+buy$/i.test(action)
     const isSell = /^(Market|Limit|Stop)\s+sell$/i.test(action)
     if ((isBuy || isSell) && isin && shares > 0 && grossTotal > 0) {
       uniqueISINs.add(isin)
+      const pricePerShare = parseNum(fields[idx.pricePerShare])
+      const tradeValue = tradeValueExFee(isBuy, grossTotal, fxFee, shares, pricePerShare, fxRate)
+      // Einbehaltene Steuern (z.B. KESt beim Verkauf: Gross 21,95, Taxes
+      // −0,29, Net 21,66) laufen über das fee-Feld — eine Steuer-Spalte gibt
+      // es in portfolio_transactions nicht. So stimmen Cash und realisierter
+      // Gewinn, und der gespeicherte Kurs bleibt der Ausführungskurs, an dem
+      // die Duplikat-Erkennung frühere Importe wiedererkennt.
+      const fee = round2(fxFee + taxes)
       transactions.push({
         date,
         type: isBuy ? 'buy' : 'sell',
@@ -249,17 +342,19 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
         symbol: ticker,
         name,
         quantity: shares,
-        // Wir speichern den EUR-Preis (Gross/Qty), nicht den USD-Originalpreis —
+        // Wir speichern den EUR-Preis (Kurswert/Qty), nicht den USD-Originalpreis —
         // konsistent mit unseren anderen Parsern und dem Cashflow-Modell.
-        price: parseFloat((grossTotal / shares).toFixed(6)),
-        totalValue: grossTotal,
-        fee: fxFee,
-        tax: 0,
+        price: parseFloat((tradeValue / shares).toFixed(6)),
+        totalValue: tradeValue,
+        fee,
+        tax: 0, // steckt bereits in fee
         notes: `Trading 212 · ${isBuy ? 'Kauf' : 'Verkauf'}${
           priceCurrency !== 'EUR'
-            ? ` · ${priceCurrency} ${parseNum(fields[idx.pricePerShare]).toFixed(2)} @ FX ${fxRate.toFixed(4)}`
+            ? ` · ${priceCurrency} ${pricePerShare.toFixed(2)} @ FX ${fxRate.toFixed(4)}`
             : ''
-        }${fxFee > 0 ? ` · FX-Gebühr ${fxFee.toFixed(2)}€` : ''}`,
+        }${fxFee > 0 ? ` · FX-Gebühr ${fxFee.toFixed(2)}€` : ''}${
+          taxes > 0 ? ` · Steuern ${taxes.toFixed(2)}€` : ''
+        }`,
         originalType: action,
       })
       byType[isBuy ? 'buy' : 'sell'] = (byType[isBuy ? 'buy' : 'sell'] || 0) + 1

@@ -1,20 +1,14 @@
 // src/lib/quoteProvider.ts
 //
 // Abstraktion über Quote-/Profile-Datenquellen.
-// Aktuelle Implementierungen: Finnhub (Free, Bestand) und EODHD (kostenpflichtig, neu).
+// Kurse: Finnhub. Profile: FMP (mit 52W-Spanne und KGV), Finnhub als Auffangnetz.
 //
 // Auswahl per ENV:
-//   QUOTE_PROVIDER=eodhd|finnhub|auto    (default: 'auto' → eodhd wenn Key da, sonst finnhub)
+//   QUOTE_PROVIDER=finnhub|auto    (default: 'auto' → FMP-Profile wenn Key da, sonst Finnhub)
 //
 // Konsumenten benutzen ausschließlich diese Funktionen, nicht die Service-Module direkt.
 
-import {
-  getEodhdQuote,
-  getEodhdBatchQuotes,
-  getEodhdProfile,
-  type EodhdQuote,
-  type EodhdProfile,
-} from './eodhdService'
+import { getFmpProfile, type FmpProfile } from './marketData/providers/fmpProfile'
 import {
   getFinnhubQuote,
   getFinnhubBatchQuotes,
@@ -36,9 +30,9 @@ export interface NormalizedQuote {
   low: number                // Day low
   open: number
   previousClose: number
-  volume: number | null      // EODHD liefert volume; Finnhub Free nicht
+  volume: number | null      // Finnhub Free liefert kein Volume
   timestamp: number
-  source: 'finnhub' | 'eodhd'
+  source: 'finnhub'
 }
 
 export interface NormalizedProfile {
@@ -50,22 +44,22 @@ export interface NormalizedProfile {
   sector: string | null
   logo: string
   currency: string
-  week52High: number | null  // EODHD liefert direkt; Finnhub Free nicht
+  week52High: number | null  // FMP liefert direkt; Finnhub Free nicht
   week52Low: number | null
   peRatio: number | null
-  source: 'finnhub' | 'eodhd'
+  source: 'finnhub' | 'fmp'
 }
 
 // ─── Provider-Selektor ──────────────────────────────────────────────────────
 
-export type QuoteProvider = 'eodhd' | 'finnhub'
+export type ProfileProvider = 'fmp' | 'finnhub'
 
-export function getActiveProvider(): QuoteProvider {
+/** Quelle der Profile. Kurse kommen immer von Finnhub. */
+export function getActiveProvider(): ProfileProvider {
   const raw = (process.env.QUOTE_PROVIDER || 'auto').toLowerCase()
-  if (raw === 'eodhd') return 'eodhd'
   if (raw === 'finnhub') return 'finnhub'
-  // 'auto' / unset → bevorzuge EODHD wenn Key konfiguriert ist
-  return process.env.EODHD_API_KEY ? 'eodhd' : 'finnhub'
+  // 'auto' / unset (auch ein veraltetes 'eodhd') → FMP, wenn der Key konfiguriert ist
+  return process.env.FMP_API_KEY ? 'fmp' : 'finnhub'
 }
 
 // ─── Adapter ────────────────────────────────────────────────────────────────
@@ -86,22 +80,6 @@ function fromFinnhubQuote(q: FinnhubQuote): NormalizedQuote {
   }
 }
 
-function fromEodhdQuote(q: EodhdQuote): NormalizedQuote {
-  return {
-    symbol: q.symbol,
-    price: q.price,
-    change: q.change,
-    changePercent: q.changePercent,
-    high: q.high,
-    low: q.low,
-    open: q.open,
-    previousClose: q.previousClose,
-    volume: q.volume,
-    timestamp: q.timestamp,
-    source: 'eodhd',
-  }
-}
-
 function fromFinnhubProfile(p: FinnhubProfile): NormalizedProfile {
   return {
     symbol: p.symbol,
@@ -119,7 +97,7 @@ function fromFinnhubProfile(p: FinnhubProfile): NormalizedProfile {
   }
 }
 
-function fromEodhdProfile(p: EodhdProfile): NormalizedProfile {
+function fromFmpProfile(p: FmpProfile): NormalizedProfile {
   return {
     symbol: p.symbol,
     name: p.name,
@@ -132,28 +110,18 @@ function fromEodhdProfile(p: EodhdProfile): NormalizedProfile {
     week52High: p.week52High,
     week52Low: p.week52Low,
     peRatio: p.peRatio,
-    source: 'eodhd',
+    source: 'fmp',
   }
 }
 
 // ─── Public API ─────────────────────────────────────────────────────────────
 
 export async function getQuote(symbol: string): Promise<NormalizedQuote | null> {
-  if (getActiveProvider() === 'eodhd') {
-    const q = await getEodhdQuote(symbol)
-    return q ? fromEodhdQuote(q) : null
-  }
   const q = await getFinnhubQuote(symbol)
   return q ? fromFinnhubQuote(q) : null
 }
 
 export async function getBatchQuotes(symbols: string[]): Promise<Record<string, NormalizedQuote>> {
-  if (getActiveProvider() === 'eodhd') {
-    const raw = await getEodhdBatchQuotes(symbols)
-    const out: Record<string, NormalizedQuote> = {}
-    for (const [k, v] of Object.entries(raw)) out[k] = fromEodhdQuote(v)
-    return out
-  }
   const raw = await getFinnhubBatchQuotes(symbols)
   const out: Record<string, NormalizedQuote> = {}
   for (const [k, v] of Object.entries(raw)) out[k] = fromFinnhubQuote(v)
@@ -161,13 +129,11 @@ export async function getBatchQuotes(symbols: string[]): Promise<Record<string, 
 }
 
 export async function getProfile(symbol: string): Promise<NormalizedProfile | null> {
-  // EODHD Fundamentals braucht einen höheren Plan als Real-Time Quotes.
-  // Wenn EODHD-Profile fehlschlägt oder der Key dafür keinen Zugriff hat,
-  // fallen wir sauber auf Finnhub zurück – so bleibt 'name/marketCap/exchange'
-  // verfügbar, auch wenn nur der Quote-Plan aktiv ist.
-  if (getActiveProvider() === 'eodhd') {
-    const p = await getEodhdProfile(symbol).catch(() => null)
-    if (p) return fromEodhdProfile(p)
+  // Kennt FMP das Symbol nicht, fallen wir sauber auf Finnhub zurück – so bleibt
+  // 'name/marketCap/exchange' verfügbar, nur ohne 52W-Spanne und KGV.
+  if (getActiveProvider() === 'fmp') {
+    const p = await getFmpProfile(symbol).catch(() => null)
+    if (p) return fromFmpProfile(p)
     const fb = await getFinnhubProfile(symbol).catch(() => null)
     return fb ? fromFinnhubProfile(fb) : null
   }

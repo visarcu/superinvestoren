@@ -1,11 +1,11 @@
 // Finclue Data API v1 – Historical EOD für ein einzelnes Symbol
 // GET /api/v1/historical/AAPL?days=730
 //
-// Nutzt eodhdService.getEodhdHistorical (mit Yahoo-Fallback bei EODHD-401).
+// Nutzt marketData/history (FMP, Yahoo als Auffangnetz).
 // Antwort-Shape kompatibel zum alten /api/historical/[ticker] (FMP-basiert).
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getEodhdFxHistory, getEodhdHistorical } from '@/lib/eodhdService'
+import { getDailyHistory, getFxHistory } from '@/lib/marketData/history'
 import { resolveEUTicker } from '@/lib/tickerResolver'
 
 function isEURTicker(symbol: string): boolean {
@@ -50,18 +50,18 @@ export async function GET(
   const fromDate = startDate.toISOString().slice(0, 10)
   const toDate = endDate.toISOString().slice(0, 10)
 
-  // EU-Ticker-Resolution (BMW → BMW.DE → EODHD mapped → BMW.XETRA)
+  // EU-Ticker-Resolution (BMW → BMW.DE)
   const euMapping = resolveEUTicker(rawTicker)
   const lookupSymbol = euMapping?.fmp || rawTicker
 
   try {
     const [points, usdEurMap, gbpEurMap] = await Promise.all([
-      getEodhdHistorical(lookupSymbol, fromDate, toDate),
+      getDailyHistory(lookupSymbol, fromDate, toDate),
       convertToEUR && !isEURTicker(lookupSymbol) && !isGBXTicker(lookupSymbol)
-        ? getEodhdFxHistory('USDEUR', fromDate, toDate)
+        ? getFxHistory('USDEUR', fromDate, toDate)
         : Promise.resolve(new Map<string, number>()),
       convertToEUR && isGBXTicker(lookupSymbol)
-        ? getEodhdFxHistory('GBPEUR', fromDate, toDate)
+        ? getFxHistory('GBPEUR', fromDate, toDate)
         : Promise.resolve(new Map<string, number>()),
     ])
 
@@ -82,11 +82,11 @@ export async function GET(
           : p.close,
         adjClose: convertToEUR
           ? isEURTicker(lookupSymbol)
-            ? p.adjusted_close
+            ? p.adjClose
             : isGBXTicker(lookupSymbol)
-              ? (p.adjusted_close / 100) * getRateForDate(gbpEurMap, p.date, 1.16)
-              : p.adjusted_close * getRateForDate(usdEurMap, p.date, 0.92)
-          : p.adjusted_close,
+              ? (p.adjClose / 100) * getRateForDate(gbpEurMap, p.date, 1.16)
+              : p.adjClose * getRateForDate(usdEurMap, p.date, 0.92)
+          : p.adjClose,
         volume: p.volume,
       }))
       .sort((a, b) => b.date.localeCompare(a.date))

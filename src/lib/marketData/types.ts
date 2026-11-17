@@ -3,9 +3,9 @@
 //
 // Grundidee: Ein Instrument wird über seine ISIN identifiziert, nicht über einen
 // Broker-Ticker. Je Datenanbieter hängt am Instrument das Symbol, unter dem der
-// Anbieter es kennt (EODHD: VGWD.XETRA, FMP: VHYL.AS, Yahoo: VGWD.DE).
+// Anbieter es kennt (FMP: VHYL.AS, Yahoo: VGWD.DE).
 
-export type QuoteSource = 'eodhd' | 'fmp' | 'yahoo'
+export type QuoteSource = 'fmp' | 'yahoo'
 
 export interface Instrument {
   isin: string
@@ -14,6 +14,8 @@ export interface Instrument {
   /** Notierungswährung der Hauptquelle. 'GBX' = Pence. */
   currency: string | null
   exchange: string | null
+  /** Notierung als Code.Börse (VGWD.XETRA). Historischer Spaltenname — EODHD
+   *  wird nicht mehr angefragt, die Angabe dient nur noch der Zuordnung. */
   eodhdSymbol: string | null
   fmpSymbol: string | null
   yahooSymbol: string | null

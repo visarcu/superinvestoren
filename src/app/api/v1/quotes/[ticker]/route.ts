@@ -1,8 +1,8 @@
 // Finclue Data API v1 – Real-Time Stock Quote
 // GET /api/v1/quotes/{ticker}
 //
-// Nutzt denselben Quote-Service wie /api/quotes: Stammdaten je ISIN, EODHD für
-// europäische Börsen, FMP für US-Werte, Yahoo als letzte Instanz.
+// Nutzt denselben Quote-Service wie /api/quotes: Stammdaten je ISIN, FMP unter
+// Broker- und Börsenticker, Yahoo als letzte Instanz.
 //
 // Vorher lief hier Finnhub mit einem FMP-Fallback — und die Währung kam aus
 // einer Ticker-Tabelle, die britische Papiere nicht kannte: ULVR.L lieferte

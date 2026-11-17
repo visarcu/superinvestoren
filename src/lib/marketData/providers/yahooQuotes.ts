@@ -1,6 +1,6 @@
 // src/lib/marketData/providers/yahooQuotes.ts
 // Yahoo — letzte Instanz. Undokumentierter Endpoint ohne Zusage: nur einsetzen,
-// wenn EODHD und FMP nichts liefern, und niemals als einzige Quelle einplanen.
+// wenn FMP nichts liefert, und niemals als einzige Quelle einplanen.
 
 import type { RawQuote } from '../types'
 

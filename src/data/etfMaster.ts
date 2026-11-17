@@ -51,7 +51,9 @@ export const etfMaster: ETFMasterEntry[] = [
     issuer: 'Vanguard',
     ter: 0.22,
     category: 'Global All-World',
-    priceSource: { type: 'fmp_alt', ticker: 'VWCE.L', exchange: 'GBp' },
+    // VWCE.L gibt es weder bei FMP noch bei Yahoo — der Kurs kam nur über den
+    // Yahoo-Rückfall. FMP führt VWCE.DE direkt (geprüft 21.10.2026: 171,32 €).
+    priceSource: { type: 'fmp_direct' },
     verified: true,
   },
   {
@@ -87,7 +89,10 @@ export const etfMaster: ETFMasterEntry[] = [
     issuer: 'iShares',
     ter: 0.15,
     category: 'Technology',
-    priceSource: { type: 'fmp_alt', ticker: 'IUIT.L', exchange: 'GBp' },
+    // IUIT.L notiert in USD, nicht in Pence — als GBp gelesen kam der Kurs
+    // rund 100× zu niedrig an. QDVE.DE ist die Xetra-Notierung derselben ISIN
+    // in EUR (geprüft 21.10.2026: 46,46 € vs. IUIT.L umgerechnet 46,44 €).
+    priceSource: { type: 'fmp_alt', ticker: 'QDVE.DE', exchange: 'EUR' },
     verified: true,
   },
   {
@@ -97,7 +102,9 @@ export const etfMaster: ETFMasterEntry[] = [
     issuer: 'iShares',
     ter: 0.35,
     category: 'Global Small Cap',
-    priceSource: { type: 'fmp_alt', ticker: 'WSML.L', exchange: 'GBp' },
+    // WSML.L notiert in USD, nicht in Pence (siehe IUIT). IUSN.DE ist die
+    // Xetra-Notierung derselben ISIN in EUR (geprüft 21.10.2026: 9,10 €).
+    priceSource: { type: 'fmp_alt', ticker: 'IUSN.DE', exchange: 'EUR' },
     verified: true,
   },
 
@@ -291,7 +298,9 @@ export const etfMaster: ETFMasterEntry[] = [
     issuer: 'Vanguard',
     ter: 0.12,
     category: 'Global Developed',
-    priceSource: { type: 'fmp_direct' },
+    // Unter VDEV.DE gibt es keine Kurse; die Xetra-Notierung dieser ISIN ist
+    // VGVE.DE (geprüft 21.10.2026: 128,80 €). VDEV.L notiert in USD.
+    priceSource: { type: 'fmp_alt', ticker: 'VGVE.DE', exchange: 'EUR' },
     verified: true,
   },
 
@@ -361,8 +370,11 @@ export const etfMaster: ETFMasterEntry[] = [
   },
   {
     isin: 'DE0002635299',
-    xetraTicker: 'TDIV.DE',
-    name: 'iShares EURO STOXX Select Dividend 30 UCITS ETF',
+    // Vorher TDIV.DE mit dem Namen des EURO-STOXX-Fonds — TDIV ist aber der
+    // VanEck Dividend Leaders (NL0011683594, bei uns VDIV.DE). Diese ISIN ist
+    // laut FMP und Yahoo der STOXX-Europe-Fonds mit Xetra-Ticker EXSH.
+    xetraTicker: 'EXSH.DE',
+    name: 'iShares STOXX Europe Select Dividend 30 UCITS ETF (DE)',
     issuer: 'iShares',
     ter: 0.31,
     category: 'Dividend',
@@ -400,7 +412,8 @@ export const etfMaster: ETFMasterEntry[] = [
     issuer: 'Xtrackers',
     ter: 0.10,
     category: 'Money Market',
-    priceSource: { type: 'fmp_direct' },
+    // FMP führt XEON.DE nicht, Yahoo schon (geprüft 21.10.2026: 150,53 €).
+    priceSource: { type: 'yahoo' },
     verified: true,
   },
   {
@@ -417,13 +430,17 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'IE00BFNM3G45',
+    // Vorher IE00BFNM3G45 — das ist der iShares MSCI USA Screened. Ein Import
+    // dieser ISIN landete dadurch als Xtrackers MSCI Europe im Depot.
+    isin: 'LU0274209237',
     xetraTicker: 'XMEU.DE',
-    name: 'Xtrackers MSCI Europe UCITS ETF',
+    name: 'Xtrackers MSCI Europe UCITS ETF 1C',
     issuer: 'Xtrackers',
     ter: 0.12,
     category: 'Europe',
-    priceSource: { type: 'fmp_direct' },
+    // FMP führt XMEU.DE nicht (DBXA.DE erst ab 06/2026), Yahoo mit voller
+    // Historie (geprüft 21.10.2026: 119,86 €).
+    priceSource: { type: 'yahoo' },
     verified: true,
   },
   {
@@ -512,11 +529,14 @@ export const etfMaster: ETFMasterEntry[] = [
   {
     isin: 'IE0009HF1MK9',
     xetraTicker: 'WEBG.DE',
-    name: 'Amundi Prime All Country World UCITS ETF (Acc)',
+    // Ausschüttende Klasse (laut Yahoo „Inc“); die thesaurierende hat die ISIN
+    // IE0003XJA0J9 (Xetra WEBN).
+    name: 'Amundi Prime All Country World UCITS ETF (Dist)',
     issuer: 'Amundi',
     ter: 0.07,
     category: 'Global All-World',
-    priceSource: { type: 'fmp_direct' },
+    // FMP führt WEBG.DE nicht, Yahoo schon (geprüft 21.10.2026: 13,77 €).
+    priceSource: { type: 'yahoo' },
     verified: true,
   },
   {
@@ -526,7 +546,9 @@ export const etfMaster: ETFMasterEntry[] = [
     issuer: 'Amundi',
     ter: 0.07,
     category: 'Europe',
-    priceSource: { type: 'fmp_direct' },
+    // Unter LYX0YD.DE gibt es keine Kurse; Xetra-Ticker dieser ISIN ist LYP6
+    // (geprüft 21.10.2026: 318,40 €).
+    priceSource: { type: 'fmp_alt', ticker: 'LYP6.DE', exchange: 'EUR' },
     verified: true,
   },
 
@@ -567,12 +589,17 @@ export const etfMaster: ETFMasterEntry[] = [
   // --- Weitere EU-ETFs (ex etfs.ts) ---
   {
     isin: 'FR0010315770',
+    // LYXE.DE ist nur noch unser interner Schlüssel — unter dem Symbol liegen
+    // bestehende Depot-Buchungen. An der Börse ist LYXE ein Amundi-High-Yield-
+    // Anleihen-ETF: Ohne Kursquelle fiel die Historie auf Yahoo LYXE.DE zurück
+    // und bewertete diesen MSCI World mit ~73 € statt ~442 €. Der Xetra-Ticker
+    // dieser ISIN ist LYYA (geprüft 21.10.2026: 441,95 €).
     xetraTicker: 'LYXE.DE',
-    name: 'Lyxor MSCI World UCITS ETF',
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI World Swap II UCITS ETF Dist (ex Lyxor MSCI World)',
+    issuer: 'Amundi',
     ter: 0.30,
     category: 'Global Developed',
-    priceSource: { type: 'fmp_direct' },
+    priceSource: { type: 'fmp_alt', ticker: 'LYYA.DE', exchange: 'EUR' },
     verified: true,
   },
   {

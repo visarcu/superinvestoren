@@ -3,12 +3,13 @@
 // Body: { portfolioId?, portfolioIds?, holdings, cashPosition, days }
 //
 // Liefert Portfolio-Wertentwicklung in EUR + TWR vs. Benchmark-Performance.
-// Datenquelle: EODHD (historische EOD + FX). Logik 1:1 aus Production
-// /api/portfolio-history übernommen, nur die Preis-Quelle wurde getauscht.
+// Datenquelle: marketData/history (FMP-Tageskurse + FX, Yahoo als Auffangnetz).
+// Logik 1:1 aus Production /api/portfolio-history übernommen, nur die
+// Preis-Quelle wurde getauscht.
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { getEodhdHistorical, getEodhdFxHistory } from '@/lib/eodhdService'
+import { getDailyHistory, getFxHistory } from '@/lib/marketData/history'
 import { calculatePortfolioTwrByDate } from '@/lib/portfolioTwr'
 
 interface HoldingInput {
@@ -129,7 +130,7 @@ export async function POST(request: NextRequest) {
 
     const useTransactions = transactionsBySymbol.size > 0
 
-    // 2) Historische Preise pro Symbol via EODHD (parallel in Batches von 10)
+    // 2) Historische Preise pro Symbol (parallel in Batches von 10)
     const uniqueSymbols = [...new Set(holdings.map(h => h.symbol))]
     const pricesBySymbol = new Map<string, Map<string, number>>()
 
@@ -137,7 +138,7 @@ export async function POST(request: NextRequest) {
     for (let i = 0; i < uniqueSymbols.length; i += batchSize) {
       const batch = uniqueSymbols.slice(i, i + batchSize)
       const results = await Promise.all(
-        batch.map(symbol => getEodhdHistorical(symbol, fromDate, toDate))
+        batch.map(symbol => getDailyHistory(symbol, fromDate, toDate))
       )
       batch.forEach((symbol, idx) => {
         const priceMap = new Map<string, number>()
@@ -153,8 +154,8 @@ export async function POST(request: NextRequest) {
     const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s))
 
     const [usdEurMap, gbpEurMap] = await Promise.all([
-      hasUSDStocks ? getEodhdFxHistory('USDEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
-      hasGBXStocks ? getEodhdFxHistory('GBPEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
+      hasUSDStocks ? getFxHistory('USDEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
+      hasGBXStocks ? getFxHistory('GBPEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
     ])
 
     // Hilfsfunktion: nächsten verfügbaren Kurs für ein Datum finden (Wochenenden)
@@ -179,7 +180,7 @@ export async function POST(request: NextRequest) {
     // 4b) Forward-fill der Kurse: für jedes Symbol pro Chart-Datum eine
     // lookup-Funktion, die bei fehlendem Datum den letzten bekannten Kurs
     // zurückgibt. Verhindert massive Drops in der Wertentwicklungs-Kurve,
-    // wenn EODHD für einzelne Tage keinen Kurs liefert (Handelsruhe,
+    // wenn die Quelle für einzelne Tage keinen Kurs liefert (Handelsruhe,
     // Ticker-Rename, API-Lücke bei delisted Stocks).
     const sortedDatesBySymbol = new Map<string, string[]>()
     pricesBySymbol.forEach((priceMap, symbol) => {
@@ -326,9 +327,9 @@ export async function POST(request: NextRequest) {
 
     try {
       const [spyHist, urthHist, vtHist] = await Promise.all([
-        getEodhdHistorical('SPY', fromDate, toDate),
-        getEodhdHistorical('URTH', fromDate, toDate),
-        getEodhdHistorical('VT', fromDate, toDate),
+        getDailyHistory('SPY', fromDate, toDate),
+        getDailyHistory('URTH', fromDate, toDate),
+        getDailyHistory('VT', fromDate, toDate),
       ])
 
       if (spyHist.length > 0 && chartData.length > 0) {
@@ -366,8 +367,8 @@ export async function POST(request: NextRequest) {
           return price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
         }
 
-        // Benchmarks bleiben Price Return. EODHD/Yahoo liefern hier zwar teils
-        // adjusted_close, aber nicht entlang aller Fallbacks konsistent als echte
+        // Benchmarks bleiben Price Return. FMP/Yahoo liefern hier zwar teils
+        // adjClose, aber nicht entlang aller Fallbacks konsistent als echte
         // Total-Return-Serie; deshalb bleibt der Benchmark-Gap-Fix unverändert.
         performanceData = chartData.map(point => ({
           date: point.date,
@@ -395,7 +396,7 @@ export async function POST(request: NextRequest) {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,
         transactionsUsed: useTransactions,
-        provider: 'eodhd',
+        provider: 'fmp',
         dateRange: {
           from: chartData[0]?.date || null,
           to: chartData[chartData.length - 1]?.date || null,

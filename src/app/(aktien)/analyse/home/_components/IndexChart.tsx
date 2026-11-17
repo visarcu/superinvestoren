@@ -1,7 +1,7 @@
 'use client'
 
 // IndexChart — schöner Area-Chart für die Home-Page mit Time-Range-Switcher.
-// Nutzt /api/v1/historical/{eodhdSymbol} (EODHD + Yahoo-Fallback).
+// Nutzt /api/v1/historical/{symbol} (FMP + Yahoo-Fallback).
 // Live-Quote aus dashboard-cached fließt als Overlay oben ein, letzter Chart-Punkt
 // wird auf den Live-Preis angepasst, sobald verfügbar.
 
@@ -30,21 +30,21 @@ type TimeRange = '1W' | '1M' | '3M' | '6M' | '1Y' | '5Y'
 const TIMEFRAMES: TimeRange[] = ['1W', '1M', '3M', '6M', '1Y', '5Y']
 
 /**
- * Interne Home-Symbole → Ticker für /api/v1/historical/[ticker].
- * Für Indizes nutzen wir die tatsächlichen EODHD Index-Codes (.INDX),
+ * Interne Home-Symbole → Ticker für /api/v1/historical/[ticker] und
+ * /api/v1/intraday/[ticker]. Für Indizes die echten Index-Codes (^GSPC),
  * für Commodities liquide ETF-Proxies die fast identisch verlaufen.
  */
 function toHistoricalSymbol(indexSymbol: string): string | null {
   const map: Record<string, string> = {
-    spx: 'GSPC.INDX', // S&P 500
-    ixic: 'NDX.INDX', // NASDAQ 100
-    dji: 'DJI.INDX', // Dow Jones Industrial Average
-    dax: 'GDAXI.INDX', // DAX
-    stoxx: 'STOXX.INDX', // STOXX 600
-    btc: 'BTC-USD.CC', // Bitcoin USD
-    gold: 'GLD.US', // SPDR Gold Trust (Proxy)
-    silver: 'SLV.US', // iShares Silver Trust (Proxy)
-    oil: 'BNO.US', // United States Brent Oil Fund (Proxy)
+    spx: '^GSPC', // S&P 500
+    ixic: '^NDX', // NASDAQ 100
+    dji: '^DJI', // Dow Jones Industrial Average
+    dax: '^GDAXI', // DAX
+    stoxx: '^STOXX', // STOXX 600
+    btc: 'BTCUSD', // Bitcoin USD
+    gold: 'GLD', // SPDR Gold Trust (Proxy)
+    silver: 'SLV', // iShares Silver Trust (Proxy)
+    oil: 'BNO', // United States Brent Oil Fund (Proxy)
   }
   return map[indexSymbol] ?? null
 }

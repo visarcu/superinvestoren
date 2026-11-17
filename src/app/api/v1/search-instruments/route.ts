@@ -126,7 +126,7 @@ async function resolveViaOpenFIGI(
     ]
     // Bei ISINs zuerst die Heimatbörse aus dem Ländercode: für JP3898400001
     // lieferte die Deutschland-Präferenz 'MBI.DE' — eine Zweitnotierung ohne
-    // Kursdaten bei FMP/EODHD/Yahoo ("keine Daten vorhanden" beim Nutzer).
+    // Kursdaten bei FMP/Yahoo ("keine Daten vorhanden" beim Nutzer).
     // Die Heimatnotierung (8058.T) ist die liquide mit voller Abdeckung.
     // DE/IE/LU bleiben unverändert (Heimat = deutsche Präferenz bzw. Fonds).
     const HOME_EXCHANGES: Record<string, string[]> = {

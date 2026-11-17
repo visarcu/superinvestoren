@@ -8,23 +8,24 @@
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { reconstructHoldings, type ParsedTransaction, type CSVParseResult, type StockSplit, type TickerRename } from '@/lib/scalableCSVParser'
-import { reconcileHoldings } from '@/lib/portfolioReconcile'
+import { POSITION_TX_TYPES, loadAllRows, reconcileHoldings } from '@/lib/portfolioReconcile'
 import { resolveISINsLocally } from '@/lib/isinResolver'
-import { checkBulkDuplicates } from '@/lib/duplicateCheck'
+import { checkBulkDuplicates, quantitiesMatch } from '@/lib/duplicateCheck'
 import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
-import {
-  appendSpinoffGivenNote,
-  appendSpinoffTakenNote,
-  hasSpinoffBasisTaken,
-  hasSpinoffGiven,
-  valueBeforeSpinoff,
-} from '@/lib/spinoffAdjustment'
 import {
   NAME_MAX_LENGTH,
   describeValidationIssues,
   validateImportRows,
   validateManualSymbol,
 } from '@/lib/importValidation'
+import {
+  detectSpinoffEvents,
+  hasSpinoffBasisTaken,
+  isSpinoffChildTransfer,
+  planSpinoffCostSplit,
+  valueBeforeSpinoff,
+  type SpinoffEvent,
+} from '@/lib/spinoffAdjustment'
 import type { FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import {
   IMPORT_BROKERS,
@@ -73,6 +74,18 @@ type WizardStep =
 
 type CashMode = 'include' | 'ignore'
 
+// Schlusskurs am Übertragstag aus /api/portfolio/historical-prices: eur ist
+// der Einstandskurs, close/currency der Börsenkurs dahinter (für die Note).
+interface TransferPrice {
+  eur: number
+  close: number
+  currency: string
+}
+
+// Transaktion nach ISIN-Auflösung. estimatedTransferPrice: Der Preis stammt
+// nicht aus der Datei, sondern ist der geschätzte Schlusskurs (siehe oben).
+type ResolvedTransaction = ParsedTransaction & { estimatedTransferPrice?: boolean }
+
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   buy: { label: 'Kauf', color: 'text-emerald-400' },
   sell: { label: 'Verkauf', color: 'text-red-400' },
@@ -115,7 +128,7 @@ export default function CSVImportModal({
   const [pdfErrors, setPdfErrors] = useState<string[]>([])
   // Historische Schlusskurse für transfer_in/out-Transaktionen (Key: "SYMBOL|YYYY-MM-DD")
   // ING-Depotüberträge haben keinen Einstandskurs — hier ziehen wir den Tagesschlusskurs.
-  const [transferPrices, setTransferPrices] = useState<Record<string, number>>({})
+  const [transferPrices, setTransferPrices] = useState<Record<string, TransferPrice>>({})
   const [fetchingTransferPrices, setFetchingTransferPrices] = useState(false)
 
   // === Import State ===
@@ -190,15 +203,24 @@ export default function CSVImportModal({
     ;(async () => {
       setFetchingTransferPrices(true)
       try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session?.access_token) return
         const resp = await fetch('/api/portfolio/historical-prices', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
           body: JSON.stringify({ items: needsPrice }),
         })
         if (!resp.ok) return
-        const { results } = await resp.json() as { results: Record<string, number> }
+        const { results, details } = await resp.json() as {
+          results: Record<string, number>
+          details?: Record<string, { close: number; currency: string }>
+        }
         if (cancelled || !results) return
-        setTransferPrices(prev => ({ ...prev, ...results }))
+        const fetched: Record<string, TransferPrice> = {}
+        for (const [key, eur] of Object.entries(results)) {
+          fetched[key] = { eur, close: details?.[key]?.close ?? eur, currency: details?.[key]?.currency ?? 'EUR' }
+        }
+        setTransferPrices(prev => ({ ...prev, ...fetched }))
       } finally {
         if (!cancelled) setFetchingTransferPrices(false)
       }
@@ -550,27 +572,30 @@ export default function CSVImportModal({
   // ======================================================================
   // Transaktionen mit aufgelösten Symbolen + Cash-Filter
   // ======================================================================
-  const resolvedTransactions = useMemo(() => {
+  const resolvedTransactions = useMemo((): ResolvedTransaction[] => {
     if (!parseResult) return []
 
     return parseResult.transactions.map(tx => {
       // Symbol via ISIN-Map auflösen (falls noch nicht gesetzt)
-      let resolved = tx
+      let resolved: ResolvedTransaction = tx
       if (!tx.symbol) {
         const res = isinMap.get(tx.isin)
         if (res) resolved = { ...tx, symbol: res.symbol, name: res.name || tx.name }
       }
 
-      // Transfer ohne Einstandskurs → historischen Schlusskurs einsetzen (falls gefetcht)
+      // Transfer ohne Einstandskurs → historischen Schlusskurs einsetzen (falls gefetcht).
+      // Der Kurs kommt in EUR; bei Fremdwährung nennt die Note den Börsenkurs dahinter.
       if (resolved.isFromTransfer && resolved.price === 0 && resolved.symbol && resolved.date) {
         const key = `${resolved.symbol}|${resolved.date}`
-        const histPrice = transferPrices[key]
-        if (histPrice && histPrice > 0) {
+        const hist = transferPrices[key]
+        if (hist && hist.eur > 0) {
+          const source = hist.currency === 'EUR' ? '' : ` aus ${hist.close.toFixed(2)} ${hist.currency}`
           resolved = {
             ...resolved,
-            price: histPrice,
-            totalValue: histPrice * resolved.quantity,
-            notes: `${resolved.notes} · Einstandskurs: Schlusskurs am Übertragsdatum (${histPrice.toFixed(2)}€)`,
+            price: hist.eur,
+            totalValue: hist.eur * resolved.quantity,
+            notes: `${resolved.notes} · Einstandskurs: Schlusskurs am Übertragsdatum (${hist.eur.toFixed(2)}€${source})`,
+            estimatedTransferPrice: true,
           }
         }
       }
@@ -590,6 +615,44 @@ export default function CSVImportModal({
     return reconstructHoldings(txWithSymbols)
   }, [cashFilteredTransactions])
 
+  // Indizes der schon gespeicherten Transaktionen. Überträge mit geschätztem
+  // Einstand vergleicht der Abgleich ohne Preis: Der Preis stammt nicht aus der
+  // Datei, und frühere Importe haben einen anderen gespeichert — bis Oktober
+  // 2026 den Börsenkurs in Fremdwährung als Euro (MBGL 19,80 statt 17,32 €).
+  // Mit Preisvergleich käme derselbe Übertrag beim Re-Upload ein zweites Mal
+  // ins Depot.
+  const findDuplicates = useCallback(async (txs: ResolvedTransaction[]): Promise<Set<number>> => {
+    const dupes = await checkBulkDuplicates(
+      portfolioId,
+      txs.map(tx => ({
+        type: tx.type,
+        symbol: tx.symbol!,
+        date: tx.date,
+        quantity: tx.quantity,
+        price: tx.price,
+      }))
+    )
+    if (!txs.some(tx => tx.estimatedTransferPrice)) return dupes
+
+    const { data: storedTransfers, error } = await supabase
+      .from('portfolio_transactions')
+      .select('type, symbol, date, quantity')
+      .eq('portfolio_id', portfolioId)
+      .in('type', ['transfer_in', 'transfer_out'])
+    if (error) throw error
+    txs.forEach((tx, i) => {
+      if (!tx.estimatedTransferPrice || dupes.has(i)) return
+      const stored = (storedTransfers || []).some(s =>
+        s.type === tx.type &&
+        s.symbol === tx.symbol &&
+        s.date === tx.date &&
+        quantitiesMatch(Number(s.quantity), tx.quantity)
+      )
+      if (stored) dupes.add(i)
+    })
+    return dupes
+  }, [portfolioId])
+
   // Duplikat-Prüfung
   const runDuplicateCheck = useCallback(async () => {
     const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol)
@@ -597,16 +660,7 @@ export default function CSVImportModal({
 
     setCheckingDuplicates(true)
     try {
-      const dupes = await checkBulkDuplicates(
-        portfolioId,
-        txWithSymbols.map(tx => ({
-          type: tx.type,
-          symbol: tx.symbol!,
-          date: tx.date,
-          quantity: tx.quantity,
-          price: tx.price,
-        }))
-      )
+      const dupes = await findDuplicates(txWithSymbols)
       setDuplicateIndices(dupes)
       setDuplicateCheckDone(true)
     } catch (error) {
@@ -615,7 +669,7 @@ export default function CSVImportModal({
     } finally {
       setCheckingDuplicates(false)
     }
-  }, [cashFilteredTransactions, portfolioId])
+  }, [cashFilteredTransactions, findDuplicates])
 
   React.useEffect(() => {
     if (pendingDuplicateCheck && step === 'preview') {
@@ -772,16 +826,7 @@ export default function CSVImportModal({
       let effectiveDuplicates = duplicateIndices
       if (dbSplitAdjustments > 0) {
         try {
-          effectiveDuplicates = await checkBulkDuplicates(
-            portfolioId,
-            txWithSymbols.map(tx => ({
-              type: tx.type,
-              symbol: tx.symbol!,
-              date: tx.date,
-              quantity: tx.quantity,
-              price: tx.price,
-            }))
-          )
+          effectiveDuplicates = await findDuplicates(txWithSymbols)
         } catch {
           // Bei Fehler konservativ mit dem Vorschau-Ergebnis weitermachen
         }
@@ -795,11 +840,154 @@ export default function CSVImportModal({
 
       // Wenn nichts Neues zu importieren ist, aber Splits verrechnet wurden,
       // ist das ein gültiges Ergebnis (Bestand wurde angepasst) — kein Abbruch.
+      // Ebenso, wenn die Bestände hinter den gespeicherten Transaktionen
+      // zurücklagen (z.B. ein Verkauf aus einem früheren Import nie verrechnet):
+      // Ein erneuter Upload derselben Datei repariert das, statt nur
+      // "alles Duplikate" zu melden.
+      const spinoffWarnings: string[] = []
+
+      // === Spin-off-Kostenbasis anteilig übertragen ===
+      // Ohne Übertragung behält die Mutterposition ihre volle Kostenbasis und
+      // zeigt nach der Abspaltung einen Schein-Verlust (z.B. Honeywell −50 %),
+      // während die Spin-off-Position mit Marktwert-Basis bei 0 % startet.
+      // Aufteilung im Verhältnis der Marktwerte am Spin-off-Tag; idempotent
+      // über Marker-Note an der Spin-off-Einbuchung (greift auch nachträglich,
+      // wenn der Spin-off bereits in einem früheren Import gelandet ist).
+      //
+      // Die Mutter nennen nur Freedom24 und Scalable (Quell-ISIN, Notes).
+      // Trading 212 ("Spin off") und Trade Republic ("Abspaltung /
+      // Unbundling") nicht — dann bestimmt sie detectSpinoffEvents aus dem
+      // Zuteilungsverhältnis zum Bestand am Vortag (SPGI 2,235 → MBGL 2,235;
+      // K 2,544 → KLG 0,636). Beide Kurse kommen in EUR vom selben Tag, die
+      // Zeilen schreibt applySpinoffCostSplit mit denselben Markern, die die
+      // portfolio-history-Route als "schon aufgeteilt" erkennt.
+      // Gibt die Zahl der aufgeteilten Spin-offs zurück.
+      const splitSpinoffCostBasis = async (): Promise<number> => {
+        const fileSpinoffs = resolvedTransactions.filter(t =>
+          t.symbol && t.date && (t.corpActionType === 'spinoff' || isSpinoffChildTransfer(t))
+        )
+        if (fileSpinoffs.length === 0) return 0
+
+        // Seitenweise: Der Plan schreibt Transaktionen um und braucht dafür
+        // jede Buchung, nicht nur die ersten 1000.
+        const { data: stored, error: loadError } = await loadAllRows((from, to) =>
+          supabase
+            .from('portfolio_transactions')
+            .select('id, type, symbol, date, quantity, price, total_value, fee, notes')
+            .eq('portfolio_id', portfolioId)
+            .in('type', [...POSITION_TX_TYPES])
+            .order('id', { ascending: true })
+            .range(from, to)
+        )
+        if (loadError) throw new Error(`Spin-offs: Buchungen nicht lesbar (${loadError.message})`)
+        const depotTxs = stored.map(t => ({
+          ...t,
+          quantity: Number(t.quantity) || 0,
+          price: Number(t.price) || 0,
+          total_value: Number(t.total_value) || 0,
+          fee: Number(t.fee) || 0,
+        }))
+        type DepotTx = typeof depotTxs[number]
+        const detected = detectSpinoffEvents(depotTxs)
+
+        let applied = 0
+        const handled = new Set<string>()
+        for (const spinoff of fileSpinoffs) {
+          const childSymbol = spinoff.symbol!
+          const date = spinoff.date
+          if (handled.has(`${childSymbol}|${date}`)) continue
+          handled.add(`${childSymbol}|${date}`)
+          try {
+            // Spin-off-Einbuchung(en) in der DB (frisch importiert oder alt)
+            const childTxs = depotTxs.filter(t =>
+              t.type === 'transfer_in' && t.symbol === childSymbol && t.date === date && isSpinoffChildTransfer(t)
+            )
+            // Kostenbasis-Übertragung nur wenn noch nicht geschehen (idempotent).
+            // Die Holdings-Rekonstruktion läuft in JEDEM Fall — sonst fehlt die
+            // Kind-Position, wenn ihre Buchung beim Re-Import ein Duplikat war.
+            if (childTxs.length === 0 || childTxs.some(t => hasSpinoffBasisTaken(t.notes))) continue
+
+            // Mutter-Symbol: über aufgelöste Quell-ISIN, Ticker aus den Notes
+            // ("Spin-off aus HON.US (US4385162056)"), sonst die Erkennung
+            let parentSymbol = spinoff.fromIsin ? isinMap.get(spinoff.fromIsin)?.symbol : undefined
+            if (!parentSymbol) parentSymbol = spinoff.notes?.match(/aus\s+([A-Z0-9]+)\.[A-Z]{2}\s*\(/)?.[1]
+            if (!parentSymbol) {
+              parentSymbol = detected.find(e => e.childSymbol === childSymbol && e.date === date)?.parentSymbol
+            }
+            if (!parentSymbol || parentSymbol === childSymbol) {
+              spinoffWarnings.push(`Spin-off ${childSymbol} (${date}): Mutterposition nicht eindeutig — Kostenbasis nicht aufgeteilt`)
+              continue
+            }
+
+            const parentTxs = depotTxs.filter(t => t.symbol === parentSymbol)
+            const event: SpinoffEvent<DepotTx> = {
+              portfolioId, parentSymbol, childSymbol, date, costSplit: false, childTxs,
+            }
+
+            // Schlusskurse beider Papiere am Buchungstag, in EUR. Der Preis
+            // der Datei dient nur als Ersatz, wenn FMP die Tochter nicht führt
+            // — ein geschätzter Übertragskurs kommt aus derselben Quelle.
+            let closes: Record<string, number> = {}
+            const { data: { session } } = await supabase.auth.getSession()
+            const priceResp = await fetch('/api/portfolio/historical-prices', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+              },
+              body: JSON.stringify({ items: [{ symbol: parentSymbol, date }, { symbol: childSymbol, date }] }),
+            })
+            if (priceResp.ok) closes = ((await priceResp.json()) as { results?: Record<string, number> }).results || {}
+            const plan = planSpinoffCostSplit({
+              event,
+              parentTxs,
+              parentPrice: closes[`${parentSymbol}|${date}`] || 0,
+              childPrice: closes[`${childSymbol}|${date}`] || (spinoff.estimatedTransferPrice ? 0 : spinoff.price),
+            })
+            if (!plan) {
+              spinoffWarnings.push(`Spin-off ${childSymbol} aus ${parentSymbol} (${date}): Kurse oder Mutterbestand fehlen — Kostenbasis nicht aufgeteilt`)
+              continue
+            }
+
+            // In Plan-Reihenfolge schreiben (Mutter zuerst): Ein Abbruch vor
+            // dem Übernahme-Marker der Tochter wird beim nächsten Import
+            // fortgesetzt, schon entlastete Käufe überspringt ihr Marker.
+            for (const { id, ...update } of plan.updates) {
+              const { error: updateError } = await supabase
+                .from('portfolio_transactions')
+                .update(update)
+                .eq('id', id)
+              if (updateError) throw new Error(`Spin-off ${childSymbol}: ${updateError.message}`)
+            }
+            applied++
+          } catch (spinoffError) {
+            console.warn('Spin-off-Verarbeitung fehlgeschlagen:', spinoffError)
+            spinoffWarnings.push(
+              spinoffError instanceof Error ? spinoffError.message : String(spinoffError)
+            )
+          }
+        }
+        return applied
+      }
+
+      let earlyReconcile: Awaited<ReturnType<typeof reconcileHoldings>> | null = null
+      let spinoffSplits: number | null = null
       if (txToImport.length === 0 && dbSplitAdjustments === 0) {
-        setImportError('Keine neuen Transaktionen zum Importieren (alle sind Duplikate).')
-        setStep('preview')
-        setImporting(false)
-        return
+        // Die Spin-off-Aufteilung zuerst: Ein Re-Upload derselben Datei holt
+        // sie nach, auch wenn jede Zeile schon gespeichert ist.
+        spinoffSplits = await splitSpinoffCostBasis()
+        if (spinoffSplits === 0) {
+          earlyReconcile = await reconcileHoldings(supabase, portfolioId, { staleOnly: true })
+          if (earlyReconcile.errors.length > 0) {
+            throw new Error(`Bestände konnten nicht abgeglichen werden: ${earlyReconcile.errors.join(' · ')}`)
+          }
+          if (earlyReconcile.created + earlyReconcile.updated + earlyReconcile.deleted === 0) {
+            setImportError('Keine neuen Transaktionen zum Importieren (alle sind Duplikate).')
+            setStep('preview')
+            setImporting(false)
+            return
+          }
+        }
       }
 
       let savedCount = 0
@@ -868,137 +1056,13 @@ export default function CSVImportModal({
       // Der frühere Aufbau an dieser Stelle addierte nur den gerade
       // importierten Stapel auf den Altbestand und lief damit vor den
       // Korrekturen: genau daher kam die doppelte Kostenbasis bei Honeywell.
-      let holdingsCreated = 0
-      let holdingsUpdated = 0
-      const spinoffWarnings: string[] = []
+      let holdingsCreated = earlyReconcile?.created ?? 0
+      let holdingsUpdated = (earlyReconcile?.updated ?? 0) + (earlyReconcile?.deleted ?? 0)
 
-      // === Spin-off-Kostenbasis anteilig übertragen ===
-      // Ohne Übertragung behält die Mutterposition ihre volle Kostenbasis und
-      // zeigt nach der Abspaltung einen Schein-Verlust (z.B. Honeywell −50 %),
-      // während die Spin-off-Position mit Marktwert-Basis bei 0 % startet.
-      // Aufteilung im Verhältnis der Marktwerte am Spin-off-Tag; idempotent
-      // über Marker-Note an der Spin-off-Einbuchung (greift auch nachträglich,
-      // wenn der Spin-off bereits in einem früheren Import gelandet ist).
-      const spinoffTxs = resolvedTransactions.filter(t => t.corpActionType === 'spinoff')
-      for (const spinoff of spinoffTxs) {
-        try {
-          const childSymbol = spinoff.symbol || isinMap.get(spinoff.isin)?.symbol
-          if (!childSymbol || !spinoff.date) continue
-
-          // Mutter-Symbol: über aufgelöste Quell-ISIN, sonst Ticker aus den
-          // Notes ("Spin-off aus HON.US (US4385162056)")
-          let parentSymbol = spinoff.fromIsin ? isinMap.get(spinoff.fromIsin)?.symbol : undefined
-          if (!parentSymbol) {
-            const m = spinoff.notes?.match(/aus\s+([A-Z0-9]+)\.[A-Z]{2}\s*\(/)
-            if (m) parentSymbol = m[1]
-          }
-          if (!parentSymbol || parentSymbol === childSymbol) continue
-
-          // Spin-off-Einbuchung in der DB finden (frisch importiert oder alt)
-          const { data: childTxs } = await supabase
-            .from('portfolio_transactions')
-            .select('id, quantity, price, total_value, notes')
-            .eq('portfolio_id', portfolioId)
-            .eq('symbol', childSymbol)
-            .eq('type', 'transfer_in')
-            .eq('date', spinoff.date)
-          const childTx = (childTxs || []).find(t => (t.notes || '').includes('Spin-off'))
-          if (!childTx) continue
-
-          // Kostenbasis-Übertragung nur wenn noch nicht geschehen (idempotent).
-          // Die Holdings-Rekonstruktion unten läuft in JEDEM Fall — sonst fehlt
-          // die Kind-Position, wenn ihre Buchung beim Re-Import ein Duplikat war.
-          if (!hasSpinoffBasisTaken(childTx.notes)) {
-            // Bestand + Kostenbasis der Mutter am Spin-off-Tag aus Transaktionen
-            // (Durchschnittskosten, Käufe vor Verkäufen am selben Tag)
-            const { data: parentTxs } = await supabase
-              .from('portfolio_transactions')
-              .select('id, type, date, quantity, price, total_value, fee, notes')
-              .eq('portfolio_id', portfolioId)
-              .eq('symbol', parentSymbol)
-              .lte('date', spinoff.date)
-              .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
-
-            const phase = (t: { type: string }) => (t.type === 'buy' || t.type === 'transfer_in' ? 0 : 1)
-            const orderedParentTxs = [...(parentTxs || [])].sort(
-              (a, b) => a.date.localeCompare(b.date) || phase(a) - phase(b)
-            )
-            let parentShares = 0
-            let parentBasis = 0
-            for (const t of orderedParentTxs) {
-              const qty = Number(t.quantity) || 0
-              const tv = Number(t.total_value) || Math.abs(qty * (Number(t.price) || 0))
-              if (t.type === 'buy' || t.type === 'transfer_in') {
-                parentShares += qty
-                parentBasis += tv + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0)
-              } else {
-                const avg = parentShares > 0 ? parentBasis / parentShares : 0
-                parentShares -= qty
-                parentBasis -= qty * avg
-              }
-            }
-
-            const childQty = Number(childTx.quantity) || 0
-            const childPrice = Number(childTx.price) || 0
-            let parentPrice = 0
-            if (parentShares > 0 && parentBasis > 0 && childQty > 0 && childPrice > 0) {
-              const priceResp = await fetch('/api/portfolio/historical-prices', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: [{ symbol: parentSymbol, date: spinoff.date }] }),
-              })
-              if (priceResp.ok) {
-                const { results } = await priceResp.json() as { results: Record<string, number> }
-                parentPrice = results?.[`${parentSymbol}|${spinoff.date}`] || 0
-              }
-            }
-
-            if (parentPrice > 0) {
-              const childValue = childQty * childPrice
-              const parentValue = parentShares * parentPrice
-              const fraction = childValue / (parentValue + childValue)
-              if (fraction > 0 && fraction < 0.95) {
-                const pct = (fraction * 100).toFixed(1)
-                const childBasis = parentBasis * fraction
-
-                // 1) Spin-off-Einbuchung: anteilige Kostenbasis statt Marktwert
-                await supabase
-                  .from('portfolio_transactions')
-                  .update({
-                    price: parseFloat((childBasis / childQty).toFixed(4)),
-                    total_value: parseFloat(childBasis.toFixed(2)),
-                    notes: appendSpinoffTakenNote(childTx.notes, parentSymbol, pct),
-                  })
-                  .eq('id', childTx.id)
-
-                // 2) Kauf-Transaktionen der Mutter anteilig entlasten
-                for (const t of orderedParentTxs) {
-                  if (t.type !== 'buy' && t.type !== 'transfer_in') continue
-                  if (hasSpinoffGiven(t.notes, childSymbol, spinoff.date)) continue
-                  const tv = Number(t.total_value) || 0
-                  const price = Number(t.price) || 0
-                  await supabase
-                    .from('portfolio_transactions')
-                    .update({
-                      price: price > 0 ? parseFloat((price * (1 - fraction)).toFixed(4)) : price,
-                      total_value: tv > 0 ? parseFloat((tv * (1 - fraction)).toFixed(2)) : tv,
-                      notes: appendSpinoffGivenNote(t.notes, childSymbol, spinoff.date, pct),
-                    })
-                    .eq('id', t.id)
-                }
-              }
-            }
-          }
-
-          // Die Bestände baut der Abgleich unten neu auf — für alle Symbole,
-          // nicht nur für die hier behandelten.
-        } catch (spinoffError) {
-          console.warn('Spin-off-Verarbeitung fehlgeschlagen:', spinoffError)
-          spinoffWarnings.push(
-            spinoffError instanceof Error ? spinoffError.message : String(spinoffError)
-          )
-        }
-      }
+      // Spin-off-Aufteilung (splitSpinoffCostBasis oben), sofern sie nicht
+      // schon vor dem Duplikat-Abbruch gelaufen ist. Die Bestände baut der
+      // Abgleich unten neu auf — für alle Symbole, nicht nur die aufgeteilten.
+      if (spinoffSplits === null) spinoffSplits = await splitSpinoffCostBasis()
 
       // === Bestände aus den Transaktionen ableiten ===
       // Muss nach allen Korrekturen laufen (Split, Spin-off) und für JEDES
@@ -1008,7 +1072,7 @@ export default function CSVImportModal({
       // und die abgespaltene Position fehlte ganz.
       const reconcile = await reconcileHoldings(supabase, portfolioId)
       holdingsCreated += reconcile.created
-      holdingsUpdated += reconcile.updated
+      holdingsUpdated += reconcile.updated + reconcile.deleted
       if (reconcile.errors.length > 0) {
         // Nicht verschlucken: ein stiller Fehlschlag hier bedeutet falsche
         // Renditen im Depot.
@@ -1018,12 +1082,18 @@ export default function CSVImportModal({
       // Cash-Position aktualisieren — nur bei cashMode === 'include'
       let cashTransactionsImported = 0
       if (cashMode === 'include') {
-        const { data: allPortfolioTx } = await supabase
-          .from('portfolio_transactions')
-          .select('type, total_value, fee, notes')
-          .eq('portfolio_id', portfolioId)
+        // Seitenweise, sonst fehlt großen Depots ein Teil der Geldflüsse. Bei
+        // einem Ladefehler bleibt die Cash-Position wie bisher unverändert.
+        const { data: allPortfolioTx } = await loadAllRows((from, to) =>
+          supabase
+            .from('portfolio_transactions')
+            .select('type, total_value, fee, notes')
+            .eq('portfolio_id', portfolioId)
+            .order('id', { ascending: true })
+            .range(from, to)
+        )
 
-        if (allPortfolioTx && allPortfolioTx.length > 0) {
+        if (allPortfolioTx.length > 0) {
           const hasCashFlowData = allPortfolioTx.some(
             tx => tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
           )
@@ -1078,7 +1148,7 @@ export default function CSVImportModal({
     } finally {
       setImporting(false)
     }
-  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport, isinMap, importValidationIssues])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport, isinMap, findDuplicates, importValidationIssues])
 
   // Format helpers
   const formatCurrency = (amount: number) =>
