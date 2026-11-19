@@ -88,6 +88,7 @@ import marks_2025_Q4 from './marks/2025-Q4.json'
     import marks_2026_Q1 from './marks/2026-Q1.json'
     import marks_2026_Q2 from './marks/2026-Q2.json'
     import marks_2026_Q3 from './marks/2026-Q3.json'
+    import marks_2026_Q4 from './marks/2026-Q4.json'
 
 
 
@@ -304,6 +305,7 @@ import tepper_2025_Q4 from './tepper/2025-Q4.json'
 import tepper_2026_Q1 from './tepper/2026-Q1.json'
 import tepper_2026_Q2 from './tepper/2026-Q2.json'
 import tepper_2026_Q3 from './tepper/2026-Q3.json'
+import tepper_2026_Q4 from './tepper/2026-Q4.json'
 
 //pabrai
 import pabrai_2024_Q1 from './pabrai/2024-Q1.json'
@@ -1256,6 +1258,7 @@ import soros_2025_Q4 from './soros/2025-Q4.json'
 import soros_2026_Q1 from './soros/2026-Q1.json'
 import soros_2026_Q2 from './soros/2026-Q2.json'
 import soros_2026_Q3 from './soros/2026-Q3.json'
+import soros_2026_Q4 from './soros/2026-Q4.json'
 
 //vandenberg
 import vandenberg_2024_Q1 from './vandenberg/2024-Q1.json'
@@ -1295,6 +1298,7 @@ import ark_investment_management_2025_Q4 from './ark_investment_management/2025-
 import ark_investment_management_2026_Q1 from './ark_investment_management/2026-Q1.json'
 import ark_investment_management_2026_Q2 from './ark_investment_management/2026-Q2.json'
 import ark_investment_management_2026_Q3 from './ark_investment_management/2026-Q3.json'
+import ark_investment_management_2026_Q4 from './ark_investment_management/2026-Q4.json'
 
 
 //ariel_focus
@@ -1464,6 +1468,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       {quarter: '2026-Q1', data: marks_2026_Q1},
       {quarter: '2026-Q2', data: marks_2026_Q2},
       {quarter: '2026-Q3', data: marks_2026_Q3},
+      //{quarter: '2026-Q4', data: marks_2026_Q4},
     
     
   
@@ -1701,6 +1706,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: ark_investment_management_2026_Q1},
     {quarter: '2026-Q2', data: ark_investment_management_2026_Q2},
     {quarter: '2026-Q3', data: ark_investment_management_2026_Q3},
+    {quarter: '2026-Q4', data: ark_investment_management_2026_Q4},
    ],
 
 
@@ -1764,6 +1770,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: tepper_2026_Q1},
     {quarter: '2026-Q2', data: tepper_2026_Q2},
     {quarter: '2026-Q3', data: tepper_2026_Q3},
+    {quarter: '2026-Q4', data: tepper_2026_Q4},
    ],
 
    greenblatt: [
@@ -2550,6 +2557,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: soros_2026_Q1},
     {quarter: '2026-Q2', data: soros_2026_Q2},
     {quarter: '2026-Q3', data: soros_2026_Q3},
+    {quarter: '2026-Q4', data: soros_2026_Q4},
    ],
 
    torray: [
