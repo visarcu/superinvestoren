@@ -39,6 +39,12 @@ export interface CashFlowPeriod {
   freeCashFlow: number | null
   dividendPerShare: number | null
   shareRepurchase: number | null
+  /** Owner Earnings nach Buffett — geschätzt, siehe lib/ownerEarnings */
+  ownerEarnings?: number | null
+  /** Geschätzter Erhaltungs-Capex (Greenwald, Ø bis 3 Jahre) */
+  maintenanceCapex?: number | null
+  /** Geschätzter Wachstums-Capex des Jahres */
+  growthCapex?: number | null
   [key: string]: any
 }
 

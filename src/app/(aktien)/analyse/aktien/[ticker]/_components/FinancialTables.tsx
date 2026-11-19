@@ -157,6 +157,13 @@ const cashflowSections: SectionDef[] = [
     ],
   },
   {
+    title: 'Owner Earnings (Buffett, geschätzt)',
+    rows: [
+      { label: 'Erhaltungs-Capex (Ø, geschätzt)', key: 'maintenanceCapex' },
+      { label: 'Owner Earnings', key: 'ownerEarnings' },
+    ],
+  },
+  {
     title: 'Finanzierung',
     rows: [
       { label: 'Aktienrückkäufe', key: 'shareRepurchase' },

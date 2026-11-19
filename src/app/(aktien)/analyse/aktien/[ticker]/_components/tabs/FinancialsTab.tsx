@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import ChartCard from '../ChartCard'
 import FeyPremiumGate from '../FeyPremiumGate'
 import FinancialTables from '../FinancialTables'
@@ -357,8 +358,20 @@ export default function FinancialsTab({
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operativer Cashflow" color="#22d3ee" />
               <ChartCard data={cashflow} dataKey="freeCashFlow" label="Free Cashflow" color="#f97316" />
+              <ChartCard data={cashflow} dataKey="ownerEarnings" label="Owner Earnings (geschätzt)" color="#a78bfa" />
               <ChartCard data={cashflow} dataKey="shareRepurchase" label="Aktienrückkäufe" color="#e879f9" />
             </div>
+            {cashflow.some(c => c.ownerEarnings !== null && c.ownerEarnings !== undefined) && (
+              <p className="text-[10px] text-white/25 mt-3">
+                Owner Earnings nach Buffett: Nettogewinn + Abschreibungen − geschätzter Erhaltungs-Capex.{' '}
+                <Link
+                  href={`/analyse/aktien/${ticker.toLowerCase()}/bewertung`}
+                  className="text-white/40 hover:text-white/70 underline underline-offset-2 decoration-white/20"
+                >
+                  Herleitung im Tab Bewertung
+                </Link>
+              </p>
+            )}
           </div>
 
           {/* Bilanz */}

@@ -13,6 +13,7 @@ import { fmt, fmtPct } from '../_lib/format'
 import { useStockUser } from '@/lib/hooks/useStockUser'
 import { addRecentTicker } from '@/lib/recentlyViewed'
 import { StockContextProvider } from '../_lib/StockContext'
+import { computeOwnerEarnings } from '@/lib/ownerEarnings'
 import type {
   UnternehmenProfile,
   Period,
@@ -304,6 +305,38 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
     return { metrics: items, fyLabel: L?.period ? `GJ ${L.period}` : '' }
   }, [income, balance, cashflow, quote, estimates])
 
+  // Owner Earnings (Buffett) aus Gewinn, Abschreibungen, Capex, Umsatz und Sachanlagen —
+  // geschätzt, siehe lib/ownerEarnings. Wird an die Cashflow-Perioden gehängt, damit
+  // Charts und Tabellen sie wie jede andere Cashflow-Kennzahl lesen können.
+  const ownerEarnings = useMemo(
+    () =>
+      computeOwnerEarnings(
+        cashflow.map(c => {
+          const inc = income.find(i => i.period === c.period)
+          const bal = balance.find(b => b.period === c.period)
+          return {
+            period: c.period,
+            revenue: inc?.revenue,
+            netIncome: inc?.netIncome,
+            depreciation: c.depreciation,
+            capex: c.capitalExpenditure,
+            propertyPlantEquipment: bal?.propertyPlantEquipment,
+          }
+        })
+      ),
+    [cashflow, income, balance]
+  )
+  const cashflowWithOE = useMemo<CashFlowPeriod[]>(
+    () =>
+      cashflow.map((c, idx) => ({
+        ...c,
+        ownerEarnings: ownerEarnings[idx]?.ownerEarnings ?? null,
+        maintenanceCapex: ownerEarnings[idx]?.maintenanceCapex ?? null,
+        growthCapex: ownerEarnings[idx]?.growthCapex ?? null,
+      })),
+    [cashflow, ownerEarnings]
+  )
+
   const startAiAnalysis = () => {
     setAiLoading(true)
     fetch(`/api/v1/ai/stock/${ticker}`)
@@ -320,7 +353,8 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
     profile,
     income,
     balance,
-    cashflow,
+    cashflow: cashflowWithOE,
+    ownerEarnings,
     financialSource,
     financialNotice,
     news,

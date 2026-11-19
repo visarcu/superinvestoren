@@ -40,7 +40,9 @@ const XBRL_CONCEPTS: Record<string, { primary: string; fallbacks?: string[] }> =
   accountsReceivable: { primary: 'AccountsReceivableNetCurrent' },
   accountsPayable:    { primary: 'AccountsPayableCurrent' },
   goodwill:           { primary: 'Goodwill' },
-  propertyPlantEquip: { primary: 'PropertyPlantAndEquipmentNet' },
+  // Seit ASC 842 melden u.a. Amazon, Meta und Alphabet Sachanlagen inkl. Finance-Lease-Nutzungsrechten
+  // unter einem eigenen Tag — ohne Fallback fehlen dort ganze Jahre (Owner-Earnings-Schätzung braucht sie).
+  propertyPlantEquip: { primary: 'PropertyPlantAndEquipmentNet', fallbacks: ['PropertyPlantAndEquipmentAndFinanceLeaseRightOfUseAssetAfterAccumulatedDepreciationAndAmortization'] },
 }
 
 // ─── Types ───────────────────────────────────────────────────────────────────

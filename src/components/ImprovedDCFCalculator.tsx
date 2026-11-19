@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
+import Link from 'next/link'
 import {
   CheckIcon,
   InformationCircleIcon,
@@ -16,6 +17,19 @@ import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import MarginOfSafetyGauge from '@/components/MarginOfSafetyGauge'
 import { fmtPrice, fmtNum } from '@/utils/formatters'
+import { ownerEarningsValuationBasis } from '@/lib/ownerEarnings'
+import { priceCurrencyMatches } from '@/lib/portfolio/fundamentals'
+
+// Owner Earnings nach Buffett (geschätzt, siehe lib/ownerEarnings) — aus den SEC-/ESEF-Abschlüssen,
+// nicht aus FMP. Geschäftsjahreswert, kein TTM.
+interface OwnerEarningsData {
+  period: string
+  perShare: number
+  yieldPct: number
+  growth: number | null        // CAGR in %
+  growthYears: number
+  multipleMedian: MultipleMedian | null   // Median Kurs/Owner Earnings zum Geschäftsjahresende
+}
 
 interface StockData {
   ticker: string
@@ -34,6 +48,9 @@ interface StockData {
   fcfMultiple5YMedian: MultipleMedian | null   // Median Kurs/Free Cash Flow
   ocfMultiple5YMedian: MultipleMedian | null   // Median Kurs/Operativer Cashflow (KCV)
   sbcImpact: number
+  ownerEarnings: OwnerEarningsData | null
+  /** Warum Owner Earnings fehlen (nur gesetzt, wenn ownerEarnings null ist) */
+  ownerEarningsNote: string | null
 }
 
 interface MultipleMedian {
@@ -41,7 +58,7 @@ interface MultipleMedian {
   years: number   // Anzahl der Jahre, die tatsächlich in den Median eingeflossen sind
 }
 
-type CalculatorMode = 'earnings' | 'cashflow' | 'opcashflow'
+export type CalculatorMode = 'earnings' | 'cashflow' | 'opcashflow' | 'ownerearnings'
 
 // Fallback-Multiples, wenn FMP keine Historie liefert
 const FALLBACK_OCF_MULTIPLE = 18
@@ -134,7 +151,55 @@ const buildProjection = ({
   }
 }
 
-export default function ImprovedDCFCalculator() {
+interface ImprovedDCFCalculatorProps {
+  /** Aktie direkt laden, z.B. per Link aus dem Bewertungs-Tab */
+  initialTicker?: string
+  initialMode?: CalculatorMode
+}
+
+/** Owner Earnings aus den eigenen Abschlussdaten laden — null plus Begründung, wenn nicht seriös möglich. */
+async function loadOwnerEarnings(
+  ticker: string,
+  price: number,
+  historyArray: { date?: string; marketCap?: number }[]
+): Promise<{ data: OwnerEarningsData | null; note: string | null }> {
+  const get = (statement: string) =>
+    fetch(`/api/v1/financials/${statement}/${ticker}?years=10`)
+      .then(r => (r.ok ? r.json() : null))
+      .catch(() => null)
+  const [inc, bal, cf] = await Promise.all([get('income-statement'), get('balance-sheet'), get('cash-flow')])
+
+  if (!inc?.data || !bal?.data || !cf?.data || !inc.source || inc.source === 'no-data') {
+    return { data: null, note: 'Für diese Aktie liegen keine Jahresabschlüsse für die Schätzung vor.' }
+  }
+  if (!priceCurrencyMatches(ticker, inc.source)) {
+    return { data: null, note: 'Kurs und Abschluss liegen nicht sicher in derselben Währung vor — eine Bewertung je Aktie wäre irreführend.' }
+  }
+
+  const marketCapByYear: Record<string, number> = {}
+  for (const h of historyArray) {
+    if (h.date && typeof h.marketCap === 'number' && h.marketCap > 0) marketCapByYear[h.date.slice(0, 4)] = h.marketCap
+  }
+
+  const basis = ownerEarningsValuationBasis({ income: inc.data, balance: bal.data, cashflow: cf.data, marketCapByYear })
+  if (!basis) {
+    return { data: null, note: 'Owner Earnings sind hier nicht schätzbar — es fehlen Abschreibungen, Capex oder Sachanlagen (typisch für Banken und Versicherungen).' }
+  }
+
+  return {
+    data: {
+      period: basis.period,
+      perShare: basis.perShare,
+      yieldPct: price > 0 ? (basis.perShare / price) * 100 : 0,
+      growth: basis.growthRate !== null ? basis.growthRate * 100 : null,
+      growthYears: basis.growthYears,
+      multipleMedian: multipleMedian(basis.historicalMultiples.map(m => m.multiple)),
+    },
+    note: null,
+  }
+}
+
+export default function ImprovedDCFCalculator({ initialTicker, initialMode }: ImprovedDCFCalculatorProps = {}) {
   // Stock selection
   const [, setSelectedTicker] = useState<string>('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -162,6 +227,12 @@ export default function ImprovedDCFCalculator() {
   const [ocfGrowthRate, setOcfGrowthRate] = useState<string>('')
   const [targetOcfMultiple, setTargetOcfMultiple] = useState<string>('')
   const [desiredReturnOpCashFlow, setDesiredReturnOpCashFlow] = useState<string>('10')
+
+  // Owner Earnings mode inputs
+  const [oeInput, setOeInput] = useState<string>('')
+  const [oeGrowthRate, setOeGrowthRate] = useState<string>('')
+  const [targetOeMultiple, setTargetOeMultiple] = useState<string>('')
+  const [desiredReturnOwnerEarnings, setDesiredReturnOwnerEarnings] = useState<string>('10')
 
   // Core settings (visible)
   const [projectionYears, setProjectionYears] = useState<number>(10)
@@ -233,13 +304,15 @@ export default function ImprovedDCFCalculator() {
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
 
-      const growth = mode === 'earnings' ? epsGrowthRate : mode === 'cashflow' ? fcfGrowthRate : ocfGrowthRate
-      const multiple = mode === 'earnings' ? targetPE : mode === 'cashflow' ? targetFcfMultiple : targetOcfMultiple
+      const growth = mode === 'earnings' ? epsGrowthRate : mode === 'cashflow' ? fcfGrowthRate : mode === 'ownerearnings' ? oeGrowthRate : ocfGrowthRate
+      const multiple = mode === 'earnings' ? targetPE : mode === 'cashflow' ? targetFcfMultiple : mode === 'ownerearnings' ? targetOeMultiple : targetOcfMultiple
       const method = mode === 'earnings'
         ? 'Earnings (EPS × Ziel-KGV)'
         : mode === 'cashflow'
           ? 'Free Cash Flow (FCF × Kurs/Free-Cash-Flow-Multiple)'
-          : 'Operativer Cashflow (OCF × KCV, Capex bleibt unberücksichtigt)'
+          : mode === 'ownerearnings'
+            ? 'Owner Earnings nach Buffett (Nettogewinn + Abschreibungen − geschätzter Erhaltungs-Capex, × Kurs/Owner-Earnings-Multiple)'
+            : 'Operativer Cashflow (OCF × KCV, Capex bleibt unberücksichtigt)'
 
       const response = await fetch('/api/ai', {
         method: 'POST',
@@ -295,7 +368,7 @@ export default function ImprovedDCFCalculator() {
     : []
 
   // Load stock data from API
-  const loadStockData = async (ticker: string) => {
+  const loadStockData = async (ticker: string, options: { prefillOwnerEarningsGrowth?: boolean } = {}) => {
     setLoading(true)
     try {
       // Fetch key metrics, quote, growth and 5y multiple history
@@ -338,6 +411,9 @@ export default function ImprovedDCFCalculator() {
       // Calculate SBC impact (Stock Based Compensation as % of FCF)
       const sbcImpact = metrics?.stockBasedCompensationToRevenueTTM ? metrics.stockBasedCompensationToRevenueTTM * -100 : 0
 
+      // Owner Earnings aus den eigenen Abschlussdaten (SEC/ESEF), Multiples aus der FMP-Historie
+      const oe = await loadOwnerEarnings(ticker, price, historyArray)
+
       const data: StockData = {
         ticker,
         name: quote?.name || ticker,
@@ -354,7 +430,9 @@ export default function ImprovedDCFCalculator() {
         ocfGrowth5Y,
         fcfMultiple5YMedian,
         ocfMultiple5YMedian,
-        sbcImpact
+        sbcImpact,
+        ownerEarnings: oe.data,
+        ownerEarningsNote: oe.note
       }
 
       setStockData(data)
@@ -372,12 +450,33 @@ export default function ImprovedDCFCalculator() {
       setTargetFcfMultiple((fcfMultiple5YMedian?.value ?? FALLBACK_FCF_MULTIPLE).toFixed(1).replace('.', ','))
       setTargetOcfMultiple((ocfMultiple5YMedian?.value ?? FALLBACK_OCF_MULTIPLE).toFixed(1).replace('.', ','))
 
+      // Owner Earnings: Basiswert und Multiple vorbelegen, Wachstum wie bei den anderen Modi erst per Klick
+      if (oe.data) {
+        setOeInput(oe.data.perShare.toFixed(2).replace('.', ','))
+        setTargetOeMultiple((oe.data.multipleMedian?.value ?? FALLBACK_FCF_MULTIPLE).toFixed(1).replace('.', ','))
+      } else {
+        setOeInput('')
+        setTargetOeMultiple('')
+      }
+      // Beim Direkt-Link aus dem Bewertungs-Tab soll sofort ein Ergebnis stehen
+      setOeGrowthRate(
+        options.prefillOwnerEarningsGrowth && oe.data?.growth != null ? oe.data.growth.toFixed(1) : ''
+      )
+
     } catch (error) {
       console.error('Error loading stock data:', error)
     } finally {
       setLoading(false)
     }
   }
+
+  // Direkt-Link (z.B. aus dem Bewertungs-Tab): Aktie und Modus einmalig vorbelegen
+  useEffect(() => {
+    if (!initialTicker) return
+    if (initialMode) setMode(initialMode)
+    loadStockData(initialTicker.toUpperCase(), { prefillOwnerEarningsGrowth: initialMode === 'ownerearnings' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialTicker, initialMode])
 
   // Auto-fill growth rates from historical data (echte Werte, nicht gekappt)
   const handleAutoFillGrowth = () => {
@@ -398,6 +497,11 @@ export default function ImprovedDCFCalculator() {
       setFcfGrowthRate(growth.toFixed(1))
       // Multiple auf den Median setzen
       setTargetFcfMultiple((stockData.fcfMultiple5YMedian?.value ?? FALLBACK_FCF_MULTIPLE).toFixed(1).replace('.', ','))
+    } else if (mode === 'ownerearnings') {
+      const oe = stockData.ownerEarnings
+      if (!oe) return
+      if (oe.growth !== null) setOeGrowthRate(oe.growth.toFixed(1))
+      setTargetOeMultiple((oe.multipleMedian?.value ?? FALLBACK_FCF_MULTIPLE).toFixed(1).replace('.', ','))
     } else {
       // Setze den echten 5Y OCF-Durchschnitt
       const growth = stockData.ocfGrowth5Y
@@ -512,12 +616,43 @@ export default function ImprovedDCFCalculator() {
     })
   }, [stockData, ocfInput, ocfGrowthRate, targetOcfMultiple, desiredReturnOpCashFlow, years, decay, terminalGrowth, marginOfSafety])
 
+  // Calculate Owner-Earnings-based projections (Buffett)
+  const ownerEarningsCalculation = useMemo(() => {
+    if (!stockData?.ownerEarnings || !oeInput || !oeGrowthRate || !targetOeMultiple || !desiredReturnOwnerEarnings) {
+      return null
+    }
+
+    const oe = parseDE(oeInput)
+    const growth = parseDE(oeGrowthRate) / 100
+    const multiple = parseDE(targetOeMultiple)
+    const desiredReturn = parseDE(desiredReturnOwnerEarnings) / 100
+
+    if (isNaN(oe) || isNaN(growth) || isNaN(multiple) || isNaN(desiredReturn) || multiple <= 0) {
+      return null
+    }
+
+    // Kurs = Owner Earnings je Aktie × Kurs/Owner-Earnings-Multiple
+    return buildProjection({
+      base: oe,
+      growth,
+      multiple,
+      desiredReturn,
+      currentPrice: stockData.price,
+      years,
+      decay,
+      terminalGrowth,
+      marginOfSafety
+    })
+  }, [stockData, oeInput, oeGrowthRate, targetOeMultiple, desiredReturnOwnerEarnings, years, decay, terminalGrowth, marginOfSafety])
+
   // Get current calculation based on mode
   const currentCalculation = mode === 'earnings'
     ? earningsCalculation
     : mode === 'cashflow'
       ? cashFlowCalculation
-      : opCashFlowCalculation
+      : mode === 'ownerearnings'
+        ? ownerEarningsCalculation
+        : opCashFlowCalculation
   const chartData = currentCalculation?.projections || []
 
   // Check if inputs are valid (show green checkmark)
@@ -532,6 +667,10 @@ export default function ImprovedDCFCalculator() {
   const isOcfGrowthValid = ocfGrowthRate !== '' && !isNaN(parseDE(ocfGrowthRate))
   const isTargetOcfMultipleValid = targetOcfMultiple !== '' && !isNaN(parseDE(targetOcfMultiple)) && parseDE(targetOcfMultiple) > 0
   const isDesiredReturnOpCashFlowValid = desiredReturnOpCashFlow !== '' && !isNaN(parseDE(desiredReturnOpCashFlow))
+
+  const isOeGrowthValid = oeGrowthRate !== '' && !isNaN(parseDE(oeGrowthRate))
+  const isTargetOeMultipleValid = targetOeMultiple !== '' && !isNaN(parseDE(targetOeMultiple)) && parseDE(targetOeMultiple) > 0
+  const isDesiredReturnOwnerEarningsValid = desiredReturnOwnerEarnings !== '' && !isNaN(parseDE(desiredReturnOwnerEarnings))
 
   return (
     <div className="max-w-6xl mx-auto py-8">
@@ -640,7 +779,8 @@ export default function ImprovedDCFCalculator() {
             {([
               { key: 'earnings', label: 'Earnings' },
               { key: 'cashflow', label: 'Free Cash Flow' },
-              { key: 'opcashflow', label: 'Operativer Cashflow' }
+              { key: 'opcashflow', label: 'Operativer Cashflow' },
+              { key: 'ownerearnings', label: 'Owner Earnings' }
             ] as const).map(tab => (
               <button
                 key={tab.key}
@@ -1068,6 +1208,155 @@ export default function ImprovedDCFCalculator() {
                 </>
               )}
 
+              {mode === 'ownerearnings' && !stockData.ownerEarnings && (
+                <div className="bg-theme-secondary rounded-lg p-4 mb-6 text-sm text-theme-muted">
+                  {stockData.ownerEarningsNote ?? 'Owner Earnings sind für diese Aktie nicht verfügbar.'}
+                </div>
+              )}
+
+              {mode === 'ownerearnings' && stockData.ownerEarnings && (
+                <>
+                  {/* Current Owner Earnings Info */}
+                  <div className="bg-theme-secondary rounded-lg p-4 mb-6">
+                    <div className="text-sm text-theme-muted text-center mb-3">Aktuelle Kennzahlen</div>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-xs text-theme-muted">OE/Aktie (GJ {stockData.ownerEarnings.period})</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtPrice(stockData.ownerEarnings.perShare)}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-theme-muted">OE-Rendite</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtNum(stockData.ownerEarnings.yieldPct)}%</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-theme-muted">
+                          OE Wachstum{stockData.ownerEarnings.growthYears > 0 ? ` (${stockData.ownerEarnings.growthYears}J)` : ''}
+                        </div>
+                        {stockData.ownerEarnings.growth !== null ? (
+                          <div className={`text-lg font-semibold ${stockData.ownerEarnings.growth >= 0 ? 'text-brand' : 'text-red-600'}`}>
+                            {fmtNum(stockData.ownerEarnings.growth, 1)}%
+                          </div>
+                        ) : (
+                          <div className="text-lg font-semibold text-theme-muted">–</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Auto-fill Button — nur wenn ein Wachstum berechenbar ist */}
+                  {stockData.ownerEarnings.growth !== null && (
+                    <button
+                      onClick={handleAutoFillGrowth}
+                      className="w-full mb-4 px-4 py-2 bg-theme-secondary hover:bg-theme-hover text-theme-secondary rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                      {stockData.ownerEarnings.growthYears}-Jahres Durchschnitt übernehmen
+                      <span className="text-xs text-theme-muted">({fmtNum(stockData.ownerEarnings.growth, 1)}%)</span>
+                    </button>
+                  )}
+
+                  {/* OE Input */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">Owner Earnings/Aktie (GJ {stockData.ownerEarnings.period})</label>
+                    <div className="flex">
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-r-0 border-theme rounded-l-lg text-theme-muted">$</span>
+                      <input
+                        type="text"
+                        value={oeInput}
+                        onChange={(e) => setOeInput(e.target.value)}
+                        className="flex-1 border border-theme rounded-r-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">
+                      Buffetts Eigentümer-Gewinn je Aktie: Nettogewinn + Abschreibungen − geschätzter Erhaltungs-Capex, aus dem letzten Geschäftsjahr.{' '}
+                      <Link
+                        href={`/analyse/aktien/${stockData.ticker.toLowerCase()}/bewertung`}
+                        className="text-brand hover:underline"
+                      >
+                        Herleitung ansehen
+                      </Link>
+                    </p>
+                  </div>
+
+                  {/* OE Growth Rate */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">Owner-Earnings-Wachstumsrate</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={oeGrowthRate}
+                        onChange={(e) => setOeGrowthRate(e.target.value)}
+                        placeholder="10"
+                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
+                        {isOeGrowthValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
+                        %
+                      </span>
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">Die erwartete jährliche Wachstumsrate der Owner Earnings in Prozent.</p>
+                  </div>
+
+                  {/* OE Multiple */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">Angemessenes Kurs/Owner-Earnings-Verhältnis</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={targetOeMultiple}
+                        onChange={(e) => setTargetOeMultiple(e.target.value)}
+                        placeholder={String(FALLBACK_FCF_MULTIPLE)}
+                        className="flex-1 border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      {isTargetOeMultipleValid && (
+                        <span className="inline-flex items-center px-3">
+                          <CheckIcon className="w-5 h-5 text-brand" />
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">
+                      {isTargetOeMultipleValid
+                        ? `Entspricht einer Owner-Earnings-Rendite von ${fmtNum(100 / parseDE(targetOeMultiple), 1)} %`
+                        : 'Das Verhältnis von Kurs zu Owner Earnings, das du für die Aktie als angemessen erachtest.'}
+                    </p>
+                    {stockData.ownerEarnings.multipleMedian ? (
+                      <button
+                        onClick={() => setTargetOeMultiple(stockData.ownerEarnings!.multipleMedian!.value.toFixed(1).replace('.', ','))}
+                        className="mt-2 text-xs text-brand hover:underline"
+                      >
+                        {stockData.ownerEarnings.multipleMedian.years === 5
+                          ? '5-Jahres-Median'
+                          : `Median (${stockData.ownerEarnings.multipleMedian.years} J.)`}: {fmtNum(stockData.ownerEarnings.multipleMedian.value, 1)} — übernehmen
+                      </button>
+                    ) : (
+                      <p className="text-xs text-theme-muted mt-1">
+                        Keine ausreichende Historie für einen Median — vorbelegt mit {FALLBACK_FCF_MULTIPLE}.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Desired Return */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">Gewünschte Rendite</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={desiredReturnOwnerEarnings}
+                        onChange={(e) => setDesiredReturnOwnerEarnings(e.target.value)}
+                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
+                        {isDesiredReturnOwnerEarningsValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
+                        %
+                      </span>
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">Die jährliche Rendite, die du mit der Aktie erzielen möchtest. Der Rechner ermittelt den Preis, den du zahlen musst, um diese Rendite zu erreichen.</p>
+                  </div>
+                </>
+              )}
+
               {/* Advanced Settings */}
               <div className="border-t border-white/[0.04] pt-4 mt-2">
                 <button
@@ -1385,6 +1674,8 @@ export default function ImprovedDCFCalculator() {
                   ? 'Die Earnings-Methode berechnet den fairen Wert basierend auf projiziertem EPS und einem Ziel-KGV. Der Fair Value zeigt, welchen Preis du zahlen solltest, um deine gewünschte Rendite zu erzielen.'
                   : mode === 'cashflow'
                     ? 'Die Free Cash Flow-Methode berechnet den fairen Wert basierend auf projiziertem Free Cash Flow und einem Ziel-Multiple (Kurs/Free Cash Flow). Diese Methode ist besonders nützlich für Unternehmen mit stabilem Cash Flow.'
+                    : mode === 'ownerearnings'
+                    ? 'Die Owner-Earnings-Methode folgt Warren Buffett: Statt des gesamten Capex wird nur der Teil abgezogen, der das Geschäft auf dem heutigen Stand hält. Investitionen in Wachstum drücken die Basis deshalb nicht — anders als beim Free Cash Flow. Der Erhaltungs-Capex ist geschätzt (Methode nach Bruce Greenwald), die Basis ist der Wert des letzten Geschäftsjahres.'
                     : 'Die Methode über den operativen Cashflow rechnet vor Investitionsausgaben (Capex) und eignet sich für Unternehmen, deren FCF durch hohe Investitionen verzerrt ist. Weil Capex hier nicht abgezogen wird, sollte das KCV deutlich niedriger angesetzt werden als das Kurs/Free-Cash-Flow-Multiple.'
                 }
               </p>

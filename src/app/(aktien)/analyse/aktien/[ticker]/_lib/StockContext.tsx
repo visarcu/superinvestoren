@@ -6,6 +6,7 @@
 // Daten bei jedem Tab-Wechsel neu geladen werden.
 
 import React, { createContext, useContext } from 'react'
+import type { OwnerEarningsResult } from '@/lib/ownerEarnings'
 import type {
   UnternehmenProfile,
   Period,
@@ -27,7 +28,10 @@ export interface StockContextValue {
   profile: UnternehmenProfile | null
   income: Period[]
   balance: BalancePeriod[]
+  /** Cashflow-Perioden inkl. ownerEarnings / maintenanceCapex / growthCapex */
   cashflow: CashFlowPeriod[]
+  /** Owner-Earnings-Herleitung je Periode (gleiche Reihenfolge wie cashflow) */
+  ownerEarnings: OwnerEarningsResult[]
   financialSource: 'sec-xbrl' | 'finclue-manual' | 'no-data' | null
   financialNotice: string | null
   news: NewsArticle[]

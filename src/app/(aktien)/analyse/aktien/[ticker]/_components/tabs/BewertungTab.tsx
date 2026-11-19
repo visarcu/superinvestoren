@@ -6,14 +6,39 @@
 import React from 'react'
 import Link from 'next/link'
 import { AIAnalyseTab } from '@/components/ai-analyse'
+import OwnerEarningsCard from '../OwnerEarningsCard'
+import type { OwnerEarningsResult } from '@/lib/ownerEarnings'
+import type { Period, CashFlowPeriod, Quote } from '../../_lib/types'
 
 interface BewertungTabProps {
   ticker: string
+  income: Period[]
+  cashflow: CashFlowPeriod[]
+  ownerEarnings: OwnerEarningsResult[]
+  quote: Quote | null
+  financialSource: 'sec-xbrl' | 'finclue-manual' | 'no-data' | null
 }
 
-export default function BewertungTab({ ticker }: BewertungTabProps) {
+export default function BewertungTab({
+  ticker,
+  income,
+  cashflow,
+  ownerEarnings,
+  quote,
+  financialSource,
+}: BewertungTabProps) {
   return (
     <div className="w-full max-w-4xl">
+      {/* Owner Earnings nach Buffett — versteckt sich, wenn nicht schätzbar (z.B. Banken) */}
+      <OwnerEarningsCard
+        ticker={ticker}
+        income={income}
+        cashflow={cashflow}
+        ownerEarnings={ownerEarnings}
+        quote={quote}
+        financialSource={financialSource}
+      />
+
       {/* Hint oben rechts: Link zum Standalone DCF-Rechner für Manuell-Modus */}
       <div className="flex items-center justify-between gap-4 mb-4">
         <div>

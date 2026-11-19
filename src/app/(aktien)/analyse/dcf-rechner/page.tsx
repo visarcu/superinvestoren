@@ -5,13 +5,29 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
-import ImprovedDCFCalculator from '@/components/ImprovedDCFCalculator'
+import ImprovedDCFCalculator, { type CalculatorMode } from '@/components/ImprovedDCFCalculator'
 import { AIAnalyseTab } from '@/components/ai-analyse'
 
 type TabType = 'manual' | 'ai'
 
-export default function DcfRechnerPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('ai')
+// URL-Parameter ?basis=… → Modus des manuellen Rechners
+const BASIS_TO_MODE: Record<string, CalculatorMode> = {
+  'earnings': 'earnings',
+  'free-cashflow': 'cashflow',
+  'operativer-cashflow': 'opcashflow',
+  'owner-earnings': 'ownerearnings',
+}
+
+export default function DcfRechnerPage({
+  searchParams,
+}: {
+  searchParams?: { ticker?: string; basis?: string }
+}) {
+  // Direkt-Link (?ticker=MSFT&basis=owner-earnings) öffnet den manuellen Rechner mit dieser Aktie
+  const linkedTicker =
+    searchParams?.ticker && /^[A-Za-z0-9.^-]{1,15}$/.test(searchParams.ticker) ? searchParams.ticker : undefined
+  const linkedMode = searchParams?.basis ? BASIS_TO_MODE[searchParams.basis] : undefined
+  const [activeTab, setActiveTab] = useState<TabType>(linkedTicker ? 'manual' : 'ai')
 
   return (
     <div className="min-h-screen bg-[#06060e] flex flex-col">
@@ -78,7 +94,11 @@ export default function DcfRechnerPage() {
 
       {/* Tab Content */}
       <main className="flex-1 px-2 sm:px-4 pb-32">
-        {activeTab === 'manual' ? <ImprovedDCFCalculator /> : <AIAnalyseTab />}
+        {activeTab === 'manual' ? (
+          <ImprovedDCFCalculator initialTicker={linkedTicker} initialMode={linkedMode} />
+        ) : (
+          <AIAnalyseTab />
+        )}
       </main>
     </div>
   )
