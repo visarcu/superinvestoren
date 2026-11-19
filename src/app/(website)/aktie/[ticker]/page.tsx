@@ -452,9 +452,7 @@ export default async function StockPage({ params }: Props) {
 
         <SuperinvestorSection s={s} />
 
-        <p className="text-xs text-theme-muted">
-          Kurs- und Unternehmensdaten: Financial Modeling Prep, verzögert. Keine Anlageberatung.
-        </p>
+        <p className="text-xs text-theme-muted">Keine Anlageberatung.</p>
       </div>
     </div>
   )
