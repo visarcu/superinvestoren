@@ -1,7 +1,8 @@
-// src/app/superinvestor/page.tsx - LINEAR/QUARTR STYLE
 'use client'
+// Superinvestoren-Übersicht (Client-Teil). Die Daten rechnet die Server-Seite
+// page.tsx vor – kein Ladebildschirm mehr, Inhalt steht direkt im HTML.
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import {
   UserGroupIcon,
@@ -13,77 +14,20 @@ import {
   CircleStackIcon,
   CalendarIcon,
 } from '@heroicons/react/24/outline'
-import { useOverviewData } from '@/hooks/useOverviewData'
+import type { OverviewData } from '@/hooks/useOverviewData'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import NewsletterSignup from '@/components/NewsletterSignup'
 import SuperinvestorInfo from '@/components/SuperinvestorInfo'
 import Logo from '@/components/Logo'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 
-function SuperinvestorOverviewContent() {
+function SuperinvestorOverviewContent({ overviewData, latestQuarter }: { overviewData: OverviewData; latestQuarter: string }) {
   // Currency formatting
   const { formatCurrency } = useCurrency()
 
   // Helper to convert American formatted strings to German
   const toGermanFormat = (str: string): string => {
     return str.replace(/([0-9]+)\.([0-9]+)/g, '$1,$2')
-  }
-
-  // 1. STATE HOOKS
-  const [isLoading, setIsLoading] = useState(true)
-
-  // 2. DATA HOOKS - OPTIMIZED API CALL
-  const { data: overviewData, loading: dataLoading, error: dataError } = useOverviewData()
-
-  // Dynamic latest quarter calculation
-  const latestQuarter = useMemo(() => {
-    const now = new Date()
-    const month = now.getMonth()
-    const year = now.getFullYear()
-    // 13F filings are delayed ~45 days, so we show the previous quarter
-    if (month >= 10) return `Q3 ${year}`
-    if (month >= 7) return `Q2 ${year}`
-    if (month >= 4) return `Q1 ${year}`
-    return `Q4 ${year - 1}`
-  }, [])
-
-  // 4. SIDE EFFECTS
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 500)
-    return () => clearTimeout(timer)
-  }, [])
-
-  // 5. CONDITIONAL RETURNS
-  if (isLoading || dataLoading) {
-    return (
-      <div className="min-h-screen bg-[#0F0F11] flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-10 h-10 border-2 border-neutral-800 border-t-neutral-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-500 text-sm">Lade Daten...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (dataError) {
-    return (
-      <div className="min-h-screen bg-[#0F0F11] flex items-center justify-center">
-        <div className="text-center max-w-md">
-          <div className="text-red-400 mb-4">Fehler beim Laden der Daten</div>
-          <p className="text-gray-500 text-sm mb-4">{dataError}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-brand text-black rounded-lg hover:bg-green-400 transition-colors"
-          >
-            Erneut versuchen
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  if (!overviewData) {
-    return null
   }
 
   const { featuredInvestors, pulseData, trendingStocks, biggestTrades, totalInvestors } = overviewData
@@ -222,7 +166,7 @@ function SuperinvestorOverviewContent() {
                 {trendingStocks.topBuys.slice(0, 8).map(([ticker, count]) => (
                   <Link
                     key={ticker}
-                    href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
+                    href={`/aktie/${ticker.toLowerCase()}`}
                     className="bg-white/5 hover:bg-white/[0.08] rounded-lg p-3 text-center transition-colors"
                     title={`${ticker}: ${count} Käufe`}
                   >
@@ -390,10 +334,10 @@ function SuperinvestorOverviewContent() {
   )
 }
 
-export default function SuperinvestorOverview() {
+export default function SuperinvestorOverviewClient({ data, latestQuarter }: { data: OverviewData; latestQuarter: string }) {
   return (
     <CurrencyProvider>
-      <SuperinvestorOverviewContent />
+      <SuperinvestorOverviewContent overviewData={data} latestQuarter={latestQuarter} />
     </CurrencyProvider>
   )
 }

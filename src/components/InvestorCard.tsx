@@ -1,145 +1,15 @@
 'use client'
 
-import React, { useMemo } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import { ArrowTopRightOnSquareIcon, UserIcon, BuildingOffice2Icon, ChartBarIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/outline'
 import { AreaChart, Area, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 import InvestorAvatar from './InvestorAvatar'
-import holdingsHistory from '@/data/holdings'
+import type { InvestorListItem } from '@/lib/investorListData'
 
-interface InvestorCardData {
-  slug: string
-  name: string
-  subtitle: string
-  type: 'investor' | 'fund'
-  totalValue: number
-}
-
-interface ChartDataPoint {
-  date: string
-  value: number
-  quarter: string
-}
-
-interface TopHolding {
-  ticker: string
-  name: string
-  percent: number
-  value: number
-}
-
-const InvestorCard: React.FC<{ investor: InvestorCardData }> = ({ investor }) => {
-  // Extract ticker symbol from company name (simplified)
-  const extractTicker = (companyName: string): string => {
-    const name = companyName.toUpperCase()
-    if (name.includes('APPLE')) return 'AAPL'
-    if (name.includes('MICROSOFT')) return 'MSFT'
-    if (name.includes('AMAZON')) return 'AMZN'
-    if (name.includes('GOOGLE') || name.includes('ALPHABET')) return 'GOOGL'
-    if (name.includes('TESLA')) return 'TSLA'
-    if (name.includes('BERKSHIRE')) return 'BRK.A'
-    if (name.includes('AMERICAN EXPRESS')) return 'AXP'
-    if (name.includes('COCA COLA')) return 'KO'
-    if (name.includes('BANK AMER')) return 'BAC'
-    if (name.includes('VISA')) return 'V'
-    if (name.includes('MASTERCARD')) return 'MA'
-    if (name.includes('CHEVRON')) return 'CVX'
-    if (name.includes('KRAFT HEINZ')) return 'KHC'
-    if (name.includes('OCCIDENTAL')) return 'OXY'
-    if (name.includes('CHUBB')) return 'CB'
-    if (name.includes('MOODYS')) return 'MCO'
-    if (name.includes('DAVITA')) return 'DVA'
-    if (name.includes('SIRIUS')) return 'SIRI'
-    if (name.includes('CITIGROUP')) return 'C'
-    if (name.includes('KROGER')) return 'KR'
-    if (name.includes('VERISIGN')) return 'VRSN'
-    if (name.includes('NU HLDGS')) return 'NU'
-    // Return abbreviated company name as fallback
-    const words = name.split(' ')
-    if (words.length >= 2) {
-      return (words[0].substring(0, 2) + words[1].substring(0, 2)).substring(0, 4)
-    }
-    return words[0].substring(0, 4)
-  }
-
-  // Generate chart data and performance metrics
-  const { chartData, performanceData, topHoldings } = useMemo(() => {
-    const snapshots = holdingsHistory[investor.slug] || []
-    if (!Array.isArray(snapshots) || snapshots.length === 0) {
-      return {
-        chartData: [],
-        performanceData: { changePercent: 0, changeQuarter: 0, lastUpdate: null },
-        topHoldings: []
-      }
-    }
-
-    // Create chart data from all snapshots (last 2 years max)
-    const chartPoints: ChartDataPoint[] = snapshots
-      .slice(-8) // Last 8 quarters (2 years)
-      .map((snapshot, index) => ({
-        date: snapshot.data.date || snapshot.quarter || '',
-        value: snapshot.data.totalValue || 0,
-        quarter: snapshot.quarter || `Q${index + 1}`
-      }))
-      .filter(point => point.value > 0)
-
-    // Calculate performance metrics
-    let changePercent = 0
-    let changeQuarter = 0
-    if (chartPoints.length > 1) {
-      const latest = chartPoints[chartPoints.length - 1].value
-      const previous = chartPoints[chartPoints.length - 2].value
-      const earliest = chartPoints[0].value
-      
-      changePercent = earliest > 0 ? ((latest - earliest) / earliest) * 100 : 0
-      changeQuarter = previous > 0 ? ((latest - previous) / previous) * 100 : 0
-    }
-
-    // Get top holdings from latest snapshot
-    const latestSnapshot = snapshots[snapshots.length - 1]
-    const holdings: TopHolding[] = []
-    
-    if (latestSnapshot?.data?.positions) {
-      // Group positions by company (in case of duplicate entries)
-      const positionMap = new Map<string, { name: string, value: number }>()
-      
-      latestSnapshot.data.positions.forEach((position: any) => {
-        const cusip = position.cusip
-        const existing = positionMap.get(cusip)
-        if (existing) {
-          existing.value += position.value
-        } else {
-          positionMap.set(cusip, {
-            name: position.name,
-            value: position.value
-          })
-        }
-      })
-
-      // Convert to array and sort by value
-      const sortedPositions = Array.from(positionMap.entries())
-        .map(([cusip, data]) => ({
-          ticker: extractTicker(data.name),
-          name: data.name,
-          value: data.value,
-          percent: (data.value / (latestSnapshot.data.totalValue || 1)) * 100
-        }))
-        .sort((a, b) => b.value - a.value)
-        .slice(0, 5)
-
-      holdings.push(...sortedPositions)
-    }
-
-    return {
-      chartData: chartPoints,
-      performanceData: {
-        changePercent: Math.round(changePercent * 10) / 10,
-        changeQuarter: Math.round(changeQuarter * 10) / 10,
-        lastUpdate: snapshots[snapshots.length - 1]?.data?.date || null
-      },
-      topHoldings: holdings
-    }
-  }, [investor.slug])
+// Kartendaten (Verlauf, Top-Positionen) rechnet der Server vor: lib/investorListData
+const InvestorCard: React.FC<{ investor: InvestorListItem }> = ({ investor }) => {
+  const { chartData, performanceData, topHoldings } = investor
 
   const formatLargeNumber = (value: number): string => {
     if (value === 0) return '–'
