@@ -23,6 +23,8 @@ interface InvestorRef {
   imageUrl: string | null
   /** Berichtsquartal des Filings, z. B. "Q3 2026" */
   periodLabel: string
+  /** Einreichungsdatum des Filings (ISO) */
+  filingDate: string
 }
 
 export interface StockHolder extends InvestorRef {
@@ -92,6 +94,7 @@ function investorRef(slug: string, filingDate: string): InvestorRef {
     firm: subtitle ?? null,
     imageUrl: investors.find(i => i.slug === slug)?.imageUrl ?? null,
     periodLabel: `Q${q} ${year}`,
+    filingDate,
   }
 }
 

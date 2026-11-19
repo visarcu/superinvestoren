@@ -29,6 +29,7 @@ const LatestGuruTrades = dynamic(() => import('@/components/LatestGuruTrades'), 
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>,
   ssr: false
 })
+const PersonalFeed = dynamic(() => import('@/components/terminal/PersonalFeed'), { ssr: false })
 const SectorPerformance = dynamic(() => import('@/components/SectorPerformance'), {
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
   ssr: false
@@ -447,6 +448,9 @@ export default function ModernDashboard() {
       </div>
 
       <main className="px-6 lg:px-8 py-6 space-y-6">
+
+        {/* Für dich: 13F gefolgter Investoren, Superinvestor-/Insider-Käufe, Quartalszahlen */}
+        <PersonalFeed />
 
         {/* Market Intelligence Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
