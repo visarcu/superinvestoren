@@ -1,0 +1,495 @@
+{
+  "form": "13F-HR",
+  "date": "2026-11-16",
+  "period": "2026-11-16",
+  "accession": "0001104659-26-127473",
+  "quarterKey": "2026-Q4",
+  "positions": [
+    {
+      "name": "EQUINOX GOLD CORP",
+      "cusip": "29446Y502",
+      "shares": 58399504,
+      "value": 649089046,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ELDORADO GOLD CORP",
+      "cusip": "284902509",
+      "shares": 13746506,
+      "value": 526719441,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KRAFT HEINZ CO",
+      "cusip": "500754106",
+      "shares": 14306500,
+      "value": 325043680,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 2712000,
+      "value": 232418400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311107",
+      "shares": 45356965,
+      "value": 202292064,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "CLEVELAND-CLIFFS INC",
+      "cusip": "185899101",
+      "shares": 14899273,
+      "value": 164189988,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "UNDER ARMOUR INC",
+      "cusip": "904311206",
+      "shares": 21999128,
+      "value": 95696207,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL C",
+      "putCall": null
+    },
+    {
+      "name": "MOLSON COORS BEVERAGE CO",
+      "cusip": "60871R209",
+      "shares": 2294500,
+      "value": 83657470,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
+    },
+    {
+      "name": "WENDYS CO",
+      "cusip": "95058W100",
+      "shares": 8005627,
+      "value": 51075900,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ATS CORP",
+      "cusip": "00217Y104",
+      "shares": 2486400,
+      "value": 44874798,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HELMERICH & PAYNE INC",
+      "cusip": "423452101",
+      "shares": 1164056,
+      "value": 43233040,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 93700,
+      "value": 42759058,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "PFIZER INC",
+      "cusip": "717081103",
+      "shares": 1415900,
+      "value": 40395627,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BANK NOVA SCOTIA",
+      "cusip": "064149107",
+      "shares": 359100,
+      "value": 32674016,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENERAL MOTORS CO",
+      "cusip": "37045V100",
+      "shares": 375965,
+      "value": 28945545,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 172900,
+      "value": 25137931,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "COTY INC",
+      "cusip": "222070203",
+      "shares": 7673468,
+      "value": 19951017,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "KASPI KZ JSC",
+      "cusip": "48581R205",
+      "shares": 106000,
+      "value": 9956580,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "ROGERS COMMUNICATIONS INC",
+      "cusip": "775109200",
+      "shares": 150200,
+      "value": 4635861,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
+    },
+    {
+      "name": "GARRETT MOTION INC",
+      "cusip": "366505105",
+      "shares": 102783,
+      "value": 2675441,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "WARNER BROS DISCOVERY INC",
+      "cusip": "934423104",
+      "shares": 81900,
+      "value": 2533167,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SER A",
+      "putCall": null
+    },
+    {
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 36100,
+      "value": 2473211,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CANADIAN NATIONAL RAILWAY CO",
+      "cusip": "136375102",
+      "shares": 19800,
+      "value": 2358288,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTERNATIONAL MONEY EXPRESS",
+      "cusip": "46005L101",
+      "shares": 203000,
+      "value": 2350740,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SUNBELT RENTALS HOLDINGS INC",
+      "cusip": "866966104",
+      "shares": 31075,
+      "value": 2275001,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 25000,
+      "value": 2208135,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SUB VTG SHS",
+      "putCall": null
+    },
+    {
+      "name": "DOMINO'S PIZZA INC",
+      "cusip": "25754A201",
+      "shares": 7230,
+      "value": 2166325,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LULULEMON ATHLETICA INC",
+      "cusip": "550021109",
+      "shares": 12500,
+      "value": 1201875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GILDAN ACTIVEWEAR INC",
+      "cusip": "375916103",
+      "shares": 28300,
+      "value": 1195985,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BRIGHTSTAR LOTTERY PLC",
+      "cusip": "G4863A108",
+      "shares": 110533,
+      "value": 1105330,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS USD",
+      "putCall": null
+    },
+    {
+      "name": "CAPRI HOLDINGS LTD",
+      "cusip": "G1890L107",
+      "shares": 78100,
+      "value": 1101210,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "PENN ENTERTAINMENT INC",
+      "cusip": "707569109",
+      "shares": 54900,
+      "value": 804285,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC",
+      "cusip": "084670108",
+      "shares": 1,
+      "value": 747000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "MAGNACHIP SEMICONDUCTOR CORP",
+      "cusip": "55933J203",
+      "shares": 62500,
+      "value": 235000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 2648176662,
+  "positionsCount": 34,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 2648176662
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

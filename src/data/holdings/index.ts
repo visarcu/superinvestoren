@@ -4,6 +4,7 @@
 import aschenbrenner_2026_Q1 from './aschenbrenner/2026-Q1.json'
 import aschenbrenner_2026_Q2 from './aschenbrenner/2026-Q2.json'
 import aschenbrenner_2026_Q3 from './aschenbrenner/2026-Q3.json'
+import aschenbrenner_2026_Q4 from './aschenbrenner/2026-Q4.json'
 
 //Check Steven
 
@@ -773,6 +774,7 @@ import hong_2025_Q4 from './hong/2025-Q4.json'
 import hong_2026_Q1 from './hong/2026-Q1.json'
 import hong_2026_Q2 from './hong/2026-Q2.json'
 import hong_2026_Q3 from './hong/2026-Q3.json'
+import hong_2026_Q4 from './hong/2026-Q4.json'
 
 //bares
 import bares_2024_Q2 from './bares/2024-Q2.json'
@@ -813,6 +815,7 @@ import watsa_2025_Q4 from './watsa/2025-Q4.json'
 import watsa_2026_Q1 from './watsa/2026-Q1.json'
 import watsa_2026_Q2 from './watsa/2026-Q2.json'
 import watsa_2026_Q3 from './watsa/2026-Q3.json'
+import watsa_2026_Q4 from './watsa/2026-Q4.json'
 
 //sosin
 
@@ -826,6 +829,7 @@ import sosin_2025_Q4 from './sosin/2025-Q4.json'
   import sosin_2026_Q1 from './sosin/2026-Q1.json'
   import sosin_2026_Q2 from './sosin/2026-Q2.json'
   import sosin_2026_Q3 from './sosin/2026-Q3.json'
+  import sosin_2026_Q4 from './sosin/2026-Q4.json'
 
 
 //meritage
@@ -1029,6 +1033,7 @@ import klarman_2025_Q4 from './klarman/2025-Q4.json'
 import klarman_2026_Q1 from './klarman/2026-Q1.json'
 import klarman_2026_Q2 from './klarman/2026-Q2.json'
 import klarman_2026_Q3 from './klarman/2026-Q3.json'
+import klarman_2026_Q4 from './klarman/2026-Q4.json'
 
 //spier
 import spier_2024_Q2 from './spier/2024-Q2.json'
@@ -1334,6 +1339,7 @@ import thiel_2025_Q4 from './thiel/2025-Q4.json'
 // import thiel_2026_Q1 from './thiel/2026-Q1.json'
 // import thiel_2026_Q2 from './thiel/2026-Q2.json'
 import thiel_2026_Q3 from './thiel/2026-Q3.json'
+import thiel_2026_Q4 from './thiel/2026-Q4.json'
 
 //funds
 //bob
@@ -1480,6 +1486,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       {quarter: '2026-Q1', data: aschenbrenner_2026_Q1},
       {quarter: '2026-Q2', data: aschenbrenner_2026_Q2},
       {quarter: '2026-Q3', data: aschenbrenner_2026_Q3},
+      {quarter: '2026-Q4', data: aschenbrenner_2026_Q4},
     
     
   
@@ -2355,6 +2362,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: hong_2026_Q1},
     {quarter: '2026-Q2', data: hong_2026_Q2},
     {quarter: '2026-Q3', data: hong_2026_Q3},
+    {quarter: '2026-Q4', data: hong_2026_Q4},
    ],
 
    bares: [
@@ -2399,6 +2407,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: watsa_2026_Q1},
     { quarter: '2026-Q2', data: watsa_2026_Q2},
     { quarter: '2026-Q3', data: watsa_2026_Q3},
+    { quarter: '2026-Q4', data: watsa_2026_Q4},
    ],
 
    sosin: [
@@ -2411,6 +2420,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       {quarter: '2026-Q1', data: sosin_2026_Q1},
       {quarter: '2026-Q2', data: sosin_2026_Q2},
       {quarter: '2026-Q3', data: sosin_2026_Q3},
+      {quarter: '2026-Q4', data: sosin_2026_Q4},
 
    ],
    meridiancontrarian: [
@@ -2650,6 +2660,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: klarman_2026_Q1},
     {quarter: '2026-Q2', data: klarman_2026_Q2},
     {quarter: '2026-Q3', data: klarman_2026_Q3},
+    {quarter: '2026-Q4', data: klarman_2026_Q4},
    ],
 
    spier: [
@@ -2832,6 +2843,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     // {quarter: '2026-Q1', data: thiel_2026_Q1},
     //{quarter: '2026-Q2', data: thiel_2026_Q2},
     {quarter: '2026-Q3', data: thiel_2026_Q3},
+    {quarter: '2026-Q4', data: thiel_2026_Q4},
    ],
 
 

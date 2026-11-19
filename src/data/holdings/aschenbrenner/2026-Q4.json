@@ -1,0 +1,343 @@
+{
+  "form": "13F-HR",
+  "date": "2026-11-16",
+  "period": "2026-11-16",
+  "accession": "0000935836-26-000610",
+  "quarterKey": "2026-Q4",
+  "positions": [
+    {
+      "name": "SHARONAI HOLDINGS INC",
+      "cusip": "778920306",
+      "shares": 8070950,
+      "value": 440673870,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 400000,
+      "value": 110792000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "SANDISK CORP",
+      "cusip": "80004C200",
+      "shares": 60000,
+      "value": 104393400,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 325000,
+      "value": 90018500,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "SANDISK CORP",
+      "cusip": "80004C200",
+      "shares": 45000,
+      "value": 78295050,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 300000,
+      "value": 70764000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CLASS ASHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 280000,
+      "value": 66046400,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CLASS ASHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 235000,
+      "value": 65090300,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 220000,
+      "value": 51893600,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CLASS ASHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 220000,
+      "value": 51893600,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CLASS ASHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 180000,
+      "value": 49856400,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 200000,
+      "value": 47176000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CLASS ASHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "ROUNDHILL ETF TRUST",
+      "cusip": "77926X320",
+      "shares": 750000,
+      "value": 45270000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "MEMORY ETF",
+      "putCall": "Call"
+    },
+    {
+      "name": "NEBIUS GROUP N.V.",
+      "cusip": "N97284108",
+      "shares": 190000,
+      "value": 44817200,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "CLASS ASHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 145000,
+      "value": 40162100,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "CLEANSPARK INC",
+      "cusip": "18452B209",
+      "shares": 3019029,
+      "value": 38885094,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "ROUNDHILL ETF TRUST",
+      "cusip": "77926X320",
+      "shares": 595000,
+      "value": 35914200,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "MEMORY ETF",
+      "putCall": "Call"
+    },
+    {
+      "name": "BLOOM ENERGY CORP",
+      "cusip": "093712107",
+      "shares": 120000,
+      "value": 33237600,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": "Call"
+    },
+    {
+      "name": "ROUNDHILL ETF TRUST",
+      "cusip": "77926X320",
+      "shares": 550000,
+      "value": 33198000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "MEMORY ETF",
+      "putCall": "Call"
+    },
+    {
+      "name": "ROUNDHILL ETF TRUST",
+      "cusip": "77926X320",
+      "shares": 430000,
+      "value": 25954800,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "MEMORY ETF",
+      "putCall": "Call"
+    },
+    {
+      "name": "IREN LIMITED",
+      "cusip": "Q4982L109",
+      "shares": 527864,
+      "value": 21579080,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORDINARY SHARES",
+      "putCall": null
+    },
+    {
+      "name": "BITDEER TECHNOLOGIES GROUP",
+      "cusip": "G11448100",
+      "shares": 1934618,
+      "value": 20294143,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "FERMI INC",
+      "cusip": "314911108",
+      "shares": 2671898,
+      "value": 11248691,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 1577454028,
+  "positionsCount": 23,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 532680878,
+      "CALL": 1044773150
+    },
+    "percentages": {
+      "STOCK": "33.8%",
+      "CALL": "66.2%"
+    }
+  }
+}

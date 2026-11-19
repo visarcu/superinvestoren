@@ -1,0 +1,313 @@
+{
+  "form": "13F-HR",
+  "date": "2026-11-13",
+  "period": "2026-11-13",
+  "accession": "0001061768-26-000015",
+  "quarterKey": "2026-Q4",
+  "positions": [
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 3743854,
+      "value": 932781000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ELEVANCE HEALTH INC FORMERLY",
+      "cusip": "036752103",
+      "shares": 1275154,
+      "value": 495805000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RESTAURANT BRANDS INTL INC",
+      "cusip": "76131D103",
+      "shares": 6753112,
+      "value": 480104000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENUINE PARTS CO",
+      "cusip": "372460105",
+      "shares": 3097978,
+      "value": 389540000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "shares": 1571594,
+      "value": 349868000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK NEW",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 949931,
+      "value": 323679000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "WESCO INTL INC",
+      "cusip": "95082P105",
+      "shares": 718523,
+      "value": 258374000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 701355,
+      "value": 252018000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "UNION PAC CORP",
+      "cusip": "907818108",
+      "shares": 795395,
+      "value": 216451000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 674779,
+      "value": 186759000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CL A",
+      "putCall": null
+    },
+    {
+      "name": "CME GROUP INC",
+      "cusip": "12572Q105",
+      "shares": 685435,
+      "value": 179570000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HONEYWELL AEROSPACE INC",
+      "cusip": "43849R105",
+      "shares": 1132000,
+      "value": 175426000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HERBALIFE LTD",
+      "cusip": "G4412G101",
+      "shares": 10259844,
+      "value": 124452000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "GDS HLDGS LTD",
+      "cusip": "36165L108",
+      "shares": 3769818,
+      "value": 117731000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "SITEONE LANDSCAPE SUPPLY INC",
+      "cusip": "82982L103",
+      "shares": 1245000,
+      "value": 112436000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMERICOLD REALTY TRUST INC",
+      "cusip": "03064D108",
+      "shares": 6830230,
+      "value": 95487000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EAGLE MATLS INC",
+      "cusip": "26969P108",
+      "shares": 530763,
+      "value": 90771000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOLINA HEALTHCARE INC",
+      "cusip": "60855R100",
+      "shares": 449609,
+      "value": 85021000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 2506031,
+      "value": 80594000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GRUPO AEROMEXICO SAB DE CV",
+      "cusip": "40054J109",
+      "shares": 4880188,
+      "value": 77058000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "PERSHING SQUARE INC",
+      "cusip": "71531U102",
+      "shares": 392000,
+      "value": 21928000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
+    }
+  ],
+  "totalValue": 5045853000,
+  "positionsCount": 21,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 5045853000
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

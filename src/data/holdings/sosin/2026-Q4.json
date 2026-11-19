@@ -1,0 +1,103 @@
+{
+  "form": "13F-HR",
+  "date": "2026-11-16",
+  "period": "2026-11-16",
+  "accession": "0001697591-26-000005",
+  "quarterKey": "2026-Q4",
+  "positions": [
+    {
+      "name": "CARVANA CO CL A",
+      "cusip": "146869102",
+      "shares": 21954211,
+      "value": 1373016356,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CARVANA CO CL A",
+      "putCall": null
+    },
+    {
+      "name": "HILTON GRAND VACATIONS",
+      "cusip": "43283X105",
+      "shares": 5070709,
+      "value": 175750774,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "HILTON GRAND VACATIONS",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 172679,
+      "value": 125223357,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "META PLATFORMS INC",
+      "putCall": null
+    },
+    {
+      "name": "MARRIOTT VACATIONS WORLDWIDE CORP",
+      "cusip": "57164Y107",
+      "shares": 389460,
+      "value": 39833969,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MARRIOTT VACATIONS WORLDWIDE CORP.",
+      "putCall": null
+    },
+    {
+      "name": "LATHAM GROUP",
+      "cusip": "51819L107",
+      "shares": 433262,
+      "value": 2699222,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "LATHAM GROUP",
+      "putCall": null
+    },
+    {
+      "name": "CARDLYTICS, INC",
+      "cusip": "14161W105",
+      "shares": 459426,
+      "value": 1350712,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CARDLYTICS, INC.",
+      "putCall": null
+    }
+  ],
+  "totalValue": 1717874390,
+  "positionsCount": 6,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1717874390
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}
