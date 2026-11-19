@@ -4,13 +4,32 @@
     {
       "name": "dev",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev"],
+      "runtimeArgs": [
+        "next",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "dev-8gb",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "NODE_OPTIONS=--max-old-space-size=8192",
+        "npx",
+        "next",
+        "dev"
+      ],
       "port": 3000
     },
     {
       "name": "dev-alt",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev", "-p", "3987"],
+      "runtimeArgs": [
+        "next",
+        "dev",
+        "-p",
+        "3987"
+      ],
       "port": 3987
     }
   ]
