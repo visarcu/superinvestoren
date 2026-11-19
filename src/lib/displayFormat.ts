@@ -48,7 +48,7 @@ export function shortCompanyName(name: string): string {
   let short = name.replace(/\s*\(.*\)\s*$/, '').replace(/^The\s+/i, '')
   for (let i = 0; i < 3; i++) {
     short = short.replace(
-      /,?\s+(Inc\.?|Corporation|Corp\.?|Company|Co\.|Holdings?|plc|N\.V\.|Ltd\.?|S\.A\.|AG|SE|KGaA|S\.p\.A\.|ASA|Oyj|A\/S)$/i,
+      /,?\s+(Inc\.?|Corporation|Corp\.?|Company|Co\.|Holdings?|plc|N\.V\.|Ltd\.?|S\.A\.|AG|SE|KGaA|S\.p\.A\.|ASA|Oyj|A\/S|Limited)$/i,
       '',
     )
   }

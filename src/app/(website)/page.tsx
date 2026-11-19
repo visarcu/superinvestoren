@@ -74,7 +74,7 @@ const quickPicks: SearchResult[] = [
 const pillars = [
   { href: '/superinvestor', title: 'Superinvestoren folgen' },
   { href: '/analyse', title: 'Aktien analysieren' },
-  { href: '/analyse/portfolio', title: 'Depot tracken' },
+  { href: '/depot', title: 'Depot tracken' },
 ]
 
 const moreFeatures = [
@@ -336,8 +336,8 @@ export default function HomePage() {
         eyebrow="03 · Im Blick behalten"
         headline="Dein Depot, endlich mit Klarheit."
         subline={`Importiere dein Depot von ${brokerNames.slice(0, 3).join(', ')} & Co. — mit echter Performance, Dividenden und dem Abgleich, welche Superinvestoren deine Aktien halten.`}
-        linkHref="/analyse/portfolio"
-        linkLabel="Depot anlegen"
+        linkHref="/depot"
+        linkLabel="Mehr zum Depot-Tracker"
         layout="left"
       />
 

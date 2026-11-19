@@ -23,6 +23,7 @@ import {
   ArrowRightIcon,
   RocketLaunchIcon,
   PresentationChartLineIcon,
+  BriefcaseIcon,
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 import { getSearchSuggestions, type SearchResult } from '@/lib/searchSuggestions'
@@ -321,6 +322,7 @@ const produkteSections: { title: string; links: ProduktLink[] }[] = [
     title: 'Analyse',
     links: [
       { href: '/analyse', label: 'Aktien-Analyse', description: '10.000+ Aktien', icon: PresentationChartLineIcon },
+      { href: '/depot', label: 'Depot-Tracker', description: 'Rendite & Risikoanalyse', icon: BriefcaseIcon },
       { href: '/superinvestor', label: 'Super-Investoren', description: 'Portfolio Tracking', icon: UsersIcon },
       { href: '/politiker', label: 'Politiker-Trades', description: 'US-Kongress Offenlegungen', icon: BuildingLibraryIcon },
     ],
