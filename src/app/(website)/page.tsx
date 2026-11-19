@@ -67,7 +67,7 @@ const quickPicks: SearchResult[] = [
     id: s.ticker,
     title: s.ticker,
     subtitle: `${shortCompanyName(s.name)} · von ${s.investorCount} Superinvestoren gekauft`,
-    href: `/analyse/stocks/${s.ticker}`,
+    href: `/aktie/${s.ticker.toLowerCase()}`,
   })),
 ]
 
@@ -157,7 +157,7 @@ function MoveList({ title, items, tone }: { title: string; items: RankedStock[];
         {items.map(s => (
           <li key={s.ticker}>
             <Link
-              href={`/analyse/stocks/${s.ticker}`}
+              href={`/aktie/${s.ticker.toLowerCase()}`}
               className="group flex items-center gap-3 py-3.5"
             >
               <Logo ticker={s.ticker} src={logoSrc(s)} alt={s.name} className="w-8 h-8 rounded-lg" />

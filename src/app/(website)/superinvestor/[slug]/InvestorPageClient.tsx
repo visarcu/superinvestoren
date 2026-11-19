@@ -196,7 +196,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
   if (ticker) {
     return (
       <Link
-        href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
+        href={`/aktie/${ticker.toLowerCase()}`}
         className="group hover:text-brand-light/80 transition-colors"
       >
         {content}

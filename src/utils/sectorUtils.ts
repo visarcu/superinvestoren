@@ -49,6 +49,10 @@ export const SECTOR_TRANSLATIONS: Record<string, string> = {
   'Materials': 'Rohstoffe',
   'Utilities': 'Versorger',
   'Communication Services': 'Kommunikation',
+  // FMP-Bezeichnungen derselben Sektoren
+  'Consumer Cyclical': 'Zyklische Konsumgüter',
+  'Consumer Defensive': 'Basiskonsumgüter',
+  'Basic Materials': 'Rohstoffe',
   'Other': 'Sonstige'
 }
 

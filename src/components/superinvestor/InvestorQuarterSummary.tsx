@@ -28,7 +28,7 @@ function MoveColumn({ title, moves, tone }: { title: string; moves: QuarterMove[
           return (
             <li key={m.cusip} className="flex items-center justify-between gap-4 py-2">
               {m.ticker ? (
-                <Link href={`/analyse/stocks/${m.ticker}`} className="truncate hover:underline underline-offset-4">
+                <Link href={`/aktie/${m.ticker.toLowerCase()}`} className="truncate hover:underline underline-offset-4">
                   {label}
                 </Link>
               ) : (

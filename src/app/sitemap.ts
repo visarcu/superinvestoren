@@ -3,6 +3,7 @@ import { readdirSync } from 'fs'
 import { join } from 'path'
 import { getAllPosts } from '@/lib/blog'
 import { LEARN_DEFINITIONS } from '@/data/learnDefinitions'
+import { getHeldTickers } from '@/lib/stockSuperinvestors'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://finclue.de'
@@ -149,5 +150,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.5,
     }))
 
-  return [...staticPages, ...investorPages, ...blogPages, ...lexikonPages]
+  // Öffentliche Aktienseiten: nur Aktien, die mindestens ein Superinvestor
+  // aktuell hält (alle anderen sind noindex, siehe /aktie/[ticker]).
+  const stockPages: MetadataRoute.Sitemap = getHeldTickers().map(ticker => ({
+    url: `${baseUrl}/aktie/${ticker.toLowerCase()}`,
+    changeFrequency: 'weekly' as const,
+    priority: 0.6,
+  }))
+
+  return [...staticPages, ...investorPages, ...stockPages, ...blogPages, ...lexikonPages]
 }

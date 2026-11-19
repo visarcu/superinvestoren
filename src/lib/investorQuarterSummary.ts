@@ -9,7 +9,7 @@
 import type { Snapshot } from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { investorCiks } from '@/lib/cikMapping'
-import { shortCompanyName } from '@/lib/displayFormat'
+import { joinGerman, shortCompanyName } from '@/lib/displayFormat'
 
 export type MoveKind = 'new' | 'increased' | 'reduced' | 'sold'
 
@@ -42,7 +42,7 @@ export interface InvestorQuarterSummaryData {
 const stockByCusip = new Map(stocks.filter(s => s.cusip).map(s => [s.cusip as string, s]))
 
 // 13F-Dateien sind nach Einreichungsquartal benannt — gehandelt wurde im Quartal davor.
-function reportQuarter(filingDate: string): { q: number; year: number } {
+export function reportQuarter(filingDate: string): { q: number; year: number } {
   const year = Number(filingDate.slice(0, 4))
   const filingQ = Math.ceil(Number(filingDate.slice(5, 7)) / 3)
   return filingQ === 1 ? { q: 4, year: year - 1 } : { q: filingQ - 1, year }
@@ -142,11 +142,6 @@ export function buildInvestorQuarterSummary(slug: string, snapshots: Snapshot[])
 // 1 → "eine neue Position", 4 → "4 neue Positionen"
 function count(n: number, singular: string, pluralForm: string) {
   return n === 1 ? `eine ${singular}` : `${n.toLocaleString('de-DE')} ${pluralForm}`
-}
-
-function joinGerman(parts: string[]): string {
-  if (parts.length <= 1) return parts.join('')
-  return `${parts.slice(0, -1).join(', ')} und ${parts[parts.length - 1]}`
 }
 
 /** "Im 3. Quartal 2026 hat Warren Buffett eine neue Position eröffnet, 2 Positionen aufgestockt …" */
