@@ -1191,6 +1191,7 @@ import kantesaria_2025_Q4 from './kantesaria/2025-Q4.json'
 import kantesaria_2026_Q1 from './kantesaria/2026-Q1.json'
 import kantesaria_2026_Q2 from './kantesaria/2026-Q2.json'
 import kantesaria_2026_Q3 from './kantesaria/2026-Q3.json'
+import kantesaria_2026_Q4 from './kantesaria/2026-Q4.json'
 
 //meridiancontrarian
 import meridiancontrarian_2024_Q2 from './meridiancontrarian/2024-Q2.json'
@@ -2779,6 +2780,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: kantesaria_2026_Q1},
     {quarter: '2026-Q2', data: kantesaria_2026_Q2},
     {quarter: '2026-Q3', data: kantesaria_2026_Q3},
+    {quarter: '2026-Q4', data: kantesaria_2026_Q4},
    ],
 
    tangen: [
