@@ -278,7 +278,7 @@ export const STRESS_SCENARIOS: StressScenarioDef[] = [
     label: 'Corona-Crash 2020',
     from: '2020-02-19',
     to: '2020-03-23',
-    description: 'Schnellster Bärenmarkt der Geschichte — 23 Handelstage',
+    description: 'Schnellster Bärenmarkt der Geschichte, 23 Handelstage',
   },
   {
     key: 'rates2022',

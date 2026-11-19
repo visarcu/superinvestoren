@@ -5,11 +5,12 @@
 
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 import { ArrowRightIcon, BuildingLibraryIcon, CheckIcon, EyeIcon, PresentationChartLineIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import NewsletterSignup from '@/components/NewsletterSignup'
 import HeroSearch from '@/components/landing/HeroSearch'
 import FinancialBars from '@/components/landing/FinancialBars'
+import QuarterMark from '@/components/landing/QuarterMark'
+import { DISPLAY, MONO, landingFontVars } from '@/components/landing/landingFonts'
 import Logo from '@/components/Logo'
 import InvestorQuarterSummary from '@/components/superinvestor/InvestorQuarterSummary'
 import holdingsHistory, { type Snapshot } from '@/data/holdings'
@@ -31,10 +32,6 @@ export const metadata: Metadata = {
 // Kurse und Kennzahlen der Beispiele stündlich auffrischen
 export const revalidate = 3600
 
-const display = Instrument_Sans({ subsets: ['latin'], weight: ['500', '600'], variable: '--font-display', display: 'swap' })
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
-const DISPLAY = { fontFamily: 'var(--font-display)' } as const
-const MONO = { fontFamily: 'var(--font-mono)' } as const
 
 // — Daten (alle aus echten Quellen) —
 
@@ -119,26 +116,6 @@ const faqJsonLd = {
 }
 
 // — Bausteine —
-
-/** Das Logo-Motiv: vier Felder, `filled` davon gefüllt (oder genau das Feld `only`) */
-function QuarterMark({ filled = 0, only, size = 12, light = false }: { filled?: number; only?: number; size?: number; light?: boolean }) {
-  const cell = (size - 2) / 2
-  const on = light ? '#111210' : '#ECEDE8'
-  const off = light ? '#D9DBD2' : '#3A3D36'
-  const positions = [
-    [0, 0],
-    [cell + 2, 0],
-    [0, cell + 2],
-    [cell + 2, cell + 2],
-  ]
-  return (
-    <svg aria-hidden="true" width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="shrink-0">
-      {positions.map(([x, y], i) => (
-        <rect key={i} x={x} y={y} width={cell} height={cell} rx={size > 20 ? 2.5 : 1.5} fill={(only ? i + 1 === only : i < filled) ? on : off} />
-      ))}
-    </svg>
-  )
-}
 
 function SectionTitle({ children, light = false, className = '' }: { children: React.ReactNode; light?: boolean; className?: string }) {
   return (
@@ -368,7 +345,7 @@ export default async function HomePage() {
   ])
 
   return (
-    <div className={`${display.variable} ${mono.variable} min-h-screen bg-[#0D0E0C] text-[#ECEDE8]`}>
+    <div className={`${landingFontVars} min-h-screen bg-[#0D0E0C] text-[#ECEDE8]`}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       {/* Hero: Hinweis, Headline, ein Satz, Suche, drei Wege */}
