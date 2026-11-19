@@ -2,7 +2,7 @@
 import { BuildingOfficeIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Impressum – Finclue',
+  title: 'Impressum',
 }
 
 export default function ImpressumPage() {

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { DocumentTextIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Allgemeine Geschäftsbedingungen – Finclue',
+  title: 'Allgemeine Geschäftsbedingungen',
 }
 
 export default function TermsPage() {

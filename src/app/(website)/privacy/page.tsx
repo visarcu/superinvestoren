@@ -2,7 +2,7 @@
 import { ShieldCheckIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Datenschutzerklärung – Finclue',
+  title: 'Datenschutzerklärung',
 }
 
 export default function Page() {

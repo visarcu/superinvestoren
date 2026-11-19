@@ -1,0 +1,326 @@
+{
+  "generatedAt": "2026-11-18T21:12:27.768Z",
+  "filingQuarter": "2026-Q4",
+  "reportQuarter": "Q3 2026",
+  "latestFilingDate": "2026-11-16",
+  "trackedInvestors": 101,
+  "reportedInvestors": 23,
+  "mostBought": [
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "logo": "/logos/nvda.png",
+      "investorCount": 5,
+      "totalValue": 2006212792,
+      "investors": [
+        {
+          "slug": "dodgecox",
+          "name": "Van Duyn Dodge & E. Morris Cox"
+        },
+        {
+          "slug": "loeb",
+          "name": "Daniel Loeb"
+        },
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        }
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com, Inc.",
+      "logo": "/logos/amzn.png",
+      "investorCount": 4,
+      "totalValue": 1629247914,
+      "investors": [
+        {
+          "slug": "dodgecox",
+          "name": "Van Duyn Dodge & E. Morris Cox"
+        },
+        {
+          "slug": "ainslie",
+          "name": "Lee Ainslie"
+        },
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        }
+      ]
+    },
+    {
+      "ticker": "SPCX",
+      "name": "SpaceX (Space Exploration Technologies Corp.)",
+      "logo": null,
+      "investorCount": 4,
+      "totalValue": 992023275,
+      "investors": [
+        {
+          "slug": "tepper",
+          "name": "David Tepper"
+        },
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        },
+        {
+          "slug": "loeb",
+          "name": "Daniel Loeb"
+        }
+      ]
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms, Inc.",
+      "logo": "/logos/meta.png",
+      "investorCount": 4,
+      "totalValue": 952888536,
+      "investors": [
+        {
+          "slug": "loeb",
+          "name": "Daniel Loeb"
+        },
+        {
+          "slug": "ainslie",
+          "name": "Lee Ainslie"
+        },
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        }
+      ]
+    },
+    {
+      "ticker": "MU",
+      "name": "Micron Technology, Inc.",
+      "logo": null,
+      "investorCount": 4,
+      "totalValue": 314105397,
+      "investors": [
+        {
+          "slug": "tepper",
+          "name": "David Tepper"
+        },
+        {
+          "slug": "soros",
+          "name": "George Soros"
+        },
+        {
+          "slug": "fisher",
+          "name": "Ken Fisher"
+        }
+      ]
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor Mnf Company",
+      "logo": null,
+      "investorCount": 4,
+      "totalValue": 308002609,
+      "investors": [
+        {
+          "slug": "dodgecox",
+          "name": "Van Duyn Dodge & E. Morris Cox"
+        },
+        {
+          "slug": "ainslie",
+          "name": "Lee Ainslie"
+        },
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        }
+      ]
+    }
+  ],
+  "mostSold": [
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corporation",
+      "logo": "/logos/msft.png",
+      "investorCount": 4,
+      "totalValue": 1137534241,
+      "investors": [
+        {
+          "slug": "ackman",
+          "name": "Bill Ackman"
+        },
+        {
+          "slug": "soros",
+          "name": "George Soros"
+        },
+        {
+          "slug": "rolfe",
+          "name": "David Rolfe"
+        }
+      ]
+    },
+    {
+      "ticker": "GOOG",
+      "name": "Alphabet Inc.",
+      "logo": "/logos/goog.png",
+      "investorCount": 4,
+      "totalValue": 1007982827,
+      "investors": [
+        {
+          "slug": "soros",
+          "name": "George Soros"
+        },
+        {
+          "slug": "dodgecox",
+          "name": "Van Duyn Dodge & E. Morris Cox"
+        },
+        {
+          "slug": "tepper",
+          "name": "David Tepper"
+        }
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices, Inc.",
+      "logo": null,
+      "investorCount": 4,
+      "totalValue": 656429437,
+      "investors": [
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        },
+        {
+          "slug": "tepper",
+          "name": "David Tepper"
+        },
+        {
+          "slug": "ainslie",
+          "name": "Lee Ainslie"
+        }
+      ]
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake Inc.",
+      "logo": null,
+      "investorCount": 4,
+      "totalValue": 181625154,
+      "investors": [
+        {
+          "slug": "ainslie",
+          "name": "Lee Ainslie"
+        },
+        {
+          "slug": "ark_investment_management",
+          "name": "Catherine Wood"
+        },
+        {
+          "slug": "soros",
+          "name": "George Soros"
+        }
+      ]
+    },
+    {
+      "ticker": "NUE",
+      "name": "Nucor Corporation",
+      "logo": null,
+      "investorCount": 3,
+      "totalValue": 924277651,
+      "investors": [
+        {
+          "slug": "dodgecox",
+          "name": "Van Duyn Dodge & E. Morris Cox"
+        },
+        {
+          "slug": "loeb",
+          "name": "Daniel Loeb"
+        },
+        {
+          "slug": "buffett",
+          "name": "Warren Buffett"
+        }
+      ]
+    },
+    {
+      "ticker": "ADM",
+      "name": "Archer-Daniels-Midland Company",
+      "logo": null,
+      "investorCount": 3,
+      "totalValue": 724183210,
+      "investors": [
+        {
+          "slug": "dodgecox",
+          "name": "Van Duyn Dodge & E. Morris Cox"
+        },
+        {
+          "slug": "soros",
+          "name": "George Soros"
+        },
+        {
+          "slug": "fisher",
+          "name": "Ken Fisher"
+        }
+      ]
+    }
+  ],
+  "biggestNewPositions": [
+    {
+      "ticker": "PS",
+      "name": "Pershing Square Inc.",
+      "logo": null,
+      "value": 10309165762,
+      "investor": {
+        "slug": "ackman",
+        "name": "Bill Ackman"
+      }
+    },
+    {
+      "ticker": "ICE",
+      "name": "Intercontinental Exchange, Inc.",
+      "logo": null,
+      "value": 1008855725,
+      "investor": {
+        "slug": "ackman",
+        "name": "Bill Ackman"
+      }
+    },
+    {
+      "ticker": "ALC",
+      "name": "Alcon Inc.",
+      "logo": null,
+      "value": 954175943,
+      "investor": {
+        "slug": "ackman",
+        "name": "Bill Ackman"
+      }
+    },
+    {
+      "ticker": "DHR",
+      "name": "Danaher Corporation",
+      "logo": "/logos/dhr.png",
+      "value": 490296132,
+      "investor": {
+        "slug": "ainslie",
+        "name": "Lee Ainslie"
+      }
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms, Inc.",
+      "logo": "/logos/meta.png",
+      "value": 474992900,
+      "investor": {
+        "slug": "loeb",
+        "name": "Daniel Loeb"
+      }
+    },
+    {
+      "ticker": "UNM",
+      "name": "Unum Group",
+      "logo": null,
+      "value": 438650000,
+      "investor": {
+        "slug": "loeb",
+        "name": "Daniel Loeb"
+      }
+    }
+  ]
+}

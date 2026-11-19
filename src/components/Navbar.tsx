@@ -25,18 +25,8 @@ import {
   PresentationChartLineIcon,
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
-import { stocks } from '@/data/stocks'
-import { investors } from '@/data/investors'
+import { getSearchSuggestions, type SearchResult } from '@/lib/searchSuggestions'
 import { usePathname } from 'next/navigation'
-
-// Search Result Interface
-interface SearchResult {
-  type: 'stock' | 'investor';
-  id: string;
-  title: string;
-  subtitle: string;
-  href: string;
-}
 
 // Search Bar Component with Light Theme Support
 function SearchBar({ onNavigate, isLightTheme = false }: { onNavigate?: () => void; isLightTheme?: boolean }) {
@@ -54,40 +44,7 @@ function SearchBar({ onNavigate, isLightTheme = false }: { onNavigate?: () => vo
       return;
     }
 
-    const query = searchTerm.trim().toUpperCase();
-    const results: SearchResult[] = [];
-
-    const filteredStocks = stocks
-      .filter(
-        (stock) =>
-          stock.ticker.startsWith(query) ||
-          stock.name.toUpperCase().includes(query)
-      )
-      .slice(0, 6)
-      .map((stock): SearchResult => ({
-        type: 'stock',
-        id: stock.ticker,
-        title: stock.ticker,
-        subtitle: stock.name,
-        href: `/analyse/stocks/${stock.ticker}`
-      }));
-
-    const filteredInvestors = investors
-      .filter(
-        (investor) =>
-          investor.name.toUpperCase().includes(query) ||
-          investor.slug.toUpperCase().includes(query)
-      )
-      .slice(0, 4)
-      .map((investor): SearchResult => ({
-        type: 'investor',
-        id: investor.slug,
-        title: investor.name.split('–')[0].trim(),
-        subtitle: `Investor Portfolio`,
-        href: `/superinvestor/${investor.slug}`
-      }));
-
-    results.push(...filteredStocks, ...filteredInvestors);
+    const results = getSearchSuggestions(searchTerm);
     setSuggestions(results);
     setShowSuggestions(results.length > 0 && isFocused);
   }, [searchTerm, isFocused]);

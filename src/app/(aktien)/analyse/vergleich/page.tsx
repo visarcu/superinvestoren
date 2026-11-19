@@ -4,7 +4,7 @@
 import ChartBuilder from '@/components/chart-builder/ChartBuilder'
 
 export const metadata = {
-  title: 'Vergleich | Finclue',
+  title: 'Vergleich',
   description: 'Mehrere Aktien gegenüberstellen mit Chart Builder',
 }
 

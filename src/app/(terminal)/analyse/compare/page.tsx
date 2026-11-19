@@ -2,7 +2,7 @@
 import ChartBuilder from '@/components/chart-builder/ChartBuilder'
 
 export const metadata = {
-  title: 'Chart Builder | Finclue',
+  title: 'Chart Builder',
   description: 'Erstelle benutzerdefinierte Charts mit mehreren Kennzahlen und Metriken',
 }
 

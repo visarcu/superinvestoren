@@ -37,9 +37,10 @@ export const metadata: Metadata = {
     description: 'Verfolge die Portfolios von Warren Buffett, Bill Ackman und 90+ weiteren Super-Investoren.',
     images: ['/laptop-finclue-preview.png'],
   },
-  alternates: {
-    canonical: 'https://finclue.de',
-  },
+  // KEIN globales `alternates.canonical`: Es wird an jede Seite vererbt, die
+  // keins selbst setzt — dann erklärt sich jede Unterseite (Aktien, Investoren,
+  // Lexikon …) gegenüber Google zum Duplikat der Startseite. Die Startseite
+  // setzt ihr Canonical selbst.
   robots: {
     index: true,
     follow: true,

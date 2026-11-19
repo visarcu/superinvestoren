@@ -22,8 +22,8 @@ export async function generateMetadata({ params }: { params: { ticker: string } 
   
   return {
     title: stock 
-      ? `${stock.name} (${ticker}) - Aktienanalyse | Finclue`
-      : `${ticker} - Aktienanalyse | Finclue`,
+      ? `${stock.name} (${ticker}) - Aktienanalyse`
+      : `${ticker} - Aktienanalyse`,
     description: stock
       ? `Detaillierte Kennzahlen-Analyse von ${stock.name} (${ticker}): Live-Kurse, Charts, Fundamentaldaten und mehr.`
       : `Aktienanalyse für ${ticker} mit Live-Kursen, Charts und Fundamentaldaten.`,

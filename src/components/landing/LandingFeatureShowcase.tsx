@@ -61,7 +61,7 @@ export default function LandingFeatureShowcase({
   const textBlock = (
     <motion.div {...fadeInViewport}>
       {eyebrow && (
-        <div className="text-sm font-medium text-orange-400 uppercase tracking-wider mb-4">
+        <div className="text-sm font-medium text-neutral-500 uppercase tracking-wider mb-4">
           {eyebrow}
         </div>
       )}
@@ -95,7 +95,7 @@ export default function LandingFeatureShowcase({
             <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
               <motion.div {...fadeInViewport}>
                 {eyebrow && (
-                  <div className="text-sm font-medium text-orange-400 uppercase tracking-wider mb-4">
+                  <div className="text-sm font-medium text-neutral-500 uppercase tracking-wider mb-4">
                     {eyebrow}
                   </div>
                 )}

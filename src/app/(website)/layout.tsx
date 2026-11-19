@@ -14,37 +14,22 @@ import PageTransitionLoader from '@/components/PageTransitionLoader'
 import { usePathname } from 'next/navigation'
 
 export default function OptimizedWebsiteLayout({ children }: { children: ReactNode }) {
-  const { theme, mounted } = useTheme()
-  const [isClient, setIsClient] = useState(false)
+  // Nur für den Seiteneffekt (Theme-Klasse auf <html>). Bewusst KEIN Warten auf
+  // `mounted`: Früher stand hier ein Ladebildschirm bis zur Hydration — dadurch
+  // bekamen Crawler (Google, KI-Suchen) auf allen Website-Seiten nur
+  // "Lade Finclue..." statt Inhalt. Die Website-Routen sind ohnehin immer dunkel
+  // bzw. (Blog) über den Pfad hell, das ist serverseitig bekannt.
+  useTheme()
   const [isNavigating, setIsNavigating] = useState(false)
   const pathname = usePathname()
 
   // Check if we're on a blog page for light theme
   const isLightTheme = pathname?.startsWith('/blog')
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
   // Reset navigation state when pathname changes
   useEffect(() => {
     setIsNavigating(false)
   }, [pathname])
-
-  if (!mounted || !isClient) {
-    return (
-      <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? 'bg-white' : 'bg-black'}`}>
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex items-end gap-0.5">
-            <div className="w-2 h-4 bg-brand rounded-sm animate-pulse"></div>
-            <div className="w-2 h-6 bg-brand rounded-sm animate-pulse animation-delay-150"></div>
-            <div className="w-2 h-8 bg-brand rounded-sm animate-pulse animation-delay-300"></div>
-          </div>
-          <p className={`text-sm ${isLightTheme ? 'text-gray-500' : 'text-gray-400'}`}>Lade Finclue...</p>
-        </div>
-      </div>
-    )
-  }
 
   return (
     <div className={`min-h-screen flex flex-col ${isLightTheme ? 'bg-white text-gray-900' : 'bg-black text-white'}`} suppressHydrationWarning>
