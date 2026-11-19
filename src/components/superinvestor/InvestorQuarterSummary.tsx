@@ -63,7 +63,7 @@ export default function InvestorQuarterSummary({ name, summary: s }: { name: str
         {describeChanges(name, s)} Das Portfolio umfasst {s.positionCount.toLocaleString('de-DE')} Positionen im Wert
         von {formatUsdCompact(s.totalValue)}
         {s.positionCount >= 3
-          ? `; die drei größten – ${top3Names.slice(0, 2).join(', ')} und ${top3Names[2]} – machen ${top3Share} % aus.`
+          ? `. Die drei größten (${top3Names.slice(0, 2).join(', ')} und ${top3Names[2]}) machen ${top3Share} % aus.`
           : '.'}
       </p>
 

@@ -108,3 +108,30 @@ export async function getPublicStockData(ticker: string): Promise<PublicStockDat
 
   return { profile, quote }
 }
+
+export interface FinancialYear {
+  year: string
+  revenue: number
+  netIncome: number
+}
+
+/** Umsatz und Nettogewinn der letzten Geschäftsjahre, älteste zuerst (FMP, 1 Tag Cache) */
+export async function getFinancialHistory(ticker: string, years = 10): Promise<FinancialYear[]> {
+  const apiKey = process.env.FMP_API_KEY
+  if (!apiKey) return []
+  try {
+    const res = await fetch(
+      `${FMP_BASE}/income-statement/${encodeURIComponent(ticker.toUpperCase())}?limit=${years}&apikey=${apiKey}`,
+      { next: { revalidate: 86400 } },
+    )
+    if (!res.ok) return []
+    const data = (await res.json()) as Array<{ calendarYear?: string; date?: string; revenue?: number; netIncome?: number }>
+    if (!Array.isArray(data)) return []
+    return data
+      .filter(r => typeof r.revenue === 'number' && r.revenue > 0 && typeof r.netIncome === 'number')
+      .map(r => ({ year: r.calendarYear ?? (r.date ?? '').slice(0, 4), revenue: r.revenue!, netIncome: r.netIncome! }))
+      .reverse()
+  } catch {
+    return []
+  }
+}

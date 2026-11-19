@@ -67,3 +67,12 @@ export function joinGerman(parts: string[]): string {
   if (parts.length <= 1) return parts.join('')
   return `${parts.slice(0, -1).join(', ')} und ${parts[parts.length - 1]}`
 }
+
+/** Wie man den Namen spricht: "NVIDIA Corporation" → "Nvidia", "Amazon.com, Inc." → "Amazon" */
+export function brandName(name: string): string {
+  let short = shortCompanyName(name).replace(/\.com$/i, '')
+  if (short.length > 3 && short === short.toUpperCase() && /[A-Z]/.test(short)) {
+    short = short.charAt(0) + short.slice(1).toLowerCase()
+  }
+  return short
+}
