@@ -3,7 +3,8 @@
 
 import { Instrument_Sans, JetBrains_Mono } from 'next/font/google'
 
-export const landingDisplay = Instrument_Sans({ subsets: ['latin'], weight: ['500', '600'], variable: '--font-display', display: 'swap' })
+// adjustFontFallback aus: Next 13.5 kennt für Instrument Sans keine Fallback-Metriken (sonst Build-Warnung)
+export const landingDisplay = Instrument_Sans({ subsets: ['latin'], weight: ['500', '600'], variable: '--font-display', display: 'swap', adjustFontFallback: false })
 export const landingMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 /** Klassen für den Seiten-Wrapper, damit die CSS-Variablen gesetzt sind */
