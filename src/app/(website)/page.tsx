@@ -23,32 +23,11 @@ import highlights from '@/data/homepageHighlights.json'
 import { investors } from '@/data/investors'
 import { IMPORT_BROKERS } from '@/lib/importBrokerConfig'
 import type { SearchResult } from '@/lib/searchSuggestions'
+import { formatIsoDate, formatUsdCompact, shortCompanyName } from '@/lib/displayFormat'
 import { PLAN_FEATURES, PREMIUM_MONTHLY_EUR, PREMIUM_TRIAL_DAYS, PREMIUM_YEARLY_EUR } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
-}
-
-// — Formatierung —
-
-function formatUsd(value: number): string {
-  if (value >= 1e9) return `${(value / 1e9).toLocaleString('de-DE', { maximumFractionDigits: 1 })} Mrd. $`
-  return `${Math.round(value / 1e6).toLocaleString('de-DE')} Mio. $`
-}
-
-function formatDate(isoDate: string | null): string | null {
-  if (!isoDate) return null
-  const [y, m, d] = isoDate.split('-')
-  return `${d}.${m}.${y}`
-}
-
-// "Amazon.com, Inc." → "Amazon.com", "SpaceX (Space Exploration …)" → "SpaceX"
-function shortCompanyName(name: string): string {
-  let short = name.replace(/\s*\(.*\)\s*$/, '')
-  for (let i = 0; i < 3; i++) {
-    short = short.replace(/,?\s+(Inc\.?|Corporation|Corp\.?|Company|Co\.|Holdings?|plc|N\.V\.|Ltd\.?|S\.A\.)$/i, '')
-  }
-  return short.trim()
 }
 
 // — Daten (alle aus echten Quellen) —
@@ -63,7 +42,7 @@ const yearlyPerMonth = (PREMIUM_YEARLY_EUR / 12).toLocaleString('de-DE', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 })
-const filingDate = formatDate(highlights.latestFilingDate)
+const filingDate = formatIsoDate(highlights.latestFilingDate)
 const reportQuarter = highlights.reportQuarter ?? 'dem letzten Quartal'
 
 // Einheitlich quadratische Icons: lokales PNG (vom Highlights-Skript geprüft),
@@ -297,7 +276,7 @@ export default function HomePage() {
                             </span>
                             <span className="block text-xs text-neutral-500 truncate">{p.investor.name}</span>
                           </span>
-                          <span className="text-sm text-neutral-400 tabular-nums whitespace-nowrap">{formatUsd(p.value)}</span>
+                          <span className="text-sm text-neutral-400 tabular-nums whitespace-nowrap">{formatUsdCompact(p.value)}</span>
                         </Link>
                       </li>
                     ))}
