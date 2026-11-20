@@ -20,6 +20,15 @@ export interface EarningsResultFields {
   reactionPct?: number | null
   typicalMovePct?: number | null
   typicalMoveCount?: number | null
+  superinvestors?: SuperinvestorInfo | null
+}
+
+/** Spiegelt SuperinvestorSummary aus lib/stockSuperinvestors (Server) */
+export interface SuperinvestorInfo {
+  holders: number
+  buying: number
+  selling: number
+  top: Array<{ slug: string; name: string; imageUrl: string | null; change: 'new' | 'increased' | 'reduced' | 'unchanged' }>
 }
 
 const SHORT: Record<EarningsResultKind, string> = { beat: 'B', miss: 'M', mixed: '±', meet: '=' }
@@ -117,8 +126,73 @@ export function resultTooltip(e: EarningsResultFields): string {
   } else if (e.typicalMovePct != null) {
     parts.push(`Übliche Kursbewegung ${fmtTypicalMove(e.typicalMovePct)}`)
   }
+  const si = superinvestorTooltip(e.superinvestors)
+  if (si) parts.push(si)
   const head = e.result ? `${LABEL[e.result]}: ` : ''
   return head + parts.join(' · ')
+}
+
+// ── Superinvestoren ─────────────────────────────────────────────────────────
+
+const CHANGE_MARK: Record<SuperinvestorInfo['top'][number]['change'], { text: string; className: string } | null> = {
+  new: { text: 'neu', className: 'text-emerald-400' },
+  increased: { text: '↑', className: 'text-emerald-400' },
+  reduced: { text: '↓', className: 'text-red-400' },
+  unchanged: null,
+}
+
+function superinvestorTooltip(si: SuperinvestorInfo | null | undefined): string | null {
+  if (!si) return null
+  const parts = [`${si.holders} Superinvestor${si.holders === 1 ? '' : 'en'}`]
+  if (si.buying > 0) parts.push(`${si.buying} gekauft`)
+  if (si.selling > 0) parts.push(`${si.selling} verkauft`)
+  return parts.join(', ')
+}
+
+/**
+ * "Ken Fisher ↑, Chase Coleman +21 · ↑15 ↓3" mit kleinen Porträts. Kauf/Verkauf
+ * bezieht sich auf das letzte 13F-Quartal (gegenüber dem davor).
+ */
+export function SuperinvestorLine({ si, muted }: { si: SuperinvestorInfo | null | undefined; muted: string }) {
+  if (!si || si.holders === 0) return null
+  const shown = si.top.slice(0, 2)
+  const rest = si.holders - shown.length
+  // Platzhalterbild (neuer-investor.png) weglassen, es zeigt keine Person
+  const avatars = si.top.filter(t => t.imageUrl && !t.imageUrl.includes('neuer-investor')).slice(0, 3)
+  const title =
+    `Im letzten 13F-Quartal: ${si.holders} Superinvestoren halten die Aktie` +
+    (si.buying > 0 ? `, ${si.buying} neu eingestiegen oder aufgestockt` : '') +
+    (si.selling > 0 ? `, ${si.selling} reduziert oder ausgestiegen` : '')
+
+  return (
+    <div className={`flex items-center gap-1.5 min-w-0 text-[10px] ${muted}`} title={title}>
+      {avatars.length > 0 && (
+        <span className="flex -space-x-1 flex-shrink-0">
+          {avatars.map(a => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={a.slug} src={a.imageUrl!} alt="" className="w-3.5 h-3.5 rounded-full bg-white/10 object-cover ring-1 ring-black/40" />
+          ))}
+        </span>
+      )}
+      <span className="truncate">
+        {shown.map((t, i) => {
+          const mark = CHANGE_MARK[t.change]
+          return (
+            <React.Fragment key={t.slug}>
+              {i > 0 && ', '}
+              {t.name}
+              {mark && <span className={`ml-0.5 ${mark.className}`}>{mark.text}</span>}
+            </React.Fragment>
+          )
+        })}
+        {rest > 0 && <span> +{rest}</span>}
+        {(si.buying > 0 || si.selling > 0) && <span> · </span>}
+        {si.buying > 0 && <span className="text-emerald-400">↑{si.buying}</span>}
+        {si.buying > 0 && si.selling > 0 && ' '}
+        {si.selling > 0 && <span className="text-red-400">↓{si.selling}</span>}
+      </span>
+    </div>
+  )
 }
 
 // ── Wochenansicht: rechte Seite einer Zeile ─────────────────────────────────

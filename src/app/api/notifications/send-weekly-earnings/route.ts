@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import { hasPremiumAccess } from '@/lib/premiumAccess'
+import { loadEarningsForSymbols } from '@/lib/earningsRadar'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -27,6 +28,8 @@ interface EarningsEvent {
   symbol: string
   date: string
   time: string // "bmo" | "amc" | ""
+  /** Ø Kursreaktion der letzten Quartale (Betrag, %) */
+  typicalMovePct: number | null
 }
 
 interface GroupedEarnings {
@@ -96,6 +99,8 @@ function generateEmailHtml(earnings: GroupedEarnings, weekRange: string, isTest:
             <strong style="color: #111827; font-size: 15px;">${earning.symbol}</strong>
             <span style="color: #9ca3af; font-size: 12px;">•</span>
             <span style="color: #6b7280; font-size: 13px;">${timeLabel}</span>
+            ${earning.typicalMovePct !== null ? `<span style="color: #9ca3af; font-size: 12px;">•</span>
+            <span style="color: #6b7280; font-size: 13px;">üblich ±${earning.typicalMovePct.toFixed(1).replace('.', ',')} %</span>` : ''}
           </div>
         </div>
       `
@@ -273,23 +278,10 @@ async function handleWeeklyEarnings() {
 
     console.log(`[Weekly Earnings] Checking earnings from ${fromDate} to ${toDate}`)
 
-    // DB-First: earningsCalendar-Tabelle statt FMP-Direct-Call
-    const { getEarningsFromDb, toFmpShape } = await import('@/lib/earningsCalendarDb')
-    const dbRows = await getEarningsFromDb(fromDate, toDate)
-    let earningsData: any[] = toFmpShape(dbRows)
-
-    if (earningsData.length === 0) {
-      console.warn('[Weekly Earnings] DB empty, falling back to FMP')
-      const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
-      )
-      const fmpData = await response.json()
-      if (!Array.isArray(fmpData)) {
-        console.error('[Weekly Earnings] Invalid FMP response:', fmpData)
-        return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
-      }
-      earningsData = fmpData
-    }
+    // Termine aus SecEarningsCalendar (NASDAQ/SEC, samt üblicher Kursbewegung);
+    // Werte, die dort fehlen (z.B. .DE), ergänzt FMP
+    const allTickers = [...new Set(watchlistItems.map(w => String(w.ticker).toUpperCase()))]
+    const earningsData = await loadEarningsForSymbols(supabase, allTickers, fromDate, toDate, process.env.FMP_API_KEY)
 
     console.log(`[Weekly Earnings] Earnings events: ${earningsData.length}`)
 
@@ -303,14 +295,12 @@ async function handleWeeklyEarnings() {
       // Get user's watchlist tickers
       const userTickers = watchlistItems
         .filter(w => w.user_id === userId)
-        .map(w => w.ticker)
+        .map(w => String(w.ticker).toUpperCase())
 
       if (userTickers.length === 0) continue
 
       // Filter earnings for this user's tickers
-      const userEarnings = earningsData.filter((e: any) =>
-        userTickers.includes(e.symbol)
-      )
+      const userEarnings = earningsData.filter(e => userTickers.includes(e.symbol))
 
       if (userEarnings.length === 0) {
         console.log(`[Weekly Earnings] No earnings for user ${userId} this week`)
@@ -327,7 +317,8 @@ async function handleWeeklyEarnings() {
         groupedEarnings[date].push({
           symbol: earning.symbol,
           date: earning.date,
-          time: earning.time || ''
+          time: earning.time || '',
+          typicalMovePct: earning.typicalMovePct,
         })
       }
 
@@ -398,7 +389,7 @@ async function handleWeeklyEarnings() {
           const secret = process.env.INTERNAL_API_SECRET
           if (secret) {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
-            const symbols = userEarnings.slice(0, 3).map((e: any) => e.symbol).join(', ')
+            const symbols = userEarnings.slice(0, 3).map(e => e.symbol).join(', ')
             const more = userEarnings.length > 3 ? ` +${userEarnings.length - 3} weitere` : ''
             await fetch(`${baseUrl}/api/notifications/push`, {
               method: 'POST',

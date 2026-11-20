@@ -6,6 +6,7 @@ import { Resend } from 'resend'
 import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
 import { detectTickerCurrency } from '@/lib/fmp'
+import { buildRadar, loadEarningsForSymbols, radarEmailSection, type RadarEvent } from '@/lib/earningsRadar'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -98,11 +99,6 @@ const HISTORY_LOOKBACK_DAYS = 14
 const HISTORY_CONCURRENCY = 6
 const FLOW_PAGE_SIZE = 1000
 
-interface EarningsPreviewItem {
-  symbol: string
-  date: string
-  time: string
-}
 
 function getISOWeekNumber(date: Date): number {
   const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
@@ -401,43 +397,11 @@ function generateHoldingsRows(holdings: HoldingWithPerf[]): string {
     .join('')
 }
 
-function generateEarningsPreviewSection(earnings: EarningsPreviewItem[]): string {
-  if (earnings.length === 0) return ''
-
-  const rows = earnings.slice(0, 5).map(e => {
-    const date = new Date(e.date)
-    const day = date.getUTCDate()
-    const month = MONTHS[date.getUTCMonth()]
-    const timeLabel = e.time === 'bmo' ? 'vor Börsenöffnung' : e.time === 'amc' ? 'nach Börsenschluss' : ''
-
-    return `
-      <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
-        <strong style="color: #111827; font-size: 14px;">${e.symbol}</strong>
-        <span style="color: #6b7280; font-size: 13px;">${day}. ${month}${timeLabel ? ' · ' + timeLabel : ''}</span>
-      </div>
-    `
-  }).join('')
-
-  const moreCount = earnings.length > 5 ? earnings.length - 5 : 0
-
-  return `
-    <div style="margin-top: 28px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
-      <div style="background: #f9fafb; padding: 12px 16px; border-bottom: 1px solid #e5e7eb;">
-        <h3 style="margin: 0; color: #374151; font-size: 14px; font-weight: 600;">📅 Earnings nächste Woche</h3>
-      </div>
-      <div style="padding: 0 16px;">
-        ${rows}
-        ${moreCount > 0 ? `<p style="color: #9ca3af; font-size: 12px; margin: 10px 0; text-align: center;">+${moreCount} weitere</p>` : ''}
-      </div>
-    </div>
-  `
-}
-
 function generateEmailHtml(
   report: PortfolioReport,
   weekNumber: number,
   weekRange: string,
-  earningsPreview: EarningsPreviewItem[],
+  earningsSection: string,
   isTest: boolean
 ): string {
   const changeColor = report.totalWeeklyChangePct >= 0 ? '#059669' : '#dc2626'
@@ -454,7 +418,6 @@ function generateEmailHtml(
   ].filter(Boolean).join('')
 
   const holdingsRows = generateHoldingsRows(report.holdings)
-  const earningsSection = generateEarningsPreviewSection(earningsPreview)
 
   return `
     <!DOCTYPE html>
@@ -541,7 +504,7 @@ function generateEmailHtml(
           </div>
           ` : ''}
 
-          <!-- Earnings Preview for next week -->
+          <!-- Earnings-Radar: diese Woche gemeldet, nächste Woche anstehend -->
           ${earningsSection}
 
           <!-- CTA Button -->
@@ -768,35 +731,19 @@ async function handleWeeklyPortfolioReport() {
       console.warn('[Weekly Portfolio Report] Could not load transactions, only purchase_date marks new positions:', e)
     }
 
-    // 6. Earnings preview for next week — DB-First aus earningsCalendar-Tabelle
-    let earningsCalendar: EarningsPreviewItem[] = []
+    // 6. Earnings-Radar: Termine dieser Woche (gemeldet) und der nächsten (anstehend),
+    //    aus SecEarningsCalendar samt Kursreaktion und üblicher Bewegung
+    let earningsEvents: RadarEvent[] = []
     try {
-      const { getEarningsFromDb } = await import('@/lib/earningsCalendarDb')
-      const dbRows = await getEarningsFromDb(nextWeekFrom, nextWeekTo, allSymbols)
-
-      if (dbRows.length > 0) {
-        earningsCalendar = dbRows.map(r => ({
-          symbol: r.symbol,
-          date: r.date,
-          time: r.time || '',
-        }))
-      } else {
-        // Fallback: DB leer → FMP
-        console.warn('[Weekly Portfolio Report] DB empty, falling back to FMP')
-        const earningsRes = await fetch(
-          `https://financialmodelingprep.com/api/v3/earning_calendar?from=${nextWeekFrom}&to=${nextWeekTo}&apikey=${process.env.FMP_API_KEY}`
-        )
-        if (earningsRes.ok) {
-          const earningsData = await earningsRes.json()
-          if (Array.isArray(earningsData)) {
-            earningsCalendar = earningsData
-              .filter((e: any) => allSymbols.includes(e.symbol))
-              .map((e: any) => ({ symbol: e.symbol, date: e.date, time: e.time || '' }))
-          }
-        }
-      }
+      earningsEvents = await loadEarningsForSymbols(
+        supabase,
+        allSymbols,
+        thisMonday.toISOString().split('T')[0],
+        nextWeekTo,
+        process.env.FMP_API_KEY
+      )
     } catch (e) {
-      console.warn('[Weekly Portfolio Report] Could not fetch earnings calendar, skipping preview:', e)
+      console.warn('[Weekly Portfolio Report] Could not load earnings, skipping radar:', e)
     }
 
     // 7. Send emails per user
@@ -817,9 +764,10 @@ async function handleWeeklyPortfolioReport() {
         continue
       }
 
-      // Filter earnings preview to this user's symbols
-      const userSymbols = new Set(rows.map(r => r.symbol))
-      const userEarningsPreview = earningsCalendar.filter(e => userSymbols.has(e.symbol))
+      // Earnings-Radar für die Positionen dieses Nutzers (Werte in EUR)
+      const positionValues = new Map(holdings.map(h => [h.symbol.toUpperCase(), h.currentValue]))
+      const radar = buildRadar(earningsEvents, positionValues, totalCurrentValue, nextWeekFrom)
+      const earningsSection = radarEmailSection(radar, { upcoming: 'Nächste Woche', reported: 'Diese Woche' })
 
       // Get user email
       const { data: { user } } = await supabase.auth.admin.getUserById(userId)
@@ -833,7 +781,7 @@ async function handleWeeklyPortfolioReport() {
         ? `[TEST] 📊 Dein Portfolio-Bericht: KW ${weekNumber}`
         : `📊 Dein Portfolio-Bericht: KW ${weekNumber}`
 
-      const htmlContent = generateEmailHtml(report, weekNumber, weekRange, userEarningsPreview, isTest)
+      const htmlContent = generateEmailHtml(report, weekNumber, weekRange, earningsSection, isTest)
 
       try {
         const { error: emailError } = await resend.emails.send({
@@ -913,7 +861,7 @@ async function handleWeeklyPortfolioReport() {
       symbolsQueried: allSymbols.length,
       quotesReceived: quoteMap.size,
       historyReceived: closesBySymbol.size,
-      earningsNextWeek: earningsCalendar.length,
+      earningsEvents: earningsEvents.length,
       emailsSent,
       userResults
     })

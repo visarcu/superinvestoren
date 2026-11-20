@@ -22,8 +22,10 @@ import {
   resultShort,
   resultTextClass,
   resultTooltip,
+  SuperinvestorLine,
   type EarningsOutcome,
   type EarningsResultKind,
+  type SuperinvestorInfo,
 } from '@/components/earnings/EarningsResult'
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -47,6 +49,7 @@ interface EarningsEvent {
   reactionPct: number | null
   typicalMovePct: number | null
   typicalMoveCount: number | null
+  superinvestors?: SuperinvestorInfo | null
 }
 
 interface CalendarDay {
@@ -54,7 +57,7 @@ interface CalendarDay {
   events: EarningsEvent[]
 }
 
-type FilterMode = 'top' | 'portfolio' | 'watchlist' | 'all'
+type FilterMode = 'top' | 'portfolio' | 'watchlist' | 'superinvestors' | 'all'
 
 const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr']
 const MONTHS = [
@@ -66,6 +69,7 @@ const FILTER_LABELS: Record<FilterMode, string> = {
   top: 'Top Earnings',
   portfolio: 'Mein Portfolio',
   watchlist: 'Watchlist',
+  superinvestors: 'Superinvestoren',
   all: 'Alle',
 }
 
@@ -207,7 +211,7 @@ export default function EarningsCalendarPage() {
       to = `${year}-${String(month + 1).padStart(2, '0')}-${lastDay}`
     }
 
-    const params = new URLSearchParams({ from, to, limit: '5000' })
+    const params = new URLSearchParams({ from, to, limit: '5000', superinvestors: '1' })
     if (filter === 'top') {
       params.set('minMarketCap', String(MIN_MARKET_CAP_TOP))
     } else if (filter === 'portfolio') {
@@ -225,6 +229,7 @@ export default function EarningsCalendarPage() {
       }
       params.set('tickers', watchlistTickers.join(','))
     }
+    if (filter === 'superinvestors') params.set('superinvestorsOnly', '1')
     // 'all' → keine zusätzlichen Filter
 
     fetch(`/api/v1/calendar/earnings?${params.toString()}`)
@@ -294,12 +299,12 @@ export default function EarningsCalendarPage() {
 
       {/* Filter-Tabs + View-Toggle */}
       <div className="px-6 sm:px-10 max-w-7xl mx-auto w-full flex items-center justify-between gap-4 flex-wrap">
-        <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
-          {(['top', 'portfolio', 'watchlist', 'all'] as FilterMode[]).map(mode => (
+        <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit max-w-full overflow-x-auto">
+          {(['top', 'portfolio', 'watchlist', 'superinvestors', 'all'] as FilterMode[]).map(mode => (
             <button
               key={mode}
               onClick={() => setFilter(mode)}
-              className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+              className={`whitespace-nowrap flex-shrink-0 px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
                 filter === mode
                   ? 'bg-white/[0.08] text-white'
                   : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'
@@ -518,7 +523,7 @@ export default function EarningsCalendarPage() {
 
 function WeekEventRow({ event: e }: { event: EarningsEvent }) {
   return (
-    <div title={e.result ? resultTooltip(e) : undefined} className="flex items-center gap-2 py-1 px-1.5 rounded-md hover:bg-white/[0.03] transition-colors">
+    <div title={resultTooltip(e) || undefined} className="flex items-center gap-2 py-1 px-1.5 rounded-md hover:bg-white/[0.03] transition-colors">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`/api/v1/logo/${e.ticker}?size=48`}
@@ -557,7 +562,7 @@ function WeekEventRow({ event: e }: { event: EarningsEvent }) {
 
 function DayEventRow({ event: e }: { event: EarningsEvent }) {
   return (
-    <div title={e.result ? resultTooltip(e) : undefined} className="flex items-center gap-1.5 group/row">
+    <div title={resultTooltip(e) || undefined} className="flex items-center gap-1.5 group/row">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`/api/v1/logo/${e.ticker}?size=32`}
@@ -632,6 +637,8 @@ function EmptyState({
     } else {
       primary = 'Keine Earnings für deine Watchlist-Aktien in diesem Monat'
     }
+  } else if (filter === 'superinvestors') {
+    primary = 'Keine Termine von Aktien aus Superinvestor-Depots in diesem Zeitraum'
   } else if (filter === 'top') {
     primary = 'Keine Top-Earnings (>$10B Market Cap) in diesem Monat'
   } else {
@@ -741,6 +748,9 @@ function DayDetailModal({
                       {e.company || ''}
                       {e.marketCap ? ` · ${fmtMarketCap(e.marketCap)}` : ''}
                     </p>
+                    <div className="max-w-[280px] mt-0.5">
+                      <SuperinvestorLine si={e.superinvestors} muted="text-white/40" />
+                    </div>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">

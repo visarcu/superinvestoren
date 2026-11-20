@@ -77,6 +77,94 @@ export async function fetchFmpEarningsRange(from: string, to: string, apiKey: st
   return data as FmpEarningsRow[]
 }
 
+export interface FmpLegacyEarningsRow {
+  symbol: string
+  date: string
+  time: 'bmo' | 'amc' | null
+  epsActual: number | null
+  epsEstimated: number | null
+  revenueActual: number | null
+  revenueEstimated: number | null
+}
+
+/**
+ * FMP v3 /earning_calendar. Anders als /stable enthält er im aktuellen Tarif
+ * auch internationale Börsen (z.B. ALV.DE, ULVR.L), dafür andere Feldnamen
+ * (eps/revenue statt epsActual/revenueActual) und eine Uhrzeit.
+ */
+export async function fetchFmpLegacyEarningsRange(from: string, to: string, apiKey: string): Promise<FmpLegacyEarningsRow[]> {
+  const url = `https://financialmodelingprep.com/api/v3/earning_calendar?from=${from}&to=${to}&apikey=${apiKey}`
+  const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(30_000) })
+  if (!res.ok) throw new Error(`FMP v3 ${from}..${to}: HTTP ${res.status}`)
+  const data = await res.json()
+  if (!Array.isArray(data)) throw new Error(`FMP v3 ${from}..${to}: unerwartete Antwort`)
+  const out: FmpLegacyEarningsRow[] = []
+  for (const r of data as Array<Record<string, unknown>>) {
+    const symbol = typeof r.symbol === 'string' ? r.symbol.toUpperCase() : null
+    const date = typeof r.date === 'string' ? r.date.slice(0, 10) : null
+    if (!symbol || !isIsoDate(date)) continue
+    out.push({
+      symbol,
+      date,
+      time: r.time === 'bmo' || r.time === 'amc' ? r.time : null,
+      epsActual: num(r.eps),
+      epsEstimated: num(r.epsEstimated),
+      revenueActual: num(r.revenue),
+      revenueEstimated: num(r.revenueEstimated),
+    })
+  }
+  return out
+}
+
+// ── Beat / Miss ─────────────────────────────────────────────────────────────
+
+export type EarningsOutcome = 'beat' | 'miss' | 'meet'
+export type EarningsResult = EarningsOutcome | 'mixed'
+
+// EPS gilt bis auf den Cent als getroffen, Umsatz bis auf 0,1 %.
+const EPS_MEET_TOLERANCE = 0.005
+const REVENUE_MEET_TOLERANCE = 0.001
+
+function compareToEstimate(actual: number | null, estimate: number | null, tolerance: number, relative: boolean): EarningsOutcome | null {
+  if (actual === null || estimate === null) return null
+  const diff = actual - estimate
+  const threshold = relative ? Math.abs(estimate) * tolerance : tolerance
+  if (Math.abs(diff) < threshold) return 'meet'
+  return diff > 0 ? 'beat' : 'miss'
+}
+
+function surprisePct(actual: number | null, estimate: number | null): number | null {
+  if (actual === null || estimate === null || estimate === 0) return null
+  return Math.round(((actual - estimate) / Math.abs(estimate)) * 1000) / 10
+}
+
+/** EPS und Umsatz zusammen: gleiche Richtung → die, gegenläufig → mixed, "meet" zählt neutral. */
+function combineOutcomes(eps: EarningsOutcome | null, revenue: EarningsOutcome | null): EarningsResult | null {
+  if (!eps) return revenue
+  if (!revenue || eps === revenue) return eps
+  if (eps === 'meet') return revenue
+  if (revenue === 'meet') return eps
+  return 'mixed'
+}
+
+/** Beat/Miss für EPS, Umsatz und zusammen, dazu die Abweichung in % */
+export function earningsOutcome(row: {
+  eps_actual: number | null
+  eps_estimate: number | null
+  revenue_actual: number | null
+  revenue_estimate: number | null
+}) {
+  const epsResult = compareToEstimate(row.eps_actual, row.eps_estimate, EPS_MEET_TOLERANCE, false)
+  const revenueResult = compareToEstimate(row.revenue_actual, row.revenue_estimate, REVENUE_MEET_TOLERANCE, true)
+  return {
+    result: combineOutcomes(epsResult, revenueResult),
+    epsResult,
+    revenueResult,
+    epsSurprisePct: surprisePct(row.eps_actual, row.eps_estimate),
+    revenueSurprisePct: surprisePct(row.revenue_actual, row.revenue_estimate),
+  }
+}
+
 // ── Plausibilität von Ist/Prognose-Paaren ───────────────────────────────────
 // FMP mischt bei manchen Auslandswerten die Währungen (PDD Q3/26: Umsatz-Ist
 // 108 Mrd in CNY, Prognose 17 Mrd in USD) und hat bei Kleinwerten unsinnige

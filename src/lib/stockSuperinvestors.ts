@@ -191,6 +191,34 @@ export function getStockSuperinvestors(ticker: string): StockSuperinvestorData {
   }
 }
 
+export interface SuperinvestorSummary {
+  /** Anzahl Superinvestoren mit aktueller Position */
+  holders: number
+  /** neu eingestiegen oder aufgestockt */
+  buying: number
+  /** reduziert oder ganz verkauft */
+  selling: number
+  /** größte Positionen zuerst */
+  top: Array<Pick<StockHolder, 'slug' | 'name' | 'imageUrl' | 'change'>>
+}
+
+/**
+ * Kurzfassung für Listen (z.B. Earnings-Kalender). Nimmt auch Ticker mit
+ * Punkt (BRK.B, wie bei NASDAQ) — die 13F-Daten schreiben Aktienklassen mit
+ * Bindestrich (BRK-B).
+ */
+export function getSuperinvestorSummary(ticker: string, topN = 3): SuperinvestorSummary | null {
+  const normalized = ticker.toUpperCase().replace(/\./g, '-')
+  const { holders, soldOut } = getStockSuperinvestors(normalized)
+  if (holders.length === 0 && soldOut.length === 0) return null
+  return {
+    holders: holders.length,
+    buying: holders.filter(h => h.change === 'new' || h.change === 'increased').length,
+    selling: holders.filter(h => h.change === 'reduced').length + soldOut.length,
+    top: holders.slice(0, topN).map(h => ({ slug: h.slug, name: h.name, imageUrl: h.imageUrl, change: h.change })),
+  }
+}
+
 /** Alle Ticker, die mindestens ein Superinvestor aktuell hält (für die Sitemap). */
 export function getHeldTickers(): string[] {
   const { byTicker } = getIndex()

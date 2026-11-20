@@ -11,6 +11,8 @@
 //   days=N                   Mit upcoming=true: nur die nächsten N Tage
 //   minMarketCap=N           Optional: Mindest-Market-Cap in USD (z.B. 10000000000 = $10B)
 //   limit=N                  Max Events (Cap 5000, default 500)
+//   superinvestors=1         Je Termin: welche Superinvestoren die Aktie halten (13F)
+//   superinvestorsOnly=1     Nur Aktien, die mindestens ein Superinvestor hält
 //
 // Datenquellen (alle in Supabase-Tabelle "SecEarningsCalendar" konsolidiert):
 //   • sec-8k-item-2.02     Past Earnings aus SEC EDGAR 8-K Filings
@@ -23,6 +25,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { isBetterEarningsRow } from '@/lib/earningsCalendarRows'
+import { earningsOutcome } from '@/lib/earningsData'
+import type { SuperinvestorSummary } from '@/lib/stockSuperinvestors'
+
+const DB_PAGE_SIZE = 1000
 
 interface CalendarRow {
   ticker: string
@@ -77,6 +83,9 @@ export async function GET(request: NextRequest) {
   // .DE-Werte wie VNA.DE, ALV.DE, MUV2.DE) wird FMP /v3/earning_calendar
   // als Ergänzung gezogen. Nur sinnvoll mit ?tickers=… (Portfolio-Views).
   const fmpFallback = sp.get('fallback') === 'fmp' && tickers.length > 0
+  // Superinvestoren aus den 13F-Daten anhängen bzw. nur deren Aktien zeigen
+  const superinvestorsOnly = sp.get('superinvestorsOnly') === '1'
+  const withSuperinvestors = superinvestorsOnly || sp.get('superinvestors') === '1'
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -87,34 +96,44 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = createClient(supabaseUrl, supabaseKey)
 
-    let q = supabase
-      .from('SecEarningsCalendar')
-      .select(
-        'ticker, company_name, date, fiscal_quarter, fiscal_year, ' +
-        'eps_actual, eps_estimate, revenue_actual, revenue_estimate, ' +
-        'call_time, market_cap, is_upcoming, source, updated_at, ' +
-        'reaction_pct, typical_move_pct, typical_move_count'
-      )
-      .gte('date', from)
-      .lte('date', to)
-      // Überholte Termine (von NASDAQ verschoben) ausblenden
-      .eq('confirmed', true)
-      // Nach Datum aufsteigend, dann Market Cap absteigend (Größte zuerst pro Tag,
-      // damit auch bei niedrigem Limit die "wichtigen" Firmen drin sind).
-      .order('date', { ascending: true })
-      .order('market_cap', { ascending: false, nullsFirst: false })
-      .order('ticker', { ascending: true })
-      .limit(limit)
+    const buildQuery = () => {
+      let q = supabase
+        .from('SecEarningsCalendar')
+        .select(
+          'ticker, company_name, date, fiscal_quarter, fiscal_year, ' +
+          'eps_actual, eps_estimate, revenue_actual, revenue_estimate, ' +
+          'call_time, market_cap, is_upcoming, source, updated_at, ' +
+          'reaction_pct, typical_move_pct, typical_move_count'
+        )
+        .gte('date', from)
+        .lte('date', to)
+        // Überholte Termine (von NASDAQ verschoben) ausblenden
+        .eq('confirmed', true)
+        // Nach Datum aufsteigend, dann Market Cap absteigend (Größte zuerst pro Tag,
+        // damit auch bei niedrigem Limit die "wichtigen" Firmen drin sind).
+        // ticker+date ist eindeutig, die Reihenfolge damit stabil fürs Blättern.
+        .order('date', { ascending: true })
+        .order('market_cap', { ascending: false, nullsFirst: false })
+        .order('ticker', { ascending: true })
 
-    if (ticker) q = q.eq('ticker', ticker)
-    if (tickers.length > 0) q = q.in('ticker', tickers)
-    if (upcomingOnly) q = q.eq('is_upcoming', true)
-    if (minMarketCap !== null) q = q.gte('market_cap', minMarketCap)
+      if (ticker) q = q.eq('ticker', ticker)
+      if (tickers.length > 0) q = q.in('ticker', tickers)
+      if (upcomingOnly) q = q.eq('is_upcoming', true)
+      if (minMarketCap !== null) q = q.gte('market_cap', minMarketCap)
+      return q
+    }
 
-    const { data, error } = await q
-    if (error) throw error
-
-    const rawEvents = ((data as unknown) as CalendarRow[] | null) ?? []
+    // Supabase liefert pro Abfrage höchstens 1000 Zeilen, deshalb seitenweise
+    // bis zum Limit laden (vorher endete "Alle" im November schon am 5.).
+    const rawEvents: CalendarRow[] = []
+    for (let offset = 0; offset < limit; offset += DB_PAGE_SIZE) {
+      const end = Math.min(offset + DB_PAGE_SIZE, limit) - 1
+      const { data, error } = await buildQuery().range(offset, end)
+      if (error) throw error
+      const page = ((data as unknown) as CalendarRow[] | null) ?? []
+      rawEvents.push(...page)
+      if (page.length < end - offset + 1) break
+    }
 
     // ── Dedup-Pass 1: gleicher ticker + fiscal_quarter + fiscal_year ──
     // z.B. Tesla 2026-04-02 (SEC 8-K Item 2.02 für Production Numbers) und
@@ -242,12 +261,28 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Superinvestoren je Ticker (aus den 13F-Daten). Erst bei Bedarf laden,
+    // damit Abrufe ohne den Parameter die Holdings-Daten nicht parsen müssen.
+    const siCache = new Map<string, SuperinvestorSummary | null>()
+    let siLookup: ((ticker: string) => SuperinvestorSummary | null) | null = null
+    if (withSuperinvestors) {
+      const { getSuperinvestorSummary } = await import('@/lib/stockSuperinvestors')
+      siLookup = t => {
+        if (!siCache.has(t)) siCache.set(t, getSuperinvestorSummary(t))
+        return siCache.get(t)!
+      }
+    }
+    const visible = superinvestorsOnly && siLookup
+      ? events.filter(row => (siLookup!(row.ticker)?.holders ?? 0) > 0)
+      : events
+
     // Gruppiere nach Datum
-    const byDate = new Map<string, ReturnType<typeof toApiEvent>[]>()
-    for (const row of events) {
+    const byDate = new Map<string, Array<ReturnType<typeof toApiEvent> & { superinvestors?: SuperinvestorSummary | null }>>()
+    for (const row of visible) {
       const dateKey = row.date
       if (!byDate.has(dateKey)) byDate.set(dateKey, [])
-      byDate.get(dateKey)!.push(toApiEvent(row))
+      const event = toApiEvent(row)
+      byDate.get(dateKey)!.push(siLookup ? { ...event, superinvestors: siLookup(row.ticker) } : event)
     }
 
     return NextResponse.json(
@@ -255,9 +290,9 @@ export async function GET(request: NextRequest) {
         from,
         to,
         upcoming: upcomingOnly,
-        totalEvents: events.length,
+        totalEvents: visible.length,
         dates: Array.from(byDate.entries()).map(([date, evs]) => ({ date, events: evs })),
-        sources: uniqueSources(events),
+        sources: uniqueSources(visible),
       },
       {
         headers: { 'Cache-Control': 's-maxage=1800, stale-while-revalidate=3600' },
@@ -278,37 +313,8 @@ function fmtIsoDate(d: Date): string {
   return `${y}-${m}-${day}`
 }
 
-type Outcome = 'beat' | 'miss' | 'meet'
-
-// EPS gilt bis auf den Cent als getroffen, Umsatz bis auf 0,1 %.
-const EPS_MEET_TOLERANCE = 0.005
-const REVENUE_MEET_TOLERANCE = 0.001
-
-function compare(actual: number | null, estimate: number | null, tolerance: number, relative: boolean): Outcome | null {
-  if (actual === null || estimate === null) return null
-  const diff = actual - estimate
-  const threshold = relative ? Math.abs(estimate) * tolerance : tolerance
-  if (Math.abs(diff) < threshold) return 'meet'
-  return diff > 0 ? 'beat' : 'miss'
-}
-
-function surprisePct(actual: number | null, estimate: number | null): number | null {
-  if (actual === null || estimate === null || estimate === 0) return null
-  return Math.round(((actual - estimate) / Math.abs(estimate)) * 1000) / 10
-}
-
-/** EPS und Umsatz zusammen: gleiche Richtung → die, gegenläufig → mixed, "meet" zählt neutral. */
-function combineOutcomes(eps: Outcome | null, revenue: Outcome | null): Outcome | 'mixed' | null {
-  if (!eps) return revenue
-  if (!revenue || eps === revenue) return eps
-  if (eps === 'meet') return revenue
-  if (revenue === 'meet') return eps
-  return 'mixed'
-}
-
 function toApiEvent(row: CalendarRow) {
-  const epsResult = compare(row.eps_actual, row.eps_estimate, EPS_MEET_TOLERANCE, false)
-  const revenueResult = compare(row.revenue_actual, row.revenue_estimate, REVENUE_MEET_TOLERANCE, true)
+  const { result, epsResult, revenueResult, epsSurprisePct, revenueSurprisePct } = earningsOutcome(row)
 
   return {
     ticker: row.ticker,
@@ -322,11 +328,11 @@ function toApiEvent(row: CalendarRow) {
     revenueActual: row.revenue_actual,
     marketCap: row.market_cap,
     isUpcoming: row.is_upcoming,
-    result: combineOutcomes(epsResult, revenueResult),
+    result,
     epsResult,
     revenueResult,
-    epsSurprisePct: surprisePct(row.eps_actual, row.eps_estimate),
-    revenueSurprisePct: surprisePct(row.revenue_actual, row.revenue_estimate),
+    epsSurprisePct,
+    revenueSurprisePct,
     // Kursveränderung am Reaktionstag (%) und Ø absolute Reaktion der vorherigen Termine
     reactionPct: row.reaction_pct ?? null,
     typicalMovePct: row.typical_move_pct ?? null,

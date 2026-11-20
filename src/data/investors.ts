@@ -202,8 +202,8 @@ export const investors: Investor[] = [
 
   {
     name: 'Richard Pzena - Pzena Investment Management',
-    slug: 'pzena',  
-    imageUrl: '/images/dodgecox.png',
+    slug: 'pzena',
+    imageUrl: '/images/pzena.png',
     updatedAt: '31.12.2024',    
     holdings: [],
   },  
