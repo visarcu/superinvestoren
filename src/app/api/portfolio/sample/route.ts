@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { buildSampleDepotPlan } from '@/lib/sampleDepot'
-import { SAMPLE_DEPOT_BROKER_NAME } from '@/lib/sampleDepotShared'
+import { SAMPLE_DEPOT_BROKER_NAME, SAMPLE_DEPOT_NOTE_PREFIX } from '@/lib/sampleDepotShared'
 
 export const dynamic = 'force-dynamic'
 
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Beispieldepot konnte nicht angelegt werden' }, { status: 500 })
   }
 
-  const note = `Beispieldepot: Top 10 aus ${plan.investorName}s 13F (${plan.periodLabel})`
+  const note = `${SAMPLE_DEPOT_NOTE_PREFIX} Top 10 aus ${plan.investorName}s 13F (${plan.periodLabel})`
   const holdings = plan.positions.map(p => ({
     portfolio_id: portfolio.id,
     symbol: p.symbol,

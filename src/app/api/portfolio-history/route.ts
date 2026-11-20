@@ -14,6 +14,7 @@ import {
 import { isETF } from '@/lib/etfUtils'
 import { computeRiskMeasures, annualizedReturnPct, type RiskMeasures } from '@/lib/portfolioRisk'
 import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
+import { SAMPLE_DEPOT_BROKER_NAME, SAMPLE_DEPOT_NOTE_PREFIX } from '@/lib/sampleDepotShared'
 import {
   computeCorrelationMatrix,
   computeStressTest,
@@ -391,7 +392,7 @@ export async function POST(request: NextRequest) {
     const isPremiumUser = hasPremiumAccess(premiumProfile)
 
     const body = await request.json()
-    const { portfolioId, portfolioIds, holdings, cashPosition = 0, days = 30, quant = false } = body as {
+    const { portfolioId, portfolioIds, cashPosition = 0, days = 30, quant = false } = body as {
       portfolioId?: string
       portfolioIds?: string[]
       holdings: HoldingInput[]
@@ -401,7 +402,8 @@ export async function POST(request: NextRequest) {
       quant?: boolean
     }
 
-    if (!holdings || !Array.isArray(holdings) || holdings.length === 0) {
+    let holdings: HoldingInput[] = (body as { holdings?: HoldingInput[] }).holdings ?? []
+    if (!Array.isArray(holdings) || holdings.length === 0) {
       return NextResponse.json({ success: true, data: [] })
     }
 
@@ -424,17 +426,54 @@ export async function POST(request: NextRequest) {
 
     // Ownership: nur Portfolios des eingeloggten Users zulassen
     let earlyValidIds: string[] = []
+    let ownedPortfolios: Array<{ id: string; broker_name: string | null }> = []
     if (requestedIds.length > 0) {
-      const { data: ownedPortfolios } = await supabase
+      const { data } = await supabase
         .from('portfolios')
-        .select('id')
+        .select('id, broker_name')
         .eq('user_id', user.id)
         .in('id', requestedIds)
-      earlyValidIds = (ownedPortfolios || []).map(p => p.id)
+      ownedPortfolios = data || []
+      earlyValidIds = ownedPortfolios.map(p => p.id)
       if (earlyValidIds.length === 0) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
       }
     }
+
+    // Beispieldepot: Risiko-Kennzahlen und Quant-Analysen auch ohne Premium
+    // (öffentliche Musterdaten, Vorgeschmack auf Premium). Nur wenn
+    // ausschließlich das unveränderte Beispieldepot angefragt ist: Kennzeichen
+    // plus nur die Käufe, die /api/portfolio/sample angelegt hat. Ein eigenes
+    // Depot mit gleichem Brokernamen bleibt damit gesperrt.
+    let isUntouchedSampleDepot = false
+    if (
+      !isPremiumUser &&
+      ownedPortfolios.length > 0 &&
+      ownedPortfolios.every(p => p.broker_name === SAMPLE_DEPOT_BROKER_NAME)
+    ) {
+      const { data: sampleTx } = await supabase
+        .from('portfolio_transactions')
+        .select('type, notes')
+        .in('portfolio_id', earlyValidIds)
+      isUntouchedSampleDepot =
+        !!sampleTx &&
+        sampleTx.length > 0 &&
+        sampleTx.every(tx => tx.type === 'buy' && typeof tx.notes === 'string' && tx.notes.startsWith(SAMPLE_DEPOT_NOTE_PREFIX))
+    }
+    if (isUntouchedSampleDepot) {
+      // Positionen aus der Datenbank statt aus der Anfrage: sonst ließen sich
+      // mit der ID des Beispieldepots fremde Positionen analysieren
+      const { data: sampleHoldings } = await supabase
+        .from('portfolio_holdings')
+        .select('portfolio_id, symbol, quantity, purchase_date, purchase_price')
+        .in('portfolio_id', earlyValidIds)
+      if (sampleHoldings && sampleHoldings.length > 0) {
+        holdings = sampleHoldings as HoldingInput[]
+      } else {
+        isUntouchedSampleDepot = false
+      }
+    }
+    const canUseProAnalytics = isPremiumUser || isUntouchedSampleDepot
 
     if (validDays > 730 && earlyValidIds.length > 0) {
       const { data: earliestTx } = await supabase
@@ -1377,7 +1416,7 @@ export async function POST(request: NextRequest) {
           // TWR-Kette (Depot) bzw. den EUR-Preisserien (Benchmark). Der
           // risikofreie Zins kommt aus der XEON-Kursserie (€STR) — echte
           // Daten statt hartcodiertem Zinssatz.
-          if (isPremiumUser) {
+          if (canUseProAnalytics) {
             const portfolioWealth = chartData.map(point => ({
               date: point.date,
               value: 1 + (twrByDate.get(point.date) || 0) / 100,
@@ -1411,7 +1450,7 @@ export async function POST(request: NextRequest) {
           // 8b3. Quant-Analysen (Premium, nur auf Anfrage — der Analyse-Tab
           // setzt quant:true, der Dashboard-Chart nicht): Korrelationsmatrix,
           // Stresstests, Monte-Carlo-Projektion, Fama-French-Faktorregression.
-          if (quant && isPremiumUser) {
+          if (quant && canUseProAnalytics) {
             try {
               // Aktuelle Gewichte je Symbol (EUR-Wert am letzten Chart-Tag).
               // Symbole können in der Alle-Depots-Ansicht mehrfach vorkommen →
@@ -1754,11 +1793,11 @@ export async function POST(request: NextRequest) {
       benchmarkComparison, // Kennzahlen: Depot vs. Benchmarks (p.a.-Differenz + Euro-Betrag)
       // Risiko-Kennzahlen: nur Premium — sonst Locked-Flag fürs UI-Teaser
       riskMeasures,
-      riskMeasuresLocked: !isPremiumUser ? true : undefined,
+      riskMeasuresLocked: !canUseProAnalytics ? true : undefined,
       // Quant-Analysen (nur wenn per quant:true angefragt): Korrelation,
       // Stresstests, Monte-Carlo, Faktorregression — Premium-only
       quant: quantAnalysis,
-      quantLocked: quant && !isPremiumUser ? true : undefined,
+      quantLocked: quant && !canUseProAnalytics ? true : undefined,
       meta: {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,
