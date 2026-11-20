@@ -19,7 +19,7 @@ import AssetsTab from '@/components/portfolio/AssetsTab'
 import AccountsTab from '@/components/portfolio/AccountsTab'
 import CashflowTab from '@/components/portfolio/CashflowTab'
 import QuickTradeEntry from '@/components/portfolio/QuickTradeEntry'
-import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
+import EarningsRadar from '@/components/portfolio/EarningsRadar'
 import UpcomingDividendsPreview from '@/components/portfolio/UpcomingDividendsPreview'
 import SoldPositions from '@/components/portfolio/SoldPositions'
 import FreshMoneyCard from '@/components/portfolio/FreshMoneyCard'
@@ -897,12 +897,13 @@ export default function PortfolioWorkspacePage() {
                   </section>
                 </div>
 
-                {/* Anstehende Earnings + Dividenden */}
+                {/* Earnings-Radar + anstehende Dividenden */}
                 <div className="grid gap-4 lg:grid-cols-2">
                   <section className="bg-theme-card border border-theme rounded-xl overflow-hidden">
-                    <PortfolioEarningsPreview
-                      symbols={p.holdings.map(h => h.symbol)}
-                      companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
+                    <EarningsRadar
+                      holdings={p.holdings}
+                      totalValue={p.totalValue}
+                      formatCurrency={p.formatCurrency}
                     />
                   </section>
                   <section className="bg-theme-card border border-theme rounded-xl overflow-hidden">

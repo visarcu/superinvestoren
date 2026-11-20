@@ -11,6 +11,7 @@ import aschenbrenner_2026_Q4 from './aschenbrenner/2026-Q4.json'
 import check_2026_Q1 from './check/2026-Q1.json'
 import check_2026_Q2 from './check/2026-Q2.json'
 import check_2026_Q3 from './check/2026-Q3.json'
+import check_2026_Q4 from './check/2026-Q4.json'
 
 //Bill Gates
 
@@ -106,6 +107,7 @@ import akre_2025_Q4 from './akre/2025-Q4.json'
 import akre_2026_Q1 from './akre/2026-Q1.json'
 import akre_2026_Q2 from './akre/2026-Q2.json'
 import akre_2026_Q3 from './akre/2026-Q3.json'
+import akre_2026_Q4 from './akre/2026-Q4.json'
 
 //olstein
 import olstein_2024_Q1 from './olstein/2024-Q1.json'
@@ -133,6 +135,7 @@ import greenberg_2025_Q4 from './greenberg/2025-Q4.json'
 import greenberg_2026_Q1 from './greenberg/2026-Q1.json'
 import greenberg_2026_Q2 from './greenberg/2026-Q2.json'
 import greenberg_2026_Q3 from './greenberg/2026-Q3.json'
+import greenberg_2026_Q4 from './greenberg/2026-Q4.json'
 
 //greenhaven
 import greenhaven_2024_Q1 from './greenhaven/2024-Q1.json'
@@ -147,6 +150,7 @@ import greenhaven_2025_Q4 from './greenhaven/2025-Q4.json'
 import greenhaven_2026_Q1 from './greenhaven/2026-Q1.json'
 import greenhaven_2026_Q2 from './greenhaven/2026-Q2.json'
 import greenhaven_2026_Q3 from './greenhaven/2026-Q3.json'
+import greenhaven_2026_Q4 from './greenhaven/2026-Q4.json'
 
 
 import gregalexander_2024_Q1 from './gregalexander/2024-Q1.json'
@@ -170,6 +174,7 @@ import smith_2025_Q4 from './smith/2025-Q4.json'
 import smith_2026_Q1 from './smith/2026-Q1.json'
 import smith_2026_Q2 from './smith/2026-Q2.json'
 import smith_2026_Q3 from './smith/2026-Q3.json'
+import smith_2026_Q4 from './smith/2026-Q4.json'
 
 //Michael Burry
 import burry_2024_Q3 from './burry/2024-Q3.json'
@@ -233,6 +238,7 @@ import   druckenmiller_2025_Q4 from './druckenmiller/2025-Q4.json'
 import   druckenmiller_2026_Q1 from './druckenmiller/2026-Q1.json'
 import   druckenmiller_2026_Q2 from './druckenmiller/2026-Q2.json'
 import   druckenmiller_2026_Q3 from './druckenmiller/2026-Q3.json'
+import   druckenmiller_2026_Q4 from './druckenmiller/2026-Q4.json'
 
 //Rochon - Giverny Capital
 import   rochon_2024_Q1 from './rochon/2024-Q1.json'
@@ -247,6 +253,7 @@ import   rochon_2025_Q4 from './rochon/2025-Q4.json'
 import   rochon_2026_Q1 from './rochon/2026-Q1.json'
 import   rochon_2026_Q2 from './rochon/2026-Q2.json'
 import   rochon_2026_Q3 from './rochon/2026-Q3.json'
+import   rochon_2026_Q4 from './rochon/2026-Q4.json'
 
 // Chase Coleman
 import coleman_2024_Q1 from './coleman/2024-Q1.json'
@@ -261,6 +268,7 @@ import coleman_2025_Q4 from './coleman/2025-Q4.json'
   import coleman_2026_Q1 from './coleman/2026-Q1.json'
   import coleman_2026_Q2 from './coleman/2026-Q2.json'
   import coleman_2026_Q3 from './coleman/2026-Q3.json'
+  import coleman_2026_Q4 from './coleman/2026-Q4.json'
 
 
 
@@ -277,6 +285,7 @@ import gayner_2025_Q4 from './gayner/2025-Q4.json'
 import gayner_2026_Q1 from './gayner/2026-Q1.json'
 import gayner_2026_Q2 from './gayner/2026-Q2.json'
 import gayner_2026_Q3 from './gayner/2026-Q3.json'
+import gayner_2026_Q4 from './gayner/2026-Q4.json'
 
 //ainslie
 import ainslie_2024_Q1 from './ainslie/2024-Q1.json'
@@ -335,6 +344,7 @@ import einhorn_2025_Q4 from './einhorn/2025-Q4.json'
 import einhorn_2026_Q1 from './einhorn/2026-Q1.json'
 import einhorn_2026_Q2 from './einhorn/2026-Q2.json'
 import einhorn_2026_Q3 from './einhorn/2026-Q3.json'
+import einhorn_2026_Q4 from './einhorn/2026-Q4.json'
 
 //hohn
 import hohn_2024_Q2 from './hohn/2024-Q2.json'
@@ -364,6 +374,7 @@ import yacktman_2025_Q4 from './yacktman/2025-Q4.json'
 import yacktman_2026_Q1 from './yacktman/2026-Q1.json'
 import yacktman_2026_Q2 from './yacktman/2026-Q2.json'
 import yacktman_2026_Q3 from './yacktman/2026-Q3.json'
+import yacktman_2026_Q4 from './yacktman/2026-Q4.json'
 
 
 //polen
@@ -378,6 +389,7 @@ import polen_2025_Q4 from './polen/2025-Q4.json'
 import polen_2026_Q1 from './polen/2026-Q1.json'
 import polen_2026_Q2 from './polen/2026-Q2.json'
 import polen_2026_Q3 from './polen/2026-Q3.json'
+import polen_2026_Q4 from './polen/2026-Q4.json'
 
 
 //viking
@@ -393,6 +405,7 @@ import viking_2025_Q4 from './viking/2025-Q4.json'
 import viking_2026_Q1 from './viking/2026-Q1.json'
 import viking_2026_Q2 from './viking/2026-Q2.json'
 import viking_2026_Q3 from './viking/2026-Q3.json'
+import viking_2026_Q4 from './viking/2026-Q4.json'
 
 //hohn
 import bloomstran_2024_Q2 from './bloomstran/2024-Q2.json'
@@ -406,6 +419,7 @@ import bloomstran_2025_Q4 from './bloomstran/2025-Q4.json'
 import bloomstran_2026_Q1 from './bloomstran/2026-Q1.json'
 import bloomstran_2026_Q2 from './bloomstran/2026-Q2.json'
 import bloomstran_2026_Q3 from './bloomstran/2026-Q3.json'
+import bloomstran_2026_Q4 from './bloomstran/2026-Q4.json'
 
 //vinall
 import vinall_2024_Q2 from './vinall/2024-Q2.json'
@@ -419,6 +433,7 @@ import vinall_2025_Q4 from './vinall/2025-Q4.json'
 import vinall_2026_Q1 from './vinall/2026-Q1.json'
 import vinall_2026_Q2 from './vinall/2026-Q2.json'
 import vinall_2026_Q3 from './vinall/2026-Q3.json'
+import vinall_2026_Q4 from './vinall/2026-Q4.json'
 
 //Cantillion Capital Mgmt
 import cantillon_2024_Q2 from './cantillon/2024-Q2.json'
@@ -432,6 +447,7 @@ import cantillon_2025_Q4 from './cantillon/2025-Q4.json'
 import cantillon_2026_Q1 from './cantillon/2026-Q1.json'
 import cantillon_2026_Q2 from './cantillon/2026-Q2.json'
 import cantillon_2026_Q3 from './cantillon/2026-Q3.json'
+//import cantillon_2026_Q4 from './cantillon/2026-Q4.json'
 
 //firsteagle
 import firsteagle_2024_Q2 from './firsteagle/2024-Q2.json'
@@ -445,6 +461,7 @@ import firsteagle_2025_Q4 from './firsteagle/2025-Q4.json'
 import firsteagle_2026_Q1 from './firsteagle/2026-Q1.json'
 import firsteagle_2026_Q2 from './firsteagle/2026-Q2.json'
 import firsteagle_2026_Q3 from './firsteagle/2026-Q3.json'
+import firsteagle_2026_Q4 from './firsteagle/2026-Q4.json'
 
 //duan
 import duan_2024_Q2 from './duan/2024-Q2.json'
@@ -458,6 +475,7 @@ import duan_2025_Q4 from './duan/2025-Q4.json'
 import duan_2026_Q1 from './duan/2026-Q1.json'
 import duan_2026_Q2 from './duan/2026-Q2.json'
 import duan_2026_Q3 from './duan/2026-Q3.json'
+import duan_2026_Q4 from './duan/2026-Q4.json'
 
 //Mandel
 import mandel_2024_Q2 from './mandel/2024-Q2.json'
@@ -471,6 +489,7 @@ import mandel_2025_Q4 from './mandel/2025-Q4.json'
 import mandel_2026_Q1 from './mandel/2026-Q1.json'
 import mandel_2026_Q2 from './mandel/2026-Q2.json'
 import mandel_2026_Q3 from './mandel/2026-Q3.json'
+import mandel_2026_Q4 from './mandel/2026-Q4.json'
 
 //ellenbogen
 import ellenbogen_2024_Q2 from './ellenbogen/2024-Q2.json'
@@ -498,6 +517,7 @@ import jensen_2025_Q4 from './jensen/2025-Q4.json'
 import jensen_2026_Q1 from './jensen/2026-Q1.json'
 import jensen_2026_Q2 from './jensen/2026-Q2.json'
 import jensen_2026_Q3 from './jensen/2026-Q3.json'
+import jensen_2026_Q4 from './jensen/2026-Q4.json'
 
 //russo
 import russo_2024_Q2 from './russo/2024-Q2.json'
@@ -511,6 +531,7 @@ import russo_2025_Q4 from './russo/2025-Q4.json'
 import russo_2026_Q1 from './russo/2026-Q1.json'
 import russo_2026_Q2 from './russo/2026-Q2.json'
 import russo_2026_Q3 from './russo/2026-Q3.json'
+import russo_2026_Q4 from './russo/2026-Q4.json'
 
 //armitage
 import armitage_2024_Q2 from './armitage/2024-Q2.json'
@@ -524,6 +545,7 @@ import armitage_2025_Q4 from './armitage/2025-Q4.json'
 import armitage_2026_Q1 from './armitage/2026-Q1.json'
 import armitage_2026_Q2 from './armitage/2026-Q2.json'
 import armitage_2026_Q3 from './armitage/2026-Q3.json'
+import armitage_2026_Q4 from './armitage/2026-Q4.json'
 
 //icahn
 import icahn_2024_Q2 from './icahn/2024-Q2.json'
@@ -537,6 +559,7 @@ import icahn_2025_Q4 from './icahn/2025-Q4.json'
 import icahn_2026_Q1 from './icahn/2026-Q1.json'
 import icahn_2026_Q2 from './icahn/2026-Q2.json'
 import icahn_2026_Q3 from './icahn/2026-Q3.json'
+import icahn_2026_Q4 from './icahn/2026-Q4.json'
 
 //abrams
 import abrams_2024_Q2 from './abrams/2024-Q2.json'
@@ -564,6 +587,7 @@ import martin_2025_Q4 from './martin/2025-Q4.json'
 import martin_2026_Q1 from './martin/2026-Q1.json'
 import martin_2026_Q2 from './martin/2026-Q2.json'
 import martin_2026_Q3 from './martin/2026-Q3.json'
+import martin_2026_Q4 from './martin/2026-Q4.json'
 
 //lindsell train
 import train_2024_Q2 from './train/2024-Q2.json'
@@ -603,6 +627,7 @@ import burn_2025_Q4 from './burn/2025-Q4.json'
 import burn_2026_Q1 from './burn/2026-Q1.json'
 import burn_2026_Q2 from './burn/2026-Q2.json'
 import burn_2026_Q3 from './burn/2026-Q3.json'
+import burn_2026_Q4 from './burn/2026-Q4.json'
 
 //dorsey
 import dorsey_2024_Q2 from './dorsey/2024-Q2.json'
@@ -856,6 +881,7 @@ import ketterer_2025_Q4 from './ketterer/2025-Q4.json'
 import ketterer_2026_Q1 from './ketterer/2026-Q1.json'
 import ketterer_2026_Q2 from './ketterer/2026-Q2.json'
 import ketterer_2026_Q3 from './ketterer/2026-Q3.json'
+import ketterer_2026_Q4 from './ketterer/2026-Q4.json'
 
 //vulcanvalue
 import vulcanvalue_2024_Q2 from './vulcanvalue/2024-Q2.json'
@@ -892,6 +918,7 @@ import davis_2025_Q4 from './davis/2025-Q4.json'
 import davis_2026_Q1 from './davis/2026-Q1.json'
 import davis_2026_Q2 from './davis/2026-Q2.json'
 import davis_2026_Q3 from './davis/2026-Q3.json'
+import davis_2026_Q4 from './davis/2026-Q4.json'
 
 //greenblatt
 import greenblatt_2024_Q1 from './greenblatt/2024-Q1.json'
@@ -906,6 +933,7 @@ import greenblatt_2025_Q4 from './greenblatt/2025-Q4.json'
 import greenblatt_2026_Q1 from './greenblatt/2026-Q1.json'
 import greenblatt_2026_Q2 from './greenblatt/2026-Q2.json'
 import greenblatt_2026_Q3 from './greenblatt/2026-Q3.json'
+import greenblatt_2026_Q4 from './greenblatt/2026-Q4.json'
 
 //fisher
 import fisher_2024_Q1 from './fisher/2024-Q1.json'
@@ -945,6 +973,7 @@ import mairspower_2025_Q4 from './mairspower/2025-Q4.json'
   import mairspower_2026_Q1 from './mairspower/2026-Q1.json'
   import mairspower_2026_Q2 from './mairspower/2026-Q2.json'
   import mairspower_2026_Q3 from './mairspower/2026-Q3.json'
+  import mairspower_2026_Q4 from './mairspower/2026-Q4.json'
 
 
 
@@ -1000,6 +1029,7 @@ import rogers_2025_Q4 from './rogers/2025-Q4.json'
 import rogers_2026_Q1 from './rogers/2026-Q1.json'
 import rogers_2026_Q2 from './rogers/2026-Q2.json'
 import rogers_2026_Q3 from './rogers/2026-Q3.json'
+import rogers_2026_Q4 from './rogers/2026-Q4.json'
 
 //ariel apprciation fund john rogers
 import ariel_appreciation_2024_Q2 from './ariel_appreciation/2024-Q2.json'
@@ -1020,6 +1050,7 @@ import katz_2025_Q4 from './katz/2025-Q4.json'
 import katz_2026_Q1 from './katz/2026-Q1.json'
 import katz_2026_Q2 from './katz/2026-Q2.json'
 import katz_2026_Q3 from './katz/2026-Q3.json'
+import katz_2026_Q4 from './katz/2026-Q4.json'
 
 //klarman
 import klarman_2024_Q2 from './klarman/2024-Q2.json'
@@ -1087,6 +1118,7 @@ import donaldsmith_2025_Q4 from './donaldsmith/2025-Q4.json'
 import donaldsmith_2026_Q1 from './donaldsmith/2026-Q1.json'
 import donaldsmith_2026_Q2 from './donaldsmith/2026-Q2.json'
 import donaldsmith_2026_Q3 from './donaldsmith/2026-Q3.json'
+import donaldsmith_2026_Q4 from './donaldsmith/2026-Q4.json'
 
 //dodgecox
 import dodgecox_2024_Q2 from './dodgecox/2024-Q2.json'
@@ -1114,6 +1146,7 @@ import whitman_2025_Q4 from './whitman/2025-Q4.json'
 import whitman_2026_Q1 from './whitman/2026-Q1.json'
 import whitman_2026_Q2 from './whitman/2026-Q2.json'
 import whitman_2026_Q3 from './whitman/2026-Q3.json'
+import whitman_2026_Q4 from './whitman/2026-Q4.json'
 
 //patientcapital
 import patientcapital_2024_Q2 from './patientcapital/2024-Q2.json'
@@ -1218,6 +1251,7 @@ import tangen_2025_Q4 from './tangen/2025-Q4.json'
 import tangen_2026_Q1 from './tangen/2026-Q1.json'
 import tangen_2026_Q2 from './tangen/2026-Q2.json'
 import tangen_2026_Q3 from './tangen/2026-Q3.json'
+import tangen_2026_Q4 from './tangen/2026-Q4.json'
 
 
 //dalio
@@ -1233,6 +1267,7 @@ import dalio_2025_Q4 from './dalio/2025-Q4.json'
 import dalio_2026_Q1 from './dalio/2026-Q1.json'
 import dalio_2026_Q2 from './dalio/2026-Q2.json'
 import dalio_2026_Q3 from './dalio/2026-Q3.json'
+import dalio_2026_Q4 from './dalio/2026-Q4.json'
 
 //pzena
 import pzena_2024_Q1 from './pzena/2024-Q1.json'
@@ -1247,6 +1282,7 @@ import pzena_2025_Q4 from './pzena/2025-Q4.json'
   import pzena_2026_Q1 from './pzena/2026-Q1.json'
   import pzena_2026_Q2 from './pzena/2026-Q2.json'
   import pzena_2026_Q3 from './pzena/2026-Q3.json'
+  import pzena_2026_Q4 from './pzena/2026-Q4.json'
 
 
 
@@ -1497,6 +1533,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: check_2026_Q1},
     {quarter: '2026-Q2', data: check_2026_Q2},
     {quarter: '2026-Q3', data: check_2026_Q3},
+    {quarter: '2026-Q4', data: check_2026_Q4},
   
   
 
@@ -1516,6 +1553,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: akre_2026_Q1},
     {quarter: '2026-Q2', data: akre_2026_Q2},
     {quarter: '2026-Q3', data: akre_2026_Q3},
+    {quarter: '2026-Q4', data: akre_2026_Q4},
 
    ],
    olstein: [
@@ -1549,6 +1587,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       {quarter: '2026-Q1', data: greenberg_2026_Q1},
       {quarter: '2026-Q2', data: greenberg_2026_Q2},
       {quarter: '2026-Q3', data: greenberg_2026_Q3},
+      {quarter: '2026-Q4', data: greenberg_2026_Q4},
     
     
    ],
@@ -1583,6 +1622,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: greenhaven_2026_Q1},
     {quarter: '2026-Q2', data: greenhaven_2026_Q2},
     {quarter: '2026-Q3', data: greenhaven_2026_Q3},
+    {quarter: '2026-Q4', data: greenhaven_2026_Q4},
   
    ],
    gregalexander: [
@@ -1611,6 +1651,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: smith_2026_Q1},
     {quarter: '2026-Q2', data: smith_2026_Q2},
     {quarter: '2026-Q3', data: smith_2026_Q3},
+    {quarter: '2026-Q4', data: smith_2026_Q4},
    ],
 
    burry: [
@@ -1680,6 +1721,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       {quarter: '2026-Q1', data: coleman_2026_Q1},
       {quarter: '2026-Q2', data: coleman_2026_Q2},
       {quarter: '2026-Q3', data: coleman_2026_Q3},
+      {quarter: '2026-Q4', data: coleman_2026_Q4},
    
 
    ],
@@ -1697,6 +1739,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: dalio_2026_Q1},
     {quarter: '2026-Q2', data: dalio_2026_Q2},
     {quarter: '2026-Q3', data: dalio_2026_Q3},
+    {quarter: '2026-Q4', data: dalio_2026_Q4},
    ],
 
  
@@ -1731,6 +1774,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: gayner_2026_Q1},
     { quarter: '2026-Q2', data: gayner_2026_Q2},
     { quarter: '2026-Q3', data: gayner_2026_Q3},
+    { quarter: '2026-Q4', data: gayner_2026_Q4},
 
   ],
 
@@ -1763,6 +1807,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: rochon_2026_Q1},
     {quarter: '2026-Q2', data: rochon_2026_Q2},
     {quarter: '2026-Q3', data: rochon_2026_Q3},
+    {quarter: '2026-Q4', data: rochon_2026_Q4},
    ],
 
    tepper: [
@@ -1794,6 +1839,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: greenblatt_2026_Q1},
     { quarter: '2026-Q2', data: greenblatt_2026_Q2},
     { quarter: '2026-Q3', data: greenblatt_2026_Q3},
+    { quarter: '2026-Q4', data: greenblatt_2026_Q4},
 
 
    ],
@@ -1827,6 +1873,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       {quarter: '2026-Q1', data: pzena_2026_Q1},
       {quarter: '2026-Q2', data: pzena_2026_Q2},
       {quarter: '2026-Q3', data: pzena_2026_Q3},
+      {quarter: '2026-Q4', data: pzena_2026_Q4},
    
    ],
 
@@ -1853,6 +1900,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: einhorn_2026_Q1},
     {quarter: '2026-Q2', data: einhorn_2026_Q2},
     {quarter: '2026-Q3', data: einhorn_2026_Q3},
+    {quarter: '2026-Q4', data: einhorn_2026_Q4},
    ],
 
    hohn: [
@@ -1883,6 +1931,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: yacktman_2026_Q1},
     { quarter: '2026-Q2', data: yacktman_2026_Q2},
     { quarter: '2026-Q3', data: yacktman_2026_Q3},
+    { quarter: '2026-Q4', data: yacktman_2026_Q4},
    ],
 
    polen: [
@@ -1897,6 +1946,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: polen_2026_Q1},
     { quarter: '2026-Q2', data: polen_2026_Q2},
     { quarter: '2026-Q3', data: polen_2026_Q3},
+    { quarter: '2026-Q4', data: polen_2026_Q4},
    ],
 
       druckenmiller: [
@@ -1911,6 +1961,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: druckenmiller_2026_Q1},
     { quarter: '2026-Q2', data: druckenmiller_2026_Q2},
     { quarter: '2026-Q3', data: druckenmiller_2026_Q3},
+    { quarter: '2026-Q4', data: druckenmiller_2026_Q4},
    ],
 
    patientcapital: [
@@ -1938,6 +1989,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: viking_2026_Q1},
     {quarter: '2026-Q2', data: viking_2026_Q2},
     {quarter: '2026-Q3', data: viking_2026_Q3},
+    {quarter: '2026-Q4', data: viking_2026_Q4},
    ],
 
    bloomstran: [
@@ -1952,6 +2004,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: bloomstran_2026_Q1},
     {quarter: '2026-Q2', data: bloomstran_2026_Q2},
     {quarter: '2026-Q3', data: bloomstran_2026_Q3},
+    {quarter: '2026-Q4', data: bloomstran_2026_Q4},
    ],
 
    vinall: [
@@ -1966,6 +2019,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: vinall_2026_Q1},
     {quarter: '2026-Q2', data: vinall_2026_Q2},
     {quarter: '2026-Q3', data: vinall_2026_Q3},
+    {quarter: '2026-Q4', data: vinall_2026_Q4},
    ],
 
    vandenberg: [
@@ -1990,6 +2044,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: cantillon_2026_Q1},
     { quarter: '2026-Q2', data: cantillon_2026_Q2},
     { quarter: '2026-Q3', data: cantillon_2026_Q3},
+   // { quarter: '2026-Q4', data: cantillon_2026_Q4},
    ],
 
    duan: [
@@ -2004,6 +2059,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: duan_2026_Q1},
     {quarter: '2026-Q2', data: duan_2026_Q2},
     {quarter: '2026-Q3', data: duan_2026_Q3},
+    {quarter: '2026-Q4', data: duan_2026_Q4},
    ],
 
    mandel: [
@@ -2018,6 +2074,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: mandel_2026_Q1},
     {quarter: '2026-Q2', data: mandel_2026_Q2},
     {quarter: '2026-Q3', data: mandel_2026_Q3},
+    {quarter: '2026-Q4', data: mandel_2026_Q4},
    ],
 
 
@@ -2048,6 +2105,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: jensen_2026_Q1},
     { quarter: '2026-Q2', data: jensen_2026_Q2},
     { quarter: '2026-Q3', data: jensen_2026_Q3},
+    { quarter: '2026-Q4', data: jensen_2026_Q4},
    ],
 
    russo: [
@@ -2062,6 +2120,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: russo_2026_Q1},
     { quarter: '2026-Q2', data: russo_2026_Q2},
     { quarter: '2026-Q3', data: russo_2026_Q3},
+    { quarter: '2026-Q4', data: russo_2026_Q4},
    ],
 
    armitage: [
@@ -2076,6 +2135,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: armitage_2026_Q1},
     { quarter: '2026-Q2', data: armitage_2026_Q2},
     { quarter: '2026-Q3', data: armitage_2026_Q3},
+    { quarter: '2026-Q4', data: armitage_2026_Q4},
    ],
 
 
@@ -2091,6 +2151,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: icahn_2026_Q1},
     {quarter: '2026-Q2', data: icahn_2026_Q2},
     {quarter: '2026-Q3', data: icahn_2026_Q3},
+    {quarter: '2026-Q4', data: icahn_2026_Q4},
    ],
 
    abrams: [
@@ -2120,6 +2181,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: martin_2026_Q1},
     { quarter: '2026-Q2', data: martin_2026_Q2},
     { quarter: '2026-Q3', data: martin_2026_Q3},
+    { quarter: '2026-Q4', data: martin_2026_Q4},
    ],
 
    train: [
@@ -2148,6 +2210,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: firsteagle_2026_Q1},
     {quarter: '2026-Q2', data: firsteagle_2026_Q2},
     {quarter: '2026-Q3', data: firsteagle_2026_Q3},
+    {quarter: '2026-Q4', data: firsteagle_2026_Q4},
    ],
 
    brenton: [
@@ -2176,6 +2239,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: burn_2026_Q1},
     { quarter: '2026-Q2', data: burn_2026_Q2},
     { quarter: '2026-Q3', data: burn_2026_Q3},
+    { quarter: '2026-Q4', data: burn_2026_Q4},
    ],
 
    dorsey: [
@@ -2456,6 +2520,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: ketterer_2026_Q1},
     { quarter: '2026-Q2', data: ketterer_2026_Q2},
     { quarter: '2026-Q3', data: ketterer_2026_Q3},
+    { quarter: '2026-Q4', data: ketterer_2026_Q4},
    ],
 
    vulcanvalue: [
@@ -2489,6 +2554,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
   {quarter: '2026-Q1', data: davis_2026_Q1},
   {quarter: '2026-Q2', data: davis_2026_Q2},
   {quarter: '2026-Q3', data: davis_2026_Q3},
+  {quarter: '2026-Q4', data: davis_2026_Q4},
    ],
 
    mairspower: [
@@ -2503,6 +2569,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: mairspower_2026_Q1},
     {quarter: '2026-Q2', data: mairspower_2026_Q2},
     {quarter: '2026-Q3', data: mairspower_2026_Q3},
+    {quarter: '2026-Q4', data: mairspower_2026_Q4},
    ],
 
 
@@ -2596,6 +2663,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: rogers_2026_Q1},
     {quarter: '2026-Q2', data: rogers_2026_Q2},
     {quarter: '2026-Q3', data: rogers_2026_Q3},
+    {quarter: '2026-Q4', data: rogers_2026_Q4},
    ],
 
    ariel_appreciation: [
@@ -2618,6 +2686,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: katz_2026_Q1},
     {quarter: '2026-Q2', data: katz_2026_Q2},
     {quarter: '2026-Q3', data: katz_2026_Q3},
+    {quarter: '2026-Q4', data: katz_2026_Q4},
    ],
 
    weitz: [
@@ -2718,6 +2787,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2026-Q1', data: donaldsmith_2026_Q1},
     { quarter: '2026-Q2', data: donaldsmith_2026_Q2},
     { quarter: '2026-Q3', data: donaldsmith_2026_Q3},
+    { quarter: '2026-Q4', data: donaldsmith_2026_Q4},
    ],
 
    dodgecox: [
@@ -2747,6 +2817,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2026-Q1', data: whitman_2026_Q1},
     {quarter: '2026-Q2', data: whitman_2026_Q2},
     {quarter: '2026-Q3', data: whitman_2026_Q3},
+    {quarter: '2026-Q4', data: whitman_2026_Q4},
 
   ],
 
@@ -2807,6 +2878,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
       { quarter: '2026-Q1', data: tangen_2026_Q1},
       { quarter: '2026-Q2', data: tangen_2026_Q2},
       { quarter: '2026-Q3', data: tangen_2026_Q3},
+      { quarter: '2026-Q4', data: tangen_2026_Q4},
 
    ],
 

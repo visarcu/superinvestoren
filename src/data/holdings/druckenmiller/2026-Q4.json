@@ -1,0 +1,931 @@
+{
+  "form": "13F-HR",
+  "date": "2026-11-16",
+  "period": "2026-11-16",
+  "accession": "0001536411-26-000011",
+  "quarterKey": "2026-Q4",
+  "positions": [
+    {
+      "name": "Natera Inc",
+      "cusip": "632307104",
+      "shares": 3160666,
+      "value": 1306335000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Seagate Technology Hldngs Pl",
+      "cusip": "G7997R103",
+      "shares": 341790,
+      "value": 315247000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "Amazon Com Inc",
+      "cusip": "023135106",
+      "shares": 772600,
+      "value": 192493000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fox Corp",
+      "cusip": "35137L105",
+      "shares": 3046050,
+      "value": 190835000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A COM",
+      "putCall": null
+    },
+    {
+      "name": "Ypf Sociedad Anonima",
+      "cusip": "984245100",
+      "shares": 3541897,
+      "value": 177555000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Unity Software Inc",
+      "cusip": "91332U101",
+      "shares": 3956385,
+      "value": 161935000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Sea Ltd",
+      "cusip": "81141R100",
+      "shares": 1592765,
+      "value": 155072000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORD ADS",
+      "putCall": null
+    },
+    {
+      "name": "Ishares Inc",
+      "cusip": "464286400",
+      "shares": 3377570,
+      "value": 125814000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MSCI BRAZIL ETF",
+      "putCall": null
+    },
+    {
+      "name": "Insmed Inc",
+      "cusip": "457669307",
+      "shares": 1092650,
+      "value": 124715000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM PAR $.01",
+      "putCall": null
+    },
+    {
+      "name": "Amazon Com Inc",
+      "cusip": "023135106",
+      "shares": 459300,
+      "value": 114435000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Seagate Technology Hldngs Pl",
+      "cusip": "G7997R103",
+      "shares": 98000,
+      "value": 90389000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": "Call"
+    },
+    {
+      "name": "Revolution Medicines Inc",
+      "cusip": "76155X100",
+      "shares": 436287,
+      "value": 89552000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Bbb Foods Inc",
+      "cusip": "G0896C103",
+      "shares": 1647408,
+      "value": 86720000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A COM",
+      "putCall": null
+    },
+    {
+      "name": "Stmicroelectronics N V",
+      "cusip": "861012102",
+      "shares": 1615380,
+      "value": 86197000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NY REGISTRY",
+      "putCall": null
+    },
+    {
+      "name": "Newamsterdam Pharma Company",
+      "cusip": "N62509109",
+      "shares": 3357146,
+      "value": 81646000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORDINARY SHARES",
+      "putCall": null
+    },
+    {
+      "name": "Cdw Corp",
+      "cusip": "12514G108",
+      "shares": 575750,
+      "value": 73788000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Insmed Inc",
+      "cusip": "457669307",
+      "shares": 550000,
+      "value": 62777000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM PAR $.01",
+      "putCall": "Call"
+    },
+    {
+      "name": "Somnigroup International Inc",
+      "cusip": "88023U101",
+      "shares": 993600,
+      "value": 61712000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Newmont Corp",
+      "cusip": "651639106",
+      "shares": 380400,
+      "value": 43875000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Barrick Mng Corp",
+      "cusip": "06849F108",
+      "shares": 1054600,
+      "value": 42891000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "Agnico Eagle Mines Ltd",
+      "cusip": "008474108",
+      "shares": 231050,
+      "value": 42345000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Bitdeer Technologies Group",
+      "cusip": "G11448100",
+      "shares": 3781493,
+      "value": 39668000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "Coupang Inc",
+      "cusip": "22266T109",
+      "shares": 2667485,
+      "value": 36998000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Western Digital Corp",
+      "cusip": "958102105",
+      "shares": 80960,
+      "value": 36793000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Hyperliquid Strategies Inc",
+      "cusip": "44916Y106",
+      "shares": 2941500,
+      "value": 36092000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Fox Corp",
+      "cusip": "35137L204",
+      "shares": 632600,
+      "value": 35615000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B COM",
+      "putCall": null
+    },
+    {
+      "name": "Fluor Corp",
+      "cusip": "343412102",
+      "shares": 723000,
+      "value": 34617000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Cdw Corp",
+      "cusip": "12514G108",
+      "shares": 250000,
+      "value": 32040000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Champion Homes Inc",
+      "cusip": "830830105",
+      "shares": 371200,
+      "value": 31812000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Applovin Corp",
+      "cusip": "03831W108",
+      "shares": 109460,
+      "value": 31790000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Cavco Inds Inc Del",
+      "cusip": "149568107",
+      "shares": 56620,
+      "value": 31722000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Daktronics Inc",
+      "cusip": "234264109",
+      "shares": 1794035,
+      "value": 31198000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Space Exploration Techn Corp",
+      "cusip": "84615Q103",
+      "shares": 202125,
+      "value": 30493000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS A COM STK",
+      "putCall": null
+    },
+    {
+      "name": "Roku Inc",
+      "cusip": "77543R102",
+      "shares": 184055,
+      "value": 28028000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Ttm Technologies Inc",
+      "cusip": "87305R109",
+      "shares": 221505,
+      "value": 27210000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Rhythm Pharmaceuticals Inc",
+      "cusip": "76243J105",
+      "shares": 269900,
+      "value": 25699000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Humana Inc",
+      "cusip": "444859102",
+      "shares": 65220,
+      "value": 24886000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Tesla Inc",
+      "cusip": "88160R101",
+      "shares": 63000,
+      "value": 22353000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
+    },
+    {
+      "name": "Adma Biologics Inc",
+      "cusip": "000899104",
+      "shares": 2212810,
+      "value": 22194000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Riot Platforms Inc",
+      "cusip": "767292105",
+      "shares": 905600,
+      "value": 18248000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Belite Bio Inc Sponsored",
+      "cusip": "07782B104",
+      "shares": 106100,
+      "value": 18018000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADS",
+      "putCall": null
+    },
+    {
+      "name": "Beam Therapeutics Inc",
+      "cusip": "07373V105",
+      "shares": 699700,
+      "value": 17108000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Jbs N.V.",
+      "cusip": "N4732M103",
+      "shares": 1406200,
+      "value": 15876000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A SHS",
+      "putCall": null
+    },
+    {
+      "name": "Invesco Exchange Traded Fd T",
+      "cusip": "46137V357",
+      "shares": 74400,
+      "value": 15477000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "S&P500 EQL WGT",
+      "putCall": null
+    },
+    {
+      "name": "Relay Therapeutics Inc",
+      "cusip": "75943R102",
+      "shares": 852600,
+      "value": 15389000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Palantir Technologies Inc",
+      "cusip": "69608A108",
+      "shares": 80100,
+      "value": 14983000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "Taiwan Semiconductor Manufac",
+      "cusip": "874039100",
+      "shares": 32700,
+      "value": 14917000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Repligen Corp",
+      "cusip": "759916109",
+      "shares": 77400,
+      "value": 14879000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Td Synnex Corporation",
+      "cusip": "87162W100",
+      "shares": 56500,
+      "value": 14512000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Crh Plc",
+      "cusip": "G25508105",
+      "shares": 159355,
+      "value": 13195000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD",
+      "putCall": null
+    },
+    {
+      "name": "Nuvation Bio Inc",
+      "cusip": "67080N101",
+      "shares": 2269900,
+      "value": 12711000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Palo Alto Networks Inc",
+      "cusip": "697435105",
+      "shares": 30000,
+      "value": 11919000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Purecycle Technologies Inc",
+      "cusip": "74623V103",
+      "shares": 2681415,
+      "value": 11825000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Insight Enterprises Inc",
+      "cusip": "45765U103",
+      "shares": 67100,
+      "value": 10489000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Skeena Res Ltd New",
+      "cusip": "83056P715",
+      "shares": 300200,
+      "value": 8925000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Korsana Biosciences Inc",
+      "cusip": "23255M303",
+      "shares": 278561,
+      "value": 8914000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Olema Pharmaceuticals Inc",
+      "cusip": "68062P106",
+      "shares": 986827,
+      "value": 8526000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Mks Inc",
+      "cusip": "55306N104",
+      "shares": 31920,
+      "value": 8470000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Rocket Cos Inc",
+      "cusip": "77311W101",
+      "shares": 652220,
+      "value": 7507000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "Cogent Biosciences Inc",
+      "cusip": "19240Q201",
+      "shares": 221112,
+      "value": 7080000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Moonlake Immunotherapeutics",
+      "cusip": "61559X104",
+      "shares": 494000,
+      "value": 5780000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS A ORD",
+      "putCall": null
+    },
+    {
+      "name": "Eli Lilly & Co",
+      "cusip": "532457108",
+      "shares": 3800,
+      "value": 4397000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "Aurora Innovation Inc",
+      "cusip": "051774107",
+      "shares": 633700,
+      "value": 3511000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS A COM",
+      "putCall": null
+    },
+    {
+      "name": "Dbv Technologies S A",
+      "cusip": "23306J309",
+      "shares": 173028,
+      "value": 2035000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "Wave Life Sciences Inc",
+      "cusip": "94352A104",
+      "shares": 173000,
+      "value": 640000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    }
+  ],
+  "totalValue": 4470867000,
+  "positionsCount": 65,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 4148873000,
+      "CALL": 321994000
+    },
+    "percentages": {
+      "STOCK": "92.8%",
+      "CALL": "7.2%"
+    }
+  }
+}

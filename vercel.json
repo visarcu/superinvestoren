@@ -33,6 +33,14 @@
       "schedule": "0 5 * * *"
     },
     {
+      "path": "/api/cron/sync-earnings-results",
+      "schedule": "30 13,23 * * 1-5"
+    },
+    {
+      "path": "/api/cron/sync-earnings-reactions",
+      "schedule": "45 23 * * 1-5"
+    },
+    {
       "path": "/api/cron/ingest-earnings-transcripts",
       "schedule": "0 12 * * *"
     },

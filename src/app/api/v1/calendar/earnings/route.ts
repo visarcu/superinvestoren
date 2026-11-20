@@ -15,11 +15,14 @@
 // Datenquellen (alle in Supabase-Tabelle "SecEarningsCalendar" konsolidiert):
 //   • sec-8k-item-2.02     Past Earnings aus SEC EDGAR 8-K Filings
 //   • nasdaq-public        Upcoming Earnings aus NASDAQ Public Calendar
+//   • fmp-history          Termine 2024 bis April 2026 aus FMP (scripts/backfillEarningsHistory.ts)
 //
-// Keine FMP/EODHD-Dependency — 100% Primary-Sources.
+// Ist-Zahlen (cron/sync-earnings-results) und Kursreaktion
+// (cron/sync-earnings-reactions) kommen aus FMP dazu.
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { isBetterEarningsRow } from '@/lib/earningsCalendarRows'
 
 interface CalendarRow {
   ticker: string
@@ -35,6 +38,10 @@ interface CalendarRow {
   market_cap: number | null
   is_upcoming: boolean
   source: string | null
+  updated_at?: string | null
+  reaction_pct?: number | null
+  typical_move_pct?: number | null
+  typical_move_count?: number | null
 }
 
 export async function GET(request: NextRequest) {
@@ -85,10 +92,13 @@ export async function GET(request: NextRequest) {
       .select(
         'ticker, company_name, date, fiscal_quarter, fiscal_year, ' +
         'eps_actual, eps_estimate, revenue_actual, revenue_estimate, ' +
-        'call_time, market_cap, is_upcoming, source'
+        'call_time, market_cap, is_upcoming, source, updated_at, ' +
+        'reaction_pct, typical_move_pct, typical_move_count'
       )
       .gte('date', from)
       .lte('date', to)
+      // Überholte Termine (von NASDAQ verschoben) ausblenden
+      .eq('confirmed', true)
       // Nach Datum aufsteigend, dann Market Cap absteigend (Größte zuerst pro Tag,
       // damit auch bei niedrigem Limit die "wichtigen" Firmen drin sind).
       .order('date', { ascending: true })
@@ -108,24 +118,16 @@ export async function GET(request: NextRequest) {
 
     // ── Dedup-Pass 1: gleicher ticker + fiscal_quarter + fiscal_year ──
     // z.B. Tesla 2026-04-02 (SEC 8-K Item 2.02 für Production Numbers) und
-    // 2026-04-22 (NASDAQ offizielle Q1 Earnings). Wir bevorzugen:
-    //   1) source='nasdaq-public' > 'sec-8k-item-2.02'
-    //   2) Bei gleicher Source: späteres Datum (= echter Earnings Call)
+    // 2026-04-22 (NASDAQ offizielle Q1 Earnings), oder ein von NASDAQ
+    // verschobener Termin, falls noch nicht per confirmed=false aussortiert.
+    // Auswahl siehe isBetterEarningsRow().
     const tickerDedup = new Map<string, CalendarRow>()
     for (const row of rawEvents) {
       const key = row.fiscal_quarter && row.fiscal_year
         ? `${row.ticker}|${row.fiscal_quarter}|${row.fiscal_year}`
         : `${row.ticker}|${row.date}`
       const existing = tickerDedup.get(key)
-      if (!existing) {
-        tickerDedup.set(key, row)
-        continue
-      }
-      const existingIsNasdaq = existing.source === 'nasdaq-public'
-      const rowIsNasdaq = row.source === 'nasdaq-public'
-      if (rowIsNasdaq && !existingIsNasdaq) {
-        tickerDedup.set(key, row)
-      } else if (rowIsNasdaq === existingIsNasdaq && row.date > existing.date) {
+      if (!existing || isBetterEarningsRow(row, existing)) {
         tickerDedup.set(key, row)
       }
     }
@@ -276,16 +278,37 @@ function fmtIsoDate(d: Date): string {
   return `${y}-${m}-${day}`
 }
 
+type Outcome = 'beat' | 'miss' | 'meet'
+
+// EPS gilt bis auf den Cent als getroffen, Umsatz bis auf 0,1 %.
+const EPS_MEET_TOLERANCE = 0.005
+const REVENUE_MEET_TOLERANCE = 0.001
+
+function compare(actual: number | null, estimate: number | null, tolerance: number, relative: boolean): Outcome | null {
+  if (actual === null || estimate === null) return null
+  const diff = actual - estimate
+  const threshold = relative ? Math.abs(estimate) * tolerance : tolerance
+  if (Math.abs(diff) < threshold) return 'meet'
+  return diff > 0 ? 'beat' : 'miss'
+}
+
+function surprisePct(actual: number | null, estimate: number | null): number | null {
+  if (actual === null || estimate === null || estimate === 0) return null
+  return Math.round(((actual - estimate) / Math.abs(estimate)) * 1000) / 10
+}
+
+/** EPS und Umsatz zusammen: gleiche Richtung → die, gegenläufig → mixed, "meet" zählt neutral. */
+function combineOutcomes(eps: Outcome | null, revenue: Outcome | null): Outcome | 'mixed' | null {
+  if (!eps) return revenue
+  if (!revenue || eps === revenue) return eps
+  if (eps === 'meet') return revenue
+  if (revenue === 'meet') return eps
+  return 'mixed'
+}
+
 function toApiEvent(row: CalendarRow) {
-  // Beat/Miss nur wenn actual + estimate beide vorhanden
-  const beat =
-    row.eps_actual !== null && row.eps_estimate !== null
-      ? row.eps_actual > row.eps_estimate
-        ? 'beat'
-        : row.eps_actual < row.eps_estimate
-          ? 'miss'
-          : 'meet'
-      : null
+  const epsResult = compare(row.eps_actual, row.eps_estimate, EPS_MEET_TOLERANCE, false)
+  const revenueResult = compare(row.revenue_actual, row.revenue_estimate, REVENUE_MEET_TOLERANCE, true)
 
   return {
     ticker: row.ticker,
@@ -299,7 +322,15 @@ function toApiEvent(row: CalendarRow) {
     revenueActual: row.revenue_actual,
     marketCap: row.market_cap,
     isUpcoming: row.is_upcoming,
-    result: beat,
+    result: combineOutcomes(epsResult, revenueResult),
+    epsResult,
+    revenueResult,
+    epsSurprisePct: surprisePct(row.eps_actual, row.eps_estimate),
+    revenueSurprisePct: surprisePct(row.revenue_actual, row.revenue_estimate),
+    // Kursveränderung am Reaktionstag (%) und Ø absolute Reaktion der vorherigen Termine
+    reactionPct: row.reaction_pct ?? null,
+    typicalMovePct: row.typical_move_pct ?? null,
+    typicalMoveCount: row.typical_move_count ?? null,
     source: row.source,
   }
 }

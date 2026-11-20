@@ -9,6 +9,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { markSupersededEarningsRows } from '@/lib/earningsCalendarRows'
 
 // Vercel setzt Node-Runtime auf 10s default — Cron darf länger
 export const runtime = 'nodejs'
@@ -205,6 +206,18 @@ export async function GET(request: NextRequest) {
     .eq('is_upcoming', true)
     .lt('date', todayIso)
 
+  // Von NASDAQ verschobene Termine: alte, vorläufige Zeile als überholt markieren
+  let duplicates: Awaited<ReturnType<typeof markSupersededEarningsRows>> | { error: string }
+  try {
+    const dedupFrom = new Date(today)
+    dedupFrom.setDate(dedupFrom.getDate() - 30)
+    const dedupTo = new Date(today)
+    dedupTo.setDate(dedupTo.getDate() + days + 30)
+    duplicates = await markSupersededEarningsRows(supabase, isoDate(dedupFrom), isoDate(dedupTo))
+  } catch (err) {
+    duplicates = { error: err instanceof Error ? err.message : String(err) }
+  }
+
   const elapsedMs = Date.now() - startedAt
 
   return NextResponse.json({
@@ -215,6 +228,7 @@ export async function GET(request: NextRequest) {
     totalSaved,
     failures: failures.length,
     failureDetails: failures.slice(0, 10),
+    duplicates,
     elapsedMs,
     fetchedAt: new Date().toISOString(),
   })

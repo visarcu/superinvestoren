@@ -12,6 +12,18 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
+import {
+  CompactResult,
+  EarningsFigures,
+  hasCompactResult,
+  resultBadgeClass,
+  resultLabel,
+  resultShort,
+  resultTextClass,
+  resultTooltip,
+  type EarningsOutcome,
+  type EarningsResultKind,
+} from '@/components/earnings/EarningsResult'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,7 +38,14 @@ interface EarningsEvent {
   revenueEstimate: number | null
   revenueActual: number | null
   marketCap: number | null
-  result: 'beat' | 'miss' | 'meet' | null
+  result: EarningsResultKind | null
+  epsResult: EarningsOutcome | null
+  revenueResult: EarningsOutcome | null
+  epsSurprisePct: number | null
+  revenueSurprisePct: number | null
+  reactionPct: number | null
+  typicalMovePct: number | null
+  typicalMoveCount: number | null
 }
 
 interface CalendarDay {
@@ -486,7 +505,7 @@ export default function EarningsCalendarPage() {
 
 function WeekEventRow({ event: e }: { event: EarningsEvent }) {
   return (
-    <div className="flex items-center gap-2 py-1 px-1.5 rounded-md hover:bg-white/[0.03] transition-colors">
+    <div title={e.result ? resultTooltip(e) : undefined} className="flex items-center gap-2 py-1 px-1.5 rounded-md hover:bg-white/[0.03] transition-colors">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`/api/v1/logo/${e.ticker}?size=48`}
@@ -496,7 +515,7 @@ function WeekEventRow({ event: e }: { event: EarningsEvent }) {
       />
       <span
         className={`text-[11.5px] font-bold tabular-nums truncate ${
-          e.result === 'beat' ? 'text-emerald-400' : e.result === 'miss' ? 'text-red-400' : 'text-theme-secondary'
+          resultTextClass(e.result, 'text-theme-secondary')
         }`}
       >
         {e.ticker}
@@ -506,18 +525,8 @@ function WeekEventRow({ event: e }: { event: EarningsEvent }) {
       ) : e.time === 'amc' ? (
         <MoonIcon className="w-3 h-3 text-blue-400/60 flex-shrink-0" />
       ) : null}
-      {e.result ? (
-        <span
-          className={`text-[8.5px] font-bold px-1 rounded ml-auto flex-shrink-0 ${
-            e.result === 'beat'
-              ? 'bg-emerald-500/15 text-emerald-400'
-              : e.result === 'miss'
-                ? 'bg-red-500/15 text-red-400'
-                : 'bg-white/10 text-theme-muted'
-          }`}
-        >
-          {e.result === 'beat' ? 'B' : e.result === 'miss' ? 'M' : '='}
-        </span>
+      {hasCompactResult(e) ? (
+        <CompactResult event={e} neutralBadge="bg-white/10 text-theme-muted" muted="text-theme-muted" />
       ) : e.epsEstimate !== null ? (
         <span className="text-[9px] text-theme-muted tabular-nums ml-auto flex-shrink-0">
           E {e.epsEstimate.toFixed(2).replace('.', ',')}
@@ -535,7 +544,7 @@ function WeekEventRow({ event: e }: { event: EarningsEvent }) {
 
 function DayEventRow({ event: e }: { event: EarningsEvent }) {
   return (
-    <div className="flex items-center gap-1.5 group/row">
+    <div title={e.result ? resultTooltip(e) : undefined} className="flex items-center gap-1.5 group/row">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`/api/v1/logo/${e.ticker}?size=32`}
@@ -545,7 +554,7 @@ function DayEventRow({ event: e }: { event: EarningsEvent }) {
       />
       <span
         className={`text-[10px] font-bold tabular-nums truncate ${
-          e.result === 'beat' ? 'text-emerald-400' : e.result === 'miss' ? 'text-red-400' : 'text-theme-secondary'
+          resultTextClass(e.result, 'text-theme-secondary')
         }`}
       >
         {e.ticker}
@@ -558,14 +567,10 @@ function DayEventRow({ event: e }: { event: EarningsEvent }) {
       {e.result && (
         <span
           className={`text-[8px] font-bold px-1 rounded ml-auto ${
-            e.result === 'beat'
-              ? 'bg-emerald-500/15 text-emerald-400'
-              : e.result === 'miss'
-                ? 'bg-red-500/15 text-red-400'
-                : 'bg-white/10 text-theme-muted'
+            resultBadgeClass(e.result, 'bg-white/10 text-theme-muted')
           }`}
         >
-          {e.result === 'beat' ? 'B' : e.result === 'miss' ? 'M' : '='}
+          {resultShort(e.result)}
         </span>
       )}
     </div>
@@ -712,14 +717,10 @@ function DayDetailModal({
                       {e.result && (
                         <span
                           className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
-                            e.result === 'beat'
-                              ? 'bg-emerald-500/15 text-emerald-400'
-                              : e.result === 'miss'
-                                ? 'bg-red-500/15 text-red-400'
-                                : 'bg-white/10 text-theme-muted'
+                            resultBadgeClass(e.result, 'bg-white/10 text-theme-muted')
                           }`}
                         >
-                          {e.result === 'beat' ? 'Beat' : e.result === 'miss' ? 'Miss' : 'Inline'}
+                          {resultLabel(e.result)}
                         </span>
                       )}
                     </div>
@@ -730,22 +731,7 @@ function DayDetailModal({
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  {e.epsActual !== null ? (
-                    <div>
-                      <p className="text-[12px] font-medium text-theme-secondary tabular-nums">
-                        EPS {e.epsActual.toFixed(2).replace('.', ',')} $
-                      </p>
-                      {e.epsEstimate !== null && (
-                        <p className="text-[10px] text-theme-muted tabular-nums">
-                          Est. {e.epsEstimate.toFixed(2).replace('.', ',')} $
-                        </p>
-                      )}
-                    </div>
-                  ) : e.epsEstimate !== null ? (
-                    <p className="text-[11px] text-theme-muted tabular-nums">
-                      Est. EPS {e.epsEstimate.toFixed(2).replace('.', ',')} $
-                    </p>
-                  ) : null}
+                  <EarningsFigures event={e} tone={{ strong: 'text-theme-secondary', muted: 'text-theme-muted' }} />
                   <div className="flex items-center justify-end gap-1 mt-0.5">
                     {e.time === 'bmo' ? (
                       <>
