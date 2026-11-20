@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getReportingCurrencyInfo } from '@/lib/fmpCurrency'
 
+// Die Schätzungen werden hier in die Handelswährung umgerechnet, weil beide
+// Abnehmer (ForwardPETable, ProfessionalValuationTable) Kurs / EPS rechnen.
+// Siehe lib/fmpCurrency: ohne Umrechnung zeigt TSM ein Forward-KGV von 0,5.
 export async function GET(request: NextRequest, { params }: { params: { ticker: string } }) {
   const { ticker } = params
 
@@ -13,17 +17,44 @@ export async function GET(request: NextRequest, { params }: { params: { ticker: 
   }
 
   try {
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`,
-      { next: { revalidate: 3600 } }
-    )
+    const [response, fx] = await Promise.all([
+      fetch(
+        `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`,
+        { next: { revalidate: 3600 } }
+      ),
+      getReportingCurrencyInfo(ticker, apiKey),
+    ])
 
     if (!response.ok) {
       throw new Error(`Analyst Estimates API responded with status ${response.status}`)
     }
 
-    const data = await response.json()
-    return NextResponse.json(data)
+    const estimates = await response.json()
+    const { reportedCurrency, tradingCurrency, fxToTrading } = fx
+
+    if (!Array.isArray(estimates) || !reportedCurrency || !tradingCurrency || reportedCurrency === tradingCurrency) {
+      return NextResponse.json(estimates)
+    }
+
+    if (fxToTrading == null) {
+      // Lieber keine Schätzungen als Kennzahlen in der falschen Währung
+      console.error(`Analyst estimates ${ticker}: kein FX-Kurs ${reportedCurrency}->${tradingCurrency}`)
+      return NextResponse.json({ error: 'Exchange rate unavailable' }, { status: 502 })
+    }
+
+    const converted = estimates.map((e: Record<string, any>) => {
+      const out: Record<string, any> = { ...e }
+      for (const [key, value] of Object.entries(e)) {
+        if (key.startsWith('estimated') && typeof value === 'number') {
+          out[key] = value * fxToTrading
+        }
+      }
+      out.currency = tradingCurrency
+      out.convertedFrom = reportedCurrency
+      return out
+    })
+
+    return NextResponse.json(converted)
 
   } catch (error) {
     console.error(`Analyst estimates error for ${ticker}:`, error)

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getReportingCurrencyInfo, isForeignReporting } from '@/lib/fmpCurrency'
 
 interface SegmentationData {
   segment: string
@@ -88,7 +89,11 @@ export async function GET(
     }
 
     let effectivePeriod = period
-    let [segments, revenue] = await Promise.all([fetchSegments(period), fetchRevenue(period)])
+    let [segments, revenue, currencyInfo] = await Promise.all([
+      fetchSegments(period),
+      fetchRevenue(period),
+      getReportingCurrencyInfo(ticker, apiKey).catch(() => null),
+    ])
 
     // Frisch gelistete Unternehmen (z.B. IPO im laufenden Jahr) haben noch keinen 10-K,
     // daher existieren nur Quartals-Segmente — dann darauf zurückfallen
@@ -99,6 +104,24 @@ export async function GET(
         effectivePeriod = 'quarter'
         revenue = await fetchRevenue('quarter')
       }
+    }
+
+    // Segmente in die Handelswährung umrechnen, passend zu /api/financial-data
+    // (ADRs wie TSM berichten in TWD, siehe lib/fmpCurrency)
+    const fxRate = currencyInfo && isForeignReporting(currencyInfo) ? currencyInfo.fxToTrading : null
+    if (fxRate != null && structure === 'flat') {
+      segments = segments.map((entry: any) => {
+        const out: Record<string, any> = {}
+        for (const [date, values] of Object.entries(entry ?? {})) {
+          const converted: Record<string, any> = {}
+          for (const [name, v] of Object.entries((values ?? {}) as Record<string, any>)) {
+            converted[name] = typeof v === 'number' ? v * fxRate : v
+          }
+          out[date] = converted
+        }
+        return out as SegmentationData
+      })
+      revenue = revenue.map(r => ({ ...r, revenue: r.revenue * fxRate }))
     }
 
     console.log(`✅ ${segmentType} segmentation API successful: ${segments.length} segments for ${ticker} (${effectivePeriod})`)

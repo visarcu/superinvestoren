@@ -1,13 +1,14 @@
 // Formatierungs-Helpers für die Aktien-Detail-Seite (Fey-Style)
 import type React from 'react'
 
-export function fmt(v: number | null | undefined): string {
+/** `unit` ist das Währungszeichen bzw. der Code, z. B. 'TWD' bei TSM (Berichtswährung). */
+export function fmt(v: number | null | undefined, unit = '$'): string {
   if (v === null || v === undefined) return '–'
   const a = Math.abs(v)
-  if (a >= 1e12) return `${(v / 1e12).toFixed(2).replace('.', ',')} Bio. $`
-  if (a >= 1e9) return `${(v / 1e9).toFixed(1).replace('.', ',')} Mrd. $`
-  if (a >= 1e6) return `${(v / 1e6).toFixed(0)} Mio. $`
-  return `${v.toLocaleString('de-DE')} $`
+  if (a >= 1e12) return `${(v / 1e12).toFixed(2).replace('.', ',')} Bio. ${unit}`
+  if (a >= 1e9) return `${(v / 1e9).toFixed(1).replace('.', ',')} Mrd. ${unit}`
+  if (a >= 1e6) return `${(v / 1e6).toFixed(0)} Mio. ${unit}`
+  return `${v.toLocaleString('de-DE')} ${unit}`
 }
 
 /**

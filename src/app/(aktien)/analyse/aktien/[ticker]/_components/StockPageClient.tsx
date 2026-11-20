@@ -48,6 +48,12 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
   const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
   const [earnings, setEarnings] = useState<EarningsEntry[]>([])
   const [estimates, setEstimates] = useState<AnalystEstimate[]>([])
+  // Berichtswährung der Finanzzahlen vs. Kurswährung (ADRs wie TSM: TWD vs. USD)
+  const [estimateFx, setEstimateFx] = useState<{
+    currency: string | null
+    quoteCurrency: string | null
+    fxToQuote: number | null
+  } | null>(null)
   const [quote, setQuote] = useState<Quote | null>(null)
   const [aftermarket, setAftermarket] = useState<AftermarketQuote | null>(null)
   const [priceChart, setPriceChart] = useState<PricePoint[]>([])
@@ -87,6 +93,8 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
         if (k?.metrics) setKpis(k.metrics)
         if (e?.earnings) setEarnings(e.earnings)
         if (est?.estimates) setEstimates(est.estimates)
+        if (est && 'fxToQuote' in est)
+          setEstimateFx({ currency: est.currency ?? null, quoteCurrency: est.quoteCurrency ?? null, fxToQuote: est.fxToQuote ?? null })
         if (q?.price)
           setQuote({
             price: q.price,
@@ -260,17 +268,34 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
     const grossMargin = L?.revenue && L?.grossProfit ? (L.grossProfit / L.revenue) * 100 : null
     const opMargin = L?.revenue && L?.operatingIncome ? (L.operatingIncome / L.revenue) * 100 : null
     const netMargin = L?.revenue && L?.netIncome ? (L.netIncome / L.revenue) * 100 : null
-    const pe = quote?.price && L?.eps && L.eps > 0 ? quote.price / L.eps : null
+
+    // ADRs wie TSM berichten in Heimatwährung (TWD), gehandelt wird in USD, und ein
+    // ADR umfasst oft mehrere Aktien (TSM: 5). Kurs / EPS ist dann doppelt falsch.
+    // Deshalb: KGV über Marktkapitalisierung / umgerechneten Nettogewinn, Forward-KGV
+    // mit umgerechneter Konsens-EPS (FMP liefert sie schon je ADR).
+    const reportCcy = estimateFx?.currency ?? null
+    const foreignReporting = !!(reportCcy && estimateFx?.quoteCurrency && reportCcy !== estimateFx.quoteCurrency)
+    const fxToQuote = foreignReporting ? estimateFx?.fxToQuote ?? null : 1
+    const unit = foreignReporting && reportCcy ? reportCcy : '$'
+
+    const pe = foreignReporting
+      ? quote?.marketCap && L?.netIncome && L.netIncome > 0 && fxToQuote
+        ? quote.marketCap / (L.netIncome * fxToQuote)
+        : null
+      : quote?.price && L?.eps && L.eps > 0 ? quote.price / L.eps : null
 
     // Forward KGV: Preis / Consensus-EPS der nächsten beiden Prognose-Jahre über dem letzten Ist-Jahr.
+    // Jahre, deren Geschäftsjahr schon vorbei ist, sind kein "Forward" mehr (relevant, wenn
+    // die Ist-Zahlen hinterherhinken, wie bei TSM in den SEC-Daten).
     // Wenn nur ein Jahr verfügbar ist, fallback auf einzelne Anzeige.
     const lastIncomeYear = L?.period ? parseInt(L.period, 10) : 0
+    const today = new Date().toISOString().slice(0, 10)
     const futureEps = estimates
-      .filter(e => e.year > lastIncomeYear && e.eps.avg !== null && (e.eps.avg as number) > 0)
+      .filter(e => e.year > lastIncomeYear && e.date > today && e.eps.avg !== null && (e.eps.avg as number) > 0)
       .slice(0, 2)
     const [nextEst, nextNextEst] = futureEps
     const fwdPe = (eps: number | null | undefined) =>
-      quote?.price && eps && eps > 0 ? quote.price / eps : null
+      quote?.price && eps && eps > 0 && fxToQuote ? quote.price / (eps * fxToQuote) : null
     const fwdPe1 = fwdPe(nextEst?.eps.avg)
     const fwdPe2 = fwdPe(nextNextEst?.eps.avg)
     const fwd = (v: number | null) => (v ? v.toFixed(1).replace('.', ',') : null)
@@ -288,22 +313,22 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
     const items = [
       { label: 'KGV (P/E)', value: pe ? pe.toFixed(1).replace('.', ',') : '–' },
       { label: forwardKgvLabel, value: forwardKgvValue },
-      { label: 'Umsatz', value: fmt(L?.revenue || null) },
-      { label: 'Nettogewinn', value: fmt(L?.netIncome || null) },
-      { label: 'Gewinn/Aktie', value: L?.eps ? `${L.eps.toFixed(2).replace('.', ',')} $` : '–' },
+      { label: 'Umsatz', value: fmt(L?.revenue || null, unit) },
+      { label: 'Nettogewinn', value: fmt(L?.netIncome || null, unit) },
+      { label: 'Gewinn/Aktie', value: L?.eps ? `${L.eps.toFixed(2).replace('.', ',')} ${unit}` : '–' },
       { label: 'Bruttomarge', value: grossMargin ? `${grossMargin.toFixed(1).replace('.', ',')}%` : '–' },
       { label: 'Op. Marge', value: opMargin ? `${opMargin.toFixed(1).replace('.', ',')}%` : '–' },
       { label: 'Nettomarge', value: netMargin ? `${netMargin.toFixed(1).replace('.', ',')}%` : '–' },
       { label: 'Umsatzwachstum', value: fmtPct(revGrowth), color: revGrowth ?? undefined },
-      { label: 'Barmittel', value: fmt(LB?.cash || null) },
-      { label: 'Schulden', value: fmt(LB?.totalDebt || LB?.longTermDebt || null) },
-      { label: 'Op. Cashflow', value: fmt(LC?.operatingCashFlow || null) },
-      { label: 'Free Cashflow', value: fmt(LC?.freeCashFlow || null) },
-      { label: 'F&E', value: fmt(L?.researchAndDevelopment || null) },
+      { label: 'Barmittel', value: fmt(LB?.cash || null, unit) },
+      { label: 'Schulden', value: fmt(LB?.totalDebt || LB?.longTermDebt || null, unit) },
+      { label: 'Op. Cashflow', value: fmt(LC?.operatingCashFlow || null, unit) },
+      { label: 'Free Cashflow', value: fmt(LC?.freeCashFlow || null, unit) },
+      { label: 'F&E', value: fmt(L?.researchAndDevelopment || null, unit) },
     ].filter(m => m.value !== '–')
 
     return { metrics: items, fyLabel: L?.period ? `GJ ${L.period}` : '' }
-  }, [income, balance, cashflow, quote, estimates])
+  }, [income, balance, cashflow, quote, estimates, estimateFx])
 
   // Owner Earnings (Buffett) aus Gewinn, Abschreibungen, Capex, Umsatz und Sachanlagen —
   // geschätzt, siehe lib/ownerEarnings. Wird an die Cashflow-Perioden gehängt, damit

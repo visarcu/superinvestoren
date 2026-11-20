@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getFinancialData as getSecData } from '@/lib/sec/secDataStore'
+import {
+  getReportingCurrencyInfo,
+  isForeignReporting,
+  convertStatementRow,
+  convertKeyMetricsRow,
+} from '@/lib/fmpCurrency'
 
 // Wrapper um fetch + next-cache. Schützt vor dem Pattern, dass FMP bei
 // Rate-Limit eine leere Response liefert und Vercel diese dann für die
@@ -160,6 +166,13 @@ interface FinancialDataResponse {
     dividends?: 'fmp'
     other: 'fmp'
   }
+  /** Währung der gelieferten Beträge. Bei ADRs (TSM: TWD) wird in die
+   *  Handelswährung umgerechnet; `convertedFrom` nennt dann die Berichtswährung. */
+  _currency?: {
+    currency: string | null
+    convertedFrom: string | null
+    fxRate: number | null
+  }
 }
 
 export async function GET(
@@ -171,6 +184,8 @@ export async function GET(
 
   const years = parseInt(searchParams.get('years') || '5')
   const period = searchParams.get('period') || 'annual'
+  // ?currency=reported liefert die Rohwerte in Berichtswährung (SEC-Vergleichsseite)
+  const keepReportedCurrency = searchParams.get('currency') === 'reported'
 
   if (!/^[A-Z0-9.-]{1,10}$/i.test(ticker)) {
     return NextResponse.json({ error: 'Invalid ticker format' }, { status: 400 })
@@ -197,7 +212,8 @@ export async function GET(
       balanceData,
       cashFlowData,
       keyMetricsData,
-      dividendsData
+      dividendsData,
+      currencyInfo
     ] = await Promise.all([
       getSecOverrides(ticker.toUpperCase(), period as 'annual' | 'quarterly', years),
       fmpFetchSafe(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`),
@@ -207,14 +223,33 @@ export async function GET(
       // stock_dividend liefert {historical: [...]} statt array — eigene Behandlung
       fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`, {
         next: { revalidate: 7200 }
-      })
+      }),
+      getReportingCurrencyInfo(ticker, apiKey).catch(() => null),
     ])
+
+    // ADRs mit fremder Berichtswährung (TSM: TWD, Kurs in USD). Die SEC-Werte
+    // passen hier nicht dazu: EPS je Stammaktie statt je ADR (TSM: 5 Aktien je
+    // ADR) und oft ältere Jahrgänge. Deshalb nur FMP nehmen und umrechnen.
+    const foreignReporting = !!currencyInfo && isForeignReporting(currencyInfo)
+    const fxRate = foreignReporting && !keepReportedCurrency ? currencyInfo!.fxToTrading : null
+    const convertToTrading = fxRate != null
+    if (foreignReporting && !keepReportedCurrency && fxRate == null) {
+      console.warn(`[financial-data] ${ticker}: kein FX-Kurs ${currencyInfo!.reportedCurrency}->${currencyInfo!.tradingCurrency}, liefere Berichtswährung`)
+    }
 
     // ── Responses normalisieren ──────────────────────────────────────────
     let incomeStatements: any[] = Array.isArray(incomeData) ? incomeData : []
     let balanceSheets: any[] = Array.isArray(balanceData) ? balanceData : []
     let cashFlows: any[] = Array.isArray(cashFlowData) ? cashFlowData : []
-    const keyMetrics: any[] = Array.isArray(keyMetricsData) ? keyMetricsData : []
+    let keyMetrics: any[] = Array.isArray(keyMetricsData) ? keyMetricsData : []
+
+    if (convertToTrading) {
+      const to = currencyInfo!.tradingCurrency!
+      incomeStatements = incomeStatements.map(r => convertStatementRow(r, fxRate!, to))
+      balanceSheets = balanceSheets.map(r => convertStatementRow(r, fxRate!, to))
+      cashFlows = cashFlows.map(r => convertStatementRow(r, fxRate!, to))
+      keyMetrics = keyMetrics.map(r => convertKeyMetricsRow(r, fxRate!))
+    }
     const dividendsRaw = dividendsData.ok ? await dividendsData.json() : null
     const dividends = dividendsRaw?.historical || []
 
@@ -222,7 +257,7 @@ export async function GET(
     const { overrides, source: secSource } = secResult
     let dataSource: 'sec-xbrl' | 'fmp' = 'fmp'
 
-    if (secSource === 'sec-xbrl' && overrides.size > 0) {
+    if (secSource === 'sec-xbrl' && overrides.size > 0 && !foreignReporting) {
       let secPeriodsApplied = 0
 
       // Income Statements patchen
@@ -312,6 +347,13 @@ export async function GET(
         keyMetrics: 'fmp',
         dividends: 'fmp',
         other: 'fmp',
+      },
+      _currency: {
+        currency: convertToTrading
+          ? currencyInfo!.tradingCurrency
+          : currencyInfo?.reportedCurrency ?? null,
+        convertedFrom: convertToTrading ? currencyInfo!.reportedCurrency : null,
+        fxRate,
       },
     }
 

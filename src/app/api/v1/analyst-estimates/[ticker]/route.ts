@@ -6,6 +6,7 @@
 // Nicht in api-docs listen, solange `source: 'fmp'` — erst bei eigener Quelle publizieren.
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getReportingCurrencyInfo } from '@/lib/fmpCurrency'
 
 interface NormalizedEstimate {
   /** Fiscal period end (YYYY-MM-DD) */
@@ -39,6 +40,14 @@ interface NormalizedEstimate {
 interface EstimatesResponse {
   ticker: string
   estimates: NormalizedEstimate[]
+  /** Währung der Schätzwerte (Berichtswährung, z. B. TWD bei TSM). Werte bleiben
+   *  unverändert, damit sie zu den historischen Zahlen in den Charts passen. */
+  currency: string | null
+  /** Handelswährung des Kurses (z. B. USD) */
+  quoteCurrency: string | null
+  /** Faktor Schätzwährung → Kurswährung für Bewertungen wie das Forward-KGV;
+   *  1 bei gleicher Währung, null wenn kein FX-Kurs verfügbar ist */
+  fxToQuote: number | null
   source: 'fmp'
 }
 
@@ -64,10 +73,18 @@ export async function GET(
   }
 
   try {
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`,
-      { next: { revalidate: 3600 } }
-    )
+    const [response, fx] = await Promise.all([
+      fetch(
+        `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`,
+        { next: { revalidate: 3600 } }
+      ),
+      getReportingCurrencyInfo(ticker, apiKey),
+    ])
+    const currencyFields = {
+      currency: fx.reportedCurrency,
+      quoteCurrency: fx.tradingCurrency,
+      fxToQuote: fx.fxToTrading,
+    }
 
     if (!response.ok) {
       throw new Error(`FMP analyst-estimates responded with status ${response.status}`)
@@ -76,7 +93,7 @@ export async function GET(
     const raw = await response.json()
     if (!Array.isArray(raw)) {
       return NextResponse.json(
-        { ticker, estimates: [], source: 'fmp' } satisfies EstimatesResponse,
+        { ticker, estimates: [], ...currencyFields, source: 'fmp' } satisfies EstimatesResponse,
       )
     }
 
@@ -116,7 +133,7 @@ export async function GET(
       .filter((x): x is NormalizedEstimate => x !== null)
       .sort((a, b) => a.date.localeCompare(b.date))
 
-    const body: EstimatesResponse = { ticker, estimates, source: 'fmp' }
+    const body: EstimatesResponse = { ticker, estimates, ...currencyFields, source: 'fmp' }
     return NextResponse.json(body)
   } catch (error) {
     console.error(`[v1/analyst-estimates] ${ticker}:`, error)

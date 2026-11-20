@@ -1575,6 +1575,16 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       .then((json) => {
         if (cancelled || !json?.estimates) return
 
+        // Schätzungen kommen in Berichtswährung (TSM: TWD), die Ist-Zahlen liefert
+        // /api/financial-data bei ADRs aber schon in Kurswährung. Gleich umrechnen,
+        // ohne FX-Kurs lieber keine Prognose zeigen als eine in falscher Währung.
+        const foreign = !!(json.currency && json.quoteCurrency && json.currency !== json.quoteCurrency)
+        const fx: number | null = foreign ? json.fxToQuote ?? null : 1
+        if (fx == null) {
+          setForecasts({ revenue: [], eps: [] })
+          return
+        }
+
         const currentYear = new Date().getFullYear()
         // Keep only future fiscal years (skip already-reported ones).
         const future = (json.estimates as any[])
@@ -1587,14 +1597,14 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             .filter((e) => typeof e?.revenue?.avg === 'number')
             .map((e) => ({
               period: String(e.year),
-              value: e.revenue.avg as number,
+              value: (e.revenue.avg as number) * fx,
               analystCount: e.revenue.analystCount,
             })),
           eps: future
             .filter((e) => typeof e?.eps?.avg === 'number')
             .map((e) => ({
               period: String(e.year),
-              value: e.eps.avg as number,
+              value: (e.eps.avg as number) * fx,
               analystCount: e.eps.analystCount,
             })),
         })

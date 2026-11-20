@@ -387,7 +387,7 @@ export default function SecDataComparisonPage() {
 
     Promise.all([
       fetch(`/api/sec/financials/${ticker}?years=${years}&period=annual`).then(r => r.json()),
-      fetch(`/api/financial-data/${ticker}?years=${years}&period=annual`).then(r => r.json()),
+      fetch(`/api/financial-data/${ticker}?years=${years}&period=annual&currency=reported`).then(r => r.json()),
     ])
       .then(([sec, fmp]) => {
         if (sec.error) {
