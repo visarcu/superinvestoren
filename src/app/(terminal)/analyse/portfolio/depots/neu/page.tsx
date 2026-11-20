@@ -5,6 +5,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { WORKSPACE_PATH, workspacePath } from '@/lib/depotRoutes'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -35,7 +36,7 @@ export default function NewDepotPage() {
   })()
   // Erstes Depot (Onboarding) → nach dem Anlegen zurück ins Portfolio statt in die Depot-Liste
   const isFirstDepot = searchParams.get('first') === '1'
-  const backHref = isFirstDepot ? '/analyse/portfolio/workspace?depot=all' : '/analyse/portfolio/depots'
+  const backHref = isFirstDepot ? WORKSPACE_PATH : '/analyse/portfolio/depots'
 
   const [step, setStep] = useState<Step>(presetBroker ? 2 : 1)
   const [selectedBroker, setSelectedBroker] = useState<BrokerType | null>(presetBroker)
@@ -363,7 +364,7 @@ export default function NewDepotPage() {
 
             <div className="flex flex-col sm:flex-row gap-2 justify-center mt-8 max-w-md mx-auto">
               <Link
-                href={`/analyse/portfolio/workspace?depot=${createdDepotId}`}
+                href={workspacePath(createdDepotId)}
                 className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 {isFirstDepot ? 'Erste Aktivität erfassen' : 'Zum Depot'}

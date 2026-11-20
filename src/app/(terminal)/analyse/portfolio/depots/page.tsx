@@ -172,7 +172,7 @@ export default function DepotsPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
-                href="/analyse/portfolio/workspace?depot=all"
+                href="/analyse/portfolio"
                 className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-4 h-4" />

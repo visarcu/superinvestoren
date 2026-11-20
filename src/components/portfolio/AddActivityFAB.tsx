@@ -8,6 +8,8 @@ import { type Holding, type Portfolio } from '@/hooks/usePortfolio'
 import { getBrokerDisplayName, getBrokerColor, brokerTypeToLogoId } from '@/lib/brokerConfig'
 import AddActivityModal from './AddActivityModal'
 import { BrokerLogo } from './BrokerLogo'
+import { workspacePath } from '@/lib/depotRoutes'
+import { currentHostPath } from '@/lib/siteHosts'
 
 interface AddActivityFABProps {
   portfolioId: string
@@ -105,7 +107,7 @@ export default function AddActivityFAB({
     if (onPickDepot) {
       onPickDepot(depotId)
     } else {
-      router.push(`/analyse/portfolio/workspace?depot=${depotId}`)
+      router.push(currentHostPath(workspacePath(depotId)))
     }
   }
 

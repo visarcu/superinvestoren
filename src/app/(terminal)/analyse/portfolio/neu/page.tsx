@@ -4,13 +4,14 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { WORKSPACE_PATH, currentHostPath } from '@/lib/siteHosts'
 
 export default function NewPortfolioPage() {
   const router = useRouter()
 
   useEffect(() => {
     // Portfolio wird automatisch im Workspace erstellt
-    router.replace('/analyse/portfolio/workspace?depot=all')
+    router.replace(currentHostPath(WORKSPACE_PATH))
   }, [router])
 
   return (

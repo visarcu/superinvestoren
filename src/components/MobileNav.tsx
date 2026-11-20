@@ -16,7 +16,7 @@ import {
   SparklesIcon as SparklesIconSolid,
   UserCircleIcon as UserCircleIconSolid,
 } from '@heroicons/react/24/solid'
-import { depotHref } from '@/lib/siteHosts'
+import { WORKSPACE_PATH, depotHref } from '@/lib/siteHosts'
 
 const NAV_ITEMS = [
   {
@@ -28,7 +28,7 @@ const NAV_ITEMS = [
   },
   {
     label: 'Portfolio',
-    href: depotHref('/analyse/portfolio/workspace?depot=all'),
+    href: depotHref(WORKSPACE_PATH),
     icon: BriefcaseIcon,
     activeIcon: BriefcaseIconSolid,
     match: (p: string) => p.startsWith('/analyse/portfolio'),

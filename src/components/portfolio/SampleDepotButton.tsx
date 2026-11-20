@@ -7,6 +7,8 @@
 import React, { useState } from 'react'
 import { BeakerIcon } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
+import { workspacePath } from '@/lib/depotRoutes'
+import { currentHostPath } from '@/lib/siteHosts'
 
 export default function SampleDepotButton({ className = '', variant = 'secondary' }: { className?: string; variant?: 'primary' | 'secondary' }) {
   const [busy, setBusy] = useState(false)
@@ -25,7 +27,7 @@ export default function SampleDepotButton({ className = '', variant = 'secondary
       const data = (await res.json().catch(() => ({}))) as { portfolioId?: string; error?: string }
       if (!res.ok || !data.portfolioId) throw new Error(data.error ?? 'Beispieldepot konnte nicht geladen werden.')
       // Vollständig neu laden, damit Depotliste und Werte frisch sind (auch auf depot.finclue.de)
-      window.location.assign(`${window.location.pathname}?depot=${data.portfolioId}&view=overview`)
+      window.location.assign(currentHostPath(workspacePath(data.portfolioId)))
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Beispieldepot konnte nicht geladen werden.')
       setBusy(false)

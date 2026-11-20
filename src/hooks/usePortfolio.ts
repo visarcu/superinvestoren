@@ -2,7 +2,8 @@
 'use client'
 
 import { hasPremiumAccess } from '@/lib/premiumAccess'
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
+import { resolveDepotKey } from '@/lib/depotRoutes'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
@@ -425,16 +426,19 @@ export function calculateHistoricalPerfByDepot(
   return result
 }
 
-export function usePortfolio() {
+/**
+ * @param routeDepotKey Depot aus dem Pfad des Workspace ('all', Kurzname oder
+ *   Depot-ID, siehe lib/depotRoutes). Ohne Angabe gilt ?depot=… (ältere Seiten).
+ */
+export function usePortfolio(routeDepotKey?: string) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { currency, setCurrency, formatCurrency, formatStockPrice, formatPercentage } = useCurrency()
 
-  // Ohne expliziten ?depot=… Parameter: Default auf 'all' (Sicht über alle Depots).
+  // Ohne Depot in Pfad oder ?depot=…: Default auf 'all' (Sicht über alle Depots).
   // So landet der User nicht versehentlich auf einem leeren Default-Portfolio,
   // wenn er bereits weitere Depots angelegt hat.
-  const rawDepotIdParam = searchParams.get('depot')
-  const depotIdParam = rawDepotIdParam ?? 'all'
+  const depotIdParam = routeDepotKey ?? searchParams.get('depot') ?? 'all'
 
   // Core State
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
@@ -449,6 +453,10 @@ export function usePortfolio() {
   // Wenn nur ein Depot existiert, fällt loadPortfolio auch bei depot=all auf das einzelne
   // Depot zurück; in dem Fall ist isAllDepotsView korrekt false.
   const isAllDepotsView = portfolio?.id === 'all'
+
+  // Zuletzt geöffnetes Depot ('all' oder ID). Rückfall, wenn der Kurzname in
+  // der URL nicht mehr passt, z. B. direkt nach dem Umbenennen.
+  const loadedDepotRef = useRef<string | null>(null)
 
   // Premium State
   const [isPremium, setIsPremium] = useState(false)
@@ -859,7 +867,15 @@ export function usePortfolio() {
       // "Alle Depots"-Sicht — nur sinnvoll ab zwei Depots. Bei genau einem Depot
       // wird direkt dieses geladen (sonst wären Import, Umbenennen und Cash
       // ausgeblendet und der FAB würde nach dem einzigen Depot fragen).
-      if (depotId === 'all' && portfolios && portfolios.length > 1) {
+      // Depot aus der URL: 'all', Kurzname oder ID (siehe lib/depotRoutes)
+      let target = depotId ? resolveDepotKey(depotId, portfolios || []) : 'all'
+      if (target === null) {
+        const last = loadedDepotRef.current
+        target = last && (last === 'all' || (portfolios || []).some(p => p.id === last)) ? last : 'all'
+      }
+
+      if (target === 'all' && portfolios && portfolios.length > 1) {
+        loadedDepotRef.current = 'all'
         setPortfolio({
           id: 'all',
           name: 'Alle Depots',
@@ -904,10 +920,11 @@ export function usePortfolio() {
       }
 
       // Specific or default portfolio
-      const portfolioData = depotId && depotId !== 'all'
-        ? portfolios.find(p => p.id === depotId) || portfolios[0]
+      const portfolioData = target !== 'all'
+        ? portfolios.find(p => p.id === target) || portfolios[0]
         : portfolios[0]
 
+      loadedDepotRef.current = portfolioData.id
       setPortfolio(portfolioData)
 
       // Load holdings and transactions in parallel
@@ -925,8 +942,14 @@ export function usePortfolio() {
     }
   }, [router, loadHoldingsForPortfolio, loadTransactions])
 
-  // Initial load
+  // Initial load und Depotwechsel. Zeigt die URL nur anders auf dasselbe
+  // Depot (ID → Kurzname), wird nicht neu geladen.
   useEffect(() => {
+    if (portfolio && allPortfolios.length > 0) {
+      let target = resolveDepotKey(depotIdParam, allPortfolios)
+      if (target === 'all' && allPortfolios.length <= 1) target = allPortfolios[0].id
+      if (target === portfolio.id) return
+    }
     loadPortfolio(depotIdParam)
     setTimeout(() => loadExchangeRate(), 500)
   }, [depotIdParam])

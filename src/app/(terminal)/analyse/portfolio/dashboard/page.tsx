@@ -5,6 +5,8 @@
 
 import { useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { legacyWorkspaceTarget } from '@/lib/depotRoutes'
+import { currentHostPath } from '@/lib/siteHosts'
 
 const TAB_TO_VIEW: Record<string, string> = {
   positions: 'positions',
@@ -24,8 +26,8 @@ export default function DashboardRedirect() {
     params.delete('tab')
     const view = tab ? TAB_TO_VIEW[tab] : undefined
     if (view) params.set('view', view)
-    if (!params.get('depot')) params.set('depot', 'all')
-    router.replace(`/analyse/portfolio/workspace?${params.toString()}`)
+    const target = legacyWorkspaceTarget(params)
+    router.replace(currentHostPath(`${target.pathname}${target.search}`))
   }, [router, searchParams])
 
   return (

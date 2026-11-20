@@ -3,6 +3,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { workspacePath } from '@/lib/depotRoutes'
+import { currentHostPath } from '@/lib/siteHosts'
 import { supabase } from '@/lib/supabaseClient'
 import { getEURRate } from '@/lib/portfolioCurrency'
 import { detectTickerCurrency } from '@/lib/fmp'
@@ -520,7 +522,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     }
 
     if (portfolioId) {
-      router.push(`/analyse/portfolio/workspace?depot=${portfolioId === 'all' ? 'all' : portfolioId}&view=positions`)
+      router.push(currentHostPath(workspacePath(portfolioId, 'positions')))
     } else {
       router.back()
     }

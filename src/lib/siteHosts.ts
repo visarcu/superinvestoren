@@ -15,13 +15,15 @@
 // relativ — depot → Hauptseite würde zur Endlosschleife. Bloßes
 // localhost:3000 funktioniert weiter wie bisher, nur ohne Subdomain.
 
+import { LEGACY_WORKSPACE_PATH, WORKSPACE_PATH, isWorkspacePathname } from '@/lib/depotRoutes'
+
 export const SITE_DOMAIN = 'finclue.de'
 
 const DEPOT_PREFIX = 'depot.'
 
 export const DEPOT_HOST = (process.env.NEXT_PUBLIC_DEPOT_HOST || '').toLowerCase()
 
-export const WORKSPACE_PATH = '/analyse/portfolio/workspace'
+export { WORKSPACE_PATH }
 
 /** depot.finclue.de → finclue.de, depot.localhost:3000 → localhost:3000 */
 export function mainHostFor(depotHost: string): string {
@@ -30,17 +32,37 @@ export function mainHostFor(depotHost: string): string {
 
 /** Pfade des Trackers. Bewusst nicht /analyse/portfolio-check. */
 export function isPortfolioPath(pathname: string): boolean {
-  return pathname === '/analyse/portfolio' || pathname.startsWith('/analyse/portfolio/')
+  return pathname === WORKSPACE_PATH || pathname.startsWith(`${WORKSPACE_PATH}/`)
 }
 
-/** Auf dem Depot-Host liegt der Workspace auf "/" */
+/**
+ * Auf dem Depot-Host entfällt "/analyse/portfolio" vor den Workspace-Pfaden:
+ * /analyse/portfolio → /, /analyse/portfolio/trade-republic/analyse →
+ * /trade-republic/analyse. Unterseiten wie /analyse/portfolio/depots/neu
+ * bleiben unverändert.
+ */
 export function toDepotPath(pathname: string): string {
-  return pathname === WORKSPACE_PATH ? '/' : pathname
+  if (pathname === WORKSPACE_PATH || pathname === LEGACY_WORKSPACE_PATH) return '/'
+  if (isWorkspacePathname(pathname)) return pathname.slice(WORKSPACE_PATH.length)
+  return pathname
 }
 
 /** Gegenstück zu toDepotPath, z. B. für ?redirect= nach dem Login */
 export function fromDepotPath(pathname: string): string {
-  return pathname === '/' ? WORKSPACE_PATH : pathname
+  if (pathname === '/') return WORKSPACE_PATH
+  if (pathname.startsWith('/analyse/')) return pathname
+  return `${WORKSPACE_PATH}${pathname}`
+}
+
+/**
+ * Pfad passend zum aktuellen Host, für Navigation per Router oder
+ * window.location (nur im Browser, z. B. in Event-Handlern). Für hrefs im
+ * gerenderten HTML depotHref nehmen, das ist auf Server und Client gleich.
+ */
+export function currentHostPath(path: string): string {
+  if (!isOnDepotHost()) return path
+  const [pathname, query] = path.split('?')
+  return `${toDepotPath(pathname)}${query ? `?${query}` : ''}`
 }
 
 function protocolFor(host: string): string {

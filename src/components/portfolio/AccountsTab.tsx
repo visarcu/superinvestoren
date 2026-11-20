@@ -7,6 +7,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { workspacePath } from '@/lib/depotRoutes'
 import { supabase } from '@/lib/supabaseClient'
 import { useSpeechInput } from '@/hooks/useSpeechInput'
 import { ACCOUNT_CATEGORIES, ASSET_CATEGORY_LABELS, type AssetCategory } from '@/lib/assetParser'
@@ -334,7 +335,7 @@ export default function AccountsTab({
               „Geschäftskonto Sparkasse 15.000" eingeben.
             </p>
             <Link
-              href="?depot=all&view=assets"
+              href={workspacePath('all', 'assets')}
               className="mt-4 inline-flex items-center rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white"
             >
               Zur Vermögens-Seite
