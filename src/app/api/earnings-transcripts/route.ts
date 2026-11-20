@@ -53,9 +53,13 @@ export async function GET(request: NextRequest) {
       fmpTranscripts = cached.data
     } else {
       try {
-        // Fetch last 5 years of transcripts using FMP batch endpoint
+        // FMP filtert nach GESCHÄFTSJAHR, nicht Kalenderjahr. Firmen mit
+        // abweichendem GJ (NVDA endet Ende Januar, MSFT im Juni, ORCL im Mai)
+        // sind dem Kalenderjahr voraus: NVDAs Calls ab Mai 2026 laufen als
+        // GJ 2027. Deshalb currentYear + 1 mit abfragen, sonst fehlen die
+        // neuesten Calls und ein alter wird als "Aktuell" angezeigt.
         const currentYear = new Date().getFullYear()
-        const years = [currentYear, currentYear - 1, currentYear - 2, currentYear - 3, currentYear - 4]
+        const years = [currentYear + 1, currentYear, currentYear - 1, currentYear - 2, currentYear - 3, currentYear - 4]
 
         const batchResults = await Promise.all(
           years.map(year =>
