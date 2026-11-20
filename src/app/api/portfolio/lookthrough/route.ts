@@ -150,7 +150,7 @@ function enrichWithSuperinvestors(result: LookthroughResult): void {
       result.insights.push({
         severity: 'info',
         title: `${topTen.length} deiner effektiven Top-10 halten auch Superinvestoren`,
-        text: `Am häufigsten: ${most.name} — im Depot von ${most.superinvestors!.count} der getrackten Superinvestoren.`,
+        text: `Am häufigsten: ${most.name}, im Depot von ${most.superinvestors!.count} der getrackten Superinvestoren.`,
       })
     }
   } catch (err) {

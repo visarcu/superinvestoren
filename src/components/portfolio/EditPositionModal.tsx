@@ -106,7 +106,7 @@ export default function EditPositionModal({ holding, onClose, onSave }: EditPosi
                 className="w-full px-4 py-3 bg-theme-input border border-theme rounded-xl text-theme-primary text-[15px] tabular-nums placeholder:text-theme-muted focus:outline-none focus:border-teal-400/50 transition-colors"
               />
               <p className="mt-2 text-[11px] leading-relaxed text-theme-muted">
-                Bei Depotüberträgen nutzen wir automatisch den Schlusskurs am Übertragsdatum. Falls du den echten Original-Kaufkurs kennst (z.B. aus einem alten Kontoauszug), trag ihn hier ein — dann werden Rendite und Kursgewinn korrekt berechnet.
+                Bei Depotüberträgen nutzen wir automatisch den Schlusskurs am Übertragsdatum. Falls du den echten Original-Kaufkurs kennst (z.B. aus einem alten Kontoauszug), trag ihn hier ein. Dann werden Rendite und Kursgewinn korrekt berechnet.
               </p>
             </div>
 

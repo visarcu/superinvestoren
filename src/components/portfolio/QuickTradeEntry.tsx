@@ -104,7 +104,7 @@ export default function QuickTradeEntry({
         return
       }
       if (!data.candidates || data.candidates.length === 0) {
-        setError(`„${data.query}" konnte keinem Wertpapier zugeordnet werden — bitte präziser formulieren`)
+        setError(`„${data.query}" konnte keinem Wertpapier zugeordnet werden, bitte präziser formulieren`)
         return
       }
 
@@ -129,7 +129,7 @@ export default function QuickTradeEntry({
       setQty(effQty ? String(Math.round(effQty * 1000000) / 1000000) : '')
       setDate(p.date)
     } catch {
-      setError('Parser nicht erreichbar — bitte nochmal versuchen')
+      setError('Parser nicht erreichbar, bitte nochmal versuchen')
     } finally {
       setParsing(false)
     }
@@ -221,7 +221,7 @@ export default function QuickTradeEntry({
       setInput('')
       await onSaved()
     } catch {
-      setError('Buchung fehlgeschlagen — bitte nochmal versuchen')
+      setError('Buchung fehlgeschlagen, bitte nochmal versuchen')
     } finally {
       setSaving(false)
     }
@@ -367,7 +367,7 @@ export default function QuickTradeEntry({
           <p className="mt-2 text-[11px] text-neutral-400">
             {sum !== null && <>Summe: <span className="tabular-nums text-neutral-200">{formatCurrency(sum)}</span> · </>}
             {proposal.side === 'sell' && targetHolding && <>Bestand: {targetHolding.quantity} Stück · </>}
-            {proposal.side === 'buy' && targetHolding && <>Aufstockung — Ø-Einstand wird neu gewichtet · </>}
+            {proposal.side === 'buy' && targetHolding && <>Aufstockung, Ø-Einstand wird neu gewichtet · </>}
             Erst nach Bestätigen wird gebucht.
           </p>
         </div>

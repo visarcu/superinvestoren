@@ -119,7 +119,7 @@ async function parseMultipleWorkbooks(files: File[]) {
         continue
       }
 
-      errors.push(`"${file.name}": Format nicht erkannt — Datei übersprungen.`)
+      errors.push(`"${file.name}": Format nicht erkannt, Datei übersprungen.`)
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       errors.push(`"${file.name}" konnte nicht gelesen werden: ${msg}`)
@@ -217,7 +217,7 @@ export async function POST(request: Request) {
           formatLabel: 'Flatex Order-CSV',
           transactions: [],
           errors: [
-            'Flatex Order-CSV erkannt — diese Datei enthält leider keinen Kaufkurs pro Stück und kann nicht importiert werden.',
+            'Flatex Order-CSV erkannt. Diese Datei enthält leider keinen Kaufkurs pro Stück und kann nicht importiert werden.',
             'Bitte exportiere stattdessen die Depotumsätze als XLSX: Konto/Depot → Depotumsätze → XLSX-Export.',
           ],
         })

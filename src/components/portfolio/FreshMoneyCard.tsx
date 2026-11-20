@@ -70,7 +70,7 @@ export default function FreshMoneyCard({ transactions, formatCurrency }: FreshMo
           Frisches Geld
         </h3>
         <p className="text-[11px] text-theme-muted mt-0.5">
-          Was wirklich vom Bankkonto kam — die Basis deiner echten Sparquote.
+          Was wirklich vom Bankkonto kam: die Basis deiner echten Sparquote.
         </p>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-theme-secondary rounded-lg overflow-hidden border border-theme">
@@ -107,7 +107,7 @@ export default function FreshMoneyCard({ transactions, formatCurrency }: FreshMo
       {stats.externallyFinanced > 0 && (
         <p className="mt-3 text-[11px] text-amber-500 dark:text-amber-400/80 leading-relaxed">
           Du hast {formatCurrency(stats.bought)} investiert, aber nur{' '}
-          {formatCurrency(stats.netDeposits)} netto eingezahlt — die Differenz von{' '}
+          {formatCurrency(stats.netDeposits)} netto eingezahlt. Die Differenz von{' '}
           <span className="font-medium">{formatCurrency(stats.externallyFinanced)}</span>{' '}
           kam aus Kredit oder Verkaufserlösen.
         </p>

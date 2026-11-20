@@ -78,7 +78,7 @@ export default function TransferForm({
         const label = direction === 'in' ? 'Einbuchung' : 'Ausbuchung'
         const confirmed = window.confirm(
           `Eine ähnliche ${label} existiert bereits:\n` +
-          `${selectedStock.ticker} — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(date).toLocaleDateString('de-DE')}\n\n` +
+          `${selectedStock.ticker} · ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(date).toLocaleDateString('de-DE')}\n\n` +
           `Trotzdem hinzufügen?`
         )
         if (!confirmed) {

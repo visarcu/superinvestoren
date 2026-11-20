@@ -152,8 +152,8 @@ export default function LookthroughSection({
                 Mit Premium siehst du das komplette effektive Portfolio:
               </p>
               <ul className="mt-3 space-y-1.5 text-[12px] text-neutral-300">
-                <li>· Effektive Top-Positionen — direkt + über alle ETFs zusammengerechnet</li>
-                <li>· ETF-Überschneidungen — wie stark sich deine Fonds doppeln</li>
+                <li>· Effektive Top-Positionen: direkt und über alle ETFs zusammengerechnet</li>
+                <li>· ETF-Überschneidungen: wie stark sich deine Fonds doppeln</li>
                 <li>· Echtes Regionen- und Sektor-Exposure nach Zerlegung</li>
                 <li>· Größenklassen und gewichtetes KGV</li>
                 <li>· Superinvestor-Abgleich mit deinen effektiven Positionen</li>
@@ -415,7 +415,7 @@ export default function LookthroughSection({
               )
             })}
             <p className="text-[11px] text-neutral-500 leading-relaxed pt-2 border-t border-white/[0.05]">
-              UCITS-ETFs werden über US-Fonds mit gleichem bzw. ähnlichem Index aufgelöst — die Werte sind
+              UCITS-ETFs werden über US-Fonds mit gleichem bzw. ähnlichem Index aufgelöst. Die Werte sind
               fundierte Näherungen, keine exakten Fondsdaten und keine Anlageberatung.
             </p>
           </div>

@@ -200,7 +200,7 @@ export default function FundamentalTab({ holdings, formatCurrency }: Fundamental
     <div className="space-y-4">
       <Section
         title="Bewertung"
-        note="KGV und KUV werden über die Kehrwerte gewichtet (Summe Marktwert ÷ Summe Gewinn bzw. Umsatz) — der einfache Durchschnitt würde einzelne teure Positionen massiv überbewerten. Positionen mit Verlustjahr fließen nicht ein."
+        note="KGV und KUV werden über die Kehrwerte gewichtet (Summe Marktwert ÷ Summe Gewinn bzw. Umsatz). Der einfache Durchschnitt würde einzelne teure Positionen massiv überbewerten. Positionen mit Verlustjahr fließen nicht ein."
       >
         <MetricCell
           label="KGV (gewichtet)"
@@ -230,7 +230,7 @@ export default function FundamentalTab({ holdings, formatCurrency }: Fundamental
 
       <Section
         title="Wachstum"
-        note="Jährliche Wachstumsrate (CAGR) über bis zu 3 Geschäftsjahre. Positionen mit Verlustjahren am Anfang oder Ende bleiben außen vor — eine Prozentzahl wäre dort nicht aussagekräftig."
+        note="Jährliche Wachstumsrate (CAGR) über bis zu 3 Geschäftsjahre. Positionen mit Verlustjahren am Anfang oder Ende bleiben außen vor, weil eine Prozentzahl dort nicht aussagekräftig wäre."
       >
         <MetricCell label="Umsatz p. a." metric={data.revenueGrowth3y} format={fmtPercent} tone={v => (v > 0.1 ? 'good' : v > 0 ? 'warn' : 'bad')} />
         <MetricCell label="Gewinn p. a." metric={data.earningsGrowth3y} format={fmtPercent} tone={v => (v > 0.1 ? 'good' : v > 0 ? 'warn' : 'bad')} />
@@ -295,7 +295,7 @@ export default function FundamentalTab({ holdings, formatCurrency }: Fundamental
               <p className="text-[10px] text-theme-muted leading-relaxed mt-3">
                 Bei diesen Positionen passen Notierungs- und Berichtswährung nicht sicher
                 zusammen (z.&nbsp;B. Londoner Kurse in Pence oder ADRs mit unbekanntem
-                Bezugsverhältnis). KGV, KUV und FCF-Rendite bleiben deshalb außen vor —
+                Bezugsverhältnis). KGV, KUV und FCF-Rendite bleiben deshalb außen vor.
                 Margen, Wachstum und Verschuldung fließen weiterhin ein.
               </p>
             </div>
@@ -321,7 +321,7 @@ export default function FundamentalTab({ holdings, formatCurrency }: Fundamental
               </ul>
               <p className="text-[10px] text-theme-muted leading-relaxed mt-3">
                 Abgedeckt sind US-Titel aus SEC-Filings sowie eingepflegte DAX-Werte. Für übrige
-                europäische Aktien und ETFs liegen noch keine eigenen Fundamentaldaten vor — sie
+                europäische Aktien und ETFs liegen noch keine eigenen Fundamentaldaten vor. Sie
                 sind aus allen Kennzahlen oben herausgerechnet.
               </p>
             </div>

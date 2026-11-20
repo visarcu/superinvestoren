@@ -486,7 +486,7 @@ export default function PositionsTable({
                     return (
                       <span
                         className="inline-flex items-center px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] font-medium rounded-full flex-shrink-0"
-                        title={`TER: ${formatTER(etfInfo.ter)} — Jährl. Kosten: ${formatCurrency(calculateTERCost(holding.value, etfInfo.ter))}`}
+                        title={`TER: ${formatTER(etfInfo.ter)} · Jährl. Kosten: ${formatCurrency(calculateTERCost(holding.value, etfInfo.ter))}`}
                       >
                         TER {formatTER(etfInfo.ter)}
                       </span>
@@ -635,7 +635,7 @@ export default function PositionsTable({
                   return (
                     <span
                       className="inline-flex items-center px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] font-medium rounded-full flex-shrink-0"
-                      title={`TER: ${formatTER(etfInfo.ter)} — Jährl. Kosten: ${formatCurrency(calculateTERCost(group.totalValue, etfInfo.ter))}`}
+                      title={`TER: ${formatTER(etfInfo.ter)} · Jährl. Kosten: ${formatCurrency(calculateTERCost(group.totalValue, etfInfo.ter))}`}
                     >
                       TER {formatTER(etfInfo.ter)}
                     </span>

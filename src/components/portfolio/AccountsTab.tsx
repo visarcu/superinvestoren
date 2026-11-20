@@ -133,7 +133,7 @@ export default function AccountsTab({
       if (!data.candidates || data.candidates.length === 0) {
         setError(
           accounts.length === 0
-            ? 'Noch kein Konto angelegt — erstelle eins auf der Vermögens-Seite, z.B. „Girokonto 2.000"'
+            ? 'Noch kein Konto angelegt. Erstelle eins auf der Vermögens-Seite, z.B. „Girokonto 2.000"'
             : `„${data.accountQuery}" passt zu keinem deiner Konten`
         )
         return
@@ -146,7 +146,7 @@ export default function AccountsTab({
       })
       setTargetAccountId(data.candidates[0].id)
     } catch {
-      setError('Parser nicht erreichbar — bitte nochmal versuchen')
+      setError('Parser nicht erreichbar, bitte nochmal versuchen')
     } finally {
       setParsing(false)
     }
@@ -171,7 +171,7 @@ export default function AccountsTab({
       if (expandedId === targetAccountId) await loadTxs(targetAccountId)
     } catch (err) {
       console.error('Konto-Buchung fehlgeschlagen:', err)
-      setError('Buchung fehlgeschlagen — bitte nochmal versuchen')
+      setError('Buchung fehlgeschlagen, bitte nochmal versuchen')
     } finally {
       setSaving(false)
     }
@@ -194,7 +194,7 @@ export default function AccountsTab({
           {formatCurrency(totalBalance)}
         </p>
         <p className="mt-1 text-[11px] text-neutral-500">
-          {accounts.length} Konto{accounts.length === 1 ? '' : 'en'}, manuell gepflegt — Salden fließen ins Vermögen ein
+          {accounts.length} Konto{accounts.length === 1 ? '' : 'en'}, manuell gepflegt, Salden fließen ins Vermögen ein
         </p>
       </div>
 
@@ -308,7 +308,7 @@ export default function AccountsTab({
               </button>
             </div>
             <p className="mt-2 text-[11px] text-neutral-400">
-              {proposal.amount < 0 ? 'Ausgang' : 'Eingang'} — der Kontosaldo wird beim Bestätigen angepasst.
+              {proposal.amount < 0 ? 'Ausgang' : 'Eingang'}: Der Kontosaldo wird beim Bestätigen angepasst.
             </p>
           </div>
         )}
@@ -318,7 +318,7 @@ export default function AccountsTab({
       <div className="bg-theme-card border border-theme overflow-hidden rounded-xl">
         <div className="border-b border-white/[0.06] px-5 py-4">
           <h3 className="text-sm font-semibold tracking-tight text-white">Deine Konten</h3>
-          <p className="mt-0.5 text-[11px] text-neutral-500">Aufklappen für Buchungen — Kontostand korrigieren auf der Vermögens-Seite</p>
+          <p className="mt-0.5 text-[11px] text-neutral-500">Aufklappen für Buchungen, Kontostand korrigieren auf der Vermögens-Seite</p>
         </div>
 
         {loading ? (
@@ -330,7 +330,7 @@ export default function AccountsTab({
             <CreditCardIcon className="mx-auto mb-3 h-8 w-8 text-neutral-700" />
             <p className="text-sm font-medium text-white">Noch keine Konten</p>
             <p className="mx-auto mt-1 max-w-sm text-[12px] leading-relaxed text-neutral-500">
-              Lege dein erstes Konto auf der Vermögens-Seite an — einfach „Girokonto 2.000" oder
+              Lege dein erstes Konto auf der Vermögens-Seite an. Einfach „Girokonto 2.000" oder
               „Geschäftskonto Sparkasse 15.000" eingeben.
             </p>
             <Link
@@ -408,7 +408,7 @@ export default function AccountsTab({
       </div>
 
       <p className="text-[11px] leading-relaxed text-neutral-500">
-        Konten werden manuell gepflegt — Buchungen passen den Saldo an, Löschen dreht ihn zurück.
+        Konten werden manuell gepflegt. Buchungen passen den Saldo an, Löschen dreht ihn zurück.
         Kontostand-Korrekturen („Girokonto ist jetzt 2.000") laufen über die Vermögens-Seite.
       </p>
     </div>

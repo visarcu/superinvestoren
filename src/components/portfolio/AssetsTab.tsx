@@ -140,7 +140,7 @@ export default function AssetsTab({
         setParseError(data.reason || 'Eingabe nicht erkannt')
       }
     } catch {
-      setParseError('Parser nicht erreichbar — bitte nochmal versuchen')
+      setParseError('Parser nicht erreichbar, bitte nochmal versuchen')
     } finally {
       setParsing(false)
     }
@@ -182,7 +182,7 @@ export default function AssetsTab({
       await loadAssets()
     } catch (err) {
       console.error('Vermögens-Eintrag speichern fehlgeschlagen:', err)
-      setParseError('Speichern fehlgeschlagen — bitte nochmal versuchen')
+      setParseError('Speichern fehlgeschlagen, bitte nochmal versuchen')
     } finally {
       setSaving(false)
     }
@@ -352,7 +352,7 @@ export default function AssetsTab({
       <div className="bg-theme-card border border-theme overflow-hidden rounded-xl">
         <div className="border-b border-white/[0.06] px-5 py-4">
           <h3 className="text-sm font-semibold tracking-tight text-white">Vermögenswerte</h3>
-          <p className="mt-0.5 text-[11px] text-neutral-500">Manuell gepflegt — Werte per Eingabe oben aktualisieren</p>
+          <p className="mt-0.5 text-[11px] text-neutral-500">Manuell gepflegt, Werte per Eingabe oben aktualisieren</p>
         </div>
 
         {loading ? (
@@ -366,7 +366,7 @@ export default function AssetsTab({
             <WalletIcon className="mx-auto mb-3 h-8 w-8 text-neutral-700" />
             <p className="text-sm font-medium text-white">Noch keine Vermögenswerte</p>
             <p className="mx-auto mt-1 max-w-sm text-[12px] leading-relaxed text-neutral-500">
-              Erfasse Tagesgeld, Sachwerte oder externe Konten oben per Freitext — zusammen mit deinem
+              Erfasse Tagesgeld, Sachwerte oder externe Konten oben per Freitext. Zusammen mit deinem
               Depot ergibt das dein Gesamtvermögen.
             </p>
           </div>

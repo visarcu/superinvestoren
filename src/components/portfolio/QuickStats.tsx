@@ -143,7 +143,7 @@ export default function QuickStats({
           {hasBreakdown ? 'Gesamtrendite' : 'Gewinn / Verlust'}
           <InfoTooltip title="Gesamtrendite">
             <p>
-              Die Gesamtrendite zeigt deinen gesamten Gewinn oder Verlust — bestehend aus drei Komponenten:
+              Die Gesamtrendite zeigt deinen gesamten Gewinn oder Verlust. Sie besteht aus drei Komponenten:
             </p>
             <p className="mt-1">
               <span className="font-medium text-neutral-800 dark:text-neutral-200">Kursgewinn:</span> Unrealisierte Gewinne deiner aktuellen Positionen (aktueller Kurs vs. Kaufpreis).
@@ -161,7 +161,7 @@ export default function QuickStats({
               Formel: Kursgewinn + Realisiert + Dividenden − Gebühren (ohne Kaufgebühren)
             </p>
             <p className="text-neutral-500">
-              Der Prozentwert ist bezogen auf die Kostenbasis der aktuell gehaltenen Positionen (zzgl. Gebühren) — nicht auf das gesamte jemals investierte Kapital.
+              Der Prozentwert ist bezogen auf die Kostenbasis der aktuell gehaltenen Positionen (zzgl. Gebühren), nicht auf das gesamte jemals investierte Kapital.
             </p>
           </InfoTooltip>
         </p>
@@ -231,7 +231,7 @@ export default function QuickStats({
           Interner Zinsfuß (XIRR)
           <InfoTooltip title="Interner Zinsfuß (XIRR)">
             <p>
-              Der XIRR (Extended Internal Rate of Return) ist die <span className="font-medium text-neutral-800 dark:text-neutral-200">annualisierte Rendite</span> deines Portfolios — also deine Rendite pro Jahr.
+              Der XIRR (Extended Internal Rate of Return) ist die <span className="font-medium text-neutral-800 dark:text-neutral-200">annualisierte Rendite</span> deines Portfolios, also deine Rendite pro Jahr.
             </p>
             <p className="mt-1">
               Im Gegensatz zur einfachen Gesamtrendite berücksichtigt der XIRR den <span className="font-medium text-neutral-800 dark:text-neutral-200">Zeitpunkt</span> jeder Transaktion (Käufe, Verkäufe, Dividenden).

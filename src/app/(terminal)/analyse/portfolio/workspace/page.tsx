@@ -35,6 +35,9 @@ import BrokerCreditModal from '@/components/portfolio/BrokerCreditModal'
 import RenamePortfolioModal from '@/components/portfolio/RenamePortfolioModal'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
+import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
+import SampleDepotBanner from '@/components/portfolio/SampleDepotBanner'
+import { SAMPLE_DEPOT_BROKER_NAME } from '@/lib/sampleDepotShared'
 import BrokerSyncCard from '@/components/portfolio/BrokerSyncCard'
 import T212SyncCard from '@/components/portfolio/T212SyncCard'
 import { perfColor } from '@/utils/formatters'
@@ -423,7 +426,7 @@ function EmptyPortfolio({ onAddActivity }: { onAddActivity: () => void }) {
       </div>
       <h2 className="mb-2 text-lg font-semibold text-theme-primary">Noch keine Positionen</h2>
       <p className="mx-auto max-w-md text-sm text-theme-muted">
-        Erfasse deinen ersten Kauf, eine Dividende oder einen Depotübertrag — oder verbinde dein Depot per Broker-Sync.
+        Erfasse deinen ersten Kauf, eine Dividende oder einen Depotübertrag, oder verbinde dein Depot per Broker-Sync.
       </p>
       <button
         type="button"
@@ -433,6 +436,10 @@ function EmptyPortfolio({ onAddActivity }: { onAddActivity: () => void }) {
         <PlusIcon className="h-4 w-4" />
         Aktivität hinzufügen
       </button>
+      <div className="mx-auto mt-6 max-w-xs border-t border-theme pt-5">
+        <p className="mb-2 text-xs text-theme-muted">Oder erst mal ausprobieren, mit echten Daten:</p>
+        <SampleDepotButton />
+      </div>
     </div>
   )
 }
@@ -746,6 +753,20 @@ export default function PortfolioWorkspacePage() {
             </div>
           )}
         </section>
+
+        {/* Beispieldepot: erklären, woher es kommt, und den Weg zum eigenen Depot zeigen */}
+        {!p.isAllDepotsView && p.portfolio?.broker_name === SAMPLE_DEPOT_BROKER_NAME && (
+          <SampleDepotBanner
+            depotName={p.portfolio.name}
+            purchaseDate={p.holdings[0]?.purchase_date}
+            newDepotHref="/analyse/portfolio/depots/neu"
+            onDelete={async () => {
+              if (!p.portfolio?.id) return
+              await p.deletePortfolio(p.portfolio.id)
+              window.location.assign(`${window.location.pathname}?depot=all`)
+            }}
+          />
+        )}
 
         <PortfolioNavigation activeView={activeView} onOpenView={openView} isPremium={p.isPremium} compact />
 

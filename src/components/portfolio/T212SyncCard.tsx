@@ -177,7 +177,7 @@ export default function T212SyncCard({
             <span className="rounded-full border border-teal-300/25 bg-teal-400/10 px-1.5 py-0.5 text-[10px] font-medium text-teal-300">Beta</span>
           </h3>
           <p className="mt-0.5 text-[11px] text-neutral-500">
-            Eigener API-Key aus der T212-App (Einstellungen → API) — bitte nur Lese-Berechtigungen aktivieren
+            Eigener API-Key aus der T212-App (Einstellungen → API), bitte nur Lese-Berechtigungen aktivieren
           </p>
         </div>
 
@@ -274,7 +274,7 @@ export default function T212SyncCard({
           {importResult.skipped.length > 0 && (
             <span className="text-amber-300"> · {importResult.skipped.length} übersprungen ({importResult.skipped.map(s => s.name || s.isin).join(', ')})</span>
           )}
-          <span className="text-emerald-300/70"> — Seite lädt neu …</span>
+          <span className="text-emerald-300/70"> · Seite lädt neu …</span>
         </div>
       )}
 
@@ -282,7 +282,7 @@ export default function T212SyncCard({
         <div className="mt-4">
           <p className="mb-2 text-[12px] text-neutral-400">
             Broker-Depotwert: <span className="tabular-nums text-white">{formatCurrency(preview.brokerTotal)}</span>
-            {' '}· Abgleich mit „{preview.portfolioName}" — Vorschau, es wird nichts automatisch geändert
+            {' '}· Abgleich mit „{preview.portfolioName}": Vorschau, es wird nichts automatisch geändert
           </p>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[560px] text-sm">

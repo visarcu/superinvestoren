@@ -266,7 +266,7 @@ export default function CashflowTab({
       <div className="bg-theme-card border border-theme rounded-xl p-5">
         <h3 className="text-sm font-semibold tracking-tight text-white">Monatsverlauf</h3>
         <p className="mt-0.5 text-[11px] text-neutral-500">
-          {hasAnyTx ? 'Einnahmen, Ausgaben und Investitionen' : 'Investitionen — Einnahmen/Ausgaben erscheinen mit deinen Konten-Buchungen'}
+          {hasAnyTx ? 'Einnahmen, Ausgaben und Investitionen' : 'Investitionen. Einnahmen und Ausgaben erscheinen mit deinen Konten-Buchungen'}
         </p>
         <div className="mt-4 space-y-3">
           {months.map(month => (
@@ -363,7 +363,7 @@ export default function CashflowTab({
       )}
 
       <p className="text-[11px] leading-relaxed text-neutral-500">
-        Basiert auf den manuellen Konten-Buchungen — Depot-Transaktionen und Dividenden zählen hier nicht mit.
+        Basiert auf den manuellen Konten-Buchungen. Depot-Transaktionen und Dividenden zählen hier nicht mit.
       </p>
     </div>
   )

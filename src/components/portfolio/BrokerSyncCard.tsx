@@ -104,7 +104,7 @@ export default function BrokerSyncCard({
       // WebForm in neuem Tab: Zugangsdaten gehen direkt an finAPI, nie an Finclue
       window.open(data.webFormUrl, '_blank', 'noopener')
     } catch {
-      setError('Verbindung konnte nicht gestartet werden — bitte nochmal versuchen')
+      setError('Verbindung konnte nicht gestartet werden, bitte nochmal versuchen')
     } finally {
       setConnecting(false)
     }
@@ -124,7 +124,7 @@ export default function BrokerSyncCard({
       if (!res.ok) throw new Error(data.error || 'Fehler')
       setPreview({ connectionId, ...data })
     } catch {
-      setError('Abgleich fehlgeschlagen — ist die Verbindung fertig eingerichtet?')
+      setError('Abgleich fehlgeschlagen. Ist die Verbindung fertig eingerichtet?')
     } finally {
       setPreviewingId(null)
     }
@@ -245,7 +245,7 @@ export default function BrokerSyncCard({
             </div>
           ))}
           <p className="text-[11px] text-neutral-600">
-            Import übernimmt die Broker-Positionen in das aktuell ausgewählte Depot — nur möglich, wenn es leer ist.
+            Import übernimmt die Broker-Positionen in das aktuell ausgewählte Depot. Nur möglich, wenn es leer ist.
           </p>
         </div>
       )}
@@ -260,7 +260,7 @@ export default function BrokerSyncCard({
           {importResult.skipped.length > 0 && (
             <span className="text-amber-300"> · {importResult.skipped.length} übersprungen ({importResult.skipped.map(s => s.name || s.isin).join(', ')})</span>
           )}
-          <span className="text-emerald-300/70"> — Seite lädt neu …</span>
+          <span className="text-emerald-300/70"> · Seite lädt neu …</span>
         </div>
       )}
 
@@ -268,7 +268,7 @@ export default function BrokerSyncCard({
         <div className="mt-4">
           <p className="mb-2 text-[12px] text-neutral-400">
             Broker-Depotwert: <span className="tabular-nums text-white">{formatCurrency(preview.brokerTotal)}</span>
-            {' '}· Abgleich mit „{preview.portfolioName}" — Vorschau, es wird nichts automatisch geändert
+            {' '}· Abgleich mit „{preview.portfolioName}": Vorschau, es wird nichts automatisch geändert
           </p>
           <div className="overflow-x-auto">
             <table className="w-full min-w-[560px] text-sm">

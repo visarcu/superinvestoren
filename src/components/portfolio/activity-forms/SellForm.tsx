@@ -55,7 +55,7 @@ export default function SellForm({
       if (duplicate) {
         const confirmed = window.confirm(
           `Eine ähnliche Transaktion existiert bereits:\n` +
-          `${selectedHolding!.symbol} Verkauf — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(sellDate).toLocaleDateString('de-DE')}\n\n` +
+          `${selectedHolding!.symbol} Verkauf · ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(sellDate).toLocaleDateString('de-DE')}\n\n` +
           `Trotzdem hinzufügen?`
         )
         if (!confirmed) {

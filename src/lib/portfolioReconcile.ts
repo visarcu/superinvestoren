@@ -365,7 +365,7 @@ export async function reconcileHoldings(
         purchase_date: want.earliestDate,
         purchase_currency: 'EUR',
       })
-      if (error) result.errors.push(`${symbol}: Anlegen fehlgeschlagen — ${error.message}`)
+      if (error) result.errors.push(`${symbol}: Anlegen fehlgeschlagen: ${error.message}`)
       else result.created++
       continue
     }
@@ -401,7 +401,7 @@ export async function reconcileHoldings(
       .from('portfolio_holdings')
       .update({ quantity: want.quantity, purchase_price: want.avgPrice, purchase_currency: 'EUR' })
       .eq('id', have.id)
-    if (error) result.errors.push(`${symbol}: Aktualisieren fehlgeschlagen — ${error.message}`)
+    if (error) result.errors.push(`${symbol}: Aktualisieren fehlgeschlagen: ${error.message}`)
     else result.updated++
   }
 
@@ -425,7 +425,7 @@ export async function reconcileHoldings(
     if (options.dryRun || (!options.deleteOrphans && !closedOut)) continue
 
     const { error } = await supabase.from('portfolio_holdings').delete().eq('id', have.id)
-    if (error) result.errors.push(`${symbol}: Löschen fehlgeschlagen — ${error.message}`)
+    if (error) result.errors.push(`${symbol}: Löschen fehlgeschlagen: ${error.message}`)
     else result.deleted++
   }
 

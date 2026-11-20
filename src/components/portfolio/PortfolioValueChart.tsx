@@ -639,8 +639,8 @@ export default function PortfolioValueChart({
         <div className="mt-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-400/20 bg-amber-400/[0.06] px-3 py-2">
           <p className="text-[11px] leading-relaxed text-amber-200/90">
             {cashLedger === 'missing'
-              ? '„Eingezahlt“ ist geschätzt — es sind keine Ein-/Auszahlungen erfasst. Guthaben auf deinem Verrechnungskonto fehlt daher in der Rechnung. Importiere die Cash-Bewegungen deines Brokers für den exakten Wert.'
-              : '„Eingezahlt“ ist geschätzt — deine erfassten Ein-/Auszahlungen passen nicht zum Cash-Bestand des Depots. Prüfe, ob alle Ein-/Auszahlungen importiert sind.'}
+              ? '„Eingezahlt“ ist geschätzt, denn es sind keine Ein-/Auszahlungen erfasst. Guthaben auf deinem Verrechnungskonto fehlt daher in der Rechnung. Importiere die Cash-Bewegungen deines Brokers für den exakten Wert.'
+              : '„Eingezahlt“ ist geschätzt, denn deine erfassten Ein-/Auszahlungen passen nicht zum Cash-Bestand des Depots. Prüfe, ob alle Ein-/Auszahlungen importiert sind.'}
           </p>
           {onImportClick && (
             <button
@@ -659,7 +659,7 @@ export default function PortfolioValueChart({
           {showContributedLine ? (
             <>
               Kostenbasis (grau gestrichelt): Kaufkosten der aktuell gehaltenen Positionen inkl.
-              Gebühren (Durchschnittskostenmethode) — reinvestierte Erlöse und Dividenden erhöhen sie.
+              Gebühren (Durchschnittskostenmethode). Reinvestierte Erlöse und Dividenden erhöhen sie.
               Eingezahlt (gelb gepunktet): dein netto zugeführtes Kapital ohne Reinvestitionen
               {investedMode === 'deposits'
                 ? ' (aus deinen Ein- und Auszahlungen inkl. Depotüberträgen)'
@@ -669,14 +669,14 @@ export default function PortfolioValueChart({
           ) : investedMode === 'deposits' ? (
             <>
               Eingezahltes Kapital (gestrichelt): Summe deiner Ein- und Auszahlungen inkl.
-              Depotüberträgen. Die Differenz zum Depotwert (inkl. Cash) ist dein Gesamtgewinn —
+              Depotüberträgen. Die Differenz zum Depotwert (inkl. Cash) ist dein Gesamtgewinn,
               inklusive realisierter Gewinne und Dividenden; Reinvestitionen erhöhen diese Linie nicht.
             </>
           ) : (
             <>
               Investiertes Kapital (gestrichelt): Kaufkosten der aktuell gehaltenen Positionen inkl.
               Gebühren (Durchschnittskostenmethode). Reinvestierte Verkaufserlöse und Dividenden
-              erhöhen diesen Wert — er kann daher über der Summe deiner Einzahlungen liegen.
+              erhöhen diesen Wert. Er kann daher über der Summe deiner Einzahlungen liegen.
               Importierst du auch deine Ein-/Auszahlungen, zeigt die Linie stattdessen dein
               tatsächlich eingezahltes Kapital.
             </>
@@ -780,7 +780,7 @@ export default function PortfolioValueChart({
                       <span className="tabular-nums text-theme-secondary">
                         {formatEuroApprox(attribution.cashDragEuro)}
                       </span>{' '}
-                      entgangene Indexrendite — zusätzlich, nicht Teil des Vergleichs oben.
+                      entgangene Indexrendite, zusätzlich und nicht Teil des Vergleichs oben.
                     </p>
                   )}
                 </div>
@@ -823,7 +823,7 @@ export default function PortfolioValueChart({
             Risiko-Kennzahlen
           </p>
           <p className="text-sm leading-relaxed text-theme-secondary">
-            Sharpe Ratio, Sortino, Max Drawdown, Volatilität und Beta deines Depots — im Vergleich zum
+            Sharpe Ratio, Sortino, Max Drawdown, Volatilität und Beta deines Depots im Vergleich zum
             FTSE All-World, echt berechnet aus deiner Wertentwicklung.
           </p>
           <a
@@ -843,7 +843,7 @@ export default function PortfolioValueChart({
           {!risk.portfolio ? (
             <p className="text-sm leading-relaxed text-theme-secondary">
               Für belastbare Risiko-Kennzahlen braucht es mindestens ~6 Monate Kurshistorie im
-              gewählten Zeitraum — wähle einen längeren Zeitraum oder schau später wieder vorbei.
+              gewählten Zeitraum. Wähle einen längeren Zeitraum oder schau später wieder vorbei.
             </p>
           ) : (
             <>
@@ -896,7 +896,7 @@ export default function PortfolioValueChart({
               </div>
               <p className="mt-3 text-[10px] leading-relaxed text-theme-muted/70">
                 Berechnet aus Tagesrenditen des gewählten Zeitraums · Max Drawdown{' '}
-                {new Date(risk.portfolio.maxDrawdownPeak).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })} –{' '}
+                {new Date(risk.portfolio.maxDrawdownPeak).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })} bis{' '}
                 {new Date(risk.portfolio.maxDrawdownValley).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })}
                 {risk.riskFreePct !== null && (
                   <> · Risikofreier Zins: {risk.riskFreePct.toFixed(1)}% p.a. (€STR via XEON)</>

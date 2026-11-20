@@ -52,7 +52,7 @@ export default function DividendForm({
         if (duplicate) {
           const confirmed = window.confirm(
             `Eine ähnliche Dividende existiert bereits:\n` +
-            `${selectedHolding.symbol} — ${amt.toFixed(2)}€ am ${new Date(dividendDate).toLocaleDateString('de-DE')}\n\n` +
+            `${selectedHolding.symbol} · ${amt.toFixed(2)}€ am ${new Date(dividendDate).toLocaleDateString('de-DE')}\n\n` +
             `Trotzdem hinzufügen?`
           )
           if (!confirmed) {

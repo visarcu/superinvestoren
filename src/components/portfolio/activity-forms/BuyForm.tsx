@@ -78,7 +78,7 @@ export default function BuyForm({
       if (duplicate) {
         const confirmed = window.confirm(
           `Eine ähnliche Transaktion existiert bereits:\n` +
-          `${selectedStock.ticker} — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(purchaseDate).toLocaleDateString('de-DE')}\n\n` +
+          `${selectedStock.ticker} · ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(purchaseDate).toLocaleDateString('de-DE')}\n\n` +
           `Trotzdem hinzufügen?`
         )
         if (!confirmed) {
@@ -144,7 +144,7 @@ export default function BuyForm({
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/[0.06] border border-blue-500/[0.15] text-[11px] text-blue-300/90">
           <InformationCircleIcon className="w-3.5 h-3.5 flex-shrink-0" />
           <span>
-            Bereits {existingHolding.quantity} Stk. im Portfolio (Ø {formatStockPrice(existingHolding.purchase_price_display)}) — wird aufgestockt
+            Bereits {existingHolding.quantity} Stk. im Portfolio (Ø {formatStockPrice(existingHolding.purchase_price_display)}), wird aufgestockt
           </span>
         </div>
       )}

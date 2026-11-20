@@ -26,7 +26,7 @@ import {
   type StressTestResult,
 } from '@/lib/portfolioQuant'
 
-const SHOWCASE_SLUG = 'buffett'
+export const SHOWCASE_SLUG = 'buffett'
 const TOP_N = 10
 /** Beispiel-Startwert für Monte Carlo und Stresstest (Eingabewert, keine Depotangabe) */
 export const SHOWCASE_START_VALUE = 10_000
@@ -58,7 +58,8 @@ export interface DepotShowcase {
   stressTests: StressTestResult[]
 }
 
-async function fetchCloses(symbol: string): Promise<QuantSeriesPoint[]> {
+/** Tägliche Schlusskurse seit Mitte 2008 (FMP, 1 Tag Cache) */
+export async function fetchCloses(symbol: string): Promise<QuantSeriesPoint[]> {
   const apiKey = process.env.FMP_API_KEY
   if (!apiKey) return []
   try {
@@ -78,7 +79,8 @@ async function fetchCloses(symbol: string): Promise<QuantSeriesPoint[]> {
   }
 }
 
-function topHoldings(snapshot: Snapshot['data']) {
+/** Größte Aktienpositionen eines 13F-Filings, zusammengeführt je Ticker */
+export function topHoldings(snapshot: Snapshot['data']) {
   const byTicker = new Map<string, { value: number; name: string }>()
   for (const p of snapshot.positions) {
     if (p.putCall || (p.optionType && p.optionType !== 'STOCK')) continue

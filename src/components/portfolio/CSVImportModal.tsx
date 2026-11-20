@@ -915,7 +915,7 @@ export default function CSVImportModal({
               parentSymbol = detected.find(e => e.childSymbol === childSymbol && e.date === date)?.parentSymbol
             }
             if (!parentSymbol || parentSymbol === childSymbol) {
-              spinoffWarnings.push(`Spin-off ${childSymbol} (${date}): Mutterposition nicht eindeutig — Kostenbasis nicht aufgeteilt`)
+              spinoffWarnings.push(`Spin-off ${childSymbol} (${date}): Mutterposition nicht eindeutig, Kostenbasis nicht aufgeteilt`)
               continue
             }
 
@@ -945,7 +945,7 @@ export default function CSVImportModal({
               childPrice: closes[`${childSymbol}|${date}`] || (spinoff.estimatedTransferPrice ? 0 : spinoff.price),
             })
             if (!plan) {
-              spinoffWarnings.push(`Spin-off ${childSymbol} aus ${parentSymbol} (${date}): Kurse oder Mutterbestand fehlen — Kostenbasis nicht aufgeteilt`)
+              spinoffWarnings.push(`Spin-off ${childSymbol} aus ${parentSymbol} (${date}): Kurse oder Mutterbestand fehlen, Kostenbasis nicht aufgeteilt`)
               continue
             }
 
@@ -1036,7 +1036,7 @@ export default function CSVImportModal({
           }
           const range = `${i + 1}–${i + batch.length} von ${txToImport.length}`
           const outcome = notRemoved > 0
-            ? `${removed} Buchungen dieses Laufs wurden wieder entfernt, bis zu ${notRemoved} weitere nicht — bitte Depot prüfen.`
+            ? `${removed} Buchungen dieses Laufs wurden wieder entfernt, bis zu ${notRemoved} weitere nicht. Bitte Depot prüfen.`
             : `Die ${removed} bereits gespeicherten Buchungen dieses Laufs wurden wieder entfernt.`
           const sideEffects = [
             resetBeforeImport ? 'Das Depot wurde vor dem Import geleert.' : '',
@@ -1229,7 +1229,7 @@ export default function CSVImportModal({
               <div className="mb-6">
                 <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Von welchem Broker?</h3>
                 <p className="text-[13px] text-neutral-500">
-                  Wähle deinen Broker — wir zeigen dir dann, wo genau du die Export-Datei findest.
+                  Wähle deinen Broker, wir zeigen dir dann, wo genau du die Export-Datei findest.
                 </p>
               </div>
 
@@ -1489,7 +1489,7 @@ export default function CSVImportModal({
                   Cash-Bewegungen
                 </h3>
                 <p className="text-[13px] text-neutral-500">
-                  {resolvedTransactions.filter(t => t.type === 'cash_deposit' || t.type === 'cash_withdrawal').length} Ein-/Auszahlungen in deiner Datei — wie sollen wir damit umgehen?
+                  {resolvedTransactions.filter(t => t.type === 'cash_deposit' || t.type === 'cash_withdrawal').length} Ein-/Auszahlungen in deiner Datei. Wie sollen wir damit umgehen?
                 </p>
               </div>
 
@@ -1517,7 +1517,7 @@ export default function CSVImportModal({
                         </span>
                       </div>
                       <p className="text-[12px] text-neutral-400 leading-relaxed">
-                        Ein-/Auszahlungen und Zinsen werden importiert, Cash-Position wird automatisch berechnet — so wie im Broker-Depot.
+                        Ein-/Auszahlungen und Zinsen werden importiert, Cash-Position wird automatisch berechnet, so wie im Broker-Depot.
                       </p>
                     </div>
                   </div>
@@ -1543,7 +1543,7 @@ export default function CSVImportModal({
                         <span className="font-medium text-[13px] text-white">Cash ignorieren</span>
                       </div>
                       <p className="text-[12px] text-neutral-400 leading-relaxed">
-                        Nur Käufe, Verkäufe und Dividenden — Cash-Position bleibt unverändert. Sinnvoll, wenn du Cash separat verwaltest.
+                        Nur Käufe, Verkäufe und Dividenden. Cash-Position bleibt unverändert. Sinnvoll, wenn du Cash separat verwaltest.
                       </p>
                     </div>
                   </div>
@@ -1614,8 +1614,8 @@ export default function CSVImportModal({
                       <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">
                         Dieses Depot enthält bereits <span className="text-neutral-300 tabular-nums">{existingDataCount.transactions}</span> Transaktionen und <span className="text-neutral-300 tabular-nums">{existingDataCount.holdings}</span> Positionen
                         {resetBeforeImport
-                          ? <span className="text-red-400"> — werden komplett gelöscht und durch den neuen Import ersetzt (inkl. Cash-Position).</span>
-                          : ' — bleiben erhalten, Duplikate werden automatisch übersprungen.'}
+                          ? <span className="text-red-400">. Sie werden komplett gelöscht und durch den neuen Import ersetzt (inkl. Cash-Position).</span>
+                          : '. Sie bleiben erhalten, Duplikate werden automatisch übersprungen.'}
                       </p>
                     </div>
                   </div>
@@ -1650,13 +1650,13 @@ export default function CSVImportModal({
                     {importSummary.stockSplits.map((s, i) => (
                       <li key={`split-${i}`} className="flex gap-1.5">
                         <span className="text-neutral-600">·</span>
-                        Aktiensplit {s.ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am {s.date} ({s.isin}) — frühere Käufe/Verkäufe (auch bereits importierte) werden rückwirkend umgerechnet
+                        Aktiensplit {s.ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am {s.date} ({s.isin}): frühere Käufe/Verkäufe (auch bereits importierte) werden rückwirkend umgerechnet
                       </li>
                     ))}
                     {importSummary.tickerRenames.map((r, i) => (
                       <li key={`rename-${i}`} className="flex gap-1.5">
                         <span className="text-neutral-600">·</span>
-                        Ticker-Umstellung {r.date}: {r.fromIsin} → {r.toIsin} (Ratio {r.ratio.toFixed(4)}) — Einstandskurs übertragen
+                        Ticker-Umstellung {r.date}: {r.fromIsin} → {r.toIsin} (Ratio {r.ratio.toFixed(4)}), Einstandskurs übertragen
                       </li>
                     ))}
                   </ul>
@@ -1673,7 +1673,7 @@ export default function CSVImportModal({
                         {importSummary.transferHoldings.length} Position{importSummary.transferHoldings.length !== 1 ? 'en' : ''} via Depotübertrag
                       </p>
                       <p className="text-[11px] text-neutral-400 leading-relaxed mb-2">
-                        Einstandskurs = Transferkurs (der echte Original-Kaufpreis liegt nicht in der CSV vor). Performance «seit Kauf» ist dadurch oft zu niedrig — du kannst die Einstandskurse nach dem Import manuell korrigieren.
+                        Einstandskurs = Transferkurs (der echte Original-Kaufpreis liegt nicht in der CSV vor). Performance «seit Kauf» ist dadurch oft zu niedrig. Du kannst die Einstandskurse nach dem Import manuell korrigieren.
                       </p>
                       <div className="flex flex-wrap gap-1">
                         {importSummary.transferHoldings.slice(0, 12).map(h => (
@@ -1732,7 +1732,7 @@ export default function CSVImportModal({
                         <ChevronDownIcon className={`w-3 h-3 transition-transform ${showDuplicateDetails ? 'rotate-180' : ''}`} />
                       </button>
                       <p>
-                        Existieren bereits im Depot und werden übersprungen — nur {importSummary.newTransactions} neue Transaktionen werden importiert.
+                        Existieren bereits im Depot und werden übersprungen. Nur {importSummary.newTransactions} neue Transaktionen werden importiert.
                       </p>
 
                       {showDuplicateDetails && duplicateTransactions.length > 0 && (
@@ -1818,7 +1818,7 @@ export default function CSVImportModal({
               {importValidationIssues.length > 0 && (
                 <div className="mb-4 p-3 rounded-xl bg-red-500/5 border border-red-500/20">
                   <p className="text-[12px] font-medium text-red-400 mb-1">
-                    Import nicht möglich — {importValidationIssues.reduce((n, i) => n + i.count, 0)} Buchungen lassen sich so nicht speichern
+                    Import nicht möglich: {importValidationIssues.reduce((n, i) => n + i.count, 0)} Buchungen lassen sich so nicht speichern
                   </p>
                   <p className="text-[11px] text-neutral-400 mb-2">
                     Es wird nichts geschrieben, solange diese Zeilen in der Datei bzw. Zuordnung stehen.

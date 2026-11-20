@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   const now = Date.now()
   const limit = rateLimiter.get(user.id)
   if (limit && now < limit.resetTime && limit.count >= RATE_LIMIT) {
-    return NextResponse.json({ ok: false, reason: 'Zu viele Anfragen — kurz warten' }, { status: 429 })
+    return NextResponse.json({ ok: false, reason: 'Zu viele Anfragen, kurz warten' }, { status: 429 })
   }
   if (!limit || now > (limit?.resetTime || 0)) {
     rateLimiter.set(user.id, { count: 1, resetTime: now + WINDOW_MS })

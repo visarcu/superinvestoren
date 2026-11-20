@@ -123,7 +123,7 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
             <p className="mt-1 text-xs text-theme-muted">
               Zuletzt aktualisiert {new Date(updatedAt).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}
               {ageInMonths !== null && ageInMonths >= 6 && (
-                <span className="ml-2 text-amber-600 dark:text-amber-400/80">· vor {ageInMonths} Monaten — noch aktuell?</span>
+                <span className="ml-2 text-amber-600 dark:text-amber-400/80">· vor {ageInMonths} Monaten. Noch aktuell?</span>
               )}
             </p>
           )}
@@ -144,7 +144,7 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
           <textarea
             value={text}
             onChange={e => setText(e.target.value.slice(0, MAX_LENGTH))}
-            placeholder={`Warum hast du ${ticker} gekauft? Z.B. "KGV unter 20, starker Cashflow, Buyback-Programm — Verkauf nur, wenn die Marge unter 40% fällt."`}
+            placeholder={`Warum hast du ${ticker} gekauft? Z.B. "KGV unter 20, starker Cashflow, Buyback-Programm. Verkauf nur, wenn die Marge unter 40% fällt."`}
             rows={4}
             className="w-full resize-none rounded-lg border border-theme bg-theme-secondary px-3 py-2.5 text-[13px] text-theme-primary transition-colors placeholder:text-neutral-500 focus:border-teal-400/40 focus:outline-none"
             autoFocus
@@ -176,7 +176,7 @@ export default function InvestmentCaseCard({ ticker, portfolioId }: InvestmentCa
         <p className="mt-3 whitespace-pre-wrap text-[13px] leading-relaxed text-theme-secondary">{text}</p>
       ) : (
         <p className="mt-3 text-[12px] text-neutral-500">
-          Warum hast du {ticker} gekauft? Schreib es auf — hilft gegen Panik-Verkäufe und FOMO.
+          Warum hast du {ticker} gekauft? Schreib es auf, das hilft gegen Panik-Verkäufe und FOMO.
         </p>
       )}
     </div>

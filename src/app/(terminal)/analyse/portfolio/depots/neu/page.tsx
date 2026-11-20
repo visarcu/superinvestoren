@@ -203,7 +203,7 @@ export default function NewDepotPage() {
                 Von welchem Broker?
               </h2>
               <p className="text-[13px] text-neutral-500">
-                Wähle deinen Broker — wir kategorisieren das Depot entsprechend.
+                Wähle deinen Broker, wir kategorisieren das Depot entsprechend.
               </p>
             </div>
 
@@ -227,7 +227,7 @@ export default function NewDepotPage() {
                 Wie soll dein Depot heißen?
               </h2>
               <p className="text-[13px] text-neutral-500">
-                Vergib einen Namen — so findest du es später leicht wieder.
+                Vergib einen Namen, so findest du es später leicht wieder.
               </p>
             </div>
 
@@ -355,7 +355,7 @@ export default function NewDepotPage() {
               Depot erstellt
             </h2>
             <p className="text-[13px] text-neutral-500 mb-6 max-w-md mx-auto">
-              <span className="text-white">„{depotName}"</span> ist bereit — du kannst jetzt Positionen
+              <span className="text-white">„{depotName}"</span> ist bereit. Du kannst jetzt Positionen
               importieren oder manuell hinzufügen.
             </p>
 

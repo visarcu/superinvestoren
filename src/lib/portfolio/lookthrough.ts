@@ -554,16 +554,16 @@ function buildInsights(
   // 1) Effektives Klumpenrisiko: größte Einzelaktie über alles gerechnet
   const top = result.topExposures[0]
   if (top && top.percent >= 10) {
-    const viaText =
-      top.directValue > 0 && top.etfCount > 0
-        ? `direkt und über ${top.etfCount} deiner ETFs`
-        : top.etfCount > 0
-          ? `über ${top.etfCount} deiner ETFs`
-          : 'als Direktposition'
+    const viaText = top.directValue > 0
+      ? `direkt und über ${top.etfCount} deiner ETFs`
+      : `über ${top.etfCount} deiner ETFs`
     insights.push({
       severity: top.percent >= 15 ? 'warn' : 'info',
       title: `${top.name} macht effektiv ${fmtPct(top.percent)} aus`,
-      text: `Zusammengerechnet steckt die Aktie ${viaText} in deinem Depot — mehr, als die Positionsliste vermuten lässt.`,
+      // Nur über ETFs ergibt "mehr als die Positionsliste" Sinn; reine Direktposition steht so schon in der Liste
+      text: top.etfCount > 0
+        ? `Zusammengerechnet steckt die Aktie ${viaText} in deinem Depot, mehr als die Positionsliste vermuten lässt.`
+        : 'Eine einzelne Aktie mit diesem Gewicht bestimmt die Entwicklung deines Depots spürbar mit.',
     })
   }
 
@@ -575,7 +575,7 @@ function buildInsights(
     insights.push({
       severity: 'info',
       title: `${hidden.name}: Direktbestand plus ETF-Anteil`,
-      text: `Du hältst die Aktie direkt und zusätzlich über ${hidden.etfCount} ETFs — effektiv ${fmtPct(hidden.percent)} statt der ${fmtPct((hidden.directValue / result.analyzedValue) * 100)} aus der Positionsliste.`,
+      text: `Du hältst die Aktie direkt und zusätzlich über ${hidden.etfCount} ETFs, effektiv ${fmtPct(hidden.percent)} statt der ${fmtPct((hidden.directValue / result.analyzedValue) * 100)} aus der Positionsliste.`,
     })
   }
 
@@ -585,7 +585,7 @@ function buildInsights(
     insights.push({
       severity: 'warn',
       title: `${fmtPct(bigOverlap.overlapPercent)} Überschneidung zwischen zwei ETFs`,
-      text: `${bigOverlap.nameA} und ${bigOverlap.nameB} enthalten weitgehend dieselben Aktien — die zweite Position streut kaum zusätzlich.`,
+      text: `${bigOverlap.nameA} und ${bigOverlap.nameB} enthalten weitgehend dieselben Aktien. Die zweite Position streut kaum zusätzlich.`,
     })
   }
 
@@ -595,7 +595,9 @@ function buildInsights(
     insights.push({
       severity: usa.percent >= 75 ? 'warn' : 'info',
       title: `${fmtPct(usa.percent)} deines Aktien-Exposures hängen an den USA`,
-      text: 'Inklusive der US-Anteile in deinen ETFs — dein Depot bewegt sich damit weitgehend mit dem US-Markt.',
+      text: result.etfValue > 0
+        ? 'Die US-Anteile deiner ETFs sind mitgerechnet. Dein Depot bewegt sich damit weitgehend mit dem US-Markt.'
+        : 'Dein Depot bewegt sich damit weitgehend mit dem US-Markt.',
     })
   }
 
@@ -615,7 +617,9 @@ function buildInsights(
     insights.push({
       severity: 'info',
       title: `${fmtPct(small.percent)} Small-Cap-Exposure`,
-      text: 'Inklusive der Small-Cap-Anteile in deinen ETFs — kleinere Unternehmen schwanken typischerweise stärker als der Gesamtmarkt.',
+      text: result.etfValue > 0
+        ? 'Die Small-Cap-Anteile deiner ETFs sind mitgerechnet. Kleinere Unternehmen schwanken typischerweise stärker als der Gesamtmarkt.'
+        : 'Kleinere Unternehmen schwanken typischerweise stärker als der Gesamtmarkt.',
     })
   }
 
@@ -624,7 +628,7 @@ function buildInsights(
     insights.push({
       severity: 'warn',
       title: `Gehebelter ETF im Depot: ${lev.name}`,
-      text: 'Das tatsächliche Markt-Exposure entspricht ca. dem Doppelten des Positionswerts — Verluste wirken entsprechend stärker.',
+      text: 'Das tatsächliche Markt-Exposure entspricht ca. dem Doppelten des Positionswerts. Verluste wirken entsprechend stärker.',
     })
   }
 

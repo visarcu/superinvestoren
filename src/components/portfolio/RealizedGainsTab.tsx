@@ -149,7 +149,7 @@ export default function RealizedGainsTab({
       <div className="rounded-xl border border-theme bg-theme-card px-6 py-16 text-center">
         <p className="text-sm font-medium text-theme-primary">Noch keine realisierten Gewinne</p>
         <p className="mx-auto mt-1 max-w-sm text-sm text-theme-muted">
-          Sobald Verkäufe erfasst sind, erscheinen hier deine realisierten Gewinne und Verluste — nach Jahren aufgeteilt.
+          Sobald Verkäufe erfasst sind, erscheinen hier deine realisierten Gewinne und Verluste, nach Jahren aufgeteilt.
         </p>
       </div>
     )
@@ -349,7 +349,7 @@ export default function RealizedGainsTab({
 
         <p className="border-t border-theme px-5 py-2.5 text-[10px] text-theme-muted">
           Durchschnittskostenmethode. Kauf- und Verkaufsgebühren sind im Gewinn/Verlust bereits abgezogen.
-          Keine Steuerberechnung — für die Steuer gilt die Abrechnung deines Brokers.
+          Keine Steuerberechnung. Für die Steuer gilt die Abrechnung deines Brokers.
         </p>
       </div>
     </div>

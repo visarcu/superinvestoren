@@ -7,6 +7,7 @@ import React from 'react'
 import Link from 'next/link'
 import { ArrowRightIcon, PencilSquareIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
+import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
 import { BROKER_CONFIGS, BrokerType, brokerTypeToLogoId } from '@/lib/brokerConfig'
 
 // Broker mit Logo zuerst — die vollständige Liste steckt im Wizard.
@@ -20,8 +21,8 @@ const QUICK_BROKERS: BrokerType[] = [
 ]
 
 const STEPS = [
-  { title: 'Depot anlegen', text: 'Broker wählen, Namen vergeben — dauert 20 Sekunden.' },
-  { title: 'Aktivitäten erfassen', text: 'Käufe, Verkäufe, Dividenden und Cash — manuell oder per CSV-Import.' },
+  { title: 'Depot anlegen', text: 'Broker wählen, Namen vergeben. Dauert 20 Sekunden.' },
+  { title: 'Aktivitäten erfassen', text: 'Käufe, Verkäufe, Dividenden und Cash, manuell oder per CSV-Import.' },
   { title: 'Portfolio analysieren', text: 'Rendite, Allokation, Dividenden und Superinvestor-Overlap.' },
 ]
 
@@ -99,6 +100,8 @@ export default function DepotOnboarding() {
               Ohne Broker starten
             </Link>
           </div>
+          <p className="mt-5 text-[13px] text-theme-muted">Erst mal ausprobieren, ohne etwas hochzuladen?</p>
+          <SampleDepotButton className="mt-2" />
         </div>
 
         {/* Ablauf */}

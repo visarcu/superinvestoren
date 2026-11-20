@@ -41,7 +41,7 @@ export default function BrokerCreditModal({ open, brokerCredit, formatCurrency, 
         <div className="space-y-4">
           <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
             <p className="text-xs text-amber-400/90">
-              Trage hier deinen aktuellen Wertpapierkredit (WPK) von Scalable ein — als negativen Betrag, z.B. <span className="font-mono">-12502</span>. Dieser Wert erscheint separat und beeinflusst nicht die Cash-Position.
+              Trage hier deinen aktuellen Wertpapierkredit (WPK) von Scalable ein, als negativen Betrag, z.B. <span className="font-mono">-12502</span>. Dieser Wert erscheint separat und beeinflusst nicht die Cash-Position.
             </p>
           </div>
           <div>

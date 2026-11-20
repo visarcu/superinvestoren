@@ -106,7 +106,7 @@ function formatCompactEur(value: number): string {
 
 function formatWindow(from: string, to: string): string {
   const fmt = (d: string) => new Date(d).toLocaleDateString('de-DE', { month: 'short', year: 'numeric' })
-  return `${fmt(from)} – ${fmt(to)}`
+  return `${fmt(from)} bis ${fmt(to)}`
 }
 
 // =====================================================
@@ -212,7 +212,7 @@ export default function QuantSection({
       <div className="bg-theme-card border border-theme rounded-xl p-5">
         <div className="flex items-center gap-2 text-[12px] text-neutral-500">
           <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
-          Quant-Analyse wird berechnet — Korrelationen, Stresstests, Monte-Carlo, Faktoren …
+          Quant-Analyse wird berechnet: Korrelationen, Stresstests, Monte-Carlo, Faktoren …
         </div>
       </div>
     )
@@ -226,7 +226,7 @@ export default function QuantSection({
         </p>
         <p className="text-sm leading-relaxed text-theme-secondary">
           Korrelationsmatrix, historische Stresstests (2008, 2020, 2022), Monte-Carlo-Projektion und
-          Fama-French-Faktoranalyse deines Depots — echt berechnet aus deiner eigenen Historie.
+          Fama-French-Faktoranalyse deines Depots, echt berechnet aus deiner eigenen Historie.
         </p>
         <a
           href="/pricing"
@@ -288,7 +288,7 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
         </h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">
           Wie hätte sich dein heutiges Depot in echten Krisen geschlagen? Gemessen an den tatsächlichen
-          Kursen von damals (EUR-Sicht) — Positionen, die es noch nicht gab, werden über ihr Beta genähert.
+          Kursen von damals (EUR-Sicht). Positionen, die es noch nicht gab, werden über ihr Beta genähert.
         </p>
       </div>
 
@@ -339,7 +339,7 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
 
       <p className="text-[11px] text-neutral-500 leading-relaxed mt-4">
         Die Szenarien legen die Krisen-Kursverläufe auf deine heutige Depotstruktur (ohne Cash).
-        Vergangene Krisen sind keine Garantie für künftige Verläufe — sie zeigen die Größenordnung,
+        Vergangene Krisen sind keine Garantie für künftige Verläufe. Sie zeigen die Größenordnung,
         die dein Depot verkraften können sollte. Klick auf ein Szenario zeigt die Positionen.
       </p>
     </div>
@@ -353,9 +353,9 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
 function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
   const diversificationHint =
     corr.avgPairwise === null ? null
-      : corr.avgPairwise >= 0.7 ? 'Deine Positionen bewegen sich stark im Gleichschritt — Diversifikation über Anzahl täuscht hier.'
-      : corr.avgPairwise >= 0.4 ? 'Moderater Gleichlauf — typisch für ein aktienlastiges Depot.'
-      : 'Geringer Gleichlauf — deine Positionen diversifizieren sich gegenseitig gut.'
+      : corr.avgPairwise >= 0.7 ? 'Deine Positionen bewegen sich stark im Gleichschritt. Die reine Anzahl täuscht hier über die Streuung hinweg.'
+      : corr.avgPairwise >= 0.4 ? 'Moderater Gleichlauf, typisch für ein aktienlastiges Depot.'
+      : 'Geringer Gleichlauf: deine Positionen diversifizieren sich gegenseitig gut.'
 
   // Auffälligkeiten: alle Paare einmal einsammeln und sortieren
   const pairs = useMemo(() => {
@@ -480,8 +480,8 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
           {twinPair && (
             <p className="text-[12px] text-neutral-300 leading-relaxed border-l-2 border-amber-400/50 pl-3">
               {shortName(twinPair.a)} und {shortName(twinPair.b)} laufen mit {twinPair.value.toFixed(2)} praktisch
-              im Gleichschritt und machen zusammen {twinPair.combinedWeightPct.toFixed(0)}% des Depots aus —
-              faktisch dasselbe Investment doppelt. Details siehe ETF-Überschneidungen.
+              im Gleichschritt und machen zusammen {twinPair.combinedWeightPct.toFixed(0)}% des Depots aus.
+              Das ist faktisch dasselbe Investment doppelt. Details siehe ETF-Überschneidungen.
             </p>
           )}
         </div>
@@ -524,7 +524,7 @@ function MonteCarloCard({ mc }: { mc: MonteCarloPayload }) {
           Monte-Carlo-Projektion
         </h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">
-          {mc.paths.toLocaleString('de-DE')} simulierte Verläufe über {mc.horizonYears} Jahre — gebootstrappt aus
+          {mc.paths.toLocaleString('de-DE')} simulierte Verläufe über {mc.horizonYears} Jahre, gebootstrappt aus
           deinen eigenen {mc.basedOnDays.toLocaleString('de-DE')} Handelstagen (ohne Sparraten)
         </p>
       </div>
@@ -553,7 +553,7 @@ function MonteCarloCard({ mc }: { mc: MonteCarloPayload }) {
             <Tooltip
               formatter={(value: number | [number, number], name: string) => {
                 if (Array.isArray(value)) {
-                  return [`${formatCompactEur(value[0])} – ${formatCompactEur(value[1])}`, name === 'outer' ? '90% der Verläufe' : '50% der Verläufe']
+                  return [`${formatCompactEur(value[0])} bis ${formatCompactEur(value[1])}`, name === 'outer' ? '90% der Verläufe' : '50% der Verläufe']
                 }
                 return [formatCompactEur(value), 'Median']
               }}
@@ -579,7 +579,7 @@ function MonteCarloCard({ mc }: { mc: MonteCarloPayload }) {
         <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-3">
           <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Spanne (90%)</p>
           <p className="text-sm font-semibold text-white tabular-nums">
-            {formatCompactEur(end.p5)} – {formatCompactEur(end.p95)}
+            {formatCompactEur(end.p5)} bis {formatCompactEur(end.p95)}
           </p>
         </div>
         <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-3">
