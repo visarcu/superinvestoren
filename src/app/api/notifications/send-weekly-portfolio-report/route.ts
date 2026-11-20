@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import { hasPremiumAccess } from '@/lib/premiumAccess'
-import { convertPriceToEur } from '@/lib/portfolioValuation'
+import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
 import { detectTickerCurrency } from '@/lib/fmp'
 
 const supabase = createClient(
@@ -36,16 +36,47 @@ interface FmpQuote {
   name?: string
 }
 
+interface Close {
+  date: string
+  close: number
+}
+
+// Eine Zeile aus portfolio_holdings (eine je Depot und Symbol)
+interface HoldingRow {
+  portfolio_id: string
+  symbol: string
+  quantity: number
+  purchase_date: string | null
+}
+
+// Käufe/Verkäufe/Überträge aus portfolio_transactions im Berichtsfenster
+interface FlowRow {
+  portfolio_id: string
+  symbol: string | null
+  type: string
+  quantity: number | null
+  date: string
+}
+
+// held:   Bestand lag schon am Schlusskurs der Vorwoche (ganz oder teilweise) im Depot
+// new:    erst nach dem Vorwochen-Schluss gekauft, keine Wochenveränderung
+// noData: kein Vorwochen-Schlusskurs (Kurshistorie fehlt oder Neuemission)
+type WeekStatus = 'held' | 'new' | 'noData'
+
 interface HoldingWithPerf {
   symbol: string
   quantity: number
-  averagePrice: number
+  // Anteile, die seit dem Vorwochen-Schluss durchgehend gehalten wurden. Nur sie
+  // gehen in die Wochenveränderung ein, Zukäufe dieser Woche nicht.
+  heldQuantity: number
   currentPrice: number
-  previousClose: number
+  referencePrice: number | null
+  referenceDate: string | null
   currentValue: number
   previousValue: number
   weeklyChangeAbs: number
   weeklyChangePct: number
+  weekStatus: WeekStatus
 }
 
 interface PortfolioReport {
@@ -57,6 +88,15 @@ interface PortfolioReport {
   topLosers: HoldingWithPerf[]
   holdings: HoldingWithPerf[]
 }
+
+const INFLOW_TYPES = new Set(['buy', 'transfer_in'])
+const OUTFLOW_TYPES = new Set(['sell', 'transfer_out'])
+// Kurshistorie ab so vielen Tagen vor dem Wochen-Montag laden, damit der letzte
+// Handelstag der Vorwoche auch über Feiertage hinweg sicher enthalten ist
+const HISTORY_LOOKBACK_DAYS = 14
+// FMP verträgt etwa 15 Abrufe pro Sekunde ohne 429
+const HISTORY_CONCURRENCY = 6
+const FLOW_PAGE_SIZE = 1000
 
 interface EarningsPreviewItem {
   symbol: string
@@ -122,6 +162,195 @@ async function getEurRate(from: string): Promise<number | null> {
   return null
 }
 
+function addDaysIso(iso: string, days: number): string {
+  const d = new Date(`${iso}T00:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + days)
+  return d.toISOString().split('T')[0]
+}
+
+// Tages-Schlusskurse eines Symbols (aufsteigend). FMP v3 historical-price-full,
+// ein Abruf je Symbol: Sammelabrufe sind im Tarif gesperrt, und
+// /stable/historical-price-eod liefert im Tarif nur US-Werte (Xetra & Co. nicht).
+async function fetchCloses(symbol: string, from: string, to: string): Promise<Close[]> {
+  const url =
+    `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(symbol)}` +
+    `?from=${from}&to=${to}&serietype=line&apikey=${process.env.FMP_API_KEY}`
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(20_000) })
+    if (res.status === 429 && attempt < 3) {
+      await new Promise(r => setTimeout(r, 1500 * 2 ** attempt))
+      continue
+    }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const data = await res.json().catch(() => null)
+    const rows: Array<{ date?: unknown; close?: unknown }> = Array.isArray(data?.historical) ? data.historical : []
+    return rows
+      .filter(r => typeof r.date === 'string' && typeof r.close === 'number' && r.close > 0)
+      .map(r => ({ date: (r.date as string).slice(0, 10), close: r.close as number }))
+      .sort((a, b) => (a.date < b.date ? -1 : 1))
+  }
+}
+
+async function fetchClosesForSymbols(symbols: string[], from: string, to: string): Promise<Map<string, Close[]>> {
+  const out = new Map<string, Close[]>()
+  let next = 0
+  const worker = async () => {
+    while (next < symbols.length) {
+      const symbol = symbols[next++]
+      try {
+        out.set(symbol, await fetchCloses(symbol, from, to))
+      } catch (e) {
+        console.warn(`[Weekly Portfolio Report] Kurshistorie ${symbol} fehlt:`, e instanceof Error ? e.message : e)
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(HISTORY_CONCURRENCY, symbols.length) }, worker))
+  return out
+}
+
+// Käufe, Verkäufe und Überträge der angegebenen Depots ab `from` (seitenweise,
+// PostgREST liefert höchstens 1000 Zeilen je Abruf)
+async function loadFlows(portfolioIds: string[], from: string): Promise<FlowRow[]> {
+  const out: FlowRow[] = []
+  if (portfolioIds.length === 0) return out
+  for (let offset = 0; ; offset += FLOW_PAGE_SIZE) {
+    const { data, error } = await supabase
+      .from('portfolio_transactions')
+      .select('portfolio_id, symbol, type, quantity, date')
+      .in('portfolio_id', portfolioIds)
+      .in('type', [...INFLOW_TYPES, ...OUTFLOW_TYPES])
+      .gte('date', from)
+      .order('id')
+      .range(offset, offset + FLOW_PAGE_SIZE - 1)
+    if (error) throw new Error(error.message)
+    const page = (data as FlowRow[] | null) ?? []
+    out.push(...page)
+    if (page.length < FLOW_PAGE_SIZE) break
+  }
+  return out
+}
+
+/**
+ * Echte Wochenveränderung eines Nutzers: Schlusskurs des letzten Handelstags
+ * vor `weekStart` (Montag der Berichtswoche) bis zum letzten Schlusskurs.
+ *
+ * Zukäufe nach dem Vorwochen-Schluss werden herausgerechnet statt ab Kaufdatum
+ * bewertet: der Einstand steht in EUR zum Kauf-Wechselkurs und mit Gebühren in
+ * der DB, die Schlusskurse dagegen in Börsenwährung zum heutigen Kurs. Beides zu
+ * mischen erzeugt Scheingewinne, und ein am Donnerstag gekaufter Wert stünde mit
+ * einem Tag Bewegung neben Werten mit fünf Tagen in der Gewinnerliste.
+ * Gerechnet wird daher nur mit den Anteilen, die über die ganze Woche im Depot
+ * lagen; ganz neue Positionen zählen zum Depotwert, aber nicht zur Woche.
+ */
+function buildPortfolioReport(
+  rows: HoldingRow[],
+  flows: FlowRow[],
+  closesBySymbol: Map<string, Close[]>,
+  quoteMap: Map<string, FmpQuote>,
+  weekStart: string,
+  eurRates: EurRates
+): PortfolioReport {
+  const rowsBySymbol = new Map<string, HoldingRow[]>()
+  for (const row of rows) {
+    const list = rowsBySymbol.get(row.symbol) ?? []
+    list.push(row)
+    rowsBySymbol.set(row.symbol, list)
+  }
+
+  const holdings: HoldingWithPerf[] = []
+
+  for (const [symbol, symbolRows] of rowsBySymbol) {
+    const quantity = symbolRows.reduce((s, r) => s + (Number(r.quantity) || 0), 0)
+    if (quantity <= 0) continue
+
+    const currency = detectTickerCurrency(symbol)
+    const closes = closesBySymbol.get(symbol) ?? []
+    const latest = closes[closes.length - 1]
+    const reference = [...closes].reverse().find(c => c.date < weekStart)
+
+    // Ohne Kurshistorie bleibt die Position mit Live-Kurs im Depotwert, aber ohne Woche
+    const rawCurrent = latest?.close ?? (quoteMap.get(symbol)?.price || null)
+    if (!rawCurrent) continue
+    const currentPrice = convertPriceToEur(rawCurrent, currency, eurRates)
+    const currentValue = quantity * currentPrice
+
+    if (!reference) {
+      holdings.push({
+        symbol, quantity, heldQuantity: 0, currentPrice,
+        referencePrice: null, referenceDate: null,
+        currentValue, previousValue: 0, weeklyChangeAbs: 0, weeklyChangePct: 0,
+        weekStatus: 'noData'
+      })
+      continue
+    }
+
+    // Netto-Zugang nach dem Vorwochen-Schluss über alle Depots des Nutzers.
+    // Depotüberträge gleichen sich so aus. Eine Position mit Erstkauf nach dem
+    // Stichtag war am Stichtag in diesem Depot nicht vorhanden, auch wenn ihr
+    // keine Kauf-Transaktion gegenübersteht.
+    const openedAfter = new Map(
+      symbolRows
+        .filter(r => r.purchase_date && r.purchase_date > reference.date)
+        .map(r => [r.portfolio_id, Number(r.quantity) || 0])
+    )
+    const flowByPortfolio = new Map<string, number>()
+    for (const f of flows) {
+      if (f.symbol !== symbol || f.date <= reference.date) continue
+      const q = Math.abs(Number(f.quantity) || 0)
+      const signed = INFLOW_TYPES.has(f.type) ? q : OUTFLOW_TYPES.has(f.type) ? -q : 0
+      flowByPortfolio.set(f.portfolio_id, (flowByPortfolio.get(f.portfolio_id) ?? 0) + signed)
+    }
+    for (const [portfolioId, qty] of openedAfter) flowByPortfolio.set(portfolioId, qty)
+    const netInflow = [...flowByPortfolio.values()].reduce((s, v) => s + v, 0)
+
+    // Durchgehend gehalten: höchstens der heutige Bestand, nie negativ
+    let heldQuantity = Math.min(quantity, quantity - netInflow)
+    if (heldQuantity < 1e-9) heldQuantity = 0
+
+    const referencePrice = convertPriceToEur(reference.close, currency, eurRates)
+    const previousValue = heldQuantity * referencePrice
+    const isHeld = heldQuantity > 0
+
+    holdings.push({
+      symbol,
+      quantity,
+      heldQuantity,
+      currentPrice,
+      referencePrice,
+      referenceDate: reference.date,
+      currentValue,
+      previousValue,
+      weeklyChangeAbs: heldQuantity * (currentPrice - referencePrice),
+      // Kursbewegung in Börsenwährung (gleiche EUR-Rate auf beiden Seiten)
+      weeklyChangePct: isHeld ? (reference.close > 0 ? (latest.close / reference.close - 1) * 100 : 0) : 0,
+      weekStatus: isHeld ? 'held' : 'new'
+    })
+  }
+
+  const totalCurrentValue = holdings.reduce((sum, h) => sum + h.currentValue, 0)
+  const totalPreviousValue = holdings.reduce((sum, h) => sum + h.previousValue, 0)
+  const totalWeeklyChangeAbs = holdings.reduce((sum, h) => sum + h.weeklyChangeAbs, 0)
+  const totalWeeklyChangePct = totalPreviousValue > 0 ? (totalWeeklyChangeAbs / totalPreviousValue) * 100 : 0
+
+  const withWeek = holdings.filter(h => h.weekStatus === 'held')
+  const topGainers = withWeek.filter(h => h.weeklyChangePct > 0).sort((a, b) => b.weeklyChangePct - a.weeklyChangePct).slice(0, 3)
+  const topLosers = withWeek.filter(h => h.weeklyChangePct < 0).sort((a, b) => a.weeklyChangePct - b.weeklyChangePct).slice(0, 3)
+
+  return { totalCurrentValue, totalPreviousValue, totalWeeklyChangeAbs, totalWeeklyChangePct, topGainers, topLosers, holdings }
+}
+
+function buildPushBody(report: PortfolioReport): string {
+  // Nur neue Positionen: kein Vorwochenwert, also auch keine Wochenveränderung
+  if (report.totalPreviousValue <= 0) {
+    return `${formatCurrency(report.totalCurrentValue)} Gesamtwert · Wochenvergleich ab nächster Woche`
+  }
+  const changeLabel = `${report.totalWeeklyChangePct >= 0 ? '+' : ''}${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(report.totalWeeklyChangePct)}%`
+  const topGainer = report.topGainers[0]
+  return topGainer
+    ? `${changeLabel} diese Woche · ${topGainer.symbol} führt mit ${formatPercent(topGainer.weeklyChangePct)}`
+    : `${changeLabel} diese Woche · ${formatCurrency(report.totalCurrentValue)} Gesamtwert`
+}
+
 function generatePerformerCard(holding: HoldingWithPerf, type: 'gainer' | 'loser'): string {
   const isGainer = type === 'gainer'
   const color = isGainer ? '#059669' : '#dc2626'
@@ -150,8 +379,13 @@ function generateHoldingsRows(holdings: HoldingWithPerf[]): string {
   return holdings
     .sort((a, b) => b.currentValue - a.currentValue)
     .map(h => {
-      const color = h.weeklyChangePct >= 0 ? '#059669' : '#dc2626'
+      const color = h.weekStatus !== 'held' ? '#6b7280' : h.weeklyChangePct >= 0 ? '#059669' : '#dc2626'
       const sign = h.weeklyChangePct >= 0 ? '+' : ''
+      const weekCell = h.weekStatus === 'new'
+        ? 'neu'
+        : h.weekStatus === 'noData'
+          ? 'k. A.'
+          : `${sign}${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(h.weeklyChangePct)}%`
       return `
         <tr>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 14px; font-weight: 600;">${h.symbol}</td>
@@ -159,7 +393,7 @@ function generateHoldingsRows(holdings: HoldingWithPerf[]): string {
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 13px; text-align: right; white-space: nowrap;">${formatCurrency(h.currentPrice)}</td>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap;">${formatCurrency(h.currentValue)}</td>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: ${color}; font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap;">
-            ${sign}${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(h.weeklyChangePct)}%
+            ${weekCell}
           </td>
         </tr>
       `
@@ -259,6 +493,12 @@ function generateEmailHtml(
           </div>
 
           <!-- Weekly Performance Badge -->
+          ${report.totalPreviousValue <= 0 ? `
+          <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px 20px; margin-bottom: 28px;">
+            <p style="margin: 0 0 2px 0; color: #6b7280; font-size: 12px; font-weight: 500;">Wochenperformance</p>
+            <p style="margin: 0; color: #374151; font-size: 15px; font-weight: 600;">Alle Positionen sind diese Woche neu, der Wochenvergleich startet nächste Woche.</p>
+          </div>
+          ` : `
           <div style="background: ${changeBg}; border: 1px solid ${changeBorder}; border-radius: 8px; padding: 16px 20px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between;">
             <div>
               <p style="margin: 0 0 2px 0; color: #6b7280; font-size: 12px; font-weight: 500;">Wochenperformance</p>
@@ -269,6 +509,7 @@ function generateEmailHtml(
               <p style="margin: 0; color: ${changeColor}; font-size: 16px; font-weight: 600;">${report.totalWeeklyChangeAbs >= 0 ? '+' : ''}${formatCurrency(report.totalWeeklyChangeAbs)}</p>
             </div>
           </div>
+          `}
 
           <!-- Performer Cards -->
           ${performerCards ? `
@@ -316,7 +557,9 @@ function generateEmailHtml(
           <!-- Disclaimer -->
           <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px 16px;">
             <p style="color: #9ca3af; font-size: 12px; margin: 0; line-height: 1.6;">
-              Die Wochenperformance basiert auf dem Schlusskurs des Vortages als Näherungswert.
+              Die Wochenperformance vergleicht den letzten Schlusskurs mit dem Schlusskurs des letzten Handelstags der Vorwoche.
+              Fremdwährungen sind auf beiden Seiten zum aktuellen Wechselkurs umgerechnet.
+              In dieser Woche gekaufte Anteile sind nicht enthalten (in der Tabelle als „neu“ markiert).
               Alle Angaben ohne Gewähr. Keine Anlageberatung.
             </p>
           </div>
@@ -422,7 +665,7 @@ async function handleWeeklyPortfolioReport() {
     // 3. Get all holdings across those portfolios
     const { data: allHoldings, error: holdingsError } = await supabase
       .from('portfolio_holdings')
-      .select('portfolio_id, symbol, quantity, average_price')
+      .select('portfolio_id, symbol, quantity, purchase_date')
       .in('portfolio_id', portfolioIds)
       .gt('quantity', 0)
 
@@ -444,10 +687,11 @@ async function handleWeeklyPortfolioReport() {
       if (hasPremiumAccess(profile)) premiumUserIds.add(profile.user_id)
     }
 
-    // Group holdings by user (symbol → {quantity, averagePrice})
-    const userHoldings = new Map<string, Map<string, { quantity: number; averagePrice: number }>>()
+    // Positionen je Nutzer sammeln (eine Zeile je Depot und Symbol; das
+    // Zusammenfassen über Depots passiert in buildPortfolioReport)
+    const userHoldings = new Map<string, HoldingRow[]>()
 
-    for (const holding of allHoldings) {
+    for (const holding of allHoldings as HoldingRow[]) {
       const userId = portfolioUserMap.get(holding.portfolio_id)
       if (!userId) continue
 
@@ -456,19 +700,9 @@ async function handleWeeklyPortfolioReport() {
 
       if (!isPremium && !isTestUser) continue
 
-      if (!userHoldings.has(userId)) {
-        userHoldings.set(userId, new Map())
-      }
-      const symbolMap = userHoldings.get(userId)!
-      const existing = symbolMap.get(holding.symbol)
-      if (existing) {
-        // Aggregate multiple lots: weighted average price
-        const totalQty = existing.quantity + holding.quantity
-        const weightedAvg = (existing.averagePrice * existing.quantity + holding.average_price * holding.quantity) / totalQty
-        symbolMap.set(holding.symbol, { quantity: totalQty, averagePrice: weightedAvg })
-      } else {
-        symbolMap.set(holding.symbol, { quantity: holding.quantity, averagePrice: holding.average_price })
-      }
+      const list = userHoldings.get(userId) ?? []
+      list.push(holding)
+      userHoldings.set(userId, list)
     }
 
     if (userHoldings.size === 0) {
@@ -477,7 +711,7 @@ async function handleWeeklyPortfolioReport() {
     }
 
     // 5. Fetch FMP quotes for all unique symbols in one batch call
-    const allSymbols = [...new Set([...userHoldings.values()].flatMap(m => [...m.keys()]))]
+    const allSymbols = [...new Set([...userHoldings.values()].flatMap(rows => rows.map(r => r.symbol)))]
     console.log(`[Weekly Portfolio Report] Fetching quotes for ${allSymbols.length} symbols...`)
 
     const quoteMap = new Map<string, FmpQuote>()
@@ -518,6 +752,22 @@ async function handleWeeklyPortfolioReport() {
     const gbpToEurRate = byCurrency['GBP'] ?? null
     const eurRates = { usdToEurRate, gbpToEurRate, byCurrency }
 
+    // Schlusskurse ab gut zwei Wochen vor dem Wochen-Montag: daraus der Schluss
+    // des letzten Handelstags der Vorwoche und der letzte Schlusskurs
+    const weekStart = thisMonday.toISOString().split('T')[0]
+    const historyFrom = addDaysIso(weekStart, -HISTORY_LOOKBACK_DAYS)
+    const closesBySymbol = await fetchClosesForSymbols(allSymbols, historyFrom, today.toISOString().split('T')[0])
+    console.log(`[Weekly Portfolio Report] Got price history for ${closesBySymbol.size}/${allSymbols.length} symbols`)
+
+    // Käufe/Verkäufe seit dem Vorwochen-Schluss, damit Zukäufe nicht als Wochengewinn zählen
+    const eligiblePortfolioIds = portfolios.filter(p => userHoldings.has(p.user_id)).map(p => p.id)
+    let allFlows: FlowRow[] = []
+    try {
+      allFlows = await loadFlows(eligiblePortfolioIds, historyFrom)
+    } catch (e) {
+      console.warn('[Weekly Portfolio Report] Could not load transactions, only purchase_date marks new positions:', e)
+    }
+
     // 6. Earnings preview for next week — DB-First aus earningsCalendar-Tabelle
     let earningsCalendar: EarningsPreviewItem[] = []
     try {
@@ -553,66 +803,22 @@ async function handleWeeklyPortfolioReport() {
     let emailsSent = 0
     const userResults: Array<{ userId: string; email: string; totalValue: number; weeklyChangePct: number }> = []
 
-    for (const [userId, symbolMap] of userHoldings) {
-      // Build holdings with performance
-      const holdings: HoldingWithPerf[] = []
+    for (const [userId, rows] of userHoldings) {
+      // Echte Wochenveränderung je Position (Vorwochen-Schluss → letzter Schluss)
+      const userPortfolioIds = new Set(rows.map(r => r.portfolio_id))
+      for (const p of portfolios) if (p.user_id === userId) userPortfolioIds.add(p.id)
+      const userFlows = allFlows.filter(f => userPortfolioIds.has(f.portfolio_id))
 
-      for (const [symbol, { quantity, averagePrice }] of symbolMap) {
-        const quote = quoteMap.get(symbol)
-        if (!quote || !quote.price) continue
-
-        // Kurse in Börsenwährung → EUR (beide Seiten mit derselben Rate, damit die
-        // wöchentliche Prozent-Veränderung unverändert = reine Kursbewegung bleibt).
-        const currency = detectTickerCurrency(symbol)
-        const rawPreviousClose = quote.previousClose ?? (quote.price / (1 + quote.changesPercentage / 100))
-        const currentPrice = convertPriceToEur(quote.price, currency, eurRates)
-        const previousClose = convertPriceToEur(rawPreviousClose, currency, eurRates)
-        const currentValue = quantity * currentPrice
-        const previousValue = quantity * previousClose
-        const weeklyChangeAbs = currentValue - previousValue
-        const weeklyChangePct = previousValue > 0 ? ((currentValue - previousValue) / previousValue) * 100 : 0
-
-        holdings.push({
-          symbol,
-          quantity,
-          averagePrice,
-          currentPrice,
-          previousClose,
-          currentValue,
-          previousValue,
-          weeklyChangeAbs,
-          weeklyChangePct
-        })
-      }
+      const report = buildPortfolioReport(rows, userFlows, closesBySymbol, quoteMap, weekStart, eurRates)
+      const { holdings, totalCurrentValue, totalWeeklyChangePct } = report
 
       if (holdings.length === 0) {
         console.log(`[Weekly Portfolio Report] No valid quotes for user ${userId}, skipping`)
         continue
       }
 
-      const totalCurrentValue = holdings.reduce((sum, h) => sum + h.currentValue, 0)
-      const totalPreviousValue = holdings.reduce((sum, h) => sum + h.previousValue, 0)
-      const totalWeeklyChangeAbs = totalCurrentValue - totalPreviousValue
-      const totalWeeklyChangePct = totalPreviousValue > 0
-        ? ((totalCurrentValue - totalPreviousValue) / totalPreviousValue) * 100
-        : 0
-
-      const sortedByChange = [...holdings].sort((a, b) => b.weeklyChangePct - a.weeklyChangePct)
-      const topGainers = sortedByChange.filter(h => h.weeklyChangePct > 0).slice(0, 3)
-      const topLosers = [...sortedByChange].reverse().filter(h => h.weeklyChangePct < 0).slice(0, 3)
-
-      const report: PortfolioReport = {
-        totalCurrentValue,
-        totalPreviousValue,
-        totalWeeklyChangeAbs,
-        totalWeeklyChangePct,
-        topGainers,
-        topLosers,
-        holdings
-      }
-
       // Filter earnings preview to this user's symbols
-      const userSymbols = new Set(symbolMap.keys())
+      const userSymbols = new Set(rows.map(r => r.symbol))
       const userEarningsPreview = earningsCalendar.filter(e => userSymbols.has(e.symbol))
 
       // Get user email
@@ -660,11 +866,7 @@ async function handleWeeklyPortfolioReport() {
           const secret = process.env.INTERNAL_API_SECRET
           if (secret) {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
-            const topGainer = report.topGainers[0]
-            const changeLabel = `${totalWeeklyChangePct >= 0 ? '+' : ''}${new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalWeeklyChangePct)}%`
-            const pushBody = topGainer
-              ? `${changeLabel} diese Woche — ${topGainer.symbol} führt mit ${formatPercent(topGainer.weeklyChangePct)}`
-              : `${changeLabel} diese Woche · ${formatCurrency(totalCurrentValue)} Gesamtwert`
+            const pushBody = buildPushBody(report)
 
             await fetch(`${baseUrl}/api/notifications/push`, {
               method: 'POST',
@@ -710,6 +912,7 @@ async function handleWeeklyPortfolioReport() {
       weekRange,
       symbolsQueried: allSymbols.length,
       quotesReceived: quoteMap.size,
+      historyReceived: closesBySymbol.size,
       earningsNextWeek: earningsCalendar.length,
       emailsSent,
       userResults
