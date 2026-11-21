@@ -34,6 +34,11 @@ function redirectTo(request: NextRequest, host: string | null, pathname: string,
   return NextResponse.redirect(url, 307);
 }
 
+/** Supabase-Sitzung im Cookie (lib/authCookieStorage, ggf. in Teile zerlegt) */
+function hasSessionCookie(request: NextRequest): boolean {
+  return request.cookies.getAll().some(cookie => /^sb-.+-auth-token(\.\d+)?$/.test(cookie.name));
+}
+
 function noindex(response: NextResponse) {
   response.headers.set('X-Robots-Tag', 'noindex');
   return response;
@@ -89,10 +94,23 @@ export function middleware(request: NextRequest) {
       return redirectTo(request, mainHost, pathname);
     }
 
+    // Abgemeldet auf der Startseite: Depot-Landingpage mit eigener Kopfzeile
+    // statt direkt zur Anmeldung
+    if (pathname === '/' && !hasSessionCookie(request)) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/depot-start';
+      return noindex(NextResponse.rewrite(url));
+    }
+
     // "/", "/analyse", "/trade-republic/analyse" … → Workspace
     const url = request.nextUrl.clone();
     url.pathname = fromDepotPath(pathname);
     return noindex(NextResponse.rewrite(url));
+  }
+
+  // Die Depot-Startseite gehört auf die Subdomain; auf der Hauptseite gibt es /depot
+  if (pathname === '/depot-start') {
+    return redirectTo(request, null, '/depot');
   }
 
   // Hauptseite → Tracker auf der Subdomain. Vorschau-Deployments
@@ -116,6 +134,7 @@ export const config = {
     '/auth/reset',
     '/analyse/portfolio',
     '/analyse/portfolio/:path*',
+    '/depot-start',
     // Matcher müssen statisch sein, deshalb hier per Muster statt über
     // NEXT_PUBLIC_DEPOT_HOST. Host-Matching vergleicht ohne Port.
     {

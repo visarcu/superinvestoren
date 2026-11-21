@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { isDepotRedirect, safeRedirectPath } from '@/lib/authRedirect'
 import { EyeIcon, EyeSlashIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 // Deutsche Fehlermeldungen
@@ -80,18 +81,23 @@ export default function SignUpPage() {
     return null
   }
 
+  // Allgemeiner Rücksprung (z. B. ins Depot), sofern es kein Checkout ist
+  const backPath = getRedirectParams() ? null : safeRedirectPath(searchParams.get('redirect'))
+  const fromDepot = isDepotRedirect(backPath)
+
   function signinHref(extra?: string) {
     const rp = getRedirectParams()
     const base = `/auth/signin${extra ? `?${extra}` : ''}`
-    if (!rp) return base
     const sep = extra ? '&' : '?'
-    return `${base}${sep}redirect=${rp.redirect}&plan=${rp.plan}`
+    if (rp) return `${base}${sep}redirect=${rp.redirect}&plan=${rp.plan}`
+    if (backPath) return `${base}${sep}redirect=${encodeURIComponent(backPath)}`
+    return base
   }
 
   const handleGoogleSignUp = async () => {
     setLoading(true)
     const rp = getRedirectParams()
-    const postLoginPath = rp ? `/pricing?checkout=true&plan=${rp.plan}` : '/analyse'
+    const postLoginPath = rp ? `/pricing?checkout=true&plan=${rp.plan}` : backPath ?? '/analyse'
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -167,7 +173,7 @@ export default function SignUpPage() {
         Account erstellen
       </h1>
       <p className="text-neutral-500 text-center text-sm mb-8">
-        Starte jetzt kostenlos mit Finclue
+        {fromDepot ? 'Starte kostenlos mit Finclue Depot' : 'Starte jetzt kostenlos mit Finclue'}
       </p>
 
       {/* Messages */}

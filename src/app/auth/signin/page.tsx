@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { isDepotRedirect, safeRedirectPath } from '@/lib/authRedirect'
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 export default function SignInPage() {
@@ -22,12 +23,8 @@ export default function SignInPage() {
     if (redirect === 'checkout' && plan) {
       return `/pricing?checkout=true&plan=${plan}`
     }
-    // Rücksprung, z. B. vom Depot-Host. Nur relative Pfade — "//evil.com"
-    // oder "/\evil.com" wären sonst offene Weiterleitungen.
-    if (redirect && redirect.startsWith('/') && !redirect.startsWith('//') && !redirect.startsWith('/\\')) {
-      return redirect
-    }
-    return '/analyse'
+    // Rücksprung, z. B. vom Depot-Host (nur relative Pfade)
+    return safeRedirectPath(redirect) ?? '/analyse'
   }
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -74,6 +71,8 @@ export default function SignInPage() {
     }
   }
 
+  const fromDepot = isDepotRedirect(safeRedirectPath(searchParams.get('redirect')))
+
   return (
     <>
       {/* Title */}
@@ -81,7 +80,7 @@ export default function SignInPage() {
         Willkommen zurück
       </h1>
       <p className="text-neutral-500 text-center text-sm mb-8">
-        Melde dich an um fortzufahren
+        {fromDepot ? 'Melde dich an, um dein Depot bei Finclue Depot zu öffnen' : 'Melde dich an um fortzufahren'}
       </p>
 
       {/* Error Message */}
@@ -203,7 +202,8 @@ export default function SignInPage() {
             const redirect = searchParams.get('redirect')
             const plan = searchParams.get('plan')
             if (redirect === 'checkout' && plan) return `/auth/signup?redirect=${redirect}&plan=${plan}`
-            return '/auth/signup'
+            const back = safeRedirectPath(redirect)
+            return back ? `/auth/signup?redirect=${encodeURIComponent(back)}` : '/auth/signup'
           })()}
           className="text-white hover:text-neutral-300 transition-colors font-medium"
         >
