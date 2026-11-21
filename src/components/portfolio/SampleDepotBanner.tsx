@@ -46,8 +46,9 @@ export default function SampleDepotBanner({
           <p className="text-sm font-medium text-theme-primary">Das ist ein Beispieldepot</p>
           <p className="mt-1 text-[13px] leading-relaxed text-theme-muted">
             Die zehn größten Positionen aus {investor}s letztem 13F, so gekauft, als hätte man
-            {date ? ` am ${date}` : ' vor drei Jahren'} {SAMPLE_DEPOT_START_VALUE_EUR.toLocaleString('de-DE')} € investiert. Alle Kurse sind
-            echt. Schau dir in Ruhe Rendite, Durchblick und Analyse an.
+            {date ? ` am ${date}` : ' vor drei Jahren'} {SAMPLE_DEPOT_START_VALUE_EUR.toLocaleString('de-DE')} € investiert. Kurse und
+            seitdem gezahlte Dividenden (nach 15 % US-Quellensteuer) sind echt. Schau dir in Ruhe Rendite, Dividenden
+            und Analyse an.
           </p>
         </div>
       </div>

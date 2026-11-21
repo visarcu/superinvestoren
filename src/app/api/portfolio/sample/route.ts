@@ -65,17 +65,32 @@ export async function POST(request: NextRequest) {
     purchase_currency: 'EUR',
     purchase_fx_rate: p.fxRate,
   }))
-  const transactions = plan.positions.map(p => ({
-    portfolio_id: portfolio.id,
-    type: 'buy',
-    symbol: p.symbol,
-    name: p.name,
-    quantity: p.quantity,
-    price: p.priceEur,
-    total_value: Math.round(p.quantity * p.priceEur * 100) / 100,
-    date: plan.startDate,
-    notes: note,
-  }))
+  const transactions = [
+    ...plan.positions.map(p => ({
+      portfolio_id: portfolio.id,
+      type: 'buy',
+      symbol: p.symbol,
+      name: p.name,
+      quantity: p.quantity,
+      price: p.priceEur,
+      total_value: Math.round(p.quantity * p.priceEur * 100) / 100,
+      date: plan.startDate,
+      notes: note,
+    })),
+    // Seither tatsächlich gezahlte Dividenden, wie über "Dividende erfassen"
+    // gebucht (ohne Cash-Änderung)
+    ...plan.dividends.map(d => ({
+      portfolio_id: portfolio.id,
+      type: 'dividend',
+      symbol: d.symbol,
+      name: d.name,
+      quantity: d.quantity,
+      price: d.perShareEur,
+      total_value: d.totalEur,
+      date: d.date,
+      notes: `${SAMPLE_DEPOT_NOTE_PREFIX} Dividende nach 15 % US-Quellensteuer`,
+    })),
+  ]
 
   const [holdingsRes, txRes] = await Promise.all([
     supabaseAdmin.from('portfolio_holdings').insert(holdings),

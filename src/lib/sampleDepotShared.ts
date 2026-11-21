@@ -10,6 +10,13 @@ export const SAMPLE_DEPOT_BROKER_NAME = 'Finclue Beispiel'
  */
 export const SAMPLE_DEPOT_NOTE_PREFIX = 'Beispieldepot:'
 
+/**
+ * US-Quellensteuer auf die Dividenden im Beispieldepot (DBA USA-Deutschland).
+ * Mehr zieht ein deutscher Broker bei diesen Beträgen nicht ab, der Rest liegt
+ * im Sparerpauschbetrag. Die Dividenden-Ansicht zeigt Beträge netto.
+ */
+export const SAMPLE_DEPOT_DIVIDEND_WITHHOLDING = 0.15
+
 /** So viel Euro werden im Beispieldepot am Startdatum investiert */
 export const SAMPLE_DEPOT_START_VALUE_EUR = 10_000
 

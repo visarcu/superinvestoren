@@ -2,7 +2,8 @@
 // Server-only: Plan für das Beispieldepot im Workspace. Warren Buffetts zehn
 // größte Positionen aus dem letzten 13F, so gekauft, als hätte man vor drei
 // Jahren 10.000 € nach diesen Gewichten investiert. Echte Schlusskurse in USD
-// und der echte Euro-Dollar-Kurs am Kaufdatum, keine erfundenen Werte.
+// und der echte Euro-Dollar-Kurs am Kaufdatum, dazu alle seither tatsächlich
+// gezahlten Dividenden (nach 15 % US-Quellensteuer), keine erfundenen Werte.
 
 import holdingsHistory, { type Snapshot } from '@/data/holdings'
 import { investorNames, splitInvestorName } from '@/data/investorNames'
@@ -10,7 +11,7 @@ import { stocks } from '@/data/stocks'
 import { shortCompanyName } from '@/lib/displayFormat'
 import { reportQuarter } from '@/lib/investorQuarterSummary'
 import { SHOWCASE_SLUG, fetchCloses, topHoldings } from '@/lib/depotShowcase'
-import { SAMPLE_DEPOT_START_VALUE_EUR, SAMPLE_DEPOT_YEARS_BACK } from '@/lib/sampleDepotShared'
+import { SAMPLE_DEPOT_DIVIDEND_WITHHOLDING, SAMPLE_DEPOT_START_VALUE_EUR, SAMPLE_DEPOT_YEARS_BACK } from '@/lib/sampleDepotShared'
 import type { QuantSeriesPoint } from '@/lib/portfolioQuant'
 
 export interface SampleDepotPosition {
@@ -23,11 +24,57 @@ export interface SampleDepotPosition {
   fxRate: number
 }
 
+export interface SampleDepotDividend {
+  symbol: string
+  name: string
+  /** Zahltag */
+  date: string
+  quantity: number
+  /** Dividende je Aktie in EUR, nach US-Quellensteuer */
+  perShareEur: number
+  totalEur: number
+}
+
 export interface SampleDepotPlan {
   investorName: string
   periodLabel: string
   startDate: string
   positions: SampleDepotPosition[]
+  dividends: SampleDepotDividend[]
+}
+
+interface FmpDividendRecord {
+  date?: string
+  paymentDate?: string | null
+  dividend?: number | null
+  adjDividend?: number | null
+}
+
+/** Ausschüttungen je Aktie in USD (splitbereinigt wie die Kurse) */
+async function fetchDividendHistory(symbol: string): Promise<FmpDividendRecord[]> {
+  const apiKey = process.env.FMP_API_KEY
+  if (!apiKey) return []
+  try {
+    const res = await fetch(
+      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${encodeURIComponent(symbol)}?apikey=${apiKey}`,
+      { next: { revalidate: 86400 } },
+    )
+    if (!res.ok) return []
+    const data = (await res.json()) as { historical?: FmpDividendRecord[] } | Array<{ historical?: FmpDividendRecord[] }>
+    return (Array.isArray(data) ? data[0]?.historical : data.historical) ?? []
+  } catch {
+    return []
+  }
+}
+
+/** Letzter Schlusskurs am oder vor dem Datum */
+function closeOnOrBefore(series: QuantSeriesPoint[], date: string): QuantSeriesPoint | null {
+  let found: QuantSeriesPoint | null = null
+  for (const point of series) {
+    if (point.date > date) break
+    found = point
+  }
+  return found
 }
 
 /** Erster Schlusskurs am oder nach dem Datum (max. 10 Tage später, sonst null) */
@@ -83,11 +130,38 @@ export async function buildSampleDepotPlan(): Promise<SampleDepotPlan | null> {
     }
   })
 
+  // Seit dem Kauf gezahlte Dividenden: Ex-Tag nach dem Kaufdatum, Zahltag
+  // bis heute. Nach US-Quellensteuer, umgerechnet zum Euro-Dollar-Kurs am Zahltag.
+  const today = new Date().toISOString().slice(0, 10)
+  const histories = await Promise.all(positions.map(position => fetchDividendHistory(position.symbol)))
+  const dividends: SampleDepotDividend[] = []
+  positions.forEach((position, i) => {
+    for (const record of histories[i]) {
+      const perShareUsd = record.adjDividend ?? record.dividend ?? 0
+      const exDate = record.date ?? ''
+      const payDate = record.paymentDate || exDate
+      if (!(perShareUsd > 0) || !exDate || exDate <= startDate || payDate > today) continue
+      const fx = closeOnOrBefore(eurusd, payDate)
+      if (!fx || fx.value <= 0) continue
+      const perShareEur = (perShareUsd * (1 - SAMPLE_DEPOT_DIVIDEND_WITHHOLDING)) / fx.value
+      dividends.push({
+        symbol: position.symbol,
+        name: position.name,
+        date: payDate,
+        quantity: position.quantity,
+        perShareEur: Math.round(perShareEur * 10_000) / 10_000,
+        totalEur: Math.round(perShareEur * position.quantity * 100) / 100,
+      })
+    }
+  })
+  dividends.sort((a, b) => a.date.localeCompare(b.date) || a.symbol.localeCompare(b.symbol))
+
   const { q, year } = reportQuarter(latest.date)
   return {
     investorName: splitInvestorName(investorNames[SHOWCASE_SLUG] ?? SHOWCASE_SLUG).name,
     periodLabel: `Q${q} ${year}`,
     startDate,
     positions,
+    dividends,
   }
 }

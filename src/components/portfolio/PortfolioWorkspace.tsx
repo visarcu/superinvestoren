@@ -37,7 +37,7 @@ import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
 import SampleDepotBanner from '@/components/portfolio/SampleDepotBanner'
-import { SAMPLE_DEPOT_BROKER_NAME } from '@/lib/sampleDepotShared'
+import { SAMPLE_DEPOT_BROKER_NAME, SAMPLE_DEPOT_NOTE_PREFIX } from '@/lib/sampleDepotShared'
 import {
   WORKSPACE_PATH,
   assignDepotSlugs,
@@ -139,12 +139,12 @@ const PREMIUM_VIEW_MESSAGES: Partial<Record<WorkspaceView, string>> = {
 function NavButtonContent({
   item,
   isActive,
-  isPremium,
+  isLocked,
   hideIconOnPhone = false,
 }: {
   item: PortfolioNavItem
   isActive: boolean
-  isPremium: boolean
+  isLocked: boolean
   hideIconOnPhone?: boolean
 }) {
   const Icon = item.icon
@@ -152,7 +152,7 @@ function NavButtonContent({
     <>
       <Icon className={`h-4 w-4 shrink-0 ${hideIconOnPhone ? 'hidden sm:block' : ''} ${isActive ? 'text-theme-primary' : ''}`} />
       <span className="min-w-0 flex-1 truncate">{item.label}</span>
-      {!isPremium && item.premium && <LockClosedIcon className="h-3 w-3 shrink-0 text-amber-500" />}
+      {isLocked && <LockClosedIcon className="h-3 w-3 shrink-0 text-amber-500" />}
     </>
   )
 }
@@ -160,12 +160,12 @@ function NavButtonContent({
 function PortfolioNavigation({
   activeView,
   onOpenView,
-  isPremium,
+  isViewLocked,
   compact = false,
 }: {
   activeView: WorkspaceView
   onOpenView: (view: WorkspaceView) => void
-  isPremium: boolean
+  isViewLocked: (view: WorkspaceView) => boolean
   compact?: boolean
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
@@ -214,7 +214,7 @@ function PortfolioNavigation({
                 onClick={() => onOpenView(item.view)}
                 className={`${index >= PHONE_PRIMARY_COUNT ? 'hidden sm:inline-flex' : 'inline-flex'} min-h-[38px] shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] sm:px-3 font-medium transition-colors ${itemClass(item.view === activeView)}`}
               >
-                <NavButtonContent item={item} isActive={item.view === activeView} isPremium={isPremium} hideIconOnPhone />
+                <NavButtonContent item={item} isActive={item.view === activeView} isLocked={isViewLocked(item.view)} hideIconOnPhone />
               </button>
             ))}
           </div>
@@ -257,7 +257,7 @@ function PortfolioNavigation({
                           }}
                           className={`${isPhoneOnly(item) ? 'flex sm:hidden' : 'flex'} w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13px] font-medium transition-colors ${itemClass(item.view === activeView)}`}
                         >
-                          <NavButtonContent item={item} isActive={item.view === activeView} isPremium={isPremium} />
+                          <NavButtonContent item={item} isActive={item.view === activeView} isLocked={isViewLocked(item.view)} />
                         </button>
                       ))}
                     </div>
@@ -284,7 +284,7 @@ function PortfolioNavigation({
                 onClick={() => onOpenView(item.view)}
                 className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium transition-colors ${itemClass(item.view === activeView)}`}
               >
-                <NavButtonContent item={item} isActive={item.view === activeView} isPremium={isPremium} />
+                <NavButtonContent item={item} isActive={item.view === activeView} isLocked={isViewLocked(item.view)} />
               </button>
             ))}
           </div>
@@ -657,10 +657,26 @@ export default function PortfolioWorkspace() {
     router.replace(buildHref(depotId, activeView), { scroll: false })
   }
 
+  // Unverändertes Beispieldepot: nur die angelegten Käufe und Dividenden (gleiche
+  // Regel wie serverseitig in /api/portfolio-history). Dort sind die
+  // Dividenden auch ohne Premium offen, es sind öffentliche Musterdaten.
+  const isUntouchedSampleDepot =
+    !p.isAllDepotsView &&
+    p.portfolio?.broker_name === SAMPLE_DEPOT_BROKER_NAME &&
+    p.transactions.length > 0 &&
+    p.transactions.every(
+      tx => (tx.type === 'buy' || tx.type === 'dividend') && !!tx.notes?.startsWith(SAMPLE_DEPOT_NOTE_PREFIX),
+    )
+  const SAMPLE_UNLOCKED_VIEWS: WorkspaceView[] = ['dividends']
+
+  const isViewLocked = (view: WorkspaceView) =>
+    !p.isPremium &&
+    !!PREMIUM_VIEW_MESSAGES[view] &&
+    !(isUntouchedSampleDepot && SAMPLE_UNLOCKED_VIEWS.includes(view))
+
   const openView = (view: WorkspaceView) => {
-    const premiumMessage = PREMIUM_VIEW_MESSAGES[view]
-    if (premiumMessage && !p.isPremium) {
-      setPremiumFeatureMessage(premiumMessage)
+    if (isViewLocked(view)) {
+      setPremiumFeatureMessage(PREMIUM_VIEW_MESSAGES[view] ?? '')
       setShowPremiumModal(true)
       return
     }
@@ -668,7 +684,7 @@ export default function PortfolioWorkspace() {
   }
 
   // Gesperrte View per Deep-Link geöffnet (Free-User): Inhalt nicht rendern
-  const lockedViewMessage = !p.isPremium ? PREMIUM_VIEW_MESSAGES[activeView] : undefined
+  const lockedViewMessage = isViewLocked(activeView) ? PREMIUM_VIEW_MESSAGES[activeView] : undefined
 
   if (p.loading && !p.portfolio) return <WorkspaceSkeleton />
   // Noch kein Depot angelegt → gleiches Onboarding wie im Dashboard
@@ -752,7 +768,7 @@ export default function PortfolioWorkspace() {
       </header>
 
       <div className="flex w-full gap-6 px-6 lg:px-8">
-        <PortfolioNavigation activeView={activeView} onOpenView={openView} isPremium={p.isPremium} />
+        <PortfolioNavigation activeView={activeView} onOpenView={openView} isViewLocked={isViewLocked} />
 
         <main className="min-w-0 flex-1 py-5 pb-20">
       <div className="w-full">
@@ -870,7 +886,7 @@ export default function PortfolioWorkspace() {
           />
         )}
 
-        <PortfolioNavigation activeView={activeView} onOpenView={openView} isPremium={p.isPremium} compact />
+        <PortfolioNavigation activeView={activeView} onOpenView={openView} isViewLocked={isViewLocked} compact />
 
         {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
         {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (

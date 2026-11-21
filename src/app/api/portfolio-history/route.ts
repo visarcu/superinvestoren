@@ -443,7 +443,7 @@ export async function POST(request: NextRequest) {
     // Beispieldepot: Risiko-Kennzahlen und Quant-Analysen auch ohne Premium
     // (öffentliche Musterdaten, Vorgeschmack auf Premium). Nur wenn
     // ausschließlich das unveränderte Beispieldepot angefragt ist: Kennzeichen
-    // plus nur die Käufe, die /api/portfolio/sample angelegt hat. Ein eigenes
+    // plus nur die Käufe und Dividenden, die /api/portfolio/sample angelegt hat. Ein eigenes
     // Depot mit gleichem Brokernamen bleibt damit gesperrt.
     let isUntouchedSampleDepot = false
     if (
@@ -458,7 +458,12 @@ export async function POST(request: NextRequest) {
       isUntouchedSampleDepot =
         !!sampleTx &&
         sampleTx.length > 0 &&
-        sampleTx.every(tx => tx.type === 'buy' && typeof tx.notes === 'string' && tx.notes.startsWith(SAMPLE_DEPOT_NOTE_PREFIX))
+        sampleTx.every(
+          tx =>
+            (tx.type === 'buy' || tx.type === 'dividend') &&
+            typeof tx.notes === 'string' &&
+            tx.notes.startsWith(SAMPLE_DEPOT_NOTE_PREFIX),
+        )
     }
     if (isUntouchedSampleDepot) {
       // Positionen aus der Datenbank statt aus der Anfrage: sonst ließen sich
