@@ -14,6 +14,7 @@ import { getSectorFromTicker, translateSector } from '@/utils/sectorUtils'
 import { perfColor } from '@/utils/formatters'
 import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ChartPieIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface AnalysisTabProps {
   holdings: Holding[]
@@ -233,17 +234,17 @@ export default function AnalysisTab({
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Größte Position</p>
-              <p className="text-xl font-semibold text-white tabular-nums">{concentration.top1Percent.toFixed(1)}%</p>
+              <p className="text-xl font-semibold text-white tabular-nums">{formatDecimal(concentration.top1Percent, 1)}%</p>
               <p className="text-[11px] text-neutral-500 mt-1 truncate">{concentration.top1Symbol}</p>
             </div>
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Top 3</p>
-              <p className="text-xl font-semibold text-white tabular-nums">{concentration.top3Percent.toFixed(1)}%</p>
+              <p className="text-xl font-semibold text-white tabular-nums">{formatDecimal(concentration.top3Percent, 1)}%</p>
               <p className="text-[11px] text-neutral-500 mt-1">vom Wertpapier-Wert</p>
             </div>
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Top 10</p>
-              <p className="text-xl font-semibold text-white tabular-nums">{concentration.top10Percent.toFixed(1)}%</p>
+              <p className="text-xl font-semibold text-white tabular-nums">{formatDecimal(concentration.top10Percent, 1)}%</p>
               <p className="text-[11px] text-neutral-500 mt-1">vom Wertpapier-Wert</p>
             </div>
             <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] p-4">
@@ -413,7 +414,7 @@ function PerformerRow({
         {mode === 'pct' ? (
           <>
             <p className={`text-[13px] font-semibold tabular-nums ${perfColor(holding.gain_loss_percent)}`}>
-              {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(1)}%
+              {holding.gain_loss_percent >= 0 ? '+' : ''}{formatDecimal(holding.gain_loss_percent, 1)}%
             </p>
             <p className={`text-[11px] tabular-nums ${perfColor(holding.gain_loss)}`}>
               {holding.gain_loss >= 0 ? '+' : ''}{formatCurrency(holding.gain_loss)}
@@ -425,7 +426,7 @@ function PerformerRow({
               {holding.gain_loss >= 0 ? '+' : ''}{formatCurrency(holding.gain_loss)}
             </p>
             <p className={`text-[11px] tabular-nums ${perfColor(holding.gain_loss_percent)}`}>
-              {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(1)}%
+              {holding.gain_loss_percent >= 0 ? '+' : ''}{formatDecimal(holding.gain_loss_percent, 1)}%
             </p>
           </>
         )}

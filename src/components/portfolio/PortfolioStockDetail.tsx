@@ -18,6 +18,7 @@ import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outl
 import { getETFBySymbol, calculateTERSavings, calculateTERCost, formatTER } from '@/lib/etfUtils'
 import { useETFInfo } from '@/hooks/useETFInfo'
 import InvestmentCaseCard from '@/components/portfolio/InvestmentCaseCard'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface FullTransaction {
   id: string
@@ -638,7 +639,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                     <div>
                       <p className="text-[11px] text-neutral-500">Depotanteil</p>
                       <p className="text-sm font-medium text-theme-primary tabular-nums">
-                        {allocation !== null ? `${allocation.toFixed(1)} %` : '–'}
+                        {allocation !== null ? `${formatDecimal(allocation, 1)} %` : '–'}
                       </p>
                     </div>
                   </div>
@@ -664,7 +665,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                         </p>
                         <p className="mt-1 text-xs text-neutral-500 tabular-nums">
                           {formatQuantity(performance.remainingQuantity)} Stk.
-                          {allocation !== null && <> · {allocation.toFixed(1)} % Depotanteil</>}
+                          {allocation !== null && <> · {formatDecimal(allocation, 1)} % Depotanteil</>}
                         </p>
                       </>
                     )}
@@ -816,7 +817,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                       />
                     )}
                     {allocation !== null && (
-                      <DetailRow label="Depotanteil" value={`${allocation.toFixed(1)} %`} />
+                      <DetailRow label="Depotanteil" value={`${formatDecimal(allocation, 1)} %`} />
                     )}
                     {isMultiDepot && depotBreakdowns.length > 1 && (
                       <DetailRow label="Depots" value={`${depotBreakdowns.length}`} />

@@ -61,6 +61,7 @@ import {
   BanknotesIcon,
   CalculatorIcon,
   CheckIcon,
+  ChevronDownIcon,
   ChevronUpDownIcon,
   Cog6ToothIcon,
   ChartBarIcon,
@@ -78,55 +79,82 @@ import {
   ViewfinderCircleIcon,
   WalletIcon,
 } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
+import { landingFontVars } from '@/components/landing/landingFonts'
 
-const ACTIVE_VIEWS: Array<{
-  key: WorkspaceView
-  label: string
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-}> = [
-  { key: 'overview', label: 'Überblick', icon: Squares2X2Icon },
-  { key: 'assets', label: 'Vermögen', icon: WalletIcon },
-  { key: 'accounts', label: 'Konten', icon: CreditCardIcon },
-  { key: 'cashflow', label: 'Cashflow', icon: ArrowsRightLeftIcon },
-  { key: 'positions', label: 'Positionen', icon: RectangleGroupIcon },
-  { key: 'analysis', label: 'Analyse', icon: ChartPieIcon },
-  { key: 'fundamental', label: 'Fundamental', icon: CalculatorIcon },
-  { key: 'dividends', label: 'Dividenden', icon: BanknotesIcon },
-  { key: 'realized', label: 'Realisiert', icon: ChartBarIcon },
-  { key: 'transactions', label: 'Transaktionen', icon: DocumentTextIcon },
-  { key: 'ai', label: 'KI-Analyse', icon: CpuChipIcon },
-]
+/** Das Vier-Felder-Motiv aus dem Finclue-Logo, in Textfarbe (hell wie dunkel) */
+function DepotMark() {
+  return (
+    <svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" className="shrink-0">
+      <rect x="0" y="0" width="5" height="5" rx="1.2" fill="currentColor" />
+      <rect x="7" y="0" width="5" height="5" rx="1.2" fill="currentColor" opacity="0.35" />
+      <rect x="0" y="7" width="5" height="5" rx="1.2" fill="currentColor" opacity="0.35" />
+      <rect x="7" y="7" width="5" height="5" rx="1.2" fill="currentColor" />
+    </svg>
+  )
+}
 
 type PortfolioNavItem = {
   key: string
   label: string
   description: string
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-  view?: WorkspaceView
-  disabled?: boolean
+  view: WorkspaceView
+  group: 'depot' | 'wealth'
   premium?: boolean
 }
 
+// Reihenfolge = Wichtigkeit. "Depot" ist der Tracker, "Vermögen" die
+// manuell gepflegten Konten und Sachwerte drumherum.
 const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
-  { key: 'overview', view: 'overview', label: 'Übersicht', description: 'Wert, Performance, Allokation', icon: Squares2X2Icon },
-  { key: 'assets', view: 'assets', label: 'Vermögen', description: 'Depot + manuelle Vermögenswerte', icon: WalletIcon },
-  { key: 'positions', view: 'positions', label: 'Positionen', description: 'Aktien, ETFs und Renditen', icon: RectangleGroupIcon },
-  { key: 'accounts', view: 'accounts', label: 'Konten', description: 'Salden und Buchungen per Eingabe', icon: CreditCardIcon },
-  { key: 'cashflow', view: 'cashflow', label: 'Cashflow', description: 'Einnahmen und Ausgaben aus Buchungen', icon: ArrowsRightLeftIcon },
-  { key: 'dividends', view: 'dividends', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon, premium: true },
-  { key: 'realized', view: 'realized', label: 'Realisierte Gewinne', description: 'Verkäufe nach Jahren', icon: ChartBarIcon },
-  { key: 'transactions', view: 'transactions', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon, premium: true },
-  { key: 'analysis', view: 'analysis', label: 'Analyse', description: 'Struktur und Konzentration', icon: ChartPieIcon },
-  { key: 'fundamental', view: 'fundamental', label: 'Fundamental', description: 'Kennzahlen des Depots, wertgewichtet', icon: CalculatorIcon },
-  { key: 'ai', view: 'ai', label: 'KI-Analyse', description: 'Portfolio-Check', icon: CpuChipIcon, premium: true },
-  { key: 'settings', label: 'Einstellungen', description: 'Regeln, Konten, Kategorien', icon: Cog6ToothIcon, disabled: true },
+  { key: 'overview', view: 'overview', group: 'depot', label: 'Übersicht', description: 'Wert, Performance, Allokation', icon: Squares2X2Icon },
+  { key: 'positions', view: 'positions', group: 'depot', label: 'Positionen', description: 'Aktien, ETFs und Renditen', icon: RectangleGroupIcon },
+  { key: 'analysis', view: 'analysis', group: 'depot', label: 'Analyse', description: 'Risiko, Stresstests, Monte Carlo', icon: ChartPieIcon },
+  { key: 'fundamental', view: 'fundamental', group: 'depot', label: 'Fundamental', description: 'Kennzahlen des Depots, wertgewichtet', icon: CalculatorIcon },
+  { key: 'dividends', view: 'dividends', group: 'depot', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon, premium: true },
+  { key: 'transactions', view: 'transactions', group: 'depot', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon, premium: true },
+  { key: 'realized', view: 'realized', group: 'depot', label: 'Realisierte Gewinne', description: 'Verkäufe nach Jahren', icon: ChartBarIcon },
+  { key: 'ai', view: 'ai', group: 'depot', label: 'KI-Analyse', description: 'Portfolio-Check', icon: CpuChipIcon, premium: true },
+  { key: 'assets', view: 'assets', group: 'wealth', label: 'Vermögen', description: 'Depot + manuelle Vermögenswerte', icon: WalletIcon },
+  { key: 'accounts', view: 'accounts', group: 'wealth', label: 'Konten', description: 'Salden und Buchungen per Eingabe', icon: CreditCardIcon },
+  { key: 'cashflow', view: 'cashflow', group: 'wealth', label: 'Cashflow', description: 'Einnahmen und Ausgaben aus Buchungen', icon: ArrowsRightLeftIcon },
 ]
+
+const NAV_GROUPS: Array<{ key: PortfolioNavItem['group']; label: string }> = [
+  { key: 'depot', label: 'Depot' },
+  { key: 'wealth', label: 'Vermögen' },
+]
+
+/** Direkt sichtbar unter lg, der Rest steckt unter "Mehr". Auf dem Handy nur die ersten drei. */
+const MOBILE_PRIMARY_VIEWS: WorkspaceView[] = ['overview', 'positions', 'analysis', 'dividends', 'transactions']
+const PHONE_PRIMARY_COUNT = 3
 
 // Premium-Gating: gleiche Views wie die gesperrten Dashboard-Tabs
 const PREMIUM_VIEW_MESSAGES: Partial<Record<WorkspaceView, string>> = {
   dividends: 'Dividenden-Übersicht ist ein Premium-Feature. Behalte alle Dividendenzahlungen im Blick.',
   transactions: 'Portfolio-Historie ist ein Premium-Feature. Verfolge alle deine Transaktionen.',
   ai: 'KI-Portfolio-Analyse ist ein Premium-Feature. Lass dein Portfolio von unserer KI analysieren.',
+}
+
+function NavButtonContent({
+  item,
+  isActive,
+  isPremium,
+  hideIconOnPhone = false,
+}: {
+  item: PortfolioNavItem
+  isActive: boolean
+  isPremium: boolean
+  hideIconOnPhone?: boolean
+}) {
+  const Icon = item.icon
+  return (
+    <>
+      <Icon className={`h-4 w-4 shrink-0 ${hideIconOnPhone ? 'hidden sm:block' : ''} ${isActive ? 'text-theme-primary' : ''}`} />
+      <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      {!isPremium && item.premium && <LockClosedIcon className="h-3 w-3 shrink-0 text-amber-500" />}
+    </>
+  )
 }
 
 function PortfolioNavigation({
@@ -140,33 +168,104 @@ function PortfolioNavigation({
   isPremium: boolean
   compact?: boolean
 }) {
+  const [moreOpen, setMoreOpen] = useState(false)
+  const moreRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!moreOpen) return
+    const handlePointer = (event: MouseEvent) => {
+      if (moreRef.current && !moreRef.current.contains(event.target as Node)) setMoreOpen(false)
+    }
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMoreOpen(false)
+    }
+    document.addEventListener('mousedown', handlePointer)
+    document.addEventListener('keydown', handleKey)
+    return () => {
+      document.removeEventListener('mousedown', handlePointer)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [moreOpen])
+
+  const itemClass = (isActive: boolean) =>
+    isActive
+      ? 'bg-white/[0.07] text-theme-primary'
+      : 'text-theme-secondary hover:bg-white/[0.04] hover:text-theme-primary'
+
   if (compact) {
+    const primary = MOBILE_PRIMARY_VIEWS
+      .map(view => PORTFOLIO_NAV_ITEMS.find(item => item.view === view))
+      .filter((item): item is PortfolioNavItem => !!item)
+    // Auf dem Handy wandern die hinteren Hauptreiter mit ins "Mehr"-Menü
+    const phoneOnlyMore = primary.slice(PHONE_PRIMARY_COUNT)
+    const more = [...phoneOnlyMore, ...PORTFOLIO_NAV_ITEMS.filter(item => !MOBILE_PRIMARY_VIEWS.includes(item.view))]
+    const isPhoneOnly = (item: PortfolioNavItem) => phoneOnlyMore.includes(item)
+    const activeMore = more.find(item => item.view === activeView)
+    const activeMoreIsPhoneOnly = !!activeMore && isPhoneOnly(activeMore)
+
     return (
       <nav className="sticky top-14 z-30 mb-4 rounded-xl border border-theme bg-theme-card p-1 lg:hidden">
-        <div className="flex gap-0.5 overflow-x-auto">
-          {PORTFOLIO_NAV_ITEMS.map(item => {
-            const Icon = item.icon
-            const isActive = item.view === activeView
-            return (
+        <div className="flex items-center gap-0.5">
+          <div className="flex min-w-0 flex-1 gap-0.5 overflow-x-auto">
+            {primary.map((item, index) => (
               <button
                 key={item.key}
                 type="button"
-                onClick={() => item.view && onOpenView(item.view)}
-                disabled={item.disabled || !item.view}
-                className={`inline-flex min-h-[38px] shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors ${
-                  isActive
-                    ? 'bg-white/[0.06] text-white'
-                    : item.disabled
-                      ? 'cursor-not-allowed text-neutral-600'
-                      : 'text-neutral-400 hover:bg-white/[0.04] hover:text-white'
-                }`}
+                onClick={() => onOpenView(item.view)}
+                className={`${index >= PHONE_PRIMARY_COUNT ? 'hidden sm:inline-flex' : 'inline-flex'} min-h-[38px] shrink-0 items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[13px] sm:px-3 font-medium transition-colors ${itemClass(item.view === activeView)}`}
               >
-                <Icon className={`h-4 w-4 ${isActive ? 'text-teal-300' : ''}`} />
-                {item.label}
-                {!isPremium && item.premium && <LockClosedIcon className="h-3 w-3 text-amber-500" />}
+                <NavButtonContent item={item} isActive={item.view === activeView} isPremium={isPremium} hideIconOnPhone />
               </button>
-            )
-          })}
+            ))}
+          </div>
+          <div ref={moreRef} className="relative shrink-0">
+            <button
+              type="button"
+              onClick={() => setMoreOpen(open => !open)}
+              aria-expanded={moreOpen}
+              className={`inline-flex min-h-[38px] max-w-[9rem] items-center gap-1 rounded-lg px-2.5 py-1.5 text-[13px] font-medium sm:px-3 transition-colors ${itemClass(!!activeMore)} ${activeMoreIsPhoneOnly ? 'sm:bg-transparent sm:text-theme-secondary' : ''}`}
+            >
+              {activeMore ? (
+                activeMoreIsPhoneOnly ? (
+                  <>
+                    <span className="truncate sm:hidden">{activeMore.label}</span>
+                    <span className="hidden sm:inline">Mehr</span>
+                  </>
+                ) : (
+                  <span className="truncate">{activeMore.label}</span>
+                )
+              ) : (
+                'Mehr'
+              )}
+              <ChevronDownIcon className={`h-3.5 w-3.5 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {moreOpen && (
+              <div className="absolute right-0 top-full z-40 mt-1.5 w-60 rounded-xl border border-theme bg-theme-card p-1.5 shadow-2xl">
+                {NAV_GROUPS.map(group => {
+                  const items = more.filter(item => item.group === group.key)
+                  if (items.length === 0) return null
+                  return (
+                    <div key={group.key} className="py-1">
+                      <p className="px-2.5 pb-1 text-[10px] font-medium uppercase tracking-[0.14em] text-theme-muted">{group.label}</p>
+                      {items.map(item => (
+                        <button
+                          key={item.key}
+                          type="button"
+                          onClick={() => {
+                            setMoreOpen(false)
+                            onOpenView(item.view)
+                          }}
+                          className={`${isPhoneOnly(item) ? 'flex sm:hidden' : 'flex'} w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[13px] font-medium transition-colors ${itemClass(item.view === activeView)}`}
+                        >
+                          <NavButtonContent item={item} isActive={item.view === activeView} isPremium={isPremium} />
+                        </button>
+                      ))}
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </nav>
     )
@@ -174,38 +273,23 @@ function PortfolioNavigation({
 
   return (
     <aside className="sticky top-[4.5rem] hidden max-h-[calc(100vh-5rem)] w-[220px] shrink-0 self-start overflow-y-auto py-2 lg:block">
-      <p className="mb-2 px-3 text-[11px] font-medium uppercase tracking-wider text-neutral-500">Portfolio</p>
-
-      <div className="space-y-0.5">
-        {PORTFOLIO_NAV_ITEMS.map(item => {
-          const Icon = item.icon
-          const isActive = item.view === activeView
-          return (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() => item.view && onOpenView(item.view)}
-              disabled={item.disabled || !item.view}
-              className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium transition-colors ${
-                isActive
-                  ? 'bg-white/[0.06] text-white'
-                : item.disabled
-                    ? 'cursor-not-allowed text-neutral-600'
-                    : 'text-neutral-400 hover:bg-white/[0.04] hover:text-white'
-              }`}
-            >
-              <Icon className={`h-4 w-4 shrink-0 ${isActive ? 'text-teal-300' : ''}`} />
-              <span className="min-w-0 flex-1 truncate">{item.label}</span>
-              {!isPremium && item.premium && <LockClosedIcon className="h-3 w-3 shrink-0 text-amber-500" />}
-              {item.disabled && (
-                <span className="rounded border border-white/[0.08] bg-white/[0.04] px-1.5 py-0.5 text-[10px] text-neutral-500">
-                  Bald
-                </span>
-              )}
-            </button>
-          )
-        })}
-      </div>
+      {NAV_GROUPS.map((group, index) => (
+        <div key={group.key} className={index > 0 ? 'mt-5' : ''}>
+          <p className="mb-1.5 px-3 text-[10px] font-medium uppercase tracking-[0.14em] text-theme-muted">{group.label}</p>
+          <div className="space-y-0.5">
+            {PORTFOLIO_NAV_ITEMS.filter(item => item.group === group.key).map(item => (
+              <button
+                key={item.key}
+                type="button"
+                onClick={() => onOpenView(item.view)}
+                className={`flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] font-medium transition-colors ${itemClass(item.view === activeView)}`}
+              >
+                <NavButtonContent item={item} isActive={item.view === activeView} isPremium={isPremium} />
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
     </aside>
   )
 }
@@ -569,11 +653,6 @@ export default function PortfolioWorkspace() {
     [p.holdings]
   )
 
-  const topHolding = useMemo(
-    () => [...p.holdings].sort((a, b) => b.value - a.value)[0],
-    [p.holdings]
-  )
-
   const openDepot = (depotId: string) => {
     router.replace(buildHref(depotId, activeView), { scroll: false })
   }
@@ -597,7 +676,7 @@ export default function PortfolioWorkspace() {
   const isSwitchingDepot = p.loading && !!p.portfolio
 
   return (
-    <div className="min-h-screen bg-theme-primary text-theme-primary">
+    <div className={`depot-surface ${landingFontVars} min-h-screen bg-theme-primary text-theme-primary`}>
       <header className="sticky top-0 z-50 border-b border-theme bg-theme-primary">
         <div className="flex h-14 w-full items-center justify-between gap-4 px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
@@ -610,7 +689,10 @@ export default function PortfolioWorkspace() {
             </Link>
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold leading-tight text-theme-primary">Portfolio</p>
+                <p className="flex items-center gap-1.5 text-sm font-semibold leading-tight text-theme-primary">
+                  <DepotMark />
+                  Depot
+                </p>
                 {isSwitchingDepot && (
                   <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-medium text-neutral-400">
                     Lädt
@@ -714,11 +796,8 @@ export default function PortfolioWorkspace() {
                 </span>
               </div>
               <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="text-2xl font-semibold text-theme-primary tabular-nums">
+                <span className="depot-num text-[30px] font-semibold leading-none text-theme-primary">
                   {p.formatCurrency(p.totalValue)}
-                </span>
-                <span className={`text-sm font-medium tabular-nums ${perfColor(p.totalReturn)}`}>
-                  {p.totalReturn >= 0 ? '+' : ''}{p.formatCurrency(p.totalReturn)} · {p.formatPercentage(p.totalReturnPercent)}
                 </span>
                 <span className="text-sm text-neutral-500">
                   Heute{' '}
@@ -730,22 +809,6 @@ export default function PortfolioWorkspace() {
             </div>
 
             <div className="flex items-center gap-6">
-              <div>
-                <p className="text-[11px] text-neutral-500">Wertpapiere</p>
-                <p className="text-sm font-medium text-theme-primary tabular-nums">{p.formatCurrency(stockValue)}</p>
-              </div>
-              <div>
-                <p className="text-[11px] text-neutral-500">Cash</p>
-                <p className={`text-sm font-medium tabular-nums ${p.cashPosition < 0 ? 'text-red-400' : 'text-theme-primary'}`}>
-                  {p.formatCurrency(p.cashPosition)}
-                </p>
-              </div>
-              <div>
-                <p className="text-[11px] text-neutral-500">Top Position</p>
-                <p className="text-sm font-medium text-theme-primary tabular-nums">
-                  {topHolding ? topHolding.symbol : '–'}
-                </p>
-              </div>
               {p.exchangeRate && (
                 <button
                   type="button"
@@ -753,7 +816,7 @@ export default function PortfolioWorkspace() {
                   className="hidden items-center gap-1 text-[11px] text-neutral-500 transition-colors hover:text-white sm:inline-flex"
                   title="Wechselkurs aktualisieren"
                 >
-                  USD/EUR {p.exchangeRate.toFixed(4)}
+                  USD/EUR {formatDecimal(p.exchangeRate, 4)}
                   <ArrowPathIcon className="h-3 w-3" />
                 </button>
               )}
@@ -837,6 +900,7 @@ export default function PortfolioWorkspace() {
               <div className="space-y-4">
                 <QuickStats
                   totalValue={p.totalValue}
+                  securitiesValue={stockValue}
                   cashPosition={p.cashPosition}
                   brokerCredit={p.portfolio?.broker_credit || 0}
                   totalGainLoss={p.totalGainLoss}
@@ -856,18 +920,18 @@ export default function PortfolioWorkspace() {
                 />
 
                 {/* Durchblick-Insights: die wichtigsten Look-Through-Erkenntnisse
-                    direkt im Überblick — Details im Analyse-Tab */}
+                    direkt im Überblick, Details im Analyse-Tab */}
                 {(lookthrough.result?.insights.length ?? 0) > 0 && (
                   <section className="bg-theme-card border border-theme rounded-xl p-5">
                     <div className="mb-3 flex items-center justify-between">
                       <h3 className="flex items-center gap-2 text-sm font-medium text-theme-primary">
-                        <ViewfinderCircleIcon className="h-4 w-4 text-teal-300" />
+                        <ViewfinderCircleIcon className="h-4 w-4 text-theme-muted" />
                         Durchblick
                       </h3>
                       <button
                         type="button"
                         onClick={() => openView('analysis')}
-                        className="rounded-lg px-2 py-1 text-xs font-medium text-teal-300 transition-colors hover:bg-teal-400/10 hover:text-white"
+                        className="rounded-lg px-2 py-1 text-xs font-medium text-theme-secondary transition-colors hover:bg-white/[0.05] hover:text-theme-primary"
                       >
                         Zur Analyse →
                       </button>
@@ -877,14 +941,11 @@ export default function PortfolioWorkspace() {
                         const isWarn = insight.severity === 'warn'
                         const Icon = isWarn ? ExclamationTriangleIcon : LightBulbIcon
                         return (
-                          <div
-                            key={i}
-                            className={`rounded-xl border p-3.5 ${
-                              isWarn ? 'border-amber-500/20 bg-amber-500/[0.06]' : 'border-white/[0.06] bg-white/[0.03]'
-                            }`}
-                          >
+                          // Ruhige Karten: nur das Symbol zeigt, ob es ein Hinweis
+                          // oder eine Beobachtung ist (kein großflächiges Warn-Gelb)
+                          <div key={i} className="rounded-xl border border-white/[0.06] bg-white/[0.025] p-3.5">
                             <div className="flex items-start gap-2.5">
-                              <Icon className={`mt-0.5 h-4 w-4 flex-shrink-0 ${isWarn ? 'text-amber-400' : 'text-teal-300'}`} />
+                              <Icon className={`mt-0.5 h-4 w-4 flex-shrink-0 ${isWarn ? 'text-amber-400/90' : 'text-theme-muted'}`} />
                               <div className="min-w-0">
                                 <p className="text-[13px] font-semibold leading-snug text-theme-primary">{insight.title}</p>
                                 <p className="mt-1 text-[12px] leading-relaxed text-theme-muted">{insight.text}</p>

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 import { perfColor } from '@/utils/formatters'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface Transaction {
   id: string
@@ -222,7 +223,7 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
                   {pos.realizedGain >= 0 ? '+' : ''}{formatCurrency(pos.realizedGain)}
                 </p>
                 <span className={`text-xs ${perfColor(pos.realizedGainPercent)}`}>
-                  {pos.realizedGainPercent >= 0 ? '+' : ''}{pos.realizedGainPercent.toFixed(1)}%
+                  {pos.realizedGainPercent >= 0 ? '+' : ''}{formatDecimal(pos.realizedGainPercent, 1)}%
                   {pos.dividends > 0 && (
                     <span className="text-neutral-600 ml-1">+ {formatCurrency(pos.dividends)} Div.</span>
                   )}

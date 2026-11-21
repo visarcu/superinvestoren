@@ -24,6 +24,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 import AllocationBarList, { ALLOCATION_PALETTE } from '@/components/portfolio/AllocationBarList'
+import { formatDecimal } from '@/lib/displayFormat'
 
 const STATUS_LABEL: Record<EtfCoverageInfo['status'], { text: string; className: string }> = {
   exact: { text: 'zerlegt', className: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
@@ -210,7 +211,7 @@ export default function LookthroughSection({
           </h3>
           <p className="text-[11px] text-neutral-500 mt-0.5">
             {decomposedEtfs.length} ETF{decomposedEtfs.length !== 1 ? 's' : ''} in Einzelaktien zerlegt · Analyse deckt{' '}
-            {result.coveragePercent.toFixed(0)}% des Depotwerts ab
+            {formatDecimal(result.coveragePercent, 0)}% des Depotwerts ab
           </p>
         </div>
 
@@ -251,7 +252,7 @@ export default function LookthroughSection({
                       </span>
                     )}
                     <div className="text-right">
-                      <p className="text-[13px] font-semibold text-white tabular-nums">{exposure.percent.toFixed(1)}%</p>
+                      <p className="text-[13px] font-semibold text-white tabular-nums">{formatDecimal(exposure.percent, 1)}%</p>
                       <p className="text-[11px] text-neutral-500 tabular-nums">{formatCurrency(exposure.value)}</p>
                     </div>
                     {hasBreakdown && (
@@ -322,14 +323,14 @@ export default function LookthroughSection({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <SliceCard
             title="Größenklassen (Size)"
-            subtitle={`Nach Market Cap · deckt ${result.sizeExposure.coveragePercent.toFixed(0)}% des analysierten Werts ab`}
+            subtitle={`Nach Market Cap · deckt ${formatDecimal(result.sizeExposure.coveragePercent, 0)}% des analysierten Werts ab`}
             items={result.sizeExposure.slices}
             icon={<ChartPieIcon className="w-3.5 h-3.5 text-neutral-400" />}
           />
           <div className="bg-theme-card border border-theme rounded-xl p-5 flex flex-col justify-center">
             <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Gewichtetes KGV</p>
             <p className="text-2xl font-semibold text-white tabular-nums">
-              {result.sizeExposure.weightedPE ? result.sizeExposure.weightedPE.toFixed(1) : '—'}
+              {result.sizeExposure.weightedPE ? formatDecimal(result.sizeExposure.weightedPE, 1) : '—'}
             </p>
             <p className="text-[11px] text-neutral-500 mt-2 leading-relaxed">
               Harmonisches Mittel über deine effektiven Positionen (Direktbestände + ETF-Anteile).
@@ -363,7 +364,7 @@ export default function LookthroughSection({
                       pair.overlapPercent >= 60 ? 'text-red-400' : pair.overlapPercent >= 30 ? 'text-amber-400' : 'text-neutral-200'
                     }`}
                   >
-                    {pair.overlapPercent.toFixed(0)}%
+                    {formatDecimal(pair.overlapPercent, 0)}%
                   </span>
                 </div>
                 <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden mb-1.5">

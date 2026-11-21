@@ -7,6 +7,7 @@ import React, { useState, useMemo } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
 import Logo from '@/components/Logo'
 import type { Holding } from '@/hooks/usePortfolio'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface PortfolioAllocationProps {
   holdings: Holding[]
@@ -194,7 +195,7 @@ export default function PortfolioAllocation({
                   {formatCurrency(hovered.value)}
                 </p>
                 <p className="text-[11px] text-theme-secondary tabular-nums">
-                  {hovered.percent.toFixed(1)}%
+                  {formatDecimal(hovered.percent, 1)}%
                 </p>
               </>
             ) : (
@@ -242,7 +243,7 @@ export default function PortfolioAllocation({
               </div>
               <div className="text-right flex-shrink-0 ml-3">
                 <p className="text-[12px] font-medium text-theme-primary tabular-nums">
-                  {s.percent.toFixed(1)}%
+                  {formatDecimal(s.percent, 1)}%
                 </p>
                 <p className="text-[10px] text-theme-muted tabular-nums">
                   {formatCurrency(s.value)}

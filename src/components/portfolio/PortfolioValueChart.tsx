@@ -16,6 +16,7 @@ import {
 import { ArrowPathIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { perfColor } from '@/utils/formatters'
 import { supabase } from '@/lib/supabaseClient'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface PortfolioValueChartProps {
   /** Einzel-Depot-ID. Bei "Alle Depots"-Ansicht ignoriert — dann portfolioIds nutzen. */
@@ -458,28 +459,28 @@ export default function PortfolioValueChart({
             <div className="w-3 h-0.5 bg-emerald-400 rounded-full" />
             <span className="text-xs text-theme-secondary">Portfolio (TWR)</span>
             <span className={`text-xs font-medium ${perfColor(lastPerf.portfolioPerformance)}`}>
-              {lastPerf.portfolioPerformance >= 0 ? '+' : ''}{lastPerf.portfolioPerformance.toFixed(2)}%
+              {lastPerf.portfolioPerformance >= 0 ? '+' : ''}{formatDecimal(lastPerf.portfolioPerformance, 2)}%
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-blue-400 rounded-full" />
             <span className="text-xs text-theme-secondary">S&P 500</span>
             <span className={`text-xs font-medium ${lastPerf.spyPerformance >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
-              {lastPerf.spyPerformance >= 0 ? '+' : ''}{lastPerf.spyPerformance.toFixed(2)}%
+              {lastPerf.spyPerformance >= 0 ? '+' : ''}{formatDecimal(lastPerf.spyPerformance, 2)}%
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-violet-400 rounded-full" />
             <span className="text-xs text-theme-secondary">MSCI World</span>
             <span className={`text-xs font-medium ${lastPerf.msciWorldPerformance >= 0 ? 'text-violet-400' : 'text-red-400'}`}>
-              {lastPerf.msciWorldPerformance >= 0 ? '+' : ''}{lastPerf.msciWorldPerformance.toFixed(2)}%
+              {lastPerf.msciWorldPerformance >= 0 ? '+' : ''}{formatDecimal(lastPerf.msciWorldPerformance, 2)}%
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-amber-400 rounded-full" />
             <span className="text-xs text-theme-secondary">FTSE All-World</span>
             <span className={`text-xs font-medium ${lastPerf.ftseAllWorldPerformance >= 0 ? 'text-amber-400' : 'text-red-400'}`}>
-              {lastPerf.ftseAllWorldPerformance >= 0 ? '+' : ''}{lastPerf.ftseAllWorldPerformance.toFixed(2)}%
+              {lastPerf.ftseAllWorldPerformance >= 0 ? '+' : ''}{formatDecimal(lastPerf.ftseAllWorldPerformance, 2)}%
             </span>
           </div>
           <span className="text-[11px] text-theme-muted">Benchmarks in EUR · Total Return</span>
@@ -515,7 +516,7 @@ export default function PortfolioValueChart({
                   tickLine={false}
                   axisLine={false}
                   tickFormatter={(v) => {
-                    if (Math.abs(v) >= 1000000) return `${(v / 1000000).toFixed(1)}M`
+                    if (Math.abs(v) >= 1000000) return `${formatDecimal(v / 1000000, 1)} Mio.`
                     if (Math.abs(v) >= 1000) return `${(v / 1000).toFixed(0)}k`
                     return `${v.toFixed(0)}`
                   }}
@@ -573,7 +574,7 @@ export default function PortfolioValueChart({
                   tick={{ fill: '#737373', fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(v) => `${v.toFixed(0)}%`}
+                  tickFormatter={(v) => `${formatDecimal(v, 0)}%`}
                   width={45}
                 />
                 <ReferenceLine y={0} stroke="var(--color-border)" strokeWidth={1} />
@@ -592,7 +593,7 @@ export default function PortfolioValueChart({
                       msciWorldPerformance: 'MSCI World',
                       ftseAllWorldPerformance: 'FTSE All-World',
                     }
-                    return [`${value >= 0 ? '+' : ''}${value.toFixed(2)}%`, labels[name] || name]
+                    return [`${value >= 0 ? '+' : ''}${formatDecimal(value, 2)}%`, labels[name] || name]
                   }}
                 />
                 <Line
@@ -862,15 +863,15 @@ export default function PortfolioValueChart({
                       // wie beim Benchmark-Vergleich: der Exponent >1 bläst
                       // jede Differenz auf und suggeriert Scheinpräzision.
                       risk.portfolio.periodDays < 365
-                        ? ['Rendite gesamt', (m: RiskMeasures) => `${m.totalReturnPct >= 0 ? '+' : ''}${m.totalReturnPct.toFixed(1)}%`]
-                        : ['Rendite p.a.', (m: RiskMeasures) => `${m.annualizedReturnPct >= 0 ? '+' : ''}${m.annualizedReturnPct.toFixed(1)}%`],
-                      ['Sharpe Ratio', (m: RiskMeasures) => m.sharpe !== null ? m.sharpe.toFixed(2) : '—'],
-                      ['Sortino Ratio', (m: RiskMeasures) => m.sortino !== null ? m.sortino.toFixed(2) : '—'],
-                      ['Volatilität p.a.', (m: RiskMeasures) => `${m.volatilityPct.toFixed(1)}%`],
-                      ['Downside Deviation', (m: RiskMeasures) => `${m.downsideDeviationPct.toFixed(1)}%`],
-                      ['Max Drawdown', (m: RiskMeasures) => `${m.maxDrawdownPct.toFixed(1)}%`],
+                        ? ['Rendite gesamt', (m: RiskMeasures) => `${m.totalReturnPct >= 0 ? '+' : ''}${formatDecimal(m.totalReturnPct, 1)}%`]
+                        : ['Rendite p.a.', (m: RiskMeasures) => `${m.annualizedReturnPct >= 0 ? '+' : ''}${formatDecimal(m.annualizedReturnPct, 1)}%`],
+                      ['Sharpe Ratio', (m: RiskMeasures) => m.sharpe !== null ? formatDecimal(m.sharpe, 2) : '—'],
+                      ['Sortino Ratio', (m: RiskMeasures) => m.sortino !== null ? formatDecimal(m.sortino, 2) : '—'],
+                      ['Volatilität p.a.', (m: RiskMeasures) => `${formatDecimal(m.volatilityPct, 1)}%`],
+                      ['Downside Deviation', (m: RiskMeasures) => `${formatDecimal(m.downsideDeviationPct, 1)}%`],
+                      ['Max Drawdown', (m: RiskMeasures) => `${formatDecimal(m.maxDrawdownPct, 1)}%`],
                       ['Recovery', (m: RiskMeasures) => m.recoveryMonths !== null ? `${m.recoveryMonths} Monat${m.recoveryMonths !== 1 ? 'e' : ''}` : 'läuft noch'],
-                      ['Calmar Ratio', (m: RiskMeasures) => m.calmar !== null ? m.calmar.toFixed(2) : '—'],
+                      ['Calmar Ratio', (m: RiskMeasures) => m.calmar !== null ? formatDecimal(m.calmar, 2) : '—'],
                       ['Positive Monate', (m: RiskMeasures) => {
                         const total = m.positiveMonths + m.negativeMonths
                         return total > 0 ? `${m.positiveMonths}/${total} (${Math.round((m.positiveMonths / total) * 100)}%)` : '—'
@@ -887,8 +888,8 @@ export default function PortfolioValueChart({
                     {risk.portfolio.beta !== null && (
                       <tr>
                         <td className="py-1.5 text-theme-secondary">Beta vs. FTSE All-World</td>
-                        <td className="py-1.5 text-right font-medium text-theme-primary">{risk.portfolio.beta.toFixed(2)}</td>
-                        <td className="py-1.5 text-right text-theme-secondary">1.00</td>
+                        <td className="py-1.5 text-right font-medium text-theme-primary">{formatDecimal(risk.portfolio.beta, 2)}</td>
+                        <td className="py-1.5 text-right text-theme-secondary">1,00</td>
                       </tr>
                     )}
                   </tbody>
@@ -899,7 +900,7 @@ export default function PortfolioValueChart({
                 {new Date(risk.portfolio.maxDrawdownPeak).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })} bis{' '}
                 {new Date(risk.portfolio.maxDrawdownValley).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })}
                 {risk.riskFreePct !== null && (
-                  <> · Risikofreier Zins: {risk.riskFreePct.toFixed(1)}% p.a. (€STR via XEON)</>
+                  <> · Risikofreier Zins: {formatDecimal(risk.riskFreePct, 1)}% p.a. (€STR via XEON)</>
                 )}
                 {' '}· Keine Anlageberatung.
               </p>

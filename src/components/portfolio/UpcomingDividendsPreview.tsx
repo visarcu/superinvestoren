@@ -8,6 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { BanknotesIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 import Link from 'next/link'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface DividendEvent {
   ticker: string
@@ -221,7 +222,7 @@ export default function UpcomingDividendsPreview({
                   <p className="text-[11px] text-neutral-500 truncate">
                     {perShareEur !== null
                       ? `${formatCurrency(perShareEur)}/Stk`
-                      : `${div.dividend.toFixed(2)} ${div.currency || ''}/Stk`.trim()}
+                      : `${formatDecimal(div.dividend, 2)} ${div.currency || ''}/Stk`.trim()}
                     {frequency ? ` · ${frequency}` : ''}
                   </p>
                 </div>

@@ -16,6 +16,7 @@ import {
   BarChart,
 } from 'recharts'
 import type { Transaction } from '@/hooks/usePortfolio'
+import { formatDecimal } from '@/lib/displayFormat'
 
 type ChartView = 'monthly' | 'monthlyYear' | 'cumulative' | 'cumulativeYear' | 'breakdown'
 type TimeRange = '12M' | '24M' | 'MAX'
@@ -522,7 +523,7 @@ export default function DividendIncomeChart({
                       </div>
                       <div className="flex min-w-[160px] justify-between gap-5">
                         <span className="text-neutral-400">Anteil</span>
-                        <span className="tabular-nums text-neutral-100">{item.percent.toFixed(1)}%</span>
+                        <span className="tabular-nums text-neutral-100">{formatDecimal(item.percent, 1)}%</span>
                       </div>
                     </div>
                   )

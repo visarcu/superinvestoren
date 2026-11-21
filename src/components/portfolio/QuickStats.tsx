@@ -4,9 +4,12 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { perfColor } from '@/utils/formatters'
 import { ChevronRightIcon, InformationCircleIcon } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface QuickStatsProps {
   totalValue: number
+  /** Wert der Wertpapiere ohne Cash */
+  securitiesValue: number
   cashPosition: number
   brokerCredit?: number
   totalGainLoss: number
@@ -68,6 +71,7 @@ function InfoTooltip({ title, children }: { title: string; children: React.React
 
 export default function QuickStats({
   totalValue,
+  securitiesValue,
   cashPosition,
   brokerCredit = 0,
   totalGainLoss,
@@ -93,12 +97,12 @@ export default function QuickStats({
 
   return (
     <div className={`grid gap-4 ${hasCredit ? 'grid-cols-2 lg:grid-cols-5' : 'grid-cols-2 lg:grid-cols-4'}`}>
-      {/* Gesamtwert */}
+      {/* Wertpapiere (der Gesamtwert steht groß im Kopf darüber) */}
       <div className={statCardClass}>
-        <p className="text-xs text-neutral-500 mb-1">Gesamtwert</p>
-        <p className="text-lg font-semibold text-neutral-900 dark:text-white">{formatCurrency(totalValue)}</p>
+        <p className="text-xs text-neutral-500 mb-1">Wertpapiere</p>
+        <p className="depot-num text-lg font-semibold text-neutral-900 dark:text-white">{formatCurrency(securitiesValue)}</p>
         <p className="text-xs text-neutral-500 mt-1">
-          {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''} + Cash
+          {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''}
         </p>
         {hasCredit && (
           <p className="text-xs text-amber-500/80 mt-0.5">
@@ -115,9 +119,9 @@ export default function QuickStats({
         <p className="text-xs text-neutral-500 mb-1">
           Cash {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
         </p>
-        <p className={`text-lg font-semibold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
+        <p className={`depot-num text-lg font-semibold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
         <p className="text-xs text-neutral-500 mt-1">
-          {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% Cash-Quote
+          {formatDecimal(totalValue > 0 ? (cashPosition / totalValue) * 100 : 0, 1)}% Cash-Quote
         </p>
       </div>
 
@@ -130,9 +134,9 @@ export default function QuickStats({
           <p className="text-xs text-neutral-500 mb-1">
             Wertpapierkredit {onCreditClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
           </p>
-          <p className="text-lg font-semibold text-red-500 dark:text-red-400">{formatCurrency(brokerCredit)}</p>
+          <p className="depot-num text-lg font-semibold text-red-500 dark:text-red-400">{formatCurrency(brokerCredit)}</p>
           <p className="text-xs text-neutral-500 mt-1">
-            {totalValue > 0 ? Math.abs((brokerCredit / totalValue) * 100).toFixed(1) : '0,0'}% Leverage-Quote
+            {formatDecimal(totalValue > 0 ? Math.abs((brokerCredit / totalValue) * 100) : 0, 1)}% Leverage-Quote
           </p>
         </div>
       )}
@@ -165,7 +169,7 @@ export default function QuickStats({
             </p>
           </InfoTooltip>
         </p>
-        <p className={`text-lg font-semibold ${perfColor(totalReturn)}`}>
+        <p className={`depot-num text-lg font-semibold ${perfColor(totalReturn)}`}>
           {totalReturn >= 0 ? '+' : ''}{formatCurrency(totalReturn)}
         </p>
         <p className={`text-xs mt-1 ${perfColor(totalReturnPercent, 'muted')}`}>
@@ -249,14 +253,14 @@ export default function QuickStats({
         </p>
         {xirrPercent !== null ? (
           <>
-            <p className={`text-lg font-semibold ${perfColor(xirrPercent)}`}>
-              {xirrPercent >= 0 ? '+' : ''}{xirrPercent.toFixed(2)}%
+            <p className={`depot-num text-lg font-semibold ${perfColor(xirrPercent)}`}>
+              {formatPercentage(xirrPercent)}
             </p>
             <p className="text-xs text-neutral-500 mt-1">annualisiert (p.a.)</p>
           </>
         ) : (
           <>
-            <p className="text-lg font-semibold text-neutral-400 dark:text-neutral-600">–</p>
+            <p className="depot-num text-lg font-semibold text-neutral-400 dark:text-neutral-600">–</p>
             <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-1">min. 30 Tage Haltedauer</p>
           </>
         )}

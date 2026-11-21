@@ -14,6 +14,7 @@ import {
   NewspaperIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface PositionAnalysis {
   ticker: string
@@ -258,7 +259,7 @@ export default function AIAnalyseTab({ holdings, portfolioId }: AIAnalyseTabProp
                       <span className="font-medium text-white text-sm">{pos.ticker}</span>
                       {holding && (
                         <p className="text-xs text-neutral-500">
-                          {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(1)}%
+                          {holding.gain_loss_percent >= 0 ? '+' : ''}{formatDecimal(holding.gain_loss_percent, 1)}%
                         </p>
                       )}
                     </div>

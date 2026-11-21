@@ -7,6 +7,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { formatDecimal } from '@/lib/displayFormat'
 
 // Zurückhaltende Terminal-Palette statt Regenbogen: Teal-Abstufungen als
 // Basis, wenige Akzente (Blau/Violett/Amber), Rest neutral — die hinteren
@@ -50,7 +51,7 @@ export default function AllocationBarList({ items }: { items: AllocationItem[] }
               backgroundColor: item.color,
               opacity: hovered === null || hovered === i ? 1 : 0.3,
             }}
-            title={`${item.label}: ${item.percent.toFixed(1)}%`}
+            title={`${item.label}: ${formatDecimal(item.percent, 1)}%`}
           />
         ))}
       </div>
@@ -70,7 +71,7 @@ export default function AllocationBarList({ items }: { items: AllocationItem[] }
               <span className="text-[12px] text-neutral-200 truncate">{item.label}</span>
             </div>
             <span className="text-[12px] font-medium text-white tabular-nums flex-shrink-0 ml-3">
-              {item.percent.toFixed(1)}%
+              {formatDecimal(item.percent, 1)}%
             </span>
           </div>
         ))}

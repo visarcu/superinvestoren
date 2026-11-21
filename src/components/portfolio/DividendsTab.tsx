@@ -16,6 +16,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface UpcomingDividend {
   ticker: string
@@ -282,7 +283,7 @@ export default function DividendsTab({
     if (stats.prevRolling12m === 0 && stats.rolling12m === 0) return null
     if (stats.prevRolling12m === 0) return { percent: null as number | null, label: 'Erstes Jahr' }
     const percent = ((stats.rolling12m - stats.prevRolling12m) / stats.prevRolling12m) * 100
-    return { percent, label: `${percent >= 0 ? '+' : ''}${percent.toFixed(1)} % YoY` }
+    return { percent, label: `${percent >= 0 ? '+' : ''}${formatDecimal(percent, 1)} % YoY` }
   }, [stats])
 
   // ============================================================
@@ -358,7 +359,7 @@ export default function DividendsTab({
               )}
             </div>
             <p className="text-[13px] text-neutral-400">
-              Ø <span className="tabular-nums">{formatCurrency(stats.rolling12m / 12)}</span> / Monat · {stats.totalPayments} Zahlungen insgesamt · Yield <span className="tabular-nums">{stats.dividendYield.toFixed(2)} %</span>
+              Ø <span className="tabular-nums">{formatCurrency(stats.rolling12m / 12)}</span> / Monat · {stats.totalPayments} Zahlungen insgesamt · Yield <span className="tabular-nums">{formatDecimal(stats.dividendYield, 2)} %</span>
             </p>
           </div>
 
@@ -402,7 +403,7 @@ export default function DividendsTab({
           value={(() => {
             const totalCost = holdings.reduce((s, h) => s + h.purchase_price_display * h.quantity, 0)
             const yoc = totalCost > 0 ? (forwardProjection.annualExpected / totalCost) * 100 : 0
-            return `${yoc.toFixed(2)} %`
+            return `${formatDecimal(yoc, 2)} %`
           })()}
           sub="nächste 12 M / Einstandswert"
           accent
@@ -448,7 +449,7 @@ export default function DividendsTab({
                 />
               </div>
               <p className="text-[11px] text-neutral-500 mt-1.5 tabular-nums">
-                {milestones.progress.toFixed(0)} % · noch {formatCurrency(milestones.next - milestones.annual)} bis zum Ziel
+                {formatDecimal(milestones.progress, 0)} % · noch {formatCurrency(milestones.next - milestones.annual)} bis zum Ziel
               </p>
             </div>
           )}
@@ -545,7 +546,7 @@ export default function DividendsTab({
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="text-[13px] font-medium text-white truncate">{item.symbol}</span>
-                        <span className="text-[10px] text-neutral-500 tabular-nums flex-shrink-0">{percentOfTotal.toFixed(0)}%</span>
+                        <span className="text-[10px] text-neutral-500 tabular-nums flex-shrink-0">{formatDecimal(percentOfTotal, 0)}%</span>
                       </div>
                       <p className="text-[11px] text-neutral-500 truncate">{item.name}</p>
                     </div>
@@ -570,7 +571,7 @@ export default function DividendsTab({
                   {/* Yield on Cost */}
                   <div className="col-span-2 md:col-span-2 text-right">
                     <p className="text-[13px] font-medium text-white tabular-nums">
-                      {forward && forward.yieldOnCost > 0 ? `${forward.yieldOnCost.toFixed(2)} %` : '–'}
+                      {forward && forward.yieldOnCost > 0 ? `${formatDecimal(forward.yieldOnCost, 2)} %` : '–'}
                     </p>
                     <p className="text-[10px] text-neutral-500 hidden md:block">YoC</p>
                   </div>
@@ -578,7 +579,7 @@ export default function DividendsTab({
                   {/* Current Yield */}
                   <div className="col-span-2 md:col-span-2 text-right">
                     <p className="text-[13px] font-medium text-white tabular-nums">
-                      {forward && forward.currentYield > 0 ? `${forward.currentYield.toFixed(2)} %` : '–'}
+                      {forward && forward.currentYield > 0 ? `${formatDecimal(forward.currentYield, 2)} %` : '–'}
                     </p>
                     <p className="text-[10px] text-neutral-500 hidden md:block">Current</p>
                   </div>
@@ -719,14 +720,14 @@ function UpcomingDividendsList({
                     ~{formatCurrency(expectedPayment)}
                   </p>
                   <p className="text-[10px] text-neutral-500">
-                    {formatCurrency(perShareEur!)} × {holding?.quantity.toFixed(2)}
+                    {formatCurrency(perShareEur!)} × {holding ? formatDecimal(holding.quantity, 2) : ''}
                   </p>
                 </>
               ) : (
                 <p className="text-[13px] font-semibold text-neutral-400 tabular-nums">
                   {perShareEur !== null
                     ? `${formatCurrency(perShareEur)}/Stk`
-                    : `${div.dividend.toFixed(2)} ${div.currency || ''}/Stk`.trim()}
+                    : `${formatDecimal(div.dividend, 2)} ${div.currency || ''}/Stk`.trim()}
                 </p>
               )}
             </div>

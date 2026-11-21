@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { workspacePath } from '@/lib/depotRoutes'
 import { supabase } from '@/lib/supabaseClient'
 import { ArrowsRightLeftIcon, BanknotesIcon } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface LedgerTx {
   amount: number
@@ -243,7 +244,7 @@ export default function CashflowTab({
             <p className="mb-1 text-[11px] uppercase tracking-wider text-neutral-500">Sparquote</p>
             {savingsRate !== null ? (
               <>
-                <p className="text-xl font-semibold tabular-nums text-white">{savingsRate.toFixed(0)} %</p>
+                <p className="text-xl font-semibold tabular-nums text-white">{formatDecimal(savingsRate, 0)} %</p>
                 <p className="mt-1 text-[11px] text-neutral-500">Investiert / gebuchte Einnahmen</p>
               </>
             ) : (

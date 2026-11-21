@@ -1650,3 +1650,60 @@ select optgroup {
   border-top: 1px solid var(--color-border);
   margin: 1.5rem 0;
 }
+
+/* ===== Depot-Bereich (Workspace): Farbwelt und Schrift der Landingpages =====
+   Warmes Schwarz bzw. helles Olivgrau statt des kühlen Terminal-Graus,
+   Instrument Sans für Überschriften und große Zahlen. Gilt nur innerhalb
+   von .depot-surface, der Rest des Terminals bleibt unverändert. */
+.dark .depot-surface {
+  --color-bg-primary: #0d0e0c;
+  --color-bg-card: #121410;
+  --color-bg-hover: #191b17;
+  --color-bg-secondary: #191b17;
+  --color-bg-tertiary: #1f211d;
+  --color-bg-input: #121410;
+  --color-bg-elevated: #171915;
+  --color-text-primary: #ecede8;
+  --color-text-secondary: #b4b6ae;
+  --color-text-muted: #85887f;
+  --color-text-faint: #3a3d36;
+  --color-border: #22251f;
+  --color-border-light: #1a1c18;
+  --color-divider: #22251f;
+}
+
+:root:not(.dark) .depot-surface {
+  --color-bg-primary: #edeee8;
+  --color-bg-card: #fafaf7;
+  --color-bg-hover: #e4e5df;
+  --color-bg-secondary: #e4e5df;
+  --color-bg-tertiary: #d9dbd2;
+  --color-bg-input: #fafaf7;
+  --color-bg-elevated: #ffffff;
+  --color-text-primary: #111210;
+  --color-text-secondary: #4b4d46;
+  --color-text-muted: #7c7f76;
+  --color-text-faint: #c9cbc3;
+  --color-border: #d9dbd2;
+  --color-border-light: #e4e5df;
+  --color-divider: #e4e5df;
+  /* Die globale Light-Regel für <aside> färbt sonst die Depot-Navigation als Kasten */
+  --color-sidebar-bg: transparent;
+}
+
+.depot-surface h1,
+.depot-surface h2,
+.depot-surface h3,
+.depot-surface .depot-num {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+.depot-surface h1,
+.depot-surface h2 {
+  letter-spacing: -0.015em;
+}
+
+.depot-surface .depot-num {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}

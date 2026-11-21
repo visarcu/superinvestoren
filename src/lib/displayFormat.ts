@@ -36,6 +36,12 @@ export function formatMoney(value: number, currency = 'USD'): string {
   }
 }
 
+/** Feste Nachkommastellen mit deutschem Komma: 29.48 → "29,5", 0.9104 → "0,9104" */
+export function formatDecimal(value: number, digits = 1): string {
+  if (!Number.isFinite(value)) return '–'
+  return value.toLocaleString('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits })
+}
+
 /** 12.345 → "+12 %", -0.42 → "−0,4 %" (echtes Minuszeichen) */
 export function formatSignedPercent(pct: number): string {
   const digits = Math.abs(pct) < 1 ? 1 : 0

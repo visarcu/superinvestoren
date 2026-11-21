@@ -24,6 +24,7 @@ import {
   CheckIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface TransactionsListProps {
   portfolioId: string
@@ -474,7 +475,7 @@ export default function TransactionsList({
                         {rgInfo && (
                           <p className={`text-[10px] tabular-nums ${perfColor(rgInfo.realizedGain)}`}>
                             G/V: {rgInfo.realizedGain >= 0 ? '+' : ''}{formatCurrency(rgInfo.realizedGain)}
-                            {' '}({rgInfo.realizedGainPercent >= 0 ? '+' : ''}{rgInfo.realizedGainPercent.toFixed(1)}%)
+                            {' '}({rgInfo.realizedGainPercent >= 0 ? '+' : ''}{formatDecimal(rgInfo.realizedGainPercent, 1)}%)
                           </p>
                         )}
                       </div>

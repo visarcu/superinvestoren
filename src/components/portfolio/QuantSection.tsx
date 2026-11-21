@@ -19,6 +19,7 @@ import {
 import { supabase } from '@/lib/supabaseClient'
 import { type Holding } from '@/hooks/usePortfolio'
 import { BeakerIcon, ShieldExclamationIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
 
 // --- Typen: Spiegel der API-Payload (portfolioQuant.ts) ---
 
@@ -416,7 +417,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
               <tr key={rowSymbol}>
                 <td className="text-[10px] font-medium text-neutral-400 pr-2 text-right whitespace-nowrap">
                   {rowSymbol.replace(/\.(DE|L|PA|AS|MI|SW)$/i, '')}
-                  <span className="text-neutral-600 ml-1">{corr.weightsPct[i].toFixed(0)}%</span>
+                  <span className="text-neutral-600 ml-1">{formatDecimal(corr.weightsPct[i], 0)}%</span>
                 </td>
                 {corr.symbols.map((colSymbol, j) => {
                   const value = corr.matrix[i][j]
@@ -430,9 +431,9 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
                         width: 40,
                         height: 26,
                       }}
-                      title={value === null ? 'Zu wenig gemeinsame Handelstage' : `${rowSymbol} × ${colSymbol}: ${value.toFixed(2)}`}
+                      title={value === null ? 'Zu wenig gemeinsame Handelstage' : `${rowSymbol} × ${colSymbol}: ${formatDecimal(value, 2)}`}
                     >
-                      {value === null ? '–' : value.toFixed(2).replace('0.', '.').replace('-0.', '-.')}
+                      {value === null ? '–' : formatDecimal(value, 2).replace(/^(-?)0,/, '$1,')}
                     </td>
                   )
                 })}
@@ -454,7 +455,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
                     {shortName(pair.a)} <span className="text-neutral-600">×</span> {shortName(pair.b)}
                   </span>
                   <span className="text-[12px] font-medium tabular-nums text-red-400 flex-shrink-0">
-                    {pair.value.toFixed(2)}
+                    {formatDecimal(pair.value, 2)}
                   </span>
                 </div>
               ))}
@@ -470,7 +471,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
                     {shortName(pair.a)} <span className="text-neutral-600">×</span> {shortName(pair.b)}
                   </span>
                   <span className="text-[12px] font-medium tabular-nums text-blue-400 flex-shrink-0">
-                    {pair.value.toFixed(2)}
+                    {formatDecimal(pair.value, 2)}
                   </span>
                 </div>
               ))}
@@ -479,8 +480,8 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
 
           {twinPair && (
             <p className="text-[12px] text-neutral-300 leading-relaxed border-l-2 border-amber-400/50 pl-3">
-              {shortName(twinPair.a)} und {shortName(twinPair.b)} laufen mit {twinPair.value.toFixed(2)} praktisch
-              im Gleichschritt und machen zusammen {twinPair.combinedWeightPct.toFixed(0)}% des Depots aus.
+              {shortName(twinPair.a)} und {shortName(twinPair.b)} laufen mit {formatDecimal(twinPair.value, 2)} praktisch
+              im Gleichschritt und machen zusammen {formatDecimal(twinPair.combinedWeightPct, 0)}% des Depots aus.
               Das ist faktisch dasselbe Investment doppelt. Details siehe ETF-Überschneidungen.
             </p>
           )}

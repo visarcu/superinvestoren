@@ -17,6 +17,7 @@ import {
   UserGroupIcon,
   ChevronDownIcon
 } from '@heroicons/react/24/outline'
+import { formatDecimal } from '@/lib/displayFormat'
 
 interface PositionsTableProps {
   holdings: Holding[]
@@ -519,7 +520,7 @@ export default function PositionsTable({
 
         {/* Anteil */}
         <div className="col-span-1 text-right hidden sm:block">
-          <p className="text-xs text-neutral-400 font-medium">{percentage.toFixed(1)}%</p>
+          <p className="text-xs text-neutral-400 font-medium">{formatDecimal(percentage, 1)}%</p>
           <div className="mt-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
             <div
               className="h-full bg-blue-500/50 rounded-full"
@@ -664,7 +665,7 @@ export default function PositionsTable({
 
           {/* Anteil */}
           <div className="col-span-1 text-right hidden sm:block">
-            <p className="text-xs text-neutral-400 font-medium">{percentage.toFixed(1)}%</p>
+            <p className="text-xs text-neutral-400 font-medium">{formatDecimal(percentage, 1)}%</p>
             <div className="mt-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
               <div
                 className="h-full bg-blue-500/50 rounded-full"
@@ -875,7 +876,7 @@ export default function PositionsTable({
                 const cashPercent = totalValue > 0 ? (cashPosition / totalValue) * 100 : 0
                 return (
                   <>
-                    <p className={`text-xs font-medium ${cashPercent < 0 ? 'text-red-400/70' : 'text-neutral-400'}`}>{cashPercent.toFixed(1)}%</p>
+                    <p className={`text-xs font-medium ${cashPercent < 0 ? 'text-red-400/70' : 'text-neutral-400'}`}>{formatDecimal(cashPercent, 1)}%</p>
                     {cashPercent > 0 && (
                       <div className="mt-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
                         <div
