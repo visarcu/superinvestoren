@@ -2,6 +2,7 @@
 // Daily cron at 18:00 UTC (after market close): notifies users about the biggest mover in their portfolio
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 const MOVE_THRESHOLD_PERCENT = 2 // minimum absolute % change to trigger a notification
 
@@ -54,17 +55,18 @@ async function handleDailyPortfolioMover(testUserId: string | null = null) {
     console.log(`[Daily Portfolio Mover] ${userIds.length} users with push tokens`)
 
     // 2. Get portfolio holdings for these users
-    const { data: portfolios, error: portfoliosError } = await supabaseAdmin
+    const { data: portfolioRows, error: portfoliosError } = await supabaseAdmin
       .from('portfolios')
-      .select('id, user_id')
+      .select('id, user_id, broker_name')
       .in('user_id', userIds)
+    const portfolios = countedDepots(portfolioRows ?? [])
 
     if (portfoliosError) {
       console.error('[Daily Portfolio Mover] portfolios error:', portfoliosError)
       return NextResponse.json({ error: 'Database error', details: portfoliosError.message }, { status: 500 })
     }
 
-    if (!portfolios || portfolios.length === 0) {
+    if (portfolios.length === 0) {
       console.log('[Daily Portfolio Mover] No portfolios found')
       return NextResponse.json({ success: true, message: 'No portfolios found', notificationsSent: 0 })
     }

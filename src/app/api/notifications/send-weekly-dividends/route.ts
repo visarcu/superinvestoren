@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 import { hasPremiumAccess } from '@/lib/premiumAccess'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -389,15 +390,16 @@ async function handleWeeklyDividends() {
     // 2. Get all portfolios (filtered to test user if TEST_USER_ID is set)
     let portfoliosQuery = supabase
       .from('portfolios')
-      .select('id, user_id')
+      .select('id, user_id, broker_name')
 
     if (TEST_USER_ID) {
       portfoliosQuery = portfoliosQuery.eq('user_id', TEST_USER_ID)
     }
 
-    const { data: portfolios, error: portfoliosError } = await portfoliosQuery
+    const { data: portfolioRows, error: portfoliosError } = await portfoliosQuery
+    const portfolios = countedDepots(portfolioRows ?? [])
 
-    if (portfoliosError || !portfolios || portfolios.length === 0) {
+    if (portfoliosError || portfolios.length === 0) {
       return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekRange, message: 'No portfolios found', emailsSent: 0 })
     }
 

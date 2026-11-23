@@ -6,8 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { usePortfolio, type Holding, type Portfolio } from '@/hooks/usePortfolio'
 import { useLookthrough } from '@/hooks/useLookthrough'
 import { useDepotValues } from '@/hooks/useDepotValues'
-import { getBrokerColor, getBrokerDisplayName, brokerTypeToLogoId } from '@/lib/brokerConfig'
-import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
+import { getBrokerDisplayName } from '@/lib/brokerConfig'
 import QuickStats from '@/components/portfolio/QuickStats'
 import PositionsTable from '@/components/portfolio/PositionsTable'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
@@ -35,10 +34,11 @@ import BrokerCreditModal from '@/components/portfolio/BrokerCreditModal'
 import RenamePortfolioModal from '@/components/portfolio/RenamePortfolioModal'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import DepotAccountMenu from '@/components/portfolio/DepotAccountMenu'
+import { DepotCards, DepotIcon, DepotOverviewCard, DepotSidebarList, SampleBadge, sortDepots } from '@/components/portfolio/DepotList'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
 import SampleDepotBanner from '@/components/portfolio/SampleDepotBanner'
-import { SAMPLE_DEPOT_BROKER_NAME, SAMPLE_DEPOT_NOTE_PREFIX } from '@/lib/sampleDepotShared'
+import { SAMPLE_DEPOT_NOTE_PREFIX, depotLabel, isSampleDepot } from '@/lib/sampleDepotShared'
 import {
   WORKSPACE_PATH,
   assignDepotSlugs,
@@ -121,7 +121,7 @@ const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
 ]
 
 const NAV_GROUPS: Array<{ key: PortfolioNavItem['group']; label: string }> = [
-  { key: 'depot', label: 'Depot' },
+  { key: 'depot', label: 'Ansichten' },
   { key: 'wealth', label: 'Vermögen' },
 ]
 
@@ -162,11 +162,14 @@ function PortfolioNavigation({
   onOpenView,
   isViewLocked,
   compact = false,
+  depotList,
 }: {
   activeView: WorkspaceView
   onOpenView: (view: WorkspaceView) => void
   isViewLocked: (view: WorkspaceView) => boolean
   compact?: boolean
+  /** Depotliste über den Ansichten (nur Seitenleiste) */
+  depotList?: React.ReactNode
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const moreRef = useRef<HTMLDivElement>(null)
@@ -273,6 +276,7 @@ function PortfolioNavigation({
 
   return (
     <aside className="sticky top-[4.5rem] hidden max-h-[calc(100vh-5rem)] w-[220px] shrink-0 self-start overflow-y-auto py-2 lg:block">
+      {depotList}
       {NAV_GROUPS.map((group, index) => (
         <div key={group.key} className={index > 0 ? 'mt-5' : ''}>
           <p className="mb-1.5 px-3 text-[10px] font-medium uppercase tracking-[0.14em] text-theme-muted">{group.label}</p>
@@ -379,11 +383,9 @@ function DepotSwitcher({
               {selectedDepotId === 'all' && <CheckIcon className="h-4 w-4 shrink-0 text-teal-300" />}
             </button>
 
-            {portfolios.map(depot => {
+            {sortDepots(portfolios).map(depot => {
               const isActive = depot.id === selectedDepotId
-              const brokerColor = getBrokerColor(depot.broker_type, depot.broker_color)
-              const brokerName = getBrokerDisplayName(depot.broker_type, depot.broker_name)
-              const logoId = brokerTypeToLogoId(depot.broker_type)
+              const brokerName = isSampleDepot(depot) ? '' : getBrokerDisplayName(depot.broker_type, depot.broker_name)
               const depotValue = depotValues.get(depot.id)
               const subtitle = [
                 depotValue !== undefined ? formatCurrency(depotValue) : null,
@@ -399,15 +401,12 @@ function DepotSwitcher({
                     isActive ? 'bg-teal-400/10 text-teal-300' : 'text-neutral-200 hover:bg-white/[0.05]'
                   }`}
                 >
-                  {logoId ? (
-                    <BrokerLogo brokerId={logoId} size={28} />
-                  ) : (
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/[0.06]">
-                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: brokerColor }} />
-                    </span>
-                  )}
+                  <DepotIcon depot={depot} />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[13px] font-medium">{depot.name}</span>
+                    <span className="flex min-w-0 items-center gap-1.5">
+                      <span className="truncate text-[13px] font-medium">{depotLabel(depot)}</span>
+                      {isSampleDepot(depot) && <SampleBadge />}
+                    </span>
                     {subtitle && (
                       <span className="block truncate text-[11px] tabular-nums text-theme-muted">{subtitle}</span>
                     )}
@@ -506,8 +505,19 @@ function LockedViewCard({ message }: { message: string }) {
   )
 }
 
-/** onImport fehlt in der Sicht "Alle Depots": ein Import braucht ein Zieldepot */
-function EmptyPortfolio({ onAddActivity, onImport }: { onAddActivity: () => void; onImport?: () => void }) {
+/**
+ * onImport fehlt in der Sicht "Alle Depots": ein Import braucht ein Zieldepot.
+ * offerSample nur, solange es noch kein Beispieldepot gibt.
+ */
+function EmptyPortfolio({
+  onAddActivity,
+  onImport,
+  offerSample,
+}: {
+  onAddActivity: () => void
+  onImport?: () => void
+  offerSample: boolean
+}) {
   return (
     <div className="bg-theme-card border border-theme rounded-xl p-8 text-center">
       <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.06]">
@@ -543,10 +553,12 @@ function EmptyPortfolio({ onAddActivity, onImport }: { onAddActivity: () => void
           Aktivität hinzufügen
         </button>
       </div>
-      <div className="mx-auto mt-6 max-w-xs border-t border-theme pt-5">
-        <p className="mb-2 text-xs text-theme-muted">Oder erst mal ausprobieren, mit echten Daten:</p>
-        <SampleDepotButton />
-      </div>
+      {offerSample && (
+        <div className="mx-auto mt-6 max-w-xs border-t border-theme pt-5">
+          <p className="mb-2 text-xs text-theme-muted">Oder erst mal ausprobieren, mit echten Daten:</p>
+          <SampleDepotButton />
+        </div>
+      )}
     </div>
   )
 }
@@ -570,6 +582,8 @@ export default function PortfolioWorkspace() {
   const [showCashModal, setShowCashModal] = useState(false)
   const [showCreditModal, setShowCreditModal] = useState(false)
   const [showCSVImport, setShowCSVImport] = useState(false)
+  // Zieldepot, wenn der Import aus "Alle Depots" gestartet wird
+  const [importDepotId, setImportDepotId] = useState<string | null>(null)
   const [showNameModal, setShowNameModal] = useState(false)
 
   // Cash-Toggle für die Allokation (mit/ohne Cash im Donut)
@@ -656,16 +670,19 @@ export default function PortfolioWorkspace() {
     router.replace(buildHref(wantedKey === 'all' ? 'all' : loadedId, activeView), { scroll: false })
   }, [p.loading, p.portfolio, p.isAllDepotsView, p.allPortfolios, depotSlugs, route.depotKey, routeDepotKey, searchParams, activeView, buildHref, router])
 
-  // Wert pro Depot (für den Switcher-Überblick) — gleiche Logik wie im Dashboard
+  // Wert pro Depot für Seitenleiste, Karten und Umschalter
   const depotValues = useDepotValues({
     holdings: p.holdings,
     allPortfolios: p.allPortfolios,
     portfolioId: p.portfolio?.id,
     isAllDepotsView: p.isAllDepotsView,
+    loading: p.loading,
+    summaries: p.depotSummaries,
   })
+  const isSampleOpen = !p.isAllDepotsView && isSampleDepot(p.portfolio)
   const selectedDepotName = p.isAllDepotsView
     ? 'Alle Depots'
-    : p.portfolio?.name || 'Portfolio'
+    : p.portfolio ? depotLabel(p.portfolio) : 'Portfolio'
 
   const stockValue = useMemo(
     () => p.holdings.reduce((sum, holding) => sum + holding.value, 0),
@@ -688,7 +705,7 @@ export default function PortfolioWorkspace() {
   // Dividenden auch ohne Premium offen, es sind öffentliche Musterdaten.
   const isUntouchedSampleDepot =
     !p.isAllDepotsView &&
-    p.portfolio?.broker_name === SAMPLE_DEPOT_BROKER_NAME &&
+    isSampleDepot(p.portfolio) &&
     p.transactions.length > 0 &&
     p.transactions.every(
       tx => (tx.type === 'buy' || tx.type === 'dividend') && !!tx.notes?.startsWith(SAMPLE_DEPOT_NOTE_PREFIX),
@@ -711,6 +728,23 @@ export default function PortfolioWorkspace() {
 
   // Gesperrte View per Deep-Link geöffnet (Free-User): Inhalt nicht rendern
   const lockedViewMessage = isViewLocked(activeView) ? PREMIUM_VIEW_MESSAGES[activeView] : undefined
+
+  const importDepot = p.isAllDepotsView
+    ? p.allPortfolios.find(depot => depot.id === importDepotId) ?? null
+    : p.portfolio
+  const depotOverview = p.isAllDepotsView ? (
+    <DepotOverviewCard
+      depots={p.allPortfolios}
+      summaries={p.depotSummaries}
+      onSelect={openDepot}
+      onImport={depotId => {
+        setImportDepotId(depotId)
+        setShowCSVImport(true)
+      }}
+      formatCurrency={p.formatCurrency}
+      formatPercentage={p.formatPercentage}
+    />
+  ) : null
 
   if (p.loading && !p.portfolio) return <WorkspaceSkeleton />
   // Noch kein Depot angelegt → gleiches Onboarding wie im Dashboard
@@ -741,14 +775,17 @@ export default function PortfolioWorkspace() {
                   </span>
                 )}
               </div>
-              <DepotSwitcher
-                portfolios={p.allPortfolios}
-                selectedDepotId={selectedDepotId}
-                selectedDepotName={selectedDepotName}
-                onSelectDepot={openDepot}
-                depotValues={depotValues}
-                formatCurrency={p.formatCurrency}
-              />
+              {/* Mit Seitenleiste stehen die Depots dort */}
+              <div className="lg:hidden">
+                <DepotSwitcher
+                  portfolios={p.allPortfolios}
+                  selectedDepotId={selectedDepotId}
+                  selectedDepotName={selectedDepotName}
+                  onSelectDepot={openDepot}
+                  depotValues={depotValues}
+                  formatCurrency={p.formatCurrency}
+                />
+              </div>
             </div>
           </div>
 
@@ -797,7 +834,20 @@ export default function PortfolioWorkspace() {
       </header>
 
       <div className="flex w-full gap-6 px-6 lg:px-8">
-        <PortfolioNavigation activeView={activeView} onOpenView={openView} isViewLocked={isViewLocked} />
+        <PortfolioNavigation
+          activeView={activeView}
+          onOpenView={openView}
+          isViewLocked={isViewLocked}
+          depotList={
+            <DepotSidebarList
+              depots={p.allPortfolios}
+              selectedId={selectedDepotId}
+              values={depotValues}
+              onSelect={openDepot}
+              formatCurrency={p.formatCurrency}
+            />
+          }
+        />
 
         <main className="min-w-0 flex-1 py-5 pb-20">
       <div className="w-full">
@@ -821,11 +871,20 @@ export default function PortfolioWorkspace() {
           </div>
         )}
 
+        <DepotCards
+          depots={p.allPortfolios}
+          selectedId={selectedDepotId}
+          values={depotValues}
+          onSelect={openDepot}
+          formatCurrency={p.formatCurrency}
+        />
+
         <section className="mb-5">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div className="min-w-0">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h1 className="text-xl font-semibold text-theme-primary">{selectedDepotName}</h1>
+                {isSampleOpen && <SampleBadge className="self-center" />}
                 {!p.isAllDepotsView && (
                   <button
                     type="button"
@@ -838,6 +897,7 @@ export default function PortfolioWorkspace() {
                 )}
                 <span className="text-sm text-neutral-500">
                   {p.activeInvestments} Position{p.activeInvestments === 1 ? '' : 'en'} · {p.transactions.length} Transaktionen
+                  {p.isAllDepotsView && p.countedPortfolios.length < p.allPortfolios.length && ' · Beispieldepot zählt nicht mit'}
                 </span>
               </div>
               <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -867,44 +927,13 @@ export default function PortfolioWorkspace() {
               )}
             </div>
           </div>
-
-          {p.allPortfolios.length > 1 && (
-            <div className="mt-3 flex gap-1 overflow-x-auto">
-              <button
-                type="button"
-                onClick={() => openDepot('all')}
-                disabled={selectedDepotId === 'all'}
-                className={`shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
-                  selectedDepotId === 'all'
-                    ? 'bg-white/[0.06] text-white'
-                    : 'text-neutral-500 hover:bg-white/[0.04] hover:text-white'
-                }`}
-              >
-                Alle Depots
-              </button>
-              {p.allPortfolios.map(depot => (
-                <button
-                  key={depot.id}
-                  type="button"
-                  onClick={() => openDepot(depot.id)}
-                  disabled={selectedDepotId === depot.id}
-                  className={`shrink-0 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors ${
-                    selectedDepotId === depot.id
-                      ? 'bg-white/[0.06] text-white'
-                      : 'text-neutral-500 hover:bg-white/[0.04] hover:text-white'
-                  }`}
-                >
-                  {depot.name}
-                </button>
-              ))}
-            </div>
-          )}
         </section>
 
         {/* Beispieldepot: erklären, woher es kommt, und den Weg zum eigenen Depot zeigen */}
-        {!p.isAllDepotsView && p.portfolio?.broker_name === SAMPLE_DEPOT_BROKER_NAME && (
+        {isSampleOpen && p.portfolio && (
           <SampleDepotBanner
             depotName={p.portfolio.name}
+            excluded={p.countedPortfolios.length < p.allPortfolios.length}
             purchaseDate={p.holdings[0]?.purchase_date}
             newDepotHref="/analyse/portfolio/depots/neu"
             onDelete={async () => {
@@ -920,7 +949,8 @@ export default function PortfolioWorkspace() {
         {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
         {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
           p.loading ? <ContentSkeleton /> : (
-            <>
+            <div className="space-y-4">
+              {activeView === 'overview' && depotOverview}
               {/* Leeres Einzeldepot: Broker-Sync anbieten — genau hier startet der Import */}
               {!p.isAllDepotsView && p.portfolio?.id && (
                 <>
@@ -937,8 +967,9 @@ export default function PortfolioWorkspace() {
               <EmptyPortfolio
                 onAddActivity={() => setActivityDialogTrigger(t => t + 1)}
                 onImport={!p.isAllDepotsView && p.portfolio?.id ? () => setShowCSVImport(true) : undefined}
+                offerSample={!p.allPortfolios.some(isSampleDepot)}
               />
-            </>
+            </div>
           )
         ) : lockedViewMessage ? (
           <LockedViewCard message={lockedViewMessage} />
@@ -946,6 +977,7 @@ export default function PortfolioWorkspace() {
           <>
             {activeView === 'overview' && (
               <div className="space-y-4">
+                {depotOverview}
                 <QuickStats
                   totalValue={p.totalValue}
                   securitiesValue={stockValue}
@@ -1010,7 +1042,7 @@ export default function PortfolioWorkspace() {
                   <section className="bg-theme-card border border-theme rounded-xl p-5">
                     <PortfolioValueChart
                       portfolioId={p.portfolio?.id || ''}
-                      portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(depot => depot.id) : undefined}
+                      portfolioIds={p.isAllDepotsView ? p.countedPortfolios.map(depot => depot.id) : undefined}
                       holdings={p.holdings.map(holding => ({
                         portfolio_id: holding.portfolio_id,
                         symbol: holding.symbol,
@@ -1128,7 +1160,7 @@ export default function PortfolioWorkspace() {
             {activeView === 'cashflow' && (
               <CashflowTab
                 formatCurrency={p.formatCurrency}
-                portfolioIds={p.allPortfolios.map(depot => depot.id)}
+                portfolioIds={p.countedPortfolios.map(depot => depot.id)}
               />
             )}
 
@@ -1175,7 +1207,7 @@ export default function PortfolioWorkspace() {
                 formatCurrency={p.formatCurrency}
                 formatPercentage={p.formatPercentage}
                 portfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
-                portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(depot => depot.id) : undefined}
+                portfolioIds={p.isAllDepotsView ? p.countedPortfolios.map(depot => depot.id) : undefined}
               />
             )}
 
@@ -1210,7 +1242,7 @@ export default function PortfolioWorkspace() {
               <>
                 <QuickTradeEntry
                   holdings={p.holdings}
-                  allPortfolios={p.allPortfolios}
+                  allPortfolios={p.countedPortfolios}
                   isAllDepotsView={p.isAllDepotsView}
                   currentPortfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
                   formatCurrency={p.formatCurrency}
@@ -1270,12 +1302,15 @@ export default function PortfolioWorkspace() {
         onClose={() => setShowNameModal(false)}
         onSave={p.updatePortfolioName}
       />
-      {p.portfolio?.id && p.portfolio.id !== 'all' && (
+      {importDepot && (
         <CSVImportModal
           isOpen={showCSVImport}
-          onClose={() => setShowCSVImport(false)}
-          portfolioId={p.portfolio.id}
-          portfolioName={p.portfolio.name}
+          onClose={() => {
+            setShowCSVImport(false)
+            setImportDepotId(null)
+          }}
+          portfolioId={importDepot.id}
+          portfolioName={importDepot.name}
           onImportComplete={() => p.loadPortfolio(p.depotIdParam)}
         />
       )}
@@ -1295,7 +1330,7 @@ export default function PortfolioWorkspace() {
         formatCurrency={p.formatCurrency}
         formatStockPrice={p.formatStockPrice}
         isAllDepotsView={p.isAllDepotsView}
-        allPortfolios={p.allPortfolios}
+        allPortfolios={p.countedPortfolios}
         onAddPosition={p.addPosition}
         onTopUpPosition={p.topUpPosition}
         onSellPosition={p.sellPosition}

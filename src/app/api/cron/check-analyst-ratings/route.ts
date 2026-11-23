@@ -9,6 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -256,9 +257,10 @@ async function handleCheck(queryTestUserId: string | null = null) {
   }
 
   // Add portfolio holdings
-  let portfolioQuery = supabaseService.from('portfolios').select('id, user_id')
+  let portfolioQuery = supabaseService.from('portfolios').select('id, user_id, broker_name')
   if (testUserId) portfolioQuery = portfolioQuery.eq('user_id', testUserId)
-  const { data: portfolios } = await portfolioQuery
+  const { data: portfolioRows } = await portfolioQuery
+  const portfolios = countedDepots(portfolioRows ?? [])
   if (portfolios && portfolios.length > 0) {
     const portfolioIds = portfolios.map((p: any) => p.id)
     const portfolioMap = new Map(portfolios.map((p: any) => [p.id, p.user_id]))

@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { buildPersonalFeed } from '@/lib/personalFeed'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,10 +23,10 @@ export async function GET(request: NextRequest) {
     const [settingsRes, watchlistRes, portfoliosRes] = await Promise.all([
       supabaseAdmin.from('notification_settings').select('preferred_investors').eq('user_id', user.id).maybeSingle(),
       supabaseAdmin.from('watchlists').select('ticker').eq('user_id', user.id),
-      supabaseAdmin.from('portfolios').select('id').eq('user_id', user.id),
+      supabaseAdmin.from('portfolios').select('id, broker_name').eq('user_id', user.id),
     ])
 
-    const portfolioIds = (portfoliosRes.data ?? []).map(p => p.id)
+    const portfolioIds = countedDepots(portfoliosRes.data ?? []).map(p => p.id)
     const holdingsRes = portfolioIds.length
       ? await supabaseAdmin.from('portfolio_holdings').select('symbol').in('portfolio_id', portfolioIds)
       : { data: [] as { symbol: string | null }[] }

@@ -2,6 +2,7 @@
 // Daily cron at 07:30 UTC: notifies users if a portfolio stock pays dividend today
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
@@ -33,12 +34,13 @@ async function handleDailyDividendReminder(testUserId: string | null = null) {
     const userIds = [...new Set(deviceTokenRows.map(r => r.user_id))]
 
     // 2. Get portfolio holdings per user
-    const { data: portfolios } = await supabaseAdmin
+    const { data: portfolioRows } = await supabaseAdmin
       .from('portfolios')
-      .select('id, user_id')
+      .select('id, user_id, broker_name')
       .in('user_id', userIds)
+    const portfolios = countedDepots(portfolioRows ?? [])
 
-    if (!portfolios || portfolios.length === 0) {
+    if (portfolios.length === 0) {
       return NextResponse.json({ success: true, notificationsSent: 0 })
     }
 

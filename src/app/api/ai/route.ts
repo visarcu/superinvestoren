@@ -5,6 +5,7 @@ import { preparePortfolioDataForAI } from '@/lib/superinvestorDataService'
 import { FinancialRAGSystem, RAGPromptBuilder } from '@/lib/ragSystem'
 import { formatFinancialMetric } from '@/lib/financialCalculator'
 import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -1144,12 +1145,13 @@ function isPersonalPortfolioQuestion(message: string): boolean {
 async function fetchUserPortfolioForAI(userId: string, ticker?: string): Promise<any | null> {
   try {
     // Get all user portfolios
-    const { data: portfolios, error: portfolioError } = await supabase
+    const { data: portfolioRows, error: portfolioError } = await supabase
       .from('portfolios')
-      .select('id, name, currency, cash_position')
+      .select('id, name, currency, cash_position, broker_name')
       .eq('user_id', userId)
 
-    if (portfolioError || !portfolios || portfolios.length === 0) return null
+    if (portfolioError || !portfolioRows || portfolioRows.length === 0) return null
+    const portfolios = countedDepots(portfolioRows)
 
     const portfolioIds = portfolios.map(p => p.id)
 

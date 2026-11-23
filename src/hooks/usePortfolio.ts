@@ -4,6 +4,7 @@
 import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { resolveDepotKey } from '@/lib/depotRoutes'
+import { countedDepots } from '@/lib/sampleDepotShared'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
@@ -80,6 +81,17 @@ export interface Transaction {
   broker_type?: string | null
   broker_name?: string | null
   broker_color?: string | null
+}
+
+/** Kennzahlen eines einzelnen Depots für die Liste in "Alle Depots" */
+export interface DepotSummary {
+  /** Wertpapiere ohne Cash */
+  stockValue: number
+  positions: number
+  transactions: number
+  dayGainLoss: number
+  totalReturn: number
+  totalReturnPercent: number
 }
 
 const SECURITY_TRANSACTION_TYPES = new Set<Transaction['type']>([
@@ -159,6 +171,41 @@ function filterPerformanceTransactions(transactions: Transaction[], holdings: Ho
     if (!isSecurityTransaction(tx)) return true
     return !ignoredOpenPositionKeys.has(portfolioSymbolKey(tx.portfolio_id, tx.symbol))
   })
+}
+
+// Depotüberträge (teils auch Importe) ohne Kostenbasis (price=0, total_value=0)
+// sprengen alle flussbasierten Kennzahlen: XIRR sieht die Shares als Geschenk
+// (Endwert ohne Kapitaleinsatz → dreistellige p.a.-Werte), Realized Gains
+// rechnen gegen Kostenbasis 0. Fehlende Beträge daher schätzen — bevorzugt
+// über die Kostenbasis der zugehörigen Holding, sonst über den aktuellen Kurs.
+function estimateMissingAmounts(transactions: Transaction[], holdings: Holding[]): Transaction[] {
+  if (transactions.length === 0) return transactions
+
+  const holdingBySymbol = new Map<string, Holding>()
+  holdings.forEach(h => {
+    const sym = normalizeSymbol(h.symbol)
+    if (sym && !holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
+  })
+
+  let changed = false
+  const result = transactions.map(tx => {
+    if (!isSecurityTransaction(tx)) return tx
+    if (transactionAmount(tx) > 0) return tx
+    const quantity = Number(tx.quantity) || 0
+    if (quantity <= 0) return tx
+
+    const holding = holdingBySymbol.get(normalizeSymbol(tx.symbol))
+    if (!holding) return tx
+    const perShare = holding.purchase_price_display > 0
+      ? holding.purchase_price_display
+      : holding.quantity > 0 ? holding.value / holding.quantity : 0
+    if (perShare <= 0) return tx
+
+    changed = true
+    return { ...tx, total_value: quantity * perShare }
+  })
+
+  return changed ? result : transactions
 }
 
 // Realisierte Gewinne & Dividenden aus Transaktionshistorie berechnen
@@ -431,6 +478,32 @@ export function calculateHistoricalPerfByDepot(
  * @param routeDepotKey Depot aus dem Pfad des Workspace ('all', Kurzname oder
  *   Depot-ID, siehe lib/depotRoutes). Ohne Angabe gilt ?depot=… (ältere Seiten).
  */
+// Gleiche Rechnung wie die Kennzahlen im Hook (Gesamtrendite samt Gebühren-
+// Invariante, siehe nonBuyFees), hier für ein einzelnes Depot.
+function summarizeDepot(holdings: Holding[], transactions: Transaction[]): DepotSummary {
+  const performanceTransactions = filterPerformanceTransactions(transactions, holdings)
+  const { totalRealizedGain, totalDividends } = calculateRealizedGains(
+    estimateMissingAmounts(performanceTransactions, holdings)
+  )
+  const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
+  const invested = holdings.reduce((sum, h) => sum + h.purchase_price_display * h.quantity, 0)
+  const fees = performanceTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
+  const nonBuyFees = performanceTransactions.reduce(
+    (sum, tx) => (tx.type === 'buy' ? sum : sum + Math.abs(Number(tx.fee) || 0)),
+    0
+  )
+  const totalReturn = stockValue - invested + totalRealizedGain + totalDividends - nonBuyFees
+  const base = invested + fees
+  return {
+    stockValue,
+    positions: holdings.length,
+    transactions: transactions.length,
+    dayGainLoss: holdings.reduce((sum, h) => sum + (h.day_change_value || 0), 0),
+    totalReturn,
+    totalReturnPercent: base > 0 ? (totalReturn / base) * 100 : 0,
+  }
+}
+
 export function usePortfolio(routeDepotKey?: string) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -455,6 +528,8 @@ export function usePortfolio(routeDepotKey?: string) {
   const [allPortfolios, setAllPortfolios] = useState<Portfolio[]>([])
   const [holdings, setHoldings] = useState<Holding[]>([])
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  // Kennzahlen je Depot, nur in der Sicht "Alle Depots" geladen (auch fürs Beispieldepot)
+  const [depotSummaries, setDepotSummaries] = useState<Map<string, DepotSummary>>(new Map())
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -481,13 +556,16 @@ export function usePortfolio(routeDepotKey?: string) {
     setCurrency('EUR')
   }, [])
 
+  // Depots, die in "Alle Depots" zählen (ohne Beispieldepot, sobald es ein eigenes gibt)
+  const countedPortfolios = useMemo(() => countedDepots(allPortfolios), [allPortfolios])
+
   // Computed Values
   const cashPosition = useMemo(() => {
     if (isAllDepotsView) {
-      return allPortfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0)
+      return countedPortfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0)
     }
     return portfolio?.cash_position || 0
-  }, [portfolio, allPortfolios, isAllDepotsView])
+  }, [portfolio, countedPortfolios, isAllDepotsView])
 
   const totalInvested = useMemo(() => {
     return holdings.reduce((sum, h) => sum + (h.purchase_price_display * h.quantity), 0)
@@ -521,40 +599,10 @@ export function usePortfolio(routeDepotKey?: string) {
     [transactions, holdings]
   )
 
-  // Depotüberträge (teils auch Importe) ohne Kostenbasis (price=0, total_value=0)
-  // sprengen alle flussbasierten Kennzahlen: XIRR sieht die Shares als Geschenk
-  // (Endwert ohne Kapitaleinsatz → dreistellige p.a.-Werte), Realized Gains
-  // rechnen gegen Kostenbasis 0. Fehlende Beträge daher schätzen — bevorzugt
-  // über die Kostenbasis der zugehörigen Holding, sonst über den aktuellen Kurs.
-  const enrichedPerformanceTransactions = useMemo(() => {
-    if (performanceTransactions.length === 0) return performanceTransactions
-
-    const holdingBySymbol = new Map<string, Holding>()
-    holdings.forEach(h => {
-      const sym = normalizeSymbol(h.symbol)
-      if (sym && !holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
-    })
-
-    let changed = false
-    const result = performanceTransactions.map(tx => {
-      if (!isSecurityTransaction(tx)) return tx
-      if (transactionAmount(tx) > 0) return tx
-      const quantity = Number(tx.quantity) || 0
-      if (quantity <= 0) return tx
-
-      const holding = holdingBySymbol.get(normalizeSymbol(tx.symbol))
-      if (!holding) return tx
-      const perShare = holding.purchase_price_display > 0
-        ? holding.purchase_price_display
-        : holding.quantity > 0 ? holding.value / holding.quantity : 0
-      if (perShare <= 0) return tx
-
-      changed = true
-      return { ...tx, total_value: quantity * perShare }
-    })
-
-    return changed ? result : performanceTransactions
-  }, [performanceTransactions, holdings])
+  const enrichedPerformanceTransactions = useMemo(
+    () => estimateMissingAmounts(performanceTransactions, holdings),
+    [performanceTransactions, holdings]
+  )
 
   // Realisierte Gewinne + Dividenden aus Transaktionshistorie
   const { totalRealizedGain, totalDividends, realizedGainByTxId } = useMemo(
@@ -815,33 +863,8 @@ export function usePortfolio(routeDepotKey?: string) {
     return rows
   }, [])
 
-  const loadTransactions = useCallback(async (portfolioId: string, allPortfolioIds?: string[], portfolios?: Portfolio[]) => {
-    if (portfolioId === 'all' && allPortfolioIds && allPortfolioIds.length > 0) {
-      // Alle Depots: Transaktionen für jedes Portfolio laden + Portfolio-Info anhängen
-      const perDepot = await Promise.all(
-        allPortfolioIds.map(async pid => {
-          const data = await loadAllTransactionRows(pid)
-          const pInfo = portfolios?.find(p => p.id === pid)
-          return data.map(tx => ({
-            ...tx,
-            portfolio_id: pid,
-            portfolio_name: pInfo?.name || 'Depot',
-            broker_type: pInfo?.broker_type,
-            broker_name: pInfo?.broker_name,
-            broker_color: pInfo?.broker_color,
-          }))
-        })
-      )
-      const allTx = perDepot.flat()
-      allTx.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-      setTransactions(allTx)
-      return
-    }
-
-    if (portfolioId === 'all') return
-
-    const data = await loadAllTransactionRows(portfolioId)
-    setTransactions(data)
+  const loadTransactions = useCallback(async (portfolioId: string) => {
+    setTransactions(await loadAllTransactionRows(portfolioId))
   }, [loadAllTransactionRows])
 
   // Main Load Function
@@ -886,34 +909,49 @@ export function usePortfolio(routeDepotKey?: string) {
 
       if (target === 'all' && portfolios && portfolios.length > 1) {
         loadedDepotRef.current = 'all'
+        const counted = countedDepots(portfolios as Portfolio[])
         setPortfolio({
           id: 'all',
           name: 'Alle Depots',
           currency: 'EUR',
-          cash_position: portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0),
-          broker_credit: portfolios.reduce((sum, p) => sum + (p.broker_credit || 0), 0),
+          cash_position: counted.reduce((sum, p) => sum + (p.cash_position || 0), 0),
+          broker_credit: counted.reduce((sum, p) => sum + (p.broker_credit || 0), 0),
           created_at: new Date().toISOString()
         })
 
         // Alle Depots parallel laden — sequenziell dauerte bei mehreren Depots
         // spürbar lange und die Seite zeigte derweil "keine Positionen".
-        const holdingsPerDepot = await Promise.all(
-          portfolios.map(async pf => {
-            const h = await loadHoldingsForPortfolio(pf.id)
-            // Portfolio-Info an jede Holding anhängen
-            return h.map(holding => ({
-              ...holding,
+        // Das Beispieldepot wird für die Depotliste mitgeladen, zählt aber nicht.
+        const perDepot = await Promise.all(
+          (portfolios as Portfolio[]).map(async pf => {
+            const [h, tx] = await Promise.all([
+              loadHoldingsForPortfolio(pf.id),
+              loadAllTransactionRows(pf.id),
+            ])
+            // Portfolio-Info an jede Position und Buchung anhängen
+            const depotInfo = {
               portfolio_id: pf.id,
-              portfolio_name: pf.name,
+              portfolio_name: pf.name || 'Depot',
               broker_type: pf.broker_type,
               broker_name: pf.broker_name,
               broker_color: pf.broker_color,
-            }))
+            }
+            return {
+              id: pf.id,
+              holdings: h.map(holding => ({ ...holding, ...depotInfo })),
+              transactions: tx.map(row => ({ ...row, ...depotInfo })),
+            }
           })
         )
-        setHoldings(holdingsPerDepot.flat())
-        // Transaktionen für alle Depots laden
-        await loadTransactions('all', portfolios.map(pf => pf.id), portfolios)
+        const countedIds = new Set(counted.map(pf => pf.id))
+        const countedData = perDepot.filter(d => countedIds.has(d.id))
+        setDepotSummaries(new Map(perDepot.map(d => [d.id, summarizeDepot(d.holdings, d.transactions)])))
+        setHoldings(countedData.flatMap(d => d.holdings))
+        setTransactions(
+          countedData
+            .flatMap(d => d.transactions)
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        )
         setLoading(false)
         return
       }
@@ -950,7 +988,7 @@ export function usePortfolio(routeDepotKey?: string) {
     } finally {
       setLoading(false)
     }
-  }, [router, loadHoldingsForPortfolio, loadTransactions])
+  }, [router, loadHoldingsForPortfolio, loadAllTransactionRows, loadTransactions])
 
   // Initial load und Depotwechsel. Zeigt die URL nur anders auf dasselbe
   // Depot (ID → Kurzname), wird nicht neu geladen.
@@ -1517,6 +1555,8 @@ export function usePortfolio(routeDepotKey?: string) {
     // Data
     portfolio,
     allPortfolios,
+    countedPortfolios,
+    depotSummaries,
     holdings,
     transactions,
     isPremium,

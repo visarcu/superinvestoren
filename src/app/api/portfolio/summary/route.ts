@@ -7,6 +7,7 @@ import { detectTickerCurrency } from '@/lib/fmp'
 import { convertPriceToEur } from '@/lib/portfolioValuation'
 import { getQuotes } from '@/lib/marketData/quoteService'
 import { convertAmount } from '@/lib/marketData/currency'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -48,12 +49,14 @@ export async function GET(request: NextRequest) {
 
   try {
     // 1. Get portfolios
-    let portfolioQuery = supabaseAdmin.from('portfolios').select('id, name, cash_position').eq('user_id', user.id)
+    let portfolioQuery = supabaseAdmin.from('portfolios').select('id, name, cash_position, broker_name').eq('user_id', user.id)
     if (portfolioId) portfolioQuery = portfolioQuery.eq('id', portfolioId)
-    const { data: portfolios, error: pErr } = await portfolioQuery
-    if (pErr || !portfolios?.length) {
+    const { data: portfolioRows, error: pErr } = await portfolioQuery
+    if (pErr || !portfolioRows?.length) {
       return NextResponse.json({ totalValue: 0, stockValue: 0, cashPosition: 0, holdings: [] })
     }
+    // Über alle Depots zählt das Beispieldepot nicht mit, einzeln abgefragt schon
+    const portfolios = countedDepots(portfolioRows)
 
     const portfolioIds = portfolios.map(p => p.id)
     const cashPosition = portfolios.reduce((sum, p) => sum + (Number(p.cash_position) || 0), 0)

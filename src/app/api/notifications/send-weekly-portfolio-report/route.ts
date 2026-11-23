@@ -7,6 +7,7 @@ import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
 import { detectTickerCurrency } from '@/lib/fmp'
 import { buildRadar, loadEarningsForSymbols, radarEmailSection, type RadarEvent } from '@/lib/earningsRadar'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -606,15 +607,16 @@ async function handleWeeklyPortfolioReport() {
     // 2. Get all portfolios (or just the test user's)
     let portfoliosQuery = supabase
       .from('portfolios')
-      .select('id, user_id')
+      .select('id, user_id, broker_name')
 
     if (TEST_USER_ID) {
       portfoliosQuery = portfoliosQuery.eq('user_id', TEST_USER_ID)
     }
 
-    const { data: portfolios, error: portfoliosError } = await portfoliosQuery
+    const { data: portfolioRows, error: portfoliosError } = await portfoliosQuery
+    const portfolios = countedDepots(portfolioRows ?? [])
 
-    if (portfoliosError || !portfolios || portfolios.length === 0) {
+    if (portfoliosError || portfolios.length === 0) {
       console.log('[Weekly Portfolio Report] No portfolios found')
       return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekNumber, weekRange, message: 'No portfolios found', emailsSent: 0 })
     }

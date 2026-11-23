@@ -19,7 +19,9 @@ import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import { BrokerBadge } from './PortfolioBrokerSelector'
 import { BrokerType, getBrokerColor, brokerTypeToLogoId } from '@/lib/brokerConfig'
 import { BrokerLogo } from './portfolio/BrokerLogo'
-import { useCurrency } from '@/lib/CurrencyContext'
+import { SampleBadge } from './portfolio/DepotList'
+import { countedDepots, depotLabel, isSampleDepot } from '@/lib/sampleDepotShared'
+import { formatMoney } from '@/lib/displayFormat'
 
 export interface PortfolioSummary {
   id: string
@@ -36,6 +38,10 @@ export interface PortfolioSummary {
   gain_loss: number
   gain_loss_percent: number
 }
+
+// Alle Beträge sind schon in Euro (lib/portfolioValuation). Die Währung aus dem
+// CurrencyContext steht beim direkten Aufruf der Seite noch auf Dollar.
+const formatCurrency = (amount: number) => formatMoney(Math.round(amount * 100) / 100 || 0, 'EUR')
 
 interface PortfolioDepotListProps {
   portfolios: PortfolioSummary[]
@@ -54,10 +60,10 @@ export default function PortfolioDepotList({
   onEdit,
   loading = false
 }: PortfolioDepotListProps) {
-  const { formatCurrency } = useCurrency()
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
 
-  const aggregated = portfolios.reduce(
+  const counted = countedDepots(portfolios)
+  const aggregated = counted.reduce(
     (acc, p) => ({
       total_value: acc.total_value + p.total_value,
       total_cost: acc.total_cost + p.total_cost,
@@ -131,7 +137,7 @@ export default function PortfolioDepotList({
                 <h3 className="font-medium text-white flex items-center gap-2">
                   Alle Depots
                   <span className="text-xs font-normal text-neutral-500">
-                    ({portfolios.length})
+                    ({counted.length})
                   </span>
                 </h3>
                 <div className="flex items-center gap-3 text-xs text-neutral-500 mt-0.5">
@@ -187,8 +193,9 @@ export default function PortfolioDepotList({
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <h3 className="font-medium text-white">
-                        {portfolio.name}
+                        {depotLabel(portfolio)}
                       </h3>
+                      {isSampleDepot(portfolio) && <SampleBadge />}
                       {portfolio.is_default && (
                         <StarIconSolid className="w-3.5 h-3.5 text-yellow-500" />
                       )}

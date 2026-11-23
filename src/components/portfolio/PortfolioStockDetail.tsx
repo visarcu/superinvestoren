@@ -12,6 +12,7 @@ import { detectTickerCurrency } from '@/lib/fmp'
 import { perfColor } from '@/utils/formatters'
 import { calculateSymbolPerformance, type SymbolPerformance } from '@/utils/portfolioCalculations'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
+import { countedDepots } from '@/lib/sampleDepotShared'
 import WorkingStockChart from '@/components/WorkingStockChart'
 import type { PurchaseMarker } from '@/components/WorkingStockChart'
 import Logo from '@/components/Logo'
@@ -270,12 +271,13 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           const { data: { user } } = await supabase.auth.getUser()
           if (!user || cancelled) return
 
-          const { data: portfolios } = await supabase
+          const { data: portfolioRows } = await supabase
             .from('portfolios')
             .select('id, name, broker_type, broker_name, broker_color')
             .eq('user_id', user.id)
 
-          if (!portfolios || cancelled) return
+          if (!portfolioRows || cancelled) return
+          const portfolios = countedDepots(portfolioRows)
           fxPortfolioIds = portfolios.map(p => p.id)
 
           const breakdowns: DepotBreakdown[] = []

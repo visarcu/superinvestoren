@@ -5,6 +5,7 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import { getEarningsFromDb, toFmpShape } from '@/lib/earningsCalendarDb'
+import { countedDepots } from '@/lib/sampleDepotShared'
 
 interface EarningsEvent {
   symbol: string
@@ -47,17 +48,18 @@ async function handleDailyEarningsReminder(testUserId: string | null = null) {
     console.log(`[Daily Earnings Reminder] ${userIds.length} users with push tokens`)
 
     // 2. Get portfolio holdings for these users (via portfolios → portfolio_holdings)
-    const { data: portfolios, error: portfoliosError } = await supabaseAdmin
+    const { data: portfolioRows, error: portfoliosError } = await supabaseAdmin
       .from('portfolios')
-      .select('id, user_id')
+      .select('id, user_id, broker_name')
       .in('user_id', userIds)
+    const portfolios = countedDepots(portfolioRows ?? [])
 
     if (portfoliosError) {
       console.error('[Daily Earnings Reminder] portfolios error:', portfoliosError)
       return NextResponse.json({ error: 'Database error', details: portfoliosError.message }, { status: 500 })
     }
 
-    if (!portfolios || portfolios.length === 0) {
+    if (portfolios.length === 0) {
       console.log('[Daily Earnings Reminder] No portfolios found')
       return NextResponse.json({ success: true, message: 'No portfolios found', notificationsSent: 0 })
     }

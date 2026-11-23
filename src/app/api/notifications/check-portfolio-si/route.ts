@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
+import { SAMPLE_DEPOT_BROKER_NAME, countedDepots } from '@/lib/sampleDepotShared'
 
 // TEST MODE: Only send notifications to this user. Set to null to send to all.
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -154,9 +155,22 @@ async function handleCheck(queryTestUserId: string | null = null) {
       return NextResponse.json({ message: 'No holdings', notificationsCreated: 0 })
     }
 
+    // Beispieldepots von Nutzern mit eigenem Depot zählen nicht mit
+    const { data: sampleDepots } = await supabaseService
+      .from('portfolios')
+      .select('id, user_id, broker_name')
+      .eq('broker_name', SAMPLE_DEPOT_BROKER_NAME)
+    const sampleOwners = [...new Set((sampleDepots ?? []).map(p => p.user_id as string))]
+    const { data: ownerDepots } = sampleOwners.length
+      ? await supabaseService.from('portfolios').select('id, user_id, broker_name').in('user_id', sampleOwners)
+      : { data: [] as { id: string; user_id: string; broker_name: string | null }[] }
+    const countedIds = new Set(countedDepots(ownerDepots ?? []).map(p => p.id))
+    const ignoredIds = new Set((sampleDepots ?? []).map(p => p.id).filter(id => !countedIds.has(id)))
+
     // 2. Group holdings by user
     const userTickers = new Map<string, Set<string>>()
     for (const h of portfolioHoldings) {
+      if (ignoredIds.has(h.portfolio_id)) continue
       const userId = (h as any).user_id?.user_id
       if (!userId) continue
       if (!userTickers.has(userId)) userTickers.set(userId, new Set())

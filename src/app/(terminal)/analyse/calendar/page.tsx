@@ -12,6 +12,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
+import { countedDepots } from '@/lib/sampleDepotShared'
 import {
   CompactResult,
   EarningsFigures,
@@ -172,9 +173,9 @@ export default function EarningsCalendarPage() {
       // alle Depots des Users aggregieren statt nur is_default=true zu lesen.
       const { data: portfolios } = await supabase
         .from('portfolios')
-        .select('id')
+        .select('id, broker_name')
         .eq('user_id', session.user.id)
-      const portfolioIds = portfolios?.map(p => p.id).filter(Boolean) || []
+      const portfolioIds = countedDepots(portfolios ?? []).map(p => p.id).filter(Boolean)
       if (portfolioIds.length > 0 && !cancelled) {
         const { data: holds } = await supabase
           .from('portfolio_holdings')

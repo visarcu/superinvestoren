@@ -18,11 +18,14 @@ export default function SampleDepotBanner({
   purchaseDate,
   newDepotHref,
   onDelete,
+  excluded,
 }: {
   depotName: string
   purchaseDate?: string
   newDepotHref: string
   onDelete: () => Promise<void>
+  /** Es gibt ein eigenes Depot, das Beispieldepot zählt daher nicht in "Alle Depots" */
+  excluded: boolean
 }) {
   const [deleting, setDeleting] = useState(false)
   const date = formatDate(purchaseDate)
@@ -48,7 +51,7 @@ export default function SampleDepotBanner({
             Die zehn größten Positionen aus {investor}s letztem 13F, so gekauft, als hätte man
             {date ? ` am ${date}` : ' vor drei Jahren'} {SAMPLE_DEPOT_START_VALUE_EUR.toLocaleString('de-DE')} € investiert. Kurse und
             seitdem gezahlte Dividenden (nach 15 % US-Quellensteuer) sind echt. Schau dir in Ruhe Rendite, Dividenden
-            und Analyse an.
+            und Analyse an.{excluded && ' In „Alle Depots“ zählt es nicht mit.'}
           </p>
         </div>
       </div>
