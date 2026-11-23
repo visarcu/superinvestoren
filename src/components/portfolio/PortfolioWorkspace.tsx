@@ -34,6 +34,7 @@ import CashEditModal from '@/components/portfolio/CashEditModal'
 import BrokerCreditModal from '@/components/portfolio/BrokerCreditModal'
 import RenamePortfolioModal from '@/components/portfolio/RenamePortfolioModal'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
+import DepotAccountMenu from '@/components/portfolio/DepotAccountMenu'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
 import SampleDepotBanner from '@/components/portfolio/SampleDepotBanner'
@@ -505,7 +506,8 @@ function LockedViewCard({ message }: { message: string }) {
   )
 }
 
-function EmptyPortfolio({ onAddActivity }: { onAddActivity: () => void }) {
+/** onImport fehlt in der Sicht "Alle Depots": ein Import braucht ein Zieldepot */
+function EmptyPortfolio({ onAddActivity, onImport }: { onAddActivity: () => void; onImport?: () => void }) {
   return (
     <div className="bg-theme-card border border-theme rounded-xl p-8 text-center">
       <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/[0.06]">
@@ -513,16 +515,34 @@ function EmptyPortfolio({ onAddActivity }: { onAddActivity: () => void }) {
       </div>
       <h2 className="mb-2 text-lg font-semibold text-theme-primary">Noch keine Positionen</h2>
       <p className="mx-auto max-w-md text-sm text-theme-muted">
-        Erfasse deinen ersten Kauf, eine Dividende oder einen Depotübertrag, oder verbinde dein Depot per Broker-Sync.
+        {onImport
+          ? 'Lade den Export deines Brokers hoch, dann sind Käufe, Verkäufe und Dividenden auf einmal da. Oder erfasse sie einzeln von Hand.'
+          : 'Erfasse deinen ersten Kauf, eine Dividende oder einen Depotübertrag.'}
       </p>
-      <button
-        type="button"
-        onClick={onAddActivity}
-        className="mt-5 inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition-colors hover:bg-neutral-200"
-      >
-        <PlusIcon className="h-4 w-4" />
-        Aktivität hinzufügen
-      </button>
+      <div className="mt-5 flex flex-col justify-center gap-2 sm:flex-row">
+        {onImport && (
+          <button
+            type="button"
+            onClick={onImport}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-sm font-medium text-black transition-colors hover:bg-neutral-200"
+          >
+            <ArrowUpTrayIcon className="h-4 w-4" />
+            CSV/PDF hochladen
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={onAddActivity}
+          className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+            onImport
+              ? 'border border-theme text-theme-primary hover:bg-theme-hover'
+              : 'bg-white text-black hover:bg-neutral-200'
+          }`}
+        >
+          <PlusIcon className="h-4 w-4" />
+          Aktivität hinzufügen
+        </button>
+      </div>
       <div className="mx-auto mt-6 max-w-xs border-t border-theme pt-5">
         <p className="mb-2 text-xs text-theme-muted">Oder erst mal ausprobieren, mit echten Daten:</p>
         <SampleDepotButton />
@@ -732,43 +752,46 @@ export default function PortfolioWorkspace() {
             </div>
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
-            <button
-              type="button"
-              onClick={p.refresh}
-              disabled={p.refreshing}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white disabled:opacity-50"
-              title="Kurse aktualisieren"
-            >
-              <ArrowPathIcon className={`h-4 w-4 ${p.refreshing ? 'animate-spin' : ''}`} />
-            </button>
-            {!p.isAllDepotsView && (
+          <div className="flex shrink-0 items-center gap-3">
+            <div className="hidden items-center gap-2 md:flex">
               <button
                 type="button"
-                onClick={() => setShowCSVImport(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:text-white"
-                title="CSV-Import"
+                onClick={p.refresh}
+                disabled={p.refreshing}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white disabled:opacity-50"
+                title="Kurse aktualisieren"
               >
-                <ArrowUpTrayIcon className="h-3.5 w-3.5" />
-                Import
+                <ArrowPathIcon className={`h-4 w-4 ${p.refreshing ? 'animate-spin' : ''}`} />
               </button>
-            )}
-            <button
-              type="button"
-              onClick={p.exportToCSV}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
-              title="Als CSV exportieren"
-            >
-              <ArrowDownTrayIcon className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setActivityDialogTrigger(t => t + 1)}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[13px] font-medium text-black transition-colors hover:bg-neutral-200"
-            >
-              <PlusIcon className="h-3.5 w-3.5" />
-              Aktivität
-            </button>
+              {!p.isAllDepotsView && (
+                <button
+                  type="button"
+                  onClick={() => setShowCSVImport(true)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:text-white"
+                  title="CSV-Import"
+                >
+                  <ArrowUpTrayIcon className="h-3.5 w-3.5" />
+                  Import
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={p.exportToCSV}
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
+                title="Als CSV exportieren"
+              >
+                <ArrowDownTrayIcon className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setActivityDialogTrigger(t => t + 1)}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-[13px] font-medium text-black transition-colors hover:bg-neutral-200"
+              >
+                <PlusIcon className="h-3.5 w-3.5" />
+                Aktivität
+              </button>
+            </div>
+            <DepotAccountMenu isPremium={p.isPremium} />
           </div>
         </div>
       </header>
@@ -911,7 +934,10 @@ export default function PortfolioWorkspace() {
                   />
                 </>
               )}
-              <EmptyPortfolio onAddActivity={() => setActivityDialogTrigger(t => t + 1)} />
+              <EmptyPortfolio
+                onAddActivity={() => setActivityDialogTrigger(t => t + 1)}
+                onImport={!p.isAllDepotsView && p.portfolio?.id ? () => setShowCSVImport(true) : undefined}
+              />
             </>
           )
         ) : lockedViewMessage ? (

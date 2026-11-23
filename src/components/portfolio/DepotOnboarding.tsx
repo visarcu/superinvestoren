@@ -7,6 +7,7 @@ import React from 'react'
 import Link from 'next/link'
 import { ArrowRightIcon, PencilSquareIcon, PlusIcon } from '@heroicons/react/24/outline'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
+import DepotAccountMenu from '@/components/portfolio/DepotAccountMenu'
 import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
 import { BROKER_CONFIGS, BrokerType, brokerTypeToLogoId } from '@/lib/brokerConfig'
 
@@ -32,7 +33,10 @@ const newDepotHref = (broker?: BrokerType) =>
 export default function DepotOnboarding() {
   return (
     <div className="min-h-screen bg-theme-primary text-theme-primary">
-      <div className="mx-auto w-full max-w-3xl px-6 py-16 sm:py-24">
+      <div className="flex h-14 items-center justify-end px-6 lg:px-8">
+        <DepotAccountMenu />
+      </div>
+      <div className="mx-auto w-full max-w-3xl px-6 pb-16 pt-2 sm:pb-24 sm:pt-10">
         {/* Intro */}
         <div className="mb-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-teal-300/20 bg-teal-400/10 px-3 py-1 text-[11px] font-medium text-teal-500 dark:text-teal-300">

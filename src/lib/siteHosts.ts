@@ -99,6 +99,19 @@ export function leaveDepotHref(path: string): string {
   return isOnDepotHost() ? mainSiteHref(path) : path
 }
 
+/**
+ * Gegenstück zu leaveDepotHref: Link von der Hauptseite ins Depot. Auf der
+ * Hauptseite absolut, sonst würde der Link dort vorgeladen, auf die Subdomain
+ * umgeleitet und an CORS scheitern. Auf localhost und in Vorschau-Deployments
+ * der unveränderte Pfad. Nur im Browser aufrufen.
+ */
+export function enterDepotHref(path: string): string {
+  if (!DEPOT_HOST || typeof window === 'undefined') return path
+  const host = window.location.host.toLowerCase()
+  const mainHost = mainHostFor(DEPOT_HOST)
+  return host === mainHost || host === `www.${mainHost}` ? depotHref(path) : path
+}
+
 /** Läuft der Browser gerade auf dem Depot-Host? Nur clientseitig sinnvoll. */
 export function isOnDepotHost(): boolean {
   return !!DEPOT_HOST && typeof window !== 'undefined' && window.location.host.toLowerCase() === DEPOT_HOST

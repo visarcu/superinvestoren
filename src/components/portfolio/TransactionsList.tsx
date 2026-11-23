@@ -277,12 +277,12 @@ export default function TransactionsList({
       ================================================================ */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         {/* Typ-Toggle (wie Dividenden-Zeitraum-Picker) */}
-        <div className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.08] rounded-lg p-0.5">
+        <div className="flex max-w-full items-center gap-1 overflow-x-auto bg-white/[0.04] border border-white/[0.08] rounded-lg p-0.5">
           {TYPE_FILTERS.map(f => (
             <button
               key={f.key}
               onClick={() => setFilter(f.key)}
-              className={`px-3 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
+              className={`shrink-0 px-2.5 py-1.5 text-[12px] font-medium rounded-md transition-colors sm:px-3 ${
                 filter === f.key
                   ? 'bg-white/[0.08] text-white'
                   : 'text-neutral-500 hover:text-neutral-300'
@@ -458,7 +458,7 @@ export default function TransactionsList({
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-neutral-500 tabular-nums truncate">
+                        <p className="text-[11px] text-neutral-500 tabular-nums sm:truncate">
                           {formatDate(tx.date)}
                           {!isCash && tx.quantity > 0 && ` · ${tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 6 })} × ${formatCurrency(tx.price)}`}
                           {isCash && tx.name && tx.name !== 'CASH' && ` · ${tx.name}`}
@@ -480,8 +480,8 @@ export default function TransactionsList({
                         )}
                       </div>
 
-                      {/* Actions (hover-visible) */}
-                      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                      {/* Actions: mit Maus erst beim Überfahren, auf Touch-Geräten immer sichtbar */}
+                      <div className="flex items-center gap-0.5 transition-opacity flex-shrink-0 sm:[@media(hover:hover)]:opacity-0 sm:[@media(hover:hover)]:group-hover:opacity-100">
                         <button onClick={() => startEdit(tx)} className="p-1.5 hover:bg-white/[0.08] rounded-lg transition-colors" title="Bearbeiten">
                           <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-white" />
                         </button>

@@ -6,15 +6,17 @@
 
 import Link from 'next/link'
 import { ArrowRightIcon, CheckIcon } from '@heroicons/react/24/outline'
+import DepotCta from '@/components/depot/DepotCta'
 import MonteCarloFanChart from '@/components/depot/MonteCarloFanChart'
 import QuarterMark from '@/components/landing/QuarterMark'
 import { DISPLAY, MONO, landingFontVars } from '@/components/landing/landingFonts'
+import { WORKSPACE_PATH } from '@/lib/depotRoutes'
 import { IMPORT_BROKERS } from '@/lib/importBrokerConfig'
 import { PREMIUM_MONTHLY_EUR, PREMIUM_TRIAL_DAYS, PREMIUM_YEARLY_EUR } from '@/lib/pricing'
 import { formatIsoDate, formatSignedPercent, joinGerman } from '@/lib/displayFormat'
 import { buildDepotShowcase, SHOWCASE_START_VALUE, type DepotShowcase } from '@/lib/depotShowcase'
 
-const DEPOT_HREF = '/analyse/portfolio'
+const SIGNUP_HREF = `/auth/signup?redirect=${encodeURIComponent(WORKSPACE_PATH)}`
 const brokers = IMPORT_BROKERS.filter(b => b.id !== 'other').map(b => b.name)
 
 
@@ -331,14 +333,14 @@ function Showcase({ s, siteHref }: { s: DepotShowcase; siteHref: (path: string) 
 // — Seite —
 
 /**
- * ctaHref: Ziel der Buttons "Depot anlegen" (auf der Subdomain direkt zur Registrierung)
+ * signupHref: Registrierung hinter "Depot kostenlos anlegen" (auf der Subdomain absolut)
  * siteHref: macht Pfade der Hauptseite auf der Subdomain absolut
  */
 export default async function DepotLanding({
-  ctaHref = DEPOT_HREF,
+  signupHref = SIGNUP_HREF,
   siteHref = path => path,
 }: {
-  ctaHref?: string
+  signupHref?: string
   siteHref?: (path: string) => string
 }) {
   const showcase = await buildDepotShowcase()
@@ -372,13 +374,10 @@ export default async function DepotLanding({
               Vermögensverwalter nutzen: Monte Carlo, Stresstests und Faktoranalyse.
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link
-                href={ctaHref}
+              <DepotCta
+                signupHref={signupHref}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ECEDE8] text-[#0D0E0C] font-medium hover:bg-white transition-colors"
-              >
-                Depot kostenlos anlegen
-                <ArrowRightIcon className="w-4 h-4" />
-              </Link>
+              />
               {showcase && (
                 <a href="#beispiel" className="px-6 py-3 rounded-xl border border-[#3A3D36] text-[#ECEDE8] hover:bg-[#1A1C18] transition-colors">
                   Beispielanalyse ansehen
@@ -504,13 +503,10 @@ export default async function DepotLanding({
             Wie robust ist dein Depot?
           </h2>
           <p className="mt-4 text-[#B4B6AE]">Leg dein Depot an und finde es heraus. Der Start ist kostenlos.</p>
-          <Link
-            href={ctaHref}
+          <DepotCta
+            signupHref={signupHref}
             className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ECEDE8] text-[#0D0E0C] font-medium hover:bg-white transition-colors"
-          >
-            Depot kostenlos anlegen
-            <ArrowRightIcon className="w-4 h-4" />
-          </Link>
+          />
         </div>
       </section>
     </div>

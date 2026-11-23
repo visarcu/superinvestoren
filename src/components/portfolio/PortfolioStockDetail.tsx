@@ -18,6 +18,7 @@ import Logo from '@/components/Logo'
 import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { getETFBySymbol, calculateTERSavings, calculateTERCost, formatTER } from '@/lib/etfUtils'
 import { useETFInfo } from '@/hooks/useETFInfo'
+import DepotAccountMenu from '@/components/portfolio/DepotAccountMenu'
 import InvestmentCaseCard from '@/components/portfolio/InvestmentCaseCard'
 import { formatDecimal } from '@/lib/displayFormat'
 
@@ -580,13 +581,16 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={handleBack}
-            className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white sm:inline-flex"
-          >
-            Zum Portfolio
-          </button>
+          <div className="flex shrink-0 items-center gap-3">
+            <button
+              type="button"
+              onClick={handleBack}
+              className="hidden items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white sm:inline-flex"
+            >
+              Zum Portfolio
+            </button>
+            <DepotAccountMenu />
+          </div>
         </div>
       </header>
 

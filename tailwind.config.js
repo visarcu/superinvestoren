@@ -44,6 +44,10 @@ module.exports = {
         section2: '#161c26',
         section3: '#1d2430',
       },
+      // 18 px für Symbole (h-4.5 w-4.5), fehlt in der Standardskala
+      spacing: {
+        4.5: '1.125rem',
+      },
       fontFamily: {
         sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
         orbitron: ['Orbitron', 'sans-serif'],

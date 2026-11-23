@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 export default function DepotStartPage() {
   return (
     <DepotLanding
-      ctaHref={mainSiteHref(`/auth/signup?redirect=${encodeURIComponent(WORKSPACE_PATH)}`)}
+      signupHref={mainSiteHref(`/auth/signup?redirect=${encodeURIComponent(WORKSPACE_PATH)}`)}
       siteHref={mainSiteHref}
     />
   )
