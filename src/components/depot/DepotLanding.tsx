@@ -159,7 +159,7 @@ function Kpi({ label, value, compare }: { label: string; value: string; compare?
   )
 }
 
-function Showcase({ s }: { s: DepotShowcase }) {
+function Showcase({ s, siteHref }: { s: DepotShowcase; siteHref: (path: string) => string }) {
   const r = s.risk
   const b = s.benchmarkRisk
   const mc = s.monteCarlo
@@ -189,7 +189,7 @@ function Showcase({ s }: { s: DepotShowcase }) {
               {s.holdings.map(h => (
                 <li key={h.ticker} className="text-sm">
                   <div className="flex items-center justify-between gap-3">
-                    <Link href={`/aktie/${h.ticker.toLowerCase()}`} className="min-w-0 truncate text-[#C9CBC3] hover:text-white">
+                    <Link href={siteHref(`/aktie/${h.ticker.toLowerCase()}`)} className="min-w-0 truncate text-[#C9CBC3] hover:text-white">
                       {h.name}{' '}
                       <span className="text-[#6E7168]" style={MONO}>
                         {h.ticker}
@@ -205,7 +205,7 @@ function Showcase({ s }: { s: DepotShowcase }) {
                 </li>
               ))}
             </ul>
-            <Link href="/superinvestor/buffett" className="mt-5 inline-flex items-center gap-1 text-xs text-[#9A9C94] hover:text-white">
+            <Link href={siteHref('/superinvestor/buffett')} className="mt-5 inline-flex items-center gap-1 text-xs text-[#9A9C94] hover:text-white">
               Komplettes Portfolio ansehen <ArrowRightIcon className="w-3 h-3" />
             </Link>
           </div>
@@ -330,8 +330,17 @@ function Showcase({ s }: { s: DepotShowcase }) {
 
 // — Seite —
 
-/** ctaHref: Ziel der Buttons "Depot anlegen" (auf der Subdomain direkt zur Registrierung) */
-export default async function DepotLanding({ ctaHref = DEPOT_HREF }: { ctaHref?: string }) {
+/**
+ * ctaHref: Ziel der Buttons "Depot anlegen" (auf der Subdomain direkt zur Registrierung)
+ * siteHref: macht Pfade der Hauptseite auf der Subdomain absolut
+ */
+export default async function DepotLanding({
+  ctaHref = DEPOT_HREF,
+  siteHref = path => path,
+}: {
+  ctaHref?: string
+  siteHref?: (path: string) => string
+}) {
   const showcase = await buildDepotShowcase()
   const mc = showcase?.monteCarlo
   const lastBand = mc?.bands[mc.bands.length - 1]
@@ -426,7 +435,7 @@ export default async function DepotLanding({ ctaHref = DEPOT_HREF }: { ctaHref?:
         </div>
       </section>
 
-      {showcase && <Showcase s={showcase} />}
+      {showcase && <Showcase s={showcase} siteHref={siteHref} />}
 
       {/* Free vs. Premium */}
       <section className="py-24 md:py-28">
@@ -460,7 +469,7 @@ export default async function DepotLanding({ ctaHref = DEPOT_HREF }: { ctaHref?:
                   </li>
                 ))}
               </ul>
-              <Link href="/pricing" className="mt-6 inline-flex items-center gap-1 text-sm text-[#C9CBC3] hover:text-white">
+              <Link href={siteHref('/pricing')} className="mt-6 inline-flex items-center gap-1 text-sm text-[#C9CBC3] hover:text-white">
                 Alle Premium-Funktionen <ArrowRightIcon className="w-3.5 h-3.5" />
               </Link>
             </div>

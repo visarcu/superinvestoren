@@ -15,6 +15,7 @@ import { perfColor } from '@/utils/formatters'
 import { ArrowTrendingUpIcon, ArrowTrendingDownIcon, ChartPieIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 interface AnalysisTabProps {
   holdings: Holding[]
@@ -396,7 +397,7 @@ function PerformerRow({
   const displayName = etfInfo?.name || holding.name || holding.symbol
   const href = portfolioId
     ? `/analyse/portfolio/stocks/${holding.symbol.toLowerCase()}?portfolioId=${portfolioId}`
-    : `/analyse/stocks/${holding.symbol.toLowerCase()}`
+    : leaveDepotHref(`/analyse/stocks/${holding.symbol.toLowerCase()}`)
 
   return (
     <Link

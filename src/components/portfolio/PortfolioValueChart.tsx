@@ -17,6 +17,7 @@ import { ArrowPathIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { perfColor } from '@/utils/formatters'
 import { supabase } from '@/lib/supabaseClient'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 interface PortfolioValueChartProps {
   /** Einzel-Depot-ID. Bei "Alle Depots"-Ansicht ignoriert — dann portfolioIds nutzen. */
@@ -828,7 +829,7 @@ export default function PortfolioValueChart({
             FTSE All-World, echt berechnet aus deiner Wertentwicklung.
           </p>
           <a
-            href="/pricing"
+            href={leaveDepotHref('/pricing')}
             className="mt-3 inline-flex items-center rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white"
           >
             Premium freischalten
@@ -849,11 +850,11 @@ export default function PortfolioValueChart({
           ) : (
             <>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[420px] text-sm">
+                <table className="w-full text-[13px] sm:text-sm">
                   <thead>
                     <tr className="border-b border-white/[0.06] text-[11px] uppercase tracking-wider text-theme-muted">
-                      <th className="py-2 text-left font-medium">Kennzahl</th>
-                      <th className="py-2 text-right font-medium">Dein Depot</th>
+                      <th className="py-2 pr-3 text-left font-medium">Kennzahl</th>
+                      <th className="py-2 pr-3 text-right font-medium">Dein Depot</th>
                       <th className="py-2 text-right font-medium">FTSE All-World</th>
                     </tr>
                   </thead>
@@ -878,8 +879,8 @@ export default function PortfolioValueChart({
                       }],
                     ] as [string, (m: RiskMeasures) => string][]).map(([label, fmt]) => (
                       <tr key={label} className="border-b border-white/[0.04] last:border-b-0">
-                        <td className="py-1.5 text-theme-secondary">{label}</td>
-                        <td className="py-1.5 text-right font-medium text-theme-primary">{fmt(risk.portfolio!)}</td>
+                        <td className="py-1.5 pr-3 text-theme-secondary">{label}</td>
+                        <td className="py-1.5 pr-3 text-right font-medium text-theme-primary">{fmt(risk.portfolio!)}</td>
                         <td className="py-1.5 text-right text-theme-secondary">
                           {risk.ftseAllWorld ? fmt(risk.ftseAllWorld) : '—'}
                         </td>
@@ -887,8 +888,8 @@ export default function PortfolioValueChart({
                     ))}
                     {risk.portfolio.beta !== null && (
                       <tr>
-                        <td className="py-1.5 text-theme-secondary">Beta vs. FTSE All-World</td>
-                        <td className="py-1.5 text-right font-medium text-theme-primary">{formatDecimal(risk.portfolio.beta, 2)}</td>
+                        <td className="py-1.5 pr-3 text-theme-secondary">Beta vs. FTSE All-World</td>
+                        <td className="py-1.5 pr-3 text-right font-medium text-theme-primary">{formatDecimal(risk.portfolio.beta, 2)}</td>
                         <td className="py-1.5 text-right text-theme-secondary">1,00</td>
                       </tr>
                     )}

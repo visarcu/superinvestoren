@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { CheckIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 interface PremiumUpgradeModalProps {
   isOpen: boolean
@@ -40,7 +41,7 @@ export default function PremiumUpgradeModal({ isOpen, onClose, feature }: Premiu
           <button onClick={onClose} className="flex-1 px-4 py-3 text-sm font-medium bg-theme-secondary text-theme-secondary rounded-xl hover:bg-theme-hover transition-colors">
             Später
           </button>
-          <Link href="/pricing" className="flex-1 px-4 py-3 text-sm font-medium bg-emerald-500 text-white rounded-xl hover:bg-emerald-400 transition-colors text-center">
+          <Link href={leaveDepotHref('/pricing')} className="flex-1 px-4 py-3 text-sm font-medium bg-emerald-500 text-white rounded-xl hover:bg-emerald-400 transition-colors text-center">
             Jetzt upgraden
           </Link>
         </div>

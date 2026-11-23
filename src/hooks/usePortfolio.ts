@@ -8,6 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { formatMoney } from '@/lib/displayFormat'
 import { getEURRate, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
 import { convertPriceToEur, fetchEurRatesFor } from '@/lib/portfolioValuation'
 import { calculateXIRR, type Cashflow } from '@/utils/xirr'
@@ -433,7 +434,16 @@ export function calculateHistoricalPerfByDepot(
 export function usePortfolio(routeDepotKey?: string) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { currency, setCurrency, formatCurrency, formatStockPrice, formatPercentage } = useCurrency()
+  const { currency, setCurrency, formatCurrency: formatCompactCurrency, formatStockPrice, formatPercentage } = useCurrency()
+
+  // Depotbeträge wie im Kontoauszug immer mit Cents ("16.821,40 €" statt
+  // "16.821,4 €"). Ab einer Million bleibt die gekürzte Schreibweise.
+  const formatCurrency = (amount: number, type: 'currency' | 'number' = 'currency'): string => {
+    if (type === 'number' || Math.abs(amount) >= 1_000_000) return formatCompactCurrency(amount, type)
+    // Rundung auf 0 ohne Vorzeichen ("-0,00 €")
+    const rounded = Math.round(amount * 100) / 100
+    return formatMoney(rounded === 0 ? 0 : rounded, currency)
+  }
 
   // Ohne Depot in Pfad oder ?depot=…: Default auf 'all' (Sicht über alle Depots).
   // So landet der User nicht versehentlich auf einem leeren Default-Portfolio,

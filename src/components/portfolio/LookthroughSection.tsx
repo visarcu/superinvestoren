@@ -25,6 +25,7 @@ import {
 
 import AllocationBarList, { ALLOCATION_PALETTE } from '@/components/portfolio/AllocationBarList'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 const STATUS_LABEL: Record<EtfCoverageInfo['status'], { text: string; className: string }> = {
   exact: { text: 'zerlegt', className: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' },
@@ -160,7 +161,7 @@ export default function LookthroughSection({
                 <li>· Superinvestor-Abgleich mit deinen effektiven Positionen</li>
               </ul>
               <Link
-                href="/pricing"
+                href={leaveDepotHref('/pricing')}
                 className="mt-4 inline-flex items-center gap-2 rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white"
               >
                 Premium freischalten

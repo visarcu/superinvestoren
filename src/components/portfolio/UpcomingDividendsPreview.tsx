@@ -9,6 +9,7 @@ import { BanknotesIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 import Link from 'next/link'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 interface DividendEvent {
   ticker: string
@@ -77,7 +78,7 @@ function Header({ subline, onShowAll }: { subline: string; onShowAll?: () => voi
         </button>
       ) : (
         <Link
-          href="/analyse/dividends"
+          href={leaveDepotHref('/analyse/dividends')}
           className="text-[11px] text-neutral-400 hover:text-white transition-colors"
         >
           Alle →
@@ -212,7 +213,7 @@ export default function UpcomingDividendsPreview({
           return (
             <Link
               key={`${div.ticker}-${paymentDate}-${index}`}
-              href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
+              href={leaveDepotHref(`/analyse/stocks/${div.ticker.toLowerCase()}`)}
               className="flex items-center justify-between py-2.5 px-5 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.05] transition-colors"
             >
               <div className="flex items-center gap-3 min-w-0">

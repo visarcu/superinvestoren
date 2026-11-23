@@ -20,6 +20,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { type Holding } from '@/hooks/usePortfolio'
 import { BeakerIcon, ShieldExclamationIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 // --- Typen: Spiegel der API-Payload (portfolioQuant.ts) ---
 
@@ -230,7 +231,7 @@ export default function QuantSection({
           Fama-French-Faktoranalyse deines Depots, echt berechnet aus deiner eigenen Historie.
         </p>
         <a
-          href="/pricing"
+          href={leaveDepotHref('/pricing')}
           className="mt-3 inline-flex items-center rounded-xl border border-teal-300/20 bg-teal-400/10 px-4 py-2 text-sm font-semibold text-teal-200 transition-colors hover:bg-teal-400/15 hover:text-white"
         >
           Premium freischalten

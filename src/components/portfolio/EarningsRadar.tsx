@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { ArrowPathIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 import type { Holding } from '@/hooks/usePortfolio'
+import { leaveDepotHref } from '@/lib/siteHosts'
 import {
   fmtSurprise,
   fmtTypicalMove,
@@ -215,7 +216,7 @@ export default function EarningsRadar({ holdings, totalValue, formatCurrency }: 
         <h3 className="text-sm font-semibold text-white tracking-tight">Earnings-Radar</h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">Deine Positionen, diese und nächste Woche</p>
       </div>
-      <Link href="/analyse/calendar" className="text-[11px] text-neutral-400 hover:text-white transition-colors">
+      <Link href={leaveDepotHref('/analyse/calendar')} className="text-[11px] text-neutral-400 hover:text-white transition-colors">
         Kalender →
       </Link>
     </div>
@@ -327,7 +328,7 @@ function RadarRow({ event: e, today, children }: { event: RadarEvent; today: str
   const when = [dayLabel(e.date, today), timeLabel(e.time)].filter(Boolean).join(' · ')
   return (
     <Link
-      href={`/analyse/stocks/${e.ticker.toLowerCase()}`}
+      href={leaveDepotHref(`/analyse/stocks/${e.ticker.toLowerCase()}`)}
       className="flex items-center justify-between py-2.5 px-5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/60 transition-colors"
     >
       <div className="flex items-center gap-3 min-w-0">

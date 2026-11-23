@@ -18,6 +18,7 @@ import {
   ChevronDownIcon
 } from '@heroicons/react/24/outline'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 interface PositionsTableProps {
   holdings: Holding[]
@@ -34,8 +35,6 @@ interface PositionsTableProps {
   portfolioId?: string
   superInvestorCounts?: Record<string, { count: number; investors: { name: string; slug: string }[] }>
   readOnly?: boolean
-  returnTabParam?: string
-  returnTabValue?: string
   // Historische Performance pro (symbol, portfolio_id) für Ghost-Sub-Rows
   // (Depot hat 0 aktuelle Shares, aber historische Dividenden/Realisiert).
   // Keys: "SYMBOL|PORTFOLIO_ID"
@@ -172,8 +171,6 @@ export default function PositionsTable({
   portfolioId,
   superInvestorCounts,
   readOnly = false,
-  returnTabParam = 'tab',
-  returnTabValue = 'positions',
   historicalPerfByDepot,
 }: PositionsTableProps) {
   const router = useRouter()
@@ -201,8 +198,6 @@ export default function PositionsTable({
 
   const updatePortfolioQuery = useCallback((updates: Partial<{ sortBy: SortBy; sortDir: SortDir; range: ReturnRange }>) => {
     const params = new URLSearchParams(searchParams.toString())
-    params.set(returnTabParam, returnTabValue)
-
     if (updates.sortBy) params.set('sortBy', updates.sortBy)
     if (updates.sortDir) params.set('sortDir', updates.sortDir)
     if (updates.range) {
@@ -212,7 +207,7 @@ export default function PositionsTable({
 
     const next = params.toString()
     router.replace(`${pathname}${next ? `?${next}` : ''}`, { scroll: false })
-  }, [pathname, returnTabParam, returnTabValue, router, searchParams])
+  }, [pathname, router, searchParams])
 
   useEffect(() => {
     if (holdings.length === 0) {
@@ -402,16 +397,14 @@ export default function PositionsTable({
   }
 
   const handleViewStock = (symbol: string) => {
-    const returnParams = new URLSearchParams(searchParams.toString())
-    returnParams.set(returnTabParam, returnTabValue)
-    const returnQuery = returnParams.toString()
-    const returnTo = `${pathname}${returnQuery ? `?${returnQuery}` : ''}`
+    // Der Pfad nennt Depot und Ansicht schon (siehe lib/depotRoutes)
+    const returnTo = `${pathname}${queryString ? `?${queryString}` : ''}`
     const encodedReturnTo = encodeURIComponent(returnTo)
 
     if (portfolioId) {
       router.push(`/analyse/portfolio/stocks/${symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue}&returnTo=${encodedReturnTo}`)
     } else {
-      router.push(`/analyse/stocks/${symbol.toLowerCase()}?returnTo=${encodedReturnTo}`)
+      router.push(leaveDepotHref(`/analyse/stocks/${symbol.toLowerCase()}`))
     }
   }
 

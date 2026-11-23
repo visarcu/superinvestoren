@@ -5,6 +5,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { workspacePath } from '@/lib/depotRoutes'
 import { currentHostPath } from '@/lib/siteHosts'
+import { safeRedirectPath } from '@/lib/authRedirect'
 import { supabase } from '@/lib/supabaseClient'
 import { getEURRate } from '@/lib/portfolioCurrency'
 import { detectTickerCurrency } from '@/lib/fmp'
@@ -95,7 +96,7 @@ function StockDetailSkeleton() {
           <div key={item} className="h-28 rounded-xl border border-theme bg-theme-card" />
         ))}
       </div>
-      <div className="mt-4 grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+      <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[1.55fr,0.85fr]">
         <div className="h-[430px] rounded-xl border border-theme bg-theme-card" />
         <div className="h-[430px] rounded-xl border border-theme bg-theme-card" />
       </div>
@@ -107,7 +108,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   const router = useRouter()
   const searchParams = useSearchParams()
   const portfolioId = searchParams.get('portfolioId')
-  const returnTo = searchParams.get('returnTo')
+  const returnTo = safeRedirectPath(searchParams.get('returnTo'))
   const totalValueParam = parseFloat(searchParams.get('totalValue') || '0')
   const formatPercentage = formatPercentageDE
 
@@ -517,7 +518,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   }
 
   const handleBack = () => {
-    if (returnTo?.startsWith('/analyse/portfolio/')) {
+    if (returnTo) {
       router.push(returnTo)
       return
     }
@@ -755,7 +756,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
               )}
 
               {/* Chart + Positionsdetails */}
-              <div className="grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+              <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.55fr,0.85fr]">
                 {history.length > 0 ? (
                   <WorkingStockChart
                     ticker={ticker}

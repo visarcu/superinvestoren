@@ -87,6 +87,18 @@ export function mainSiteHref(path: string): string {
   return `${protocolFor(mainHost)}//${mainHost}${path}`
 }
 
+/**
+ * Link aus dem Depot auf eine Seite der Hauptseite (Aktien, Preise …). Auf dem
+ * Depot-Host absolut: Ein relativer Link würde erst hier vorgeladen, nach
+ * finclue.de umgeleitet und dort an CORS scheitern. Überall sonst (localhost,
+ * Vorschau-Deployments) der unveränderte Pfad.
+ * Nur für Inhalte, die erst nach dem Laden des Depots im Browser entstehen,
+ * sonst weichen Server- und Client-HTML voneinander ab.
+ */
+export function leaveDepotHref(path: string): string {
+  return isOnDepotHost() ? mainSiteHref(path) : path
+}
+
 /** Läuft der Browser gerade auf dem Depot-Host? Nur clientseitig sinnvoll. */
 export function isOnDepotHost(): boolean {
   return !!DEPOT_HOST && typeof window !== 'undefined' && window.location.host.toLowerCase() === DEPOT_HOST

@@ -13,7 +13,7 @@
 // - Lässt der Browser das Cookie nicht zu, bleibt die Sitzung im localStorage
 //   (Verhalten wie vorher, nur ohne Subdomain-Teilung).
 
-import { DEPOT_HOST, SITE_DOMAIN, mainHostFor } from './siteHosts'
+import { COOKIE_MAX_AGE_SECONDS, cookieAttributes, readCookies, sharedCookieDomain } from './siteCookies'
 
 type AuthStorage = {
   getItem: (key: string) => string | null
@@ -22,43 +22,8 @@ type AuthStorage = {
 }
 
 // Zeichen pro Cookie. Mit Name und Attributen bleibt jedes Cookie unter 4 KB.
+// Die eigentliche Gültigkeit der Sitzung regelt Supabase über den Refresh-Token.
 const CHUNK_SIZE = 3000
-// Chrome deckelt Cookie-Laufzeiten bei 400 Tagen. Die eigentliche Gültigkeit
-// regelt Supabase über den Refresh-Token.
-const MAX_AGE_SECONDS = 60 * 60 * 24 * 400
-
-function cookieDomain(): string | undefined {
-  const host = window.location.hostname
-  // Produktion: immer domainweit, auch solange die Subdomain noch aus ist —
-  // so muss beim Einschalten kein Cookie mehr umziehen.
-  if (host === SITE_DOMAIN || host.endsWith(`.${SITE_DOMAIN}`)) return SITE_DOMAIN
-  // Lokal: Domain der Hauptseite aus NEXT_PUBLIC_DEPOT_HOST, z. B.
-  // depot.finclue.localhost:3000 → finclue.localhost. Bloßes "localhost"
-  // taugt nicht: Chrome teilt Domain=localhost nicht mit depot.localhost.
-  if (DEPOT_HOST) {
-    const mainHostname = mainHostFor(DEPOT_HOST).split(':')[0]
-    if (host === mainHostname || host.endsWith(`.${mainHostname}`)) return mainHostname
-  }
-  return undefined
-}
-
-function attributes(domain: string | undefined, maxAge: number): string {
-  const secure = window.location.protocol === 'https:' ? '; Secure' : ''
-  const domainAttr = domain ? `; Domain=${domain}` : ''
-  return `; Path=/; Max-Age=${maxAge}; SameSite=Lax${secure}${domainAttr}`
-}
-
-function readCookies(): Map<string, string> {
-  const cookies = new Map<string, string>()
-  if (!document.cookie) return cookies
-  for (const part of document.cookie.split('; ')) {
-    const eq = part.indexOf('=')
-    if (eq <= 0) continue
-    const name = part.slice(0, eq)
-    if (!cookies.has(name)) cookies.set(name, part.slice(eq + 1))
-  }
-  return cookies
-}
 
 // base64url über UTF-8 — kompakter als encodeURIComponent auf JSON und
 // enthält nur cookie-sichere Zeichen.
@@ -96,12 +61,12 @@ function readChunks(key: string): string | null {
 function deleteChunks(key: string, fromIndex: number, domain: string | undefined) {
   const cookies = readCookies()
   for (let i = fromIndex; cookies.has(`${key}.${i}`); i++) {
-    document.cookie = `${key}.${i}=${attributes(domain, 0)}`
+    document.cookie = `${key}.${i}=${cookieAttributes(domain, 0)}`
   }
 }
 
 function deleteAllChunks(key: string) {
-  const domain = cookieDomain()
+  const domain = sharedCookieDomain()
   deleteChunks(key, 0, domain)
   if (domain) deleteChunks(key, 0, undefined)
 }
@@ -111,7 +76,7 @@ function writeChunks(key: string, value: string): boolean {
   const chunks: string[] = []
   for (let i = 0; i < encoded.length; i += CHUNK_SIZE) chunks.push(encoded.slice(i, i + CHUNK_SIZE))
 
-  const domain = cookieDomain()
+  const domain = sharedCookieDomain()
   // Host-Cookies aus einem früheren Fallback würden das domainweite Cookie
   // gleichen Namens verdecken
   if (domain) deleteChunks(key, 0, undefined)
@@ -120,7 +85,7 @@ function writeChunks(key: string, value: string): boolean {
   const attempts = domain ? [domain, undefined] : [undefined]
   for (const attempt of attempts) {
     chunks.forEach((chunk, i) => {
-      document.cookie = `${key}.${i}=${chunk}${attributes(attempt, MAX_AGE_SECONDS)}`
+      document.cookie = `${key}.${i}=${chunk}${cookieAttributes(attempt, COOKIE_MAX_AGE_SECONDS)}`
     })
     // Übrige Teile einer früheren, längeren Sitzung vor dem Gegenlesen
     // entfernen — sonst hängen sie am neuen Wert dran

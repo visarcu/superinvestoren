@@ -17,6 +17,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { formatDecimal } from '@/lib/displayFormat'
+import { leaveDepotHref } from '@/lib/siteHosts'
 
 interface UpcomingDividend {
   ticker: string
@@ -695,7 +696,7 @@ function UpcomingDividendsList({
         return (
           <Link
             key={idx}
-            href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
+            href={leaveDepotHref(`/analyse/stocks/${div.ticker.toLowerCase()}`)}
             className="flex items-center justify-between py-2.5 border-b border-white/[0.05] last:border-b-0 hover:bg-white/[0.03] transition-colors -mx-2 px-2 rounded"
           >
             <div className="flex items-center gap-3 min-w-0">

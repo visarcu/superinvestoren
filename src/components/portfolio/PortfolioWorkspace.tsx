@@ -47,11 +47,10 @@ import {
   workspacePath,
   type WorkspaceView,
 } from '@/lib/depotRoutes'
-import { currentHostPath } from '@/lib/siteHosts'
+import { currentHostPath, leaveDepotHref } from '@/lib/siteHosts'
 import BrokerSyncCard from '@/components/portfolio/BrokerSyncCard'
 import T212SyncCard from '@/components/portfolio/T212SyncCard'
 import { perfColor } from '@/utils/formatters'
-import { mainSiteHref } from '@/lib/siteHosts'
 import {
   ArrowDownTrayIcon,
   ArrowLeftIcon,
@@ -460,7 +459,7 @@ function WorkspaceSkeleton() {
             <div key={item} className="h-28 rounded-xl bg-white/[0.03] border border-white/[0.06]" />
           ))}
         </div>
-        <div className="mt-4 grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+        <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-[1.55fr,0.85fr]">
           <div className="h-[430px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
           <div className="h-[430px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
         </div>
@@ -479,7 +478,7 @@ function ContentSkeleton() {
           <div key={item} className="h-28 rounded-xl bg-white/[0.03] border border-white/[0.06]" />
         ))}
       </div>
-      <div className="grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+      <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.55fr,0.85fr]">
         <div className="h-[380px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
         <div className="h-[380px] rounded-xl bg-white/[0.03] border border-white/[0.06]" />
       </div>
@@ -497,7 +496,7 @@ function LockedViewCard({ message }: { message: string }) {
       <h2 className="mb-2 text-lg font-semibold text-theme-primary">Premium Feature</h2>
       <p className="mx-auto max-w-md text-sm text-theme-muted">{message}</p>
       <Link
-        href="/pricing"
+        href={leaveDepotHref('/pricing')}
         className="mt-5 inline-flex items-center justify-center rounded-xl bg-emerald-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-400"
       >
         Jetzt upgraden
@@ -653,8 +652,15 @@ export default function PortfolioWorkspace() {
     [p.holdings]
   )
 
+  // Depot- und Ansichtswechsel sind eigene Einträge im Verlauf, damit die
+  // Zurück-Taste zur vorherigen Ansicht führt und nicht aus dem Depot heraus
+  const goTo = (href: string) => {
+    if (href === `${window.location.pathname}${window.location.search}`) return
+    router.push(href, { scroll: false })
+  }
+
   const openDepot = (depotId: string) => {
-    router.replace(buildHref(depotId, activeView), { scroll: false })
+    goTo(buildHref(depotId, activeView))
   }
 
   // Unverändertes Beispieldepot: nur die angelegten Käufe und Dividenden (gleiche
@@ -680,7 +686,7 @@ export default function PortfolioWorkspace() {
       setShowPremiumModal(true)
       return
     }
-    router.replace(buildHref(selectedDepotId, view), { scroll: false })
+    goTo(buildHref(selectedDepotId, view))
   }
 
   // Gesperrte View per Deep-Link geöffnet (Free-User): Inhalt nicht rendern
@@ -697,7 +703,7 @@ export default function PortfolioWorkspace() {
         <div className="flex h-14 w-full items-center justify-between gap-4 px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <Link
-              href={mainSiteHref('/analyse')}
+              href={leaveDepotHref('/analyse')}
               className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-neutral-400 transition-colors hover:bg-white/[0.06] hover:text-white"
               title="Zurück ins Terminal"
             >
@@ -974,7 +980,7 @@ export default function PortfolioWorkspace() {
                   </section>
                 )}
 
-                <div className="grid gap-4 xl:grid-cols-[1.55fr,0.85fr]">
+                <div className="grid grid-cols-1 gap-4 xl:grid-cols-[1.55fr,0.85fr]">
                   <section className="bg-theme-card border border-theme rounded-xl p-5">
                     <PortfolioValueChart
                       portfolioId={p.portfolio?.id || ''}
@@ -1068,8 +1074,6 @@ export default function PortfolioWorkspace() {
                     portfolioId={p.portfolio?.id}
                     historicalPerfByDepot={p.historicalPerfByDepot}
                     superInvestorCounts={superInvestorCounts}
-                    returnTabParam="view"
-                    returnTabValue="positions"
                   />
                 </section>
 
@@ -1132,8 +1136,6 @@ export default function PortfolioWorkspace() {
                   portfolioId={p.portfolio?.id}
                   historicalPerfByDepot={p.historicalPerfByDepot}
                   superInvestorCounts={superInvestorCounts}
-                  returnTabParam="view"
-                  returnTabValue="positions"
                 />
               </section>
             )}
