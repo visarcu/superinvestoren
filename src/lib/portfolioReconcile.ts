@@ -254,6 +254,10 @@ export interface ReconcileResult {
   unchanged: number
   drifts: HoldingDrift[]
   errors: string[]
+  /** Angelegt mit dem Kurs vom Einbuchungstag, weil die Buchungen keinen Einstand hergeben. */
+  estimatedCosts: { symbol: string; date: string; price: number }[]
+  /** Nicht angelegt: kein Einstand in den Buchungen und kein Kurs als Ersatz. */
+  missingCosts: string[]
 }
 
 /**
@@ -288,10 +292,20 @@ export async function reconcileHoldings(
      * einem anderen Broker, die den Marktkurs statt des Einstands tragen).
      */
     staleOnly?: boolean
+    /**
+     * Ersatz-Einstand in EUR für neue Positionen, deren Buchungen keinen
+     * hergeben (Spin-off ohne bekannte Mutter, Einbuchung zu 0 €). Nur der
+     * Bestand bekommt ihn: portfolio_holdings verlangt einen Einstand über 0,
+     * die Buchungen bleiben wertlos und zählen damit nicht als Geldfluss.
+     */
+    entryPrice?: (symbol: string, date: string) => Promise<number | null>
   } = {}
 ): Promise<ReconcileResult> {
   const driftThreshold = options.driftThreshold ?? 0.02
-  const result: ReconcileResult = { created: 0, updated: 0, deleted: 0, unchanged: 0, drifts: [], errors: [] }
+  const result: ReconcileResult = {
+    created: 0, updated: 0, deleted: 0, unchanged: 0,
+    drifts: [], errors: [], estimatedCosts: [], missingCosts: [],
+  }
 
   // portfolio_transactions führt keine ISIN — die hängt am Bestand bzw. am
   // Instrumenten-Stammsatz.
@@ -355,23 +369,44 @@ export async function reconcileHoldings(
       })
       if (options.dryRun || options.staleOnly) continue
 
+      // Ohne Einstand lehnt die Tabelle die Position ab (check_positive_price).
+      // Daran brach am 24.11.2026 ein Scalable-Import nach 29 von 30 Positionen ab.
+      let purchasePrice = want.avgPrice
+      if (!(purchasePrice > 0)) {
+        const entry = (await options.entryPrice?.(symbol, want.earliestDate)) || 0
+        purchasePrice = parseFloat(entry.toFixed(4))
+        if (!(purchasePrice > 0)) {
+          result.missingCosts.push(symbol)
+          continue
+        }
+      }
+
       const { error } = await supabase.from('portfolio_holdings').insert({
         portfolio_id: portfolioId,
         symbol,
         name: want.name,
         isin: want.isin,
         quantity: want.quantity,
-        purchase_price: want.avgPrice,
+        purchase_price: purchasePrice,
         purchase_date: want.earliestDate,
         purchase_currency: 'EUR',
       })
-      if (error) result.errors.push(`${symbol}: Anlegen fehlgeschlagen: ${error.message}`)
-      else result.created++
+      if (error) {
+        result.errors.push(`${symbol}: Anlegen fehlgeschlagen: ${error.message}`)
+        continue
+      }
+      result.created++
+      if (!(want.avgPrice > 0)) {
+        result.estimatedCosts.push({ symbol, date: want.earliestDate, price: purchasePrice })
+      }
       continue
     }
 
+    // Geben die Buchungen keinen Einstand her, gilt der gespeicherte weiter
+    // (Ersatz-Einstand oder vom Nutzer eingetragen).
+    const wantPrice = want.avgPrice > 0 ? want.avgPrice : have.purchase_price
     const qtyOff = Math.abs(have.quantity - want.quantity) > EPS_QTY
-    const priceOff = Math.abs(have.purchase_price - want.avgPrice) > EPS_PRICE
+    const priceOff = Math.abs(have.purchase_price - wantPrice) > EPS_PRICE
 
     if (!qtyOff && !priceOff) {
       result.unchanged++
@@ -384,7 +419,7 @@ export async function reconcileHoldings(
     // reinvestierte Dividenden) liegt das weit unter jeder Schwelle und blieb
     // sonst für immer stehen.
     const qtyDrift = want.quantity > 0 ? Math.abs(have.quantity - want.quantity) / want.quantity : 0
-    const priceDrift = want.avgPrice > 0 ? Math.abs(have.purchase_price - want.avgPrice) / want.avgPrice : 0
+    const priceDrift = wantPrice > 0 ? Math.abs(have.purchase_price - wantPrice) / wantPrice : 0
     const stale = qtyOff && isStaleSnapshot(have.quantity, quantityHistory.get(symbol))
     const relevant = stale || (!options.staleOnly && Math.max(qtyDrift, priceDrift) >= driftThreshold)
 
@@ -392,14 +427,14 @@ export async function reconcileHoldings(
       symbol,
       art: qtyOff ? 'menge' : 'kurs',
       gespeichert: { quantity: have.quantity, purchasePrice: have.purchase_price },
-      erwartet: { quantity: want.quantity, purchasePrice: want.avgPrice },
+      erwartet: { quantity: want.quantity, purchasePrice: wantPrice },
       bagatelle: !relevant,
     })
     if (options.dryRun || !relevant) continue
 
     const { error } = await supabase
       .from('portfolio_holdings')
-      .update({ quantity: want.quantity, purchase_price: want.avgPrice, purchase_currency: 'EUR' })
+      .update({ quantity: want.quantity, purchase_price: wantPrice, purchase_currency: 'EUR' })
       .eq('id', have.id)
     if (error) result.errors.push(`${symbol}: Aktualisieren fehlgeschlagen: ${error.message}`)
     else result.updated++

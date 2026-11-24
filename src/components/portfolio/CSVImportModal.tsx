@@ -145,6 +145,8 @@ export default function CSVImportModal({
     cashTransactionsImported: number
     unresolvedSymbols: number
     corpActionWarnings: string[]
+    holdingWarnings: string[]
+    estimatedCosts: { symbol: string; date: string; price: number }[]
   } | null>(null)
 
   // === Duplikate ===
@@ -158,12 +160,16 @@ export default function CSVImportModal({
   const [showDuplicateDetails, setShowDuplicateDetails] = useState(false)
   const [isDragOver, setIsDragOver] = useState(false)
   const autoInputRef = useRef<HTMLInputElement>(null)
+  // Buchungen gespeichert, aber Bestände und Cash noch nicht abgeschlossen
+  const unfinishedImportRef = useRef(false)
 
   // === Reset-Feature: existierende Portfolio-Daten ===
   const [existingDataCount, setExistingDataCount] = useState<{ transactions: number; holdings: number } | null>(null)
   const [resetBeforeImport, setResetBeforeImport] = useState(false)
 
-  // Prüfe existierende Daten im Portfolio (wird beim Öffnen des Modals gemacht)
+  // Prüfe existierende Daten im Portfolio (beim Öffnen des Modals und nach
+  // einem gescheiterten Import, der schon etwas geschrieben haben kann)
+  const [existingDataVersion, setExistingDataVersion] = useState(0)
   React.useEffect(() => {
     if (!isOpen || !portfolioId) return
     let cancelled = false
@@ -176,7 +182,7 @@ export default function CSVImportModal({
       setExistingDataCount({ transactions: txCount || 0, holdings: holdCount || 0 })
     })()
     return () => { cancelled = true }
-  }, [isOpen, portfolioId])
+  }, [isOpen, portfolioId, existingDataVersion])
 
   // Nach ISIN-Resolution: historische Schlusskurse für Transfer-Transaktionen
   // (ohne Einstandspreis) fetchen. Pro Symbol ein FMP-Call mit Range.
@@ -256,6 +262,7 @@ export default function CSVImportModal({
     setIsDragOver(false)
     setPendingDuplicateCheck(false)
     setResetBeforeImport(false)
+    unfinishedImportRef.current = false
   }, [])
 
   const handleClose = useCallback(() => {
@@ -819,18 +826,16 @@ export default function CSVImportModal({
 
       const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol)
 
-      // Duplikat-Check lief in der Vorschau gegen den UNANGEPASSTEN Bestand.
-      // Wurden gerade DB-Zeilen split-verrechnet, matchen die (bereits
-      // angepassten) Datei-Zeilen jetzt erst — daher frisch prüfen, sonst
-      // würden identische Alt-Käufe doppelt importiert.
-      let effectiveDuplicates = duplicateIndices
-      if (dbSplitAdjustments > 0) {
-        try {
-          effectiveDuplicates = await findDuplicates(txWithSymbols)
-        } catch {
-          // Bei Fehler konservativ mit dem Vorschau-Ergebnis weitermachen
-        }
-      }
+      // Immer frisch prüfen, das Ergebnis der Vorschau kann veraltet sein:
+      //  - Gerade wurden DB-Zeilen split-verrechnet, die (bereits angepassten)
+      //    Datei-Zeilen matchen erst jetzt.
+      //  - Ein früherer Versuch hat die Buchungen gespeichert und ist danach
+      //    gescheitert. Mit dem alten Ergebnis legte der zweite Klick auf
+      //    "Jetzt importieren" alle Buchungen noch einmal an.
+      // Schlägt die Prüfung fehl, bricht der Import ab, bevor er schreibt.
+      const effectiveDuplicates = resetBeforeImport
+        ? new Set<number>()
+        : await findDuplicates(txWithSymbols)
 
       // Bei Reset: alle Duplikate ignorieren (wurden ja gerade gelöscht)
       const txToImport = resetBeforeImport
@@ -845,6 +850,22 @@ export default function CSVImportModal({
       // Ein erneuter Upload derselben Datei repariert das, statt nur
       // "alles Duplikate" zu melden.
       const spinoffWarnings: string[] = []
+      const holdingWarnings: string[] = []
+
+      // Schlusskurse in EUR je "SYMBOL|Datum"; nicht gefundene Paare fehlen
+      const fetchEurCloses = async (items: { symbol: string; date: string }[]): Promise<Record<string, number>> => {
+        const { data: { session } } = await supabase.auth.getSession()
+        const resp = await fetch('/api/portfolio/historical-prices', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
+          },
+          body: JSON.stringify({ items }),
+        })
+        if (!resp.ok) return {}
+        return ((await resp.json()) as { results?: Record<string, number> }).results || {}
+      }
 
       // === Spin-off-Kostenbasis anteilig übertragen ===
       // Ohne Übertragung behält die Mutterposition ihre volle Kostenbasis und
@@ -927,17 +948,7 @@ export default function CSVImportModal({
             // Schlusskurse beider Papiere am Buchungstag, in EUR. Der Preis
             // der Datei dient nur als Ersatz, wenn FMP die Tochter nicht führt
             // — ein geschätzter Übertragskurs kommt aus derselben Quelle.
-            let closes: Record<string, number> = {}
-            const { data: { session } } = await supabase.auth.getSession()
-            const priceResp = await fetch('/api/portfolio/historical-prices', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {}),
-              },
-              body: JSON.stringify({ items: [{ symbol: parentSymbol, date }, { symbol: childSymbol, date }] }),
-            })
-            if (priceResp.ok) closes = ((await priceResp.json()) as { results?: Record<string, number> }).results || {}
+            const closes = await fetchEurCloses([{ symbol: parentSymbol, date }, { symbol: childSymbol, date }])
             const plan = planSpinoffCostSplit({
               event,
               parentTxs,
@@ -970,13 +981,26 @@ export default function CSVImportModal({
         return applied
       }
 
+      // Ein früherer Versuch hat die Buchungen gespeichert und ist vor den
+      // Beständen gescheitert (in diesem Fenster, oder das Depot hat Buchungen,
+      // aber keine einzige Position). Dann führt dieser Lauf ihn zu Ende.
+      const isUnfinishedImport = async (): Promise<boolean> => {
+        if (unfinishedImportRef.current) return true
+        if (previewHoldings.length === 0) return false
+        const { count, error } = await supabase
+          .from('portfolio_holdings')
+          .select('id', { count: 'exact', head: true })
+          .eq('portfolio_id', portfolioId)
+        return !error && count === 0
+      }
+
       let earlyReconcile: Awaited<ReturnType<typeof reconcileHoldings>> | null = null
       let spinoffSplits: number | null = null
       if (txToImport.length === 0 && dbSplitAdjustments === 0) {
         // Die Spin-off-Aufteilung zuerst: Ein Re-Upload derselben Datei holt
         // sie nach, auch wenn jede Zeile schon gespeichert ist.
         spinoffSplits = await splitSpinoffCostBasis()
-        if (spinoffSplits === 0) {
+        if (spinoffSplits === 0 && !(await isUnfinishedImport())) {
           earlyReconcile = await reconcileHoldings(supabase, portfolioId, { staleOnly: true })
           if (earlyReconcile.errors.length > 0) {
             throw new Error(`Bestände konnten nicht abgeglichen werden: ${earlyReconcile.errors.join(' · ')}`)
@@ -1051,6 +1075,8 @@ export default function CSVImportModal({
         setImportProgress({ current: Math.min(i + batchSize, txToImport.length), total: txToImport.length })
       }
 
+      if (savedCount > 0) unfinishedImportRef.current = true
+
       // Die Bestände entstehen weiter unten in einem Rutsch aus allen
       // Transaktionen des Depots — erst nach Split- und Spin-off-Korrektur.
       // Der frühere Aufbau an dieser Stelle addierte nur den gerade
@@ -1070,14 +1096,27 @@ export default function CSVImportModal({
       // Korrekturen und reparierte sie nur innerhalb der Spin-off-Behandlung.
       // Schlug die fehl, blieb z.B. Honeywell mit doppelter Kostenbasis stehen
       // und die abgespaltene Position fehlte ganz.
-      const reconcile = await reconcileHoldings(supabase, portfolioId)
+      const reconcile = await reconcileHoldings(supabase, portfolioId, {
+        entryPrice: async (symbol, date) => {
+          try {
+            return (await fetchEurCloses([{ symbol, date }]))[`${symbol}|${date}`] ?? null
+          } catch {
+            return null
+          }
+        },
+      })
       holdingsCreated += reconcile.created
       holdingsUpdated += reconcile.updated + reconcile.deleted
-      if (reconcile.errors.length > 0) {
-        // Nicht verschlucken: ein stiller Fehlschlag hier bedeutet falsche
-        // Renditen im Depot.
-        throw new Error(`Bestände konnten nicht abgeglichen werden: ${reconcile.errors.join(' · ')}`)
-      }
+      // Nicht verschlucken: ein stiller Fehlschlag hier bedeutet falsche
+      // Renditen im Depot. Aber auch nicht abbrechen: Die Buchungen sind schon
+      // gespeichert, und wegen einer einzigen Position fehlte früher auch das
+      // Cash des ganzen Depots.
+      holdingWarnings.push(
+        ...reconcile.errors,
+        ...reconcile.missingCosts.map(symbol =>
+          `${symbol}: Einstand unbekannt und kein Kurs verfügbar, Position nicht angelegt. Die Buchung steht unter Transaktionen.`
+        )
+      )
 
       // Cash-Position aktualisieren — nur bei cashMode === 'include'
       let cashTransactionsImported = 0
@@ -1129,6 +1168,7 @@ export default function CSVImportModal({
         ).length
       }
 
+      unfinishedImportRef.current = false
       setImportResult({
         transactionsAttempted: cashFilteredTransactions.filter(t => t.symbol).length,
         transactionsSaved: savedCount,
@@ -1139,16 +1179,21 @@ export default function CSVImportModal({
         cashTransactionsImported,
         unresolvedSymbols: resolvedTransactions.filter(t => !t.symbol && t.isin).length,
         corpActionWarnings: spinoffWarnings,
+        holdingWarnings,
+        estimatedCosts: reconcile.estimatedCosts,
       })
       setStep('done')
     } catch (error: any) {
       console.error('Import error:', error)
       setImportError(error.message || 'Fehler beim Import')
       setStep('preview')
+      // Der Versuch kann schon Buchungen gespeichert haben
+      setPendingDuplicateCheck(true)
+      setExistingDataVersion(v => v + 1)
     } finally {
       setImporting(false)
     }
-  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport, isinMap, findDuplicates, importValidationIssues])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, previewHoldings, portfolioId, cashMode, resetBeforeImport, isinMap, findDuplicates, importValidationIssues])
 
   // Format helpers
   const formatCurrency = (amount: number) =>
@@ -1702,14 +1747,14 @@ export default function CSVImportModal({
                         Positionen aus Corporate Action
                       </p>
                       <p className="text-[11px] text-neutral-500 leading-relaxed mb-2">
-                        Aus Splits/Umstellungen/Spin-offs. Bei Spin-offs ist der Einstandskurs nicht eindeutig rekonstruierbar.
+                        Aus Splits, Umstellungen und Spin-offs. Steht kein Einstand in der Datei, teilen wir ihn mit der Mutteraktie auf oder nehmen den Kurs vom Tag der Einbuchung.
                       </p>
                       <div className="flex flex-wrap gap-1">
                         {importSummary.corpActionHoldings
                           .filter(h => !importSummary.transferHoldings.find(t => t.symbol === h.symbol))
                           .map(h => (
                           <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-white/[0.05] text-neutral-300 border border-white/[0.08] rounded">
-                            {h.symbol}{h.avgPrice === 0 ? ' · EK 0' : ''}
+                            {h.symbol}{h.avgPrice === 0 ? ' · Einstand offen' : ''}
                           </span>
                         ))}
                       </div>
@@ -1920,17 +1965,39 @@ export default function CSVImportModal({
                   </div>
                 )}
 
-                {/* Eine fehlgeschlagene Kapitalmaßnahme verzerrt die Rendite —
-                    das darf nicht nur in der Konsole stehen. */}
-                {importResult.corpActionWarnings.length > 0 && (
-                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-white/[0.06]">
-                    <span className="text-[13px] text-amber-400">Kapitalmaßnahmen mit Problemen</span>
-                    <span className="text-[13px] font-semibold text-amber-400 tabular-nums">
-                      {importResult.corpActionWarnings.length}
-                    </span>
-                  </div>
-                )}
               </div>
+
+              {/* Eine fehlgeschlagene Kapitalmaßnahme oder fehlende Position
+                  verzerrt die Rendite — das darf nicht nur in der Konsole stehen. */}
+              {(importResult.holdingWarnings.length > 0 || importResult.corpActionWarnings.length > 0) && (
+                <div className="mb-3 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20 flex gap-2.5">
+                  <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[12px] font-medium text-amber-300 mb-1">Bitte prüfen</p>
+                    <ul className="space-y-1 text-[11px] text-neutral-400 leading-relaxed">
+                      {[...importResult.holdingWarnings, ...importResult.corpActionWarnings].map((warning, i) => (
+                        <li key={i}>{warning}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
+              {importResult.estimatedCosts.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+                  <p className="text-[12px] font-medium text-white mb-1">Einstand geschätzt</p>
+                  <p className="text-[11px] text-neutral-500 leading-relaxed mb-1.5">
+                    Die Datei nennt keinen Einstand, deshalb steht dort der Kurs vom Tag der Einbuchung. Du kannst ihn in der Position ändern.
+                  </p>
+                  <ul className="space-y-0.5 text-[11px] text-neutral-400">
+                    {importResult.estimatedCosts.map(c => (
+                      <li key={c.symbol}>
+                        {c.symbol}: {formatCurrency(c.price)} ({new Date(`${c.date}T00:00:00`).toLocaleDateString('de-DE')})
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Status-Hinweis */}
               {importResult.transactionsSaved < importResult.transactionsAttempted - importResult.duplicatesSkipped ? (
@@ -1944,7 +2011,9 @@ export default function CSVImportModal({
                 <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] flex gap-2.5">
                   <CheckIcon className="w-4 h-4 text-neutral-300 flex-shrink-0 mt-0.5" />
                   <p className="text-[12px] text-neutral-400 leading-relaxed">
-                    Alle Transaktionen erfolgreich importiert. Dein Depot ist jetzt bereit.
+                    {importResult.holdingWarnings.length > 0
+                      ? 'Alle Transaktionen gespeichert. Bei den Positionen oben fehlt noch etwas.'
+                      : 'Alle Transaktionen erfolgreich importiert. Dein Depot ist jetzt bereit.'}
                   </p>
                 </div>
               )}

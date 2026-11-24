@@ -6,11 +6,11 @@ import { appendSplitNote } from './splitAdjustment'
 export interface ScalableCSVRow {
   date: string          // YYYY-MM-DD
   time: string
-  status: string        // Executed, Cancelled, Rejected
+  status: string        // Executed, Cancelled, Rejected, Expired
   reference: string
   description: string
   assetType: string     // Security, Cash
-  type: string          // Buy, Sell, Savings plan, Distribution, Deposit, Withdrawal, Fee, Interest, Security transfer, Corporate action, Reinvestment_Distribution, Taxes
+  type: string          // Buy, Sell, Savings plan, Distribution, Deposit, Withdrawal, Fee, Interest, Security transfer, Corporate action, Reinvestment_Distribution, Taxes, IPO
   isin: string
   shares: number
   price: number
@@ -43,6 +43,7 @@ export interface ParsedTransaction {
   tax: number
   notes: string
   originalType: string  // Originaltyp aus CSV für Referenz
+  reference?: string    // Buchungsreferenz des Brokers, verbindet zusammengehörige Zeilen
   // Corporate-Action-Metadaten (optional)
   isFromTransfer?: boolean    // stammt aus Security transfer (Depotübertrag)
   isFromCorpAction?: boolean  // stammt aus Corporate Action (Split/Spinoff/Rename)
@@ -206,6 +207,11 @@ function mapTransactionType(
       // Normal: amount < 0 → Auszahlung. Storno: amount > 0 → Einzahlung
       return cashIn
 
+    case 'IPO':
+      // Zahlung für eine IPO-Zuteilung (Rückzahlung positiv). Gehört eine
+      // Zuteilung dazu, fasst foldIpoAllotments beides zum Kauf zusammen.
+      return cashIn
+
     case 'Fee':
       // Gebühren reduzieren Cash (immer negativ in der Praxis, sonst Storno)
       return cashIn
@@ -244,6 +250,7 @@ function generateNotes(row: ScalableCSVRow, mappedType: MappedTransactionType): 
   if (row.type === 'Fee') parts.push(`Gebühr: ${row.description}`)
   if (row.type === 'Interest') parts.push('Zinsen')
   if (row.type === 'Taxes') parts.push('Steuerausgleich')
+  if (row.type === 'IPO') parts.push(`IPO-Zeichnung: ${row.description}`)
   if (row.type === 'Corporate action') parts.push(`Corporate Action: ${row.description}`)
 
   if (row.type === 'Security transfer') {
@@ -261,6 +268,10 @@ function generateNotes(row: ScalableCSVRow, mappedType: MappedTransactionType): 
   return parts.join(' · ')
 }
 
+// Nicht ausgeführte Orders. "Expired" trägt Stückzahl und Betrag 0 und stand
+// sonst als leerer Verkauf im Depot.
+const SKIPPED_STATUSES = new Set(['Cancelled', 'Rejected', 'Expired'])
+
 /**
  * Scalable Capital CSV-Export parsen
  */
@@ -268,7 +279,6 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
   const lines = csvContent.split('\n').filter(l => l.trim())
   const transactions: ParsedTransaction[] = []
   const skipped: CSVParseResult['skipped'] = []
-  const isinSet = new Set<string>()
   const typeCounts: Record<string, number> = {}
 
   // Header-Zeile überspringen
@@ -291,8 +301,7 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
 
     const [date, time, status, reference, description, assetType, type, isin, sharesStr, priceStr, amountStr, feeStr, taxStr, currency] = fields
 
-    // Cancelled/Rejected überspringen
-    if (status === 'Cancelled' || status === 'Rejected') {
+    if (SKIPPED_STATUSES.has(status)) {
       skipped.push({ row: i + 1, reason: `Status: ${status}`, data: `${description} (${type})` })
       continue
     }
@@ -310,11 +319,6 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
       continue
     }
 
-    // ISIN tracken (nur für Wertpapier-Transaktionen)
-    if (isin && isin.length > 0) {
-      isinSet.add(isin)
-    }
-
     // Transaktion erstellen
     const parsed: ParsedTransaction = {
       date: date, // Ist bereits YYYY-MM-DD
@@ -329,6 +333,7 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
       tax: Math.abs(tax),
       notes: generateNotes({ date, time, status, reference, description, assetType, type, isin, shares, price, amount, fee, tax, currency }, mappedType),
       originalType: type,
+      reference: reference || undefined,
       isFromTransfer: type === 'Security transfer',
       isFromCorpAction: type === 'Corporate action',
     }
@@ -385,9 +390,16 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
   }
 
   // ===========================================================
-  // POST-PROCESSING: Corporate Actions (Stock Splits / Renames)
+  // POST-PROCESSING: IPO-Zuteilungen, Corporate Actions (Stock Splits / Renames)
   // ===========================================================
-  const { adjusted, splits, renames } = normalizeCorporateActions(transactions)
+  const { adjusted, splits, renames } = normalizeCorporateActions(foldIpoAllotments(transactions))
+
+  // Erst hier sammeln: Die Interims-ISIN einer IPO-Zuteilung gibt es an keiner
+  // Börse, sie darf nicht zur Zuordnung von Hand aufgerufen werden.
+  const isinSet = new Set<string>()
+  for (const tx of adjusted) if (tx.isin) isinSet.add(tx.isin)
+  for (const split of splits) isinSet.add(split.isin)
+  for (const rename of renames) isinSet.add(rename.fromIsin).add(rename.toIsin)
 
   // Typ-Zähler neu berechnen (einige transfers wurden ggf. entfernt)
   const finalTypeCounts: Record<string, number> = {}
@@ -406,6 +418,86 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
     stockSplits: splits,
     tickerRenames: renames,
   }
+}
+
+/**
+ * IPO-Zuteilungen zu einem Kauf zusammenfassen.
+ *
+ * Scalable bucht eine Zuteilung in vier Zeilen und führt sie zunächst unter
+ * einer Interims-ISIN (Anthropic, 19.11.2026):
+ *   IPO               XI0010565118        −75,75 €   Ref IPO_3_<Konto>      Zahlung
+ *   Corporate action  XI0010565118  +1 zu  75,75 €   Ref IPO_3_<Konto>      Zuteilung
+ *   Corporate action  XI0010565118  −1               Ref 1076182_<Konto>_1  Umtausch
+ *   Corporate action  US03703U1079  +1 zu   0,00 €   Ref 1076182_<Konto>    Umtausch
+ *
+ * Einzeln gelesen sah der Umtausch wie ein 1:1-Split der Interims-ISIN aus, die
+ * Aktie kam als Spin-off mit Einstand 0 an und die Zahlung fehlte im Cash.
+ * Solange der Umtausch noch aussteht, läuft der Kauf unter der Interims-ISIN.
+ */
+function foldIpoAllotments(transactions: ParsedTransaction[]): ParsedTransaction[] {
+  const isPayment = (t: ParsedTransaction) => t.originalType === 'IPO'
+  const interimIsins = new Set(
+    transactions
+      .filter(t => t.isin && (isPayment(t) || (t.isFromCorpAction && t.reference?.startsWith('IPO_'))))
+      .map(t => t.isin)
+  )
+  if (interimIsins.size === 0) return transactions
+
+  const dropped = new Set<ParsedTransaction>()
+  const replacements = new Map<ParsedTransaction, ParsedTransaction>()
+
+  for (const interimIsin of interimIsins) {
+    const actions = transactions.filter(t => t.isFromCorpAction && t.isin === interimIsin)
+    const allotments = actions.filter(t => t.type === 'transfer_in')
+    if (allotments.length === 0) continue
+
+    // Anzahlung und Rückzahlung saldieren. Fehlt die Zahlung im Export
+    // (anderer Zeitraum), gilt der Wert der Zuteilung.
+    const payments = transactions.filter(t => isPayment(t) && t.isin === interimIsin)
+    const paid = payments.reduce((sum, t) => sum + (t.type === 'cash_withdrawal' ? t.totalValue : -t.totalValue), 0)
+    const allotted = allotments.reduce((sum, t) => sum + t.totalValue, 0)
+    const cost = round2(paid > 0 ? paid : allotted)
+
+    const out = actions.find(t => t.type === 'transfer_out')
+    const isShare = (t: ParsedTransaction) =>
+      Boolean(t.isFromCorpAction) && t.type === 'transfer_in' && t.isin !== interimIsin
+    const share = out && (
+      transactions.find(t => isShare(t) && t.reference && out.reference === `${t.reference}_1`) ||
+      transactions.find(t => isShare(t) && t.date === out.date && t.price === 0 && t.quantity === out.quantity)
+    )
+
+    const quantity = share ? share.quantity : allotments.reduce((sum, t) => sum + t.quantity, 0)
+    if (!(cost > 0) || !(quantity > 0)) continue
+
+    const [first] = allotments
+    replacements.set(first, {
+      date: first.date,
+      time: first.time,
+      type: 'buy',
+      isin: share ? share.isin : interimIsin,
+      name: share ? share.name : first.name,
+      quantity,
+      price: cost / quantity,
+      totalValue: cost,
+      fee: 0,
+      tax: 0,
+      notes: 'IPO-Zuteilung · CSV-Import (Scalable Capital)',
+      originalType: 'IPO',
+      reference: first.reference,
+    })
+    for (const t of [...allotments.slice(1), ...payments]) dropped.add(t)
+    if (out && share) dropped.add(out).add(share)
+  }
+
+  return transactions
+    .filter(t => !dropped.has(t))
+    .map(t => {
+      const replacement = replacements.get(t)
+      if (replacement) return replacement
+      // Zahlung ohne Zuteilung im Export: normale Kontobewegung
+      if (isPayment(t)) return { ...t, isin: '', symbol: 'CASH', quantity: 1, price: t.totalValue }
+      return t
+    })
 }
 
 /**
