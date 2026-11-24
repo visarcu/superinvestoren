@@ -432,7 +432,7 @@ export default function PricingPage() {
               </button>
             ) : (
               <Link
-                href="/auth/signin"
+                href={`/auth/signin?redirect=checkout&plan=${selectedPlan}`}
                 className="block w-full py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors text-center"
               >
                 {selectedPlan === 'yearly' ? `Für ${formatEur(yearlyPrice)}€/Jahr starten` : 'Kostenlos testen'}
@@ -553,7 +553,7 @@ export default function PricingPage() {
                 </button>
               ) : (
                 <Link
-                  href="/auth/signin"
+                  href={`/auth/signin?redirect=checkout&plan=${selectedPlan}`}
                   className="px-8 py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors"
                 >
                   {selectedPlan === 'yearly' ? `Für ${formatEur(yearlyPrice)}€/Jahr starten` : 'Kostenlos testen'}
