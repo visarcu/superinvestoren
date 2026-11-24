@@ -2,12 +2,18 @@
 // Cron: Every Sunday at 18:00 UTC — sends a weekly portfolio performance report via email + push
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { Resend } from 'resend'
+import { Resend, type CreateEmailOptions } from 'resend'
 import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
 import { detectTickerCurrency } from '@/lib/fmp'
+import { getQuotes } from '@/lib/marketData/quoteService'
+import { getDailyHistory } from '@/lib/marketData/history'
+import type { NormalizedQuote } from '@/lib/marketData/types'
 import { buildRadar, loadEarningsForSymbols, radarEmailSection, type RadarEvent } from '@/lib/earningsRadar'
 import { countedDepots } from '@/lib/sampleDepotShared'
+
+// Kurse, Versand und Wiederholungen je Nutzer brauchen Zeit
+export const maxDuration = 300
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -29,18 +35,15 @@ const TEST_USER_ID = envTestUserId && UUID_REGEX.test(envTestUserId) ? envTestUs
 
 const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 
-interface FmpQuote {
-  symbol: string
-  price: number
-  changesPercentage: number
-  change: number
-  previousClose: number
-  name?: string
-}
-
 interface Close {
   date: string
   close: number
+}
+
+// Schlusskurse einer Position samt Notierungswährung ('GBX' = Pence)
+interface PriceSeries {
+  currency: string
+  closes: Close[]
 }
 
 // Eine Zeile aus portfolio_holdings (eine je Depot und Symbol)
@@ -48,6 +51,7 @@ interface HoldingRow {
   portfolio_id: string
   symbol: string
   quantity: number
+  purchase_price: number | null
   purchase_date: string | null
 }
 
@@ -62,7 +66,7 @@ interface FlowRow {
 
 // held:   Bestand lag schon am Schlusskurs der Vorwoche (ganz oder teilweise) im Depot
 // new:    erst nach dem Vorwochen-Schluss gekauft, keine Wochenveränderung
-// noData: kein Vorwochen-Schlusskurs (Kurshistorie fehlt oder Neuemission)
+// noData: kein Kurs der Vorwoche oder dieser Woche (Kurshistorie fehlt oder Neuemission)
 type WeekStatus = 'held' | 'new' | 'noData'
 
 interface HoldingWithPerf {
@@ -72,6 +76,8 @@ interface HoldingWithPerf {
   // gehen in die Wochenveränderung ein, Zukäufe dieser Woche nicht.
   heldQuantity: number
   currentPrice: number
+  // true: keine Quelle lieferte einen Kurs, currentPrice ist der Einstandspreis
+  priceMissing: boolean
   referencePrice: number | null
   referenceDate: string | null
   currentValue: number
@@ -99,6 +105,17 @@ const HISTORY_LOOKBACK_DAYS = 14
 // FMP verträgt etwa 15 Abrufe pro Sekunde ohne 429
 const HISTORY_CONCURRENCY = 6
 const FLOW_PAGE_SIZE = 1000
+
+const NOTIFICATION_TYPE = 'weekly_portfolio_report'
+// Wartezeiten vor dem 2., 3. und 4. Sendeversuch
+const SEND_RETRY_DELAYS_MS = [1000, 2000, 4000]
+const SEND_TIMEOUT_MS = 20_000
+const PUSH_TIMEOUT_MS = 10_000
+// Vorübergehende Fehler. Alles andere (Absender, Adresse, API-Key) wird durch
+// Wiederholen nicht besser.
+const RETRYABLE_SEND_ERRORS = new Set([
+  'rate_limit_exceeded', 'internal_server_error', 'application_error', 'concurrent_idempotent_requests', 'timeout'
+])
 
 
 function getISOWeekNumber(date: Date): number {
@@ -159,43 +176,75 @@ async function getEurRate(from: string): Promise<number | null> {
   return null
 }
 
+const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms))
+
 function addDaysIso(iso: string, days: number): string {
   const d = new Date(`${iso}T00:00:00Z`)
   d.setUTCDate(d.getUTCDate() + days)
   return d.toISOString().split('T')[0]
 }
 
-// Tages-Schlusskurse eines Symbols (aufsteigend). FMP v3 historical-price-full,
-// ein Abruf je Symbol: Sammelabrufe sind im Tarif gesperrt, und
-// /stable/historical-price-eod liefert im Tarif nur US-Werte (Xetra & Co. nicht).
-async function fetchCloses(symbol: string, from: string, to: string): Promise<Close[]> {
-  const url =
-    `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(symbol)}` +
-    `?from=${from}&to=${to}&serietype=line&apikey=${process.env.FMP_API_KEY}`
-  for (let attempt = 0; ; attempt++) {
-    const res = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(20_000) })
-    if (res.status === 429 && attempt < 3) {
-      await new Promise(r => setTimeout(r, 1500 * 2 ** attempt))
-      continue
-    }
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
-    const data = await res.json().catch(() => null)
-    const rows: Array<{ date?: unknown; close?: unknown }> = Array.isArray(data?.historical) ? data.historical : []
-    return rows
-      .filter(r => typeof r.date === 'string' && typeof r.close === 'number' && r.close > 0)
-      .map(r => ({ date: (r.date as string).slice(0, 10), close: r.close as number }))
-      .sort((a, b) => (a.date < b.date ? -1 : 1))
-  }
+// convertPriceToEur erwartet unter 'GBP' Pence, der Kursdienst unterscheidet
+// dagegen 'GBX' (Pence) und 'GBP' (Pfund)
+function toEur(price: number, currency: string, rates: EurRates): number {
+  if (currency === 'GBX') return convertPriceToEur(price, 'GBP', rates)
+  if (currency === 'GBP') return convertPriceToEur(price * 100, 'GBP', rates)
+  return convertPriceToEur(price, currency, rates)
 }
 
-async function fetchClosesForSymbols(symbols: string[], from: string, to: string): Promise<Map<string, Close[]>> {
-  const out = new Map<string, Close[]>()
+function currencyFromSymbol(symbol: string): string {
+  const currency = detectTickerCurrency(symbol)
+  return currency === 'GBP' ? 'GBX' : currency
+}
+
+/**
+ * Tages-Schlusskurse einer Position (aufsteigend). Abgefragt wird das Symbol,
+ * unter dem der Kursdienst die Position auch im Depot bewertet (VGWD.DE für
+ * VHYL.DE). Mit dem Broker-Symbol allein fehlten solche Positionen im Report.
+ */
+async function loadSeries(
+  symbol: string,
+  quote: NormalizedQuote | undefined,
+  from: string,
+  to: string
+): Promise<PriceSeries | null> {
+  const candidates: Array<{ symbol: string; currency: string }> = []
+  if (quote) {
+    // getDailyHistory liefert Pfund-Linien an der LSE bereits in Pence
+    const pence = quote.currency === 'GBP' && quote.sourceSymbol.toUpperCase().endsWith('.L')
+    candidates.push({ symbol: quote.sourceSymbol, currency: pence ? 'GBX' : quote.currency })
+  }
+  if (quote?.sourceSymbol.toUpperCase() !== symbol.toUpperCase()) {
+    candidates.push({ symbol, currency: currencyFromSymbol(symbol) })
+  }
+
+  // Ein zweiter Anlauf, falls die Quelle kurzzeitig nicht antwortet (429)
+  for (let attempt = 0; attempt < 2; attempt++) {
+    if (attempt > 0) await sleep(1500)
+    for (const candidate of candidates) {
+      const bars = await getDailyHistory(candidate.symbol, from, to)
+      if (bars.length > 0) {
+        return { currency: candidate.currency, closes: bars.map(b => ({ date: b.date, close: b.close })) }
+      }
+    }
+  }
+  return null
+}
+
+async function loadSeriesForSymbols(
+  symbols: string[],
+  quotes: Map<string, NormalizedQuote>,
+  from: string,
+  to: string
+): Promise<Map<string, PriceSeries>> {
+  const out = new Map<string, PriceSeries>()
   let next = 0
   const worker = async () => {
     while (next < symbols.length) {
       const symbol = symbols[next++]
       try {
-        out.set(symbol, await fetchCloses(symbol, from, to))
+        const series = await loadSeries(symbol, quotes.get(symbol.toUpperCase()), from, to)
+        if (series) out.set(symbol, series)
       } catch (e) {
         console.warn(`[Weekly Portfolio Report] Kurshistorie ${symbol} fehlt:`, e instanceof Error ? e.message : e)
       }
@@ -242,8 +291,8 @@ async function loadFlows(portfolioIds: string[], from: string): Promise<FlowRow[
 function buildPortfolioReport(
   rows: HoldingRow[],
   flows: FlowRow[],
-  closesBySymbol: Map<string, Close[]>,
-  quoteMap: Map<string, FmpQuote>,
+  seriesBySymbol: Map<string, PriceSeries>,
+  quotes: Map<string, NormalizedQuote>,
   weekStart: string,
   eurRates: EurRates
 ): PortfolioReport {
@@ -260,20 +309,33 @@ function buildPortfolioReport(
     const quantity = symbolRows.reduce((s, r) => s + (Number(r.quantity) || 0), 0)
     if (quantity <= 0) continue
 
-    const currency = detectTickerCurrency(symbol)
-    const closes = closesBySymbol.get(symbol) ?? []
-    const latest = closes[closes.length - 1]
-    const reference = [...closes].reverse().find(c => c.date < weekStart)
+    const quote = quotes.get(symbol.toUpperCase())
+    const series = seriesBySymbol.get(symbol)
+    const latest = series?.closes[series.closes.length - 1]
+    const reference = series ? [...series.closes].reverse().find(c => c.date < weekStart) : undefined
+    const seriesToEur = (price: number) => toEur(price, series?.currency ?? 'EUR', eurRates)
 
-    // Ohne Kurshistorie bleibt die Position mit Live-Kurs im Depotwert, aber ohne Woche
-    const rawCurrent = latest?.close ?? (quoteMap.get(symbol)?.price || null)
-    if (!rawCurrent) continue
-    const currentPrice = convertPriceToEur(rawCurrent, currency, eurRates)
+    // Schluss dieser Woche, sonst Live-Kurs, sonst letzter bekannter Schluss
+    const inWeek = !!latest && latest.date >= weekStart
+    const hasQuote = !!quote && quote.price > 0
+    const priceMissing = !latest && !hasQuote
+    let currentPrice: number
+    if (latest && inWeek) {
+      currentPrice = seriesToEur(latest.close)
+    } else if (quote && hasQuote) {
+      currentPrice = toEur(quote.price, quote.currency, eurRates)
+    } else if (latest) {
+      currentPrice = seriesToEur(latest.close)
+    } else {
+      // Wie in der Depot-Bewertung: ohne Kurs zählt der Einstand (EUR), die
+      // Position darf nicht aus dem Depotwert verschwinden
+      currentPrice = symbolRows.reduce((s, r) => s + (Number(r.quantity) || 0) * (Number(r.purchase_price) || 0), 0) / quantity
+    }
     const currentValue = quantity * currentPrice
 
-    if (!reference) {
+    if (!reference || (!inWeek && !hasQuote)) {
       holdings.push({
-        symbol, quantity, heldQuantity: 0, currentPrice,
+        symbol, quantity, heldQuantity: 0, currentPrice, priceMissing,
         referencePrice: null, referenceDate: null,
         currentValue, previousValue: 0, weeklyChangeAbs: 0, weeklyChangePct: 0,
         weekStatus: 'noData'
@@ -304,7 +366,7 @@ function buildPortfolioReport(
     let heldQuantity = Math.min(quantity, quantity - netInflow)
     if (heldQuantity < 1e-9) heldQuantity = 0
 
-    const referencePrice = convertPriceToEur(reference.close, currency, eurRates)
+    const referencePrice = seriesToEur(reference.close)
     const previousValue = heldQuantity * referencePrice
     const isHeld = heldQuantity > 0
 
@@ -313,13 +375,14 @@ function buildPortfolioReport(
       quantity,
       heldQuantity,
       currentPrice,
+      priceMissing,
       referencePrice,
       referenceDate: reference.date,
       currentValue,
       previousValue,
       weeklyChangeAbs: heldQuantity * (currentPrice - referencePrice),
-      // Kursbewegung in Börsenwährung (gleiche EUR-Rate auf beiden Seiten)
-      weeklyChangePct: isHeld ? (reference.close > 0 ? (latest.close / reference.close - 1) * 100 : 0) : 0,
+      // Gleiche EUR-Rate auf beiden Seiten, also reine Kursbewegung
+      weeklyChangePct: isHeld && referencePrice > 0 ? (currentPrice / referencePrice - 1) * 100 : 0,
       weekStatus: isHeld ? 'held' : 'new'
     })
   }
@@ -387,7 +450,7 @@ function generateHoldingsRows(holdings: HoldingWithPerf[]): string {
         <tr>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 14px; font-weight: 600;">${h.symbol}</td>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 13px; text-align: right;">${formatShares(h.quantity)}</td>
-          <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 13px; text-align: right; white-space: nowrap;">${formatCurrency(h.currentPrice)}</td>
+          <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 13px; text-align: right; white-space: nowrap;">${h.priceMissing ? 'Einstand' : formatCurrency(h.currentPrice)}</td>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap;">${formatCurrency(h.currentValue)}</td>
           <td style="padding: 12px 12px; border-bottom: 1px solid #e5e7eb; color: ${color}; font-size: 13px; font-weight: 600; text-align: right; white-space: nowrap;">
             ${weekCell}
@@ -419,6 +482,7 @@ function generateEmailHtml(
   ].filter(Boolean).join('')
 
   const holdingsRows = generateHoldingsRows(report.holdings)
+  const unpriced = report.holdings.filter(h => h.priceMissing).map(h => h.symbol)
 
   return `
     <!DOCTYPE html>
@@ -505,6 +569,10 @@ function generateEmailHtml(
           </div>
           ` : ''}
 
+          ${unpriced.length > 0 ? `
+          <p style="margin: 8px 0 4px 0; color: #6b7280; font-size: 12px;">Kein aktueller Kurs für ${unpriced.join(', ')}. Diese Positionen stehen zum Einstandspreis im Depotwert.</p>
+          ` : ''}
+
           <!-- Earnings-Radar: diese Woche gemeldet, nächste Woche anstehend -->
           ${earningsSection}
 
@@ -552,6 +620,44 @@ function generateEmailHtml(
     </body>
     </html>
   `
+}
+
+/**
+ * Schickt eine Mail und wiederholt bei vorübergehenden Fehlern. Der
+ * Idempotenz-Schlüssel verhindert, dass ein Versuch, den Resend trotz Timeout
+ * angenommen hat, beim nächsten Mal doppelt ankommt.
+ * Gibt den Fehlernamen zurück, null bei Erfolg. Bewusst ohne Fehlertext: der
+ * kann die Mailadresse enthalten und landet im Protokoll.
+ */
+async function sendWithRetry(mail: CreateEmailOptions, idempotencyKey: string): Promise<string | null> {
+  for (let attempt = 0; ; attempt++) {
+    let reason: string | null
+    let timer: ReturnType<typeof setTimeout> | undefined
+    try {
+      reason = await Promise.race([
+        resend.emails.send(mail, { idempotencyKey }).then(({ error }) => (error ? error.name || 'application_error' : null)),
+        new Promise<string>(resolve => { timer = setTimeout(() => resolve('timeout'), SEND_TIMEOUT_MS) })
+      ])
+    } catch {
+      reason = 'application_error'
+    } finally {
+      clearTimeout(timer)
+    }
+    if (reason === null) return null
+    if (!RETRYABLE_SEND_ERRORS.has(reason) || attempt >= SEND_RETRY_DELAYS_MS.length) return reason
+    await sleep(SEND_RETRY_DELAYS_MS[attempt])
+  }
+}
+
+async function logReport(userId: string, referenceId: string, content: Record<string, unknown>, emailSent: boolean) {
+  const { error } = await supabase.from('notification_log').insert({
+    user_id: userId,
+    notification_type: NOTIFICATION_TYPE,
+    reference_id: referenceId,
+    content,
+    email_sent: emailSent
+  })
+  if (error) console.error(`[Weekly Portfolio Report] Protokoll für ${userId} nicht geschrieben: ${error.message}`)
 }
 
 export async function GET(request: Request) {
@@ -616,7 +722,8 @@ async function handleWeeklyPortfolioReport() {
     const { data: portfolioRows, error: portfoliosError } = await portfoliosQuery
     const portfolios = countedDepots(portfolioRows ?? [])
 
-    if (portfoliosError || portfolios.length === 0) {
+    if (portfoliosError) throw new Error(`Depots lesen: ${portfoliosError.message}`)
+    if (portfolios.length === 0) {
       console.log('[Weekly Portfolio Report] No portfolios found')
       return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekNumber, weekRange, message: 'No portfolios found', emailsSent: 0 })
     }
@@ -630,11 +737,12 @@ async function handleWeeklyPortfolioReport() {
     // 3. Get all holdings across those portfolios
     const { data: allHoldings, error: holdingsError } = await supabase
       .from('portfolio_holdings')
-      .select('portfolio_id, symbol, quantity, purchase_date')
+      .select('portfolio_id, symbol, quantity, purchase_price, purchase_date')
       .in('portfolio_id', portfolioIds)
       .gt('quantity', 0)
 
-    if (holdingsError || !allHoldings || allHoldings.length === 0) {
+    if (holdingsError) throw new Error(`Positionen lesen: ${holdingsError.message}`)
+    if (!allHoldings || allHoldings.length === 0) {
       console.log('[Weekly Portfolio Report] No holdings found')
       return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekNumber, weekRange, message: 'No holdings found', emailsSent: 0 })
     }
@@ -642,10 +750,12 @@ async function handleWeeklyPortfolioReport() {
     // 4. Check premium status and group holdings by user
     const uniqueUserIds = [...new Set(portfolios.map(p => p.user_id))]
 
-    const { data: profiles } = await supabase
+    const { data: profiles, error: profilesError } = await supabase
       .from('profiles')
       .select('user_id, is_premium, subscription_status, subscription_end_date')
       .in('user_id', uniqueUserIds)
+
+    if (profilesError) throw new Error(`Profile lesen: ${profilesError.message}`)
 
     const premiumUserIds = new Set<string>()
     for (const profile of profiles || []) {
@@ -658,7 +768,7 @@ async function handleWeeklyPortfolioReport() {
 
     for (const holding of allHoldings as HoldingRow[]) {
       const userId = portfolioUserMap.get(holding.portfolio_id)
-      if (!userId) continue
+      if (!userId || !holding.symbol) continue
 
       const isTestUser = TEST_USER_ID && userId === TEST_USER_ID
       const isPremium = premiumUserIds.has(userId)
@@ -670,45 +780,50 @@ async function handleWeeklyPortfolioReport() {
       userHoldings.set(userId, list)
     }
 
+    // Wer den Report dieser Woche schon hat, bekommt ihn bei einem erneuten Lauf
+    // nicht noch einmal. So lassen sich fehlgeschlagene Mails nachholen.
+    const referenceId = TEST_USER_ID ? `KW${weekNumber}-Test` : `KW${weekNumber}`
+    let alreadySent = 0
+    if (!TEST_USER_ID) {
+      const { data: sentRows, error: sentError } = await supabase
+        .from('notification_log')
+        .select('user_id')
+        .eq('notification_type', NOTIFICATION_TYPE)
+        .eq('reference_id', referenceId)
+        .eq('email_sent', true)
+        .gte('sent_at', thisMonday.toISOString())
+      if (sentError) console.warn(`[Weekly Portfolio Report] Frühere Läufe nicht lesbar: ${sentError.message}`)
+      for (const row of sentRows || []) if (userHoldings.delete(row.user_id)) alreadySent++
+    }
+
     if (userHoldings.size === 0) {
       console.log('[Weekly Portfolio Report] No eligible users with holdings')
       return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekNumber, weekRange, message: 'No eligible users', emailsSent: 0 })
     }
 
-    // 5. Fetch FMP quotes for all unique symbols in one batch call
-    const allSymbols = [...new Set([...userHoldings.values()].flatMap(rows => rows.map(r => r.symbol)))]
-    console.log(`[Weekly Portfolio Report] Fetching quotes for ${allSymbols.length} symbols...`)
-
-    const quoteMap = new Map<string, FmpQuote>()
-
-    // FMP supports comma-separated symbols in one call
-    const BATCH_SIZE = 50
-    for (let i = 0; i < allSymbols.length; i += BATCH_SIZE) {
-      const batch = allSymbols.slice(i, i + BATCH_SIZE)
-      try {
-        const res = await fetch(
-          `https://financialmodelingprep.com/api/v3/quote/${batch.join(',')}?apikey=${process.env.FMP_API_KEY}`
-        )
-        if (!res.ok) {
-          console.error(`[Weekly Portfolio Report] FMP quote error: ${res.status}`)
-          continue
-        }
-        const data: FmpQuote[] = await res.json()
-        if (Array.isArray(data)) {
-          for (const q of data) {
-            quoteMap.set(q.symbol, q)
-          }
-        }
-      } catch (e) {
-        console.error('[Weekly Portfolio Report] FMP fetch error:', e)
-      }
+    // 5. Kurse über denselben Dienst wie das Depot (Stammdaten, FMP, Yahoo)
+    const allSymbols = [...new Set([...userHoldings.values()].flatMap(rows => rows.map(r => r.symbol)))].filter(Boolean)
+    let quotes = new Map<string, NormalizedQuote>()
+    try {
+      quotes = await getQuotes(allSymbols)
+    } catch (e) {
+      // Die Kurshistorie unten kommt auch ohne Live-Kurse aus
+      console.error('[Weekly Portfolio Report] Kursdienst fehlgeschlagen:', e)
     }
+    console.log(`[Weekly Portfolio Report] Got quotes for ${quotes.size}/${allSymbols.length} symbols`)
 
-    console.log(`[Weekly Portfolio Report] Got quotes for ${quoteMap.size} symbols`)
+    // Schlusskurse ab gut zwei Wochen vor dem Wochen-Montag: daraus der Schluss
+    // des letzten Handelstags der Vorwoche und der letzte Schlusskurs
+    const weekStart = thisMonday.toISOString().split('T')[0]
+    const historyFrom = addDaysIso(weekStart, -HISTORY_LOOKBACK_DAYS)
+    const seriesBySymbol = await loadSeriesForSymbols(allSymbols, quotes, historyFrom, today.toISOString().split('T')[0])
+    console.log(`[Weekly Portfolio Report] Got price history for ${seriesBySymbol.size}/${allSymbols.length} symbols`)
 
-    // Wechselkurse einmal holen — FMP liefert Kurse in Börsenwährung (USD, GBX/Pence
-    // bei .L, EUR bei .DE); für den Depotwert muss alles nach EUR umgerechnet werden.
-    const currencies = new Set(allSymbols.map(s => detectTickerCurrency(s)))
+    // Wechselkurse einmal holen, für alle vorkommenden Notierungswährungen
+    const currencies = new Set(
+      [...[...quotes.values()].map(q => q.currency), ...[...seriesBySymbol.values()].map(p => p.currency)]
+        .map(c => (c === 'GBX' ? 'GBP' : c))
+    )
     const fxEntries = await Promise.all(
       [...currencies].filter(c => c !== 'EUR').map(async c => [c, await getEurRate(c)] as const)
     )
@@ -716,13 +831,6 @@ async function handleWeeklyPortfolioReport() {
     const usdToEurRate = byCurrency['USD'] ?? null
     const gbpToEurRate = byCurrency['GBP'] ?? null
     const eurRates = { usdToEurRate, gbpToEurRate, byCurrency }
-
-    // Schlusskurse ab gut zwei Wochen vor dem Wochen-Montag: daraus der Schluss
-    // des letzten Handelstags der Vorwoche und der letzte Schlusskurs
-    const weekStart = thisMonday.toISOString().split('T')[0]
-    const historyFrom = addDaysIso(weekStart, -HISTORY_LOOKBACK_DAYS)
-    const closesBySymbol = await fetchClosesForSymbols(allSymbols, historyFrom, today.toISOString().split('T')[0])
-    console.log(`[Weekly Portfolio Report] Got price history for ${closesBySymbol.size}/${allSymbols.length} symbols`)
 
     // Käufe/Verkäufe seit dem Vorwochen-Schluss, damit Zukäufe nicht als Wochengewinn zählen
     const eligiblePortfolioIds = portfolios.filter(p => userHoldings.has(p.user_id)).map(p => p.id)
@@ -751,50 +859,58 @@ async function handleWeeklyPortfolioReport() {
     // 7. Send emails per user
     let emailsSent = 0
     const userResults: Array<{ userId: string; email: string; totalValue: number; weeklyChangePct: number }> = []
+    const failures: Array<{ userId: string; reason: string }> = []
+
+    const recordFailure = async (userId: string, reason: string) => {
+      failures.push({ userId, reason })
+      console.error(`[Weekly Portfolio Report] Kein Report für ${userId}: ${reason}`)
+      await logReport(userId, referenceId, { weekNumber, weekRange, error: reason }, false)
+    }
 
     for (const [userId, rows] of userHoldings) {
-      // Echte Wochenveränderung je Position (Vorwochen-Schluss → letzter Schluss)
-      const userPortfolioIds = new Set(rows.map(r => r.portfolio_id))
-      for (const p of portfolios) if (p.user_id === userId) userPortfolioIds.add(p.id)
-      const userFlows = allFlows.filter(f => userPortfolioIds.has(f.portfolio_id))
-
-      const report = buildPortfolioReport(rows, userFlows, closesBySymbol, quoteMap, weekStart, eurRates)
-      const { holdings, totalCurrentValue, totalWeeklyChangePct } = report
-
-      if (holdings.length === 0) {
-        console.log(`[Weekly Portfolio Report] No valid quotes for user ${userId}, skipping`)
-        continue
-      }
-
-      // Earnings-Radar für die Positionen dieses Nutzers (Werte in EUR)
-      const positionValues = new Map(holdings.map(h => [h.symbol.toUpperCase(), h.currentValue]))
-      const radar = buildRadar(earningsEvents, positionValues, totalCurrentValue, nextWeekFrom)
-      const earningsSection = radarEmailSection(radar, { upcoming: 'Nächste Woche', reported: 'Diese Woche' })
-
-      // Get user email
-      const { data: { user } } = await supabase.auth.admin.getUserById(userId)
-      if (!user?.email) {
-        console.log(`[Weekly Portfolio Report] No email for user ${userId}`)
-        continue
-      }
-
-      const isTest = !!TEST_USER_ID
-      const subject = isTest
-        ? `[TEST] 📊 Dein Portfolio-Bericht: KW ${weekNumber}`
-        : `📊 Dein Portfolio-Bericht: KW ${weekNumber}`
-
-      const htmlContent = generateEmailHtml(report, weekNumber, weekRange, earningsSection, isTest)
-
+      // Ein Fehler bei einem Nutzer darf die übrigen nicht um ihren Report bringen
       try {
-        const { error: emailError } = await resend.emails.send({
-          from: 'Finclue <team@finclue.de>',
-          to: [user.email],
-          subject,
-          html: htmlContent,
-        })
+        // Echte Wochenveränderung je Position (Vorwochen-Schluss → letzter Schluss)
+        const userPortfolioIds = new Set(rows.map(r => r.portfolio_id))
+        for (const p of portfolios) if (p.user_id === userId) userPortfolioIds.add(p.id)
+        const userFlows = allFlows.filter(f => userPortfolioIds.has(f.portfolio_id))
 
-        if (emailError) {
-          console.error(`[Weekly Portfolio Report] Email error for ${user.email}:`, emailError)
+        const report = buildPortfolioReport(rows, userFlows, seriesBySymbol, quotes, weekStart, eurRates)
+        const { holdings, totalCurrentValue, totalWeeklyChangePct } = report
+
+        // Einzelne Positionen ohne Kurs sind im Report gekennzeichnet. Fehlt er für
+        // die meisten, ist die Kursquelle gestört und der Report wertlos.
+        const pricedCount = holdings.filter(h => !h.priceMissing).length
+        if (pricedCount === 0 || pricedCount * 2 < holdings.length) {
+          await recordFailure(userId, 'prices_missing')
+          continue
+        }
+
+        // Earnings-Radar für die Positionen dieses Nutzers (Werte in EUR)
+        const positionValues = new Map(holdings.map(h => [h.symbol.toUpperCase(), h.currentValue]))
+        const radar = buildRadar(earningsEvents, positionValues, totalCurrentValue, nextWeekFrom)
+        const earningsSection = radarEmailSection(radar, { upcoming: 'Nächste Woche', reported: 'Diese Woche' })
+
+        // Get user email
+        const { data: { user }, error: userError } = await supabase.auth.admin.getUserById(userId)
+        if (!user?.email) {
+          await recordFailure(userId, userError ? 'user_lookup_failed' : 'no_email')
+          continue
+        }
+
+        const isTest = !!TEST_USER_ID
+        const subject = isTest
+          ? `[TEST] 📊 Dein Portfolio-Bericht: KW ${weekNumber}`
+          : `📊 Dein Portfolio-Bericht: KW ${weekNumber}`
+
+        const htmlContent = generateEmailHtml(report, weekNumber, weekRange, earningsSection, isTest)
+
+        const sendError = await sendWithRetry(
+          { from: 'Finclue <team@finclue.de>', to: [user.email], subject, html: htmlContent },
+          `${NOTIFICATION_TYPE}/${userId}/${weekStart}${isTest ? `/test-${Date.now()}` : ''}`
+        )
+        if (sendError) {
+          await recordFailure(userId, sendError)
           continue
         }
 
@@ -807,9 +923,21 @@ async function handleWeeklyPortfolioReport() {
         })
 
         console.log(
-          `[Weekly Portfolio Report] 📧 Email sent to ${user.email} — ` +
+          `[Weekly Portfolio Report] 📧 Email sent to ${user.email}: ` +
           `${formatCurrency(totalCurrentValue)} · ${formatPercent(totalWeeklyChangePct)}`
         )
+
+        // Direkt nach dem Versand festhalten: ein hängender Push darf den Eintrag nicht verhindern
+        await logReport(userId, referenceId, {
+          weekNumber,
+          weekRange,
+          totalCurrentValue,
+          totalWeeklyChangePct,
+          holdingCount: holdings.length,
+          pricedCount,
+          topGainer: report.topGainers[0]?.symbol ?? null,
+          topLoser: report.topLosers[0]?.symbol ?? null
+        }, true)
 
         // Send push notification
         try {
@@ -818,7 +946,7 @@ async function handleWeeklyPortfolioReport() {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
             const pushBody = buildPushBody(report)
 
-            await fetch(`${baseUrl}/api/notifications/push`, {
+            const pushRes = await fetch(`${baseUrl}/api/notifications/push`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
               body: JSON.stringify({
@@ -827,46 +955,34 @@ async function handleWeeklyPortfolioReport() {
                 body: pushBody,
                 data: { screen: 'portfolio' }
               }),
+              signal: AbortSignal.timeout(PUSH_TIMEOUT_MS),
             })
+            if (!pushRes.ok) console.error(`[Weekly Portfolio Report] Push für ${userId}: HTTP ${pushRes.status}`)
           }
         } catch (e) { console.error('[Weekly Portfolio Report] Push error:', e) }
 
-        // Log to notification_log
-        await supabase.from('notification_log').insert({
-          user_id: userId,
-          notification_type: 'weekly_portfolio_report',
-          reference_id: `KW${weekNumber}`,
-          content: {
-            weekNumber,
-            weekRange,
-            totalCurrentValue,
-            totalWeeklyChangePct,
-            holdingCount: holdings.length,
-            topGainer: report.topGainers[0]?.symbol ?? null,
-            topLoser: report.topLosers[0]?.symbol ?? null
-          },
-          email_sent: true
-        })
-
-      } catch (emailError) {
-        console.error(`[Weekly Portfolio Report] Failed to send email to ${user.email}:`, emailError)
+      } catch (e) {
+        console.error(`[Weekly Portfolio Report] Unerwarteter Fehler bei ${userId}:`, e)
+        await recordFailure(userId, 'unexpected_error').catch(() => {})
       }
     }
 
-    console.log(`[Weekly Portfolio Report] Complete: ${emailsSent} emails sent`)
+    console.log(`[Weekly Portfolio Report] Complete: ${emailsSent} emails sent, ${failures.length} failed, ${alreadySent} already sent`)
 
     return NextResponse.json({
-      success: true,
+      success: failures.length === 0,
       testMode: !!TEST_USER_ID,
       weekNumber,
       weekRange,
       symbolsQueried: allSymbols.length,
-      quotesReceived: quoteMap.size,
-      historyReceived: closesBySymbol.size,
+      quotesReceived: quotes.size,
+      historyReceived: seriesBySymbol.size,
       earningsEvents: earningsEvents.length,
       emailsSent,
+      alreadySent,
+      failures,
       userResults
-    })
+    }, { status: failures.length > 0 && emailsSent === 0 ? 500 : 200 })
 
   } catch (error) {
     console.error('[Weekly Portfolio Report] Fatal error:', error)
