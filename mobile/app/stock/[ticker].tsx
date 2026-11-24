@@ -280,9 +280,13 @@ export default function StockScreen() {
     setAiSummary(null);
     setSummaryLoading(true);
     try {
+      const { data: { session } } = await supabase.auth.getSession();
       const res = await fetch(`${BASE_URL}/api/earnings-summary`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({ ticker: t.symbol, year: t.year, quarter: t.quarter, content: t.content }),
       });
       if (res.ok) { const d = await res.json(); setAiSummary(d.summary || null); }

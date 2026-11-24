@@ -49,3 +49,6 @@ next-env.d.ts
 
 # Prisma generated client (legacy custom output path)
 prisma/node_modules/
+
+# Ergebnisse des KI-Modellvergleichs
+.ai-eval/

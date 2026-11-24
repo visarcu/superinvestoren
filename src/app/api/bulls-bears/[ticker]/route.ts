@@ -1,6 +1,8 @@
 
 // src/app/api/bulls-bears/[ticker]/route.ts
 import { NextResponse } from 'next/server';
+import { unstable_cache } from 'next/cache';
+import { allowPublicCall, clientIp, TICKER_PATTERN } from '@/lib/ai/publicGuard';
 import OpenAI from 'openai';
 
 // Lazy initialization - wird erst bei erster Nutzung initialisiert
@@ -30,24 +32,39 @@ interface FinancialData {
   currentRatio: number;
 }
 
+// Die Route ist öffentlich (App, Aktienseiten). Höchstens ein Modellaufruf je
+// Ticker und Woche, unabhängig von Query-Parametern und CDN.
+const loadBullsBears = unstable_cache(
+  async (ticker: string) => {
+    const financialData = await gatherFinancialData(ticker);
+    const bullsBears = await generateBullsBearsWithAI(financialData);
+    return { bulls: bullsBears.bulls, bears: bullsBears.bears, lastUpdated: new Date().toISOString() };
+  },
+  ['bulls-bears-v1'],
+  { revalidate: 604800 }
+);
+
 export async function GET(
   request: Request,
   { params }: { params: { ticker: string } }
 ) {
   const ticker = params.ticker.toUpperCase();
 
+  if (!TICKER_PATTERN.test(ticker)) {
+    return NextResponse.json({ error: 'Ungültiger Ticker' }, { status: 400 });
+  }
+  if (!allowPublicCall('bulls-bears', clientIp(request), 40, 10 * 60 * 1000)) {
+    return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429 });
+  }
+
   try {
-    // 1. Sammle Finanzdaten (nutzt eure bestehende FMP API)
-    const financialData = await gatherFinancialData(ticker);
-    
-    // 2. Generiere Bulls/Bears mit OpenAI
-    const bullsBears = await generateBullsBearsWithAI(financialData);
+    const bullsBears = await loadBullsBears(ticker);
 
     return NextResponse.json({
       ticker,
       bulls: bullsBears.bulls,
       bears: bullsBears.bears,
-      lastUpdated: new Date().toISOString(),
+      lastUpdated: bullsBears.lastUpdated,
       source: 'openai_generated'
     }, {
       headers: {

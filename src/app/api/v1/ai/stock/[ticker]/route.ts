@@ -6,6 +6,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import OpenAI from 'openai'
+import { unstable_cache } from 'next/cache'
+import { allowPublicCall, clientIp, TICKER_PATTERN } from '@/lib/ai/publicGuard'
 
 // ─── Cache Check ────────────────────────────────────────────────────────────
 
@@ -120,48 +122,7 @@ async function aggregateStockData(ticker: string, baseUrl: string): Promise<stri
   return sections.join('\n\n')
 }
 
-// ─── Main Route ─────────────────────────────────────────────────────────────
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { ticker: string } }
-) {
-  const ticker = params.ticker.toUpperCase()
-
-  if (!/^[A-Z0-9.-]{1,10}$/.test(ticker)) {
-    return NextResponse.json({ error: 'Invalid ticker' }, { status: 400 })
-  }
-
-  if (!process.env.OPENAI_API_KEY) {
-    return NextResponse.json({ error: 'OpenAI not configured' }, { status: 500 })
-  }
-
-  try {
-    // Build base URL for internal API calls
-    const proto = request.headers.get('x-forwarded-proto') || 'http'
-    const host = request.headers.get('host') || 'localhost:3000'
-    const baseUrl = `${proto}://${host}`
-
-    // Aggregate all data
-    const context = await aggregateStockData(ticker, baseUrl)
-
-    if (!context || context.length < 50) {
-      return NextResponse.json({
-        ticker,
-        analysis: null,
-        message: `Nicht genug Daten für eine AI-Analyse von ${ticker}`,
-      }, { status: 404 })
-    }
-
-    // Generate AI analysis
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        {
-          role: 'system',
-          content: `Du bist ein erfahrener Aktienanalyst bei Finclue. Erstelle eine fundierte deutsche Aktienanalyse basierend auf den bereitgestellten Daten. Sei sachlich, datengetrieben und nutze NUR die bereitgestellten Zahlen.
+const SYSTEM_PROMPT = `Du bist ein erfahrener Aktienanalyst bei Finclue. Erstelle eine fundierte deutsche Aktienanalyse basierend auf den bereitgestellten Daten. Sei sachlich, datengetrieben und nutze NUR die bereitgestellten Zahlen.
 
 REGELN:
 - Alle Texte auf Deutsch
@@ -191,24 +152,78 @@ FORMAT (Markdown):
 
 ## Bewertung
 [KGV-Einordnung, Wachstum vs. Bewertung, günstig/fair/teuer]`
-        },
-        {
-          role: 'user',
-          content: `Analysiere ${ticker} basierend auf folgenden Finclue-Daten:\n\n${context}`
-        }
-      ],
-      temperature: 0.2,
-      max_tokens: 2000,
-    })
 
-    const analysis = completion.choices[0]?.message?.content || ''
+// ─── Main Route ─────────────────────────────────────────────────────────────
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { ticker: string } }
+) {
+  const ticker = params.ticker.toUpperCase()
+
+  if (!TICKER_PATTERN.test(ticker)) {
+    return NextResponse.json({ error: 'Invalid ticker' }, { status: 400 })
+  }
+
+  if (!allowPublicCall('v1-ai-stock', clientIp(request), 15, 10 * 60 * 1000)) {
+    return NextResponse.json({ error: 'Zu viele Anfragen' }, { status: 429 })
+  }
+
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json({ error: 'OpenAI not configured' }, { status: 500 })
+  }
+
+  try {
+    // Build base URL for internal API calls
+    const proto = request.headers.get('x-forwarded-proto') || 'http'
+    const host = request.headers.get('host') || 'localhost:3000'
+    const baseUrl = `${proto}://${host}`
+
+    // Je Ticker höchstens ein Modellaufruf alle sechs Stunden. baseUrl gehört
+    // bewusst nicht zum Schlüssel, sonst ließe sich der Cache umgehen.
+    const result = await unstable_cache(
+      async () => {
+        const context = await aggregateStockData(ticker, baseUrl)
+        if (!context || context.length < 50) return null
+
+        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+        const completion = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            {
+              role: 'user',
+              content: `Analysiere ${ticker} basierend auf folgenden Finclue-Daten:\n\n${context}`
+            }
+          ],
+          temperature: 0.2,
+          max_tokens: 2000,
+        })
+
+        return {
+          analysis: completion.choices[0]?.message?.content || '',
+          dataPoints: context.split('\n\n').length,
+          generatedAt: new Date().toISOString(),
+        }
+      },
+      ['v1-ai-stock-v1', ticker],
+      { revalidate: 21600 }
+    )()
+
+    if (!result) {
+      return NextResponse.json({
+        ticker,
+        analysis: null,
+        message: `Nicht genug Daten für eine AI-Analyse von ${ticker}`,
+      }, { status: 404 })
+    }
 
     return NextResponse.json({
       ticker,
-      analysis,
+      analysis: result.analysis,
       model: 'gpt-4o-mini',
-      dataPoints: context.split('\n\n').length,
-      generatedAt: new Date().toISOString(),
+      dataPoints: result.dataPoints,
+      generatedAt: result.generatedAt,
       source: 'finclue-own-data',
     }, {
       headers: { 'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400' },

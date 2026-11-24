@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getAiUser } from '@/lib/ai/auth'
 import { getEnhancedPortfolioData } from '@/lib/superinvestorDataService'
 import { ChatOpenAI } from '@langchain/openai'
 import { PromptTemplate } from '@langchain/core/prompts'
@@ -74,9 +75,14 @@ function calculateSectorSimilarity(userSectors: Record<string, number>, investor
 
 export async function POST(req: Request) {
     try {
+        const user = await getAiUser(req)
+        if (!user) {
+            return NextResponse.json({ error: 'Bitte melde dich an.' }, { status: 401 })
+        }
+
         const { holdings, totalValue } = await req.json() // Expects list of { symbol, value, quantity }
 
-        if (!holdings || holdings.length === 0) {
+        if (!Array.isArray(holdings) || holdings.length === 0 || holdings.length > 200) {
             return NextResponse.json({ error: 'No holdings provided' }, { status: 400 })
         }
 

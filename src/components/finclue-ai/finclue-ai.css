@@ -1,0 +1,213 @@
+/* Finclue AI. Die Antwort liegt als Blatt in der Gegenfarbe auf der Oberfläche:
+   hell auf dunkel, dunkel auf hell. Eigene Farbnamen, damit die globalen
+   Hell/Dunkel-Regeln der Tailwind-Klassen hier nicht greifen. */
+
+.fai {
+  --fai-card: #121410; --fai-raise: #191b17; --fai-line: rgba(255, 255, 255, 0.08); --fai-line2: rgba(255, 255, 255, 0.05);
+  --fai-ink: #ecede8; --fai-ink2: #b4b6ae; --fai-mute: #85887f; --fai-faint: #3a3d36;
+  --fai-pos: #5fc9a5; --fai-neg: #e58b80; --fai-warn: #d9a441; --fai-btn: #ecede8; --fai-btn-ink: #111210;
+  --fai-s2: #85887f; --fai-s3: #5fc9a5; --fai-s4: #d9a441;
+  color: var(--fai-ink); font-size: 14px; line-height: 1.5;
+}
+html:not(.dark) .fai {
+  --fai-card: #fafaf7; --fai-raise: #e9eae4; --fai-line: #d9dbd2; --fai-line2: #e4e5df;
+  --fai-ink: #111210; --fai-ink2: #4b4d46; --fai-mute: #6f7269; --fai-faint: #c9cbc3;
+  --fai-pos: #12795a; --fai-neg: #b23a2e; --fai-warn: #8f6410; --fai-btn: #111210; --fai-btn-ink: #fafaf7;
+  --fai-s2: #8a8d84; --fai-s3: #12795a; --fai-s4: #a8740f;
+}
+.fai .fai-sheet {
+  --fai-card: #edeee8; --fai-raise: #e1e3da; --fai-line: #d0d3c8; --fai-line2: #dcdfd5;
+  --fai-ink: #111210; --fai-ink2: #43453e; --fai-mute: #676a61; --fai-faint: #bfc2b8;
+  --fai-pos: #12795a; --fai-neg: #b23a2e; --fai-warn: #8f6410; --fai-btn: #111210; --fai-btn-ink: #f4f5f0;
+  --fai-s2: #8a8d84; --fai-s3: #12795a; --fai-s4: #a8740f;
+  color-scheme: light;
+}
+html:not(.dark) .fai .fai-sheet {
+  --fai-card: #141612; --fai-raise: #1f211d; --fai-line: #2a2d27; --fai-line2: #20231d;
+  --fai-ink: #ecede8; --fai-ink2: #b4b6ae; --fai-mute: #8d9087; --fai-faint: #3f423b;
+  --fai-pos: #5fc9a5; --fai-neg: #e58b80; --fai-warn: #d9a441; --fai-btn: #ecede8; --fai-btn-ink: #111210;
+  --fai-s2: #8d9087; --fai-s3: #5fc9a5; --fai-s4: #d9a441;
+  color-scheme: dark;
+}
+
+.fai button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+.fai button:disabled { cursor: default; }
+.fai :focus-visible { outline: 2px solid var(--fai-ink); outline-offset: 2px; }
+.fai-num { font-variant-numeric: tabular-nums; }
+.fai-mark rect { fill: var(--fai-faint); transition: fill 0.3s; }
+.fai-mark rect.on { fill: var(--fai-ink); }
+
+/* Antwortblatt */
+.fai-sheet { background: var(--fai-card); color: var(--fai-ink); border: 1px solid var(--fai-line); border-radius: 12px; display: flex; flex-direction: column; min-width: 0; width: 100%; }
+.fai-q { padding: 15px 18px 0; font-size: 12.5px; color: var(--fai-mute); display: flex; gap: 9px; align-items: flex-start; }
+.fai-q svg { margin-top: 3px; flex: none; }
+.fai-q span { min-width: 0; overflow-wrap: anywhere; }
+.fai-a { padding: 8px 18px 16px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.fai .fai-head { font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif; font-weight: 600; font-size: 20px; line-height: 1.26; letter-spacing: -0.015em; margin: 0; text-wrap: pretty; color: var(--fai-ink); }
+.fai-page .fai-head { font-size: 23px; }
+.fai-body { display: flex; flex-direction: column; gap: 10px; font-size: 14px; line-height: 1.6; color: var(--fai-ink2); overflow-wrap: anywhere; }
+.fai-body p { margin: 0; }
+.fai-body strong { color: var(--fai-ink); font-weight: 600; }
+.fai-body a { color: var(--fai-ink); text-decoration: underline; text-underline-offset: 3px; }
+.fai-body ul, .fai-body ol { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; }
+.fai-body ul { list-style: disc; } .fai-body ol { list-style: decimal; }
+.fai-body li::marker { color: var(--fai-mute); }
+.fai-scroll { overflow-x: auto; }
+.fai table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--fai-ink2); }
+.fai td, .fai th { padding: 7px 8px; border-bottom: 1px solid var(--fai-line2); text-align: right; font-weight: 400; white-space: nowrap; }
+.fai td:first-child, .fai th:first-child { text-align: left; padding-left: 0; white-space: normal; }
+.fai td:last-child, .fai th:last-child { padding-right: 0; }
+.fai th { color: var(--fai-mute); font-size: 12px; }
+.fai tr:last-child td { border-bottom: 0; }
+.fai-foot { padding: 12px 18px 14px; border-top: 1px solid var(--fai-line); display: flex; flex-direction: column; gap: 8px; font-size: 12px; color: var(--fai-mute); }
+.fai-check { display: flex; gap: 8px; align-items: center; color: var(--fai-ink2); }
+.fai-check.warn { color: var(--fai-warn); }
+.fai-srcs { display: flex; flex-wrap: wrap; gap: 3px 14px; }
+.fai-srcs a { color: inherit; text-decoration: underline; text-decoration-color: var(--fai-faint); text-underline-offset: 3px; }
+.fai-srcs a:hover { color: var(--fai-ink); }
+.fai-follow { display: flex; flex-direction: column; }
+.fai-follow button { padding: 8px 0; border-top: 1px solid var(--fai-line2); font-size: 13px; color: var(--fai-ink2); display: flex; justify-content: space-between; gap: 12px; }
+.fai-follow button:hover:not(:disabled) { color: var(--fai-ink); }
+.fai-err { padding: 4px 18px 18px; font-size: 14px; color: var(--fai-ink2); display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+
+/* Arbeitsschritte */
+.fai-work { list-style: none; margin: 0; padding: 14px 18px 20px; display: flex; flex-direction: column; gap: 9px; }
+.fai-work li { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--fai-mute); }
+.fai-work li i { width: 9px; height: 9px; border-radius: 2px; background: var(--fai-faint); flex: none; }
+.fai-work li.fertig { color: var(--fai-ink2); } .fai-work li.fertig i { background: var(--fai-ink); }
+.fai-work li.fehler i { background: var(--fai-neg); }
+.fai-work li.laeuft i { animation: fai-pulse 1.1s ease-in-out infinite; }
+@keyframes fai-pulse { 50% { background: var(--fai-ink); } }
+
+/* Grafiken */
+.fai-fig { margin: 2px 0; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.fai-fig figcaption { font-size: 12px; color: var(--fai-mute); display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; }
+.fai-fig figcaption span { display: inline-flex; gap: 6px; align-items: center; }
+.fai-fig figcaption i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.fai-chart { position: relative; }
+.fai-chart svg { display: block; width: 100%; overflow: visible; }
+.fai-chart svg text { font-family: var(--font-mono), ui-monospace, Menlo, monospace; font-size: 10px; fill: var(--fai-mute); }
+.fai-chart svg text.strong { fill: var(--fai-ink); }
+.fai-tip { position: absolute; top: 0; pointer-events: none; background: var(--fai-ink); color: var(--fai-card); font-size: 11.5px; line-height: 1.45; padding: 5px 8px; border-radius: 6px; white-space: nowrap; transform: translateX(-50%); font-variant-numeric: tabular-nums; z-index: 2; }
+.fai-hbars { display: flex; flex-direction: column; gap: 7px; font-size: 12.5px; color: var(--fai-ink2); }
+.fai-hbars > div { display: grid; grid-template-columns: minmax(84px, 34%) minmax(0, 1fr) 66px; gap: 10px; align-items: center; }
+.fai-hbars .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fai-hbars .track { position: relative; height: 8px; }
+.fai-hbars .track i { position: absolute; top: 0; bottom: 0; border-radius: 2px; background: var(--fai-faint); }
+.fai-hbars .hervor { color: var(--fai-ink); } .fai-hbars .hervor .track i { background: var(--fai-ink); }
+.fai-hbars em { font-style: normal; text-align: right; font-variant-numeric: tabular-nums; color: var(--fai-ink); }
+.fai-time { list-style: none; margin: 0; padding: 0; font-size: 13px; color: var(--fai-ink2); }
+.fai-time li { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-top: 1px solid var(--fai-line2); }
+.fai-time time { font-family: var(--font-mono), ui-monospace, monospace; font-size: 11.5px; color: var(--fai-mute); padding-top: 2px; }
+
+/* Frageleiste */
+.fai-ask { border: 1px solid var(--fai-line); background: var(--fai-card); border-radius: 12px; padding: 11px 12px 10px 14px; display: flex; flex-direction: column; gap: 9px; }
+.fai-ask:focus-within { border-color: var(--fai-mute); }
+.fai-ask .row { display: flex; gap: 11px; align-items: flex-start; }
+.fai-ask .row > svg { margin-top: 6px; flex: none; }
+.fai-ask textarea { flex: 1; min-width: 0; background: none; border: 0; outline: 0; box-shadow: none; resize: none; color: var(--fai-ink); font: inherit; font-size: 15px; line-height: 1.5; padding: 1px 0; max-height: 160px; }
+.fai-ask textarea:focus-visible { outline: 0; box-shadow: none; }
+.fai-ask textarea::placeholder { color: var(--fai-mute); opacity: 1; }
+.fai-ask .send { width: 30px; height: 30px; border-radius: 8px; background: var(--fai-btn); color: var(--fai-btn-ink); display: grid; place-items: center; flex: none; }
+.fai-ask .send:disabled { opacity: 0.3; }
+.fai-ask .opts { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: space-between; font-size: 12px; color: var(--fai-mute); padding-left: 25px; }
+.fai-toggle { display: inline-flex; gap: 7px; align-items: center; }
+.fai-toggle i { width: 24px; height: 14px; border-radius: 4px; background: var(--fai-faint); position: relative; transition: background 0.2s; }
+.fai-toggle i::after { content: ''; position: absolute; top: 2px; left: 2px; width: 10px; height: 10px; border-radius: 2.5px; background: var(--fai-card); transition: transform 0.2s; }
+.fai-toggle[aria-pressed='true'] { color: var(--fai-ink); }
+.fai-toggle[aria-pressed='true'] i { background: var(--fai-ink); }
+.fai-toggle[aria-pressed='true'] i::after { transform: translateX(10px); }
+
+/* Einwilligung vor der ersten Depotfrage */
+.fai-ask .toggles { display: inline-flex; flex-wrap: wrap; gap: 6px 16px; }
+.fai-consent { border: 1px solid var(--fai-line); border-radius: 12px; padding: 13px 14px; margin-bottom: 8px; display: flex; flex-direction: column; gap: 11px; font-size: 13px; color: var(--fai-ink2); background: var(--fai-raise); }
+.fai-consent p { margin: 0; }
+.fai-consent .frage { color: var(--fai-ink); font-size: 14px; overflow-wrap: anywhere; }
+.fai-consent b { color: var(--fai-ink); font-weight: 600; }
+.fai-consent > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.fai-consent button { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--fai-line); color: var(--fai-ink); }
+.fai-consent button:hover { background: var(--fai-card); }
+.fai-consent button.yes { background: var(--fai-btn); color: var(--fai-btn-ink); border-color: var(--fai-btn); font-weight: 500; }
+.fai-consent button.yes:hover { opacity: 0.88; }
+
+/* Frageleiste in der Depot-Übersicht */
+.fai-depot { display: flex; flex-direction: column; gap: 12px; }
+.fai-depot .sugs { display: flex; flex-wrap: wrap; gap: 4px 18px; padding-left: 39px; font-size: 13px; }
+.fai-depot .sugs button { color: var(--fai-mute); text-decoration: underline; text-decoration-color: var(--fai-faint); text-underline-offset: 4px; padding: 3px 0; }
+.fai-depot .sugs button:hover { color: var(--fai-ink); }
+.fai-depot .line { display: flex; gap: 11px; align-items: center; border: 1px solid var(--fai-line); background: var(--fai-card); border-radius: 12px; padding: 10px 10px 10px 16px; }
+.fai-depot .line:focus-within { border-color: var(--fai-mute); }
+.fai .fai-depot input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; box-shadow: none; color: var(--fai-ink); font: inherit; font-size: 15px; padding: 4px 0; }
+.fai .fai-depot input::placeholder { color: var(--fai-mute); opacity: 1; }
+.fai-depot .send { width: 30px; height: 30px; border-radius: 8px; background: var(--fai-btn); color: var(--fai-btn-ink); display: grid; place-items: center; flex: none; }
+.fai-depot .send:disabled { opacity: 0.3; }
+html:not(.dark) .fai .fai-depot input { color: var(--fai-ink) !important; background: transparent !important; border: 0 !important; }
+/* Gespräch in der Depot-Ansicht „Finclue AI“ */
+.fai-depotview { height: calc(100vh - 250px); min-height: 480px; display: flex; flex-direction: column; border: 1px solid var(--fai-line); border-radius: 12px; overflow: hidden; }
+.fai-depotview .fai-start h1 { margin-top: 2vh; }
+@media (max-width: 900px) { .fai-depotview { height: calc(100vh - 210px); min-height: 420px; } .fai-depot .sugs { padding-left: 2px; } }
+
+/* Die hellen Formularregeln gelten mit !important für jedes Textfeld */
+html:not(.dark) .fai .fai-ask textarea { color: var(--fai-ink) !important; background: transparent !important; border: 0 !important; }
+
+/* Eigene Seite */
+.fai-page { display: grid; grid-template-columns: 236px minmax(0, 1fr); height: 100%; min-height: 0; }
+.fai-hist { border-right: 1px solid var(--fai-line2); padding: 18px 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; font-size: 13px; min-height: 0; }
+.fai-hist .new { padding: 8px 10px; border: 1px solid var(--fai-line); border-radius: 8px; margin-bottom: 8px; color: var(--fai-ink); }
+.fai-hist .new:hover { background: var(--fai-raise); }
+.fai-hist p { margin: 10px 10px 4px; font-size: 11.5px; color: var(--fai-mute); }
+.fai-hist .item { position: relative; border-radius: 7px; }
+.fai-hist .item > button:first-child { display: block; width: 100%; padding: 7px 30px 7px 10px; color: var(--fai-ink2); line-height: 1.38; }
+.fai-hist .item > button:first-child span { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.fai-hist .item:hover { background: var(--fai-raise); }
+.fai-hist .item.on { background: var(--fai-raise); } .fai-hist .item.on > button:first-child { color: var(--fai-ink); }
+.fai-hist .del { position: absolute; right: 6px; top: 7px; width: 22px; height: 22px; display: grid; place-items: center; color: var(--fai-mute); opacity: 0; border-radius: 5px; }
+.fai-hist .item:hover .del, .fai-hist .del:focus-visible { opacity: 1; }
+.fai-hist .del:hover { color: var(--fai-neg); }
+.fai-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; height: 100%; }
+.fai-thread { flex: 1; min-height: 0; overflow-y: auto; padding: 26px 20px 12px; container-type: size; }
+/* Platz lassen, damit die neue Frage ganz nach oben rücken kann */
+.fai-last { min-height: calc(100cqh - 40px); }
+.fai-col { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; width: 100%; }
+.fai-dock { padding: 10px 20px 14px; }
+.fai-note { font-size: 11.5px; color: var(--fai-mute); margin: 8px 2px 0; text-align: center; }
+.fai-note a, .fai-consent a { color: inherit; text-decoration: underline; text-decoration-color: var(--fai-faint); text-underline-offset: 3px; }
+.fai-note a:hover, .fai-consent a:hover { color: var(--fai-ink); }
+.fai-start h1 { font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.015em; margin: 8vh 0 4px; color: var(--fai-ink); }
+.fai-start > p { margin: 0 0 14px; color: var(--fai-mute); font-size: 14px; max-width: 56ch; }
+.fai-sugs { display: flex; flex-direction: column; }
+.fai-sugs button { padding: 11px 0; border-top: 1px solid var(--fai-line); color: var(--fai-ink2); display: flex; justify-content: space-between; gap: 14px; }
+.fai-sugs button:hover { color: var(--fai-ink); }
+.fai-mobilebar { display: none; }
+
+/* Seitliches Blatt, aus ⌘K und von Aktienseiten */
+.fai-veil { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, 0.35); }
+.fai-panel { position: fixed; z-index: 61; top: 0; right: 0; bottom: 0; width: min(480px, 100vw); background: var(--color-bg-primary); border-left: 1px solid var(--fai-line); display: flex; flex-direction: column; animation: fai-in 0.22s ease-out; }
+.fai-panel header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid var(--fai-line2); font-size: 13px; color: var(--fai-ink2); }
+.fai-panel header b { color: var(--fai-ink); font-weight: 600; }
+.fai-panel header b, .fai-panel header button, .fai-panel header a { white-space: nowrap; }
+.fai-panel header > span:not(.sp) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fai-panel header .sp { flex: 1; }
+.fai-panel header button, .fai-panel header a { color: var(--fai-mute); padding: 4px 6px; border-radius: 6px; font-size: 12.5px; }
+.fai-panel header button:hover, .fai-panel header a:hover { color: var(--fai-ink); background: var(--fai-raise); }
+.fai-panel .fai-thread { padding: 14px 14px 8px; }
+.fai-panel .fai-dock { padding: 8px 14px 14px; }
+@keyframes fai-in { from { transform: translateX(24px); opacity: 0; } }
+
+@media (max-width: 900px) {
+  .fai-page { grid-template-columns: minmax(0, 1fr); }
+  .fai-hist { display: none; }
+  .fai-hist.open { display: flex; position: fixed; inset: 0 22% 0 0; z-index: 60; background: var(--color-bg-primary); }
+  .fai-mobilebar { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--fai-line2); font-size: 13px; color: var(--fai-ink2); }
+  .fai-thread { padding: 16px 14px 8px; }
+  .fai-dock { padding: 8px 14px 12px; }
+  .fai-page .fai-head { font-size: 20px; }
+}
+@media (max-width: 560px) {
+  .fai-panel { top: 48px; left: 0; width: 100vw; border-left: 0; border-top: 1px solid var(--fai-line); border-radius: 18px 18px 0 0; animation-name: fai-up; }
+  .fai-ask textarea { font-size: 16px; }
+}
+@keyframes fai-up { from { transform: translateY(30px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .fai *, .fai-panel { animation: none !important; transition: none !important; }
+}

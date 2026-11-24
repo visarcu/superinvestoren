@@ -1,11 +1,17 @@
 // API Route für AI-generierte Stock News Summary
 // Nutzt Perplexity API für aktuelle Web-Suche nach Aktien-News
 import { NextResponse } from 'next/server'
+import { getAiUser } from '@/lib/ai/auth'
 
 const PERPLEXITY_API_URL = 'https://api.perplexity.ai/chat/completions'
 
 export async function POST(request: Request) {
   try {
+    const user = await getAiUser(request)
+    if (!user) {
+      return NextResponse.json({ error: 'Bitte melde dich an.' }, { status: 401 })
+    }
+
     const { ticker, companyName, price, changePct } = await request.json()
 
     if (!ticker) {

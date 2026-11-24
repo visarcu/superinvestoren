@@ -10,6 +10,7 @@ import {
   ArrowTrendingUpIcon,
   LightBulbIcon
 } from '@heroicons/react/24/outline'
+import { supabase } from '@/lib/supabaseClient'
 
 // Muss mit SUMMARY_VERSION in /api/earnings-summary übereinstimmen: erhöhen, damit
 // im localStorage gecachte Summaries alter Generationen nicht weiter angezeigt werden.
@@ -72,9 +73,13 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
     setError(null)
 
     try {
+      const { data: { session } } = await supabase.auth.getSession()
       const response = await fetch('/api/earnings-summary', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({
           ticker,
           year,

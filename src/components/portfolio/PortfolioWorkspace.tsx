@@ -34,6 +34,7 @@ import BrokerCreditModal from '@/components/portfolio/BrokerCreditModal'
 import RenamePortfolioModal from '@/components/portfolio/RenamePortfolioModal'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import DepotAccountMenu from '@/components/portfolio/DepotAccountMenu'
+import DepotAsk, { DepotAiView, useAiAccess } from '@/components/finclue-ai/DepotAsk'
 import { DepotCards, DepotIcon, DepotOverviewCard, DepotSidebarList, SampleBadge, sortDepots } from '@/components/portfolio/DepotList'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import SampleDepotButton from '@/components/portfolio/SampleDepotButton'
@@ -90,6 +91,18 @@ function DepotMark() {
       <rect x="7" y="0" width="5" height="5" rx="1.2" fill="currentColor" opacity="0.35" />
       <rect x="0" y="7" width="5" height="5" rx="1.2" fill="currentColor" opacity="0.35" />
       <rect x="7" y="7" width="5" height="5" rx="1.2" fill="currentColor" />
+    </svg>
+  )
+}
+
+/** Das Motiv als Symbol in der Navigation */
+function AiNavIcon({ className }: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 16 16" className={className}>
+      <rect x="2" y="2" width="5.2" height="5.2" rx="1.3" fill="currentColor" />
+      <rect x="8.8" y="2" width="5.2" height="5.2" rx="1.3" fill="currentColor" opacity="0.35" />
+      <rect x="2" y="8.8" width="5.2" height="5.2" rx="1.3" fill="currentColor" opacity="0.35" />
+      <rect x="8.8" y="8.8" width="5.2" height="5.2" rx="1.3" fill="currentColor" />
     </svg>
   )
 }
@@ -163,6 +176,7 @@ function PortfolioNavigation({
   isViewLocked,
   compact = false,
   depotList,
+  aiAccess = false,
 }: {
   activeView: WorkspaceView
   onOpenView: (view: WorkspaceView) => void
@@ -170,8 +184,16 @@ function PortfolioNavigation({
   compact?: boolean
   /** Depotliste über den Ansichten (nur Seitenleiste) */
   depotList?: React.ReactNode
+  /** Neue Finclue AI (Beta) statt der bisherigen KI-Analyse */
+  aiAccess?: boolean
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
+  const navItems = useMemo(
+    () => (aiAccess
+      ? PORTFOLIO_NAV_ITEMS.map(item => (item.view === 'ai' ? { ...item, label: 'Finclue AI', description: 'Fragen zu deinem Depot', icon: AiNavIcon } : item))
+      : PORTFOLIO_NAV_ITEMS),
+    [aiAccess],
+  )
   const moreRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -197,11 +219,11 @@ function PortfolioNavigation({
 
   if (compact) {
     const primary = MOBILE_PRIMARY_VIEWS
-      .map(view => PORTFOLIO_NAV_ITEMS.find(item => item.view === view))
+      .map(view => navItems.find(item => item.view === view))
       .filter((item): item is PortfolioNavItem => !!item)
     // Auf dem Handy wandern die hinteren Hauptreiter mit ins "Mehr"-Menü
     const phoneOnlyMore = primary.slice(PHONE_PRIMARY_COUNT)
-    const more = [...phoneOnlyMore, ...PORTFOLIO_NAV_ITEMS.filter(item => !MOBILE_PRIMARY_VIEWS.includes(item.view))]
+    const more = [...phoneOnlyMore, ...navItems.filter(item => !MOBILE_PRIMARY_VIEWS.includes(item.view))]
     const isPhoneOnly = (item: PortfolioNavItem) => phoneOnlyMore.includes(item)
     const activeMore = more.find(item => item.view === activeView)
     const activeMoreIsPhoneOnly = !!activeMore && isPhoneOnly(activeMore)
@@ -281,7 +303,7 @@ function PortfolioNavigation({
         <div key={group.key} className={index > 0 ? 'mt-5' : ''}>
           <p className="mb-1.5 px-3 text-[10px] font-medium uppercase tracking-[0.14em] text-theme-muted">{group.label}</p>
           <div className="space-y-0.5">
-            {PORTFOLIO_NAV_ITEMS.filter(item => item.group === group.key).map(item => (
+            {navItems.filter(item => item.group === group.key).map(item => (
               <button
                 key={item.key}
                 type="button"
@@ -575,6 +597,7 @@ export default function PortfolioWorkspace() {
   const activeView: WorkspaceView = route.view !== 'overview' ? route.view : parseViewKey(searchParams.get('view'))
 
   const p = usePortfolio(routeDepotKey)
+  const aiAccess = useAiAccess()
 
   // Positions-Aktionen (Edit/Delete/Top-Up/Cash) — gleiche Modale wie im Dashboard
   const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
@@ -684,6 +707,8 @@ export default function PortfolioWorkspace() {
     ? 'Alle Depots'
     : p.portfolio ? depotLabel(p.portfolio) : 'Portfolio'
 
+  const aiDepotId = p.isAllDepotsView ? 'all' : p.portfolio?.id ?? 'all'
+
   const stockValue = useMemo(
     () => p.holdings.reduce((sum, holding) => sum + holding.value, 0),
     [p.holdings]
@@ -715,6 +740,8 @@ export default function PortfolioWorkspace() {
   const isViewLocked = (view: WorkspaceView) =>
     !p.isPremium &&
     !!PREMIUM_VIEW_MESSAGES[view] &&
+    // Die neue KI hat eigene Testfragen, gesperrt ist nur die bisherige Analyse
+    !(view === 'ai' && aiAccess !== false) &&
     !(isUntouchedSampleDepot && SAMPLE_UNLOCKED_VIEWS.includes(view))
 
   const openView = (view: WorkspaceView) => {
@@ -839,6 +866,7 @@ export default function PortfolioWorkspace() {
           activeView={activeView}
           onOpenView={openView}
           isViewLocked={isViewLocked}
+          aiAccess={!!aiAccess}
           depotList={
             <DepotSidebarList
               depots={p.allPortfolios}
@@ -945,7 +973,7 @@ export default function PortfolioWorkspace() {
           />
         )}
 
-        <PortfolioNavigation activeView={activeView} onOpenView={openView} isViewLocked={isViewLocked} compact />
+        <PortfolioNavigation activeView={activeView} onOpenView={openView} isViewLocked={isViewLocked} aiAccess={!!aiAccess} compact />
 
         {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
         {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
@@ -993,6 +1021,8 @@ export default function PortfolioWorkspace() {
                   onCreditClick={p.isAllDepotsView ? undefined : () => setShowCreditModal(true)}
                   onRealizedClick={() => openView('realized')}
                 />
+
+                {aiAccess && <DepotAsk depotId={aiDepotId} depotName={selectedDepotName} />}
 
                 {/* Durchblick-Insights: die wichtigsten Look-Through-Erkenntnisse
                     direkt im Überblick, Details im Analyse-Tab */}
@@ -1257,7 +1287,9 @@ export default function PortfolioWorkspace() {
             )}
 
             {activeView === 'ai' && (
-              <AIAnalyseTab holdings={p.holdings} portfolioId={p.portfolio?.id} />
+              aiAccess === null ? <ContentSkeleton />
+              : aiAccess ? <DepotAiView depotId={aiDepotId} depotName={selectedDepotName} />
+              : <AIAnalyseTab holdings={p.holdings} portfolioId={p.portfolio?.id} />
             )}
           </>
         )}

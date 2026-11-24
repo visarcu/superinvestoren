@@ -1,67 +1,51 @@
-// src/app/analyse/finclue-ai/page.tsx - Global AI without Ticker Selection
+// src/app/analyse/finclue-ai/page.tsx - Finclue AI
 'use client'
 
-import { hasPremiumAccess } from '@/lib/premiumAccess'
-import React, { useState, useEffect } from 'react'
-import { SparklesIcon } from '@heroicons/react/24/outline'
+import { useEffect, useState } from 'react'
 import FinclueAI from '@/components/ai/FinclueAI'
-import { supabase } from '@/lib/supabaseClient'
+import FinclueAiPage from '@/components/finclue-ai/FinclueAiPage'
+import { aiFetch } from '@/components/finclue-ai/useFinclueAi'
+import type { AiQuota, AiThreadSummary } from '@/lib/ai/types'
 
-interface User {
-  id: string
-  email: string
-  isPremium: boolean
+interface Setup {
+  zugang: boolean
+  premium: boolean
+  eingerichtet: boolean
+  threads: AiThreadSummary[]
+  quota: AiQuota
+  hatDepot?: boolean
 }
 
-export default function FinclueAIPage() {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+export default function Page() {
+  const [setup, setSetup] = useState<Setup | null>(null)
+  const [failed, setFailed] = useState(false)
 
   useEffect(() => {
-    async function getUser() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_premium, subscription_status, subscription_end_date')
-            .eq('user_id', session.user.id)
-            .single()
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            isPremium: hasPremiumAccess(profile)
-          })
-        }
-      } catch (error) {
-        console.error('Error fetching user:', error)
-      } finally {
-        setLoading(false)
-      }
+    let active = true
+    aiFetch('/api/ai/threads')
+      .then(async res => {
+        if (!res.ok) throw new Error()
+        const data = await res.json()
+        if (active) setSetup(data)
+      })
+      .catch(() => active && setFailed(true))
+    return () => {
+      active = false
     }
-
-    getUser()
   }, [])
 
-  if (loading) {
+  if (failed) {
+    return <p className="p-8 text-sm text-theme-muted">Finclue AI ist gerade nicht erreichbar. Bitte lade die Seite neu.</p>
+  }
+  if (!setup) return <div className="h-full" aria-busy="true" />
+
+  // Außerhalb der Beta bleibt die bisherige KI, bis die neue für alle offen ist
+  if (!setup.zugang) {
     return (
-      <div className="h-full flex items-center justify-center bg-gray-950">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Lade Finclue AI...</p>
-        </div>
+      <div className="h-full">
+        <FinclueAI ticker={null} isPremium={setup.premium} />
       </div>
     )
   }
-
-  // Direct global AI - no ticker selection required
-  return (
-    <div className="h-full">
-      <FinclueAI
-        ticker={null}
-        isPremium={user?.isPremium || false}
-      />
-    </div>
-  )
+  return <FinclueAiPage setup={setup} />
 }

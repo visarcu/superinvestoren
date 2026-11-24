@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 import { createClient } from '@supabase/supabase-js'
+import { getAiUser } from '@/lib/ai/auth'
 
 // OpenAI Client
 const openai = new OpenAI({
@@ -64,6 +65,25 @@ export async function POST(request: NextRequest) {
 
     if (cached && !fetchError) {
       console.log(`♻️ Cached summary is stale (${cached.model} ≠ ${MODEL_TAG}) — regenerating`)
+    }
+
+    // Fertige Zusammenfassungen sind frei lesbar, eine neue kostet Geld und
+    // landet für alle in der Datenbank: nur mit Premium-Zugang.
+    const user = await getAiUser(request)
+    if (!user?.isPremium) {
+      // Lieber die ältere Fassung zeigen als gar nichts
+      if (cached && !fetchError) {
+        return NextResponse.json({
+          summary: cached.summary,
+          cached: true,
+          source: 'database',
+          created_at: cached.created_at,
+          model: cached.model
+        })
+      }
+      return user
+        ? NextResponse.json({ error: 'Premium erforderlich' }, { status: 403 })
+        : NextResponse.json({ error: 'Bitte melde dich an.' }, { status: 401 })
     }
 
     console.log('🤖 Generating new AI summary...')

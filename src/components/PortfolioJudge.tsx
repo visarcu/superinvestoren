@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { SparklesIcon, ScaleIcon, FireIcon } from '@heroicons/react/24/outline'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import { supabase } from '@/lib/supabaseClient'
 
 interface AuditResult {
     match: {
@@ -41,9 +42,13 @@ export default function PortfolioJudge({ holdings, totalValue }: PortfolioJudgeP
         setLoading(true)
         setError(null)
         try {
+            const { data: { session } } = await supabase.auth.getSession()
             const res = await fetch('/api/ai/portfolio-audit', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+                },
                 body: JSON.stringify({ holdings, totalValue })
             })
 

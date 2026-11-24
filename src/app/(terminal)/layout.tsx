@@ -45,6 +45,13 @@ import { WORKSPACE_PATH, depotHref, fromDepotPath, isOnDepotHost, mainSiteHref }
 import { isWorkspacePathname } from '@/lib/depotRoutes'
 import { searchETFs } from '@/lib/etfUtils'
 import ScoreBadge from '@/components/ScoreBadge'
+import dynamic from 'next/dynamic'
+import { aiFetch } from '@/components/finclue-ai/useFinclueAi'
+import Mark from '@/components/finclue-ai/Mark'
+import type { PanelRequest } from '@/components/finclue-ai/FinclueAiPanel'
+
+// Erst laden, wenn jemand fragt
+const FinclueAiPanel = dynamic(() => import('@/components/finclue-ai/FinclueAiPanel'), { ssr: false })
 
 // ===== INTERFACES =====
 interface StockQuote {
@@ -244,11 +251,20 @@ const GlobalLearnToggle = React.memo(() => {
   )
 })
 
+/** Klingt die Eingabe nach einer Frage (statt nach einem Firmennamen oder Kürzel)? */
+function looksLikeQuestion(text: string): boolean {
+  const t = text.trim()
+  if (t.length < 6) return false
+  if (t.endsWith('?')) return true
+  return /^(was|wer|wie|wo|wann|warum|wieso|weshalb|welche[rsnm]?|wieviel|woher|worin|womit|ist|sind|hat|haben|kann|soll|zeig\w*|vergleich\w*|erklär\w*|nenn\w*|fasse?)\s/i.test(t) && t.split(/\s+/).length >= 3
+}
+
 // COMMAND PALETTE
 const CommandPalette = React.memo(({
   isOpen, 
   onClose, 
   onNavigate,
+  onAskAi,
   theme,
   toggleTheme,
   allowsThemeToggle
@@ -256,6 +272,7 @@ const CommandPalette = React.memo(({
   isOpen: boolean
   onClose: () => void
   onNavigate: (href: string) => void
+  onAskAi: (frage: string) => void
   theme: 'light' | 'dark'
   toggleTheme: () => void
   allowsThemeToggle: boolean
@@ -414,6 +431,25 @@ const CommandPalette = React.memo(({
     onClose()
   }, [onNavigate, onClose])
 
+  const isQuestion = looksLikeQuestion(query)
+  const askAi = () => {
+    onAskAi(query.trim())
+    setQuery('')
+    onClose()
+  }
+  const askRow = (
+    <div className={`p-2 ${isQuestion ? 'border-b' : 'border-t'} border-white/[0.06]`}>
+      <button
+        onClick={askAi}
+        className="fai w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left hover:bg-theme-secondary"
+      >
+        <span className="w-8 h-8 rounded-lg bg-theme-secondary flex items-center justify-center shrink-0"><Mark size={13} /></span>
+        <span className="flex-1 min-w-0 text-sm font-medium text-theme-primary truncate">Frag Finclue: {query.trim()}</span>
+        {isQuestion && <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs text-theme-muted">↵</kbd>}
+      </button>
+    </div>
+  )
+
   if (!isOpen) return null
 
   return (
@@ -426,9 +462,16 @@ const CommandPalette = React.memo(({
             <input
               ref={inputRef}
               type="text"
-              placeholder="Aktien suchen oder AI-Frage stellen..."
+              placeholder="Aktie suchen oder Frage stellen"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key !== 'Enter' || e.nativeEvent.isComposing || !query.trim()) return
+                e.preventDefault()
+                const first = groupedCommands.stocks[0] ?? groupedCommands.etfs[0] ?? filteredCommands[0]
+                if (isQuestion || !first) askAi()
+                else handleSelect(first)
+              }}
               className="w-full pl-10 pr-10 py-2.5 bg-theme-input border border-white/[0.06] rounded-lg text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-white/[0.15] focus:ring-0 text-sm"
             />
             <button
@@ -441,6 +484,7 @@ const CommandPalette = React.memo(({
         </div>
 
         <div className="max-h-80 overflow-y-auto">
+          {isQuestion && askRow}
           {Object.entries(groupedCommands).map(([category, commands]) => {
             if (commands.length === 0) return null
             
@@ -510,26 +554,7 @@ const CommandPalette = React.memo(({
             </div>
           )}
           
-          {query.length > 0 && !query.match(/^[A-Z]{1,5}$/i) && (
-            <div className="p-2 border-t border-white/[0.06]">
-              <button
-                onClick={() => {
-                  onNavigate(`/analyse/finclue-ai?q=${encodeURIComponent(query)}`)
-                  onClose()
-                }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left group hover:bg-theme-secondary/50"
-              >
-                <div className="w-8 h-8 rounded-lg bg-theme-secondary/60 group-hover:bg-blue-500/20 flex items-center justify-center">
-                  <SparklesIcon className="w-4 h-4 text-theme-muted group-hover:text-blue-400" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-theme-secondary group-hover:text-theme-primary">
-                    "{query}" mit Finclue AI analysieren
-                  </div>
-                </div>
-              </button>
-            </div>
-          )}
+          {query.trim().length > 2 && !isQuestion && askRow}
         </div>
 
         <div className="p-2 border-t border-white/[0.06] flex items-center justify-between text-xs text-theme-muted">
@@ -601,6 +626,8 @@ function LayoutContent({ children }: LayoutProps) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [showCommandPalette, setShowCommandPalette] = useState(false)
+  const [aiRequest, setAiRequest] = useState<PanelRequest | null>(null)
+  const aiAccess = useRef<boolean | null>(null)
   const [currentTime, setCurrentTime] = useState(new Date())
   
   const { theme, toggleTheme, allowsThemeToggle } = useTheme()
@@ -710,6 +737,23 @@ function LayoutContent({ children }: LayoutProps) {
     router.push(href)
   }, [router])
 
+  // ⌘K: Frage im seitlichen Blatt beantworten, auf Aktienseiten mit dieser Aktie
+  const askAi = useCallback(async (frage: string) => {
+    if (aiAccess.current === null) {
+      const res = await aiFetch('/api/ai/threads').catch(() => null)
+      aiAccess.current = res?.ok ? !!(await res.json()).zugang : false
+    }
+    if (!aiAccess.current) {
+      router.push(`/analyse/finclue-ai?q=${encodeURIComponent(frage)}`)
+      return
+    }
+    setAiRequest(previous => ({
+      key: (previous?.key ?? 0) + 1,
+      frage,
+      kontext: currentTicker ? { symbol: currentTicker, name: profile?.companyName ?? null } : null,
+    }))
+  }, [router, currentTicker, profile?.companyName])
+
   if (loading) {
     return (
       <div className="h-screen bg-theme-primary flex items-center justify-center">
@@ -744,11 +788,14 @@ function LayoutContent({ children }: LayoutProps) {
         isOpen={showCommandPalette}
         onClose={() => setShowCommandPalette(false)}
         onNavigate={handleNavigate}
+        onAskAi={askAi}
         theme={theme}
         toggleTheme={toggleTheme}
         allowsThemeToggle={allowsThemeToggle}
       />
       
+      {aiRequest && <FinclueAiPanel request={aiRequest} onClose={() => setAiRequest(null)} />}
+
       <LearnSidebar />
       
       <Sidebar
@@ -761,24 +808,24 @@ function LayoutContent({ children }: LayoutProps) {
       />
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col bg-theme-primary">
+      <div className="min-w-0 flex-1 flex flex-col bg-theme-primary">
         
         {/* TOP BAR */}
         <div className="py-4 bg-theme-primary border-b border-white/[0.04] flex items-center px-6">
-          <div className="flex items-center gap-6 flex-1">
+          <div className="flex min-w-0 items-center gap-6 flex-1 pr-3">
             
             {/* Search Bar */}
-            <div className="flex-1 max-w-2xl">
+            <div className="min-w-0 flex-1 max-w-2xl">
               <button
                 onClick={() => setShowCommandPalette(true)}
-                className="w-full flex items-center gap-3 px-5 py-3.5 bg-theme-card hover:bg-theme-card border border-white/[0.04] hover:border-green-500/50 rounded-xl transition-all duration-200 group shadow-sm hover:shadow-md"
+                className="w-full flex items-center gap-3 px-4 py-3 sm:px-5 sm:py-3.5 bg-theme-card hover:bg-theme-card border border-white/[0.04] hover:border-green-500/50 rounded-xl transition-all duration-200 group shadow-sm hover:shadow-md"
               >
                 <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted group-hover:text-brand-light transition-colors" />
-                <span className="text-sm text-theme-muted group-hover:text-theme-secondary transition-colors flex-1 text-left">
-                  Aktien suchen oder AI-Frage stellen...
+                <span className="min-w-0 flex-1 truncate text-left text-sm text-theme-muted transition-colors group-hover:text-theme-secondary">
+                  Aktie suchen oder Frage stellen
                 </span>
-                <div className="flex items-center gap-2">
-                  <SparklesIcon className="w-4 h-4 text-brand-light/50 group-hover:text-brand-light transition-colors" />
+                <div className="fai hidden items-center gap-2 sm:flex">
+                  <Mark size={14} />
                   <kbd className="px-2 py-1 text-xs bg-theme-tertiary/50 border border-white/[0.08] rounded text-theme-muted">
                     ⌘K
                   </kbd>

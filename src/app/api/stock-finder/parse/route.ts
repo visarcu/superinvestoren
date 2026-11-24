@@ -1,5 +1,7 @@
 // API Route für Natural Language → Filter Parsing
 import { NextResponse } from 'next/server'
+import { unstable_cache } from 'next/cache'
+import { allowPublicCall, clientIp } from '@/lib/ai/publicGuard'
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions'
 
@@ -10,25 +12,11 @@ const AVAILABLE_FILTERS = {
   country: ['US', 'DE', 'GB', 'CN', 'JP', 'CA', 'FR', 'CH', 'AU', 'KR']
 }
 
-export async function POST(request: Request) {
-  try {
-    const { query } = await request.json()
+const MAX_QUERY_LENGTH = 200
 
-    if (!query || typeof query !== 'string') {
-      return NextResponse.json(
-        { error: 'Query is required' },
-        { status: 400 }
-      )
-    }
-
-    const openaiKey = process.env.OPENAI_API_KEY
-    if (!openaiKey) {
-      return NextResponse.json(
-        { error: 'OpenAI API key not configured' },
-        { status: 500 }
-      )
-    }
-
+// Gleiche Suche, gleiche Filter: pro Suchtext und Tag höchstens ein Modellaufruf.
+const parseQueryWithModel = unstable_cache(
+  async (query: string): Promise<string> => {
     const prompt = `Du bist ein Finanz-Daten-Parser. Analysiere die folgende Suchanfrage und extrahiere Filter-Kriterien für einen Aktien-Screener.
 
 SUCHANFRAGE: "${query}"
@@ -103,7 +91,7 @@ Antworte NUR mit dem JSON-Objekt:`
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${openaiKey}`,
+        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
@@ -115,16 +103,42 @@ Antworte NUR mit dem JSON-Objekt:`
       })
     })
 
-    if (!response.ok) {
-      console.error('OpenAI API error:', response.status)
+    if (!response.ok) throw new Error(`OpenAI API error: ${response.status}`)
+
+    const data = await response.json()
+    return data.choices?.[0]?.message?.content?.trim() || '{}'
+  },
+  ['stock-finder-parse-v1'],
+  { revalidate: 86400 }
+)
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json()
+    const query = typeof body?.query === 'string' ? body.query.trim().slice(0, MAX_QUERY_LENGTH) : ''
+
+    if (!query) {
       return NextResponse.json(
-        { error: 'Failed to parse query', filters: {} },
+        { error: 'Query is required' },
+        { status: 400 }
+      )
+    }
+
+    if (!allowPublicCall('stock-finder-parse', clientIp(request), 20, 10 * 60 * 1000)) {
+      return NextResponse.json(
+        { error: 'Zu viele Anfragen. Bitte versuche es in ein paar Minuten erneut.', filters: {} },
+        { status: 429 }
+      )
+    }
+
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json(
+        { error: 'OpenAI API key not configured' },
         { status: 500 }
       )
     }
 
-    const data = await response.json()
-    const content = data.choices?.[0]?.message?.content?.trim() || '{}'
+    const content = await parseQueryWithModel(query)
 
     // Parse JSON aus der Antwort
     let filters: Record<string, any> = {}
