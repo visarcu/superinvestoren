@@ -15,9 +15,9 @@ export const PRICE_CHANGE_AT = new Date('2027-01-01T00:00:00+01:00')
 const MONTHLY_EUR_2027 = 12.99
 const YEARLY_EUR_2027 = 119
 
-// Black Friday 2026: Gründerpreis fürs Jahresabo. Bleibt dauerhaft, solange das
+// Black Friday 2026 (24.–30.11.): Gründerpreis fürs Jahresabo. Bleibt dauerhaft, solange das
 // Abo läuft (eigener Stripe-Preis, der nicht mehr geändert wird).
-export const FOUNDER_PROMO_START = new Date('2026-11-27T00:00:00+01:00')
+export const FOUNDER_PROMO_START = new Date('2026-11-24T00:00:00+01:00') // vorgezogen: Start schon Dienstag
 export const FOUNDER_PROMO_END = new Date('2026-11-30T23:59:59+01:00')
 export const FOUNDER_YEARLY_EUR = 69
 

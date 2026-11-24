@@ -1,6 +1,6 @@
 'use client'
 
-// Schmale Leiste unter der Navigation während der Black-Friday-Aktion (27.–30.11.2026).
+// Schmale Leiste unter der Navigation während der Black-Friday-Aktion (24.–30.11.2026).
 // Rendert erst nach dem Mounten mit der Uhrzeit des Browsers, damit zwischengespeichertes
 // Server-HTML (ISR) die Leiste nie zu früh oder zu spät zeigt. Der abgerechnete Preis
 // wird unabhängig davon serverseitig im Checkout bestimmt.
