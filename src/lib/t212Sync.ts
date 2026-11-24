@@ -38,6 +38,9 @@ export function t212ErrorMessage(err: unknown): string {
     if (err.status === 429) return 'Trading 212 bremst gerade. Der nächste Versuch läuft automatisch.'
     if (err.status === 408 || err.status >= 500) return 'Trading 212 antwortet gerade nicht. Der nächste Versuch läuft automatisch.'
   }
+  if (err instanceof Error && /BROKER_SYNC_KEY_SECRET|Secret-Format|auth(entication)? tag|Unsupported state/i.test(err.message)) {
+    return 'Der gespeicherte Schlüssel lässt sich auf diesem Server nicht lesen. Bitte neu verbinden oder den Support fragen.'
+  }
   return err instanceof Error && err.message.length < 200 ? err.message : 'Abgleich fehlgeschlagen'
 }
 
