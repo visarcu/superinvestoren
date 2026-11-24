@@ -2,7 +2,8 @@
 // POST: Fundamentaldaten eines Depots, gewichtet nach Positionswert.
 //
 // Datenquelle ausschliesslich getFinancialData() — also eigene SEC-XBRL-Daten
-// bzw. eigene DAX-Daten. Kein Vendor-Aufruf in dieser Route.
+// bzw. eigene DAX-Daten. Nur der Börsenwert kommt aus dem Kursdienst: Er kennt
+// Splits sofort und verrät, ob Bilanz und Kurs dieselbe Währung haben.
 // Die Kurse kommen aus dem Request, weil das Frontend sie ohnehin schon geladen hat.
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -15,6 +16,7 @@ import {
   type PositionFundamentals,
   type MissingPosition,
 } from '@/lib/portfolio/fundamentals'
+import { getQuotes } from '@/lib/marketData/quoteService'
 import { withSources } from '@/lib/dev/withSources'
 
 export const runtime = 'nodejs'
@@ -119,6 +121,13 @@ async function handler(request: NextRequest) {
     } else {
       bySymbol.set(p.symbol, { ...p })
     }
+  }
+
+  const quotes = await getQuotes(Array.from(bySymbol.keys())).catch(() => new Map())
+  for (const position of bySymbol.values()) {
+    const raw = quotes.get(position.symbol)?.raw
+    position.marketCap = Number(raw?.marketCap) > 0 ? Number(raw?.marketCap) : null
+    position.trailingPe = Number(raw?.pe) > 0 ? Number(raw?.pe) : null
   }
 
   const covered: PositionFundamentals[] = []

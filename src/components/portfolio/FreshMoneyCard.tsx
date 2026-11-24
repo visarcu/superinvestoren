@@ -1,11 +1,12 @@
 'use client'
 
-// "Frisches Geld": Was wirklich vom Bankkonto kam — die Basis der echten
+// "Frisches Geld": Was wirklich vom Bankkonto kam, die Basis der echten
 // Sparquote. Weist ehrlich aus, wenn mehr investiert wurde als netto
-// eingezahlt (Kredit oder reinvestierte Verkaufserlöse).
+// eingezahlt (Kredit, Dividenden, Zinsen).
 
 import React, { useMemo } from 'react'
 import type { Transaction } from '@/hooks/usePortfolio'
+import { sumCashFlows } from '@/lib/portfolio/cashFlows'
 
 interface FreshMoneyCardProps {
   transactions: Transaction[]
@@ -42,20 +43,19 @@ function Stat({
 
 export default function FreshMoneyCard({ transactions, formatCurrency }: FreshMoneyCardProps) {
   const stats = useMemo(() => {
-    let depositsIn = 0       // Σ Einzahlungen (vom Bankkonto rein)
-    let withdrawalsOut = 0   // Σ Auszahlungen (raus aufs Bankkonto)
+    // Nur Geld vom und zum Bankkonto: Zinsen, Gebühren und Steuerbuchungen
+    // liegen als Ein- oder Auszahlung im Depot, sind aber kein frisches Geld.
+    const { deposits: depositsIn, withdrawals: withdrawalsOut } = sumCashFlows(transactions)
     let bought = 0           // Σ Käufe (in Markt investiert)
     let sold = 0             // Σ Verkäufe (aus Markt zurück)
     for (const t of transactions) {
       const v = t.total_value || t.price * t.quantity
-      if (t.type === 'cash_deposit') depositsIn += v
-      else if (t.type === 'cash_withdrawal') withdrawalsOut += v
-      else if (t.type === 'buy') bought += v
+      if (t.type === 'buy') bought += v
       else if (t.type === 'sell') sold += v
     }
     const netDeposits = depositsIn - withdrawalsOut  // echte Sparquote-Basis
     const netInvested = bought - sold                // netto in den Markt
-    // "Fremdfinanziert" = Käufe minus echtes Geld (Kredit / Reinvest aus Verkäufen)
+    // Netto investiert, aber nicht vom Bankkonto: Kredit, Dividenden, Zinsen
     const externallyFinanced = Math.max(0, netInvested - netDeposits)
     return { depositsIn, withdrawalsOut, netDeposits, bought, sold, netInvested, externallyFinanced }
   }, [transactions])
@@ -96,20 +96,18 @@ export default function FreshMoneyCard({ transactions, formatCurrency }: FreshMo
           emphasised
         />
         <Stat
-          label="Investiert"
-          value={`${formatCurrency(stats.bought)}`}
+          label="Netto investiert"
+          value={formatCurrency(stats.netInvested)}
           tone="neutral"
-          hint={stats.externallyFinanced > 0
-            ? `Davon ${formatCurrency(stats.externallyFinanced)} aus Kredit/Verkäufen`
-            : 'Σ Käufe (brutto)'}
+          hint="Käufe − Verkäufe"
         />
       </div>
       {stats.externallyFinanced > 0 && (
         <p className="mt-3 text-[11px] text-amber-500 dark:text-amber-400/80 leading-relaxed">
-          Du hast {formatCurrency(stats.bought)} investiert, aber nur{' '}
-          {formatCurrency(stats.netDeposits)} netto eingezahlt. Die Differenz von{' '}
+          Du hast netto {formatCurrency(stats.netInvested)} investiert, aber nur{' '}
+          {formatCurrency(stats.netDeposits)} eingezahlt. Die Differenz von{' '}
           <span className="font-medium">{formatCurrency(stats.externallyFinanced)}</span>{' '}
-          kam aus Kredit oder Verkaufserlösen.
+          kam aus Kredit, Dividenden oder Zinsen.
         </p>
       )}
     </section>

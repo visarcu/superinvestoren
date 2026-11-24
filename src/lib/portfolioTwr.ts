@@ -1,3 +1,4 @@
+import { cashFlowKind } from '@/lib/portfolio/cashFlows'
 import { spinoffGivenDates, stripSpinoffGivenMarkers, valueBeforeSpinoff } from '@/lib/spinoffAdjustment'
 import { stripSplitMarkers } from '@/lib/splitAdjustment'
 
@@ -18,6 +19,8 @@ export interface PortfolioTwrPoint {
 export interface PortfolioTwrTransaction {
   date: string
   type: PortfolioTwrTransactionType
+  symbol?: string | null
+  name?: string | null
   quantity?: number
   price?: number
   total_value?: number
@@ -158,6 +161,13 @@ function addToMap(map: Map<string, number>, date: string, value: number) {
   map.set(date, (map.get(date) || 0) + value)
 }
 
+// Nur Geld vom und zum Bankkonto ist ein externer Fluss. Zinsen, Gebühren,
+// Steuerbuchungen und zurückgebuchte Dividenden stehen ebenfalls als Ein- oder
+// Auszahlung im Depot, sind aber Teil der Rendite.
+function isExternalCashFlow(tx: PortfolioTwrTransaction): boolean {
+  return (tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal') && cashFlowKind(tx) === 'external'
+}
+
 function calculateCashDelta(tx: MappedTransaction): number {
   switch (tx.type) {
     case 'cash_deposit':
@@ -222,10 +232,8 @@ function calculateCashInclusiveTwrByDate(
   for (const tx of mappedTransactions) {
     addToMap(cashDeltaByDate, tx.chartDate, calculateCashDelta(tx))
 
-    if (tx.type === 'cash_deposit') {
-      addToMap(externalFlowByDate, tx.chartDate, tx.amount)
-    } else if (tx.type === 'cash_withdrawal') {
-      addToMap(externalFlowByDate, tx.chartDate, -tx.amount)
+    if (isExternalCashFlow(tx)) {
+      addToMap(externalFlowByDate, tx.chartDate, tx.type === 'cash_deposit' ? tx.amount : -tx.amount)
     } else if (tx.type === 'transfer_in') {
       // Basisbetrag und Corp Actions inklusive — siehe SPIN-OFF-HINWEIS oben.
       addToMap(externalFlowByDate, tx.chartDate, tx.basisAmount)
@@ -395,11 +403,9 @@ export function calculateDepositBasedSeries({
       }
     }
 
-    if (tx.type === 'cash_deposit') {
-      addToMap(flowByDate, tx.chartDate, tx.amount)
-      totalDeposits += tx.amount
-    } else if (tx.type === 'cash_withdrawal') {
-      addToMap(flowByDate, tx.chartDate, -tx.amount)
+    if (isExternalCashFlow(tx)) {
+      addToMap(flowByDate, tx.chartDate, tx.type === 'cash_deposit' ? tx.amount : -tx.amount)
+      if (tx.type === 'cash_deposit') totalDeposits += tx.amount
     } else if (tx.type === 'transfer_in' && !isCorpActionTransfer(tx)) {
       addToMap(flowByDate, tx.chartDate, tx.amount)
     } else if (tx.type === 'transfer_out' && !isCorpActionTransfer(tx)) {

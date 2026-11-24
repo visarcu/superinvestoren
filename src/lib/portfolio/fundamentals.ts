@@ -16,6 +16,10 @@ export interface PositionInput {
   value: number
   /** Kurs in Notierungswährung — muss zur Berichtswährung der Fundamentaldaten passen. */
   price: number
+  /** Börsenwert aus dem Kursdienst, Notierungswährung. Berücksichtigt Splits sofort. */
+  marketCap?: number | null
+  /** KGV aus dem Kursdienst, nur zur Plausibilitätsprüfung der Berichtswährung. */
+  trailingPe?: number | null
 }
 
 /** Kennzahlen einer einzelnen Position. null = nicht sinnvoll berechenbar. */
@@ -38,6 +42,8 @@ export interface PositionFundamentals {
   earningsGrowth3y: number | null
   netDebtToFcf: number | null
   dividendCoverage: number | null
+  /** Börsenwert zur Skalierung der Rohbausteine; null, wenn die Währung nicht passt. */
+  marketCap: number | null
   // Rohbausteine für die Look-Through-Aggregation (Berichtswährung, absolut).
   netDebt: number | null
   freeCashFlow: number | null
@@ -202,6 +208,13 @@ function weightedRatio(
 }
 
 /**
+ * Ab diesem Faktor zwischen gemeldetem Gewinn und dem Gewinn hinter Börsenwert
+ * und KGV gelten die Währungen als verschieden. Großzügig, weil Geschäftsjahr
+ * und letzte zwölf Monate auseinanderliegen dürfen.
+ */
+const CURRENCY_MISMATCH_FACTOR = 3
+
+/**
  * Look-Through-Aggregation: gewichtete Summe der Zähler ÷ gewichtete Summe
  * der Nenner. Bewusst NICHT der gewichtete Mittelwert der Einzel-Verhältnisse:
  * den dominiert eine einzige Position mit Mini-Nenner (z.B. FCF nahe null).
@@ -210,25 +223,34 @@ function weightedRatio(
 function ratioOfSums(
   entries: Array<{ weight: number; numerator: number | null; denominator: number | null }>,
   totalValue: number,
+  /** Depotwert je Eintrag, für den abgedeckten Anteil */
+  values: number[],
 ): AggregatedMetric {
-  const usable = entries.filter(
-    e => isFinite(e.numerator) && isFinite(e.denominator) && e.denominator > 0 && e.weight > 0,
-  )
-  const weightSum = usable.reduce((sum, e) => sum + e.weight, 0)
+  let numerator = 0
+  let denominator = 0
+  let coveredValue = 0
+  let positions = 0
+  entries.forEach((e, i) => {
+    if (!isFinite(e.numerator) || !isFinite(e.denominator) || e.denominator <= 0 || !(e.weight > 0)) return
+    numerator += e.weight * e.numerator
+    denominator += e.weight * e.denominator
+    coveredValue += values[i]
+    positions++
+  })
 
-  if (usable.length === 0 || weightSum === 0) {
+  if (positions === 0 || denominator === 0) {
     return { value: null, positions: 0, valueShare: 0 }
   }
-
-  const numerator = usable.reduce((sum, e) => sum + e.weight * (e.numerator as number), 0)
-  const denominator = usable.reduce((sum, e) => sum + e.weight * (e.denominator as number), 0)
-
   return {
-    // denominator > 0 ist durch den Filter garantiert.
     value: numerator / denominator,
-    positions: usable.length,
-    valueShare: totalValue > 0 ? weightSum / totalValue : 0,
+    positions,
+    valueShare: totalValue > 0 ? coveredValue / totalValue : 0,
   }
+}
+
+/** Anteil an der Firma, der hinter der Position steht; 0 ohne vergleichbaren Börsenwert. */
+function ownership(p: PositionFundamentals): number {
+  return isFinite(p.marketCap) && p.marketCap > 0 ? p.value / p.marketCap : 0
 }
 
 // ─── Kennzahlen je Position ──────────────────────────────────────────────────
@@ -257,6 +279,7 @@ export function computePositionFundamentals(
     earningsGrowth3y: null,
     netDebtToFcf: null,
     dividendCoverage: null,
+    marketCap: null,
     netDebt: null,
     freeCashFlow: null,
     dividendsPaid: null,
@@ -271,16 +294,41 @@ export function computePositionFundamentals(
 
   base.fiscalYear = latest.fiscalYear
 
+  const quotedMarketCap =
+    isFinite(position.marketCap) && position.marketCap > 0 ? position.marketCap : null
+
+  // Fehlt der Gewinn in der Bilanz, aus EPS und Aktienzahl desselben Jahres:
+  // Die beiden passen zueinander, auch wenn seither ein Split kam.
+  const netIncome = isFinite(latest.netIncome)
+    ? latest.netIncome
+    : isFinite(latest.eps) && isFinite(latest.sharesOutstanding) && latest.sharesOutstanding > 0
+      ? latest.eps * latest.sharesOutstanding
+      : null
+
+  // Berichtswährung gegenprüfen: Der Gewinn laut Bilanz muss zum Gewinn passen,
+  // der in Börsenwert und KGV des Kursdienstes steckt. TSM meldet in Taiwan-
+  // Dollar, notiert aber in US-Dollar, das KGV kam dadurch auf 8 statt 24.
+  if (base.priceCurrencyOk && quotedMarketCap !== null && isFinite(position.trailingPe) &&
+      position.trailingPe > 0 && netIncome !== null && netIncome > 0) {
+    const ratio = netIncome / (quotedMarketCap / position.trailingPe)
+    if (ratio > CURRENCY_MISMATCH_FACTOR || ratio < 1 / CURRENCY_MISMATCH_FACTOR) base.priceCurrencyOk = false
+  }
+
   // Kursbasierte Kennzahlen nur bei sicherem Währungs-Match (siehe
   // priceCurrencyMatches) — sonst käme z.B. Pence ÷ USD-EPS heraus.
   if (base.priceCurrencyOk) {
-    // Marktkapitalisierung: Kurs × ausstehende Aktien, beides in Notierungswährung.
-    const marketCap =
+    // Börsenwert aus dem Kursdienst, notfalls Kurs × ausstehende Aktien. Die
+    // Aktienzahl und das EPS der Bilanz kennen spätere Splits nicht: Booking
+    // hatte nach dem Split 25:1 ein KGV von 0,9 und 192 % FCF-Rendite.
+    const marketCap = quotedMarketCap ?? (
       isFinite(position.price) && isFinite(latest.sharesOutstanding) && latest.sharesOutstanding > 0
         ? position.price * latest.sharesOutstanding
-        : null
+        : null)
 
-    base.peRatio = divide(position.price, latest.eps)
+    base.marketCap = marketCap
+    base.peRatio = quotedMarketCap !== null
+      ? divide(quotedMarketCap, netIncome)
+      : divide(position.price, latest.eps)
     base.psRatio = divide(marketCap, latest.revenue)
     base.fcfYield = divide(latest.freeCashFlow, marketCap)
   }
@@ -352,13 +400,17 @@ export function aggregatePortfolioFundamentals(
     earningsGrowth3y: weightedMean(pick('earningsGrowth3y'), totalValue),
     // Verhältniszahlen als Ratio-of-Sums (Look-Through): der gewichtete Schnitt
     // der Einzel-Ratios ließe Ausreißer mit Mini-Nenner dominieren.
+    // Je Position zählt der eigene Anteil an der Firma (Wert ÷ Börsenwert). Mit
+    // den absoluten Beträgen bestimmten die größten Firmen das Ergebnis.
     netDebtToFcf: ratioOfSums(
-      positions.map(p => ({ weight: p.value, numerator: p.netDebt, denominator: p.freeCashFlow })),
+      positions.map(p => ({ weight: ownership(p), numerator: p.netDebt, denominator: p.freeCashFlow })),
       totalValue,
+      positions.map(p => p.value),
     ),
     dividendCoverage: ratioOfSums(
-      positions.map(p => ({ weight: p.value, numerator: p.freeCashFlow, denominator: p.dividendsPaid })),
+      positions.map(p => ({ weight: ownership(p), numerator: p.freeCashFlow, denominator: p.dividendsPaid })),
       totalValue,
+      positions.map(p => p.value),
     ),
     coverage: {
       coveredPositions: positions.length,

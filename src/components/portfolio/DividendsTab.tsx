@@ -5,6 +5,8 @@
 
 import React, { useMemo, useState, useEffect } from 'react'
 import { type Transaction, type Holding } from '@/hooks/usePortfolio'
+import { cashFlowKind, isCashFlow, signedCashAmount } from '@/lib/portfolio/cashFlows'
+import { projectDividends } from '@/lib/portfolio/metrics'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import Logo from '@/components/Logo'
 import DividendIncomeChart from '@/components/portfolio/DividendIncomeChart'
@@ -38,15 +40,6 @@ interface DividendsTabProps {
   totalPortfolioValue: number
   formatCurrency: (amount: number) => string
   isAllDepotsView: boolean
-}
-
-interface ForwardHolding {
-  symbol: string
-  annual: number
-  yieldOnCost: number
-  currentYield: number
-  method: 'per_share' | 'historical'
-  total12m: number
 }
 
 function StatCard({
@@ -109,10 +102,12 @@ export default function DividendsTab({
       .finally(() => setUpcomingLoading(false))
   }, [holdings])
 
-  // Alle Dividenden-Transaktionen (neueste zuerst)
+  // Alle Dividenden-Transaktionen (neueste zuerst). Zurückgebuchte Dividenden
+  // zählen als negative Zahlung, wie in der Gesamtrendite.
   const dividendTransactions = useMemo(() => {
     return transactions
-      .filter(tx => tx.type === 'dividend')
+      .filter(tx => tx.type === 'dividend' || (isCashFlow(tx) && cashFlowKind(tx) === 'dividend_correction'))
+      .map(tx => (tx.type === 'dividend' ? tx : { ...tx, type: 'dividend' as const, total_value: signedCashAmount(tx) }))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   }, [transactions])
 
@@ -173,90 +168,17 @@ export default function DividendsTab({
       lastYear: lastYearTotal,
       avgMonthly,
       dividendYield,
-      totalPayments: dividendTransactions.length,
+      totalPayments: dividendTransactions.filter(tx => tx.total_value > 0).length,
       monthsSpan,
       rolling12m,
       prevRolling12m,
     }
   }, [dividendTransactions, totalPortfolioValue])
 
-  const forwardProjection = useMemo(() => {
-    if (dividendTransactions.length === 0 || holdings.length === 0) {
-      return {
-        annualExpected: 0,
-        perHolding: [] as ForwardHolding[],
-        historicalFallbackTotal: 0,
-        perShareTotal: 0,
-        fallbackSymbols: [] as string[],
-      }
-    }
-
-    const now = new Date()
-    const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, now.getDate())
-    const holdingBySymbol = new Map(holdings.map(h => [h.symbol, h]))
-    const txBySymbol = new Map<string, Transaction[]>()
-
-    for (const tx of dividendTransactions) {
-      if (new Date(tx.date) < twelveMonthsAgo) continue
-      if (!txBySymbol.has(tx.symbol)) txBySymbol.set(tx.symbol, [])
-      txBySymbol.get(tx.symbol)!.push(tx)
-    }
-
-    const perHolding: ForwardHolding[] = []
-    const fallbackSymbols: string[] = []
-    let annualExpected = 0
-    let historicalFallbackTotal = 0
-    let perShareTotal = 0
-
-    for (const [symbol, txs] of txBySymbol.entries()) {
-      const h = holdingBySymbol.get(symbol)
-      if (!h || h.quantity <= 0) continue
-
-      const total12m = txs.reduce((sum, tx) => sum + (Number(tx.total_value) || 0), 0)
-      const validQtyTxs = txs.filter(tx => Number(tx.quantity) > 0)
-      const perShareAnnual = validQtyTxs.reduce((sum, tx) => sum + ((Number(tx.total_value) || 0) / Number(tx.quantity)), 0)
-      const perShareProjection = perShareAnnual * h.quantity
-      const maxTxQuantity = Math.max(0, ...validQtyTxs.map(tx => Number(tx.quantity) || 0))
-      const allQuantityOne = validQtyTxs.length > 0 && validQtyTxs.every(tx => Math.abs((Number(tx.quantity) || 0) - 1) < 0.0001)
-
-      // Viele Broker-Imports speichern Dividenden als Gesamtzahlung mit quantity=1.
-      // Dann ist total_value / quantity keine Stückdividende, sondern die komplette
-      // Zahlung. Eine Hochrechnung mit der heutigen Stückzahl wäre grob falsch.
-      const looksLikePlaceholderQuantity =
-        allQuantityOne && h.quantity > 1.5
-
-      const looksExtreme =
-        total12m > 0 &&
-        perShareProjection > total12m * 4 &&
-        h.quantity > Math.max(1, maxTxQuantity) * 4
-
-      const useHistorical = looksLikePlaceholderQuantity || looksExtreme || validQtyTxs.length === 0
-      const annual = useHistorical ? total12m : perShareProjection
-      annualExpected += annual
-      if (useHistorical) {
-        historicalFallbackTotal += annual
-        fallbackSymbols.push(symbol)
-      } else {
-        perShareTotal += annual
-      }
-
-      const costBasis = h.purchase_price_display * h.quantity
-      const yieldOnCost = costBasis > 0 ? (annual / costBasis) * 100 : 0
-      const currentYield = h.value > 0 ? (annual / h.value) * 100 : 0
-
-      perHolding.push({
-        symbol,
-        annual,
-        yieldOnCost,
-        currentYield,
-        method: useHistorical ? 'historical' : 'per_share',
-        total12m,
-      })
-    }
-
-    perHolding.sort((a, b) => b.annual - a.annual)
-    return { annualExpected, perHolding, historicalFallbackTotal, perShareTotal, fallbackSymbols }
-  }, [dividendTransactions, holdings])
+  const forwardProjection = useMemo(
+    () => projectDividends(dividendTransactions, holdings, new Date(), transactions),
+    [dividendTransactions, holdings, transactions]
+  )
 
   // ============================================================
   // Gruppiert nach Symbol (für "Top-Zahler" Liste)
@@ -268,10 +190,10 @@ export default function DividendsTab({
       const e = map.get(tx.symbol)
       if (e) {
         e.totalAmount += tx.total_value
-        e.count += 1
+        if (tx.total_value > 0) e.count += 1
         if (tx.date > e.lastDate) e.lastDate = tx.date
       } else {
-        map.set(tx.symbol, { symbol: tx.symbol, name: tx.name, totalAmount: tx.total_value, count: 1, lastDate: tx.date })
+        map.set(tx.symbol, { symbol: tx.symbol, name: tx.name, totalAmount: tx.total_value, count: tx.total_value > 0 ? 1 : 0, lastDate: tx.date })
       }
     }
     return Array.from(map.values()).sort((a, b) => b.totalAmount - a.totalAmount)
@@ -372,7 +294,7 @@ export default function DividendsTab({
               </p>
               <p className="text-[12px] text-neutral-500 mt-1">
                 {forwardProjection.fallbackSymbols.length > 0
-                  ? 'historisch geschätzt, da Import-Stückzahlen unsicher sind'
+                  ? 'teils mit den Zahlungen der letzten 12 Monate'
                   : 'basierend auf aktuellem Bestand × Stückdividende'}
               </p>
             </div>
@@ -477,10 +399,10 @@ export default function DividendsTab({
           <div className="flex items-start gap-3">
             <InformationCircleIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-300" />
             <div>
-              <p className="text-sm font-medium text-neutral-100">Prognose korrigiert</p>
+              <p className="text-sm font-medium text-neutral-100">Teils fortgeschrieben</p>
               <p className="mt-1 text-[12px] leading-relaxed text-neutral-500">
-                Bei {forwardProjection.fallbackSymbols.length} Positionen wirken die Dividenden-Stückzahlen wie Import-Platzhalter.
-                Für diese Titel wird die reale Zahlung der letzten 12 Monate weitergeführt, statt sie mit der aktuellen Stückzahl hochzurechnen.
+                Bei {forwardProjection.fallbackSymbols.length === 1 ? 'einer Position' : `${forwardProjection.fallbackSymbols.length} Positionen`} ist
+                der Bestand zum Zahltag nicht bekannt. Dort zählt die Zahlung der letzten 12 Monate, ohne sie auf die heutige Stückzahl hochzurechnen.
               </p>
             </div>
           </div>

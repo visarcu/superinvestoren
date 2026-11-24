@@ -736,6 +736,7 @@ export default function PortfolioWorkspace() {
     <DepotOverviewCard
       depots={p.allPortfolios}
       summaries={p.depotSummaries}
+      dayLabel={p.dayLabel}
       onSelect={openDepot}
       onImport={depotId => {
         setImportDepotId(depotId)
@@ -905,7 +906,7 @@ export default function PortfolioWorkspace() {
                   {p.formatCurrency(p.totalValue)}
                 </span>
                 <span className="text-sm text-neutral-500">
-                  Heute{' '}
+                  {p.dayLabel}{' '}
                   <span className={`font-medium tabular-nums ${perfColor(p.dayGainLoss)}`}>
                     {p.dayGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.dayGainLoss)} · {p.formatPercentage(p.dayGainLossPercent)}
                   </span>
@@ -983,15 +984,9 @@ export default function PortfolioWorkspace() {
                   securitiesValue={stockValue}
                   cashPosition={p.cashPosition}
                   brokerCredit={p.portfolio?.broker_credit || 0}
-                  totalGainLoss={p.totalGainLoss}
-                  totalGainLossPercent={p.totalGainLossPercent}
-                  totalRealizedGain={p.totalRealizedGain}
-                  totalDividends={p.totalDividends}
-                  totalReturn={p.totalReturn}
-                  totalReturnPercent={p.totalReturnPercent}
+                  depotReturn={p.depotReturn}
                   xirrPercent={p.xirrPercent}
                   activeInvestments={p.activeInvestments}
-                  totalFees={p.totalFees}
                   formatCurrency={p.formatCurrency}
                   formatPercentage={p.formatPercentage}
                   onCashClick={p.isAllDepotsView ? undefined : () => setShowCashModal(true)}
@@ -1120,7 +1115,6 @@ export default function PortfolioWorkspace() {
                   <PositionsTable
                     holdings={p.holdings}
                     cashPosition={p.cashPosition}
-                    totalValue={p.totalValue}
                     formatCurrency={p.formatCurrency}
                     formatStockPrice={p.formatStockPrice}
                     formatPercentage={p.formatPercentage}
@@ -1182,7 +1176,6 @@ export default function PortfolioWorkspace() {
                 <PositionsTable
                   holdings={p.holdings}
                   cashPosition={p.cashPosition}
-                  totalValue={p.totalValue}
                   formatCurrency={p.formatCurrency}
                   formatStockPrice={p.formatStockPrice}
                   formatPercentage={p.formatPercentage}

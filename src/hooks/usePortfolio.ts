@@ -11,499 +11,31 @@ import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { formatMoney } from '@/lib/displayFormat'
 import { getEURRate, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
-import { convertPriceToEur, fetchEurRatesFor } from '@/lib/portfolioValuation'
-import { calculateXIRR, type Cashflow } from '@/utils/xirr'
+import { fetchEurRatesFor } from '@/lib/portfolioValuation'
+import {
+  alignDayChange,
+  calculateDepotReturn,
+  calculateDepotXirr,
+  calculateHistoricalPerfByDepot,
+  calculateRealizedGains,
+  estimateMissingAmounts,
+  filterPerformanceTransactions,
+  latestTradingDay,
+  summarizeDepot,
+  tradingDayLabel,
+  valuateHolding,
+  type DepotSummary,
+  type Holding,
+  type Portfolio,
+  type Transaction,
+} from '@/lib/portfolio/metrics'
 
-// Types
-export interface Portfolio {
-  id: string
-  name: string
-  currency: string
-  cash_position: number
-  broker_credit: number  // Wertpapierkredit — manuell eingetragen, nicht aus Transaktionen
-  created_at: string
-  is_default?: boolean
-  broker_type?: string | null
-  broker_name?: string | null
-  broker_color?: string | null
-}
-
-export interface Holding {
-  id: string
-  symbol: string
-  name: string
-  isin?: string
-  quantity: number
-  purchase_price: number
-  purchase_price_display: number
-  current_price: number
-  current_price_display: number
-  purchase_date: string
-  value: number
-  gain_loss: number
-  gain_loss_percent: number
-  // Tagesveränderung (letzter Handelstag) — Prozent aus der Quote,
-  // Euro-Betrag auf Basis des aktuellen EUR-Werts der Position
-  day_change_value: number
-  day_change_percent: number
-  purchase_currency?: string
-  // FX-Split: Kurs-Performance vs Währungs-Effekt separat (optional — benötigt
-  // purchase_fx_rate in der DB und aktuelle FX-Rate). Null wenn nicht berechenbar
-  // (z.B. EUR-Kauf oder Kaufrate nicht gespeichert).
-  pl_excl_fx?: number | null
-  pl_from_fx?: number | null
-  // Investment-Case (User-Notiz zur Anlagestrategie, optional)
-  investment_case?: string | null
-  investment_case_updated_at?: string | null
-  // Portfolio-Info (gesetzt in "Alle Depots" Ansicht)
-  portfolio_id?: string
-  portfolio_name?: string
-  broker_type?: string | null
-  broker_name?: string | null
-  broker_color?: string | null
-}
-
-export interface Transaction {
-  id: string
-  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
-  symbol: string
-  name: string
-  quantity: number
-  price: number
-  total_value: number
-  fee?: number
-  date: string
-  created_at: string
-  notes?: string
-  // Portfolio-Info (gesetzt in "Alle Depots" Ansicht)
-  portfolio_id?: string
-  portfolio_name?: string
-  broker_type?: string | null
-  broker_name?: string | null
-  broker_color?: string | null
-}
-
-/** Kennzahlen eines einzelnen Depots für die Liste in "Alle Depots" */
-export interface DepotSummary {
-  /** Wertpapiere ohne Cash */
-  stockValue: number
-  positions: number
-  transactions: number
-  dayGainLoss: number
-  totalReturn: number
-  totalReturnPercent: number
-}
-
-const SECURITY_TRANSACTION_TYPES = new Set<Transaction['type']>([
-  'buy',
-  'sell',
-  'transfer_in',
-  'transfer_out',
-])
-
-function normalizeSymbol(symbol?: string | null): string {
-  return (symbol || '').trim().toUpperCase()
-}
-
-function portfolioSymbolKey(portfolioId: string | undefined, symbol: string): string {
-  return `${portfolioId || ''}|${normalizeSymbol(symbol)}`
-}
-
-function transactionAmount(tx: Transaction): number {
-  const totalValue = Number(tx.total_value) || 0
-  if (totalValue > 0) return totalValue
-
-  return Math.abs((Number(tx.quantity) || 0) * (Number(tx.price) || 0))
-}
-
-function isSecurityTransaction(tx: Transaction): boolean {
-  return SECURITY_TRANSACTION_TYPES.has(tx.type) && normalizeSymbol(tx.symbol) !== '' && normalizeSymbol(tx.symbol) !== 'CASH'
-}
-
-function filterPerformanceTransactions(transactions: Transaction[], holdings: Holding[]): Transaction[] {
-  if (transactions.length === 0) return transactions
-
-  const holdingKeys = new Set(
-    holdings
-      .filter(h => normalizeSymbol(h.symbol))
-      .map(h => portfolioSymbolKey(h.portfolio_id, h.symbol))
-  )
-  const holdingSymbols = new Set(
-    holdings
-      .map(h => normalizeSymbol(h.symbol))
-      .filter(Boolean)
-  )
-
-  const transactionGroups = new Map<string, Transaction[]>()
-  for (const tx of transactions) {
-    if (!isSecurityTransaction(tx)) continue
-
-    const key = portfolioSymbolKey(tx.portfolio_id, tx.symbol)
-    if (!transactionGroups.has(key)) transactionGroups.set(key, [])
-    transactionGroups.get(key)!.push(tx)
-  }
-
-  const ignoredOpenPositionKeys = new Set<string>()
-  for (const [key, txs] of transactionGroups) {
-    let finalShares = 0
-    for (const tx of txs) {
-      const quantity = Number(tx.quantity) || 0
-      if (tx.type === 'buy' || tx.type === 'transfer_in') {
-        finalShares += quantity
-      } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-        finalShares -= quantity
-      }
-    }
-
-    if (finalShares <= 0.0001) continue
-
-    const hasPortfolioSpecificHolding = holdingKeys.has(key)
-    const hasSymbolHoldingWithoutPortfolio = !txs.some(tx => tx.portfolio_id) && holdingSymbols.has(normalizeSymbol(txs[0]?.symbol))
-
-    if (!hasPortfolioSpecificHolding && !hasSymbolHoldingWithoutPortfolio) {
-      ignoredOpenPositionKeys.add(key)
-    }
-  }
-
-  if (ignoredOpenPositionKeys.size === 0) return transactions
-
-  return transactions.filter(tx => {
-    if (!isSecurityTransaction(tx)) return true
-    return !ignoredOpenPositionKeys.has(portfolioSymbolKey(tx.portfolio_id, tx.symbol))
-  })
-}
-
-// Depotüberträge (teils auch Importe) ohne Kostenbasis (price=0, total_value=0)
-// sprengen alle flussbasierten Kennzahlen: XIRR sieht die Shares als Geschenk
-// (Endwert ohne Kapitaleinsatz → dreistellige p.a.-Werte), Realized Gains
-// rechnen gegen Kostenbasis 0. Fehlende Beträge daher schätzen — bevorzugt
-// über die Kostenbasis der zugehörigen Holding, sonst über den aktuellen Kurs.
-function estimateMissingAmounts(transactions: Transaction[], holdings: Holding[]): Transaction[] {
-  if (transactions.length === 0) return transactions
-
-  const holdingBySymbol = new Map<string, Holding>()
-  holdings.forEach(h => {
-    const sym = normalizeSymbol(h.symbol)
-    if (sym && !holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
-  })
-
-  let changed = false
-  const result = transactions.map(tx => {
-    if (!isSecurityTransaction(tx)) return tx
-    if (transactionAmount(tx) > 0) return tx
-    const quantity = Number(tx.quantity) || 0
-    if (quantity <= 0) return tx
-
-    const holding = holdingBySymbol.get(normalizeSymbol(tx.symbol))
-    if (!holding) return tx
-    const perShare = holding.purchase_price_display > 0
-      ? holding.purchase_price_display
-      : holding.quantity > 0 ? holding.value / holding.quantity : 0
-    if (perShare <= 0) return tx
-
-    changed = true
-    return { ...tx, total_value: quantity * perShare }
-  })
-
-  return changed ? result : transactions
-}
-
-// Realisierte Gewinne & Dividenden aus Transaktionshistorie berechnen
-// Verwendet die Durchschnittskostenmethode (Average Cost Method)
-export interface RealizedGainInfo {
-  realizedGain: number
-  avgCostBasis: number
-  realizedGainPercent: number
-}
-
-function calculateRealizedGains(transactions: Transaction[]): {
-  totalRealizedGain: number
-  totalDividends: number
-  realizedGainByTxId: Map<string, RealizedGainInfo>
-} {
-  if (transactions.length === 0) {
-    return { totalRealizedGain: 0, totalDividends: 0, realizedGainByTxId: new Map() }
-  }
-
-  // Chronologisch sortieren (älteste zuerst)
-  // Bei gleichem Datum: Buys vor Sells (sonst werden Intraday-Trades falsch abgerechnet)
-  const typePriority: Record<string, number> = {
-    transfer_in: 0, buy: 1, dividend: 2, sell: 3, transfer_out: 4,
-    cash_deposit: 5, cash_withdrawal: 6,
-  }
-  const sorted = [...transactions].sort((a, b) => {
-    const dateCmp = new Date(a.date).getTime() - new Date(b.date).getTime()
-    if (dateCmp !== 0) return dateCmp
-    return (typePriority[a.type] ?? 99) - (typePriority[b.type] ?? 99)
-  })
-
-  // Kostenbasis pro Depot+Symbol tracken — nur nach Symbol gekeyed würden sich
-  // in der "Alle Depots"-Ansicht die Kostenbasen verschiedener Depots vermischen
-  // (Summe der Einzeldepots != Aggregat). Im Einzel-Depot-Fall ist portfolio_id
-  // leer/identisch, der Key damit wie bisher pro Symbol.
-  const positions = new Map<string, { totalShares: number; totalCost: number }>()
-  let totalRealizedGain = 0
-  let totalDividends = 0
-  const realizedGainByTxId = new Map<string, RealizedGainInfo>()
-
-  for (const tx of sorted) {
-    const posKey = portfolioSymbolKey(tx.portfolio_id, tx.symbol)
-    if (tx.type === 'buy' || tx.type === 'transfer_in') {
-      const pos = positions.get(posKey) || { totalShares: 0, totalCost: 0 }
-      pos.totalShares += tx.quantity
-      // Kaufgebühr gehört zur Kostenbasis (konsistent zum CSV-Reconcile);
-      // bei UI-Käufen steckt sie schon im Preis und das fee-Feld ist leer.
-      pos.totalCost += transactionAmount(tx) + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
-      positions.set(posKey, pos)
-    } else if (tx.type === 'sell') {
-      const pos = positions.get(posKey)
-      if (!pos || pos.totalShares <= 0) continue
-
-      const avgCostPerShare = pos.totalCost / pos.totalShares
-      // Erlös aus total_value (Fallback price×qty) — tx.price allein kann bei
-      // Importen 0 oder gerundet sein. Verkaufsgebühren mindern den Erlös
-      // (Kaufgebühren stecken bereits in der Kostenbasis). Bei Überverkauf nur
-      // den vorhandenen Bestand realisieren.
-      const sellQuantity = Math.min(tx.quantity, pos.totalShares)
-      const sellFee = Math.abs(Number(tx.fee) || 0)
-      const proceedsPerShare = tx.quantity > 0 ? (transactionAmount(tx) - sellFee) / tx.quantity : 0
-      const realizedGain = (proceedsPerShare - avgCostPerShare) * sellQuantity
-      const realizedGainPercent = avgCostPerShare > 0
-        ? ((proceedsPerShare - avgCostPerShare) / avgCostPerShare) * 100
-        : 0
-
-      totalRealizedGain += realizedGain
-      realizedGainByTxId.set(tx.id, {
-        realizedGain,
-        avgCostBasis: avgCostPerShare,
-        realizedGainPercent,
-      })
-
-      // Kostenbasis reduzieren (Average Cost Method)
-      pos.totalShares -= sellQuantity
-      pos.totalCost -= sellQuantity * avgCostPerShare
-      // Floating-Point Guard
-      if (pos.totalShares <= 0.0001) {
-        pos.totalShares = 0
-        pos.totalCost = 0
-      }
-      positions.set(posKey, pos)
-    } else if (tx.type === 'transfer_out') {
-      const pos = positions.get(posKey)
-      if (!pos || pos.totalShares <= 0) continue
-
-      const avgCostPerShare = pos.totalCost / pos.totalShares
-      const transferredQuantity = Math.min(tx.quantity, pos.totalShares)
-
-      pos.totalShares -= transferredQuantity
-      pos.totalCost -= transferredQuantity * avgCostPerShare
-      if (pos.totalShares <= 0.0001) {
-        pos.totalShares = 0
-        pos.totalCost = 0
-      }
-      positions.set(posKey, pos)
-    } else if (tx.type === 'dividend') {
-      totalDividends += transactionAmount(tx)
-    }
-  }
-
-  return { totalRealizedGain, totalDividends, realizedGainByTxId }
-}
-
-// Abfluss-Wert für transfer_out ohne Betrag (price=0, total_value=0) schätzen:
-// durchschnittliche Kostenbasis des Symbols im selben Depot bis zum Transfer-
-// Datum, aus den vorhandenen Transaktionen simuliert. Ohne diese Schätzung
-// bleiben die früheren Käufe als Phantom-Totalverlust im XIRR (Kapital rein,
-// nie wieder raus). Das ist eine Näherung mangels historischer Kurse im Client —
-// die Server-Route schätzt stattdessen den Marktwert.
-function estimateValuelessTransferOuts(transactions: Transaction[]): Map<string, number> {
-  const estimates = new Map<string, number>()
-  const needsEstimate = transactions.some(
-    tx => tx.type === 'transfer_out' && transactionAmount(tx) <= 0 && (Number(tx.quantity) || 0) > 0
-  )
-  if (!needsEstimate) return estimates
-
-  const typePriority: Record<string, number> = {
-    transfer_in: 0, buy: 1, dividend: 2, sell: 3, transfer_out: 4,
-  }
-  const sorted = [...transactions].sort((a, b) => {
-    const dateCmp = new Date(a.date).getTime() - new Date(b.date).getTime()
-    if (dateCmp !== 0) return dateCmp
-    return (typePriority[a.type] ?? 99) - (typePriority[b.type] ?? 99)
-  })
-
-  const positions = new Map<string, { shares: number; cost: number }>()
-  for (const tx of sorted) {
-    if (!isSecurityTransaction(tx)) continue
-    const key = portfolioSymbolKey(tx.portfolio_id, tx.symbol)
-    const qty = Number(tx.quantity) || 0
-
-    if (tx.type === 'buy' || tx.type === 'transfer_in') {
-      const pos = positions.get(key) || { shares: 0, cost: 0 }
-      pos.shares += qty
-      // Kaufgebühr gehört zur Kostenbasis (siehe calculateRealizedGains)
-      pos.cost += transactionAmount(tx) + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
-      positions.set(key, pos)
-    } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-      const pos = positions.get(key)
-      if (!pos || pos.shares <= 0) continue
-      const avgCost = pos.cost / pos.shares
-      const outQty = Math.min(qty, pos.shares)
-      if (tx.type === 'transfer_out' && transactionAmount(tx) <= 0 && outQty > 0) {
-        estimates.set(tx.id, outQty * avgCost)
-      }
-      pos.shares -= outQty
-      pos.cost -= outQty * avgCost
-      if (pos.shares <= 0.0001) { pos.shares = 0; pos.cost = 0 }
-      positions.set(key, pos)
-    }
-  }
-
-  return estimates
-}
-
-// Historische Performance pro (symbol, portfolio_id) aggregieren.
-// Wird in der "Alle Depots"-Ansicht genutzt: ermöglicht Ghost-Rows für Depots,
-// die eine Position mal hatten (Dividenden, realisierter Gewinn) aber aktuell
-// 0 Shares halten — analog zu Parqet.
-export interface DepotHistoricalPerf {
-  symbol: string
-  portfolioId: string
-  portfolioName: string
-  brokerType?: string | null
-  brokerName?: string | null
-  brokerColor?: string | null
-  totalDividends: number
-  totalRealized: number
-}
-
-export function calculateHistoricalPerfByDepot(
-  allTransactions: Transaction[],
-): Map<string, DepotHistoricalPerf> {
-  const result = new Map<string, DepotHistoricalPerf>()
-
-  // Pro portfolio_id die Realized Gains berechnen — jedes Depot als isolierter Track
-  const byPortfolio = new Map<string, Transaction[]>()
-  for (const tx of allTransactions) {
-    if (!tx.portfolio_id) continue
-    if (!byPortfolio.has(tx.portfolio_id)) byPortfolio.set(tx.portfolio_id, [])
-    byPortfolio.get(tx.portfolio_id)!.push(tx)
-  }
-
-  for (const [portfolioId, txs] of byPortfolio) {
-    // Für dieses Depot die Realized-Gains-Simulation laufen lassen (pro Symbol)
-    const sorted = [...txs].sort((a, b) => {
-      const dateCmp = new Date(a.date).getTime() - new Date(b.date).getTime()
-      if (dateCmp !== 0) return dateCmp
-      const typePriority: Record<string, number> = {
-        transfer_in: 0, buy: 1, dividend: 2, sell: 3, transfer_out: 4,
-      }
-      return (typePriority[a.type] ?? 99) - (typePriority[b.type] ?? 99)
-    })
-
-    // Positions-Tracker pro Symbol in diesem Depot
-    const positions = new Map<string, { shares: number; cost: number }>()
-    // Ergebnis pro Symbol in diesem Depot
-    const perSymbol = new Map<string, { dividends: number; realized: number }>()
-    // Portfolio-Meta aus erster Transaktion ziehen
-    const firstTx = txs[0]
-    const meta = {
-      portfolioName: firstTx.portfolio_name || 'Unbekanntes Depot',
-      brokerType: firstTx.broker_type,
-      brokerName: firstTx.broker_name,
-      brokerColor: firstTx.broker_color,
-    }
-
-    for (const tx of sorted) {
-      const sym = tx.symbol
-      if (!sym || sym === 'CASH') continue
-      if (!perSymbol.has(sym)) perSymbol.set(sym, { dividends: 0, realized: 0 })
-      const agg = perSymbol.get(sym)!
-
-      if (tx.type === 'buy' || tx.type === 'transfer_in') {
-        const pos = positions.get(sym) || { shares: 0, cost: 0 }
-        pos.shares += tx.quantity
-        // Kaufgebühr gehört zur Kostenbasis (wie calculateRealizedGains)
-        pos.cost += tx.quantity * tx.price + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
-        positions.set(sym, pos)
-      } else if (tx.type === 'sell') {
-        const pos = positions.get(sym)
-        if (pos && pos.shares > 0) {
-          const avgCost = pos.cost / pos.shares
-          const sellQty = Math.min(tx.quantity, pos.shares)
-          // Verkaufsgebühr anteilig auf die realisierte Menge
-          const sellFee = Math.abs(Number(tx.fee) || 0) * (tx.quantity > 0 ? sellQty / tx.quantity : 0)
-          agg.realized += (tx.price - avgCost) * sellQty - sellFee
-          pos.cost -= sellQty * avgCost
-          pos.shares -= sellQty
-          if (pos.shares <= 0.0001) { pos.shares = 0; pos.cost = 0 }
-          positions.set(sym, pos)
-        }
-      } else if (tx.type === 'transfer_out') {
-        // Kein realized gain — Kostenbasis wandert mit
-        const pos = positions.get(sym)
-        if (pos && pos.shares > 0) {
-          const avgCost = pos.cost / pos.shares
-          const qty = Math.min(tx.quantity, pos.shares)
-          pos.cost -= qty * avgCost
-          pos.shares -= qty
-          if (pos.shares <= 0.0001) { pos.shares = 0; pos.cost = 0 }
-          positions.set(sym, pos)
-        }
-      } else if (tx.type === 'dividend') {
-        agg.dividends += tx.total_value
-      }
-    }
-
-    // Fülle das Ergebnis-Map
-    for (const [symbol, agg] of perSymbol) {
-      if (agg.dividends === 0 && agg.realized === 0) continue // nichts zu zeigen
-      result.set(`${symbol}|${portfolioId}`, {
-        symbol,
-        portfolioId,
-        portfolioName: meta.portfolioName,
-        brokerType: meta.brokerType,
-        brokerName: meta.brokerName,
-        brokerColor: meta.brokerColor,
-        totalDividends: agg.dividends,
-        totalRealized: agg.realized,
-      })
-    }
-  }
-
-  return result
-}
+export type { DepotHistoricalPerf, DepotSummary, Holding, Portfolio, RealizedGainInfo, Transaction } from '@/lib/portfolio/metrics'
 
 /**
  * @param routeDepotKey Depot aus dem Pfad des Workspace ('all', Kurzname oder
  *   Depot-ID, siehe lib/depotRoutes). Ohne Angabe gilt ?depot=… (ältere Seiten).
  */
-// Gleiche Rechnung wie die Kennzahlen im Hook (Gesamtrendite samt Gebühren-
-// Invariante, siehe nonBuyFees), hier für ein einzelnes Depot.
-function summarizeDepot(holdings: Holding[], transactions: Transaction[]): DepotSummary {
-  const performanceTransactions = filterPerformanceTransactions(transactions, holdings)
-  const { totalRealizedGain, totalDividends } = calculateRealizedGains(
-    estimateMissingAmounts(performanceTransactions, holdings)
-  )
-  const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
-  const invested = holdings.reduce((sum, h) => sum + h.purchase_price_display * h.quantity, 0)
-  const fees = performanceTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
-  const nonBuyFees = performanceTransactions.reduce(
-    (sum, tx) => (tx.type === 'buy' ? sum : sum + Math.abs(Number(tx.fee) || 0)),
-    0
-  )
-  const totalReturn = stockValue - invested + totalRealizedGain + totalDividends - nonBuyFees
-  const base = invested + fees
-  return {
-    stockValue,
-    positions: holdings.length,
-    transactions: transactions.length,
-    dayGainLoss: holdings.reduce((sum, h) => sum + (h.day_change_value || 0), 0),
-    totalReturn,
-    totalReturnPercent: base > 0 ? (totalReturn / base) * 100 : 0,
-  }
-}
-
 export function usePortfolio(routeDepotKey?: string) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -589,6 +121,9 @@ export function usePortfolio(routeDepotKey?: string) {
     return holdings.reduce((sum, h) => sum + (h.day_change_value || 0), 0)
   }, [holdings])
 
+  // Beschriftung zum Handelstag: "Heute", sonst z. B. "Mo., 23.11."
+  const dayLabel = useMemo(() => tradingDayLabel(latestTradingDay(holdings)), [holdings])
+
   const dayGainLossPercent = useMemo(() => {
     const previousValue = stockValue - dayGainLoss
     return previousValue > 0 ? (dayGainLoss / previousValue) * 100 : 0
@@ -605,10 +140,11 @@ export function usePortfolio(routeDepotKey?: string) {
   )
 
   // Realisierte Gewinne + Dividenden aus Transaktionshistorie
-  const { totalRealizedGain, totalDividends, realizedGainByTxId } = useMemo(
+  const realizedGains = useMemo(
     () => calculateRealizedGains(enrichedPerformanceTransactions),
     [enrichedPerformanceTransactions]
   )
+  const { totalRealizedGain, totalDividends, realizedGainByTxId } = realizedGains
 
   // Historische Performance pro (symbol, portfolio_id) — für Ghost-Rows in der
   // "Alle Depots"-Ansicht (Position wurde transferiert, aber Depot X hat noch
@@ -618,100 +154,22 @@ export function usePortfolio(routeDepotKey?: string) {
     [transactions, isAllDepotsView]
   )
 
-  // Gesamt-Ordergebühren — reiner Info-Wert (Anzeige "Gebühren"), summiert ALLE Gebühren
-  const totalFees = useMemo(
-    () => performanceTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0),
-    [performanceTransactions]
+  // Gesamtrendite mit allen Teilen (Kursgewinn, Realisiert, Dividenden, Zinsen,
+  // Gebühren, Steuern, Überträge), siehe calculateDepotReturn
+  const depotReturn = useMemo(
+    () => calculateDepotReturn(performanceTransactions, holdings, realizedGains),
+    [performanceTransactions, holdings, realizedGains]
   )
-
-  // Gebühren-Invariante: Jede Gebühr zählt in der Gesamtrendite genau einmal.
-  // Kaufgebühren stecken IMMER schon in der Kostenbasis — beim CSV-Import addiert
-  // der Reconcile total_value + fee in den Einstandspreis (→ totalGainLoss), bei
-  // UI-Käufen ist die Gebühr im Preis eingebettet; calculateRealizedGains rechnet
-  // identisch. Verkaufserlöse (total_value) sind dagegen brutto ohne Gebühr
-  // (siehe CSVImportModal), daher werden hier nur Nicht-Kauf-Gebühren abgezogen.
-  const nonBuyFees = useMemo(
-    () => performanceTransactions.reduce(
-      (sum, tx) => tx.type === 'buy' ? sum : sum + Math.abs(Number(tx.fee) || 0),
-      0
-    ),
-    [performanceTransactions]
-  )
-
-  // Gesamtrendite = Unrealisiert + Realisiert + Dividenden - Nicht-Kauf-Gebühren
-  const totalReturn = useMemo(
-    () => totalGainLoss + totalRealizedGain + totalDividends - nonBuyFees,
-    [totalGainLoss, totalRealizedGain, totalDividends, nonBuyFees]
-  )
-
-  const totalReturnPercent = useMemo(() => {
-    const invested = totalInvested + totalFees // Gebühren erhöhen die Investitionskosten
-    return invested > 0 ? (totalReturn / invested) * 100 : 0
-  }, [totalReturn, totalInvested, totalFees])
+  const totalReturn = depotReturn.total
+  const totalReturnPercent = depotReturn.totalPercent
+  // Ordergebühren ohne Steuern, schon im Einstand bzw. in Realisiert enthalten
+  const totalFees = depotReturn.orderFees
 
   // XIRR Berechnung — korrekt mit allen Transaktionen
-  const xirrPercent = useMemo(() => {
-    const cashflows: Cashflow[] = []
-
-    if (enrichedPerformanceTransactions.length > 0) {
-      // Alle Buy/Sell/Dividend-Transaktionen als Cashflows.
-      // Depotüberträge (transfer_in/out) werden als fiktive Käufe/Verkäufe zur
-      // damaligen Kostenbasis eingerechnet — sonst fehlt der Anfangskapital-Fluss
-      // und XIRR explodiert (Beispiel ING: zeigte +1000% p.a. statt realistischer
-      // ~12%, weil 147 VGWL-Shares ohne Cashflow materialisiert wurden).
-      // Genauso wie Parqet das macht. Beträge kommen aus den enriched
-      // Transaktionen — Überträge ohne Kostenbasis sind dort bereits geschätzt.
-      // Rest-Fall: transfer_out ohne Wert UND ohne Holding (voll übertragen) —
-      // dafür den Abfluss aus der Kostenbasis-Simulation schätzen.
-      const transferOutEstimates = estimateValuelessTransferOuts(enrichedPerformanceTransactions)
-      enrichedPerformanceTransactions.forEach(tx => {
-        if (!tx.date) return
-        const txDate = new Date(tx.date)
-        const amount = transactionAmount(tx)
-
-        if (tx.type === 'buy') {
-          cashflows.push({ amount: -amount, date: txDate })
-        } else if (tx.type === 'sell') {
-          cashflows.push({ amount, date: txDate })
-        } else if (tx.type === 'dividend') {
-          cashflows.push({ amount, date: txDate })
-        } else if (tx.type === 'transfer_in') {
-          // Fiktiver Kauf zur Kostenbasis am Transfer-Datum
-          if (amount > 0) cashflows.push({ amount: -amount, date: txDate })
-        } else if (tx.type === 'transfer_out') {
-          // Fiktiver Verkauf zum Transfer-Kurs am Transfer-Datum; ohne Wert:
-          // geschätzte Ø-Kostenbasis (Näherung, s. estimateValuelessTransferOuts)
-          const outAmount = amount > 0 ? amount : (transferOutEstimates.get(tx.id) || 0)
-          if (outAmount > 0) cashflows.push({ amount: outAmount, date: txDate })
-        }
-        // cash_deposit/cash_withdrawal ignorieren (externe Geldbewegungen)
-      })
-
-      // Terminal: aktueller Aktienwert
-      if (stockValue > 0) {
-        cashflows.push({ amount: stockValue, date: new Date() })
-      }
-    } else if (holdings.length > 0) {
-      // Fallback für Legacy-Daten ohne Transaktionen
-      holdings.forEach(h => {
-        if (h.purchase_date && h.purchase_price_display > 0 && h.quantity > 0) {
-          cashflows.push({
-            amount: -(h.purchase_price_display * h.quantity),
-            date: new Date(h.purchase_date)
-          })
-        }
-      })
-      if (stockValue > 0) {
-        cashflows.push({ amount: stockValue, date: new Date() })
-      }
-    }
-
-    cashflows.sort((a, b) => a.date.getTime() - b.date.getTime())
-    if (cashflows.length < 2) return null
-
-    const result = calculateXIRR(cashflows)
-    return result !== null ? result * 100 : null
-  }, [enrichedPerformanceTransactions, holdings, stockValue])
+  const xirrPercent = useMemo(
+    () => calculateDepotXirr(enrichedPerformanceTransactions, holdings, stockValue),
+    [enrichedPerformanceTransactions, holdings, stockValue]
+  )
 
   // Load Exchange Rate
   const loadExchangeRate = useCallback(async () => {
@@ -741,6 +199,7 @@ export function usePortfolio(routeDepotKey?: string) {
     const symbols = holdingsData.map(h => h.symbol)
     let currentPrices: Record<string, number> = {}
     const dayChangePctBySymbol: Record<string, number> = {}
+    const tradedOnBySymbol: Record<string, string | null> = {}
 
     try {
       const quotes = await getBulkQuotesWithChanges(symbols)
@@ -748,6 +207,7 @@ export function usePortfolio(routeDepotKey?: string) {
       for (const [symbol, quote] of Object.entries(quotes)) {
         currentPrices[symbol] = quote.price
         dayChangePctBySymbol[symbol] = quote.changesPercentage
+        tradedOnBySymbol[symbol] = quote.tradedOn
       }
       const missingPrices = symbols.filter(s => !currentPrices[s] || currentPrices[s] <= 0)
       if (missingPrices.length > 0) {
@@ -765,79 +225,16 @@ export function usePortfolio(routeDepotKey?: string) {
     // ein Mitsubishi-Kurs von 4.800 ¥ als 4.800 € gewertet.
     const currencies = new Set(symbols.map(s => detectTickerCurrency(s)))
     const rates = await fetchEurRatesFor(currencies)
-    const usdToEurRate = rates.usdToEurRate
-    const gbpToEurRate = rates.gbpToEurRate
 
-    return holdingsData.map((h: any) => {
-      const apiPrice = currentPrices[h.symbol] || 0
-      const tickerCurrency = detectTickerCurrency(h.symbol)
-
-      // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert, GBP kommt
-      // als GBX/Pence → ÷100 × Rate, alle anderen Währungen × EUR-Rate).
-      const currentPriceEUR = convertPriceToEur(apiPrice, tickerCurrency, rates)
-
-      const purchasePrice = h.purchase_price || 0
-      const quantity = h.quantity || 0
-      const value = currentPriceEUR * quantity
-      const costBasis = purchasePrice * quantity
-      const gainLoss = value - costBasis
-      const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
-
-      // Tagesveränderung: Prozent aus der Quote (Börsenwährung), Euro-Betrag
-      // über den aktuellen EUR-Wert zurückgerechnet — so bleibt die Währungs-
-      // umrechnung konsistent (heutiger Wert − gestriger Wert in EUR).
-      const dayChangePercent = dayChangePctBySymbol[h.symbol] ?? 0
-      const dayChangeValue =
-        dayChangePercent > -100 ? value * (dayChangePercent / (100 + dayChangePercent)) : 0
-
-      // FX-Split: nur berechenbar für Nicht-EUR-Positionen mit gespeicherter fx_rate
-      let plExclFx: number | null = null
-      let plFromFx: number | null = null
-      const purchaseFxRate = (h as any).purchase_fx_rate
-        ? Number((h as any).purchase_fx_rate)
-        : null
-      if (
-        purchaseFxRate &&
-        purchaseFxRate > 0 &&
-        tickerCurrency !== 'EUR' &&
-        quantity > 0 &&
-        apiPrice > 0
-      ) {
-        // Aktuelle FX-Rate (EUR pro Einheit Quote-Währung)
-        const currentFxRate =
-          tickerCurrency === 'USD' ? usdToEurRate
-          : tickerCurrency === 'GBP' ? gbpToEurRate
-          : rates.byCurrency?.[tickerCurrency] ?? null
-        if (currentFxRate && currentFxRate > 0) {
-          // Original Kaufpreis in Quote-Währung rekonstruieren:
-          // purchase_price (EUR) = purchasePriceOrig × purchaseFxRate
-          //   → purchasePriceOrig = purchase_price / purchaseFxRate
-          const purchasePriceOrig = purchasePrice / purchaseFxRate
-          // Bei GBP-Aktien (.L) kommt der Kurs in GBX (Pence) aus der API.
-          // Wir rechnen in GBP für die Split-Berechnung.
-          const effectiveApiPrice = tickerCurrency === 'GBP' ? apiPrice / 100 : apiPrice
-
-          // P/L excl. FX: Kursperformance bewertet zum Kauf-FX
-          plExclFx = (effectiveApiPrice - purchasePriceOrig) * quantity * purchaseFxRate
-          // P/L from FX: Währungs-Effekt auf der aktuellen Position
-          plFromFx = effectiveApiPrice * quantity * (currentFxRate - purchaseFxRate)
-        }
-      }
-
-      return {
-        ...h,
-        current_price: apiPrice,
-        current_price_display: currentPriceEUR,
-        purchase_price_display: purchasePrice,
-        value,
-        gain_loss: gainLoss,
-        gain_loss_percent: gainLossPercent,
-        day_change_value: dayChangeValue,
-        day_change_percent: dayChangePercent,
-        pl_excl_fx: plExclFx,
-        pl_from_fx: plFromFx,
-      }
-    })
+    return holdingsData.map((h: any) =>
+      valuateHolding(
+        h,
+        currentPrices[h.symbol] || 0,
+        dayChangePctBySymbol[h.symbol] ?? 0,
+        rates,
+        tradedOnBySymbol[h.symbol] ?? null,
+      )
+    )
   }, [currency])
 
   // Load Transactions
@@ -944,6 +341,9 @@ export function usePortfolio(routeDepotKey?: string) {
           })
         )
         const countedIds = new Set(counted.map(pf => pf.id))
+        // Ein Handelstag für alle Depots, sonst mischt die Summe heute und gestern
+        const tradingDay = latestTradingDay(perDepot.filter(d => countedIds.has(d.id)).flatMap(d => d.holdings))
+        for (const depot of perDepot) depot.holdings = alignDayChange(depot.holdings, tradingDay) as typeof depot.holdings
         const countedData = perDepot.filter(d => countedIds.has(d.id))
         setDepotSummaries(new Map(perDepot.map(d => [d.id, summarizeDepot(d.holdings, d.transactions)])))
         setHoldings(countedData.flatMap(d => d.holdings))
@@ -980,7 +380,7 @@ export function usePortfolio(routeDepotKey?: string) {
         loadHoldingsForPortfolio(portfolioData.id),
         loadTransactions(portfolioData.id)
       ])
-      setHoldings(h)
+      setHoldings(alignDayChange(h))
 
     } catch (error: any) {
       console.error('Error loading portfolio:', error)
@@ -1574,11 +974,13 @@ export function usePortfolio(routeDepotKey?: string) {
     totalGainLossPercent,
     dayGainLoss,
     dayGainLossPercent,
+    dayLabel,
     totalRealizedGain,
     totalDividends,
     totalFees,
     totalReturn,
     totalReturnPercent,
+    depotReturn,
     realizedGainByTxId,
     historicalPerfByDepot,
     xirrPercent,

@@ -5,6 +5,7 @@ import React, { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
+import { computeClosedPositions } from '@/lib/portfolio/closedPositions'
 import { perfColor } from '@/utils/formatters'
 import { formatDecimal } from '@/lib/displayFormat'
 
@@ -18,22 +19,8 @@ interface Transaction {
   total_value: number
   fee?: number
   date: string
-}
-
-interface ClosedPosition {
-  symbol: string
-  name: string
-  totalBought: number       // Gesamte Stückzahl gekauft
-  avgBuyPrice: number       // Durchschnittlicher Kaufpreis
-  avgSellPrice: number      // Durchschnittlicher Verkaufspreis
-  totalInvested: number     // Gesamtsumme investiert
-  totalReceived: number     // Gesamtsumme aus Verkäufen
-  realizedGain: number      // Realisierter Gewinn/Verlust
-  realizedGainPercent: number
-  dividends: number         // Erhaltene Dividenden
-  firstBuyDate: string      // Erster Kauf
-  lastSellDate: string      // Letzter Verkauf
-  totalReturn: number       // G/V + Dividenden
+  notes?: string
+  portfolio_id?: string
 }
 
 interface SoldPositionsProps {
@@ -47,102 +34,7 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
   const router = useRouter()
   const [expanded, setExpanded] = useState(false)
 
-  const closedPositions = useMemo(() => {
-    if (!transactions || transactions.length === 0) return []
-
-    // Gruppiere nach Symbol
-    const bySymbol = new Map<string, Transaction[]>()
-    transactions.forEach(tx => {
-      if (!tx.symbol || tx.symbol === '') return
-      if (!bySymbol.has(tx.symbol)) {
-        bySymbol.set(tx.symbol, [])
-      }
-      bySymbol.get(tx.symbol)!.push(tx)
-    })
-
-    const closed: ClosedPosition[] = []
-
-    bySymbol.forEach((txs, symbol) => {
-      // Chronologisch sortieren
-      const sorted = [...txs].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-
-      let totalShares = 0
-      let totalCost = 0
-      let totalSellRevenue = 0
-      let totalSharesBought = 0
-      let totalSharesSold = 0
-      let dividends = 0
-      let firstName = ''
-      let firstBuyDate = ''
-      let lastSellDate = ''
-
-      for (const tx of sorted) {
-        if (tx.type === 'buy' || tx.type === 'transfer_in') {
-          totalShares += tx.quantity
-          // Kaufgebühren erhöhen die Kostenbasis, Verkaufsgebühren mindern den Erlös
-          totalCost += tx.quantity * tx.price + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
-          totalSharesBought += tx.quantity
-          if (!firstName) firstName = tx.name
-          if (!firstBuyDate) firstBuyDate = tx.date
-        } else if (tx.type === 'sell') {
-          const avgCost = totalShares > 0 ? totalCost / totalShares : 0
-          totalShares -= tx.quantity
-          totalCost -= tx.quantity * avgCost
-          totalSellRevenue += tx.quantity * tx.price - Math.abs(Number(tx.fee) || 0)
-          totalSharesSold += tx.quantity
-          lastSellDate = tx.date
-
-          // Floating-point guard
-          if (totalShares <= 0.0001) {
-            totalShares = 0
-            totalCost = 0
-          }
-        } else if (tx.type === 'transfer_out') {
-          if (totalShares > 0) {
-            const avgCost = totalCost / totalShares
-            totalShares -= tx.quantity
-            totalCost -= tx.quantity * avgCost
-            if (totalShares <= 0.0001) {
-              totalShares = 0
-              totalCost = 0
-            }
-          }
-        } else if (tx.type === 'dividend') {
-          dividends += tx.total_value
-        }
-      }
-
-      // Nur geschlossene Positionen (vollständig verkauft)
-      if (totalShares <= 0.0001 && totalSharesSold > 0) {
-        const totalInvested = totalSharesBought > 0
-          ? (sorted.filter(t => t.type === 'buy' || t.type === 'transfer_in')
-              .reduce((sum, t) => sum + t.quantity * t.price + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0), 0))
-          : 0
-
-        const realizedGain = totalSellRevenue - totalInvested
-        const realizedGainPercent = totalInvested > 0 ? (realizedGain / totalInvested) * 100 : 0
-
-        closed.push({
-          symbol,
-          name: firstName,
-          totalBought: totalSharesBought,
-          avgBuyPrice: totalSharesBought > 0 ? totalInvested / totalSharesBought : 0,
-          avgSellPrice: totalSharesSold > 0 ? totalSellRevenue / totalSharesSold : 0,
-          totalInvested,
-          totalReceived: totalSellRevenue,
-          realizedGain,
-          realizedGainPercent,
-          dividends,
-          firstBuyDate,
-          lastSellDate,
-          totalReturn: realizedGain + dividends,
-        })
-      }
-    })
-
-    // Sortieren: Letzte Verkäufe zuerst
-    return closed.sort((a, b) => new Date(b.lastSellDate).getTime() - new Date(a.lastSellDate).getTime())
-  }, [transactions])
+  const closedPositions = useMemo(() => computeClosedPositions(transactions), [transactions])
 
   if (closedPositions.length === 0) return null
 

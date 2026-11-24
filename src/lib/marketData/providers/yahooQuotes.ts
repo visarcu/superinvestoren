@@ -8,8 +8,10 @@ import type { RawQuote } from '../types'
 export async function fetchYahooQuote(symbol: string): Promise<RawQuote | null> {
   if (!symbol) return null
   try {
+    // range=1d: chartPreviousClose ist der Schluss vor dem Zeitraum. Mit 2d war das
+    // der vorletzte Handelstag, "Heute" zeigte damit die Veränderung von zwei Tagen.
     const res = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=2d&interval=1d&region=DE`,
+      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=1d&interval=1d&region=DE`,
       { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(5000) }
     )
     if (!res.ok) return null
@@ -33,6 +35,8 @@ export async function fetchYahooQuote(symbol: string): Promise<RawQuote | null> 
       previousClose,
       currency,
       name: meta?.shortName || meta?.longName || undefined,
+      // Zeitpunkt des Kurses in Sekunden, gleicher Feldname wie bei FMP
+      raw: Number(meta?.regularMarketTime) > 0 ? { timestamp: Number(meta.regularMarketTime) } : undefined,
     }
   } catch {
     return null

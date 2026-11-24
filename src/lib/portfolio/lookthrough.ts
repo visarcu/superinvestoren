@@ -7,8 +7,10 @@
 // über den Next.js Data Cache (revalidate) — Holdings ändern sich träge, deshalb
 // reichen 24h; Firmenprofile sogar 7 Tage.
 
+import { unstable_cache } from 'next/cache'
 import { findLookthroughEntry, type EtfLookthroughEntry, type LookthroughProxy } from '@/data/etfLookthrough'
 import { getETFBySymbol } from '@/lib/etfUtils'
+import { US_LISTING_BY_LOCAL } from '@/data/crossListings'
 
 // =====================================================
 // Typen
@@ -144,6 +146,42 @@ async function fmpJson<T>(path: string, revalidate: number): Promise<T | null> {
   } catch {
     return null
   }
+}
+
+type HoldingRow = [asset: string, name: string, isin: string | null, weight: number]
+
+// Bestandslisten großer Fonds (VT: 10.000 Titel) sind über 2 MB groß. So etwas
+// nimmt der Daten-Cache von Next nicht an und schreibt stattdessen die Adresse
+// samt API-Schlüssel ins Log. Deshalb: ohne fetch-Cache laden, auf die nötigen
+// Felder kürzen und erst das Ergebnis zwischenspeichern.
+async function loadHoldingRows(symbol: string): Promise<HoldingRow[]> {
+  const apiKey = process.env.FMP_API_KEY
+  if (!apiKey) return []
+  const res = await fetch(`${FMP_BASE}/etf-holder/${encodeURIComponent(symbol)}?apikey=${apiKey}`, { cache: 'no-store' })
+  if (!res.ok) throw new Error('ETF-Bestände nicht abrufbar')
+  const data = (await res.json()) as FmpEtfHolding[]
+  if (!Array.isArray(data)) return []
+  return data
+    .filter(h => h.asset && (h.weightPercentage || 0) > 0)
+    .map(h => [h.asset!, h.name ?? h.asset!, h.isin ?? null, h.weightPercentage!])
+}
+
+const holdingMemory = new Map<string, { rows: HoldingRow[]; expires: number }>()
+
+async function fetchEtfHoldings(symbol: string): Promise<FmpEtfHolding[]> {
+  const hit = holdingMemory.get(symbol)
+  let rows = hit && hit.expires > Date.now() ? hit.rows : null
+  if (!rows) {
+    try {
+      rows = await unstable_cache(() => loadHoldingRows(symbol), ['etf-holdings-v1', symbol], { revalidate: HOLDINGS_REVALIDATE })()
+    } catch {
+      // außerhalb von Next (Skripte) gibt es keinen Daten-Cache
+      rows = await loadHoldingRows(symbol).catch(() => [])
+    }
+    if (holdingMemory.size > 60) holdingMemory.clear()
+    if (rows.length > 0) holdingMemory.set(symbol, { rows, expires: Date.now() + 60 * 60 * 1000 })
+  }
+  return rows.map(([asset, name, isin, weightPercentage]) => ({ asset, name, isin, weightPercentage }))
 }
 
 async function mapWithConcurrency<T, R>(
@@ -582,10 +620,13 @@ function buildInsights(
   // 3) Stark überlappende ETFs
   const bigOverlap = result.overlaps.find(o => o.overlapPercent >= 60)
   if (bigOverlap) {
+    const strong = bigOverlap.overlapPercent >= 80
     insights.push({
-      severity: 'warn',
+      severity: strong ? 'warn' : 'info',
       title: `${fmtPct(bigOverlap.overlapPercent)} Überschneidung zwischen zwei ETFs`,
-      text: `${bigOverlap.nameA} und ${bigOverlap.nameB} enthalten weitgehend dieselben Aktien. Die zweite Position streut kaum zusätzlich.`,
+      text: strong
+        ? `${bigOverlap.nameA} und ${bigOverlap.nameB} enthalten weitgehend dieselben Aktien. Die zweite Position streut kaum zusätzlich.`
+        : `${bigOverlap.nameA} und ${bigOverlap.nameB} stecken zum größeren Teil in denselben Aktien.`,
     })
   }
 
@@ -657,7 +698,7 @@ interface ProxyData {
 
 async function fetchProxyData(symbol: string): Promise<ProxyData | null> {
   const [holdings, sectors, countries] = await Promise.all([
-    fmpJson<FmpEtfHolding[]>(`/etf-holder/${symbol}`, HOLDINGS_REVALIDATE),
+    fetchEtfHoldings(symbol),
     fmpJson<FmpWeighting[]>(`/etf-sector-weightings/${symbol}`, HOLDINGS_REVALIDATE),
     fmpJson<FmpWeighting[]>(`/etf-country-weightings/${symbol}`, HOLDINGS_REVALIDATE),
   ])
@@ -675,7 +716,10 @@ async function fetchProxyData(symbol: string): Promise<ProxyData | null> {
   }
 }
 
-export async function computeLookthrough(positions: LookthroughInput[]): Promise<LookthroughResult> {
+export async function computeLookthrough(
+  positions: LookthroughInput[],
+  { maxExposures = 30, withSize = true }: { maxExposures?: number; withSize?: boolean } = {},
+): Promise<LookthroughResult> {
   const totalValue = positions.reduce((s, p) => s + p.value, 0)
 
   // 1) Positionen klassifizieren
@@ -727,14 +771,30 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
     'NWS': 'NWSA',
     'UA': 'UAA',
   }
-  const MERGED_SYMBOLS = new Set([...Object.keys(SHARE_CLASS_MERGE), ...Object.values(SHARE_CLASS_MERGE)])
+  // Zweitnotierungen und ADRs ebenso: TSM (New York) und 2330.TW (Taiwan) sind
+  // dieselbe Firma, haben aber verschiedene ISINs.
+  const MERGED_SYMBOLS = new Set([
+    ...Object.keys(SHARE_CLASS_MERGE), ...Object.values(SHARE_CLASS_MERGE), ...Object.values(US_LISTING_BY_LOCAL),
+  ])
+
+  // Viele Depotpositionen kommen ohne ISIN aus dem Import. Die Fondsbestände
+  // kennen zu jedem Symbol die ISIN, sonst stünde MSFT doppelt da: einmal als
+  // Direktbestand (Schlüssel Symbol), einmal als ETF-Anteil (Schlüssel ISIN).
+  const isinBySymbol = new Map<string, string>()
+  for (const data of proxyData.values()) {
+    for (const h of data.holdings) {
+      if (h.asset && h.isin) isinBySymbol.set(h.asset.toUpperCase(), h.isin.toUpperCase())
+    }
+  }
 
   const exposures = new Map<string, Agg>()
   const keyFor = (isin: string | null | undefined, symbol: string) => {
     const upper = symbol.toUpperCase()
-    const merged = SHARE_CLASS_MERGE[upper] || upper
+    const listing = US_LISTING_BY_LOCAL[upper] || upper
+    const merged = SHARE_CLASS_MERGE[listing] || listing
     if (MERGED_SYMBOLS.has(merged)) return `sym:${merged}`
-    return isin ? `isin:${isin.toUpperCase()}` : `sym:${upper}`
+    const known = isin || isinBySymbol.get(upper)
+    return known ? `isin:${known.toUpperCase()}` : `sym:${upper}`
   }
 
   const getAgg = (isin: string | null | undefined, symbol: string, name: string): Agg => {
@@ -776,7 +836,13 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
   const etfCoverage: EtfCoverageInfo[] = []
   const leveragedEtfs: { symbol: string; name: string }[] = []
   /** Pro ETF die zusammengemischte Holdings-Map (ISIN/Symbol → Gewicht %) für Overlap-Berechnung */
-  const etfBlends = new Map<string, { name: string; value: number; weights: Map<string, { weight: number; name: string; symbol: string }> }>()
+  const etfBlends = new Map<string, {
+    name: string
+    value: number
+    weights: Map<string, { weight: number; name: string; symbol: string }>
+    proxies: Set<string>
+    approximated: boolean
+  }>()
 
   for (const etf of etfs) {
     etfTotalValue += etf.input.value
@@ -815,7 +881,13 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
     const weightSum = availableProxies.reduce((s, p) => s + p.weight, 0)
 
     const etfName = etf.entry?.name || etf.input.name
-    const blend = { name: etfName, value: etf.input.value, weights: new Map<string, { weight: number; name: string; symbol: string }>() }
+    const blend = {
+      name: etfName,
+      value: etf.input.value,
+      weights: new Map<string, { weight: number; name: string; symbol: string }>(),
+      proxies: new Set(availableProxies.map(p => p.symbol)),
+      approximated: etf.status === 'approximated',
+    }
 
     let decomposedFraction = 0
     for (const proxy of availableProxies) {
@@ -883,6 +955,10 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
     for (let j = i + 1; j < blendEntries.length; j++) {
       const [symA, a] = blendEntries[i]
       const [symB, b] = blendEntries[j]
+      // Beide über denselben Fonds angenähert: Da verglichen wir den Fonds mit
+      // sich selbst (97 % zwischen einem Dimensional-ETF und dem FTSE All-World).
+      // Wie stark sie sich wirklich decken, wissen wir dann nicht.
+      if ((a.approximated || b.approximated) && [...a.proxies].some(p => b.proxies.has(p))) continue
       const [small, large] = a.weights.size <= b.weights.size ? [a, b] : [b, a]
       let overlap = 0
       let sharedCount = 0
@@ -917,7 +993,7 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
     (a, b) => b.directValue + b.etfValue - (a.directValue + a.etfValue),
   )
 
-  const topExposures: EffectiveExposure[] = sorted.slice(0, 30).map(agg => {
+  const topExposures: EffectiveExposure[] = sorted.slice(0, maxExposures).map(agg => {
     const value = agg.directValue + agg.etfValue
     return {
       symbol: agg.symbol,
@@ -954,7 +1030,7 @@ export async function computeLookthrough(positions: LookthroughInput[]): Promise
       })
     }
   }
-  const sizeExposure = await computeSizeExposure(sizeUnits, analyzedValue)
+  const sizeExposure = withSize ? await computeSizeExposure(sizeUnits, analyzedValue) : null
 
   const base = {
     totalValue,

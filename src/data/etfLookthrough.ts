@@ -576,10 +576,13 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     isin: 'IE000EGGFVG6',
     tickers: ['DEGC.DE'],
     name: 'Dimensional Global Core Equity UCITS ETF',
-    proxies: [{ symbol: 'VT', weight: 1 }],
+    proxies: [
+      { symbol: 'DFAC', weight: 0.72 },
+      { symbol: 'DFIC', weight: 0.28 },
+    ],
     exact: false,
     assetClass: 'equity',
-    note: 'Aktiv-systematischer Fonds — über den Weltmarkt (VT) angenähert, Dimensional-Tilts nicht abgebildet',
+    note: 'Über die Dimensional-Schwesterfonds Core Equity USA und International zusammengesetzt',
   },
   {
     isin: 'IE000S67ID55',

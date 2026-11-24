@@ -189,7 +189,7 @@ export default function RealizedGainsTab({
           <Metric label="Verluste" value={signed(formatCurrency, summary.losses)} valueClass={summary.losses < 0 ? 'text-red-400' : undefined} />
           <Metric label="Verkäufe" value={String(summary.sales)} />
           <Metric label="Erlöse" value={formatCurrency(summary.proceeds)} />
-          <Metric label="Gebühren" value={summary.fees > 0 ? `-${formatCurrency(summary.fees)}` : formatCurrency(0)} />
+          <Metric label="Gebühren & Steuern" value={summary.fees > 0 ? `-${formatCurrency(summary.fees)}` : formatCurrency(0)} />
         </div>
       </div>
 
@@ -207,7 +207,7 @@ export default function RealizedGainsTab({
                   <th className="px-3 py-2 text-right font-medium">Verkäufe</th>
                   <th className="px-3 py-2 text-right font-medium">Gewinne</th>
                   <th className="px-3 py-2 text-right font-medium">Verluste</th>
-                  <th className="px-3 py-2 text-right font-medium">Gebühren</th>
+                  <th className="px-3 py-2 text-right font-medium" title="Gebühren und Steuern">Kosten</th>
                   <th className="px-5 py-2 text-right font-medium">Netto</th>
                 </tr>
               </thead>
@@ -266,7 +266,7 @@ export default function RealizedGainsTab({
                   <th className="px-3 py-2 text-right font-medium">Ø Kauf</th>
                   <th className="px-3 py-2 text-right font-medium">Verkauf</th>
                   <th className="px-3 py-2 text-right font-medium">Erlös</th>
-                  <th className="px-3 py-2 text-right font-medium">Gebühr</th>
+                  <th className="px-3 py-2 text-right font-medium" title="Gebühren und Steuern">Kosten</th>
                   <th className="px-5 py-2 text-right font-medium">Gewinn/Verlust</th>
                 </tr>
               </thead>

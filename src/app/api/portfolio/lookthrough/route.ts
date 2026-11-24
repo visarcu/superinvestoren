@@ -12,6 +12,7 @@ import { createClient } from '@supabase/supabase-js'
 import { computeLookthrough, type LookthroughInput, type LookthroughResult } from '@/lib/portfolio/lookthrough'
 import { getSuperinvestorActivity } from '@/lib/superinvestorMatch'
 import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
+import { getInstrumentsForSymbols } from '@/lib/marketData/instrumentStore'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -94,6 +95,15 @@ export async function POST(request: NextRequest) {
   const isPremium = hasPremiumAccess(profile)
 
   try {
+    // Positionen ohne ISIN (die meisten Importe) aus den Stammdaten ergänzen,
+    // damit z. B. M4I.DE und der ETF-Anteil MA als eine Firma zählen
+    const withoutIsin = positions.filter(p => !p.isin).map(p => p.symbol)
+    if (withoutIsin.length > 0) {
+      const instruments = await getInstrumentsForSymbols(withoutIsin)
+      for (const p of positions) {
+        if (!p.isin) p.isin = instruments.get(p.symbol)?.isin ?? null
+      }
+    }
     const result = await computeLookthrough(positions)
     enrichWithSuperinvestors(result)
 

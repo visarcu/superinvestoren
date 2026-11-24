@@ -8,6 +8,8 @@
 // Ehrlichkeits-Regel: Unter MIN_POINTS Handelstagen liefern wir null statt
 // pseudo-präziser Zahlen (Lektion aus der TWR-Forensik: kleine Basis = Rauschen).
 
+import { computeWeeklyBeta } from '@/lib/portfolioQuant'
+
 export interface SeriesPoint {
   date: string
   /** Wealth-Index oder Preis — nur Verhältnisse zählen */
@@ -144,7 +146,7 @@ export function computeRiskMeasures(
 
   const calmar = maxDD < -0.001 ? annRet / Math.abs(maxDD * 100) : null
 
-  // Beta über gemeinsame Handelstage
+  // Beta, ersatzweise über gemeinsame Handelstage
   let beta: number | null = null
   if (benchmark) {
     const benchReturns = dailyReturns(sortSeries(benchmark))
@@ -164,6 +166,9 @@ export function computeRiskMeasures(
       }
       if (varB > 0) beta = cov / varB
     }
+    // Wochenrenditen bevorzugt: in Frankfurt gehandelte ETFs und US-Indizes
+    // schließen zu verschiedenen Zeiten, das Tages-Beta wäre viel zu klein
+    beta = computeWeeklyBeta(series, benchmark) ?? beta
   }
 
   // Monatsrenditen: letzter Punkt je Monat

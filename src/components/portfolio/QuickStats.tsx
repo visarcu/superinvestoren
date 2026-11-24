@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { perfColor } from '@/utils/formatters'
 import { ChevronRightIcon, InformationCircleIcon } from '@heroicons/react/24/outline'
 import { formatDecimal } from '@/lib/displayFormat'
+import type { DepotReturn } from '@/lib/portfolio/metrics'
 
 interface QuickStatsProps {
   totalValue: number
@@ -12,15 +13,9 @@ interface QuickStatsProps {
   securitiesValue: number
   cashPosition: number
   brokerCredit?: number
-  totalGainLoss: number
-  totalGainLossPercent: number
-  totalRealizedGain: number
-  totalDividends: number
-  totalReturn: number
-  totalReturnPercent: number
+  depotReturn: DepotReturn
   xirrPercent: number | null
   activeInvestments: number
-  totalFees?: number
   formatCurrency: (amount: number) => string
   formatPercentage: (value: number) => string
   onCashClick?: () => void
@@ -74,22 +69,26 @@ export default function QuickStats({
   securitiesValue,
   cashPosition,
   brokerCredit = 0,
-  totalGainLoss,
-  totalGainLossPercent,
-  totalRealizedGain,
-  totalDividends,
-  totalReturn,
-  totalReturnPercent,
+  depotReturn,
   xirrPercent,
   activeInvestments,
-  totalFees = 0,
   formatCurrency,
   formatPercentage,
   onCashClick,
   onCreditClick,
   onRealizedClick,
 }: QuickStatsProps) {
-  const hasBreakdown = totalRealizedGain !== 0 || totalDividends > 0 || totalFees > 0
+  const { priceGain, realized, dividends, total, totalPercent, orderFees, orderTaxes } = depotReturn
+  // Seltenere Teile nur, wenn es sie gibt. Alle Zeilen zusammen ergeben die Summe.
+  const otherRows = [
+    { label: 'Zinsen', value: depotReturn.interest },
+    { label: 'Kontogebühren', value: depotReturn.accountFees },
+    { label: 'Steuerausgleich', value: depotReturn.taxes },
+    { label: 'Überträge', value: depotReturn.transfers },
+  ].filter(row => Math.abs(row.value) >= 0.005)
+  const hasBreakdown = realized !== 0 || dividends !== 0 || otherRows.length > 0
+  // Negatives Cash ist ein Kredit beim Broker
+  const borrowed = cashPosition < 0
   const hasCredit = brokerCredit < 0
   // Eigenkapital = Gesamtwert + Kredit (Kredit ist negativ)
   const equity = totalValue + brokerCredit
@@ -117,11 +116,13 @@ export default function QuickStats({
         onClick={onCashClick}
       >
         <p className="text-xs text-neutral-500 mb-1">
-          Cash {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
+          {borrowed ? 'Kredit' : 'Cash'} {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
         </p>
         <p className={`depot-num text-lg font-semibold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
         <p className="text-xs text-neutral-500 mt-1">
-          {formatDecimal(totalValue > 0 ? (cashPosition / totalValue) * 100 : 0, 1)}% Cash-Quote
+          {borrowed
+            ? `${formatDecimal(securitiesValue > 0 ? (-cashPosition / securitiesValue) * 100 : 0, 1)} % der Wertpapiere beliehen`
+            : `${formatDecimal(totalValue > 0 ? (cashPosition / totalValue) * 100 : 0, 1)} % Cash-Quote`}
         </p>
       </div>
 
@@ -141,39 +142,53 @@ export default function QuickStats({
         </div>
       )}
 
-      {/* Gesamtrendite (Unrealisiert + Realisiert + Dividenden) */}
+      {/* Gesamtrendite mit allen Teilen */}
       <div className={statCardClass}>
-        <p className="text-xs text-neutral-500 mb-1 flex items-center">
+        <div className="text-xs text-neutral-500 mb-1 flex items-center">
           {hasBreakdown ? 'Gesamtrendite' : 'Gewinn / Verlust'}
           <InfoTooltip title="Gesamtrendite">
             <p>
-              Die Gesamtrendite zeigt deinen gesamten Gewinn oder Verlust. Sie besteht aus drei Komponenten:
+              Dein gesamter Gewinn oder Verlust in diesem Depot. Alle Zeilen zusammen ergeben die Summe.
             </p>
             <p className="mt-1">
-              <span className="font-medium text-neutral-800 dark:text-neutral-200">Kursgewinn:</span> Unrealisierte Gewinne deiner aktuellen Positionen (aktueller Kurs vs. Kaufpreis).
+              <span className="font-medium text-neutral-800 dark:text-neutral-200">Kursgewinn:</span> Wertzuwachs der Positionen, die du noch hältst.
             </p>
             <p>
-              <span className="font-medium text-neutral-800 dark:text-neutral-200">Realisiert:</span> Gewinne/Verluste aus bereits verkauften Positionen.
+              <span className="font-medium text-neutral-800 dark:text-neutral-200">Realisiert:</span> Verkäufe nach Gebühren und Steuern.
             </p>
             <p>
-              <span className="font-medium text-neutral-800 dark:text-neutral-200">Dividenden:</span> Erhaltene Dividendenzahlungen.
+              <span className="font-medium text-neutral-800 dark:text-neutral-200">Dividenden:</span> so, wie dein Broker sie gutgeschrieben hat.
             </p>
-            <p>
-              <span className="font-medium text-neutral-800 dark:text-neutral-200">Gebühren:</span> Verkaufs- und sonstige Gebühren werden abgezogen. Kaufgebühren stecken bereits im Einstandspreis und damit im Kursgewinn.
-            </p>
-            <p className="mt-1 text-neutral-500">
-              Formel: Kursgewinn + Realisiert + Dividenden − Gebühren (ohne Kaufgebühren)
-            </p>
+            {otherRows.some(row => row.label === 'Zinsen') && (
+              <p>
+                <span className="font-medium text-neutral-800 dark:text-neutral-200">Zinsen:</span> Guthabenzinsen minus Kreditzinsen.
+              </p>
+            )}
+            {otherRows.some(row => row.label === 'Kontogebühren') && (
+              <p>
+                <span className="font-medium text-neutral-800 dark:text-neutral-200">Kontogebühren:</span> Abo und Gebühren auf Einzahlungen.
+              </p>
+            )}
+            {otherRows.some(row => row.label === 'Überträge') && (
+              <p>
+                <span className="font-medium text-neutral-800 dark:text-neutral-200">Überträge:</span> Wertzuwachs von Anteilen, die du in ein anderes Depot übertragen hast, bis zum Übertrag.
+              </p>
+            )}
+            {(orderFees > 0 || orderTaxes > 0) && (
+              <p className="mt-1 text-neutral-500">
+                Schon enthalten: {formatCurrency(orderFees)} Ordergebühren{orderTaxes > 0 ? ` und ${formatCurrency(orderTaxes)} Steuern auf Orders` : ''}.
+              </p>
+            )}
             <p className="text-neutral-500">
-              Der Prozentwert ist bezogen auf die Kostenbasis der aktuell gehaltenen Positionen (zzgl. Gebühren), nicht auf das gesamte jemals investierte Kapital.
+              Der Prozentwert bezieht sich auf den Einstand der Positionen, die du noch hältst, nicht auf das gesamte jemals investierte Kapital.
             </p>
           </InfoTooltip>
+        </div>
+        <p className={`depot-num text-lg font-semibold ${perfColor(total)}`}>
+          {total >= 0 ? '+' : ''}{formatCurrency(total)}
         </p>
-        <p className={`depot-num text-lg font-semibold ${perfColor(totalReturn)}`}>
-          {totalReturn >= 0 ? '+' : ''}{formatCurrency(totalReturn)}
-        </p>
-        <p className={`text-xs mt-1 ${perfColor(totalReturnPercent, 'muted')}`}>
-          {formatPercentage(totalReturnPercent)} gesamt
+        <p className={`text-xs mt-1 ${perfColor(totalPercent, 'muted')}`}>
+          {formatPercentage(totalPercent)} gesamt
         </p>
 
         {/* Breakdown: nur anzeigen wenn Realisiert oder Dividenden vorhanden */}
@@ -181,11 +196,11 @@ export default function QuickStats({
           <div className="mt-2 pt-2 border-t border-neutral-100 dark:border-white/[0.05] space-y-0.5">
             <div className="flex justify-between text-[10px]">
               <span className="text-neutral-500">Kursgewinn</span>
-              <span className={perfColor(totalGainLoss, 'muted')}>
-                {totalGainLoss >= 0 ? '+' : ''}{formatCurrency(totalGainLoss)}
+              <span className={perfColor(priceGain, 'muted')}>
+                {priceGain >= 0 ? '+' : ''}{formatCurrency(priceGain)}
               </span>
             </div>
-            {onRealizedClick && totalRealizedGain !== 0 ? (
+            {onRealizedClick && realized !== 0 ? (
               <button
                 type="button"
                 onClick={onRealizedClick}
@@ -198,40 +213,40 @@ export default function QuickStats({
                     Details
                   </span>
                 </span>
-                <span className={`flex items-center gap-0.5 ${perfColor(totalRealizedGain, 'muted')}`}>
-                  {totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(totalRealizedGain)}
+                <span className={`flex items-center gap-0.5 ${perfColor(realized, 'muted')}`}>
+                  {realized >= 0 ? '+' : ''}{formatCurrency(realized)}
                   <ChevronRightIcon className="h-3 w-3 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-teal-400" />
                 </span>
               </button>
             ) : (
               <div className="flex justify-between text-[10px]">
                 <span className="text-neutral-500">Realisiert</span>
-                <span className={perfColor(totalRealizedGain, 'muted')}>
-                  {totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(totalRealizedGain)}
+                <span className={perfColor(realized, 'muted')}>
+                  {realized >= 0 ? '+' : ''}{formatCurrency(realized)}
                 </span>
               </div>
             )}
             <div className="flex justify-between text-[10px]">
               <span className="text-neutral-500">Dividenden</span>
-              <span className="text-emerald-600/70 dark:text-emerald-400/70">
-                +{formatCurrency(totalDividends)}
+              <span className={perfColor(dividends, 'muted')}>
+                {dividends >= 0 ? '+' : ''}{formatCurrency(dividends)}
               </span>
             </div>
-            {totalFees > 0 && (
-              <div className="flex justify-between text-[10px]">
-                <span className="text-neutral-500">Ordergebühren</span>
-                <span className="text-amber-600/70 dark:text-amber-400/70">
-                  -{formatCurrency(totalFees)}
+            {otherRows.map(row => (
+              <div key={row.label} className="flex justify-between text-[10px]">
+                <span className="text-neutral-500">{row.label}</span>
+                <span className={perfColor(row.value, 'muted')}>
+                  {row.value >= 0 ? '+' : ''}{formatCurrency(row.value)}
                 </span>
               </div>
-            )}
+            ))}
           </div>
         )}
       </div>
 
       {/* XIRR */}
       <div className={statCardClass}>
-        <p className="text-xs text-neutral-500 mb-1 flex items-center">
+        <div className="text-xs text-neutral-500 mb-1 flex items-center">
           Interner Zinsfuß (XIRR)
           <InfoTooltip title="Interner Zinsfuß (XIRR)">
             <p>
@@ -250,7 +265,7 @@ export default function QuickStats({
               Benötigt mindestens 30 Tage Haltedauer für eine sinnvolle Berechnung.
             </p>
           </InfoTooltip>
-        </p>
+        </div>
         {xirrPercent !== null ? (
           <>
             <p className={`depot-num text-lg font-semibold ${perfColor(xirrPercent)}`}>

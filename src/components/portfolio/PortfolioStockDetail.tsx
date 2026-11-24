@@ -11,6 +11,7 @@ import { getEURRate } from '@/lib/portfolioCurrency'
 import { detectTickerCurrency } from '@/lib/fmp'
 import { perfColor } from '@/utils/formatters'
 import { calculateSymbolPerformance, type SymbolPerformance } from '@/utils/portfolioCalculations'
+import { sumOrderCosts } from '@/lib/portfolio/cashFlows'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import { countedDepots } from '@/lib/sampleDepotShared'
 import WorkingStockChart from '@/components/WorkingStockChart'
@@ -534,7 +535,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   }
 
   // Ordergebühren aller Buchungen (Kaufgebühren stecken bereits in der Kostenbasis)
-  const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
+  const { fees: totalFees } = sumOrderCosts(allTransactions)
   // Gebührenquote: Ordergebühren relativ zum gesamten Kaufvolumen der Position
   const feePercent = performance && performance.totalInvested > 0 && totalFees > 0
     ? (totalFees / performance.totalInvested) * 100

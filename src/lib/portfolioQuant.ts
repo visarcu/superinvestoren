@@ -15,6 +15,8 @@ export interface QuantSeriesPoint {
 const TRADING_DAYS = 252
 /** Mindest-Überlappung für eine Paar-Korrelation (~3 Monate Handelstage) */
 const MIN_CORR_OBS = 60
+/** Wochen, ab denen ein Korrelationspaar zählt (ein halbes Jahr) */
+const MIN_CORR_WEEKS = 26
 /** Mindest-Historie für Monte-Carlo und Faktorregression (~6 Monate) */
 const MIN_SERIES_OBS = 120
 
@@ -52,11 +54,36 @@ export interface CorrelationMatrixResult {
   /** Symbole in Matrix-Reihenfolge (absteigend nach Depotgewicht) */
   symbols: string[]
   weightsPct: number[]
-  /** Pearson-Korrelation der Tagesrenditen; null = zu wenig Überlappung */
+  /** Pearson-Korrelation der Wochenrenditen; null = zu wenig Überlappung */
   matrix: (number | null)[][]
   /** Ungewichteter Durchschnitt aller Paare (Diversifikations-Signal) */
   avgPairwise: number | null
-  minObs: number
+  /** Mindestzahl gemeinsamer Wochen je Paar */
+  minWeeks: number
+}
+
+const weekOf = (date: string) => Math.floor((Date.parse(date) / 86400000 + 3) / 7)
+
+/** Letzter Kurs je Kalenderwoche */
+function weeklySeries(series: QuantSeriesPoint[]): QuantSeriesPoint[] {
+  const byWeek = new Map<number, QuantSeriesPoint>()
+  for (const p of series) {
+    if (!(p.value > 0)) continue
+    const week = weekOf(p.date)
+    const current = byWeek.get(week)
+    if (!current || p.date > current.date) byWeek.set(week, p)
+  }
+  return [...byWeek.values()].sort((a, b) => a.date.localeCompare(b.date))
+}
+
+/** Rendite je Kalenderwoche */
+function weeklyReturnMap(series: QuantSeriesPoint[]): Map<number, number> {
+  const weekly = weeklySeries(series)
+  const returns = new Map<number, number>()
+  for (let i = 1; i < weekly.length; i++) {
+    if (weekly[i - 1].value > 0) returns.set(weekOf(weekly[i].date), weekly[i].value / weekly[i - 1].value - 1)
+  }
+  return returns
 }
 
 /**
@@ -72,16 +99,19 @@ export function computeCorrelationMatrix(
   if (totalWeight <= 0) return null
 
   const symbols = Array.from(weightBySymbol.entries())
-    .filter(([symbol, value]) => value > 0 && (seriesBySymbol.get(symbol)?.length || 0) > MIN_CORR_OBS)
+    .filter(([symbol, value]) => value > 0 && weeklySeries(seriesBySymbol.get(symbol) || []).length > MIN_CORR_WEEKS)
     .sort((a, b) => b[1] - a[1])
     .slice(0, maxSymbols)
     .map(([symbol]) => symbol)
 
   if (symbols.length < 2) return null
 
-  const returnsBySymbol = new Map<string, Map<string, number>>()
+  // Wochenrenditen: Xetra schließt viereinhalb Stunden vor New York, am selben
+  // Tag bewegen sich ein Welt-ETF und seine US-Aktien deshalb scheinbar kaum
+  // zusammen (Alphabet zu FTSE All-World täglich 0,33).
+  const returnsBySymbol = new Map<string, Map<number, number>>()
   symbols.forEach(symbol => {
-    returnsBySymbol.set(symbol, dailyReturnMap(seriesBySymbol.get(symbol) || []))
+    returnsBySymbol.set(symbol, weeklyReturnMap(seriesBySymbol.get(symbol) || []))
   })
 
   const matrix: (number | null)[][] = symbols.map(() => symbols.map(() => null))
@@ -94,14 +124,14 @@ export function computeCorrelationMatrix(
       const b = returnsBySymbol.get(symbols[j])!
       const pairsA: number[] = []
       const pairsB: number[] = []
-      a.forEach((ra, date) => {
-        const rb = b.get(date)
+      a.forEach((ra, week) => {
+        const rb = b.get(week)
         if (rb !== undefined) {
           pairsA.push(ra)
           pairsB.push(rb)
         }
       })
-      if (pairsA.length < MIN_CORR_OBS) continue
+      if (pairsA.length < MIN_CORR_WEEKS) continue
 
       const meanA = mean(pairsA)
       const meanB = mean(pairsB)
@@ -130,7 +160,7 @@ export function computeCorrelationMatrix(
     weightsPct: symbols.map(s => round2(((weightBySymbol.get(s) || 0) / totalWeight) * 100)),
     matrix,
     avgPairwise: round2(mean(pairValues)),
-    minObs: MIN_CORR_OBS,
+    minWeeks: MIN_CORR_WEEKS,
   }
 }
 
@@ -293,8 +323,8 @@ export interface StressPositionImpact {
   symbol: string
   weightPct: number
   returnPct: number
-  /** 'history' = echte Kurse im Fenster, 'beta' = Beta×Markt-Näherung */
-  source: 'history' | 'beta'
+  /** 'history' = echte Kurse im Fenster, 'proxy' = echte Kurse eines Zwillingsfonds, 'beta' = Beta×Markt-Näherung */
+  source: 'history' | 'proxy' | 'beta'
 }
 
 export interface StressTestResult {
@@ -309,6 +339,8 @@ export interface StressTestResult {
   portfolioImpactEur: number
   /** Depotanteil, für den echte Fensterkurse vorlagen */
   realDataWeightPct: number
+  /** Depotanteil, für den der Zwillingsfonds (gleicher oder ähnlicher Index) einsprang */
+  proxyDataWeightPct: number
   positions: StressPositionImpact[]
 }
 
@@ -325,6 +357,8 @@ export function computeStressTest(
   betaBySymbol: Map<string, number | null>,
   marketReturnPct: number,
   currentSecuritiesValue: number,
+  /** Rendite des Zwillingsfonds für ETFs, die es damals nicht gab */
+  proxyReturnBySymbol: Map<string, number> = new Map(),
 ): StressTestResult | null {
   const totalWeight = Array.from(weightBySymbol.values()).reduce((s, v) => s + Math.max(0, v), 0)
   if (totalWeight <= 0 || currentSecuritiesValue <= 0) return null
@@ -332,6 +366,7 @@ export function computeStressTest(
   const positions: StressPositionImpact[] = []
   let portfolioReturn = 0
   let realDataWeight = 0
+  let proxyDataWeight = 0
 
   weightBySymbol.forEach((value, symbol) => {
     if (value <= 0) return
@@ -339,11 +374,16 @@ export function computeStressTest(
     const realReturn = windowReturnBySymbol.get(symbol)
 
     let returnPct: number
-    let source: 'history' | 'beta'
+    let source: 'history' | 'proxy' | 'beta'
+    const proxyReturn = proxyReturnBySymbol.get(symbol)
     if (realReturn !== null && realReturn !== undefined) {
       returnPct = realReturn
       source = 'history'
       realDataWeight += weight
+    } else if (proxyReturn !== undefined) {
+      returnPct = proxyReturn
+      source = 'proxy'
+      proxyDataWeight += weight
     } else {
       const beta = betaBySymbol.get(symbol)
       returnPct = (beta ?? 1) * marketReturnPct
@@ -363,8 +403,29 @@ export function computeStressTest(
     portfolioReturnPct: round2(portfolioReturn),
     portfolioImpactEur: Math.round((portfolioReturn / 100) * currentSecuritiesValue),
     realDataWeightPct: round2(realDataWeight * 100),
+    proxyDataWeightPct: round2(proxyDataWeight * 100),
     positions,
   }
+}
+
+/**
+ * Beta aus Wochenrenditen. Mit Tagesrenditen fällt es für Papiere in Frankfurt
+ * viel zu klein aus, weil Xetra vor New York schließt (Welt-ETF 0,3 statt 0,9).
+ */
+export function computeWeeklyBeta(assetSeries: QuantSeriesPoint[], benchmarkSeries: QuantSeriesPoint[]): number | null {
+  const a = weeklyReturnMap(assetSeries)
+  const b = weeklyReturnMap(benchmarkSeries)
+  const pairs = [...a].filter(([week]) => b.has(week)).map(([week, r]) => [r, b.get(week)!] as const)
+  if (pairs.length < 40) return null
+  const meanA = mean(pairs.map(p => p[0]))
+  const meanB = mean(pairs.map(p => p[1]))
+  let cov = 0
+  let varB = 0
+  for (const [x, y] of pairs) {
+    cov += (x - meanA) * (y - meanB)
+    varB += (y - meanB) ** 2
+  }
+  return varB > 0 ? round2(cov / varB) : null
 }
 
 /**

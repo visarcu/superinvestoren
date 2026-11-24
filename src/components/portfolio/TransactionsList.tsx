@@ -344,7 +344,7 @@ export default function TransactionsList({
                 </h3>
                 <div className="flex items-center gap-3 text-[11px] text-neutral-500 tabular-nums">
                   {summary.buyCount > 0 && (
-                    <span>{summary.buyCount} Kauf{summary.buyCount !== 1 ? 'e' : ''}</span>
+                    <span>{summary.buyCount} {summary.buyCount !== 1 ? 'Käufe' : 'Kauf'}</span>
                   )}
                   {summary.sellCount > 0 && (
                     <span>{summary.sellCount} Verkauf{summary.sellCount !== 1 ? '.' : ''}</span>

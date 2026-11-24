@@ -29,7 +29,7 @@ interface CorrelationPayload {
   weightsPct: number[]
   matrix: (number | null)[][]
   avgPairwise: number | null
-  minObs: number
+  minWeeks: number
 }
 
 interface MonteCarloPayload {
@@ -51,7 +51,8 @@ interface StressPayload {
   portfolioReturnPct: number
   portfolioImpactEur: number
   realDataWeightPct: number
-  positions: Array<{ symbol: string; weightPct: number; returnPct: number; source: 'history' | 'beta' }>
+  proxyDataWeightPct: number
+  positions: Array<{ symbol: string; weightPct: number; returnPct: number; source: 'history' | 'proxy' | 'beta' }>
 }
 
 interface FactorPayload {
@@ -259,14 +260,19 @@ export default function QuantSection({
 
   const hasBothCharts = !!data.monteCarlo && !!data.factorRegression
 
+  // Negatives Cash ist ein Kredit: Verluste treffen dann das Eigenkapital stärker
+  const securitiesValue = data.monteCarlo?.startValue ?? holdings.reduce((sum, h) => sum + (h.value || 0), 0)
+  const borrowed = Math.max(0, -cashPosition)
+  const equity = securitiesValue - borrowed
+
   return (
     <div className="space-y-5">
-      {data.stressTests.length > 0 && <StressTestCard tests={data.stressTests} formatCurrency={formatCurrency} />}
+      {data.stressTests.length > 0 && <StressTestCard tests={data.stressTests} borrowed={borrowed} equity={equity} />}
       {data.correlation && <CorrelationCard corr={data.correlation} />}
       {/* Monte-Carlo + Faktoranalyse nebeneinander, sobald der Platz reicht */}
       {(data.monteCarlo || data.factorRegression) && (
         <div className={`grid grid-cols-1 gap-5 ${hasBothCharts ? 'xl:grid-cols-2' : ''}`}>
-          {data.monteCarlo && <MonteCarloCard mc={data.monteCarlo} />}
+          {data.monteCarlo && <MonteCarloCard mc={data.monteCarlo} borrowed={borrowed} formatCurrency={formatCurrency} />}
           {data.factorRegression && <FactorCard reg={data.factorRegression} />}
         </div>
       )}
@@ -278,7 +284,7 @@ export default function QuantSection({
 // Stresstests
 // =====================================================
 
-function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; formatCurrency: (n: number) => string }) {
+function StressTestCard({ tests, borrowed, equity }: { tests: StressPayload[]; borrowed: number; equity: number }) {
   const [expanded, setExpanded] = useState<string | null>(null)
 
   return (
@@ -290,7 +296,8 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
         </h3>
         <p className="text-[11px] text-neutral-500 mt-0.5">
           Wie hätte sich dein heutiges Depot in echten Krisen geschlagen? Gemessen an den tatsächlichen
-          Kursen von damals (EUR-Sicht). Positionen, die es noch nicht gab, werden über ihr Beta genähert.
+          Kursen von damals (EUR-Sicht). Für Positionen, die es noch nicht gab, steht ein ähnlicher Indexfonds
+          oder eine Beta-Näherung.
         </p>
       </div>
 
@@ -309,6 +316,11 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
               </p>
               <p className={`text-[12px] tabular-nums mt-0.5 ${test.portfolioImpactEur < 0 ? 'text-red-400/80' : 'text-emerald-400/80'}`}>
                 {test.portfolioImpactEur > 0 ? '+' : ''}{formatCompactEur(test.portfolioImpactEur)}
+                {borrowed > 0 && equity > 0 && (
+                  <span className="text-neutral-500">
+                    {' '}· {((test.portfolioImpactEur / equity) * 100).toLocaleString('de-DE', { maximumFractionDigits: 0 })} % deines eigenen Geldes
+                  </span>
+                )}
               </p>
               <p className="text-[11px] text-neutral-500 mt-2 leading-relaxed">
                 {formatWindow(test.from, test.to)} · Markt (S&amp;P 500, EUR): {test.marketReturnPct.toLocaleString('de-DE', { maximumFractionDigits: 1 })}%
@@ -316,7 +328,9 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
               <p className="text-[10px] text-neutral-600 mt-1">
                 {test.realDataWeightPct >= 99.5
                   ? 'Vollständig aus echten Kursen von damals'
-                  : `${test.realDataWeightPct.toLocaleString('de-DE', { maximumFractionDigits: 0 })}% des Depots aus echten Kursen, Rest Beta-Näherung`}
+                  : `${test.realDataWeightPct.toLocaleString('de-DE', { maximumFractionDigits: 0 })}% des Depots aus echten Kursen${
+                      test.proxyDataWeightPct >= 0.5 ? `, ${test.proxyDataWeightPct.toLocaleString('de-DE', { maximumFractionDigits: 0 })}% über einen ähnlichen Indexfonds` : ''
+                    }${test.realDataWeightPct + test.proxyDataWeightPct < 99.5 ? ', Rest Beta-Näherung' : ''}`}
               </p>
 
               {isOpen && test.positions.length > 0 && (
@@ -326,6 +340,7 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
                       <span className="text-neutral-300 truncate">
                         {pos.symbol}
                         {pos.source === 'beta' && <span className="text-neutral-600 ml-1">(β)</span>}
+                        {pos.source === 'proxy' && <span className="text-neutral-600 ml-1">(Index)</span>}
                       </span>
                       <span className={`tabular-nums ml-2 ${pos.returnPct < 0 ? 'text-red-400' : 'text-emerald-400'}`}>
                         {pos.returnPct > 0 ? '+' : ''}{pos.returnPct.toLocaleString('de-DE', { maximumFractionDigits: 1 })}%
@@ -343,6 +358,7 @@ function StressTestCard({ tests, formatCurrency }: { tests: StressPayload[]; for
         Die Szenarien legen die Krisen-Kursverläufe auf deine heutige Depotstruktur (ohne Cash).
         Vergangene Krisen sind keine Garantie für künftige Verläufe. Sie zeigen die Größenordnung,
         die dein Depot verkraften können sollte. Klick auf ein Szenario zeigt die Positionen.
+        {borrowed > 0 && ' Dein Kredit bleibt in der Krise gleich hoch, der Verlust trifft deshalb dein eigenes Geld. Sinkt der Wert der Wertpapiere stark, kann dein Broker Verkäufe verlangen.'}
       </p>
     </div>
   )
@@ -389,7 +405,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
         <div>
           <h3 className="text-sm font-medium text-white">Korrelationsmatrix</h3>
           <p className="text-[11px] text-neutral-500 mt-0.5">
-            Gleichlauf der Tagesrenditen (EUR) deiner größten Positionen · +1 = identisch, 0 = unabhängig, −1 = gegenläufig
+            Gleichlauf der Wochenrenditen (EUR) deiner größten Positionen · +1 = identisch, 0 = unabhängig, −1 = gegenläufig
           </p>
         </div>
         {corr.avgPairwise !== null && (
@@ -432,7 +448,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
                         width: 40,
                         height: 26,
                       }}
-                      title={value === null ? 'Zu wenig gemeinsame Handelstage' : `${rowSymbol} × ${colSymbol}: ${formatDecimal(value, 2)}`}
+                      title={value === null ? 'Zu wenig gemeinsame Wochen' : `${rowSymbol} × ${colSymbol}: ${formatDecimal(value, 2)}`}
                     >
                       {value === null ? '–' : formatDecimal(value, 2).replace(/^(-?)0,/, '$1,')}
                     </td>
@@ -492,7 +508,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
 
       {diversificationHint && (
         <p className="text-[11px] text-neutral-500 leading-relaxed mt-4">
-          {diversificationHint} Basis: gemeinsame Handelstage der letzten 5 Jahre (min. {corr.minObs} Tage pro Paar);
+          {diversificationHint} Basis: gemeinsame Wochen der letzten 5 Jahre (min. {corr.minWeeks} pro Paar);
           Prozentwert = aktuelles Depotgewicht.
         </p>
       )}
@@ -504,7 +520,7 @@ function CorrelationCard({ corr }: { corr: CorrelationPayload }) {
 // Monte-Carlo-Projektion
 // =====================================================
 
-function MonteCarloCard({ mc }: { mc: MonteCarloPayload }) {
+function MonteCarloCard({ mc, borrowed, formatCurrency }: { mc: MonteCarloPayload; borrowed: number; formatCurrency: (n: number) => string }) {
   const chartData = useMemo(
     () =>
       mc.bands.map(b => ({
@@ -517,6 +533,10 @@ function MonteCarloCard({ mc }: { mc: MonteCarloPayload }) {
   )
 
   const end = mc.bands[mc.bands.length - 1]
+  // Was der Median pro Jahr unterstellt: die bisherige Rendite des Depots
+  const medianPerYear = mc.startValue > 0 && end.p50 > 0
+    ? (Math.pow(end.p50 / mc.startValue, 1 / mc.horizonYears) - 1) * 100
+    : null
 
   return (
     <div className="bg-theme-card border border-theme rounded-xl p-5">
@@ -596,6 +616,8 @@ function MonteCarloCard({ mc }: { mc: MonteCarloPayload }) {
         Keine Prognose: Die Simulation würfelt deine eigene historische Renditeverteilung in die Zukunft
         (Bootstrap, ohne Normalverteilungs-Annahme). Sie zeigt die Bandbreite, nicht den wahrscheinlichsten
         Einzelverlauf. „Verlust-Risiko" = Anteil der Verläufe unter dem heutigen Wert.
+        {medianPerYear !== null && ` Der Median unterstellt ${medianPerYear.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} % pro Jahr, so wie dein Depot in diesen ${mc.basedOnDays.toLocaleString('de-DE')} Handelstagen lief. Waren das gute Börsenjahre, fällt auch die Projektion zu gut aus.`}
+        {borrowed > 0 && ` Startwert sind deine Wertpapiere ohne den Kredit über ${formatCurrency(borrowed)}, Zinsen und Rückzahlung sind nicht eingerechnet.`}
       </p>
     </div>
   )

@@ -80,12 +80,21 @@ export interface StockQuote {
     }
   }
 
+  /** Berliner Datum zu einem Zeitstempel in Sekunden */
+  export function berlinTradingDay(seconds?: number | null): string | null {
+    const value = Number(seconds)
+    if (!(value > 0)) return null
+    return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin' }).format(new Date(value * 1000))
+  }
+
   // Full quote data including daily changes
   export interface BulkQuoteData {
     price: number
     change: number
     changesPercentage: number
     previousClose: number
+    /** Handelstag des Kurses (Berliner Datum), null = unbekannt */
+    tradedOn: string | null
   }
 
   export async function getBulkQuotesWithChanges(symbols: string[]): Promise<Record<string, BulkQuoteData>> {
@@ -109,7 +118,8 @@ export interface StockQuote {
               price: quote.price || 0,
               change: quote.change || 0,
               changesPercentage: quote.changesPercentage || 0,
-              previousClose: quote.previousClose || 0
+              previousClose: quote.previousClose || 0,
+              tradedOn: berlinTradingDay((quote as { timestamp?: number }).timestamp)
             }
           }
         })

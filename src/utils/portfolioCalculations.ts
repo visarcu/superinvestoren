@@ -1,6 +1,8 @@
 // src/utils/portfolioCalculations.ts
 // Pure Berechnungsfunktionen für Per-Symbol Portfolio-Performance
-// Verwendet die Durchschnittskostenmethode (Average Cost Method)
+// Einstand nach der gemeinsamen Regel in lib/portfolio/costBasis
+
+import { bookedAmount, findInternalTransfers, walkCostBasis } from '@/lib/portfolio/costBasis'
 
 export interface RealizedGainDetail {
   realizedGain: number
@@ -31,6 +33,10 @@ export interface SymbolPerformance {
 
 interface TransactionInput {
   id: string
+  /** Für die Sicht über mehrere Depots: Einstand je Depot */
+  portfolio_id?: string | null
+  symbol?: string | null
+  notes?: string | null
   type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
   quantity: number
   price: number
@@ -51,11 +57,6 @@ export function calculateSymbolPerformance(
   transactions: TransactionInput[],
   currentPriceEUR: number
 ): SymbolPerformance {
-  // Chronologisch sortieren (älteste zuerst)
-  const sorted = [...transactions].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  )
-
   let totalShares = 0
   let totalCost = 0
   let totalRealizedGain = 0
@@ -63,57 +64,33 @@ export function calculateSymbolPerformance(
   let totalInvested = 0
   const realizedGainByTxId = new Map<string, RealizedGainDetail>()
 
-  for (const tx of sorted) {
-    if (tx.type === 'buy' || tx.type === 'transfer_in') {
-      const fee = Number(tx.fee) || 0
-      totalShares += tx.quantity
-      // Gebühren erhöhen die Kostenbasis (wie Parqet)
-      totalCost += tx.quantity * tx.price + fee
-      totalInvested += tx.quantity * tx.price + fee
-    } else if (tx.type === 'sell') {
-      if (totalShares <= 0) continue
+  // Alle Buchungen gehören zu EINEM Symbol, auch wenn das Feld fehlt. Der Umzug
+  // im selben Depot zählt nicht als neue Investition.
+  const entries = transactions.map(tx => ({ ...tx, symbol: tx.symbol || 'POSITION' }))
+  const internal = findInternalTransfers(entries)
 
-      const fee = Number(tx.fee) || 0
-      const avgCostPerShare = totalCost / totalShares
+  const positions = walkCostBasis(entries, ({ tx, avgBefore, quantity, cost }) => {
+    if (tx.type === 'buy' || (tx.type === 'transfer_in' && !internal.has(tx))) {
+      totalInvested += cost
+    } else if (tx.type === 'sell' && quantity > 0) {
       // Verkaufsgebühren reduzieren den realisierten Gewinn
-      const realizedGain = (tx.price - avgCostPerShare) * tx.quantity - fee
-      const netPricePerShare = tx.quantity > 0 ? tx.price - fee / tx.quantity : tx.price
-      const realizedGainPercent = avgCostPerShare > 0
-        ? ((netPricePerShare - avgCostPerShare) / avgCostPerShare) * 100
-        : 0
-
+      const fee = Math.abs(Number(tx.fee) || 0)
+      const proceedsPerShare = tx.quantity > 0 ? (bookedAmount(tx) - fee) / tx.quantity : 0
+      const realizedGain = (proceedsPerShare - avgBefore) * quantity
       totalRealizedGain += realizedGain
       realizedGainByTxId.set(tx.id, {
         realizedGain,
-        avgCostBasis: avgCostPerShare,
-        realizedGainPercent,
+        avgCostBasis: avgBefore,
+        realizedGainPercent: avgBefore > 0 ? ((proceedsPerShare - avgBefore) / avgBefore) * 100 : 0,
       })
-
-      // Kostenbasis reduzieren
-      totalShares -= tx.quantity
-      totalCost -= tx.quantity * avgCostPerShare
-
-      // Floating-Point Guard
-      if (totalShares <= 0.0001) {
-        totalShares = 0
-        totalCost = 0
-      }
-    } else if (tx.type === 'transfer_out') {
-      // Depotübertrag: Bestand reduzieren, aber KEIN realisierter Gewinn/Verlust
-      if (totalShares <= 0) continue
-
-      const avgCostPerShare = totalCost / totalShares
-      totalShares -= tx.quantity
-      totalCost -= tx.quantity * avgCostPerShare
-
-      // Floating-Point Guard
-      if (totalShares <= 0.0001) {
-        totalShares = 0
-        totalCost = 0
-      }
-    } else if (tx.type === 'dividend') {
-      totalDividends += tx.total_value
     }
+  })
+  for (const position of positions.values()) {
+    totalShares += position.shares
+    totalCost += position.cost
+  }
+  for (const tx of transactions) {
+    if (tx.type === 'dividend') totalDividends += tx.total_value
   }
 
   // Unrealisierter Gewinn der verbleibenden Position

@@ -176,7 +176,7 @@ export default function RealizedGainsModal({
                       <Detail label="Verkauf" value={formatCurrency(row.tx.price)} />
                       <Detail label="Kostenbasis" value={formatCurrency(row.costBasis)} />
                       <Detail
-                        label={row.fee > 0 ? 'Erlös / Gebühr' : 'Erlös'}
+                        label={row.fee > 0 ? 'Erlös / Kosten' : 'Erlös'}
                         value={row.fee > 0 ? `${formatCurrency(row.proceeds)} / ${formatCurrency(row.fee)}` : formatCurrency(row.proceeds)}
                       />
                     </dl>

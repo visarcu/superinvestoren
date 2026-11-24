@@ -196,6 +196,7 @@ export function DepotCards({ depots, selectedId, values, onSelect, formatCurrenc
 export function DepotOverviewCard({
   depots,
   summaries,
+  dayLabel,
   onSelect,
   onImport,
   formatCurrency,
@@ -203,6 +204,8 @@ export function DepotOverviewCard({
 }: {
   depots: Portfolio[]
   summaries: Map<string, DepotSummary>
+  /** "Heute" oder der letzte Handelstag */
+  dayLabel: string
   onSelect: (depotId: string) => void
   onImport: (depotId: string) => void
   formatCurrency: (value: number) => string
@@ -227,7 +230,7 @@ export function DepotOverviewCard({
       <div className={`${rowGrid} hidden pb-2 text-[11px] text-theme-muted sm:grid`}>
         <span>Depot</span>
         <span className="text-right">Wert</span>
-        <span className="text-right">Heute</span>
+        <span className="text-right">{dayLabel}</span>
         <span className="text-right">Gesamtrendite</span>
       </div>
 
@@ -289,7 +292,7 @@ export function DepotOverviewCard({
                 {value === undefined ? '…' : formatCurrency(value)}
               </span>
               <span className={`pl-11 text-[12px] tabular-nums sm:pl-0 sm:text-right sm:text-[13px] ${perfColor(summary?.dayGainLoss ?? 0)}`}>
-                <span className="mr-1 text-theme-muted sm:hidden">Heute</span>
+                <span className="mr-1 text-theme-muted sm:hidden">{dayLabel}</span>
                 {summary ? signed(summary.dayGainLoss) : ''}
               </span>
               <span className={`text-right text-[12px] tabular-nums sm:text-[13px] ${perfColor(summary?.totalReturn ?? 0)}`}>

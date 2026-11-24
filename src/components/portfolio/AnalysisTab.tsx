@@ -46,7 +46,8 @@ function detectCurrency(symbol: string): string {
 
 // Asset-Klasse ableiten
 function detectAssetClass(symbol: string, name: string): 'ETF' | 'Aktie' {
-  const isEtf = isETF(symbol) || /etf|index|fund/i.test(name)
+  // "UCITS" auch ohne das Wort ETF im Namen ("Vanguard S&P 500 UCITS Acc")
+  const isEtf = isETF(symbol) || /\b(ucits|etf|etfs|index|fund)\b/i.test(name)
   return isEtf ? 'ETF' : 'Aktie'
 }
 
@@ -162,7 +163,7 @@ export default function AnalysisTab({
     for (const h of holdings) {
       // ETFs erstmal als "ETF" gruppieren — sektoraler Breakdown ist komplex
       let sector: string
-      if (isETF(h.symbol)) {
+      if (detectAssetClass(h.symbol, h.name) === 'ETF') {
         sector = 'ETFs / Fonds'
       } else {
         sector = translateSector(getSectorFromTicker(h.symbol)) || 'Sonstige'
@@ -301,12 +302,15 @@ export default function AnalysisTab({
         />
       </div>
 
-      {/* Sektor-Verteilung */}
-      <AggregationCard
-        title="Sektor-Verteilung"
-        subtitle="Aktien nach Sektor (ETFs werden gruppiert)"
-        items={sectors}
-      />
+      {/* Sektor-Verteilung, nur ohne Durchblick. Der zerlegt ETFs nach Sektoren
+          und zeigte daneben andere Zahlen für dasselbe Depot. */}
+      {!lookthrough?.loading && !(lookthrough?.result?.sectors.length) && (
+        <AggregationCard
+          title="Sektor-Verteilung"
+          subtitle="Aktien nach Sektor (ETFs werden gruppiert)"
+          items={sectors}
+        />
+      )}
 
       {/* Top + Worst Performer */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

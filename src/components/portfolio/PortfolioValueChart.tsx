@@ -1,7 +1,7 @@
 // src/components/portfolio/PortfolioValueChart.tsx
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -160,6 +160,14 @@ function formatDiffPct(value: number): string {
   })
 }
 
+// Jahresübergreifende Zeiträume: "Jan. 25" statt "07. Jan."
+function formatRangeLabel(dateStr: string, range: TimeRange): string {
+  const d = new Date(dateStr)
+  return range === '1Y' || range === 'MAX'
+    ? d.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
+    : d.toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
+}
+
 export default function PortfolioValueChart({
   portfolioId,
   portfolioIds,
@@ -170,7 +178,8 @@ export default function PortfolioValueChart({
 }: PortfolioValueChartProps) {
   const [selectedRange, setSelectedRange] = useState<TimeRange>('MAX')
   const [chartView, setChartView] = useState<ChartView>('value')
-  const [valueData, setValueData] = useState<ValueDataPoint[]>([])
+  // Verlauf aus der API, ohne den aktuellen Stand (kommt in valueData dazu)
+  const [historyData, setHistoryData] = useState<ValueDataPoint[]>([])
   const [performanceData, setPerformanceData] = useState<PerformanceDataPoint[]>([])
   const [comparison, setComparison] = useState<BenchmarkComparison | null>(null)
   const [risk, setRisk] = useState<RiskMeasuresPayload | null>(null)
@@ -184,121 +193,111 @@ export default function PortfolioValueChart({
   const [cashLedger, setCashLedger] = useState<'ok' | 'missing' | 'mismatch' | null>(null)
   const [loading, setLoading] = useState(true)
 
-  const fetchData = useCallback(async () => {
-    if (holdings.length === 0) {
-      setValueData([])
+  // MAX: 15 Jahre erlauben — Backend trimmt auf das erste Transaktionsdatum,
+  // sodass nur die tatsächlich relevante Historie geladen wird.
+  const days = { '1M': 30, '3M': 90, '6M': 180, '1Y': 365, 'MAX': 5475 }[selectedRange]
+
+  // Positionen kommen bei jedem Rendern als neues Array an. Geladen wird nur,
+  // wenn sich die Anfrage wirklich ändert, sonst lief sie beim Öffnen viermal.
+  const requestBody = holdings.length === 0 ? null : JSON.stringify({
+    // Bei Alle-Depots-Ansicht: echte UUIDs aller Portfolios durchreichen.
+    // Sonst würde die API die synthetische 'all'-ID als UUID interpretieren
+    // und keine Transaktionen finden → Chart fällt auf Holdings-Fallback
+    // zurück und zählt Symbole nur einfach statt aggregiert.
+    portfolioId: portfolioIds && portfolioIds.length > 0 ? undefined : portfolioId,
+    portfolioIds,
+    holdings: holdings.map(h => ({
+      portfolio_id: h.portfolio_id,
+      symbol: h.symbol,
+      quantity: h.quantity,
+      purchase_date: h.purchase_date,
+      purchase_price: h.purchase_price
+    })),
+    cashPosition,
+    days
+  })
+
+  useEffect(() => {
+    if (!requestBody) {
+      setHistoryData([])
       setPerformanceData([])
       setComparison(null)
       setLoading(false)
       return
     }
 
+    let cancelled = false
     setLoading(true)
 
-    // MAX: 15 Jahre erlauben — Backend trimmt auf das erste Transaktionsdatum,
-    // sodass nur die tatsächlich relevante Historie geladen wird.
-    const days = { '1M': 30, '3M': 90, '6M': 180, '1Y': 365, 'MAX': 5475 }[selectedRange]
+    const load = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (!session?.access_token) throw new Error('Nicht angemeldet')
 
-    try {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session?.access_token) throw new Error('Nicht angemeldet')
-
-      const response = await fetch('/api/portfolio-history', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify({
-          // Bei Alle-Depots-Ansicht: echte UUIDs aller Portfolios durchreichen.
-          // Sonst würde die API die synthetische 'all'-ID als UUID interpretieren
-          // und keine Transaktionen finden → Chart fällt auf Holdings-Fallback
-          // zurück und zählt Symbole nur einfach statt aggregiert.
-          portfolioId: portfolioIds && portfolioIds.length > 0 ? undefined : portfolioId,
-          portfolioIds,
-          holdings: holdings.map(h => ({
-            portfolio_id: h.portfolio_id,
-            symbol: h.symbol,
-            quantity: h.quantity,
-            purchase_date: h.purchase_date,
-            purchase_price: h.purchase_price
-          })),
-          cashPosition,
-          days
+        const response = await fetch('/api/portfolio-history', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: requestBody
         })
-      })
 
-      if (!response.ok) throw new Error('API Error')
-      const result = await response.json()
+        if (!response.ok) throw new Error('API Error')
+        const result = await response.json()
+        // Antwort auf einen inzwischen abgewählten Zeitraum
+        if (cancelled) return
 
-      // Jahresübergreifende Ranges: Jahr im Label zeigen
-      const spansMultipleYears = ['1Y', 'MAX'].includes(selectedRange)
-      const formatLabel = (dateStr: string) => {
-        const d = new Date(dateStr)
-        if (spansMultipleYears) {
-          // "Jan. 25" statt "07. Jan." — kompakt mit Jahr
-          return d.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
-        }
-        return d.toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
-      }
-
-      // Modus VOR dem Live-Punkt bestimmen: die historische Serie enthält Cash
-      // nur im 'deposits'-Modus. Im 'cost_basis'-Modus (Serie = nur Wertpapiere)
-      // darf der Live-Punkt das Cash nicht addieren — sonst springt der letzte
-      // Punkt um die Cash-Position (bei negativem Cash: nach unten).
-      const mode: 'deposits' | 'cost_basis' =
-        result.meta?.investedMode === 'deposits' ? 'deposits' : 'cost_basis'
-
-      if (result.data) {
-        const mappedData = result.data.map((d: any) => ({
-          ...d,
-          label: formatLabel(d.date)
-        }))
-
-        const securitiesValue = holdings.reduce((sum, h) => sum + (Number(h.current_value) || 0), 0)
-        const livePortfolioValue = mode === 'deposits' ? securitiesValue + cashPosition : securitiesValue
-        if (mappedData.length > 0 && livePortfolioValue > 0) {
-          const today = new Date().toISOString().split('T')[0]
-          const last = mappedData[mappedData.length - 1]
-          const livePoint = {
-            ...last,
-            date: today,
-            label: formatLabel(today),
-            value: Math.round(livePortfolioValue * 100) / 100,
-            performance: last.invested > 0
-              ? Math.round(((livePortfolioValue - last.invested) / last.invested) * 10000) / 100
-              : 0,
-          }
-
-          if (last.date === today) mappedData[mappedData.length - 1] = livePoint
-          else mappedData.push(livePoint)
+        // Modus VOR dem Live-Punkt bestimmen: die historische Serie enthält Cash
+        // nur im 'deposits'-Modus. Im 'cost_basis'-Modus (Serie = nur Wertpapiere)
+        // darf der Live-Punkt das Cash nicht addieren — sonst springt der letzte
+        // Punkt um die Cash-Position (bei negativem Cash: nach unten).
+        setInvestedMode(result.meta?.investedMode === 'deposits' ? 'deposits' : 'cost_basis')
+        if (result.data) setHistoryData(result.data)
+        if (result.performanceData) {
+          setPerformanceData(result.performanceData.map((d: any) => ({
+            ...d,
+            label: formatRangeLabel(d.date, selectedRange)
+          })))
         }
 
-        setValueData(mappedData)
+        setComparison(result.benchmarkComparison || null)
+        setRisk(result.riskMeasures || null)
+        setRiskLocked(!!result.riskMeasuresLocked)
+        setCashLedger(result.meta?.cashLedger ?? null)
+      } catch (error) {
+        if (!cancelled) console.error('Chart data fetch error:', error)
+      } finally {
+        if (!cancelled) setLoading(false)
       }
-
-      if (result.performanceData) {
-        setPerformanceData(result.performanceData.map((d: any) => ({
-          ...d,
-          label: formatLabel(d.date)
-        })))
-      }
-
-      setComparison(result.benchmarkComparison || null)
-      setRisk(result.riskMeasures || null)
-      setRiskLocked(!!result.riskMeasuresLocked)
-      setInvestedMode(mode)
-      setCashLedger(result.meta?.cashLedger ?? null)
-    } catch (error) {
-      console.error('Chart data fetch error:', error)
-    } finally {
-      setLoading(false)
     }
-  }, [portfolioId, portfolioIds, holdings, cashPosition, selectedRange])
+    load()
+    return () => { cancelled = true }
+    // selectedRange steckt über days in requestBody
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requestBody])
 
-  useEffect(() => {
-    fetchData()
-  }, [fetchData])
+  // Aktueller Stand als letzter Punkt
+  const securitiesValue = holdings.reduce((sum, h) => sum + (Number(h.current_value) || 0), 0)
+  const valueData = useMemo<ValueDataPoint[]>(() => {
+    const points = historyData.map(d => ({ ...d, label: formatRangeLabel(d.date, selectedRange) }))
+    const liveValue = investedMode === 'deposits' ? securitiesValue + cashPosition : securitiesValue
+    if (points.length === 0 || !(liveValue > 0)) return points
+    const today = new Date().toISOString().split('T')[0]
+    const last = points[points.length - 1]
+    const livePoint = {
+      ...last,
+      date: today,
+      label: formatRangeLabel(today, selectedRange),
+      value: Math.round(liveValue * 100) / 100,
+      performance: last.invested > 0
+        ? Math.round(((liveValue - last.invested) / last.invested) * 10000) / 100
+        : 0,
+    }
+    if (last.date === today) points[points.length - 1] = livePoint
+    else points.push(livePoint)
+    return points
+  }, [historyData, securitiesValue, cashPosition, investedMode, selectedRange])
 
   const lastPerf = performanceData.length > 0 ? performanceData[performanceData.length - 1] : null
 
@@ -346,8 +345,11 @@ export default function PortfolioValueChart({
     `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
 
   // Beide Kapital-Linien nur zeigen, wenn sie sich tatsächlich unterscheiden —
-  // ohne Reinvestitionen liegen Kostenbasis und Einzahlungen aufeinander.
-  const hasCapitalLines = valueData.some(p => p.costBasis !== undefined)
+  // ohne Reinvestitionen liegen Kostenbasis und Einzahlungen aufeinander. Mit
+  // Kredit ist der Depotwert netto, der Einstand der Wertpapiere läge weit
+  // darüber und sähe wie ein Verlust aus: dann nur das eingezahlte Kapital.
+  const hasCapitalLines = valueData.some(p => p.costBasis !== undefined) &&
+    !(investedMode === 'deposits' && cashPosition < 0)
   const showContributedLine = hasCapitalLines &&
     valueData.some(p => Math.abs((p.contributed ?? 0) - (p.costBasis ?? 0)) > 1)
 
@@ -356,7 +358,7 @@ export default function PortfolioValueChart({
     const point = payload[0]?.payload as ValueDataPoint | undefined
     if (!point) return null
 
-    const hasBoth = point.costBasis !== undefined && point.contributed !== undefined
+    const hasBoth = hasCapitalLines && point.costBasis !== undefined && point.contributed !== undefined
     // Gesamtgewinn immer gegen die Einzahlungen — die Differenz zur Kostenbasis
     // wäre nur der unrealisierte Gewinn auf den aktuellen Bestand.
     const reference = hasBoth ? point.contributed! : point.invested
@@ -447,7 +449,7 @@ export default function PortfolioValueChart({
                   : 'text-theme-muted hover:text-theme-secondary'
               }`}
             >
-              {range}
+              {range === '1Y' ? '1J' : range === 'MAX' ? 'Max' : range}
             </button>
           ))}
         </div>

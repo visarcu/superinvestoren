@@ -23,7 +23,6 @@ import { leaveDepotHref } from '@/lib/siteHosts'
 interface PositionsTableProps {
   holdings: Holding[]
   cashPosition: number
-  totalValue: number
   formatCurrency: (amount: number) => string
   formatStockPrice: (price: number) => string
   formatPercentage: (value: number) => string
@@ -159,7 +158,6 @@ interface GroupedPosition {
 export default function PositionsTable({
   holdings,
   cashPosition,
-  totalValue,
   formatCurrency,
   formatStockPrice,
   formatPercentage,
@@ -277,7 +275,17 @@ export default function PositionsTable({
     }
   }
 
+  // Anteile beziehen sich auf Wertpapiere plus Guthaben. Ein Kredit macht die
+  // Positionen nicht größer: Gegen den Depotwert nach Kredit gerechnet, hatte
+  // derselbe ETF hier 56,9 % und in der Allokation 37,6 %.
+  const securitiesValue = useMemo(() => holdings.reduce((sum, h) => sum + h.value, 0), [holdings])
+  const shareBase = securitiesValue + Math.max(0, cashPosition)
+
   const getHoldingReturn = (holding: Holding) => {
+    // Tagesveränderung wie im Kopf der Seite, damit die Spalte dessen Summe ergibt
+    if (returnRange === '1D') {
+      return { amount: holding.day_change_value, percent: holding.day_change_percent, hasPeriod: true }
+    }
     const period = getPeriodReturn(holding.symbol, holding.quantity, holding.current_price_display)
     return {
       amount: period?.change ?? holding.gain_loss,
@@ -287,6 +295,11 @@ export default function PositionsTable({
   }
 
   const getGroupedReturn = (group: GroupedPosition) => {
+    if (returnRange === '1D') {
+      const amount = group.holdings.reduce((sum, h) => sum + (h.day_change_value || 0), 0)
+      const before = group.totalValue - amount
+      return { amount, percent: before > 0 ? (amount / before) * 100 : 0, hasPeriod: true }
+    }
     const period = getPeriodReturn(group.symbol, group.totalQuantity, group.currentPriceDisplay)
     return {
       amount: period?.change ?? group.gainLoss,
@@ -402,7 +415,7 @@ export default function PositionsTable({
     const encodedReturnTo = encodeURIComponent(returnTo)
 
     if (portfolioId) {
-      router.push(`/analyse/portfolio/stocks/${symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue}&returnTo=${encodedReturnTo}`)
+      router.push(`/analyse/portfolio/stocks/${symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${shareBase}&returnTo=${encodedReturnTo}`)
     } else {
       router.push(leaveDepotHref(`/analyse/stocks/${symbol.toLowerCase()}`))
     }
@@ -424,7 +437,7 @@ export default function PositionsTable({
 
   // Einzelne Position Row (für Nicht-Alle-Depots oder Sub-Rows)
   const renderHoldingRow = (holding: Holding, index: number, isSubRow: boolean = false) => {
-    const percentage = totalValue > 0 ? (holding.value / totalValue) * 100 : 0
+    const percentage = shareBase > 0 ? (holding.value / shareBase) * 100 : 0
     const displayReturn = getHoldingReturn(holding)
     const depotName = holding.portfolio_name
       ? getBrokerDisplayName(holding.broker_type, holding.broker_name)
@@ -595,7 +608,7 @@ export default function PositionsTable({
     const isExpanded = expandedSymbols.has(group.symbol)
     const ghostDepots = getGhostDepotsForSymbol(group.symbol, group.holdings)
     const hasMultipleDepots = group.holdings.length + ghostDepots.length > 1
-    const percentage = totalValue > 0 ? (group.totalValue / totalValue) * 100 : 0
+    const percentage = shareBase > 0 ? (group.totalValue / shareBase) * 100 : 0
     const displayReturn = getGroupedReturn(group)
 
     return (
@@ -846,9 +859,9 @@ export default function PositionsTable({
                 <CurrencyDollarIcon className={`w-4 h-4 ${cashPosition < 0 ? 'text-red-400' : 'text-neutral-400'}`} />
               </div>
               <div>
-                <span className="font-medium text-white text-sm">Cash</span>
+                <span className="font-medium text-white text-sm">{cashPosition < 0 ? 'Kredit' : 'Cash'}</span>
                 <p className="text-xs text-neutral-500">
-                  {cashPosition < 0 ? 'Kredit/Margin' : 'Verfügbar'}
+                  {cashPosition < 0 ? 'Beim Broker' : 'Verfügbar'}
                 </p>
               </div>
             </div>
@@ -866,7 +879,7 @@ export default function PositionsTable({
             {/* Anteil */}
             <div className="col-span-1 text-right hidden sm:block">
               {(() => {
-                const cashPercent = totalValue > 0 ? (cashPosition / totalValue) * 100 : 0
+                const cashPercent = shareBase > 0 ? (cashPosition / shareBase) * 100 : 0
                 return (
                   <>
                     <p className={`text-xs font-medium ${cashPercent < 0 ? 'text-red-400/70' : 'text-neutral-400'}`}>{formatDecimal(cashPercent, 1)}%</p>

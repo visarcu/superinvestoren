@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getDailyHistory, getFxHistory } from '@/lib/marketData/history'
 import { calculatePortfolioTwrByDate } from '@/lib/portfolioTwr'
+import { withoutInternalTransfers } from '@/lib/portfolio/costBasis'
 
 interface HoldingInput {
   symbol: string
@@ -107,7 +108,9 @@ export async function POST(request: NextRequest) {
       }
 
       if (txs.length > 0) {
-        allTransactions = txs as Transaction[]
+        // Umzüge im selben Depot (Lagerstellenwechsel) sind kein Ab- und Zugang,
+        // sonst bricht der Verlauf für die Tage dazwischen ein
+        allTransactions = withoutInternalTransfers(txs)
         for (const tx of allTransactions) {
           if (!tx.symbol || tx.symbol === 'CASH') continue
           if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) continue
