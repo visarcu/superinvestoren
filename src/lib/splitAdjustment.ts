@@ -28,9 +28,25 @@ export function splitAppliedNote(ratio: number, splitDate: string): string {
   return `Aktiensplit ${formatSplitLabel(ratio)} vom ${splitDate} verrechnet`
 }
 
+export interface AppliedSplit {
+  date: string
+  /** neue Stücke je altem Stück */
+  ratio: number
+}
+
 // Ein Split steht nicht überall unter demselben Tag: Kursanbieter nennen den
 // Ex-Tag, der Broker seine Buchung (Booking 25:1: 06.04.2026 und 07.04.2026).
 const SAME_SPLIT_DAYS = 10
+
+/** Liegen zwei Termine so nah beieinander, dass sie denselben Split meinen können? */
+export function isNearSplitDate(a: string, b: string): boolean {
+  return Math.abs(Date.parse(a) - Date.parse(b)) <= SAME_SPLIT_DAYS * 86400000
+}
+
+/** Derselbe Split, auch wenn zwei Quellen ihn unter nahen Tagen führen. */
+export function isSameSplit(a: AppliedSplit, b: AppliedSplit): boolean {
+  return isNearSplitDate(a.date, b.date) && Math.abs(a.ratio / b.ratio - 1) < 0.01
+}
 
 /**
  * Prüft, ob eine Transaktion den Split zu diesem Datum bereits verrechnet hat.
@@ -46,10 +62,7 @@ export function hasSplitApplied(
   if (!notes) return false
   if (notes.includes('Aktiensplit') && notes.includes(`vom ${splitDate} verrechnet`)) return true
   if (!ratio) return false
-  return appliedSplits(notes).some(split =>
-    Math.abs(Date.parse(split.date) - Date.parse(splitDate)) <= SAME_SPLIT_DAYS * 86400000 &&
-    Math.abs(split.ratio / ratio - 1) < 0.01
-  )
+  return appliedSplits(notes).some(split => isSameSplit(split, { date: splitDate, ratio }))
 }
 
 /** Note anhängen (bestehende Notes bleiben erhalten). */
@@ -72,7 +85,7 @@ export function stripSplitMarkers(notes: string | null | undefined): string {
 }
 
 /** Die Splits, die diese Buchung laut ihren Marker-Notes schon verrechnet hat. */
-export function appliedSplits(notes: string | null | undefined): { date: string; ratio: number }[] {
+export function appliedSplits(notes: string | null | undefined): AppliedSplit[] {
   return [...(notes || '').matchAll(/Aktiensplit ([\d.]+):([\d.]+) vom (\d{4}-\d{2}-\d{2}) verrechnet/g)]
     .map(([, from, to, date]) => ({ date, ratio: Number(to) / Number(from) }))
     .filter(split => split.ratio > 0)

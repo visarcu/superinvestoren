@@ -37,6 +37,101 @@ export interface Freedom24TradeReportResult {
   stockSplits: StockSplit[]
 }
 
+export interface Freedom24ReportFile {
+  /** Blattname → Zeilen (sheet_to_json) */
+  sheets: Record<string, Record<string, unknown>[]>
+  fileName: string
+}
+
+interface SourceRow {
+  row: Record<string, unknown>
+  /** Fundstelle für Fehlermeldungen, z.B. "Corpactions Zeile 5" */
+  where: string
+}
+
+function valueText(value: unknown): string {
+  if (value instanceof Date) return Number.isNaN(value.getTime()) ? '' : value.toISOString()
+  return String(value ?? '').trim()
+}
+
+// Spaltennamen stehen im Export mit oder ohne Leerzeichen
+function cellText(row: Record<string, unknown>, column: string): string {
+  return valueText(row[` ${column} `] ?? row[column])
+}
+
+// Spalte "Nummer / Auftragsnummer", z.B. "123456789/987654321": Trade- und Ordernummer
+function tradeNumber(row: Record<string, unknown>): string {
+  return cellText(row, 'Nummer / Auftragsnummer').match(/^[1-9]\d*/)?.[0] ?? ''
+}
+
+/**
+ * Schlüssel, an dem eine Zeile in einer zweiten Datei wiedererkannt wird.
+ *
+ * Für Trades ist das die Tradenummer. Sie steht für die einzelne Ausführung, die
+ * Ordernummer dahinter für den ganzen Auftrag, den Teilausführungen gemeinsam
+ * hätten. In echten Exporten war sie in jeder Zeile verschieden und für denselben
+ * Trade im Handelsbericht, in dessen Gebührenblatt und im Steuerbericht gleich. Die
+ * Uhrzeit reicht nicht: Im Gebührenblatt tragen zwei Trades dieselbe Sekunde.
+ *
+ * Corporate Actions und Geldbewegungen haben weder Nummer noch Uhrzeit, dort zählt
+ * die ganze Zeile. In zwei Exporten im Abstand von sechs Wochen waren die
+ * gemeinsamen Zeilen Zelle für Zelle gleich. Das Konto aus dem Blattnamen
+ * ("Corpactions 1234567 - 20260418") gehört dazu, das Datum des Exports nicht.
+ */
+function bookingKey(sheetName: string, row: Record<string, unknown>): string {
+  const trade = tradeNumber(row)
+  if (trade) return trade
+  const account = sheetName.match(/(\S+)\s+-\s*\d*\s*$/)?.[1] ?? sheetName
+  return JSON.stringify([account, ...Object.entries(row).map(([column, value]) => [column.trim(), valueText(value)])])
+}
+
+/**
+ * Zeilen gleichartiger Blätter aller Dateien. Was schon in einer vorigen Datei
+ * stand, zählt nicht noch einmal. Verglichen wird nur zwischen Dateien: Innerhalb
+ * einer Datei ist jede Zeile eine eigene Buchung, auch zwei gleiche Überweisungen
+ * am selben Tag.
+ *
+ * Mehrere Dateien werden anschließend sortiert wie ein Export von Freedom24 (Trades
+ * nach Ticker und Uhrzeit, alles andere nach Datum), damit die Reihenfolge der
+ * Auswahl keine Rolle spielt.
+ */
+function mergeRows(
+  files: Freedom24ReportFile[],
+  pickSheets: (sheetNames: string[]) => string[],
+  place: (sheetName: string, line: number) => string,
+  // Schlüssel → wie oft in einer der bisherigen Dateien
+  known = new Map<string, number>(),
+): SourceRow[] {
+  const rows: SourceRow[] = []
+
+  for (const { sheets, fileName } of files) {
+    const fileRows = new Map<string, number>()
+    for (const sheetName of pickSheets(Object.keys(sheets))) {
+      sheets[sheetName].forEach((row, i) => {
+        const key = bookingKey(sheetName, row)
+        const occurrence = (fileRows.get(key) ?? 0) + 1
+        fileRows.set(key, occurrence)
+        if (occurrence <= (known.get(key) ?? 0)) return
+        const where = place(sheetName, i + 2)
+        rows.push({ row, where: files.length > 1 ? `"${fileName}", ${where}` : where })
+      })
+    }
+    for (const [key, count] of fileRows) known.set(key, Math.max(count, known.get(key) ?? 0))
+  }
+
+  if (files.length > 1) {
+    const order = ({ row }: SourceRow) => [
+      tradeNumber(row) ? cellText(row, 'Ticker') : '',
+      cellText(row, 'Transaktionsdatum') || cellText(row, 'Datum'),
+      tradeNumber(row).padStart(20, '0'),
+    ].join('\t')
+    const ordered = rows.map(entry => ({ entry, key: order(entry) }))
+    ordered.sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0))
+    return ordered.map(({ entry }) => entry)
+  }
+  return rows
+}
+
 /**
  * Erkennt ob ein XLSX-Workbook ein Freedom24 Handelsbericht ist.
  * Unterscheidung vom Steuerbericht: "Trades ..." statt "ExecTrades ..."
@@ -52,7 +147,7 @@ export function isFreedom24TradeReport(sheetNames: string[]): boolean {
  * Parst Trades-Sheet des Handelsberichts.
  */
 function parseTrades(
-  rows: Record<string, unknown>[],
+  rows: SourceRow[],
 ): { transactions: FlatexParsedTransaction[]; errors: string[] } {
   const transactions: FlatexParsedTransaction[] = []
   const errors: string[] = []
@@ -61,7 +156,7 @@ function parseTrades(
   // Handelsbericht: "EUR/USD" mit Preis 1.1525 → 1 EUR = 1.1525 USD → 1 USD = 1/1.1525 EUR
   // Handelsbericht: "EUR/GBP" mit Preis 0.86 → 1 EUR = 0.86 GBP → 1 GBP = 1/0.86 EUR
   const fxRates: Record<string, number[]> = {}
-  for (const row of rows) {
+  for (const { row } of rows) {
     const ticker = String(row[' Ticker '] ?? row['Ticker'] ?? '').trim()
     if (!ticker.includes('/')) continue
 
@@ -84,9 +179,7 @@ function parseTrades(
     avgFxRate[currency] = rates.reduce((a, b) => a + b, 0) / rates.length
   }
 
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i]
-
+  for (const { row, where } of rows) {
     const ticker      = String(row[' Ticker ']       ?? row['Ticker']       ?? '').trim()
     const isin        = String(row[' ISIN ']         ?? row['ISIN']         ?? '').trim()
     const transaktion = String(row[' Transaktion ']  ?? row['Transaktion']  ?? '').trim()
@@ -114,7 +207,7 @@ function parseTrades(
       const dateStr = String(datumRaw ?? '').trim()
       const m = dateStr.match(/^(\d{4}-\d{2}-\d{2})/)
       if (m) date = m[1]
-      else { errors.push(`Zeile ${i + 2}: Ungültiges Datum "${dateStr}".`); continue }
+      else { errors.push(`${where}: Ungültiges Datum "${dateStr}".`); continue }
     }
 
     const quantity  = parseFloat(String(anzahlRaw))  || 0
@@ -123,7 +216,7 @@ function parseTrades(
     const fees      = parseFloat(String(gebuehrRaw))  || 0
 
     if (quantity <= 0) {
-      errors.push(`Zeile ${i + 2}: Ungültige Anzahl für ${ticker}.`)
+      errors.push(`${where}: Ungültige Anzahl für ${ticker}.`)
       continue
     }
 
@@ -136,7 +229,7 @@ function parseTrades(
         priceEUR = priceOrig * rate
         totalEUR = betrag * rate
       } else {
-        errors.push(`Zeile ${i + 2}: Kein Wechselkurs für ${waehrung} gefunden (${ticker}).`)
+        errors.push(`${where}: Kein Wechselkurs für ${waehrung} gefunden (${ticker}).`)
         continue
       }
     }
@@ -175,7 +268,7 @@ function parseTrades(
  *             → wird als transfer_in der neuen Position importiert.
  */
 function parseCorpActions(
-  rows: Record<string, unknown>[],
+  rows: SourceRow[],
   fxRateUsdEur: number,
 ): { transactions: Freedom24Transaction[]; errors: string[]; stockSplits: StockSplit[] } {
   const transactions: Freedom24Transaction[] = []
@@ -183,7 +276,7 @@ function parseCorpActions(
   const stockSplits: StockSplit[] = []
 
   // Split-Zeilen sammeln: Key = ISIN|Datum, Werte = positive/negative Stückzahlen
-  const splitRows = new Map<string, { isin: string; date: string; inQty: number; outQty: number; row: number }>()
+  const splitRows = new Map<string, { isin: string; date: string; inQty: number; outQty: number; where: string }>()
 
   const toEUR = (value: number, waehrung: string): number => {
     if (waehrung === 'USD') return value * fxRateUsdEur
@@ -191,9 +284,7 @@ function parseCorpActions(
     return value
   }
 
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i]
-
+  for (const { row, where } of rows) {
     const art      = String(row[' Art ']      ?? row['Art']      ?? '').trim().toLowerCase()
     const ticker   = String(row[' Ticker ']   ?? row['Ticker']   ?? '').trim()
     const isin     = String(row[' ISIN ']     ?? row['ISIN']     ?? '').trim()
@@ -216,7 +307,7 @@ function parseCorpActions(
       const dateStr = String(datumRaw ?? '').trim()
       const m = dateStr.match(/^(\d{4}-\d{2}-\d{2})/)
       if (m) date = m[1]
-      else { errors.push(`Corpactions Zeile ${i + 2}: Ungültiges Datum.`); continue }
+      else { errors.push(`${where}: Ungültiges Datum.`); continue }
     }
 
     // Kommentar-Spalte: Name variiert je Report-Version → bekannte Keys
@@ -256,7 +347,7 @@ function parseCorpActions(
       // Betrag = Stückzahl-Delta (negativ = alte Stücke raus, positiv = neue rein)
       if (betrag === 0) continue
       const key = `${isin}|${date}`
-      const entry = splitRows.get(key) || { isin, date, inQty: 0, outQty: 0, row: i + 2 }
+      const entry = splitRows.get(key) || { isin, date, inQty: 0, outQty: 0, where }
       if (betrag > 0) entry.inQty += betrag
       else entry.outQty += Math.abs(betrag)
       splitRows.set(key, entry)
@@ -297,7 +388,7 @@ function parseCorpActions(
       stockSplits.push({ date: entry.date, isin: entry.isin, ratio: entry.inQty / entry.outQty })
     } else {
       errors.push(
-        `Corpactions Zeile ${entry.row}: Aktiensplit für ${entry.isin} unvollständig ` +
+        `${entry.where}: Aktiensplit für ${entry.isin} unvollständig ` +
         `(nur ${entry.inQty > 0 ? 'Einbuchung' : 'Ausbuchung'} gefunden) — bitte Bestand manuell prüfen.`
       )
     }
@@ -332,84 +423,81 @@ function cashArt(row: Record<string, unknown>): string {
  * einen Werte-Scan zurück. Positiver Betrag = Einzahlung, negativer = Auszahlung.
  */
 function parseCashTransfers(
-  sheets: Record<string, Record<string, unknown>[]>,
+  rows: SourceRow[],
   fxRateUsdEur: number,
 ): { transactions: Freedom24Transaction[]; errors: string[] } {
   const transactions: Freedom24Transaction[] = []
   const errors: string[] = []
 
-  for (const [sheetName, rows] of Object.entries(sheets)) {
-    for (let i = 0; i < rows.length; i++) {
-      const row = rows[i]
-      const art = cashArt(row)
-      if (!CASH_FLOW_ART.test(art)) continue
+  for (const { row, where } of rows) {
+    const art = cashArt(row)
+    if (!CASH_FLOW_ART.test(art)) continue
 
-      const values = Object.values(row)
+    const values = Object.values(row)
 
-      // Datum: bevorzugt aus " Datum "-Spalte, sonst erster Datumswert
-      let date = ''
-      const datumCell = row[' Datum '] ?? row['Datum'] ?? row[' Date '] ?? row['Date']
-      if (datumCell instanceof Date) date = datumCell.toISOString().slice(0, 10)
-      else if (typeof datumCell === 'string') {
-        const m = datumCell.trim().match(/^(\d{4}-\d{2}-\d{2})/)
-        if (m) date = m[1]
-      }
-      if (!date) {
-        for (const v of values) {
-          if (v instanceof Date) { date = v.toISOString().slice(0, 10); break }
-          if (typeof v === 'string') {
-            const m = v.trim().match(/^(\d{4}-\d{2}-\d{2})/)
-            if (m) { date = m[1]; break }
-          }
-        }
-      }
-      if (!date) {
-        errors.push(`${sheetName} Zeile ${i + 2}: ${art} ohne erkennbares Datum übersprungen.`)
-        continue
-      }
-
-      // Betrag: bevorzugt aus " Betrag "-Spalte, sonst erste endliche Zahl ≠ 0
-      let amount = NaN
-      const betragCell = row[' Betrag '] ?? row['Betrag'] ?? row[' Amount '] ?? row['Amount']
-      if (typeof betragCell === 'number' && Number.isFinite(betragCell)) amount = betragCell
-      if (!Number.isFinite(amount)) {
-        for (const v of values) {
-          if (typeof v === 'number' && Number.isFinite(v) && v !== 0) { amount = v; break }
-        }
-      }
-      if (!Number.isFinite(amount) || amount === 0) {
-        errors.push(`${sheetName} Zeile ${i + 2}: ${art} ohne Betrag übersprungen.`)
-        continue
-      }
-
-      const currency = (() => {
-        const c = row[' Währung '] ?? row['Währung'] ?? row[' Currency '] ?? row['Currency']
-        if (typeof c === 'string' && /^(EUR|USD|GBP)$/.test(c.trim())) return c.trim()
-        const scan = values.find((v): v is string => typeof v === 'string' && /^(EUR|USD|GBP)$/.test(v.trim()))
-        return scan?.trim() || 'EUR'
-      })()
-
-      let amountEUR = Math.abs(amount)
-      if (currency === 'USD') amountEUR = amountEUR * fxRateUsdEur
-      else if (currency === 'GBP') amountEUR = amountEUR * 1.17 // Approximation
-      amountEUR = Math.round(amountEUR * 100) / 100
-
-      transactions.push({
-        type: amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
-        name: amount > 0 ? 'Einzahlung' : 'Auszahlung',
-        isin: '',
-        wkn: '',
-        quantity: 1,
-        price: amountEUR,
-        totalValue: amountEUR,
-        fees: 0,
-        endAmount: amountEUR,
-        date,
-        currency: 'EUR',
-        exchange: 'Freedom24',
-        notes: 'Freedom24 Banküberweisung',
-      })
+    // Datum: bevorzugt aus " Datum "-Spalte, sonst erster Datumswert
+    let date = ''
+    const datumCell = row[' Datum '] ?? row['Datum'] ?? row[' Date '] ?? row['Date']
+    if (datumCell instanceof Date) date = datumCell.toISOString().slice(0, 10)
+    else if (typeof datumCell === 'string') {
+      const m = datumCell.trim().match(/^(\d{4}-\d{2}-\d{2})/)
+      if (m) date = m[1]
     }
+    if (!date) {
+      for (const v of values) {
+        if (v instanceof Date) { date = v.toISOString().slice(0, 10); break }
+        if (typeof v === 'string') {
+          const m = v.trim().match(/^(\d{4}-\d{2}-\d{2})/)
+          if (m) { date = m[1]; break }
+        }
+      }
+    }
+    if (!date) {
+      errors.push(`${where}: ${art} ohne erkennbares Datum übersprungen.`)
+      continue
+    }
+
+    // Betrag: bevorzugt aus " Betrag "-Spalte, sonst erste endliche Zahl ≠ 0
+    let amount = NaN
+    const betragCell = row[' Betrag '] ?? row['Betrag'] ?? row[' Amount '] ?? row['Amount']
+    if (typeof betragCell === 'number' && Number.isFinite(betragCell)) amount = betragCell
+    if (!Number.isFinite(amount)) {
+      for (const v of values) {
+        if (typeof v === 'number' && Number.isFinite(v) && v !== 0) { amount = v; break }
+      }
+    }
+    if (!Number.isFinite(amount) || amount === 0) {
+      errors.push(`${where}: ${art} ohne Betrag übersprungen.`)
+      continue
+    }
+
+    const currency = (() => {
+      const c = row[' Währung '] ?? row['Währung'] ?? row[' Currency '] ?? row['Currency']
+      if (typeof c === 'string' && /^(EUR|USD|GBP)$/.test(c.trim())) return c.trim()
+      const scan = values.find((v): v is string => typeof v === 'string' && /^(EUR|USD|GBP)$/.test(v.trim()))
+      return scan?.trim() || 'EUR'
+    })()
+
+    let amountEUR = Math.abs(amount)
+    if (currency === 'USD') amountEUR = amountEUR * fxRateUsdEur
+    else if (currency === 'GBP') amountEUR = amountEUR * 1.17 // Approximation
+    amountEUR = Math.round(amountEUR * 100) / 100
+
+    transactions.push({
+      type: amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
+      name: amount > 0 ? 'Einzahlung' : 'Auszahlung',
+      isin: '',
+      wkn: '',
+      quantity: 1,
+      price: amountEUR,
+      totalValue: amountEUR,
+      fees: 0,
+      endAmount: amountEUR,
+      date,
+      currency: 'EUR',
+      exchange: 'Freedom24',
+      notes: 'Freedom24 Banküberweisung',
+    })
   }
 
   return { transactions, errors }
@@ -433,11 +521,29 @@ export function parseFreedom24CashReport(
   sheets: Record<string, Record<string, unknown>[]>,
   fileName: string,
 ): { transactions: Freedom24Transaction[]; errors: string[] } {
-  const { transactions, errors } = parseCashTransfers(sheets, 0.87)
-  if (transactions.length === 0 && errors.length === 0) {
-    errors.push(`Keine Ein-/Auszahlungen in "${fileName}" gefunden.`)
+  return parseFreedom24CashReports([{ sheets, fileName }])
+}
+
+/**
+ * Parst mehrere Cash-Dateien als ein Konto. Überschneiden sich ihre Zeiträume,
+ * zählt jede Ein- und Auszahlung nur einmal. Das gilt auch gegenüber
+ * Handelsberichten aus demselben Upload: Ein vollständiger Bericht enthält das
+ * Blatt "Cash In Out" selbst, mit denselben Zeilen wie die Cash-Datei.
+ */
+export function parseFreedom24CashReports(
+  files: Freedom24ReportFile[],
+  tradeReports: Freedom24ReportFile[] = [],
+): { transactions: Freedom24Transaction[]; errors: string[] } {
+  const parse = (part: Freedom24ReportFile[], known?: Map<string, number>) =>
+    parseCashTransfers(cashRows(part, known), 0.87)
+
+  const reported = new Map<string, number>()
+  cashRows(tradeReports, reported)
+  const result = parse(files, reported)
+  for (const file of emptyFiles(files, part => parse(part))) {
+    result.errors.push(`Keine Ein-/Auszahlungen in "${file.fileName}" gefunden.`)
   }
-  return { transactions, errors }
+  return result
 }
 
 /**
@@ -447,24 +553,63 @@ export function parseFreedom24TradeReport(
   sheets: Record<string, Record<string, unknown>[]>,
   fileName: string,
 ): Freedom24TradeReportResult {
+  return parseFreedom24TradeReports([{ sheets, fileName }])
+}
+
+/**
+ * Parst mehrere Handelsberichte wie einen Bericht über den ganzen Zeitraum.
+ *
+ * Zusammengeführt werden die Zeilen, nicht die fertigen Buchungen: Der
+ * Wechselkurs ist der Durchschnitt aller Umtausch-Zeilen, und ein Split gilt für
+ * alle Käufe davor. Beides ergibt sich erst aus allen Dateien zusammen. Ein Split,
+ * der in zwei Dateien steht, zählt wie jede andere Zeile nur einmal.
+ */
+export function parseFreedom24TradeReports(files: Freedom24ReportFile[]): Freedom24TradeReportResult {
+  const result = parseTradeReportFiles(files)
+  for (const file of emptyFiles(files, parseTradeReportFiles)) {
+    result.errors.push(`Keine Transaktionen in "${file.fileName}" gefunden.`)
+  }
+  return result
+}
+
+// Dateien, die auch für sich allein nichts liefern. Wer nur Buchungen enthält,
+// die schon in einer anderen Datei stehen, gehört nicht dazu.
+function emptyFiles(
+  files: Freedom24ReportFile[],
+  parse: (files: Freedom24ReportFile[]) => { transactions: unknown[]; errors: string[] },
+): Freedom24ReportFile[] {
+  return files.filter(file => {
+    const { transactions, errors } = parse([file])
+    return transactions.length === 0 && errors.length === 0
+  })
+}
+
+function cashRows(files: Freedom24ReportFile[], known?: Map<string, number>): SourceRow[] {
+  return mergeRows(files, names => names, (sheetName, line) => `${sheetName} Zeile ${line}`, known)
+}
+
+function parseTradeReportFiles(files: Freedom24ReportFile[]): Freedom24TradeReportResult {
   const allTransactions: Freedom24Transaction[] = []
   const allErrors: string[] = []
   const allStockSplits: StockSplit[] = []
 
   // Trades-Sheet finden
-  const tradesSheetName = Object.keys(sheets).find(n => n.startsWith('Trades '))
-  if (!tradesSheetName) {
-    allErrors.push(`Kein "Trades"-Sheet in "${fileName}" gefunden.`)
-  } else {
-    const { transactions, errors } = parseTrades(sheets[tradesSheetName])
+  const tradesSheets = (names: string[]) => names.filter(n => n.startsWith('Trades ')).slice(0, 1)
+  for (const { sheets, fileName } of files) {
+    if (tradesSheets(Object.keys(sheets)).length === 0) {
+      allErrors.push(`Kein "Trades"-Sheet in "${fileName}" gefunden.`)
+    }
+  }
+  const tradesRows = mergeRows(files, tradesSheets, (_, line) => `Zeile ${line}`)
+  {
+    const { transactions, errors } = parseTrades(tradesRows)
     allTransactions.push(...transactions)
     allErrors.push(...errors)
   }
 
   // USD/EUR-Rate aus den Trades extrahieren (für Corpactions + Geldtransfers)
-  const tradesRows = tradesSheetName ? sheets[tradesSheetName] : []
   let usdEurRate = 0.87 // Fallback
-  for (const row of tradesRows) {
+  for (const { row } of tradesRows) {
     const ticker = String(row[' Ticker '] ?? row['Ticker'] ?? '').trim()
     if (ticker === 'USD/EUR') {
       const price = parseFloat(String(row[' Preis '] ?? row['Preis'] ?? '0'))
@@ -473,9 +618,10 @@ export function parseFreedom24TradeReport(
   }
 
   // Corpactions-Sheet finden (Dividenden, Splits, Spin-Offs)
-  const corpSheetName = Object.keys(sheets).find(n => n.startsWith('Corpactions'))
-  if (corpSheetName) {
-    const { transactions, errors, stockSplits } = parseCorpActions(sheets[corpSheetName], usdEurRate)
+  {
+    const corpSheets = (names: string[]) => names.filter(n => n.startsWith('Corpactions')).slice(0, 1)
+    const rows = mergeRows(files, corpSheets, (_, line) => `Corpactions Zeile ${line}`)
+    const { transactions, errors, stockSplits } = parseCorpActions(rows, usdEurRate)
     allTransactions.push(...transactions)
     allErrors.push(...errors)
     allStockSplits.push(...stockSplits)
@@ -484,7 +630,7 @@ export function parseFreedom24TradeReport(
   // Banküberweisungen (Geldtransfer-Tab) — ermöglicht Cash-Ledger und damit
   // die einzahlungsbasierte Kapital-Linie im Chart
   {
-    const { transactions, errors } = parseCashTransfers(sheets, usdEurRate)
+    const { transactions, errors } = parseCashTransfers(cashRows(files), usdEurRate)
     allTransactions.push(...transactions)
     allErrors.push(...errors)
   }
@@ -505,10 +651,6 @@ export function parseFreedom24TradeReport(
         tx.notes = appendSplitNote(tx.notes, split.ratio, split.date)
       }
     }
-  }
-
-  if (allTransactions.length === 0 && allErrors.length === 0) {
-    allErrors.push(`Keine Transaktionen in "${fileName}" gefunden.`)
   }
 
   return { transactions: allTransactions, errors: allErrors, stockSplits: allStockSplits }

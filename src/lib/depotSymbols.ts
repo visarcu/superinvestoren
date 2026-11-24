@@ -14,7 +14,7 @@
 
 import type { ParsedTransaction, TickerRename } from './scalableCSVParser'
 import { matchesStoredTransaction } from './duplicateCheck'
-import { appliedSplits } from './splitAdjustment'
+import { appliedSplits, hasSplitApplied, stripSplitMarkers } from './splitAdjustment'
 
 /** Gespeicherte Buchung, soweit der Abgleich sie braucht. */
 export interface StoredTransaction {
@@ -51,13 +51,13 @@ function isStronger(a: Evidence, b: Evidence): boolean {
 
 /**
  * Passt die gespeicherte Zeile zur Buchung der Datei, abgesehen vom Kürzel?
- * Auch vor einer Split-Verrechnung: Der Parser hat die Datei schon umgerechnet,
- * das Depot vielleicht noch nicht.
+ * Auch über einen Split hinweg, in beide Richtungen: Der Parser kann die Datei
+ * schon umgerechnet haben und das Depot nicht, oder umgekehrt.
  */
 function describesSameBooking(stored: StoredTransaction, tx: ParsedTransaction): boolean {
-  const matches = (quantity: number, price: number) =>
-    matchesStoredTransaction(stored, { type: tx.type, symbol: stored.symbol, date: tx.date, quantity, price })
-  if (matches(tx.quantity, tx.price)) return true
+  const matches = (quantity: number, price: number, notes?: string) =>
+    matchesStoredTransaction(stored, { type: tx.type, symbol: stored.symbol, date: tx.date, quantity, price, notes })
+  if (matches(tx.quantity, tx.price, tx.notes)) return true
   const factor = appliedSplits(tx.notes).reduce((product, split) => product * split.ratio, 1)
   return factor !== 1 && matches(tx.quantity / factor, tx.price * factor)
 }
@@ -91,8 +91,13 @@ export function findDepotSymbols({
   const storedByDay = new Map<string, StoredTransaction[]>()
   const storedCount = new Map<string, Evidence>()
   let lastStoredDate = ''
-  for (const row of stored) {
-    if (row.symbol === 'CASH') continue
+  for (const entry of stored) {
+    if (entry.symbol === 'CASH') continue
+    // Bei einer ISIN-Umstellung umgerechnete Buchungen gehören zur neuen ISIN.
+    // Die Zeile der alten beschreibt sie zwar, belegt deren Kürzel aber nicht.
+    const row = renames.some(({ date, ratio }) => hasSplitApplied(entry.notes, date, ratio))
+      ? { ...entry, notes: stripSplitMarkers(entry.notes) }
+      : entry
     const key = `${row.type}|${row.date}`
     const list = storedByDay.get(key)
     if (list) list.push(row)

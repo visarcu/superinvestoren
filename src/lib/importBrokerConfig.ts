@@ -94,7 +94,7 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
         'Wähle den gewünschten Zeitraum und klicke auf "XLSX-Export"',
         'Alternativ: PDFs aus dem Dokumentenarchiv hochladen (einzeln)',
       ],
-      hint: 'Der XLSX-Export enthält alle Käufe, Verkäufe und Dividenden in einer Datei — einfacher und vollständiger als einzelne PDFs.',
+      hint: 'Der XLSX-Export enthält Käufe und Verkäufe in einer Datei und ist einfacher als einzelne PDFs. Mehr als 100 Zeilen gibt Flatex vermutlich nicht auf einmal aus. Exportiere dann mehrere kürzere Zeiträume und lade alle Dateien zusammen hoch. Was doppelt vorkommt, wird nur einmal übernommen. Wie viel bei Ausschüttungen ausgezahlt wurde, steht nicht im Export. Diese Zahlungen kannst du nach dem Import als Dividende eintragen.',
       loginUrl: 'https://www.flatex.de',
       loginLabel: 'Zu Flatex',
     },

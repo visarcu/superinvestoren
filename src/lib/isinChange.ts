@@ -142,6 +142,7 @@ function matchesUnder(
     date: tx.date,
     quantity: tx.quantity,
     price: tx.price,
+    notes: tx.notes,
   })
 }
 
@@ -202,7 +203,10 @@ export function planIsinChanges({
     // mit Käufen oder Verkäufen nach der Umstellung, da gab es die alte Aktie
     // nicht mehr.
     const oldSymbol = symbolOf(rename.fromIsin)?.symbol
-    const storedOld = oldSymbol && oldSymbol !== successor.symbol ? stored.filter(s => s.symbol === oldSymbol) : []
+    const storedOld = oldSymbol && oldSymbol !== successor.symbol
+      // Mit dem Marker dieser Umstellung stehen sie schon auf der neuen Basis
+      ? stored.filter(s => s.symbol === oldSymbol && !hasSplitApplied(s.notes, rename.date, rename.ratio))
+      : []
     const oldMatches = storedOld.some(s => isPosition(s) && s.date > rename.date)
       ? 0
       : oldRows.filter(tx => isPosition(tx) && storedOld.some(s => matchesUnder(s, tx, s.symbol))).length

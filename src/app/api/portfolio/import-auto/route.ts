@@ -22,8 +22,21 @@ import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '
 import { parseFreedom24PDFText } from '@/lib/freedom24PDFParser'
 import { parseFreedom24TaxXLSX } from '@/lib/freedom24TaxXLSXParser'
 import { parseFreedom24XLSXRows } from '@/lib/freedom24XLSXParser'
-import { parseFlatexDepotXLSX, isFlatexDepotXLSX } from '@/lib/flatexXLSXParser'
-import { parseFreedom24TradeReport, isFreedom24TradeReport, parseFreedom24CashReport, isFreedom24CashReport } from '@/lib/freedom24TradeReportParser'
+import {
+  parseFlatexDepotXLSX,
+  parseFlatexDepotXLSXFiles,
+  isFlatexDepotXLSX,
+  type FlatexDepotFile,
+} from '@/lib/flatexXLSXParser'
+import {
+  parseFreedom24TradeReport,
+  parseFreedom24TradeReports,
+  isFreedom24TradeReport,
+  parseFreedom24CashReport,
+  parseFreedom24CashReports,
+  isFreedom24CashReport,
+  type Freedom24ReportFile,
+} from '@/lib/freedom24TradeReportParser'
 import { parseIngPDFText, isIngPDF, type IngParsedTransaction } from '@/lib/ingPDFParser'
 import { parseTrading212PDFText, isTrading212PDF } from '@/lib/trading212PDFParser'
 
@@ -73,6 +86,10 @@ function tradeRepublicToFlatex(tx: TradeRepublicParsedTransaction): FlatexParsed
  * "Cash In Out"). Beide gehören zum selben Depot: Ohne den Cash-Export fehlen
  * die Einzahlungen und die Kapital-Linie im Chart bleibt falsch.
  *
+ * Ein Flatex-Export endete nach genau 100 Zeilen mitten in einer Ausschüttung. Ein
+ * längeres Depot kommt deshalb in mehreren Dateien, deren Zeiträume sich
+ * überschneiden dürfen.
+ *
  * Das führende Format bestimmt die Datei mit den Wertpapier-Transaktionen —
  * daran hängt die weitere Verarbeitung im Import-Wizard.
  */
@@ -86,6 +103,11 @@ async function parseMultipleWorkbooks(files: File[]) {
   const labels: string[] = []
   let leadFormat: string | null = null
   let leadLabel: string | null = null
+  // Erst nach der Schleife geparst: Doppelte Buchungen, Splits und Ausschüttungen
+  // lassen sich nur über alle Dateien zusammen zählen.
+  const flatexFiles: FlatexDepotFile[] = []
+  const tradeReports: Freedom24ReportFile[] = []
+  const cashReports: Freedom24ReportFile[] = []
 
   for (const file of files) {
     try {
@@ -97,10 +119,7 @@ async function parseMultipleWorkbooks(files: File[]) {
       }
 
       if (isFreedom24TradeReport(workbook.SheetNames)) {
-        const result = parseFreedom24TradeReport(sheets, file.name)
-        transactions.push(...result.transactions)
-        errors.push(...result.errors)
-        if (result.stockSplits) stockSplits.push(...result.stockSplits)
+        tradeReports.push({ sheets, fileName: file.name })
         leadFormat = 'freedom24_report'
         leadLabel = 'Freedom24 Handelsbericht'
         labels.push('Handelsbericht')
@@ -108,14 +127,20 @@ async function parseMultipleWorkbooks(files: File[]) {
       }
 
       if (isFreedom24CashReport(workbook.SheetNames)) {
-        const result = parseFreedom24CashReport(sheets, file.name)
-        transactions.push(...result.transactions)
-        errors.push(...result.errors)
+        cashReports.push({ sheets, fileName: file.name })
         labels.push('Ein-/Auszahlungen')
         if (!leadFormat) {
           leadFormat = 'freedom24_cash'
           leadLabel = 'Freedom24 Ein-/Auszahlungen'
         }
+        continue
+      }
+
+      const rawRows: unknown[][] = XLSX.utils.sheet_to_json(
+        workbook.Sheets[workbook.SheetNames[0]], { header: 1 }
+      )
+      if (isFlatexDepotXLSX(workbook.SheetNames, rawRows[0] || [])) {
+        flatexFiles.push({ rows: rawRows, fileName: file.name })
         continue
       }
 
@@ -126,11 +151,43 @@ async function parseMultipleWorkbooks(files: File[]) {
     }
   }
 
+  const freedom24Label = labels.length > 1 ? `Freedom24 (${labels.join(' + ')})` : leadLabel
+
+  try {
+    const trades = parseFreedom24TradeReports(tradeReports)
+    const cash = parseFreedom24CashReports(cashReports, tradeReports)
+    transactions.push(...trades.transactions, ...cash.transactions)
+    errors.push(...trades.errors, ...cash.errors)
+    stockSplits.push(...trades.stockSplits)
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    errors.push(`Die Freedom24-Dateien konnten nicht gelesen werden: ${msg}`)
+  }
+
+  if (flatexFiles.length > 0) {
+    const result = parseFlatexDepotXLSXFiles(flatexFiles)
+    transactions.push(...result.transactions)
+    errors.push(...result.errors)
+    const flatexLabel = flatexFiles.length > 1
+      ? `Flatex Depotumsätze (${flatexFiles.length} Dateien)`
+      : 'Flatex Depotumsätze'
+
+    return NextResponse.json({
+      // Eine reine Cash-Datei enthält keine Wertpapiere, dann führt Flatex
+      format: leadFormat === 'freedom24_report' ? leadFormat : 'flatex_depot',
+      formatLabel: [flatexLabel, freedom24Label].filter(Boolean).join(' + '),
+      transactions,
+      errors,
+      notices: result.notices,
+      warnings: result.warnings,
+      stockSplits,
+      totalFiles: files.length,
+    })
+  }
+
   return NextResponse.json({
     format: leadFormat || 'freedom24_report',
-    formatLabel: labels.length > 1
-      ? `Freedom24 (${labels.join(' + ')})`
-      : leadLabel || 'Freedom24 Handelsbericht',
+    formatLabel: freedom24Label || 'Freedom24 Handelsbericht',
     transactions,
     errors,
     stockSplits,
@@ -354,6 +411,8 @@ export async function POST(request: Request) {
           formatLabel: 'Flatex Depotumsätze',
           transactions: result.transactions,
           errors: result.errors,
+          notices: result.notices,
+          warnings: result.warnings,
           totalRows: rawRows.length - 1,
         })
       }

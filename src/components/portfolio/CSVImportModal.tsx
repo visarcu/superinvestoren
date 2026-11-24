@@ -10,7 +10,8 @@ import { supabase } from '@/lib/supabaseClient'
 import { reconstructHoldings, type ParsedTransaction, type CSVParseResult, type StockSplit, type TickerRename } from '@/lib/scalableCSVParser'
 import { POSITION_TX_TYPES, loadAllRows, reconcileHoldings } from '@/lib/portfolioReconcile'
 import { resolveISINsLocally } from '@/lib/isinResolver'
-import { checkBulkDuplicates, quantitiesMatch } from '@/lib/duplicateCheck'
+import { compareWithDepot, type DepotComparison } from '@/lib/duplicateCheck'
+import { adoptSplits, summarizeDepotSplits, type DepotSplitSummary } from '@/lib/depotSplits'
 import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
 import { findDepotSymbols, type DepotSymbol, type StoredTransaction } from '@/lib/depotSymbols'
 import { applyIsinChanges, planIsinChanges } from '@/lib/isinChange'
@@ -88,6 +89,24 @@ interface TransferPrice {
 // nicht aus der Datei, sondern ist der geschätzte Schlusskurs (siehe oben).
 type ResolvedTransaction = ParsedTransaction & { estimatedTransferPrice?: boolean }
 
+function splitTitle({ ratio, date, symbol }: { ratio: number; date: string; symbol: string }): string {
+  return `Aktiensplit ${ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am ${date} (${symbol})`
+}
+
+function adoptedSplitText(split: DepotSplitSummary): string {
+  return [
+    `${splitTitle(split)}: im Depot schon verrechnet`,
+    split.adopted > 0 &&
+      `${split.adopted === 1 ? '1 neue Buchung davor wird' : `${split.adopted} neue Buchungen davor werden`} umgerechnet, der Betrag bleibt`,
+    split.redundant > 0 && 'Die Split-Buchung der Datei entfällt',
+  ].filter(Boolean).join('. ')
+}
+
+function unclearSplitText(split: DepotSplitSummary): string {
+  const rows = split.unclear === 1 ? '1 neue Buchung davor bleibt' : `${split.unclear} neue Buchungen davor bleiben`
+  return `${splitTitle(split)}: Das Depot rechnet schon mit der neuen Stückzahl, die Datei nennt den Split nicht. ${rows} unverändert. Bitte die Stückzahl prüfen.`
+}
+
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   buy: { label: 'Kauf', color: 'text-emerald-400' },
   sell: { label: 'Verkauf', color: 'text-red-400' },
@@ -133,6 +152,10 @@ export default function CSVImportModal({
   const [detectedFormat, setDetectedFormat] = useState<string | null>(null)
   const [pdfParsing, setPdfParsing] = useState(false)
   const [pdfErrors, setPdfErrors] = useState<string[]>([])
+  // Was die Datei nicht hergibt (z.B. Ausschüttungsbeträge bei Flatex)
+  const [importNotices, setImportNotices] = useState<string[]>([])
+  // Wo vermutlich Buchungen fehlen (z.B. Flatex-Export an der Zeilengrenze)
+  const [importWarnings, setImportWarnings] = useState<string[]>([])
   // Historische Schlusskurse für transfer_in/out-Transaktionen (Key: "SYMBOL|YYYY-MM-DD")
   // ING-Depotüberträge haben keinen Einstandskurs — hier ziehen wir den Tagesschlusskurs.
   const [transferPrices, setTransferPrices] = useState<Record<string, TransferPrice>>({})
@@ -158,6 +181,8 @@ export default function CSVImportModal({
 
   // === Duplikate ===
   const [duplicateIndices, setDuplicateIndices] = useState<Set<number>>(new Set())
+  // Splits, die das Depot verrechnet hat und die Datei nicht nennt
+  const [depotSplits, setDepotSplits] = useState<DepotSplitSummary[]>([])
   const [duplicateCheckDone, setDuplicateCheckDone] = useState(false)
   const [checkingDuplicates, setCheckingDuplicates] = useState(false)
   const [pendingDuplicateCheck, setPendingDuplicateCheck] = useState(false)
@@ -348,12 +373,15 @@ export default function CSVImportModal({
     setConfirmedIsinChanges([])
     setStoredTransactions(null)
     setDuplicateIndices(new Set())
+    setDepotSplits([])
     setDuplicateCheckDone(false)
     setCheckingDuplicates(false)
     setShowSkippedDetails(false)
     setShowDuplicateDetails(false)
     setPdfParsing(false)
     setPdfErrors([])
+    setImportNotices([])
+    setImportWarnings([])
     setDetectedFormat(null)
     setIsDragOver(false)
     setPendingDuplicateCheck(false)
@@ -466,6 +494,8 @@ export default function CSVImportModal({
 
     setPdfParsing(true)
     setPdfErrors([])
+    setImportNotices([])
+    setImportWarnings([])
     setImportError(null)
     setDetectedFormat(null)
 
@@ -494,6 +524,8 @@ export default function CSVImportModal({
       const data = await response.json()
 
       if (data.errors?.length > 0) setPdfErrors(data.errors)
+      setImportNotices((data.notices as string[] | undefined) || [])
+      setImportWarnings((data.warnings as string[] | undefined) || [])
 
       if (!data.transactions || data.transactions.length === 0) {
         setImportError('Keine Transaktionen erkannt. Bitte prüfe Dateiformat und Inhalt.')
@@ -729,8 +761,9 @@ export default function CSVImportModal({
   // 2026 den Börsenkurs in Fremdwährung als Euro (MBGL 19,80 statt 17,32 €).
   // Mit Preisvergleich käme derselbe Übertrag beim Re-Upload ein zweites Mal
   // ins Depot.
-  const findDuplicates = useCallback(async (txs: ResolvedTransaction[]): Promise<Set<number>> => {
-    const dupes = await checkBulkDuplicates(
+  // Die Notizen sagen, welche Splits der Parser an der Zeile schon verrechnet hat.
+  const compareTransactions = useCallback((txs: ResolvedTransaction[]): Promise<DepotComparison> =>
+    compareWithDepot(
       portfolioId,
       txs.map(tx => ({
         type: tx.type,
@@ -738,28 +771,11 @@ export default function CSVImportModal({
         date: tx.date,
         quantity: tx.quantity,
         price: tx.price,
+        notes: tx.notes,
+        ignorePrice: tx.estimatedTransferPrice && (tx.type === 'transfer_in' || tx.type === 'transfer_out'),
       }))
-    )
-    if (!txs.some(tx => tx.estimatedTransferPrice)) return dupes
-
-    const { data: storedTransfers, error } = await supabase
-      .from('portfolio_transactions')
-      .select('type, symbol, date, quantity')
-      .eq('portfolio_id', portfolioId)
-      .in('type', ['transfer_in', 'transfer_out'])
-    if (error) throw error
-    txs.forEach((tx, i) => {
-      if (!tx.estimatedTransferPrice || dupes.has(i)) return
-      const stored = (storedTransfers || []).some(s =>
-        s.type === tx.type &&
-        s.symbol === tx.symbol &&
-        s.date === tx.date &&
-        quantitiesMatch(Number(s.quantity), tx.quantity)
-      )
-      if (stored) dupes.add(i)
-    })
-    return dupes
-  }, [portfolioId])
+    ),
+  [portfolioId])
 
   // Duplikat-Prüfung
   const runDuplicateCheck = useCallback(async () => {
@@ -768,8 +784,9 @@ export default function CSVImportModal({
 
     setCheckingDuplicates(true)
     try {
-      const dupes = await findDuplicates(txWithSymbols)
-      setDuplicateIndices(dupes)
+      const { duplicates, splits } = await compareTransactions(txWithSymbols)
+      setDuplicateIndices(duplicates)
+      setDepotSplits(summarizeDepotSplits(splits, txWithSymbols.map(tx => ({ ...tx, symbol: tx.symbol! }))))
       setDuplicateCheckDone(true)
     } catch (error) {
       console.error('Duplikat-Prüfung fehlgeschlagen:', error)
@@ -777,7 +794,7 @@ export default function CSVImportModal({
     } finally {
       setCheckingDuplicates(false)
     }
-  }, [cashFilteredTransactions, findDuplicates])
+  }, [cashFilteredTransactions, compareTransactions])
 
   React.useEffect(() => {
     if (pendingDuplicateCheck && step === 'preview') {
@@ -830,8 +847,11 @@ export default function CSVImportModal({
       corpActionHoldings,
       stockSplits: parseResult.stockSplits || [],
       tickerRenames: parseResult.tickerRenames || [],
+      // Nach einem Löschen gibt es keine Stückzahl, an die sich der Import halten müsste
+      adoptedSplits: resetBeforeImport ? [] : depotSplits.filter(s => s.adopted + s.redundant > 0),
+      unclearSplits: resetBeforeImport ? [] : depotSplits.filter(s => s.unclear > 0),
     }
-  }, [parseResult, resolvedTransactions, cashFilteredTransactions, previewHoldings, duplicateIndices, cashMode, resetBeforeImport])
+  }, [parseResult, resolvedTransactions, cashFilteredTransactions, previewHoldings, duplicateIndices, depotSplits, cashMode, resetBeforeImport])
 
   // ======================================================================
   // STEP 7: Import
@@ -948,14 +968,18 @@ export default function CSVImportModal({
       //    gescheitert. Mit dem alten Ergebnis legte der zweite Klick auf
       //    "Jetzt importieren" alle Buchungen noch einmal an.
       // Schlägt die Prüfung fehl, bricht der Import ab, bevor er schreibt.
-      const effectiveDuplicates = resetBeforeImport
-        ? new Set<number>()
-        : await findDuplicates(txWithSymbols)
-
       // Bei Reset: alle Duplikate ignorieren (wurden ja gerade gelöscht)
-      const txToImport = resetBeforeImport
-        ? txWithSymbols
-        : txWithSymbols.filter((_, i) => !effectiveDuplicates.has(i))
+      const comparison = resetBeforeImport ? null : await compareTransactions(txWithSymbols)
+      const effectiveDuplicates = comparison?.duplicates ?? new Set<number>()
+
+      // Nennt die Datei einen Split nicht, den das Depot schon verrechnet hat,
+      // kommen neue Buchungen von davor auf die Stückzahl des Depots.
+      const txToImport = txWithSymbols
+        .map((tx, i) => {
+          const splits = comparison?.splits.adopt.get(i)
+          return splits ? adoptSplits(tx, splits) : tx
+        })
+        .filter((_, i) => !effectiveDuplicates.has(i))
       setImportProgress({ current: 0, total: txToImport.length })
 
       // Wenn nichts Neues zu importieren ist, aber Splits verrechnet wurden,
@@ -964,6 +988,11 @@ export default function CSVImportModal({
       // zurücklagen (z.B. ein Verkauf aus einem früheren Import nie verrechnet):
       // Ein erneuter Upload derselben Datei repariert das, statt nur
       // "alles Duplikate" zu melden.
+      const splitWarnings = comparison
+        ? summarizeDepotSplits(comparison.splits, txWithSymbols.map(tx => ({ ...tx, symbol: tx.symbol! })))
+          .filter(s => s.unclear > 0)
+          .map(unclearSplitText)
+        : []
       const spinoffWarnings: string[] = []
       const holdingWarnings: string[] = []
 
@@ -1293,7 +1322,7 @@ export default function CSVImportModal({
         cashMode,
         cashTransactionsImported,
         unresolvedSymbols: resolvedTransactions.filter(t => !t.symbol && t.isin).length,
-        corpActionWarnings: spinoffWarnings,
+        corpActionWarnings: [...splitWarnings, ...spinoffWarnings],
         holdingWarnings,
         estimatedCosts: reconcile.estimatedCosts,
       })
@@ -1308,7 +1337,7 @@ export default function CSVImportModal({
     } finally {
       setImporting(false)
     }
-  }, [parseResult, cashFilteredTransactions, resolvedTransactions, previewHoldings, portfolioId, cashMode, resetBeforeImport, isinChangePlans, symbolForIsin, needsDepotSymbols, storedTransactions, findDuplicates, importValidationIssues])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, previewHoldings, portfolioId, cashMode, resetBeforeImport, isinChangePlans, symbolForIsin, needsDepotSymbols, storedTransactions, compareTransactions, importValidationIssues])
 
   // Kürzel wie im Depot (Vorschau); umgestellte ISINs stehen schon bei den
   // Corporate Actions
@@ -1542,11 +1571,11 @@ export default function CSVImportModal({
                 />
               </label>
 
-              {pdfErrors.length > 0 && (
+              {pdfErrors.length + importWarnings.length + importNotices.length > 0 && (
                 <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
                   <p className="text-xs font-medium text-amber-400 mb-1">Hinweise:</p>
                   <ul className="space-y-0.5">
-                    {pdfErrors.map((err, i) => (
+                    {[...pdfErrors, ...importWarnings, ...importNotices].map((err, i) => (
                       <li key={i} className="text-xs text-neutral-400">• {err}</li>
                     ))}
                   </ul>
@@ -1764,6 +1793,22 @@ export default function CSVImportModal({
                 </div>
               </div>
 
+              {/* Wo vermutlich Buchungen fehlen. Steht über der Reset-Option: Wer dort löscht,
+                  verliert sonst auch, was der Export nicht mehr enthält. */}
+              {importWarnings.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20 flex gap-2.5">
+                  <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[12px] font-medium text-amber-300 mb-1">Export vermutlich unvollständig</p>
+                    <ul className="space-y-1 text-[11px] text-neutral-400 leading-relaxed break-words">
+                      {importWarnings.map((warning, i) => (
+                        <li key={i}>{warning}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
               {/* Reset-Option (nur wenn Portfolio schon Daten hat) */}
               {existingDataCount && (existingDataCount.transactions > 0 || existingDataCount.holdings > 0) && (
                 <button
@@ -1816,7 +1861,7 @@ export default function CSVImportModal({
               </div>
 
               {/* Stock Splits & Renames Info */}
-              {(importSummary.stockSplits.length > 0 || importSummary.tickerRenames.length > 0) && (
+              {importSummary.stockSplits.length + importSummary.tickerRenames.length + importSummary.adoptedSplits.length > 0 && (
                 <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
                   <p className="text-[12px] font-medium text-white mb-1.5">
                     Corporate Actions automatisch verarbeitet
@@ -1828,6 +1873,12 @@ export default function CSVImportModal({
                         Aktiensplit {s.ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am {s.date} ({s.isin}): frühere Käufe/Verkäufe (auch bereits importierte) werden rückwirkend umgerechnet
                       </li>
                     ))}
+                    {importSummary.adoptedSplits.map(s => (
+                      <li key={`depot-split-${s.symbol}-${s.date}`} className="flex gap-1.5">
+                        <span className="text-neutral-600">·</span>
+                        {adoptedSplitText(s)}
+                      </li>
+                    ))}
                     {importSummary.tickerRenames.map((r, i) => (
                       <li key={`rename-${i}`} className="flex gap-1.5">
                         <span className="text-neutral-600">·</span>
@@ -1835,6 +1886,21 @@ export default function CSVImportModal({
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Neue Buchungen vor einem Split, deren Stückzahl-Basis offen bleibt */}
+              {importSummary.unclearSplits.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20 flex gap-2.5">
+                  <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[12px] font-medium text-amber-300 mb-1">Stückzahl nach Aktiensplit prüfen</p>
+                    <ul className="space-y-1 text-[11px] text-neutral-400 leading-relaxed">
+                      {importSummary.unclearSplits.map(s => (
+                        <li key={`${s.symbol}-${s.date}`}>{unclearSplitText(s)}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               )}
 
@@ -1859,6 +1925,18 @@ export default function CSVImportModal({
                       </span>
                     )}
                   </div>
+                </div>
+              )}
+
+              {/* Was die Datei nicht hergibt */}
+              {importNotices.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+                  <p className="text-[12px] font-medium text-white mb-1">Nicht in der Datei enthalten</p>
+                  <ul className="space-y-1 text-[11px] text-neutral-500 leading-relaxed">
+                    {importNotices.map((notice, i) => (
+                      <li key={i}>{notice}</li>
+                    ))}
+                  </ul>
                 </div>
               )}
 
