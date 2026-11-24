@@ -26,6 +26,7 @@ import {
 
 import ProfessionalValuationTable from '@/components/ProfessionalValuationTable'
 import ForwardPETable from '@/components/ForwardPETable'
+import EarningsNote from '@/components/EarningsNote'
 import OwnerEarningsCard from '@/components/OwnerEarningsCard'
 
 interface User {
@@ -97,6 +98,9 @@ export default function ValuationPage() {
 
       {/* ✅ MAIN CONTENT - konsistent mit anderen Pages */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
+
+        {/* Nur bei verzerrtem Gewinn sichtbar */}
+        <EarningsNote ticker={ticker.toUpperCase()} />
 
         {/* Main Valuation Table */}
         <ProfessionalValuationTable 

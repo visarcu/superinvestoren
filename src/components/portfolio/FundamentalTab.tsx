@@ -8,7 +8,8 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import type { Holding } from '@/hooks/usePortfolio'
-import type { PortfolioFundamentals, AggregatedMetric } from '@/lib/portfolio/fundamentals'
+import type { PortfolioFundamentals, AggregatedMetric, DistortedPosition } from '@/lib/portfolio/fundamentals'
+import { formatCompactAmount } from '@/lib/displayFormat'
 
 interface FundamentalTabProps {
   holdings: Holding[]
@@ -35,6 +36,14 @@ function fmtPercent(value: number | null): string {
 function fmtPercentPlain(value: number | null): string {
   if (value === null) return '–'
   return `${de(value * 100, 1)} %`
+}
+
+/** "Berkshire Hathaway (2025: 35 % des Vorsteuergewinns aus Sondererträgen)" */
+function describeDistorted({ name, fiscalYear, earnings }: DistortedPosition): string {
+  const year = fiscalYear === null ? '' : `${fiscalYear}: `
+  return earnings.amount > 0
+    ? `${name} (${year}${Math.round(earnings.sharePercent)} % des Vorsteuergewinns aus Sondererträgen)`
+    : `${name} (${year}${formatCompactAmount(Math.abs(earnings.amount), earnings.currency)} Sonderbelastungen)`
 }
 
 // ─── Bausteine ───────────────────────────────────────────────────────────────
@@ -77,10 +86,12 @@ function MetricCell({ label, metric, format, hint, tone }: MetricCellProps) {
 function Section({
   title,
   note,
+  callout,
   children,
 }: {
   title: string
   note?: string
+  callout?: string
   children: React.ReactNode
 }) {
   return (
@@ -89,6 +100,7 @@ function Section({
         <h2 className="text-[13px] font-semibold text-theme-primary tracking-tight">{title}</h2>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-theme-secondary">{children}</div>
+      {callout && <p className="px-6 py-3 text-[11px] text-theme-secondary leading-relaxed border-t border-theme">{callout}</p>}
       {note && <p className="px-6 py-3 text-[10px] text-theme-muted leading-relaxed border-t border-theme">{note}</p>}
     </section>
   )
@@ -201,6 +213,17 @@ export default function FundamentalTab({ holdings, formatCurrency }: Fundamental
       <Section
         title="Bewertung"
         note="KGV und KUV werden über die Kehrwerte gewichtet (Summe Marktwert ÷ Summe Gewinn bzw. Umsatz). Der einfache Durchschnitt würde einzelne teure Positionen massiv überbewerten. Positionen mit Verlustjahr fließen nicht ein."
+        callout={
+          data.distorted.length > 0
+            ? `Sondereinflüsse im Gewinn: ${data.distorted.slice(0, 5).map(describeDistorted).join(', ')}${
+                data.distorted.length > 5 ? ` und ${data.distorted.length - 5} weitere` : ''
+              }.${
+                data.peRatioClean?.value != null && data.peRatio.value !== null
+                  ? ` Ohne sie läge das KGV des Depots bei rund ${fmtRatio(data.peRatioClean.value)} statt ${fmtRatio(data.peRatio.value)}.`
+                  : ''
+              }`
+            : undefined
+        }
       >
         <MetricCell
           label="KGV (gewichtet)"

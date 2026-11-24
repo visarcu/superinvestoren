@@ -3,7 +3,8 @@
 //
 // Datenquelle ausschliesslich getFinancialData() — also eigene SEC-XBRL-Daten
 // bzw. eigene DAX-Daten. Nur der Börsenwert kommt aus dem Kursdienst: Er kennt
-// Splits sofort und verrät, ob Bilanz und Kurs dieselbe Währung haben.
+// Splits sofort und verrät, ob Bilanz und Kurs dieselbe Währung haben. Der Hinweis
+// auf Sondereinflüsse im Gewinn stützt sich auf die GuV von FMP (lib/earningsQuality).
 // Die Kurse kommen aus dem Request, weil das Frontend sie ohnehin schon geladen hat.
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -16,6 +17,7 @@ import {
   type PositionFundamentals,
   type MissingPosition,
 } from '@/lib/portfolio/fundamentals'
+import { annualEarningsQuality } from '@/lib/earningsQuality'
 import { getQuotes } from '@/lib/marketData/quoteService'
 import { withSources } from '@/lib/dev/withSources'
 
@@ -147,9 +149,12 @@ async function handler(request: NextRequest) {
         return
       }
 
-      covered.push(
-        computePositionFundamentals(position, financials.periods, financials.source),
-      )
+      const fundamentals = computePositionFundamentals(position, financials.periods, financials.source)
+      // Nur ein Hinweis neben dem KGV: Fällt die Prüfung aus, bleibt er weg
+      if (fundamentals.peRatio !== null && fundamentals.peRatio > 0 && fundamentals.netIncome !== null) {
+        fundamentals.earnings = await annualEarningsQuality(position.symbol, fundamentals.netIncome).catch(() => null)
+      }
+      covered.push(fundamentals)
     } catch {
       // Einzelne Ticker ohne CIK oder mit Parse-Fehler duerfen das Depot nicht kippen.
       missing.push({ ...position, reason: 'keine-fundamentaldaten' })

@@ -1,5 +1,6 @@
 // src/app/api/scores/[ticker]/route.ts - REALISTIC SCORING SYSTEM
 import { NextResponse } from 'next/server'
+import { cleanPeFor, earningsQuality } from '@/lib/earningsQuality'
 
 interface RouteParams {
   params: Promise<{ ticker: string }>
@@ -16,13 +17,14 @@ export async function GET(request: Request, { params }: RouteParams) {
     }
 
     // Enhanced data fetching: Include financial statements for growth calculation
-    const [altmanRes, piotroskiRes, ratiosRes, metricsRes, quoteRes, financialsRes] = await Promise.all([
+    const [altmanRes, piotroskiRes, ratiosRes, metricsRes, quoteRes, financialsRes, quality] = await Promise.all([
       fetch(`https://financialmodelingprep.com/api/v4/score?symbol=${ticker}&type=altman&apikey=${apiKey}`),
       fetch(`https://financialmodelingprep.com/api/v4/score?symbol=${ticker}&type=piotroski&apikey=${apiKey}`),
       fetch(`https://financialmodelingprep.com/api/v3/ratios/${ticker}?period=annual&limit=3&apikey=${apiKey}`),
       fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=annual&limit=3&apikey=${apiKey}`),  
       fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=3&apikey=${apiKey}`) // For growth calculation
+      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=3&apikey=${apiKey}`), // For growth calculation
+      earningsQuality(ticker),
     ])
 
     const [altmanData, piotroskiData, ratiosData, metricsData, quoteData, financialsData] = await Promise.all([
@@ -33,6 +35,13 @@ export async function GET(request: Request, { params }: RouteParams) {
       quoteRes.json(),
       financialsRes.json()
     ])
+
+    // Ein durch Sondererträge gedrücktes KGV ließe die Aktie günstiger wirken, als sie
+    // ist (Alphabet: 14,5 statt rund 26). Nur in diese Richtung bereinigt: Belastungen
+    // kehren oft wieder und sollen das Rating nicht verbessern.
+    const quote = quoteData?.[0]
+    const cleanPe = quality && quality.amount > 0 ? cleanPeFor(quality, quote?.pe) : null
+    const ratedQuote = cleanPe != null ? { ...quote, pe: cleanPe } : quote
 
     // Calculate growth metrics from financial statements
     let revenueGrowth = null, epsGrowth = null
@@ -67,14 +76,15 @@ export async function GET(request: Request, { params }: RouteParams) {
       piotroski: piotroskiData?.[0],
       ratios: ratiosData?.[0],
       metrics: metricsData?.[0],
-      quote: quoteData?.[0],
+      quote: ratedQuote,
       calculatedGrowth: { revenueGrowth, epsGrowth }
     })
 
     const breakdown = calculateRealisticBreakdown({
       ratios: ratiosData?.[0],
       metrics: metricsData?.[0],
-      quote: quoteData?.[0],
+      quote: ratedQuote,
+      peAdjusted: cleanPe != null,
       calculatedGrowth: { revenueGrowth, epsGrowth }
     })
 
@@ -87,7 +97,7 @@ export async function GET(request: Request, { params }: RouteParams) {
         piotroski: piotroskiData?.[0],
         ratios: ratio,
         metrics: metricsData?.[index],
-        quote: quoteData?.[0]
+        quote: ratedQuote
       })
     })).reverse() || []
 
@@ -291,6 +301,7 @@ function calculateRealisticBreakdown(data: any): any {
       weight: 25,
       metrics: {
         pe: quote?.pe ?? ratios?.priceEarningsRatio ?? null,
+        peAdjusted: data?.peAdjusted === true,
         pb: ratios?.priceToBookRatio ?? null,
         peg: ratios?.priceEarningsToGrowthRatio ?? null
       }

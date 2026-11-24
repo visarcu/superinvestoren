@@ -6,6 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import { LockClosedIcon, CalculatorIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { useCurrency } from '@/lib/CurrencyContext'; // ✅ CURRENCY CONTEXT HINZUGEFÜGT
+import { useEarningsQuality } from '@/hooks/useEarningsQuality';
+import { cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules';
 
 interface ValuationData {
   // P/E Ratios (vereinfacht)
@@ -47,6 +49,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
   const [data, setData] = useState<ValuationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const earningsQuality = useEarningsQuality(ticker);
 
   // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
   const { formatPercentage } = useCurrency();
@@ -439,6 +442,9 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
   if (!data) return null;
 
+  // Gewinn von Sondereinflüssen geprägt: zweite Zeile mit dem bereinigten KGV
+  const cleanPe = cleanPeFor(earningsQuality, data.peRatioTTM);
+
   // Deutsche Kennzahlen-Namen (vereinfacht)
   const valuationMetrics = [
     {
@@ -451,6 +457,13 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
           formatter: formatRatio,
           important: true
         },
+        ...(earningsQuality && cleanPe != null ? [{
+          label: describeEarnings(earningsQuality).label,
+          current: cleanPe,
+          comparison: data.pe5YAvg,
+          formatter: formatRatio,
+          important: true
+        }] : []),
         {
           label: 'KGV Erwartet (FWD)',
           current: data.forwardPE,

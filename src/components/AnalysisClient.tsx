@@ -10,6 +10,8 @@ import dynamic from 'next/dynamic'
 import { InformationCircleIcon, AcademicCapIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { LockClosedIcon } from '@heroicons/react/24/solid'
 import Tooltip from '@/components/Tooltip'
+import { useEarningsQuality } from '@/hooks/useEarningsQuality'
+import { affectsPe, cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules'
 import { irLinks } from '../data/irLinks'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import WorkingStockChart from '@/components/WorkingStockChart'
@@ -222,6 +224,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
   // 8) States für Bewertung & Margins
   const [peTTM, setPeTTM] = useState<number | null>(null)
+  const earningsQuality = useEarningsQuality(ticker)
   const [pegTTM, setPegTTM] = useState<number | null>(null)
   const [psTTM, setPsTTM] = useState<number | null>(null)
   const [evEbit, setEvEbit] = useState<number | null>(null)
@@ -845,6 +848,19 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         {peTTM != null ? `${peTTM.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
                       </span>
                     </div>
+                    {earningsQuality && affectsPe(earningsQuality, peTTM) && (
+                      <div className="py-2.5">
+                        {cleanPeFor(earningsQuality, peTTM) != null && (
+                          <div className="flex justify-between items-center gap-3">
+                            <span className="text-sm text-theme-secondary">{describeEarnings(earningsQuality).label}</span>
+                            <span className="text-sm font-semibold text-theme-primary whitespace-nowrap">
+                              rund {cleanPeFor(earningsQuality, peTTM)!.toLocaleString('de-DE', { maximumFractionDigits: 0 })}x
+                            </span>
+                          </div>
+                        )}
+                        <p className="mt-1 text-xs leading-snug text-theme-muted">{describeEarnings(earningsQuality).short}</p>
+                      </div>
+                    )}
                     <div className="flex justify-between items-center py-2.5">
                       <span className="text-sm text-theme-secondary">KGV Erw.</span>
                       <span className="text-sm font-semibold text-theme-primary">

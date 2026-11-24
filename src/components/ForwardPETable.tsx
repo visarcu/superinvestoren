@@ -7,6 +7,8 @@
 // ─────────────────────────────────────────────────────────────
 
 import React, { useState, useEffect } from 'react'
+import { useEarningsQuality } from '@/hooks/useEarningsQuality'
+import { cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules'
 
 interface PERow {
   year: number
@@ -25,6 +27,7 @@ export default function ForwardPETable({ ticker }: Props) {
   const [loading, setLoading] = useState(true)
   const [analystCount, setAnalystCount] = useState<number | null>(null)
   const [currentPrice, setCurrentPrice] = useState<number | null>(null)
+  const earningsQuality = useEarningsQuality(ticker)
 
   useEffect(() => { load() }, [ticker])
 
@@ -113,6 +116,16 @@ export default function ForwardPETable({ ticker }: Props) {
 
   if (rows.length === 0) return null
 
+  const reported = rows.find(r => r.isActual)
+  const cleanPe = cleanPeFor(earningsQuality, reported?.pe)
+  const shown: PERow[] = earningsQuality && reported && cleanPe != null
+    ? [
+        reported,
+        { year: reported.year, label: describeEarnings(earningsQuality).label, pe: cleanPe, eps: null, isActual: true },
+        ...rows.filter(r => !r.isActual),
+      ]
+    : rows
+
   return (
     <div className="bg-theme-card rounded-xl border border-theme overflow-hidden">
       {/* Header */}
@@ -136,7 +149,7 @@ export default function ForwardPETable({ ticker }: Props) {
 
       {/* Rows */}
       <div className="divide-y divide-theme">
-        {rows.map((row, i) => (
+        {shown.map((row, i) => (
           <div
             key={i}
             className={`flex items-center justify-between px-6 py-4 transition-colors ${

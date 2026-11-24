@@ -188,7 +188,11 @@ export default function RatingsClient({ ticker }: { ticker: string }) {
 
           <div className="space-y-0">
             {Object.entries(scores.breakdown).map(([key, factor]) => {
-              const factorInfo = factorLabels[key] || { name: key, description: '' }
+              const factorInfo = { ...(factorLabels[key] || { name: key, description: '' }) }
+              // Bewertung rechnet mit dem bereinigten KGV, sonst wirkte die Aktie zu günstig
+              if (key === 'valuation' && factor.metrics?.peAdjusted) {
+                factorInfo.description = `KGV ohne Sondererträge: rund ${Math.round(factor.metrics.pe).toLocaleString('de-DE')}`
+              }
               const factorGrade = getGrade(factor.score)
 
               return (
@@ -219,7 +223,7 @@ export default function RatingsClient({ ticker }: { ticker: string }) {
                   <div className="flex items-center gap-4 w-32 justify-end">
                     <span className="text-lg font-semibold text-white">{factor.score}</span>
                     <span className="text-sm text-neutral-500">{factorGrade.grade}</span>
-                    <span className="text-xs text-neutral-600">{(factor.weight * 100).toFixed(0)}%</span>
+                    <span className="text-xs text-neutral-600">{factor.weight} %</span>
                   </div>
                 </div>
               )

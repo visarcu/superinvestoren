@@ -7,6 +7,7 @@
 
 import type { SecFinancialPeriod, FinancialDataSource } from '@/lib/sec/secFinancialService'
 import { isForeignFilerOverride } from '@/lib/sec/cikMapping'
+import { adjustedPe, type EarningsQuality } from '@/lib/earningsQualityRules'
 
 /** Eine Depotposition, so wie sie das Frontend kennt. */
 export interface PositionInput {
@@ -44,6 +45,10 @@ export interface PositionFundamentals {
   dividendCoverage: number | null
   /** Börsenwert zur Skalierung der Rohbausteine; null, wenn die Währung nicht passt. */
   marketCap: number | null
+  /** Nettogewinn des Geschäftsjahres, Berichtswährung */
+  netIncome: number | null
+  /** Sondereinfluss im Gewinn des Geschäftsjahres, gesetzt von der Route */
+  earnings: EarningsQuality | null
   // Rohbausteine für die Look-Through-Aggregation (Berichtswährung, absolut).
   netDebt: number | null
   freeCashFlow: number | null
@@ -79,8 +84,19 @@ export interface RestrictedPosition {
   reason: 'waehrung-unsicher'
 }
 
+/** Position, deren Gewinn im Geschäftsjahr von Sondereinflüssen geprägt ist. */
+export interface DistortedPosition {
+  symbol: string
+  name: string
+  fiscalYear: number | null
+  earnings: EarningsQuality
+}
+
 export interface PortfolioFundamentals {
   peRatio: AggregatedMetric
+  /** KGV ohne Sondereinflüsse; null, wenn keine Position betroffen ist. */
+  peRatioClean: AggregatedMetric | null
+  distorted: DistortedPosition[]
   psRatio: AggregatedMetric
   fcfYield: AggregatedMetric
   netMargin: AggregatedMetric
@@ -280,6 +296,8 @@ export function computePositionFundamentals(
     netDebtToFcf: null,
     dividendCoverage: null,
     marketCap: null,
+    netIncome: null,
+    earnings: null,
     netDebt: null,
     freeCashFlow: null,
     dividendsPaid: null,
@@ -304,6 +322,8 @@ export function computePositionFundamentals(
     : isFinite(latest.eps) && isFinite(latest.sharesOutstanding) && latest.sharesOutstanding > 0
       ? latest.eps * latest.sharesOutstanding
       : null
+
+  base.netIncome = netIncome
 
   // Berichtswährung gegenprüfen: Der Gewinn laut Bilanz muss zum Gewinn passen,
   // der in Börsenwert und KGV des Kursdienstes steckt. TSM meldet in Taiwan-
@@ -389,9 +409,22 @@ export function aggregatePortfolioFundamentals(
   const pick = (key: keyof PositionFundamentals) =>
     positions.map(p => ({ weight: p.value, value: p[key] as number | null }))
 
+  // Nur Positionen, die ins KGV einfließen: Sonst erklärt der Hinweis nichts
+  const distorted = positions.filter(p => p.earnings !== null && isFinite(p.peRatio) && p.peRatio > 0)
+  const cleanable = distorted.some(p => adjustedPe(p.earnings!, p.peRatio) !== null)
+
   return {
     // Multiplikatoren über die Kehrwerte, siehe weightedRatio().
     peRatio: weightedRatio(pick('peRatio'), totalValue),
+    peRatioClean: cleanable
+      ? weightedRatio(
+          positions.map(p => ({ weight: p.value, value: (p.earnings && adjustedPe(p.earnings, p.peRatio)) ?? p.peRatio })),
+          totalValue,
+        )
+      : null,
+    distorted: distorted
+      .sort((a, b) => b.value - a.value)
+      .map(p => ({ symbol: p.symbol, name: p.name, fiscalYear: p.fiscalYear, earnings: p.earnings! })),
     psRatio: weightedRatio(pick('psRatio'), totalValue),
     // Renditen, Margen und Wachstumsraten sind additiv — normaler gewichteter Schnitt.
     fcfYield: weightedMean(pick('fcfYield'), totalValue),

@@ -19,6 +19,7 @@ import {
   shortCompanyName,
 } from '@/lib/displayFormat'
 import { getPublicStockData, type PublicStockData } from '@/lib/publicStockData'
+import { affectsPe, cleanPeFor, describeEarnings, earningsQuality, type EarningsQuality } from '@/lib/earningsQuality'
 import {
   getStockSuperinvestors,
   type StockHolder,
@@ -51,6 +52,8 @@ interface LoadedStock {
   kind: Kind
   market: PublicStockData
   investors: StockSuperinvestorData
+  /** Sondereinfluss im Gewinn der letzten zwölf Monate */
+  quality: EarningsQuality | null
 }
 
 function titleCase(name: string): string {
@@ -71,7 +74,7 @@ async function loadStock(rawTicker: string): Promise<LoadedStock | null> {
   if (!ticker) return null
 
   const investors = getStockSuperinvestors(ticker)
-  const market = await getPublicStockData(ticker)
+  const [market, quality] = await Promise.all([getPublicStockData(ticker), earningsQuality(ticker)])
   if (!market.profile && investors.holders.length === 0 && investors.soldOut.length === 0) return null
 
   const fullName =
@@ -83,7 +86,7 @@ async function loadStock(rawTicker: string): Promise<LoadedStock | null> {
   const kind: Kind = market.profile?.isEtf ? 'ETF' : market.profile?.isFund ? 'Fonds' : 'Aktie'
   const heading = new RegExp(`\\b${kind}$`, 'i').test(name) ? name : `${name} ${kind}`
 
-  return { ticker, slug: ticker.toLowerCase(), name, heading, fullName, kind, market, investors }
+  return { ticker, slug: ticker.toLowerCase(), name, heading, fullName, kind, market, investors, quality }
 }
 
 // — Metadaten —
@@ -189,6 +192,7 @@ function introSentences(s: LoadedStock): string[] {
 function keyFacts(s: LoadedStock): { label: string; value: string }[] {
   const { profile: p, quote: q } = s.market
   const currency = p?.currency ?? 'USD'
+  const cleanPe = cleanPeFor(s.quality, q?.pe)
   const facts: { label: string; value: string | null }[] = [
     { label: 'Marktkapitalisierung', value: q?.marketCap ? formatCompactAmount(q.marketCap, currency) : null },
     {
@@ -199,6 +203,10 @@ function keyFacts(s: LoadedStock): { label: string; value: string }[] {
           : q?.eps !== null && q?.eps !== undefined && q.eps < 0
             ? 'n. a. (Verlust)'
             : null,
+    },
+    {
+      label: s.quality ? describeEarnings(s.quality).label : '',
+      value: cleanPe !== null ? `rund ${cleanPe.toLocaleString('de-DE', { maximumFractionDigits: 0 })}` : null,
     },
     { label: 'Gewinn je Aktie', value: q?.eps !== null && q?.eps !== undefined ? formatMoney(q.eps, currency) : null },
     {
@@ -447,6 +455,9 @@ export default async function StockPage({ params }: Props) {
                 </div>
               ))}
             </dl>
+            {s.quality && affectsPe(s.quality, q?.pe) && (
+              <p className="mt-6 max-w-3xl text-xs leading-relaxed text-theme-muted">{describeEarnings(s.quality).long}</p>
+            )}
           </section>
         )}
 
