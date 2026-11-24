@@ -16,7 +16,7 @@ import {
   isCorpActionTransfer,
 } from '@/lib/portfolioTwr'
 import { orderCosts } from '@/lib/portfolio/cashFlows'
-import { walkCostBasis, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
+import { settleSplitBookings, walkCostBasis, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
 import { isETF } from '@/lib/etfUtils'
 import { computeRiskMeasures, annualizedReturnPct, type RiskMeasures } from '@/lib/portfolioRisk'
 import { SAMPLE_DEPOT_BROKER_NAME, SAMPLE_DEPOT_NOTE_PREFIX } from '@/lib/sampleDepotShared'
@@ -571,7 +571,9 @@ export async function computePortfolioHistory(
         // Umzüge im selben Depot (Lagerstellenwechsel) zählen nicht: Die Position
         // gehört dem Nutzer durchgehend. Sonst bricht der Verlauf für die Tage
         // zwischen Aus- und Einbuchung ein (Scalable 05.12.2025: 50.000 → 15.000 €).
-        allTransactions = withoutInternalTransfers(transactions)
+        // Vom Broker gebuchte Splits zählen rückwirkend: Die Kurse stehen auch vor
+        // dem Split auf der neuen Stückzahl.
+        allTransactions = withoutInternalTransfers(settleSplitBookings(transactions))
 
         const currentHoldingKeys = new Set<string>()
         holdings.forEach(h => {

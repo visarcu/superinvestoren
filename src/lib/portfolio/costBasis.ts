@@ -14,6 +14,7 @@
 //  - Split als Paar aus wertlosem Aus- und Einbuchen: nur die Stückzahl ändert sich.
 
 import { isCorpActionTransfer } from '@/lib/portfolioTwr'
+import { appendSplitNote, stripSplitMarkers } from '@/lib/splitAdjustment'
 
 export interface CostBasisTransaction {
   id?: string
@@ -103,6 +104,89 @@ export function findSplitPairs<T extends CostBasisTransaction>(transactions: rea
     const key = `${costBasisKey(tx)}|${day(tx)}`
     return days.transfer_in.has(key) && days.transfer_out.has(key)
   }))
+}
+
+/** Vom Broker gebuchter Split: wertloser, als Split benannter Übertrag. */
+export function isSplitBooking(tx: CostBasisTransaction): boolean {
+  return (
+    (tx.type === 'transfer_in' || tx.type === 'transfer_out') &&
+    isValueless(tx) &&
+    /split/i.test(stripSplitMarkers(tx.notes))
+  )
+}
+
+// Abweichung, bis zu der Bestand und Split-Buchung zusammenpassen
+const SPLIT_TOLERANCE = 0.005
+
+/**
+ * Das Verhältnis eines gebuchten Splits, null wenn Buchung und Bestand nicht
+ * zusammenpassen (fehlende Käufe, Teilexport).
+ *  - Trading 212: alte Stücke aus, neue ein. Die alten müssen der Bestand sein.
+ *  - Trade Republic: nur die zusätzlichen Stücke. Mit dem Bestand muss sich ein
+ *    glattes Verhältnis ergeben (0,096809 Stück und 19,264991 dazu: 200:1).
+ */
+function bookedSplitRatio(held: number, out: number, added: number): number | null {
+  if (!(held > 0) || !(added > 0)) return null
+  if (out > 0) {
+    const ratio = added / out
+    return Math.abs(held / out - 1) <= SPLIT_TOLERANCE && Math.abs(ratio - 1) > 2 * SPLIT_TOLERANCE ? ratio : null
+  }
+  const ratio = (held + added) / held
+  const smooth = Math.round(ratio * 4) / 4
+  return smooth > 1 && Math.abs(ratio / smooth - 1) <= SPLIT_TOLERANCE ? ratio : null
+}
+
+/**
+ * Rechnet vom Broker gebuchte Splits auf die Buchungen davor um (Stück ×
+ * Verhältnis, Kurs ÷ Verhältnis, Betrag bleibt) und lässt die Split-Buchung weg.
+ *
+ * Kurse stehen rückwirkend auf der neuen Stückzahl. Ohne Umrechnung zählte die
+ * Position vor dem Split mit der alten: Ein Trading-212-Depot stand nach dem Kauf
+ * von Booking sieben Wochen lang bis zu 326 € zu niedrig (810 statt 1.137 €), und
+ * die Dividendenprognose rechnete 6,78 statt 0,27 € je Stück. Bestand und
+ * Einstand danach sind dieselben.
+ *
+ * Buchungen ohne passende Split-Buchung kommen unverändert zurück, ohne jede
+ * Split-Buchung dieselbe Liste.
+ */
+export function settleSplitBookings<T extends CostBasisTransaction>(transactions: T[]): T[] {
+  const bookedKeys = new Set(transactions.filter(tx => isPositionTransaction(tx) && isSplitBooking(tx)).map(costBasisKey))
+  if (bookedKeys.size === 0) return transactions
+
+  // Je Papier die geltende Fassung jeder Zeile, null = entfällt
+  const current = new Map<T, T | null>()
+  for (const key of bookedKeys) {
+    const rows = transactions.filter(tx => isPositionTransaction(tx) && costBasisKey(tx) === key)
+    const days = [...new Set(rows.filter(isSplitBooking).map(day))].sort()
+
+    for (const splitDay of days) {
+      const before = rows.filter(tx => day(tx) < splitDay && current.get(tx) !== null)
+      const held = before.reduce((sum, tx) => {
+        const quantity = num((current.get(tx) ?? tx).quantity)
+        return tx.type === 'buy' || tx.type === 'transfer_in' ? sum + quantity : sum - quantity
+      }, 0)
+      const bookings = rows.filter(tx => day(tx) === splitDay && isSplitBooking(tx))
+      const total = (type: string) => bookings.filter(tx => tx.type === type).reduce((sum, tx) => sum + num(tx.quantity), 0)
+      const ratio = bookedSplitRatio(held, total('transfer_out'), total('transfer_in'))
+      if (ratio === null) continue
+
+      for (const tx of before) {
+        const row = current.get(tx) ?? tx
+        current.set(tx, {
+          ...row,
+          quantity: num(row.quantity) * ratio,
+          price: num(row.price) / ratio,
+          notes: appendSplitNote(row.notes, ratio, splitDay),
+        })
+      }
+      bookings.forEach(tx => current.set(tx, null))
+    }
+  }
+  if (current.size === 0) return transactions
+  return transactions.flatMap(tx => {
+    const row = current.has(tx) ? current.get(tx)! : tx
+    return row === null ? [] : [row]
+  })
 }
 
 /**

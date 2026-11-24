@@ -11,6 +11,7 @@ import { getDailyHistory } from '@/lib/marketData/history'
 import type { NormalizedQuote } from '@/lib/marketData/types'
 import { buildRadar, loadEarningsForSymbols, radarEmailSection, type RadarEvent } from '@/lib/earningsRadar'
 import { countedDepots } from '@/lib/sampleDepotShared'
+import { isSplitBooking } from '@/lib/portfolio/costBasis'
 
 // Kurse, Versand und Wiederholungen je Nutzer brauchen Zeit
 export const maxDuration = 300
@@ -61,7 +62,10 @@ interface FlowRow {
   symbol: string | null
   type: string
   quantity: number | null
+  price: number | null
+  total_value: number | null
   date: string
+  notes: string | null
 }
 
 // held:   Bestand lag schon am Schlusskurs der Vorwoche (ganz oder teilweise) im Depot
@@ -262,7 +266,7 @@ async function loadFlows(portfolioIds: string[], from: string): Promise<FlowRow[
   for (let offset = 0; ; offset += FLOW_PAGE_SIZE) {
     const { data, error } = await supabase
       .from('portfolio_transactions')
-      .select('portfolio_id, symbol, type, quantity, date')
+      .select('portfolio_id, symbol, type, quantity, price, total_value, date, notes')
       .in('portfolio_id', portfolioIds)
       .in('type', [...INFLOW_TYPES, ...OUTFLOW_TYPES])
       .gte('date', from)
@@ -270,7 +274,9 @@ async function loadFlows(portfolioIds: string[], from: string): Promise<FlowRow[
       .range(offset, offset + FLOW_PAGE_SIZE - 1)
     if (error) throw new Error(error.message)
     const page = (data as FlowRow[] | null) ?? []
-    out.push(...page)
+    // Ein gebuchter Split ist kein Zukauf: Die Position lag die ganze Woche im
+    // Depot, und der Vorwochen-Schluss steht schon auf der neuen Stückzahl
+    out.push(...page.filter(row => !isSplitBooking(row)))
     if (page.length < FLOW_PAGE_SIZE) break
   }
   return out

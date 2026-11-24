@@ -23,6 +23,7 @@ import { useETFInfo } from '@/hooks/useETFInfo'
 import DepotAccountMenu from '@/components/portfolio/DepotAccountMenu'
 import InvestmentCaseCard from '@/components/portfolio/InvestmentCaseCard'
 import { formatDecimal } from '@/lib/displayFormat'
+import { settleSplitBookings } from '@/lib/portfolio/costBasis'
 
 interface FullTransaction {
   id: string
@@ -405,8 +406,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     let buyCount = 0
     let sellCount = 0
 
-    // Chronologisch sortiert
-    const sorted = [...allTransactions].sort(
+    // Chronologisch sortiert. Der Chart steht auch vor einem Split auf der neuen
+    // Stückzahl, ein Kauf davor läge sonst weit außerhalb (Booking 3.500 statt 140 €)
+    const sorted = [...settleSplitBookings(allTransactions)].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     )
 

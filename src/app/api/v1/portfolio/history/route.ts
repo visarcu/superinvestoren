@@ -11,7 +11,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getDailyHistory, getFxHistory } from '@/lib/marketData/history'
 import { calculatePortfolioTwrByDate } from '@/lib/portfolioTwr'
-import { withoutInternalTransfers } from '@/lib/portfolio/costBasis'
+import { settleSplitBookings, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
 
 interface HoldingInput {
   symbol: string
@@ -109,8 +109,9 @@ export async function POST(request: NextRequest) {
 
       if (txs.length > 0) {
         // Umzüge im selben Depot (Lagerstellenwechsel) sind kein Ab- und Zugang,
-        // sonst bricht der Verlauf für die Tage dazwischen ein
-        allTransactions = withoutInternalTransfers(txs)
+        // sonst bricht der Verlauf für die Tage dazwischen ein. Vom Broker gebuchte
+        // Splits zählen rückwirkend, die Kurse stehen davor schon auf der neuen Stückzahl.
+        allTransactions = withoutInternalTransfers(settleSplitBookings(txs))
         for (const tx of allTransactions) {
           if (!tx.symbol || tx.symbol === 'CASH') continue
           if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) continue

@@ -6,7 +6,7 @@
 
 import { detectTickerCurrency } from '@/lib/fmp'
 import { cashFlowKind, isCashFlow, signedCashAmount, sumCashFlows, sumOrderCosts } from '@/lib/portfolio/cashFlows'
-import { findInternalTransfers, findSplitPairs, walkCostBasis, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
+import { findInternalTransfers, findSplitPairs, isSplitBooking, settleSplitBookings, walkCostBasis, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
 import { isCorpActionTransfer } from '@/lib/portfolioTwr'
 import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
 import { calculateXIRR, type Cashflow } from '@/utils/xirr'
@@ -186,13 +186,14 @@ export function estimateMissingAmounts(transactions: Transaction[], holdings: Ho
     if (sym && !holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
   })
 
-  // Split als Paar aus wertlosem Aus- und Einbuchen: Da fehlt kein Betrag, es
-  // ist keiner geflossen. Geschätzt stünde der Einstand doppelt im Depot.
+  // Split als Paar aus wertlosem Aus- und Einbuchen oder als Gratisstücke (Trade
+  // Republic): Da fehlt kein Betrag, es ist keiner geflossen. Geschätzt stünde der
+  // Einstand doppelt im Depot.
   const splitPairs = findSplitPairs(transactions)
 
   let changed = false
   const result = transactions.map(tx => {
-    if (!isSecurityTransaction(tx) || splitPairs.has(tx)) return tx
+    if (!isSecurityTransaction(tx) || splitPairs.has(tx) || isSplitBooking(tx)) return tx
     if (transactionAmount(tx) > 0) return tx
     const quantity = Number(tx.quantity) || 0
     if (quantity <= 0) return tx
@@ -683,7 +684,9 @@ export function projectDividends(
   }
 
   const positionTxBySymbol = new Map<string, Transaction[]>()
-  for (const tx of withoutInternalTransfers(transactions)) {
+  // Zahlungen vor einem Split verteilen sich auf die Stücke danach: Der heutige
+  // Bestand, mit dem die Prognose rechnet, steht auf der neuen Stückzahl.
+  for (const tx of withoutInternalTransfers(settleSplitBookings(transactions))) {
     if (!isSecurityTransaction(tx)) continue
     if (!positionTxBySymbol.has(tx.symbol)) positionTxBySymbol.set(tx.symbol, [])
     positionTxBySymbol.get(tx.symbol)!.push(tx)
