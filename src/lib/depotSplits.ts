@@ -1,4 +1,4 @@
-// src/lib/depotSplits.ts: Neue Buchungen auf die Stückzahl-Basis des Depots bringen
+// src/lib/depotSplits.ts: Neue Buchungen auf die Stückzahl nach einem Split bringen
 //
 // Hat ein Depot einen Split verrechnet, stehen seine Buchungen davor auf der
 // neuen Stückzahl. Ein späterer Export, der den Split nicht nennt, bringt weitere
@@ -6,12 +6,20 @@
 // 0,038492 L8I7.DE zu 1.260 € neben 7,6984 zu 6,30 € (Split 200:1) hoben den
 // Einstand von 6,89 auf 7,39 €.
 //
+// In einem Depot ohne Buchungen vor dem Split gilt dasselbe für Splits, die der
+// Kursanbieter kennt (missingSplits.ts): Die Kurse stehen immer auf der heutigen
+// Stückzahl. Stehen dort schon ältere Buchungen ohne den Split, bleibt alles.
+//
 // Umgerechnet wird nur mit Beleg:
 //  - Die Datei bucht den Split selbst ein (Trade Republic: 19,264991 Gratisstücke
 //    neben den unveränderten alten Käufen). Dann stehen die Käufe davor in alter
 //    Stückzahl, und die Buchung entfällt, weil das Depot den Split schon enthält.
+//  - Eine Einbuchung um den Split-Tag ergibt genau Bestand mal Verhältnis. Ältere
+//    Scalable-Exporte buchen so die neuen Stücke ein, ohne die alten auszubuchen
+//    (Walmart 3:1: 11 Stück, dann 33 dazu, im Depot standen 44).
 //  - Zeilen derselben Datei, die das Depot schon kennt, stehen dort umgerechnet
 //    und in der Datei nicht.
+//  - Die Kaufkurse liegen um das Split-Verhältnis über den Schlusskursen dieser Tage.
 //  - Der Kurs liegt eindeutig näher an den Kursen des Depots vor dem Split.
 // Bleibt es offen, ändert der Import nichts und sagt es.
 
@@ -19,6 +27,7 @@ import {
   appendSplitNote, appliedSplits, hasSplitApplied, isNearSplitDate, isSameSplit, stripSplitMarkers, type AppliedSplit,
 } from '@/lib/splitAdjustment'
 import { SPLIT_TYPES, type NewBooking, type StoredBooking, type StoredMatch } from '@/lib/transactionMatch'
+import type { SplitVerdict } from '@/lib/marketData/missingSplits'
 
 export interface DepotSplitPlan {
   /** Neue Buchungen (Index), denen diese Splits fehlen */
@@ -62,12 +71,21 @@ function missingByPrice(price: number, reference: number, splits: AppliedSplit[]
   return best.gap <= CLEAR_PRICE_GAP && second.gap - best.gap >= CLEAR_PRICE_GAP ? best.count : null
 }
 
+/**
+ * Käufe und Verkäufe tragen den Marktkurs ihres Tages. Überträge oft den alten
+ * Einstand (bei einem Umzug Amazon 54 % unter dem Tageskurs), der über die
+ * Stückzahl nichts sagt.
+ */
+export function hasMarketPrice(tx: { type: string; price: unknown; ignorePrice?: boolean }): boolean {
+  return (tx.type === 'buy' || tx.type === 'sell') && !tx.ignorePrice && Number(tx.price) > 0
+}
+
 /** Kurs der zeitlich nächsten Buchung des Depots, die alle Splits verrechnet hat. */
 function nearestPrice(rows: StoredBooking[], splits: AppliedSplit[], date: string): number {
   const distance = (row: StoredBooking) => Math.abs(Date.parse(row.date) - Date.parse(date))
   const nearest = rows
     .filter(row =>
-      Number(row.price) > 0 &&
+      hasMarketPrice(row) &&
       splits.every(s => row.date >= s.date || hasSplitApplied(row.notes, s.date, s.ratio))
     )
     .sort((a, b) => distance(a) - distance(b))[0]
@@ -83,37 +101,94 @@ function isSplitBooking(tx: NewBooking): boolean {
   )
 }
 
-/** Welche Splits des Depots fehlen den neuen Buchungen einer Datei? */
+// Abweichung, bis zu der eine Einbuchung dem Bestand mal Verhältnis entspricht
+const REPLACEMENT_TOLERANCE = 0.005
+
+const signedQuantity = (tx: { type: string; quantity: unknown }) =>
+  (tx.type === 'buy' || tx.type === 'transfer_in' ? 1 : -1) * (Number(tx.quantity) || 0)
+
+/**
+ * Ist die Einbuchung der Split selbst? Ihre Stücke sind dann der Bestand davor mal
+ * Verhältnis (alle neuen) oder mal Verhältnis minus eins (nur die zusätzlichen).
+ */
+function matchesSplitQuantity(quantity: number, held: number, ratio: number): boolean {
+  if (!(held > 0) || !(quantity > 0)) return false
+  return [held * ratio, held * (ratio - 1)].some(
+    expected => expected > 0 && Math.abs(quantity / expected - 1) <= REPLACEMENT_TOLERANCE
+  )
+}
+
+/** Welche Splits fehlen den neuen Buchungen einer Datei? */
 export function planDepotSplits(
   stored: StoredBooking[],
   transactions: NewBooking[],
   /** Buchungen, die das Depot schon kennt (matchStoredBookings) */
-  matches: ReadonlyMap<number, StoredMatch>
+  matches: ReadonlyMap<number, StoredMatch>,
+  /** Splits laut Kursanbieter, mit Urteil über die Kurse der Datei */
+  listed: SplitVerdict[] = []
 ): DepotSplitPlan {
   const plan: DepotSplitPlan = { adopt: new Map(), unclear: new Map(), redundant: new Map() }
+  const depotSplits = depotSplitsBySymbol(stored)
 
-  for (const [symbol, splits] of depotSplitsBySymbol(stored)) {
+  for (const symbol of new Set([...depotSplits.keys(), ...listed.map(s => s.symbol)])) {
+    const rows = stored.filter(row => row.symbol === symbol && SPLIT_TYPES.has(row.type))
+    const inDepot = depotSplits.get(symbol) ?? []
+    const verdicts = listed.filter(s => s.symbol === symbol)
+    const splits: AppliedSplit[] = [
+      ...inDepot,
+      // Stehen im Depot ältere Buchungen ohne diesen Split, bleibt es dabei
+      ...verdicts
+        .filter(v => !inDepot.some(s => isSameSplit(s, v)) && !rows.some(row => row.date < v.date))
+        .map(({ date, ratio }) => ({ date, ratio })),
+    ].sort((a, b) => a.date.localeCompare(b.date))
     const inFile = transactions
       .map((tx, index) => ({ tx, index }))
       .filter(({ tx }) => tx.symbol === symbol && SPLIT_TYPES.has(tx.type))
     const fresh = inFile.filter(({ index }) => !matches.has(index))
     if (fresh.length === 0) continue
 
-    const rows = stored.filter(row => row.symbol === symbol && SPLIT_TYPES.has(row.type))
-
     // Was die Datei über jeden Split sagt: fehlt er ihren Zeilen davor, enthalten
     // sie ihn schon, oder bleibt es offen?
-    const known = splits.map((split): { missing?: boolean; keep?: boolean } => {
-      const bookings = inFile.filter(({ tx }) => isSplitBooking(tx) && isNearSplitDate(tx.date, split.date))
+    const known = splits.map((split): { missing?: boolean; keep?: boolean; blocked?: boolean } => {
+      const near = inFile.filter(({ tx }) =>
+        (tx.type === 'transfer_in' || tx.type === 'transfer_out') && isNearSplitDate(tx.date, split.date)
+      )
+      const bookings = near.filter(({ tx }) => isSplitBooking(tx))
       if (bookings.length > 0) {
-        // Führt das Depot die Split-Buchung selbst oder noch alte Stückzahlen, zu
-        // denen sie gehört, bleiben die Zeilen der Datei, wie sie sind.
+        // Hat das Depot den Split nicht verrechnet, führt es die Split-Buchung
+        // selbst oder noch alte Stückzahlen, zu denen sie gehört, bleiben die
+        // Zeilen der Datei, wie sie sind.
         const settled =
+          inDepot.includes(split) &&
           bookings.every(({ index }) => !matches.has(index)) &&
           rows.every(row => row.date >= split.date || hasSplitApplied(row.notes, split.date, split.ratio))
         if (!settled) return { keep: true }
         bookings.forEach(({ index }) => plan.redundant.set(index, [split]))
         return { missing: true }
+      }
+
+      // Die Einbuchung der neuen Stücke, ohne Hinweis und oft mit Kurs. Der Bestand
+      // davor zählt auf der alten Stückzahl, aus Depot und neuen Buchungen.
+      const beforeSplit = (row: { type: string; quantity: unknown; notes?: string | null }) =>
+        signedQuantity(row) / (hasSplitApplied(row.notes, split.date, split.ratio) ? split.ratio : 1)
+      const replacement = near.length === 1 && near[0].tx.type === 'transfer_in' ? near[0] : undefined
+      if (replacement && !hasSplitApplied(replacement.tx.notes, split.date, split.ratio)) {
+        const held =
+          rows.filter(row => row.date < replacement.tx.date).reduce((sum, row) => sum + beforeSplit(row), 0) +
+          fresh.filter(({ tx }) => tx.date < replacement.tx.date).reduce((sum, { tx }) => sum + beforeSplit(tx), 0)
+        if (matchesSplitQuantity(replacement.tx.quantity, held, split.ratio)) {
+          const settled =
+            !matches.has(replacement.index) &&
+            rows.every(row => row.date >= split.date || hasSplitApplied(row.notes, split.date, split.ratio))
+          const contradicted = verdicts.find(v => isSameSplit(v, split))?.missing === false
+          if (settled && !contradicted) {
+            plan.redundant.set(replacement.index, [split])
+            return { missing: true }
+          }
+          // Die Buchungen davor stehen im Depot noch auf der alten Stückzahl: Mit
+          // der Einbuchung zusammen stimmt der Bestand nicht
+          if (!matches.has(replacement.index)) plan.unclear.set(replacement.index, [split])
+        }
       }
 
       let without = 0
@@ -125,7 +200,11 @@ export function planDepotSplits(
         if (match.openSplits.some(s => isSameSplit(s, split))) without++
         else including++
       }
-      return without > 0 === including > 0 ? {} : { missing: without > 0 }
+      if (without > 0 !== including > 0) return { missing: without > 0 }
+      // Ein anderer Übertrag um den Split-Tag kann zum Split gehören
+      if (near.length > 0) return { blocked: true }
+      const verdict = verdicts.find(v => isSameSplit(v, split))?.missing
+      return verdict === true || verdict === false ? { missing: verdict } : {}
     })
 
     for (const { tx, index } of fresh) {
@@ -135,11 +214,13 @@ export function planDepotSplits(
       if (open.length === 0 || plan.redundant.has(index)) continue
 
       let adopt: AppliedSplit[] | null
-      if (open.every(o => o.missing !== undefined)) {
+      if (open.some(o => o.blocked)) {
+        adopt = null
+      } else if (open.every(o => o.missing !== undefined)) {
         adopt = open.filter(o => o.missing).map(o => o.split)
       } else {
         const latestFirst = open.map(o => o.split).reverse()
-        const reference = tx.ignorePrice ? 0 : nearestPrice(rows, splits.filter(s => s.date > tx.date), tx.date)
+        const reference = !hasMarketPrice(tx) ? 0 : nearestPrice(rows, splits.filter(s => s.date > tx.date), tx.date)
         const count = missingByPrice(tx.price, reference, latestFirst)
         adopt = count === null ? null : latestFirst.slice(0, count).reverse()
       }

@@ -189,7 +189,7 @@ async function main() {
         .lt('date', split.date)
         .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
 
-      const pending = (txRows || []).filter(tx => !hasSplitApplied(tx.notes, split.date))
+      const pending = (txRows || []).filter(tx => !hasSplitApplied(tx.notes, split.date, split.ratio))
       if (pending.length === 0) {
         alreadyDone++
         continue

@@ -6,6 +6,7 @@
 // Zeile, damit auch zwei gleiche Käufe am selben Tag nicht verwechselt werden.
 
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { adoptSplits, planDepotSplits } from '@/lib/depotSplits'
 import { loadEurCloses } from '@/lib/historicalEurCloses'
 import { describeValidationIssues, NAME_MAX_LENGTH, validateImportRows } from '@/lib/importValidation'
 import { loadAllRows, POSITION_TX_TYPES, reconcileHoldings } from '@/lib/portfolioReconcile'
@@ -14,7 +15,7 @@ import {
   detectSpinoffEvents, hasSpinoffBasisTaken, isSpinoffChildTransfer, planSpinoffCostSplit, valueBeforeSpinoff, type SpinoffEvent,
 } from '@/lib/spinoffAdjustment'
 import { parseTrading212CSV } from '@/lib/trading212CSVParser'
-import { matchesStoredTransaction, quantitiesMatch } from '@/lib/transactionMatch'
+import { matchesStoredTransaction, matchStoredBookings, quantitiesMatch } from '@/lib/transactionMatch'
 
 export interface T212ImportResult {
   /** Zeilen in den Berichten */
@@ -80,7 +81,7 @@ export async function importT212Reports(db: SupabaseClient, portfolioId: string,
   }
 
   const links: Array<{ portfolio_id: string; external_id: string; transaction_id: string }> = []
-  const fresh: Array<{ tx: ParsedTransaction; id: string }> = []
+  const unknown: Array<{ tx: ParsedTransaction; id: string }> = []
   for (const tx of all) {
     if (known.has(tx.externalId!)) continue
     const candidates = pool.get(`${tx.type}|${tx.symbol}|${tx.date}`) ?? []
@@ -92,9 +93,29 @@ export async function importT212Reports(db: SupabaseClient, portfolioId: string,
       links.push({ portfolio_id: portfolioId, external_id: tx.externalId!, transaction_id: candidates[index].id })
       candidates.splice(index, 1)
     } else {
-      fresh.push({ tx, id: crypto.randomUUID() })
+      unknown.push({ tx, id: crypto.randomUUID() })
     }
   }
+
+  // Hat das Depot einen Split schon verrechnet (Import einer alten CSV), entfällt
+  // das Split-Paar des Berichts, und neue Buchungen davor kommen auf die neue
+  // Stückzahl. Sonst zählte der Split doppelt.
+  const bookings = all.map(tx => ({ type: tx.type, symbol: tx.symbol!, date: tx.date, quantity: tx.quantity, price: tx.price, notes: tx.notes }))
+  const matches = matchStoredBookings(stored, bookings)
+  const unknownRows = new Set(unknown.map(u => u.tx))
+  all.forEach((tx, i) => {
+    if (unknownRows.has(tx)) matches.delete(i)
+    else if (!matches.has(i)) matches.set(i, { rows: [], openSplits: [] })
+  })
+  const splits = planDepotSplits(stored, bookings, matches)
+  const indexOf = new Map(all.map((tx, i) => [tx, i]))
+  const fresh = unknown
+    .filter(({ tx }) => !splits.redundant.has(indexOf.get(tx)!))
+    .map(({ tx, id }) => {
+      const missing = splits.adopt.get(indexOf.get(tx)!)
+      return { tx: missing ? adoptSplits(tx, missing) : tx, id }
+    })
+  for (const i of splits.unclear.keys()) hinweise.add(`${all[i].symbol}: Stückzahl nach einem Aktiensplit bitte prüfen.`)
 
   // Alles oder nichts: Scheitert ein Stapel, kommen auch die vorigen wieder raus
   for (let i = 0; i < fresh.length; i += BATCH) {

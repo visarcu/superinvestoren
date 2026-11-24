@@ -1,6 +1,8 @@
 // src/lib/duplicateCheck.ts — Duplikat-Erkennung für Portfolio-Transaktionen
 import { supabase } from '@/lib/supabaseClient'
 import { planDepotSplits, type DepotSplitPlan } from '@/lib/depotSplits'
+import { loadImportSplits } from '@/lib/importSplits'
+import type { AppliedSplit } from '@/lib/splitAdjustment'
 import { matchesStoredTransaction, matchStoredBookings, type NewBooking, type StoredBooking } from '@/lib/transactionMatch'
 import { loadAllRows } from '@/lib/portfolioReconcile'
 
@@ -55,8 +57,12 @@ export async function checkDuplicateTransaction(
 export interface DepotComparison {
   /** Indizes der Buchungen, die das Depot schon kennt oder schon verrechnet hat */
   duplicates: Set<number>
-  /** Splits, die das Depot verrechnet hat und die neuen Buchungen nicht */
+  /** Splits, die neuen Buchungen fehlen */
   splits: DepotSplitPlan
+  /** Splits, die allen Buchungen der Datei zur heutigen Stückzahl fehlen, auch bekannten */
+  openSplits: Map<number, AppliedSplit[]>
+  /** Nicht alle Papiere ließen sich auf Splits prüfen */
+  splitsIncomplete: boolean
 }
 
 async function loadStoredBookings(portfolioId: string): Promise<StoredBooking[]> {
@@ -77,17 +83,29 @@ async function loadStoredBookings(portfolioId: string): Promise<StoredBooking[]>
 
 /**
  * Vergleicht die Buchungen einer Datei mit allen gespeicherten des Portfolios:
- * Welche sind schon da, und welchen fehlt ein Split, den das Depot schon
- * verrechnet hat?
+ * Welche sind schon da, und welchen fehlt ein Split?
  */
 export async function compareWithDepot(
   portfolioId: string,
-  transactions: NewBooking[]
+  transactions: NewBooking[],
+  /** emptyDepot: Das Depot wird vor dem Import geleert */
+  { emptyDepot = false }: { emptyDepot?: boolean } = {}
 ): Promise<DepotComparison> {
-  const stored = await loadStoredBookings(portfolioId)
+  const stored = emptyDepot ? [] : await loadStoredBookings(portfolioId)
   const matches = matchStoredBookings(stored, transactions)
-  const splits = planDepotSplits(stored, transactions, matches)
-  return { duplicates: new Set([...matches.keys(), ...splits.redundant.keys()]), splits }
+  const listed = await loadImportSplits(transactions.filter((_, i) => !matches.has(i)))
+  const splits = planDepotSplits(stored, transactions, matches, listed.splits)
+
+  const openSplits = new Map(splits.adopt)
+  matches.forEach((match, i) => {
+    if (match.openSplits.length > 0) openSplits.set(i, match.openSplits)
+  })
+  return {
+    duplicates: new Set([...matches.keys(), ...splits.redundant.keys()]),
+    splits,
+    openSplits,
+    splitsIncomplete: listed.incomplete,
+  }
 }
 
 /** Nur die Indizes der Buchungen, die das Depot schon kennt. */
