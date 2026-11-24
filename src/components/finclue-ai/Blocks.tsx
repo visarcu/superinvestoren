@@ -52,11 +52,11 @@ function dateLabel(iso: string, long: boolean): string {
   return long ? `${d}.${m}.${y}` : `${d}.${m}.`
 }
 
-function Line({ block }: { block: Extract<AiBlock, { type: 'linie' }> }) {
+function Line({ block, flach }: { block: Extract<AiBlock, { type: 'linie' }>; flach?: boolean }) {
   const [ref, width] = useWidth()
   const [hover, setHover] = useState<number | null>(null)
   const digits = block.nachkommastellen ?? 1
-  const height = 220
+  const height = flach ? 176 : 220
 
   const model = useMemo(() => {
     const series = block.serien.filter(s => s.punkte.length > 1)
@@ -177,11 +177,11 @@ function Line({ block }: { block: Extract<AiBlock, { type: 'linie' }> }) {
   )
 }
 
-function Columns({ block }: { block: Extract<AiBlock, { type: 'saeulen' }> }) {
+function Columns({ block, flach }: { block: Extract<AiBlock, { type: 'saeulen' }>; flach?: boolean }) {
   const [ref, width] = useWidth()
   const [hover, setHover] = useState<number | null>(null)
   const digits = block.nachkommastellen ?? 1
-  const height = 210
+  const height = flach ? 168 : 210
   const values = block.serien.flatMap(s => s.werte).filter((v): v is number => v != null)
   if (values.length === 0) return null
   let min = Math.min(0, ...values)
@@ -256,7 +256,8 @@ function Bars({ block }: { block: Extract<AiBlock, { type: 'balken' }> }) {
   )
 }
 
-export default function Block({ block }: { block: AiBlock }) {
+/** flach: niedriger, wenn mehrere Grafiken untereinander stehen */
+export default function Block({ block, flach }: { block: AiBlock; flach?: boolean }) {
   const legend = block.type === 'saeulen' && block.serien.length > 1 ? block.serien.map((s, i) => ({ name: s.name, color: SERIES[i % SERIES.length] })) : []
   const unit = block.type === 'saeulen' && block.einheit ? ` (${block.einheit})` : ''
   return (
@@ -265,8 +266,8 @@ export default function Block({ block }: { block: AiBlock }) {
         <span>{block.titel}{unit}</span>
         {legend.map(l => <span key={l.name}><i style={{ background: l.color }} />{l.name}</span>)}
       </figcaption>
-      {block.type === 'linie' && <Line block={block} />}
-      {block.type === 'saeulen' && <Columns block={block} />}
+      {block.type === 'linie' && <Line block={block} flach={flach} />}
+      {block.type === 'saeulen' && <Columns block={block} flach={flach} />}
       {block.type === 'balken' && <Bars block={block} />}
       {block.type === 'zeitleiste' && (
         <ul className="fai-time">
