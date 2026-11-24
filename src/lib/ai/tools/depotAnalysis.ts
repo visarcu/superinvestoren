@@ -110,7 +110,7 @@ export const depotRendite = defineTool({
         rendite_prozent: num(cmp?.portfolio?.totalReturnPct), rendite_pro_jahr_prozent: num(cmp?.portfolio?.annualizedPct),
         vergleich: cmp ? [bench(cmp.benchmarks?.ftseAllWorld), bench(cmp.benchmarks?.msciWorld), bench(cmp.benchmarks?.sp500)].filter(Boolean) : [],
         wert_am_anfang_eur: eur(first.value), wert_am_ende_eur: eur(last.value), ...(leveraged ? { davon_wertpapiere_am_ende_eur: eur(d.stockValue), davon_negatives_guthaben_eur: eur(d.cash) } : {}), eingezahlt_im_zeitraum_eur: eur(contributed), gewinn_im_zeitraum_eur: eur(gain),
-        ...(cmp?.attribution ? { woher_der_unterschied_zum_all_world_kommt_eur: cmp.attribution.buckets?.map((b: any) => ({ teil: b.key === 'fees' ? 'Ordergebühren und Steuern auf Verkäufe' : b.label, eur: b.euroDiff })), bester_beitrag: cmp.attribution.best, schwaechster_beitrag: cmp.attribution.worst } : {}),
+        ...(cmp?.attribution ? { woher_der_unterschied_zum_all_world_kommt_eur: cmp.attribution.buckets?.map((b: any) => ({ teil: b.label, eur: b.euroDiff })), bester_beitrag: cmp.attribution.best, schwaechster_beitrag: cmp.attribution.worst } : {}),
         hinweise: [
           'rendite_prozent ist zeitgewichtet (TWR): Einzahlungen verändern sie nicht, deshalb ist sie mit einem Index vergleichbar. Alles in Euro, Indizes mit Dividenden.',
           `gewinn_im_zeitraum_eur = Wert am Ende minus Wert am Anfang minus eingezahltes Geld${h.meta?.investedMode === 'deposits' ? ', Guthaben eingerechnet' : ', nur Wertpapiere, Dividenden eingerechnet'}.`,
