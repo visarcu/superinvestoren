@@ -343,7 +343,7 @@ interface CorporateActionReference {
   splits: SplitEvent[]
 }
 
-const corporateActionCache = new Map<string, { data: CorporateActionReference | null; timestamp: number }>()
+const corporateActionCache = new Map<string, { data: CorporateActionReference | null; timestamp: number; ttl: number }>()
 
 /**
  * Split-Ereignisse und bereinigte Kurse eines Spin-off-Mutterpapiers von Yahoo.
@@ -358,14 +358,16 @@ async function fetchCorporateActionReference(
 ): Promise<CorporateActionReference | null> {
   const cacheKey = `${yahooSymbol}_${fromDate}_${toDate}`
   const cached = corporateActionCache.get(cacheKey)
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL) return cached.data
+  if (cached && Date.now() - cached.timestamp < cached.ttl) return cached.data
 
   let data: CorporateActionReference | null = null
+  let outage = false
   try {
     const period1 = Math.floor(Date.parse(fromDate) / 1000)
     const period2 = Math.floor(Date.parse(toDate) / 1000) + 86400
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?period1=${period1}&period2=${period2}&interval=1d&events=splits`
     const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(10000) })
+    if (isOutage(res.status)) outage = true
     if (res.ok) {
       const result = (await res.json())?.chart?.result?.[0]
       if (result) {
@@ -384,9 +386,11 @@ async function fetchCorporateActionReference(
         data = { closes: closeMap, splits }
       }
     }
-  } catch { /* ohne Referenz bleibt die Kursreihe, wie sie ist */ }
+  } catch {
+    outage = true // ohne Referenz bleibt die Kursreihe, wie sie ist
+  }
 
-  corporateActionCache.set(cacheKey, { data, timestamp: Date.now() })
+  corporateActionCache.set(cacheKey, { data, timestamp: Date.now(), ttl: outage ? OUTAGE_TTL : CACHE_TTL })
   return data
 }
 
