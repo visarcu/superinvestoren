@@ -29,7 +29,8 @@ const brokers = IMPORT_BROKERS.filter(b => b.id !== 'other').map(b => b.name)
 // — Formatierung —
 
 const pct = (value: number, digits = 1) => `${value.toLocaleString('de-DE', { maximumFractionDigits: digits })} %`
-const usd = (value: number) => `${Math.round(value).toLocaleString('de-DE')} $`
+// Geschütztes Leerzeichen, damit das Dollarzeichen nie allein in die nächste Zeile rutscht
+const usd = (value: number) => `${Math.round(value).toLocaleString('de-DE')}\u00a0$`
 const num = (value: number | null) => (value === null ? '–' : value.toLocaleString('de-DE', { maximumFractionDigits: 2 }))
 
 // — Inhalte —
@@ -151,11 +152,25 @@ function FeatureGrid({ items, light = false }: { items: { title: string; text: s
   )
 }
 
-function Kpi({ label, value, compare }: { label: string; value: string; compare?: string }) {
+// Drei Beträge nebeneinander in der schmalen Hero-Karte: Schriftgröße folgt der Kartenbreite
+// (Handy und 1024 px kleiner, sonst wie text-xl), damit auch sechsstellige Werte in eine Zeile passen.
+const HERO_VALUE = 'text-[clamp(0.875rem,5.4cqi,1.25rem)] leading-7'
+
+function Kpi({
+  label,
+  value,
+  compare,
+  valueClassName = 'text-xl',
+}: {
+  label: string
+  value: string
+  compare?: string
+  valueClassName?: string
+}) {
   return (
     <div className="min-w-0">
       <dt className="text-xs text-[#9A9C94]">{label}</dt>
-      <dd className="mt-1 text-xl tabular-nums" style={MONO}>
+      <dd className={`mt-1 tabular-nums ${valueClassName}`} style={MONO}>
         {value}
       </dd>
       {compare && (
@@ -402,10 +417,10 @@ export default async function DepotLanding({
               <div className="mt-4">
                 <MonteCarloFanChart bands={mc.bands} startValue={SHOWCASE_START_VALUE} />
               </div>
-              <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-[#23261F] pt-4">
-                <Kpi label="Ungünstig" value={usd(lastBand.p5)} />
-                <Kpi label="Mittel" value={usd(lastBand.p50)} />
-                <Kpi label="Günstig" value={usd(lastBand.p95)} />
+              <dl className="mt-4 grid grid-cols-[repeat(3,minmax(max-content,1fr))] gap-3 border-t border-[#23261F] pt-4 [container-type:inline-size]">
+                <Kpi label="Ungünstig" value={usd(lastBand.p5)} valueClassName={HERO_VALUE} />
+                <Kpi label="Mittel" value={usd(lastBand.p50)} valueClassName={HERO_VALUE} />
+                <Kpi label="Günstig" value={usd(lastBand.p95)} valueClassName={HERO_VALUE} />
               </dl>
               <figcaption className="mt-3 text-xs text-[#9A9C94]">Start mit {usd(SHOWCASE_START_VALUE)}, aus echten Kursen. Keine Prognose.</figcaption>
             </figure>
