@@ -42,29 +42,17 @@ function applySplitAdjustments(ticker: string, value: number, date: string): num
 }
 
 // ✅ DATUM FILTER: Nur ab 2005 (20 Jahre Historie)
+// FMP liefert nur berichtete Perioden. Entscheidend ist deshalb das Periodenende, nicht das
+// Kalenderjahr: Nvidias Geschäftsjahr 2026 endete im Januar 2026, Microsofts im Juni 2026.
 function filterModernData(data: any[], period: 'annual' | 'quarter'): any[] {
   // ✅ FIX: Unterschiedliche Cutoffs für Annual vs Quarterly
   const cutoffYear = period === 'quarter' ? 1995 : 2005  // Quarterly: 30 Jahre, Annual: 20 Jahre
-  const currentYear = new Date().getFullYear()
-  const currentMonth = new Date().getMonth() + 1
-  const currentQuarter = Math.floor((currentMonth - 1) / 3) + 1
-  
+  const today = new Date().toISOString().slice(0, 10)
+
   return data.filter((item: any) => {
-    if (period === 'annual') {
-      const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
-      return year >= cutoffYear && year < currentYear
-    } else {
-      const date = new Date(item.date + 'T00:00:00')
-      const year = date.getFullYear()
-      const month = date.getMonth() + 1
-      const quarter = Math.floor((month - 1) / 3) + 1
-      
-      // Ab 2005 und nicht zukünftige Quartale
-      if (year < cutoffYear) return false
-      if (year < currentYear) return true
-      if (year === currentYear) return quarter < currentQuarter
-      return false
-    }
+    if (!item.date || item.date > today) return false
+    const year = Number((period === 'annual' && item.calendarYear) || item.date.slice(0, 4))
+    return year >= cutoffYear
   })
 }
 
