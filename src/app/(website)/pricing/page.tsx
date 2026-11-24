@@ -261,7 +261,7 @@ export default function PricingPage() {
             <p className="text-sm font-semibold text-white">Ab 1. Januar 2027 gelten neue Preise</p>
             <p className="text-xs text-neutral-400 mt-1">
               Für Neukunden: {formatEur(pricing.upcoming.monthly)}€/Monat bzw. {formatEur(pricing.upcoming.yearly)}€/Jahr. Wer vorher abschließt, behält seinen Preis.
-              {pricing.founderPromoUpcoming && ` Am Black Friday (27.–30. November) gibt es das Jahresabo zum dauerhaften Gründerpreis von ${formatEur(FOUNDER_YEARLY_EUR)}€.`}
+              {pricing.founderPromoUpcoming && ` Zum Black Friday gibt es das Jahresabo zum dauerhaften Gründerpreis von ${formatEur(FOUNDER_YEARLY_EUR)}€.`}
             </p>
           </div>
         )}
@@ -465,7 +465,7 @@ export default function PricingPage() {
                   Was ist der Gründerpreis?
                 </h3>
                 <p className="text-neutral-400 text-sm leading-relaxed">
-                  Vom 27. bis 30. November 2026 (Black Friday bis Cyber Monday) bekommst du das Jahresabo für {formatEur(FOUNDER_YEARLY_EUR)}€. Dieser Preis bleibt dauerhaft, solange dein Abo läuft — auch nach der Preiserhöhung im Januar. Das Abo verlängert sich automatisch jährlich zum Gründerpreis und ist jederzeit zum Ende der Laufzeit kündbar. Kündigst du, gilt bei einem neuen Abo der dann aktuelle Preis.
+                  Bis Cyber Monday, 30. November 2026, bekommst du das Jahresabo für {formatEur(FOUNDER_YEARLY_EUR)}€. Dieser Preis bleibt dauerhaft, solange dein Abo läuft — auch nach der Preiserhöhung im Januar. Das Abo verlängert sich automatisch jährlich zum Gründerpreis und ist jederzeit zum Ende der Laufzeit kündbar. Kündigst du, gilt bei einem neuen Abo der dann aktuelle Preis.
                 </p>
               </div>
             )}
