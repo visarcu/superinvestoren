@@ -154,10 +154,12 @@ type HoldingRow = [asset: string, name: string, isin: string | null, weight: num
 // nimmt der Daten-Cache von Next nicht an und schreibt stattdessen die Adresse
 // samt API-Schlüssel ins Log. Deshalb: ohne fetch-Cache laden, auf die nötigen
 // Felder kürzen und erst das Ergebnis zwischenspeichern.
-async function loadHoldingRows(symbol: string): Promise<HoldingRow[]> {
+// Innerhalb von unstable_cache ohne cache-Angabe: Next 13.5 lädt dort ohnehin
+// ungecacht und wirft bei no-store einen Fehler, der Zwischenspeicher bliebe leer.
+async function loadHoldingRows(symbol: string, init?: RequestInit): Promise<HoldingRow[]> {
   const apiKey = process.env.FMP_API_KEY
   if (!apiKey) return []
-  const res = await fetch(`${FMP_BASE}/etf-holder/${encodeURIComponent(symbol)}?apikey=${apiKey}`, { cache: 'no-store' })
+  const res = await fetch(`${FMP_BASE}/etf-holder/${encodeURIComponent(symbol)}?apikey=${apiKey}`, init)
   if (!res.ok) throw new Error('ETF-Bestände nicht abrufbar')
   const data = (await res.json()) as FmpEtfHolding[]
   if (!Array.isArray(data)) return []
@@ -176,7 +178,7 @@ async function fetchEtfHoldings(symbol: string): Promise<FmpEtfHolding[]> {
       rows = await unstable_cache(() => loadHoldingRows(symbol), ['etf-holdings-v1', symbol], { revalidate: HOLDINGS_REVALIDATE })()
     } catch {
       // außerhalb von Next (Skripte) gibt es keinen Daten-Cache
-      rows = await loadHoldingRows(symbol).catch(() => [])
+      rows = await loadHoldingRows(symbol, { cache: 'no-store' }).catch(() => [])
     }
     if (holdingMemory.size > 60) holdingMemory.clear()
     if (rows.length > 0) holdingMemory.set(symbol, { rows, expires: Date.now() + 60 * 60 * 1000 })

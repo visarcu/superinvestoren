@@ -86,11 +86,13 @@ async function gatherFinancialData(ticker: string): Promise<FinancialData> {
   const apiKey = process.env.FMP_API_KEY;
 
   try {
-    // Parallel alle benötigten Daten holen (nutzt eure bestehende API-Struktur)
+    // Parallel alle benötigten Daten holen. Ohne cache-Angabe: Innerhalb von
+    // unstable_cache wirft Next 13.5 sonst einen Fehler, bei force-cache wie bei
+    // no-store (fetchCache only-no-store). Zwischengespeichert wird außen.
     const [profileRes, ratiosRes, metricsRes, quoteRes] = await Promise.all([
-      fetch(`${baseUrl}/profile/${ticker}?apikey=${apiKey}`, { cache: 'force-cache' }),
-      fetch(`${baseUrl}/ratios/${ticker}?period=annual&limit=1&apikey=${apiKey}`, { cache: 'force-cache' }),
-      fetch(`${baseUrl}/key-metrics/${ticker}?period=annual&limit=1&apikey=${apiKey}`, { cache: 'force-cache' }),
+      fetch(`${baseUrl}/profile/${ticker}?apikey=${apiKey}`),
+      fetch(`${baseUrl}/ratios/${ticker}?period=annual&limit=1&apikey=${apiKey}`),
+      fetch(`${baseUrl}/key-metrics/${ticker}?period=annual&limit=1&apikey=${apiKey}`),
       fetch(`${baseUrl}/quote/${ticker}?apikey=${apiKey}`)
     ]);
 
