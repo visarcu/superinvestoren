@@ -11,6 +11,7 @@ import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { useTheme } from '@/lib/useTheme'
 import { useEffect, useState } from 'react'
 import PageTransitionLoader from '@/components/PageTransitionLoader'
+import FounderPromoBar from '@/components/FounderPromoBar'
 import { usePathname } from 'next/navigation'
 
 export default function OptimizedWebsiteLayout({ children }: { children: ReactNode }) {
@@ -40,6 +41,11 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
         <Navbar />
 
         <main className={`flex-grow ${pathname?.startsWith('/superinvestor') || isLightTheme ? '' : 'pt-16'}`}>
+          {/* Black-Friday-Leiste: nicht auf der Preisseite (eigenes Banner) und nicht dort,
+              wo die Navigation den Inhalt überlagert (Superinvestor-Bereich, Blog) */}
+          {!pathname?.startsWith('/superinvestor') && !isLightTheme && pathname !== '/pricing' && (
+            <FounderPromoBar />
+          )}
           {children}
         </main>
 

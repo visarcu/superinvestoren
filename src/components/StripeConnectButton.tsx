@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { usePremiumStatus } from '@/lib/premiumUtils';
+import { formatEur, getPricing } from '@/lib/pricing';
 
 interface StripeConnectButtonProps {
   onStatusChange?: () => void;
@@ -239,7 +240,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           </div>
           <div className="flex items-center justify-between py-2 border-b border-theme">
             <span className="text-sm text-theme-muted">Danach</span>
-            <span className="text-sm text-theme-primary font-medium">9€/Monat</span>
+            <span className="text-sm text-theme-primary font-medium">{formatEur(getPricing().monthly)}€/Monat</span>
           </div>
           <div className="flex items-center justify-between py-2">
             <span className="text-sm text-theme-muted">Kündigung</span>
@@ -321,7 +322,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           )}
           <div className="flex items-center justify-between py-2">
             <span className="text-sm text-theme-muted">Preis</span>
-            <span className="text-sm text-theme-primary font-medium">9€/Monat</span>
+            <span className="text-sm text-theme-primary font-medium">{formatEur(getPricing().monthly)}€/Monat</span>
           </div>
         </div>
 
@@ -357,7 +358,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
         </div>
         <div className="flex items-center justify-between py-2 border-b border-theme">
           <span className="text-sm text-theme-muted">Danach</span>
-          <span className="text-sm text-theme-primary font-medium">9€/Monat</span>
+          <span className="text-sm text-theme-primary font-medium">{formatEur(getPricing().monthly)}€/Monat</span>
         </div>
         <div className="flex items-center justify-between py-2">
           <span className="text-sm text-theme-muted">Kündigung</span>

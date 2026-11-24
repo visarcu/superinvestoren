@@ -3,6 +3,7 @@ import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { supabase } from '@/lib/supabaseClient';
 import { useState, useEffect } from 'react';
 import React from 'react';
+import { formatEur, getPricing } from '@/lib/pricing';
 
 export interface PremiumStatus {
   isPremium: boolean;
@@ -153,7 +154,7 @@ export function PremiumGuard({ userId, children, fallback, showUpgrade = true }:
             onClick={() => window.location.href = '/profile'}
             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
           >
-            Jetzt upgraden für 9€/Monat
+            Jetzt upgraden für {formatEur(getPricing().monthly)}€/Monat
           </button>
         </div>
       );

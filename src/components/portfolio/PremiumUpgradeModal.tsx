@@ -4,6 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { CheckIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 import { leaveDepotHref } from '@/lib/siteHosts'
+import { formatEur, getPricing } from '@/lib/pricing';
 
 interface PremiumUpgradeModalProps {
   isOpen: boolean
@@ -34,7 +35,7 @@ export default function PremiumUpgradeModal({ isOpen, onClose, feature }: Premiu
           ))}
         </div>
         <div className="text-center mb-6 p-4 bg-theme-secondary rounded-xl">
-          <div className="text-2xl font-bold text-theme-primary">9€<span className="text-base font-normal text-theme-secondary">/Monat</span></div>
+          <div className="text-2xl font-bold text-theme-primary">{formatEur(getPricing().monthly)}€<span className="text-base font-normal text-theme-secondary">/Monat</span></div>
           <p className="text-xs text-theme-muted mt-1">Jederzeit kündbar</p>
         </div>
         <div className="flex gap-3">
