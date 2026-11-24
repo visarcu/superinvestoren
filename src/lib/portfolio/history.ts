@@ -15,6 +15,7 @@ import {
   flowAmount,
   isCorpActionTransfer,
 } from '@/lib/portfolioTwr'
+import { orderCosts } from '@/lib/portfolio/cashFlows'
 import { walkCostBasis, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
 import { isETF } from '@/lib/etfUtils'
 import { computeRiskMeasures, annualizedReturnPct, type RiskMeasures } from '@/lib/portfolioRisk'
@@ -38,6 +39,9 @@ import {
 } from '@/lib/portfolioQuant'
 import { getInstrumentsForSymbols, resolveSymbolViaSearch } from '@/lib/marketData/instrumentStore'
 import { yahooSymbolFromEodhd } from '@/lib/marketData/symbols'
+import { fetchFmpJson, isOutage } from '@/lib/marketData/fmpRequest'
+import { fetchYahooFx, isFxPair } from '@/lib/marketData/yahooFx'
+import { missedSplitDivisors, yahooSplitEvents } from '@/lib/marketData/yahooSplits'
 import type { Instrument } from '@/lib/marketData/types'
 import factorFile from '@/data/factors/developed5FactorsDaily.json'
 import { findLookthroughEntry } from '@/data/etfLookthrough'
@@ -114,8 +118,12 @@ const FX_EUR_APPROX: Record<string, number> = {
 }
 
 // In-memory cache für API-Responses (24h TTL)
-const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number }>()
+const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number, ttl: number }>()
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 Stunden
+// War eine Quelle nur gestört (Zeitüberschreitung, Abruflimit, Serverfehler),
+// gilt ein leeres oder ersatzweises Ergebnis nur kurz. Sonst rechnet der Verlauf
+// einen Tag lang für alle Nutzer ohne dieses Papier oder ohne Wechselkurs.
+const OUTAGE_TTL = 60 * 1000
 
 // Supabase Client
 const supabase = createClient(
@@ -169,7 +177,7 @@ async function fetchHistoricalPrices(
   const cacheKey = `${symbol}_${fromDate}_${toDate}_${adjusted ? 'adj' : 'raw'}${instrument ? '_i' : ''}`
   const cached = historyCache.get(cacheKey)
 
-  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+  if (cached && Date.now() - cached.timestamp < cached.ttl) {
     return cached.data
   }
 
@@ -182,14 +190,18 @@ async function fetchHistoricalPrices(
   const masterSource = resolvePriceSource(symbol)
 
   let historicalData: HistoricalDataPoint[] = []
+  // Quelle gestört bzw. Pfundkurs nur mit der Notfallrate umgerechnet
+  let outage = false
+  let approximated = false
 
   // Helper: FMP Historical mit optionaler Währungs-Konvertierung
   const fetchFmpHistorical = async (fetchSymbol: string, exchange?: 'GBp' | 'GBP' | 'EUR') => {
     try {
       const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${fetchSymbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
-      const response = await fetch(url, { next: { revalidate: 1800 } })
-      if (response.ok) {
-        const data = await response.json()
+      const response = await fetchFmpJson(url)
+      if (response.outage) outage = true
+      if (response.data) {
+        const data = response.data
         if (data.historical && Array.isArray(data.historical) && data.historical.length > 0) {
           const points: HistoricalDataPoint[] = data.historical
             .map((item: { date: string; close: number; adjClose?: number }) => ({
@@ -201,6 +213,7 @@ async function fetchHistoricalPrices(
 
           // Tageskurs des jeweiligen Handelstags (bzw. des letzten davor)
           const rates = await loadGbpEurRates(fromDate, toDate)
+          if (rates.length === 0) approximated = true
           let rateIdx = 0
           let rate = rates[0]?.[1] ?? GBP_EUR_APPROX
           return points.map(point => {
@@ -213,32 +226,27 @@ async function fetchHistoricalPrices(
           })
         }
       }
-    } catch { /* weiter zu Fallbacks */ }
+    } catch {
+      outage = true // weiter zu Fallbacks
+    }
     return []
   }
 
-  // Helper: Yahoo Finance Historical — Range dynamisch aus fromDate ableiten,
-  // sonst werden bei MAX-Ansicht ältere Daten abgeschnitten (Yahoo-Default 1y).
-  const yahooRange = (() => {
-    const span = (Date.now() - new Date(fromDate).getTime()) / (1000 * 60 * 60 * 24)
-    if (span <= 5) return '5d'
-    if (span <= 31) return '1mo'
-    if (span <= 93) return '3mo'
-    if (span <= 186) return '6mo'
-    if (span <= 366) return '1y'
-    if (span <= 731) return '2y'
-    if (span <= 1827) return '5y'
-    if (span <= 3653) return '10y'
-    return 'max'
-  })()
-
+  // Helper: Yahoo Finance Historical. Zeitraum ausdrücklich angeben: Mit
+  // range=max liefert Yahoo Monatswerte, die am Monatsanfang stehen, aber den
+  // Monatsschluss enthalten (Finanzkrise: −20 statt −38 % für den S&P 500).
+  // Bis heute laden, damit auch Splits nach dem Fenster bekannt sind.
   const fetchYahooHistorical = async (yahooSymbol: string) => {
     try {
-      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=${yahooRange}&interval=1d&region=DE`
+      const period1 = Math.floor(Date.parse(fromDate) / 1000) - 10 * 86400
+      const period2 = Math.ceil(Date.now() / 86400000) * 86400
+      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?period1=${period1}&period2=${period2}&interval=1d&region=DE&events=splits`
       const yahooRes = await fetch(yahooUrl, {
+        cache: 'no-store',
         headers: { 'User-Agent': 'Mozilla/5.0' },
         signal: AbortSignal.timeout(10000),
       })
+      if (isOutage(yahooRes.status)) outage = true
       if (yahooRes.ok) {
         const yahooData = await yahooRes.json()
         const result = yahooData?.chart?.result?.[0]
@@ -247,6 +255,9 @@ async function fetchHistoricalPrices(
           const rawCloses: (number | null)[] = result.indicators?.quote?.[0]?.close || []
           const adjCloses: (number | null)[] = result.indicators?.adjclose?.[0]?.adjclose || []
           const closes = adjusted && adjCloses.length > 0 ? adjCloses : rawCloses
+          // Über die ganze Reihe rechnen, nicht nur ab fromDate: Ein Split kurz
+          // vor oder in dem Fenster braucht die Kurse auf beiden Seiten.
+          const divisors = missedSplitDivisors(timestamps, closes, yahooSplitEvents(result))
           const fromTime = new Date(fromDate).getTime() / 1000
           const points: HistoricalDataPoint[] = []
           for (let i = 0; i < timestamps.length; i++) {
@@ -254,12 +265,14 @@ async function fetchHistoricalPrices(
             if (close === null || close === undefined || close <= 0) continue
             if (timestamps[i] < fromTime) continue
             const d = new Date(timestamps[i] * 1000)
-            points.push({ date: d.toISOString().split('T')[0], close: Math.round(close * 100) / 100 })
+            points.push({ date: d.toISOString().split('T')[0], close: Math.round((close / divisors[i]) * 100) / 100 })
           }
           return points
         }
       }
-    } catch { /* Yahoo fehlgeschlagen */ }
+    } catch {
+      outage = true
+    }
     return []
   }
 
@@ -291,9 +304,11 @@ async function fetchHistoricalPrices(
       }
     }
 
-    // Versuch 3: Yahoo Finance
+    // Versuch 3: Yahoo Finance. FMP führt alle Währungspaare, Yahoo wird für
+    // sie nur gebraucht, wenn FMP gestört ist.
     if (historicalData.length === 0) {
-      historicalData = await fetchYahooHistorical(symbol)
+      if (!isFxPair(symbol)) historicalData = await fetchYahooHistorical(symbol)
+      else if (outage) historicalData = await fetchYahooFx(symbol, fromDate, toDate)
     }
 
     // Versuch 4: Stammdaten. Broker-Ticker wie 'MUV2.EU' (Freedom24) oder
@@ -317,7 +332,8 @@ async function fetchHistoricalPrices(
   }
 
   // Cache speichern (auch leere Ergebnisse → verhindert wiederholte Requests)
-  historyCache.set(cacheKey, { data: historicalData, timestamp: Date.now() })
+  const provisional = approximated || (outage && (historicalData.length === 0 || isFxPair(symbol)))
+  historyCache.set(cacheKey, { data: historicalData, timestamp: Date.now(), ttl: provisional ? OUTAGE_TTL : CACHE_TTL })
   return historicalData
 }
 
@@ -356,15 +372,14 @@ async function fetchCorporateActionReference(
         const toDay = (ts: number) => new Date(ts * 1000).toISOString().split('T')[0]
         const timestamps: number[] = result.timestamp || []
         const closes: (number | null)[] = result.indicators?.quote?.[0]?.close || []
+        const events = yahooSplitEvents(result)
+        const divisors = missedSplitDivisors(timestamps, closes, events)
         const closeMap = new Map<string, number>()
         timestamps.forEach((ts, i) => {
           const close = closes[i]
-          if (close && close > 0) closeMap.set(toDay(ts), close)
+          if (close && close > 0) closeMap.set(toDay(ts), close / divisors[i])
         })
-        const splits = Object.values(
-          (result.events?.splits || {}) as Record<string, { date: number; numerator: number; denominator: number }>
-        )
-          .filter(s => s.numerator > 0 && s.denominator > 0)
+        const splits = events
           .map(s => ({ date: toDay(s.date), numerator: s.numerator, denominator: s.denominator }))
         data = { closes: closeMap, splits }
       }
@@ -826,10 +841,11 @@ export async function computePortfolioHistory(
 
           gbpUsdHistory.forEach(day => {
             if (day.close > 0) {
-              // GBP→EUR = GBPUSD / EURUSD
+              // GBP→EUR = GBPUSD / EURUSD, bei Lücken der letzte Kurs davor. Kommt
+              // nur eines der Paare von Yahoo, decken sich die Tage nicht.
               const eurUsd = eurUsdRateByDate.size > 0
-                ? (1 / (eurUsdRateByDate.get(day.date) || 0.92)) // eurUsdRateByDate hat USD→EUR, invertieren
-                : (eurUsdMap.get(day.date) || 1.08)
+                ? 1 / getRateForDate(eurUsdRateByDate, day.date, 0.92) // eurUsdRateByDate hat USD→EUR, invertieren
+                : getRateForDate(eurUsdMap, day.date, 1.08)
               if (eurUsd > 0) {
                 gbpEurRateByDate.set(day.date, day.close / eurUsd)
               }
@@ -1654,10 +1670,14 @@ export async function computePortfolioHistory(
                 fxWindow.forEach(day => {
                   if (day.close > 0) fxWindowMap.set(day.date, 1 / day.close)
                 })
+                // Ohne Dollarkurs von damals keine Aussage: In Dollar gerechnet
+                // stand der Zinsschock 2022 bei −24,4 statt −14,7 %.
+                if (fxWindowMap.size === 0) continue
 
                 // Fenster-FX je Notierungswährung — die Krisen-Wechselkurse von
                 // damals (2008: GBP −20 % ggü. EUR), nicht die heutigen. Ohne
-                // Daten fürs Fenster bleibt es bei der reinen Preisrendite.
+                // Daten fürs Fenster zählt die Position wie eine ohne Kurse
+                // (Zwillingsfonds, sonst Beta).
                 const windowCurrencies = new Set<string>()
                 weightBySymbol.forEach((_, symbol) => windowCurrencies.add(quoteCurrency(symbol)))
                 const windowFxByCurrency = new Map<string, Map<string, number>>()
@@ -1687,7 +1707,7 @@ export async function computePortfolioHistory(
                             inverse.forEach(day => { if (day.close > 0) rateMap.set(day.date, 1 / day.close) })
                           }
                         }
-                      } catch { /* Fenster ohne FX → Preisrendite */ }
+                      } catch { /* Fenster ohne FX */ }
                     })
                 )
 
@@ -1696,13 +1716,13 @@ export async function computePortfolioHistory(
                   const rateMap = ccy === 'USD'
                     ? fxWindowMap
                     : windowFxByCurrency.get(ccy === 'GBX' ? 'GBP' : ccy)
-                  const hasFx = ccy !== 'EUR' && !!rateMap && rateMap.size > 0
+                  if (ccy !== 'EUR' && !(rateMap && rateMap.size > 0)) return []
                   return history
                     .filter(d => d.close > 0)
                     .map(d => ({
                       date: d.date,
                       // GBX: ÷100 kürzt sich in der Rendite — Rohkurs × GBP-Rate reicht.
-                      value: hasFx ? d.close * getRateForDate(rateMap!, d.date, 1) : d.close,
+                      value: ccy === 'EUR' ? d.close : d.close * getRateForDate(rateMap!, d.date, 1),
                     }))
                 }
 
@@ -1796,7 +1816,7 @@ export async function computePortfolioHistory(
 
           // 8c. Attribution: Woher kommt die Differenz zum FTSE All-World?
           // Das Schatten-Depot ist linear in den Flows, daher lässt sich der
-          // Euro-Gap exakt auf Positionen und Gebühren verteilen. Nicht
+          // Euro-Gap exakt auf Positionen, Gebühren und Steuern verteilen. Nicht
           // zuordenbare Teile (z.B. Dividenden ohne passende Position,
           // Rundung, Preislücken) landen im Residual "Sonstiges" — die
           // Summe der Buckets ergibt immer den Gesamt-Gap.
@@ -1831,6 +1851,7 @@ export async function computePortfolioHistory(
               const CRYPTO_SYMBOL = /^(BTC|ETH|SOL|ADA|XRP|DOGE|LTC|DOT|LINK|AVAX|BNB|MATIC)USD$/i
 
               let feeUnits = 0
+              let taxUnits = 0
               const positionDiffs: Array<{
                 symbol: string
                 euroDiff: number
@@ -1857,7 +1878,9 @@ export async function computePortfolioHistory(
                   } else {
                     return
                   }
-                  feeUnits += txFee(tx) / p
+                  const costs = orderCosts(tx)
+                  feeUnits += costs.fee / p
+                  taxUnits += costs.tax / p
                 })
 
                 let actualValue = 0
@@ -1877,18 +1900,19 @@ export async function computePortfolioHistory(
               })
 
               const feeCost = feeUnits * benchEndPrice
+              const taxCost = taxUnits * benchEndPrice
               const groupSum = (group: 'stocks' | 'etfs' | 'crypto') =>
                 positionDiffs.filter(p => p.group === group).reduce((s, p) => s + p.euroDiff, 0)
               const stocksDiff = groupSum('stocks')
               const etfsDiff = groupSum('etfs')
               const cryptoDiff = groupSum('crypto')
-              const residual = headlineStats.euroDiff - (stocksDiff + etfsDiff + cryptoDiff - feeCost)
+              const residual = headlineStats.euroDiff - (stocksDiff + etfsDiff + cryptoDiff - feeCost - taxCost)
 
               // p.a.-Anteile proportional zum Euro-Beitrag. Nur wenn das Gap
               // groß genug ist und die Buckets sich nicht gegenseitig aufheben —
               // sonst würden die anteiligen Prozentwerte absurd groß.
               const grossSum =
-                Math.abs(stocksDiff) + Math.abs(etfsDiff) + Math.abs(cryptoDiff) + Math.abs(feeCost)
+                Math.abs(stocksDiff) + Math.abs(etfsDiff) + Math.abs(cryptoDiff) + Math.abs(feeCost) + Math.abs(taxCost)
               const canSplitPa =
                 headlineStats.diffPaPct !== null &&
                 Math.abs(headlineStats.euroDiff) >= 250 &&
@@ -1903,6 +1927,7 @@ export async function computePortfolioHistory(
                 { key: 'etfs', label: 'ETFs', euroDiff: etfsDiff },
                 { key: 'crypto', label: 'Krypto', euroDiff: cryptoDiff },
                 { key: 'fees', label: 'Ordergebühren', euroDiff: -feeCost },
+                { key: 'taxes', label: 'Steuern auf Verkäufe', euroDiff: -taxCost },
                 { key: 'other', label: 'Sonstiges', euroDiff: residual },
               ]
                 .filter(b => Math.abs(b.euroDiff) >= 10)

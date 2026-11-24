@@ -7,14 +7,17 @@
 // mehr angefragt.
 
 import { yahooSymbolFromEodhd } from './symbols'
+import { fetchFmpJson } from './fmpRequest'
 import { fetchFmpCurrencies } from './providers/fmpQuotes'
+import { fetchYahooFx, isFxPair } from './yahooFx'
+import { missedSplitDivisors, yahooSplitEvents } from './yahooSplits'
 
 export interface DailyBar {
   date: string
   open: number
   high: number
   low: number
-  /** Split-bereinigt (FMP und Yahoo liefern beide so). */
+  /** Split-bereinigt (FMP liefert so, bei Yahoo ergänzt yahooSplits fehlende Splits). */
   close: number
   /** Zusätzlich dividendenbereinigt. */
   adjClose: number
@@ -42,37 +45,35 @@ export function normalizeHistorySymbol(symbol: string): string {
   return upper
 }
 
-async function fetchFmpDaily(symbol: string, fromDate: string, toDate: string): Promise<DailyBar[]> {
+/** `outage`: FMP war gestört, eine leere Reihe heißt dann nicht "unbekanntes Papier". */
+async function fetchFmpDaily(
+  symbol: string,
+  fromDate: string,
+  toDate: string
+): Promise<{ bars: DailyBar[]; outage: boolean }> {
   const apiKey = process.env.FMP_API_KEY
-  if (!apiKey) return []
-  try {
-    const res = await fetch(
-      `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(symbol)}` +
-        `?from=${fromDate}&to=${toDate}&apikey=${apiKey}`,
-      { next: { revalidate: 1800 }, signal: AbortSignal.timeout(10_000) }
-    )
-    if (!res.ok) return []
-    const data = await res.json()
-    const rows: any[] = Array.isArray(data?.historical) ? data.historical : []
-    const bars: DailyBar[] = []
-    for (const row of rows) {
-      const close = Number(row?.close)
-      if (!row?.date || !Number.isFinite(close) || close <= 0) continue
-      bars.push({
-        date: String(row.date).slice(0, 10),
-        open: Number(row.open) || close,
-        high: Number(row.high) || close,
-        low: Number(row.low) || close,
-        close,
-        adjClose: Number(row.adjClose) || close,
-        volume: Number(row.volume) || 0,
-      })
-    }
-    // FMP liefert neueste zuerst — Konsumenten erwarten aufsteigend.
-    return bars.sort((a, b) => a.date.localeCompare(b.date))
-  } catch {
-    return []
+  if (!apiKey) return { bars: [], outage: false }
+  const { data, outage } = await fetchFmpJson(
+    `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(symbol)}` +
+      `?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
+  )
+  const rows: any[] = Array.isArray(data?.historical) ? data.historical : []
+  const bars: DailyBar[] = []
+  for (const row of rows) {
+    const close = Number(row?.close)
+    if (!row?.date || !Number.isFinite(close) || close <= 0) continue
+    bars.push({
+      date: String(row.date).slice(0, 10),
+      open: Number(row.open) || close,
+      high: Number(row.high) || close,
+      low: Number(row.low) || close,
+      close,
+      adjClose: Number(row.adjClose) || close,
+      volume: Number(row.volume) || 0,
+    })
   }
+  // FMP liefert neueste zuerst — Konsumenten erwarten aufsteigend.
+  return { bars: bars.sort((a, b) => a.date.localeCompare(b.date)), outage }
 }
 
 /** Yahoo-Tageskurse über den genauen Zeitraum (nicht pauschal 2 Jahre), samt Währung. */
@@ -84,10 +85,13 @@ async function fetchYahooDaily(
   const empty = { bars: [] as DailyBar[], currency: null }
   try {
     const period1 = Math.floor(new Date(fromDate).getTime() / 1000)
-    const period2 = Math.floor(new Date(toDate).getTime() / 1000) + 86400
+    // Bis heute laden, auch wenn das Fenster früher endet: Yahoo nennt nur Splits
+    // aus dem abgefragten Zeitraum, und nur mit den Kursen danach lässt sich
+    // erkennen, ob sie eingerechnet sind.
+    const period2 = Math.max(Math.floor(new Date(toDate).getTime() / 1000) + 86400, Math.floor(Date.now() / 1000))
     const res = await fetch(
       `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}` +
-        `?period1=${period1}&period2=${period2}&interval=1d&region=DE`,
+        `?period1=${period1}&period2=${period2}&interval=1d&region=DE&events=splits`,
       { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(10_000) }
     )
     if (!res.ok) return empty
@@ -97,18 +101,25 @@ async function fetchYahooDaily(
     const timestamps: number[] = result.timestamp
     const quote = result.indicators?.quote?.[0] ?? {}
     const adjCloses: (number | null)[] = result.indicators?.adjclose?.[0]?.adjclose || []
+    const splits = yahooSplitEvents(result)
+    const divisors = missedSplitDivisors(timestamps, quote.close || [], splits)
+    const adjDivisors = missedSplitDivisors(timestamps, adjCloses, splits)
     const bars: DailyBar[] = []
     for (let i = 0; i < timestamps.length; i++) {
       const close = quote.close?.[i]
       if (close === null || close === undefined || close <= 0) continue
+      const date = new Date(timestamps[i] * 1000).toISOString().slice(0, 10)
+      if (date > toDate) break
+      const divisor = divisors[i]
+      const adjClose = adjCloses[i]
       bars.push({
-        date: new Date(timestamps[i] * 1000).toISOString().slice(0, 10),
-        open: quote.open?.[i] ?? close,
-        high: quote.high?.[i] ?? close,
-        low: quote.low?.[i] ?? close,
-        close,
-        adjClose: adjCloses[i] ?? close,
-        volume: quote.volume?.[i] ?? 0,
+        date,
+        open: (quote.open?.[i] ?? close) / divisor,
+        high: (quote.high?.[i] ?? close) / divisor,
+        low: (quote.low?.[i] ?? close) / divisor,
+        close: close / divisor,
+        adjClose: adjClose ? adjClose / adjDivisors[i] : close / divisor,
+        volume: (quote.volume?.[i] ?? 0) * divisor,
       })
     }
     // Yahoo schreibt Pence als 'GBp'.
@@ -143,10 +154,21 @@ export async function getDailyHistory(symbol: string, fromDate: string, toDate: 
   if (cached && cached.expires > Date.now()) return cached.bars
 
   const london = normalized.endsWith('.L')
-  let bars = await fetchFmpDaily(normalized, fromDate, toDate)
+  const fmp = await fetchFmpDaily(normalized, fromDate, toDate)
+  let bars = fmp.bars
   let currency: string | null = null
   if (bars.length > 0) {
-    if (london) currency = (await fetchFmpCurrencies([normalized]))[normalized] || null
+    if (london) {
+      // Ohne Antwort von FMP gälte eine Pfund-Linie als Pence, Faktor 100
+      currency =
+        (await fetchFmpCurrencies([normalized]))[normalized] ||
+        (await fetchYahooDaily(normalized, fromDate, toDate)).currency
+    }
+  } else if (fmp.outage && isFxPair(normalized)) {
+    // Als EURUSD kennt Yahoo das Paar nicht, nur als EURUSD=X
+    bars = (await fetchYahooFx(normalized, fromDate, toDate)).map(({ date, close }) => ({
+      date, open: close, high: close, low: close, close, adjClose: close, volume: 0,
+    }))
   } else {
     const yahoo = await fetchYahooDaily(normalized, fromDate, toDate)
     bars = yahoo.bars
@@ -163,23 +185,15 @@ export async function getDailyHistory(symbol: string, fromDate: string, toDate: 
 
 /**
  * FX-Historie als Map Datum → EUR je Einheit (USDEUR: EUR pro 1 USD,
- * GBPEUR: EUR pro 1 GBP). FMP führt beide Paare direkt; Yahoo nur die
- * Gegenrichtung (EURUSD=X), die deshalb invertiert wird.
+ * GBPEUR: EUR pro 1 GBP). FMP führt beide Paare direkt, sonst Yahoo.
  */
 export async function getFxHistory(
   pair: 'USDEUR' | 'GBPEUR',
   fromDate: string,
   toDate: string
 ): Promise<Map<string, number>> {
-  const map = new Map<string, number>()
-
   const direct = await fetchFmpDaily(pair, fromDate, toDate)
-  if (direct.length > 0) {
-    for (const bar of direct) map.set(bar.date, bar.close)
-    return map
-  }
-
-  const inverse = await fetchYahooDaily(pair === 'USDEUR' ? 'EURUSD=X' : 'EURGBP=X', fromDate, toDate)
-  for (const bar of inverse.bars) map.set(bar.date, 1 / bar.close)
-  return map
+  const days: Array<{ date: string; close: number }> =
+    direct.bars.length > 0 ? direct.bars : await fetchYahooFx(pair, fromDate, toDate)
+  return new Map(days.map(day => [day.date, day.close]))
 }

@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { resolveFMPTicker, isEUTicker } from '@/lib/tickerResolver'
 import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
+import { missedSplitDivisors, yahooSplitEvents } from '@/lib/marketData/yahooSplits'
 
 // GBP→EUR Notfallrate, nur für Tage ohne geladene FX-Historie. Umgerechnet
 // wird mit dem Tageskurs (eine FX-Abfrage je Kursreihe): Mit fester Rate fehlte
@@ -20,7 +21,7 @@ const GBP_EUR_APPROX = 1.17
  */
 async function fetchYahooHistorical(symbol: string): Promise<{ date: string; close: number }[] | null> {
   try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=5y&interval=1d&region=DE`
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=5y&interval=1d&region=DE&events=splits`
     const res = await fetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       signal: AbortSignal.timeout(10000),
@@ -37,13 +38,14 @@ async function fetchYahooHistorical(symbol: string): Promise<{ date: string; clo
 
     if (!timestamps.length || !closes.length) return null
 
+    const divisors = missedSplitDivisors(timestamps, closes, yahooSplitEvents(result))
     const historical: { date: string; close: number }[] = []
     for (let i = 0; i < timestamps.length; i++) {
       const close = closes[i]
       if (close === null || close === undefined || close <= 0) continue
       const d = new Date(timestamps[i] * 1000)
       const dateStr = d.toISOString().split('T')[0]
-      historical.push({ date: dateStr, close: Math.round(close * 100) / 100 })
+      historical.push({ date: dateStr, close: Math.round((close / divisors[i]) * 100) / 100 })
     }
 
     return historical.length > 0 ? historical : null
