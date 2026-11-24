@@ -113,7 +113,7 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'VDEV.DE',
-    name: 'Vanguard FTSE Developed Markets UCITS ETF',
+    name: 'Vanguard FTSE Developed World UCITS ETF',
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global Developed',
@@ -130,20 +130,21 @@ export const etfs: ETF[] = [
     ter: 0.25
   },
   {
-    symbol: 'XCS6.DE',
-    name: 'Xtrackers MSCI USA UCITS ETF',
+    symbol: 'XD9U.DE',
+    name: 'Xtrackers MSCI USA UCITS ETF 1C',
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US Broad Market',
     isin: 'IE00BJ0KDR00',
-    ter: 0.07
+    ter: 0.03
   },
   // Entfernte Duplikate:
   //   - A1JX52 / IE00B3RBWM25 → identisch zu VGWL.DE (oben)
   //   - A2PKXG / IE00BK5BQT80 → identisch zu VWCE.DE (oben)
   // Begründung: WKN-Einträge mit symbol_de verursachten gleiche ISIN mehrfach im Map.
+  // Vorher A12CX1: Das ist die WKN des Vanguard FTSE Developed World (VDEV.DE).
   {
-    symbol: 'A12CX1',
+    symbol: 'AMEW.DE',
     name: 'Amundi MSCI World UCITS ETF',
     issuer: 'Amundi',
     assetClass: 'Equity',
@@ -162,15 +163,15 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'XDWD.DE',
-    name: 'Xtrackers MSCI World High Dividend Yield UCITS ETF',
+    name: 'Xtrackers MSCI World UCITS ETF 1C',
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Dividend',
-    isin: 'IE00BZ0PKV06',
-    ter: 0.29
+    category: 'Global Developed',
+    isin: 'IE00BJ0KDQ92',
+    ter: 0.12
   },
   {
-    symbol: 'IQQH.DE',
+    symbol: 'SXR8.DE',
     name: 'iShares Core S&P 500 UCITS ETF',
     issuer: 'iShares',
     assetClass: 'Equity',
@@ -184,7 +185,7 @@ export const etfs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany',
-    isin: 'LU0274211838',
+    isin: 'LU0274211480',
     ter: 0.09
   },
   {
@@ -205,20 +206,16 @@ export const etfs: ETF[] = [
     isin: 'DE0002635307',
     ter: 0.20
   },
-  // Entfernt: XCS7.DE hatte fälschlich ISIN IE00BJ0KDQ92 hinterlegt — das ist
-  // aber die ISIN des Xtrackers MSCI World ETF (XDWL.DE, siehe weiter unten).
-  // XCS7 ist der Xtrackers S&P 500 UCITS ETF 1C und hat die ISIN IE00BM67HT60.
-  // Bei Bedarf neu anlegen mit der korrekten ISIN.
+  // Entfernt: XCS7.DE hatte fälschlich ISIN IE00BJ0KDQ92 hinterlegt. Das ist die
+  // ISIN des Xtrackers MSCI World 1C (XDWD.DE, oben).
   {
     symbol: 'WSML.DE',
-    name: 'iShares Core MSCI World IMI UCITS ETF',
+    name: 'iShares MSCI World Small Cap UCITS ETF',
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Global All Cap',
-    // ISIN entfernt: IE00B4L5YC18 war fälschlich hinterlegt — das ist die ISIN
-    // des iShares MSCI EM UCITS ETF (IEMA.DE, weiter unten). Die echte WSML-ISIN
-    // (iShares Core MSCI World Small Cap, IE00BF4RFH31) bei Bedarf nachtragen.
-    ter: 0.18
+    category: 'Global Small Cap',
+    isin: 'IE00BF4RFH31',
+    ter: 0.35
   },
   {
     symbol: 'IQQY.DE',
@@ -235,7 +232,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Eurozone',
-    isin: 'IE00B53L3W79',
+    isin: 'IE00B53QG562',
     ter: 0.12
   },
   {
@@ -249,12 +246,12 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'XUTC.DE',
-    name: 'Xtrackers MSCI USA Information Technology UCITS ETF',
+    name: 'Xtrackers MSCI USA Information Technology UCITS ETF 1D',
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology',
-    isin: 'IE00BM67HL84',
-    ter: 0.25
+    isin: 'IE00BGQYRS42',
+    ter: 0.12
   },
   {
     symbol: 'IS3S.DE',
@@ -275,12 +272,12 @@ export const etfs: ETF[] = [
     ter: 0.19
   },
   {
-    symbol: '18MP.DE',
-    name: 'Amundi MSCI World ex EMU UCITS ETF',
+    symbol: 'ACM9.DE',
+    name: 'Amundi MSCI World ex EMU UCITS ETF (Acc)',
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'World ex Eurozone',
-    isin: 'FR0013412020',
+    isin: 'FR0010756114',
     ter: 0.35
   },
   {
@@ -292,10 +289,8 @@ export const etfs: ETF[] = [
     isin: 'IE00B60SX394',
     ter: 0.19
   },
-  // Entfernt: DBX2.DE hatte fälschlich ISIN IE00BTJRMP35 hinterlegt — das ist
-  // aber die ISIN des Xtrackers MSCI Emerging Markets ETF (XMME.DE, weiter oben).
-  // DBX2 ist der Xtrackers MSCI EM Asia UCITS ETF und hat die ISIN LU0292107645.
-  // Bei Bedarf neu anlegen mit der korrekten ISIN.
+  // Entfernt: DBX2.DE hatte fälschlich ISIN IE00BTJRMP35 hinterlegt. Das ist die
+  // ISIN des Xtrackers MSCI Emerging Markets ETF (XMME.DE, weiter oben).
   
   // === WEITERE BELIEBTE DEUTSCHE ETFs ===
   // FWRG.DE / FWIA.DE (Invesco FTSE All-World) — bereits oben definiert
@@ -310,12 +305,12 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'XDWL.DE',
-    name: 'Xtrackers MSCI World UCITS ETF (Acc)',
+    name: 'Xtrackers MSCI World UCITS ETF 1D',
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global Developed',
-    isin: 'IE00BJ0KDQ92',
-    ter: 0.19
+    isin: 'IE00BK1PV551',
+    ter: 0.12
   },
   {
     symbol: 'SPPW.DE',
@@ -325,6 +320,16 @@ export const etfs: ETF[] = [
     category: 'Global Developed',
     isin: 'IE00BFY0GT14',
     ter: 0.12
+  },
+  // SPY5 war dem US-Fonds SPY zugeordnet, ist aber der europäische UCITS-ETF.
+  {
+    symbol: 'SPY5.DE',
+    name: 'SPDR S&P 500 UCITS ETF (Dist)',
+    issuer: 'State Street',
+    assetClass: 'Equity',
+    category: 'US Large Cap',
+    isin: 'IE00B6YX5C33',
+    ter: 0.03
   },
   {
     symbol: 'HMWO.DE',
@@ -371,7 +376,6 @@ export const etfs: ETF[] = [
   // === TOP US ETFs ===
   {
     symbol: 'SPY',
-    symbol_de: 'SPY5.DE',
     name: 'SPDR S&P 500 ETF Trust',
     issuer: 'State Street',
     assetClass: 'Equity',
@@ -381,7 +385,6 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'QQQ',
-    symbol_de: 'QQQ.DE',
     name: 'Invesco QQQ Trust',
     issuer: 'Invesco',
     assetClass: 'Equity',
@@ -413,7 +416,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Large Cap',
-    isin: 'US9229087328',
+    isin: 'US9229083632',
     ter: 0.03
   },
   
@@ -424,7 +427,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Technology',
-    isin: 'US81369Y5069',
+    isin: 'US81369Y8030',
     ter: 0.10
   },
   {
@@ -433,7 +436,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology',
-    isin: 'US9229086249',
+    isin: 'US92204A7028',
     ter: 0.10
   },
   {
@@ -442,7 +445,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology',
-    isin: 'US4642865095',
+    isin: 'US4642875151',
     ter: 0.45
   },
   
@@ -453,7 +456,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Healthcare',
-    isin: 'US81369Y4040',
+    isin: 'US81369Y2090',
     ter: 0.10
   },
   {
@@ -462,7 +465,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Healthcare',
-    isin: 'US9229086835',
+    isin: 'US92204A5048',
     ter: 0.10
   },
   
@@ -473,7 +476,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Financials',
-    isin: 'US81369Y2967',
+    isin: 'US81369Y6059',
     ter: 0.10
   },
   {
@@ -482,8 +485,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Financials',
-    // ISIN entfernt: US9229086751 kollidierte mit VGK (Vanguard FTSE Europe).
-    // Echte VFH-ISIN (US9229087690) bei Bedarf nachtragen und validieren.
+    isin: 'US92204A4058',
     ter: 0.10
   },
   
@@ -494,7 +496,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Energy',
-    isin: 'US81369Y2885',
+    isin: 'US81369Y5069',
     ter: 0.10
   },
   {
@@ -503,7 +505,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Energy',
-    isin: 'US9229086587',
+    isin: 'US92204A3068',
     ter: 0.10
   },
   
@@ -514,7 +516,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'International Developed',
-    isin: 'US9229085538',
+    isin: 'US9219438580',
     ter: 0.05
   },
   {
@@ -523,7 +525,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Emerging Markets',
-    isin: 'US9229087294',
+    isin: 'US9220428588',
     ter: 0.08
   },
   {
@@ -532,7 +534,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'International Developed',
-    isin: 'US4642874576',
+    isin: 'US4642874659',
     ter: 0.32
   },
   {
@@ -541,7 +543,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets',
-    isin: 'US4642863926',
+    isin: 'US4642872349',
     ter: 0.68
   },
   
@@ -552,7 +554,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Aggregate Bond',
-    isin: 'US4642863018',
+    isin: 'US4642872265',
     ter: 0.03
   },
   {
@@ -561,7 +563,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Aggregate Bond',
-    isin: 'US9229087427',
+    isin: 'US9219378356',
     ter: 0.03
   },
   {
@@ -570,7 +572,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Treasury',
-    isin: 'US4642874251',
+    isin: 'US4642874329',
     ter: 0.15
   },
   
@@ -581,7 +583,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Real Estate',
-    isin: 'US9229087203',
+    isin: 'US9229085538',
     ter: 0.12
   },
   {
@@ -590,7 +592,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Real Estate',
-    isin: 'US81369Y8047',
+    isin: 'US81369Y8600',
     ter: 0.10
   },
   
@@ -610,7 +612,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Silver',
-    isin: 'US4642851053',
+    isin: 'US46428Q1094',
     ter: 0.50
   },
   {
@@ -630,7 +632,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Large Cap Growth',
-    isin: 'US9229087245',
+    isin: 'US9229087369',
     ter: 0.04
   },
   {
@@ -639,7 +641,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Large Cap Value',
-    isin: 'US9229087161',
+    isin: 'US9229087443',
     ter: 0.04
   },
   
@@ -650,7 +652,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Dividend',
-    isin: 'US9229087567',
+    isin: 'US9219464065',
     ter: 0.06
   },
   {
@@ -679,7 +681,7 @@ export const etfs: ETF[] = [
     issuer: 'ARK',
     assetClass: 'Equity',
     category: 'Technology',
-    isin: 'US00214Q2018',
+    isin: 'US00214Q2030',
     ter: 0.75
   },
   
@@ -690,7 +692,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'International Developed',
-    isin: 'US4642874220',
+    isin: 'US46432F8427',
     ter: 0.07
   },
   {
@@ -699,7 +701,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Mid Cap',
-    isin: 'US4642873255',
+    isin: 'US4642875078',
     ter: 0.05
   },
   {
@@ -708,7 +710,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Small Cap',
-    isin: 'US4642872265',
+    isin: 'US4642878049',
     ter: 0.06
   },
   {
@@ -717,7 +719,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Municipal Bond',
-    isin: 'US9229087880',
+    isin: 'US9229077469',
     ter: 0.05
   },
   {
@@ -726,7 +728,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Total International',
-    isin: 'US92204A8630',
+    isin: 'US9219097683',
     ter: 0.08
   },
   
@@ -737,7 +739,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Industrials',
-    isin: 'US81369Y3047',
+    isin: 'US81369Y7040',
     ter: 0.10
   },
   {
@@ -746,7 +748,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Consumer Staples',
-    isin: 'US81369Y3807',
+    isin: 'US81369Y3080',
     ter: 0.10
   },
   {
@@ -755,7 +757,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Consumer Discretionary',
-    isin: 'US81369Y4824',
+    isin: 'US81369Y4070',
     ter: 0.10
   },
   {
@@ -764,7 +766,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Materials',
-    isin: 'US81369Y2125',
+    isin: 'US81369Y1001',
     ter: 0.10
   },
   {
@@ -773,7 +775,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Utilities',
-    isin: 'US81369Y4063',
+    isin: 'US81369Y8865',
     ter: 0.10
   },
   
@@ -784,7 +786,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe',
-    isin: 'US9229086751',
+    isin: 'US9220428745',
     ter: 0.08
   },
   {
@@ -793,7 +795,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany',
-    isin: 'US4642874915',
+    isin: 'US4642868065',
     ter: 0.50
   },
   {
@@ -802,7 +804,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Europe',
-    isin: 'US78463X5088',
+    isin: 'US78463X2027',
     ter: 0.29
   },
   
@@ -813,7 +815,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'TIPS',
-    isin: 'US4642872877',
+    isin: 'US4642871762',
     ter: 0.19
   },
   {
@@ -822,7 +824,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Corporate Bond',
-    isin: 'US4642874766',
+    isin: 'US4642872422',
     ter: 0.14
   },
   {
@@ -831,7 +833,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'High Yield',
-    isin: 'US4642875334',
+    isin: 'US4642885135',
     ter: 0.49
   },
   
@@ -842,7 +844,7 @@ export const etfs: ETF[] = [
     issuer: 'ARK',
     assetClass: 'Equity',
     category: 'Internet',
-    isin: 'US00214Q3020',
+    isin: 'US00214Q4010',
     ter: 0.75
   },
   {
@@ -851,7 +853,7 @@ export const etfs: ETF[] = [
     issuer: 'ARK',
     assetClass: 'Equity',
     category: 'Genomics',
-    isin: 'US00214Q1999',
+    isin: 'US00214Q3020',
     ter: 0.75
   },
   
@@ -862,7 +864,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Clean Energy',
-    isin: 'US4642874683',
+    isin: 'US4642882249',
     ter: 0.42
   },
   {
@@ -871,7 +873,7 @@ export const etfs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Clean Energy',
-    isin: 'US46090E2046',
+    isin: 'US46137V1347',
     ter: 0.70
   },
   
@@ -882,7 +884,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China',
-    isin: 'US4642874329',
+    isin: 'US4642871846',
     ter: 0.72
   },
   {
@@ -891,7 +893,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan',
-    isin: 'US4642874998',
+    isin: 'US46434G8226',
     ter: 0.50
   },
   
@@ -902,7 +904,7 @@ export const etfs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Fixed Income',
     category: 'Aggregate Bond',
-    isin: 'US3160928657',
+    isin: 'US3161463563',
     ter: 0.025
   },
   {
@@ -911,7 +913,7 @@ export const etfs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Total Market',
-    isin: 'US31635T8060',
+    isin: 'US31635T7081',
     ter: 0.00
   },
   
@@ -922,7 +924,7 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'ESG',
-    isin: 'US92206C6003',
+    isin: 'US9219107334',
     ter: 0.09
   },
   {
@@ -931,7 +933,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'ESG',
-    isin: 'US4642868398',
+    isin: 'US4642888022',
     ter: 0.25
   },
   
@@ -942,7 +944,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Aerospace & Defense',
-    isin: 'US4642867735',
+    isin: 'US4642887602',
     ter: 0.40
   },
   {
@@ -951,7 +953,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Biotechnology',
-    isin: 'US4642876282',
+    isin: 'US4642875565',
     ter: 0.44
   },
   {
@@ -960,7 +962,7 @@ export const etfs: ETF[] = [
     issuer: 'State Street',
     assetClass: 'Equity',
     category: 'Biotechnology',
-    isin: 'US78464A6982',
+    isin: 'US78464A8707',
     ter: 0.35
   },
   
@@ -971,7 +973,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Momentum',
-    isin: 'US4642868216',
+    isin: 'US46432F3964',
     ter: 0.15
   },
   {
@@ -980,7 +982,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Quality',
-    isin: 'US4642868380',
+    isin: 'US46432F3394',
     ter: 0.15
   },
   {
@@ -989,7 +991,7 @@ export const etfs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Size',
-    isin: 'US4642868307',
+    isin: 'US46432F3709',
     ter: 0.15
   },
   
@@ -1000,7 +1002,7 @@ export const etfs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Mixed',
     category: 'Currency',
-    isin: 'US46090E4057',
+    isin: 'US46141D2036',
     ter: 0.75
   },
 
@@ -1039,12 +1041,11 @@ export const etfs: ETF[] = [
     category: 'Materials',
     isin: 'AU000000BHP4',
   },
-  // IE00B4L5YC18 wird in unserem etfs.ts fälschlicherweise WSML.DE zugeordnet.
-  // Freedom24 meldet diese ISIN als IEMA (iShares MSCI EM UCITS ETF).
-  // Dieser Override kommt zuletzt → überschreibt WSML.DE-Mapping für diese ISIN.
+  // Freedom24 meldet diese ISIN als IEMA. Das ist die Notierung in London und
+  // Amsterdam, Xetra führt sie als EUNM (IEMA.DE hat keine Kurse).
   {
-    symbol: 'IEMA.DE',
-    name: 'iShares MSCI EM UCITS ETF',
+    symbol: 'EUNM.DE',
+    name: 'iShares MSCI EM UCITS ETF (Acc)',
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets',

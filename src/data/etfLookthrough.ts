@@ -80,7 +80,7 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
   {
     isin: 'IE0009HF1MK9',
     tickers: ['WEBG.DE'],
-    name: 'Amundi Prime All Country World UCITS ETF (Acc)',
+    name: 'Amundi Prime All Country World UCITS ETF (Dist)',
     proxies: [{ symbol: 'VT', weight: 1 }],
     exact: false,
     assetClass: 'equity',
@@ -118,8 +118,16 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
   },
   {
     isin: 'IE00BJ0KDQ92',
-    tickers: ['XDWL.DE', 'XDWD.L'],
-    name: 'Xtrackers MSCI World UCITS ETF (Acc)',
+    tickers: ['XDWD.DE', 'XDWD.L'],
+    name: 'Xtrackers MSCI World UCITS ETF 1C',
+    proxies: [{ symbol: 'URTH', weight: 1 }],
+    exact: true,
+    assetClass: 'equity',
+  },
+  {
+    isin: 'IE00BK1PV551',
+    tickers: ['XDWL.DE'],
+    name: 'Xtrackers MSCI World UCITS ETF 1D',
     proxies: [{ symbol: 'URTH', weight: 1 }],
     exact: true,
     assetClass: 'equity',
@@ -265,7 +273,7 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
   {
     isin: 'IE00B4L5YC18',
     tickers: ['EUNM.DE', 'IEMA.DE'],
-    name: 'iShares MSCI EM UCITS ETF (Dist)',
+    name: 'iShares MSCI EM UCITS ETF (Acc)',
     proxies: [{ symbol: 'EEM', weight: 1 }],
     exact: true,
     assetClass: 'equity',
@@ -319,9 +327,9 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     note: 'Kein US-Zwilling — über VYM (USA) + VYMI (International) zusammengesetzt',
   },
   {
-    isin: 'IE00BZ0PKV06',
-    tickers: ['XZDW.DE', 'XDWD.DE'],
-    name: 'Xtrackers MSCI World High Dividend Yield UCITS ETF',
+    isin: 'IE000NS5HRY9',
+    tickers: ['XZDW.DE', 'XZDW.L'],
+    name: 'Xtrackers MSCI World High Dividend Yield ESG UCITS ETF 1D',
     proxies: [
       { symbol: 'VYM', weight: 0.45 },
       { symbol: 'VYMI', weight: 0.55 },
@@ -381,7 +389,7 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     assetClass: 'equity',
   },
   {
-    isin: 'IE00BFNM3G45',
+    isin: 'LU0274209237',
     tickers: ['XMEU.DE'],
     name: 'Xtrackers MSCI Europe UCITS ETF',
     proxies: [{ symbol: 'IEUR', weight: 1 }],
@@ -389,10 +397,19 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     assetClass: 'equity',
   },
   {
-    isin: 'IE00B53L3W79',
+    isin: 'IE00B53QG562',
     tickers: ['SXR7.DE'],
     name: 'iShares Core MSCI EMU UCITS ETF',
     proxies: [{ symbol: 'EZU', weight: 1 }],
+    exact: true,
+    assetClass: 'equity',
+  },
+  {
+    // Diese ISIN stand vorher beim MSCI EMU (SXR7.DE).
+    isin: 'IE00B53L3W79',
+    tickers: ['SXRT.DE'],
+    name: 'iShares Core EURO STOXX 50 UCITS ETF',
+    proxies: [{ symbol: 'FEZ', weight: 1 }],
     exact: true,
     assetClass: 'equity',
   },
@@ -418,7 +435,7 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     note: 'DAX über MSCI-Germany-Pendant EWG angenähert',
   },
   {
-    isin: 'LU0274211838',
+    isin: 'LU0274211480',
     tickers: ['DBXD.DE'],
     name: 'Xtrackers DAX UCITS ETF',
     proxies: [{ symbol: 'EWG', weight: 1 }],
@@ -440,8 +457,8 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     note: 'Über FTSE Developed ex US (VEA) angenähert (enthält zusätzlich Südkorea)',
   },
   {
-    isin: 'FR0013412020',
-    tickers: ['18MP.DE'],
+    isin: 'FR0010756114',
+    tickers: ['ACM9.DE', 'CM9.PA', '18MP.DE'],
     name: 'Amundi MSCI World ex EMU UCITS ETF',
     proxies: null,
     exact: false,
@@ -470,9 +487,9 @@ export const etfLookthrough: EtfLookthroughEntry[] = [
     assetClass: 'equity',
   },
   {
-    isin: 'IE00BM67HL84',
+    isin: 'IE00BGQYRS42',
     tickers: ['XUTC.DE'],
-    name: 'Xtrackers MSCI USA Information Technology UCITS ETF',
+    name: 'Xtrackers MSCI USA Information Technology UCITS ETF 1D',
     proxies: [{ symbol: 'VGT', weight: 1 }],
     exact: false,
     assetClass: 'equity',

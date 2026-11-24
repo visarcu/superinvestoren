@@ -13,9 +13,12 @@
 // 2. Prüfen ob FMP den XETRA-Ticker direkt liefert (→ fmp_direct)
 // 3. Falls nicht: London-Listing (.L) oder Amsterdam (.AS) suchen → fmp_alt
 // 4. Falls beides nicht: Yahoo Finance testen → yahoo
-// 5. npm run validate:etf-prices ausführen
+// 5. npm run check:isin und npm run validate:etf-prices ausführen
 //
-// WICHTIG: Keine Duplikate pro ISIN! Wird von checkIsinIntegrity geprüft.
+// WICHTIG: Keine Duplikate pro ISIN und nur ISINs mit gültiger Prüfziffer.
+// Beides prüft checkIsinIntegrity. Ob eine gültige ISIN auch zum Kürzel gehört,
+// sieht die Prüfung nicht: immer gegen eine zweite Quelle halten (OpenFIGI, FMP).
+// Letzter Gesamtabgleich: 24.11.2026 gegen Stammsatz, FMP und OpenFIGI.
 
 export type PriceSource =
   | { type: 'fmp_direct' }
@@ -72,7 +75,7 @@ export const etfMaster: ETFMasterEntry[] = [
   {
     isin: 'IE00B4L5YC18',
     xetraTicker: 'EUNM.DE',
-    name: 'iShares MSCI EM UCITS ETF (Dist)',
+    name: 'iShares MSCI EM UCITS ETF (Acc)',
     issuer: 'iShares',
     ter: 0.18,
     category: 'Emerging Markets',
@@ -293,6 +296,7 @@ export const etfMaster: ETFMasterEntry[] = [
   },
   {
     isin: 'IE00BKX55T58',
+    wkn: 'A12CX1',
     xetraTicker: 'VDEV.DE',
     name: 'Vanguard FTSE Developed World UCITS ETF',
     issuer: 'Vanguard',
@@ -330,7 +334,7 @@ export const etfMaster: ETFMasterEntry[] = [
   {
     isin: 'IE00B5BMR087',
     wkn: 'A0YEDG',
-    xetraTicker: 'IQQH.DE',
+    xetraTicker: 'SXR8.DE',
     name: 'iShares Core S&P 500 UCITS ETF',
     issuer: 'iShares',
     ter: 0.07,
@@ -359,7 +363,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'IE00B53L3W79',
+    isin: 'IE00B53QG562',
     xetraTicker: 'SXR7.DE',
     name: 'iShares Core MSCI EMU UCITS ETF',
     issuer: 'iShares',
@@ -454,27 +458,32 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
+    // Vorher XCS6.DE: Das ist der Xtrackers MSCI China (LU0514695690). Der
+    // Xetra-Ticker dieser ISIN ist XD9U.
     isin: 'IE00BJ0KDR00',
-    xetraTicker: 'XCS6.DE',
-    name: 'Xtrackers MSCI USA UCITS ETF',
+    xetraTicker: 'XD9U.DE',
+    name: 'Xtrackers MSCI USA UCITS ETF 1C',
     issuer: 'Xtrackers',
-    ter: 0.07,
+    ter: 0.03,
     category: 'US Broad Market',
     priceSource: { type: 'fmp_direct' },
     verified: true,
   },
   {
-    isin: 'IE00BZ0PKV06',
+    // Vorher als "MSCI World High Dividend Yield" mit der ISIN eines
+    // iShares-Fonds (IE00BZ0PKV06). XDWD ist der thesaurierende MSCI World.
+    isin: 'IE00BJ0KDQ92',
+    wkn: 'A1XB5U',
     xetraTicker: 'XDWD.DE',
-    name: 'Xtrackers MSCI World High Dividend Yield UCITS ETF',
+    name: 'Xtrackers MSCI World UCITS ETF 1C',
     issuer: 'Xtrackers',
-    ter: 0.29,
-    category: 'Dividend',
+    ter: 0.12,
+    category: 'Global Developed',
     priceSource: { type: 'fmp_direct' },
     verified: true,
   },
   {
-    isin: 'LU0274211838',
+    isin: 'LU0274211480',
     xetraTicker: 'DBXD.DE',
     name: 'Xtrackers DAX UCITS ETF',
     issuer: 'Xtrackers',
@@ -484,22 +493,24 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'IE00BM67HL84',
+    isin: 'IE00BGQYRS42',
     xetraTicker: 'XUTC.DE',
-    name: 'Xtrackers MSCI USA Information Technology UCITS ETF',
+    name: 'Xtrackers MSCI USA Information Technology UCITS ETF 1D',
     issuer: 'Xtrackers',
-    ter: 0.25,
+    ter: 0.12,
     category: 'Technology',
     priceSource: { type: 'fmp_direct' },
     verified: true,
   },
   {
-    isin: 'IE00BJ0KDQ92',
-    wkn: 'A1XB5U',
+    // Ausschüttende Klasse. Vorher stand hier die ISIN der thesaurierenden
+    // (IE00BJ0KDQ92, XDWD.DE): Importe landeten dadurch unter dem falschen Kurs.
+    isin: 'IE00BK1PV551',
+    wkn: 'A1XEY2',
     xetraTicker: 'XDWL.DE',
-    name: 'Xtrackers MSCI World UCITS ETF (Acc)',
+    name: 'Xtrackers MSCI World UCITS ETF 1D',
     issuer: 'Xtrackers',
-    ter: 0.19,
+    ter: 0.12,
     category: 'Global Developed',
     priceSource: { type: 'fmp_direct' },
     verified: true,
@@ -603,13 +614,17 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'FR0013412020',
-    xetraTicker: '18MP.DE',
-    name: 'Amundi MSCI World ex EMU UCITS ETF',
+    // Vorher FR0013412020 (Amundi PEA Emerging Markets) unter 18MP.DE. 18MP ist
+    // seit 2021 ohne Handel, FMP liefert dort bis heute den Kurs vom 29.04.2021.
+    // Xetra führt diese ISIN als ACM9, FMP nur Paris (geprüft 24.11.2026:
+    // CM9.PA 719,59 €, ACM9.DE bei Yahoo 718,40 €).
+    isin: 'FR0010756114',
+    xetraTicker: 'ACM9.DE',
+    name: 'Amundi MSCI World ex EMU UCITS ETF (Acc)',
     issuer: 'Amundi',
     ter: 0.35,
     category: 'World ex Eurozone',
-    priceSource: { type: 'fmp_direct' },
+    priceSource: { type: 'fmp_alt', ticker: 'CM9.PA', exchange: 'EUR' },
     verified: true,
   },
   {
@@ -652,7 +667,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087328',
+    isin: 'US9229083632',
     xetraTicker: 'VOO',
     name: 'Vanguard S&P 500 ETF',
     issuer: 'Vanguard',
@@ -662,7 +677,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087245',
+    isin: 'US9229087369',
     xetraTicker: 'VUG',
     name: 'Vanguard Growth ETF',
     issuer: 'Vanguard',
@@ -672,7 +687,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087161',
+    isin: 'US9229087443',
     xetraTicker: 'VTV',
     name: 'Vanguard Value ETF',
     issuer: 'Vanguard',
@@ -682,7 +697,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087567',
+    isin: 'US9219464065',
     xetraTicker: 'VYM',
     name: 'Vanguard High Dividend Yield ETF',
     issuer: 'Vanguard',
@@ -692,7 +707,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087294',
+    isin: 'US9220428588',
     xetraTicker: 'VWO',
     name: 'Vanguard FTSE Emerging Markets ETF',
     issuer: 'Vanguard',
@@ -702,7 +717,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229085538',
+    isin: 'US9219438580',
     xetraTicker: 'VEA',
     name: 'Vanguard FTSE Developed Markets ETF',
     issuer: 'Vanguard',
@@ -712,7 +727,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229086249',
+    isin: 'US92204A7028',
     xetraTicker: 'VGT',
     name: 'Vanguard Information Technology ETF',
     issuer: 'Vanguard',
@@ -722,7 +737,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229086587',
+    isin: 'US92204A3068',
     xetraTicker: 'VDE',
     name: 'Vanguard Energy ETF',
     issuer: 'Vanguard',
@@ -732,7 +747,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229086751',
+    isin: 'US9220428745',
     xetraTicker: 'VGK',
     name: 'Vanguard FTSE Europe ETF',
     issuer: 'Vanguard',
@@ -742,7 +757,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229086835',
+    isin: 'US92204A5048',
     xetraTicker: 'VHT',
     name: 'Vanguard Health Care ETF',
     issuer: 'Vanguard',
@@ -752,7 +767,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087203',
+    isin: 'US9229085538',
     xetraTicker: 'VNQ',
     name: 'Vanguard Real Estate ETF',
     issuer: 'Vanguard',
@@ -762,7 +777,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087427',
+    isin: 'US9219378356',
     xetraTicker: 'BND',
     name: 'Vanguard Total Bond Market ETF',
     issuer: 'Vanguard',
@@ -772,7 +787,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US92204A8630',
+    isin: 'US9219097683',
     xetraTicker: 'VXUS',
     name: 'Vanguard Total International Stock ETF',
     issuer: 'Vanguard',
@@ -782,7 +797,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US9229087880',
+    isin: 'US9229077469',
     xetraTicker: 'VTEB',
     name: 'Vanguard Tax-Exempt Bond ETF',
     issuer: 'Vanguard',
@@ -792,7 +807,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US92206C6003',
+    isin: 'US9219107334',
     xetraTicker: 'ESGV',
     name: 'Vanguard ESG U.S. Stock ETF',
     issuer: 'Vanguard',
@@ -824,7 +839,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US78463X5088',
+    isin: 'US78463X2027',
     xetraTicker: 'FEZ',
     name: 'SPDR EURO STOXX 50 ETF',
     issuer: 'State Street',
@@ -834,7 +849,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US78464A6982',
+    isin: 'US78464A8707',
     xetraTicker: 'XBI',
     name: 'SPDR S&P Biotech ETF',
     issuer: 'State Street',
@@ -844,7 +859,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y5069',
+    isin: 'US81369Y8030',
     xetraTicker: 'XLK',
     name: 'Technology Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -854,7 +869,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y4040',
+    isin: 'US81369Y2090',
     xetraTicker: 'XLV',
     name: 'Health Care Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -864,7 +879,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y2967',
+    isin: 'US81369Y6059',
     xetraTicker: 'XLF',
     name: 'Financial Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -874,7 +889,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y2885',
+    isin: 'US81369Y5069',
     xetraTicker: 'XLE',
     name: 'Energy Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -884,7 +899,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y8047',
+    isin: 'US81369Y8600',
     xetraTicker: 'XLRE',
     name: 'Real Estate Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -894,7 +909,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y3047',
+    isin: 'US81369Y7040',
     xetraTicker: 'XLI',
     name: 'Industrial Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -904,7 +919,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y3807',
+    isin: 'US81369Y3080',
     xetraTicker: 'XLP',
     name: 'Consumer Staples Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -914,7 +929,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y4824',
+    isin: 'US81369Y4070',
     xetraTicker: 'XLY',
     name: 'Consumer Discretionary Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -924,7 +939,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y2125',
+    isin: 'US81369Y1001',
     xetraTicker: 'XLB',
     name: 'Materials Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -934,7 +949,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US81369Y4063',
+    isin: 'US81369Y8865',
     xetraTicker: 'XLU',
     name: 'Utilities Select Sector SPDR Fund',
     issuer: 'State Street',
@@ -956,7 +971,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874576',
+    isin: 'US4642874659',
     xetraTicker: 'EFA',
     name: 'iShares MSCI EAFE ETF',
     issuer: 'iShares',
@@ -966,7 +981,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642863926',
+    isin: 'US4642872349',
     xetraTicker: 'EEM',
     name: 'iShares MSCI Emerging Markets ETF',
     issuer: 'iShares',
@@ -976,7 +991,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642863018',
+    isin: 'US4642872265',
     xetraTicker: 'AGG',
     name: 'iShares Core U.S. Aggregate Bond ETF',
     issuer: 'iShares',
@@ -986,7 +1001,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874251',
+    isin: 'US4642874329',
     xetraTicker: 'TLT',
     name: 'iShares 20+ Year Treasury Bond ETF',
     issuer: 'iShares',
@@ -996,7 +1011,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642851053',
+    isin: 'US46428Q1094',
     xetraTicker: 'SLV',
     name: 'iShares Silver Trust',
     issuer: 'iShares',
@@ -1006,7 +1021,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874220',
+    isin: 'US46432F8427',
     xetraTicker: 'IEFA',
     name: 'iShares Core MSCI EAFE IMI Index ETF',
     issuer: 'iShares',
@@ -1016,7 +1031,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642873255',
+    isin: 'US4642875078',
     xetraTicker: 'IJH',
     name: 'iShares Core S&P Mid-Cap ETF',
     issuer: 'iShares',
@@ -1026,7 +1041,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642872265',
+    isin: 'US4642878049',
     xetraTicker: 'IJR',
     name: 'iShares Core S&P Small-Cap ETF',
     issuer: 'iShares',
@@ -1036,7 +1051,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642865095',
+    isin: 'US4642875151',
     xetraTicker: 'IGV',
     name: 'iShares Expanded Tech-Software Sector ETF',
     issuer: 'iShares',
@@ -1046,7 +1061,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874683',
+    isin: 'US4642882249',
     xetraTicker: 'ICLN',
     name: 'iShares Global Clean Energy ETF',
     issuer: 'iShares',
@@ -1056,7 +1071,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874329',
+    isin: 'US4642871846',
     xetraTicker: 'FXI',
     name: 'iShares China Large-Cap ETF',
     issuer: 'iShares',
@@ -1066,7 +1081,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874998',
+    isin: 'US46434G8226',
     xetraTicker: 'EWJ',
     name: 'iShares MSCI Japan ETF',
     issuer: 'iShares',
@@ -1076,7 +1091,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874915',
+    isin: 'US4642868065',
     xetraTicker: 'EWG',
     name: 'iShares MSCI Germany ETF',
     issuer: 'iShares',
@@ -1086,7 +1101,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642872877',
+    isin: 'US4642871762',
     xetraTicker: 'TIP',
     name: 'iShares TIPS Bond ETF',
     issuer: 'iShares',
@@ -1096,7 +1111,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642874766',
+    isin: 'US4642872422',
     xetraTicker: 'LQD',
     name: 'iShares iBoxx $ Investment Grade Corporate Bond ETF',
     issuer: 'iShares',
@@ -1106,7 +1121,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642875334',
+    isin: 'US4642885135',
     xetraTicker: 'HYG',
     name: 'iShares iBoxx $ High Yield Corporate Bond ETF',
     issuer: 'iShares',
@@ -1116,7 +1131,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642876282',
+    isin: 'US4642875565',
     xetraTicker: 'IBB',
     name: 'iShares Biotechnology ETF',
     issuer: 'iShares',
@@ -1126,7 +1141,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642867735',
+    isin: 'US4642887602',
     xetraTicker: 'ITA',
     name: 'iShares U.S. Aerospace & Defense ETF',
     issuer: 'iShares',
@@ -1136,7 +1151,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642868398',
+    isin: 'US4642888022',
     xetraTicker: 'SUSA',
     name: 'iShares MSCI USA ESG Select ETF',
     issuer: 'iShares',
@@ -1146,7 +1161,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642868216',
+    isin: 'US46432F3964',
     xetraTicker: 'MTUM',
     name: 'iShares MSCI USA Momentum Factor ETF',
     issuer: 'iShares',
@@ -1156,7 +1171,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642868380',
+    isin: 'US46432F3394',
     xetraTicker: 'QUAL',
     name: 'iShares MSCI USA Quality Factor ETF',
     issuer: 'iShares',
@@ -1166,7 +1181,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US4642868307',
+    isin: 'US46432F3709',
     xetraTicker: 'SIZE',
     name: 'iShares MSCI USA Size Factor ETF',
     issuer: 'iShares',
@@ -1188,7 +1203,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US46090E2046',
+    isin: 'US46137V1347',
     xetraTicker: 'PBW',
     name: 'Invesco WilderHill Clean Energy ETF',
     issuer: 'Invesco',
@@ -1198,7 +1213,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US46090E4057',
+    isin: 'US46141D2036',
     xetraTicker: 'UUP',
     name: 'Invesco DB US Dollar Index Bullish Fund',
     issuer: 'Invesco',
@@ -1220,7 +1235,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US00214Q2018',
+    isin: 'US00214Q2030',
     xetraTicker: 'ARKQ',
     name: 'ARK Autonomous Technology & Robotics ETF',
     issuer: 'ARK',
@@ -1230,7 +1245,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US00214Q3020',
+    isin: 'US00214Q4010',
     xetraTicker: 'ARKW',
     name: 'ARK Next Generation Internet ETF',
     issuer: 'ARK',
@@ -1240,7 +1255,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US00214Q1999',
+    isin: 'US00214Q3020',
     xetraTicker: 'ARKG',
     name: 'ARK Genomics Revolution ETF',
     issuer: 'ARK',
@@ -1264,7 +1279,7 @@ export const etfMaster: ETFMasterEntry[] = [
 
   // --- FIDELITY ---
   {
-    isin: 'US3160928657',
+    isin: 'US3161463563',
     xetraTicker: 'FXNAX',
     name: 'Fidelity U.S. Bond Index Fund',
     issuer: 'Fidelity',
@@ -1274,7 +1289,7 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
-    isin: 'US31635T8060',
+    isin: 'US31635T7081',
     xetraTicker: 'FZROX',
     name: 'Fidelity ZERO Total Market Index Fund',
     issuer: 'Fidelity',
