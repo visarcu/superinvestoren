@@ -4,19 +4,19 @@
 //   Owner Earnings = Nettogewinn + Abschreibungen − Erhaltungs-Capex
 //
 // Der Erhaltungs-Capex (was das Geschäft investieren muss, um Marktstellung und
-// Absatzmenge zu halten) steht in keinem Abschluss — er wird geschätzt, und zwar
+// Absatzmenge zu halten) steht in keinem Abschluss. Er wird geschätzt, und zwar
 // nach Bruce Greenwald:
 //
 //   Wachstums-Capex  = Ø(Sachanlagen / Umsatz, bis zu 5 Jahre) × Umsatzzuwachs   (≥ 0)
 //   Erhaltungs-Capex = Capex − Wachstums-Capex                                    (≥ 0)
 //
 // Buffett spricht ausdrücklich vom *durchschnittlichen* jährlichen Capex. Deshalb wird
-// der Erhaltungs-Capex über bis zu 3 Jahre geglättet — sonst schwankt die Kennzahl mit
+// der Erhaltungs-Capex über bis zu 3 Jahre geglättet. Sonst schwankt die Kennzahl mit
 // jedem Ausreißer im Umsatzwachstum.
 //
 // Bewusst NICHT enthalten:
 //   - Aktienvergütung (SBC): Sie ist im Nettogewinn bereits als Aufwand abgezogen und
-//     wird nicht als „nicht zahlungswirksam" zurückaddiert — Buffett sieht sie als echte Kosten.
+//     wird nicht als „nicht zahlungswirksam" zurückaddiert. Buffett sieht sie als echte Kosten.
 //   - Veränderung des Working Capital: in den SEC-Daten nicht sauber verfügbar und von
 //     Jahr zu Jahr sehr volatil.
 //
@@ -68,96 +68,98 @@ function average(values: number[]): number | null {
   return values.reduce((a, b) => a + b, 0) / values.length
 }
 
-// ─── Bewertungsbasis für den DCF-Rechner ─────────────────────────────────────
+// ─── Aufbereitung der Daten aus /api/financial-data ──────────────────────────
 
-/** Jahresabschlüsse so, wie sie die /api/v1/financials-Endpunkte liefern. */
-export interface OwnerEarningsStatements {
-  income: { period: string; revenue?: number | null; netIncome?: number | null; eps?: number | null }[]
-  balance: { period: string; propertyPlantEquipment?: number | null; sharesOutstanding?: number | null }[]
-  cashflow: { period: string; depreciation?: number | null; capitalExpenditure?: number | null }[]
-  /** Marktkapitalisierung zum Geschäftsjahresende, Schlüssel = Jahr des Periodenendes ("2025") */
-  marketCapByYear?: Record<string, number>
+/** Ausschnitt der Antwort von /api/financial-data/[ticker] (ADRs dort schon in Kurswährung). */
+export interface FinancialDataPayload {
+  incomeStatements?: Record<string, any>[]
+  balanceSheets?: Record<string, any>[]
+  cashFlows?: Record<string, any>[]
+  keyMetrics?: Record<string, any>[]
+  _currency?: { currency: string | null; convertedFrom: string | null }
 }
 
-export interface OwnerEarningsValuationBasis {
-  /** Geschäftsjahr der jüngsten schätzbaren Owner Earnings */
-  period: string
-  ownerEarnings: number
-  perShare: number
-  /** Jährliches Wachstum (CAGR) als Dezimalzahl; null bei Vorzeichenwechsel oder zu kurzer Historie */
-  growthRate: number | null
-  growthYears: number
-  /** Kurs/Owner Earnings zum jeweiligen Geschäftsjahresende (nur positive Owner Earnings) */
-  historicalMultiples: { period: string; multiple: number }[]
+/** Ein Geschäftsjahr mit allen Posten der Herleitung. */
+export interface OwnerEarningsYear extends OwnerEarningsResult {
+  /** Ende des Geschäftsjahres, z.B. "2026-06-30" */
+  date: string | null
+  netIncome: number | null
+  depreciation: number | null
+  capex: number | null
+  freeCashFlow: number | null
+}
+
+/** FMP liefert fehlende Posten als 0. Für Umsatz, Capex & Co. heißt 0 deshalb "unbekannt". */
+function known(v: unknown): number | null {
+  return typeof v === 'number' && Number.isFinite(v) && v !== 0 ? v : null
+}
+
+function statementYear(row: Record<string, any>): string {
+  return String(row.calendarYear || String(row.date ?? '').slice(0, 4))
+}
+
+/** Owner Earnings je Geschäftsjahr, ältestes zuerst. */
+export function ownerEarningsFromFinancialData(data: FinancialDataPayload): OwnerEarningsYear[] {
+  const find = (rows: Record<string, any>[] | undefined, year: string) =>
+    rows?.find(r => statementYear(r) === year) ?? {}
+
+  const rows = (data.cashFlows ?? [])
+    .map(cf => {
+      const period = statementYear(cf)
+      const income = find(data.incomeStatements, period)
+      const balance = find(data.balanceSheets, period)
+      const capex = known(cf.capitalExpenditure)
+      return {
+        period,
+        date: typeof cf.date === 'string' ? cf.date : null,
+        revenue: known(income.revenue),
+        netIncome: known(income.netIncome),
+        depreciation: known(cf.depreciationAndAmortizationFmp) ?? known(cf.depreciationAndAmortization),
+        capex: capex === null ? null : Math.abs(capex),
+        propertyPlantEquipment: known(balance.propertyPlantEquipmentNet),
+        freeCashFlow: known(cf.freeCashFlow),
+      }
+    })
+    .sort((a, b) => (yearOf(a.period) ?? 0) - (yearOf(b.period) ?? 0))
+
+  return computeOwnerEarnings(rows).map((result, i) => ({
+    ...result,
+    date: rows[i].date,
+    netIncome: rows[i].netIncome,
+    depreciation: rows[i].depreciation,
+    capex: rows[i].capex,
+    freeCashFlow: rows[i].freeCashFlow,
+  }))
 }
 
 /**
- * Owner Earnings je Aktie, Wachstum und historische Multiples für eine Bewertung.
- * Aktienzahl: verwässert aus Nettogewinn / verwässertem EPS desselben Jahres — dieselbe
- * Basis wie beim KGV. Nur wenn das nicht geht, die ausstehenden Aktien laut Bilanz.
+ * Jährliches Wachstum bis zum jüngsten Jahr, über bis zu 5 und mindestens 2 Jahre.
+ * Nur zwischen positiven Werten definiert, sonst null.
  */
-export function ownerEarningsValuationBasis(s: OwnerEarningsStatements): OwnerEarningsValuationBasis | null {
-  const periods = s.cashflow.map(c => {
-    const inc = s.income.find(i => i.period === c.period)
-    const bal = s.balance.find(b => b.period === c.period)
-    return {
-      period: c.period,
-      revenue: inc?.revenue,
-      netIncome: inc?.netIncome,
-      eps: inc?.eps,
-      depreciation: c.depreciation,
-      capex: c.capitalExpenditure,
-      propertyPlantEquipment: bal?.propertyPlantEquipment,
-      sharesOutstanding: bal?.sharesOutstanding,
-    }
-  })
-  const results = computeOwnerEarnings(periods)
+export function ownerEarningsGrowth(years: OwnerEarningsYear[]): { rate: number; years: number } | null {
+  const valid = years.filter(y => y.ownerEarnings !== null)
+  const latest = valid[valid.length - 1]
+  if (!latest || (latest.ownerEarnings as number) <= 0) return null
+  const latestYear = yearOf(latest.period)
+  if (latestYear === null) return null
 
-  const series = results
-    .map((r, idx) => ({ ...r, input: periods[idx] }))
-    .filter((r): r is typeof r & { ownerEarnings: number } => r.ownerEarnings !== null)
-    .sort((a, b) => (yearOf(a.period) ?? 0) - (yearOf(b.period) ?? 0))
-  if (series.length === 0) return null
-
-  const latest = series[series.length - 1]
-  const { netIncome, eps, sharesOutstanding } = latest.input
-  let shares: number | null = null
-  if (num(netIncome) && num(eps) && netIncome !== 0 && eps !== 0 && netIncome / eps > 0) {
-    shares = netIncome / eps
-  } else if (num(sharesOutstanding) && sharesOutstanding > 0) {
-    shares = sharesOutstanding
-  }
-  if (shares === null) return null
-
-  // Wachstum: über bis zu 5 Jahre, mindestens 2 — nur zwischen positiven Werten definiert
-  const latestYear = yearOf(latest.period) as number
-  let growthRate: number | null = null
-  let growthYears = 0
-  if (latest.ownerEarnings > 0) {
-    for (let k = 5; k >= 2; k--) {
-      const start = series.find(r => yearOf(r.period) === latestYear - k)
-      if (start && start.ownerEarnings > 0) {
-        growthRate = Math.pow(latest.ownerEarnings / start.ownerEarnings, 1 / k) - 1
-        growthYears = k
-        break
-      }
+  for (let k = 5; k >= 2; k--) {
+    const start = valid.find(y => yearOf(y.period) === latestYear - k)
+    if (start && (start.ownerEarnings as number) > 0) {
+      return { rate: Math.pow((latest.ownerEarnings as number) / (start.ownerEarnings as number), 1 / k) - 1, years: k }
     }
   }
+  return null
+}
 
-  const historicalMultiples = s.marketCapByYear
-    ? series
-        .filter(r => r.ownerEarnings > 0 && num(s.marketCapByYear![r.period]) && s.marketCapByYear![r.period] > 0)
-        .map(r => ({ period: r.period, multiple: s.marketCapByYear![r.period] / r.ownerEarnings }))
-    : []
-
-  return {
-    period: latest.period,
-    ownerEarnings: latest.ownerEarnings,
-    perShare: latest.ownerEarnings / shares,
-    growthRate,
-    growthYears,
-    historicalMultiples,
+/** Kurs/Owner Earnings zum Geschäftsjahresende, höchstens die letzten 5 Jahre mit positivem Wert. */
+export function ownerEarningsMultiples(years: OwnerEarningsYear[], keyMetrics: Record<string, any>[] = []): number[] {
+  const out: number[] = []
+  for (const y of years) {
+    const marketCap = known(keyMetrics.find(k => statementYear(k) === y.period)?.marketCap)
+    if (marketCap !== null && y.ownerEarnings !== null && y.ownerEarnings > 0) out.push(marketCap / y.ownerEarnings)
   }
+  return out.slice(-5)
 }
 
 /**

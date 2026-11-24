@@ -17,11 +17,9 @@ import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import MarginOfSafetyGauge from '@/components/MarginOfSafetyGauge'
 import { fmtPrice, fmtNum } from '@/utils/formatters'
-import { ownerEarningsValuationBasis } from '@/lib/ownerEarnings'
-import { priceCurrencyMatches } from '@/lib/portfolio/fundamentals'
+import { loadOwnerEarnings } from '@/lib/ownerEarningsData'
 
-// Owner Earnings nach Buffett (geschätzt, siehe lib/ownerEarnings) — aus den SEC-/ESEF-Abschlüssen,
-// nicht aus FMP. Geschäftsjahreswert, kein TTM.
+// Owner Earnings nach Buffett (geschätzt, siehe lib/ownerEarnings). Geschäftsjahreswert, kein TTM.
 interface OwnerEarningsData {
   period: string
   perShare: number
@@ -151,49 +149,38 @@ const buildProjection = ({
   }
 }
 
+/** URL-Parameter ?basis=… für Direktlinks in den manuellen Rechner */
+export const DCF_BASIS_TO_MODE: Record<string, CalculatorMode> = {
+  'earnings': 'earnings',
+  'free-cashflow': 'cashflow',
+  'operativer-cashflow': 'opcashflow',
+  'owner-earnings': 'ownerearnings',
+}
+
 interface ImprovedDCFCalculatorProps {
   /** Aktie direkt laden, z.B. per Link aus dem Bewertungs-Tab */
   initialTicker?: string
   initialMode?: CalculatorMode
 }
 
-/** Owner Earnings aus den eigenen Abschlussdaten laden — null plus Begründung, wenn nicht seriös möglich. */
-async function loadOwnerEarnings(
-  ticker: string,
-  price: number,
-  historyArray: { date?: string; marketCap?: number }[]
-): Promise<{ data: OwnerEarningsData | null; note: string | null }> {
-  const get = (statement: string) =>
-    fetch(`/api/v1/financials/${statement}/${ticker}?years=10`)
-      .then(r => (r.ok ? r.json() : null))
-      .catch(() => null)
-  const [inc, bal, cf] = await Promise.all([get('income-statement'), get('balance-sheet'), get('cash-flow')])
-
-  if (!inc?.data || !bal?.data || !cf?.data || !inc.source || inc.source === 'no-data') {
-    return { data: null, note: 'Für diese Aktie liegen keine Jahresabschlüsse für die Schätzung vor.' }
+/** Owner Earnings je Aktie für den Rechner, sonst null plus Begründung für den Nutzer. */
+async function loadOwnerEarningsBasis(ticker: string): Promise<{ data: OwnerEarningsData | null; note: string | null }> {
+  const load = await loadOwnerEarnings(ticker)
+  if (load.status === 'unavailable') return { data: null, note: load.message }
+  if (load.perShare === null || load.marketCap === null) {
+    return {
+      data: null,
+      note: 'Kurs und Abschluss liegen nicht sicher in derselben Währung vor. Ein Wert je Aktie wäre irreführend.',
+    }
   }
-  if (!priceCurrencyMatches(ticker, inc.source)) {
-    return { data: null, note: 'Kurs und Abschluss liegen nicht sicher in derselben Währung vor — eine Bewertung je Aktie wäre irreführend.' }
-  }
-
-  const marketCapByYear: Record<string, number> = {}
-  for (const h of historyArray) {
-    if (h.date && typeof h.marketCap === 'number' && h.marketCap > 0) marketCapByYear[h.date.slice(0, 4)] = h.marketCap
-  }
-
-  const basis = ownerEarningsValuationBasis({ income: inc.data, balance: bal.data, cashflow: cf.data, marketCapByYear })
-  if (!basis) {
-    return { data: null, note: 'Owner Earnings sind hier nicht schätzbar — es fehlen Abschreibungen, Capex oder Sachanlagen (typisch für Banken und Versicherungen).' }
-  }
-
   return {
     data: {
-      period: basis.period,
-      perShare: basis.perShare,
-      yieldPct: price > 0 ? (basis.perShare / price) * 100 : 0,
-      growth: basis.growthRate !== null ? basis.growthRate * 100 : null,
-      growthYears: basis.growthYears,
-      multipleMedian: multipleMedian(basis.historicalMultiples.map(m => m.multiple)),
+      period: load.latest.period,
+      perShare: load.perShare,
+      yieldPct: (load.latest.ownerEarnings / load.marketCap) * 100,
+      growth: load.growth ? load.growth.rate * 100 : null,
+      growthYears: load.growth?.years ?? 0,
+      multipleMedian: multipleMedian(load.multiples),
     },
     note: null,
   }
@@ -371,6 +358,9 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
   const loadStockData = async (ticker: string, options: { prefillOwnerEarningsGrowth?: boolean } = {}) => {
     setLoading(true)
     try {
+      // Läuft parallel, damit die anderen Modi nicht darauf warten (fängt Fehler selbst ab)
+      const ownerEarningsPromise = loadOwnerEarningsBasis(ticker)
+
       // Fetch key metrics, quote, growth and 5y multiple history
       const [quoteRes, metricsRes, growthRes, historyRes] = await Promise.all([
         fetch(`/api/fmp/quote?symbol=${ticker}`),
@@ -411,8 +401,7 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
       // Calculate SBC impact (Stock Based Compensation as % of FCF)
       const sbcImpact = metrics?.stockBasedCompensationToRevenueTTM ? metrics.stockBasedCompensationToRevenueTTM * -100 : 0
 
-      // Owner Earnings aus den eigenen Abschlussdaten (SEC/ESEF), Multiples aus der FMP-Historie
-      const oe = await loadOwnerEarnings(ticker, price, historyArray)
+      const oe = await ownerEarningsPromise
 
       const data: StockData = {
         ticker,
@@ -458,9 +447,13 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
         setOeInput('')
         setTargetOeMultiple('')
       }
-      // Beim Direkt-Link aus dem Bewertungs-Tab soll sofort ein Ergebnis stehen
+      // Beim Direkt-Link aus dem Bewertungs-Tab soll sofort ein Ergebnis stehen. Extreme Raten
+      // (Nvidia 90 %) auf 10 Jahre fortzuschreiben wäre Unsinn, dort gibt der Nutzer selbst eine ein.
+      const oeGrowth = oe.data?.growth ?? null
       setOeGrowthRate(
-        options.prefillOwnerEarningsGrowth && oe.data?.growth != null ? oe.data.growth.toFixed(1) : ''
+        options.prefillOwnerEarningsGrowth && oeGrowth !== null && oeGrowth >= 0 && oeGrowth <= 25
+          ? oeGrowth.toFixed(1)
+          : ''
       )
 
     } catch (error) {
@@ -1060,7 +1053,7 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
                       >
                         {stockData.fcfMultiple5YMedian.years === 5
                           ? '5-Jahres-Median'
-                          : `Median (${stockData.fcfMultiple5YMedian.years} J.)`}: {fmtNum(stockData.fcfMultiple5YMedian.value, 1)} — übernehmen
+                          : `Median (${stockData.fcfMultiple5YMedian.years} J.)`}: {fmtNum(stockData.fcfMultiple5YMedian.value, 1)} übernehmen
                       </button>
                     )}
                   </div>
@@ -1183,7 +1176,7 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
                       >
                         {stockData.ocfMultiple5YMedian.years === 5
                           ? '5-Jahres-Median'
-                          : `Median (${stockData.ocfMultiple5YMedian.years} J.)`}: {fmtNum(stockData.ocfMultiple5YMedian.value, 1)} — übernehmen
+                          : `Median (${stockData.ocfMultiple5YMedian.years} J.)`}: {fmtNum(stockData.ocfMultiple5YMedian.value, 1)} übernehmen
                       </button>
                     )}
                   </div>
@@ -1243,7 +1236,7 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
                     </div>
                   </div>
 
-                  {/* Auto-fill Button — nur wenn ein Wachstum berechenbar ist */}
+                  {/* Auto-fill Button, nur wenn ein Wachstum berechenbar ist */}
                   {stockData.ownerEarnings.growth !== null && (
                     <button
                       onClick={handleAutoFillGrowth}
@@ -1272,7 +1265,7 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
                     <p className="text-xs text-theme-muted mt-1.5">
                       Buffetts Eigentümer-Gewinn je Aktie: Nettogewinn + Abschreibungen − geschätzter Erhaltungs-Capex, aus dem letzten Geschäftsjahr.{' '}
                       <Link
-                        href={`/analyse/aktien/${stockData.ticker.toLowerCase()}/bewertung`}
+                        href={`/analyse/stocks/${stockData.ticker.toLowerCase()}/valuation`}
                         className="text-brand hover:underline"
                       >
                         Herleitung ansehen
@@ -1328,11 +1321,11 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
                       >
                         {stockData.ownerEarnings.multipleMedian.years === 5
                           ? '5-Jahres-Median'
-                          : `Median (${stockData.ownerEarnings.multipleMedian.years} J.)`}: {fmtNum(stockData.ownerEarnings.multipleMedian.value, 1)} — übernehmen
+                          : `Median (${stockData.ownerEarnings.multipleMedian.years} J.)`}: {fmtNum(stockData.ownerEarnings.multipleMedian.value, 1)} übernehmen
                       </button>
                     ) : (
                       <p className="text-xs text-theme-muted mt-1">
-                        Keine ausreichende Historie für einen Median — vorbelegt mit {FALLBACK_FCF_MULTIPLE}.
+                        Keine ausreichende Historie für einen Median, deshalb mit {FALLBACK_FCF_MULTIPLE} vorbelegt.
                       </p>
                     )}
                   </div>
@@ -1675,7 +1668,7 @@ export default function ImprovedDCFCalculator({ initialTicker, initialMode }: Im
                   : mode === 'cashflow'
                     ? 'Die Free Cash Flow-Methode berechnet den fairen Wert basierend auf projiziertem Free Cash Flow und einem Ziel-Multiple (Kurs/Free Cash Flow). Diese Methode ist besonders nützlich für Unternehmen mit stabilem Cash Flow.'
                     : mode === 'ownerearnings'
-                    ? 'Die Owner-Earnings-Methode folgt Warren Buffett: Statt des gesamten Capex wird nur der Teil abgezogen, der das Geschäft auf dem heutigen Stand hält. Investitionen in Wachstum drücken die Basis deshalb nicht — anders als beim Free Cash Flow. Der Erhaltungs-Capex ist geschätzt (Methode nach Bruce Greenwald), die Basis ist der Wert des letzten Geschäftsjahres.'
+                    ? 'Die Owner-Earnings-Methode folgt Warren Buffett: Statt des gesamten Capex wird nur der Teil abgezogen, der das Geschäft auf dem heutigen Stand hält. Investitionen in Wachstum drücken die Basis deshalb nicht, anders als beim Free Cash Flow. Der Erhaltungs-Capex ist geschätzt (Methode nach Bruce Greenwald), die Basis ist der Wert des letzten Geschäftsjahres.'
                     : 'Die Methode über den operativen Cashflow rechnet vor Investitionsausgaben (Capex) und eignet sich für Unternehmen, deren FCF durch hohe Investitionen verzerrt ist. Weil Capex hier nicht abgezogen wird, sollte das KCV deutlich niedriger angesetzt werden als das Kurs/Free-Cash-Flow-Multiple.'
                 }
               </p>

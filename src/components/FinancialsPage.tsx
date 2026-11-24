@@ -4,6 +4,8 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { loadOwnerEarnings } from '@/lib/ownerEarningsData'
+import type { OwnerEarningsYear } from '@/lib/ownerEarnings'
 import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import {
@@ -284,6 +286,9 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
   const [rawStatements, setRawStatements] = useState<RawStatements | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Owner Earnings (Buffett) für die Cashflow-Tabelle, je Geschäftsjahr. Leer, wenn nicht schätzbar.
+  const [ownerEarnings, setOwnerEarnings] = useState<Map<string, OwnerEarningsYear>>(new Map())
+
   const { formatAxisValueDE } = useCurrency()
 
   const formatFinancialNumber = (value: number | null | undefined): string => {
@@ -319,6 +324,21 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
       loadFinancials()
     }
   }, [ticker, period, yearsToShow])
+
+  useEffect(() => {
+    if (!ticker || activeStatement !== 'cashflow' || period !== 'annual') return
+    let cancelled = false
+    setOwnerEarnings(new Map())
+    loadOwnerEarnings(ticker).then(load => {
+      // Bei ADRs steht diese Tabelle in Berichtswährung, Owner Earnings aber in Kurswährung.
+      // Beides in einer Tabelle wäre falsch, der Bewertungs-Tab zeigt sie dort.
+      if (cancelled || load.status !== 'ok' || load.convertedFrom) return
+      setOwnerEarnings(new Map(load.years.map(y => [y.period, y])))
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [ticker, activeStatement, period])
 
   useEffect(() => {
     const handleClickOutside = () => setIsYearsDropdownOpen(false)
@@ -1392,6 +1412,49 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </td>
                 ))}
               </tr>
+
+              {/* Owner Earnings (Buffett) */}
+              {period === 'annual' && cashflowData.some((item) => ownerEarnings.get(String(item.calendarYear))?.ownerEarnings != null) && (
+                <>
+                  <tr>
+                    <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                      <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
+                        Owner Earnings nach Buffett (geschätzt)
+                      </span>
+                      <Link
+                        href={`/analyse/stocks/${ticker.toLowerCase()}/valuation`}
+                        className="ml-3 text-xs text-brand hover:underline"
+                      >
+                        Herleitung
+                      </Link>
+                    </td>
+                  </tr>
+
+                  <tr className="border-b border-theme-light hover:bg-theme-hover">
+                    <td className="py-3 text-theme-primary">Erhaltungs-Capex</td>
+                    {cashflowData.map((item) => {
+                      const value = ownerEarnings.get(String(item.calendarYear))?.maintenanceCapex
+                      return (
+                        <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
+                          {value != null ? formatFinancialNumber(-value) : 'k. A.'}
+                        </td>
+                      )
+                    })}
+                  </tr>
+
+                  <tr className="border-b border-theme-light bg-theme-secondary">
+                    <td className="py-3 font-medium text-theme-primary">Owner Earnings</td>
+                    {cashflowData.map((item) => {
+                      const value = ownerEarnings.get(String(item.calendarYear))?.ownerEarnings
+                      return (
+                        <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
+                          {value != null ? formatFinancialNumber(value) : 'k. A.'}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                </>
+              )}
 
             </tbody>
           </table>

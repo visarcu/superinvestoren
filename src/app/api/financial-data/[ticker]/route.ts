@@ -325,6 +325,9 @@ export async function GET(
           ...(o.dividendsPaid !== undefined && { dividendsPaid: o.dividendsPaid }),
           ...(o.commonStockRepurchased !== undefined && { commonStockRepurchased: o.commonStockRepurchased }),
           ...(o.depreciationAndAmortization !== undefined && { depreciationAndAmortization: o.depreciationAndAmortization }),
+          // Die SEC-Tags enthalten teils nur die Abschreibung auf Sachanlagen, ohne Amortisation
+          // (MSFT GJ 2025: 22,0 statt 34,2 Mrd.). Owner Earnings brauchen den vollen Wert.
+          depreciationAndAmortizationFmp: stmt.depreciationAndAmortization,
           _source: 'sec-xbrl',
         }
       })

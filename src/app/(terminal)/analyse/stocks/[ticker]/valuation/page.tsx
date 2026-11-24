@@ -26,6 +26,7 @@ import {
 
 import ProfessionalValuationTable from '@/components/ProfessionalValuationTable'
 import ForwardPETable from '@/components/ForwardPETable'
+import OwnerEarningsCard from '@/components/OwnerEarningsCard'
 
 interface User {
   id: string
@@ -106,6 +107,9 @@ export default function ValuationPage() {
 
         {/* Forward KGV */}
         <ForwardPETable ticker={ticker.toUpperCase()} />
+
+        {/* Owner Earnings nach Buffett (blendet sich bei Banken, Versicherern und REITs aus) */}
+        <OwnerEarningsCard ticker={ticker.toUpperCase()} />
 
         {/* ✅ Additional Sections MIT LEARN TOOLTIPS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

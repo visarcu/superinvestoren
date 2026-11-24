@@ -1,14 +1,22 @@
 'use client'
 
 import React, { useState } from 'react'
-import ImprovedDCFCalculator from '@/components/ImprovedDCFCalculator'
+import ImprovedDCFCalculator, { DCF_BASIS_TO_MODE } from '@/components/ImprovedDCFCalculator'
 import { AIAnalyseTab } from '@/components/ai-analyse'
 import { CalculatorIcon, SparklesIcon } from '@heroicons/react/24/outline'
 
 type TabType = 'manual' | 'ai'
 
-export default function DCFCalculatorPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('ai')
+export default function DCFCalculatorPage({
+  searchParams,
+}: {
+  searchParams?: { ticker?: string; basis?: string }
+}) {
+  // Direktlink (?ticker=MSFT&basis=owner-earnings) öffnet den manuellen Rechner mit dieser Aktie
+  const linkedTicker =
+    searchParams?.ticker && /^[A-Za-z0-9.^-]{1,15}$/.test(searchParams.ticker) ? searchParams.ticker : undefined
+  const linkedMode = searchParams?.basis ? DCF_BASIS_TO_MODE[searchParams.basis] : undefined
+  const [activeTab, setActiveTab] = useState<TabType>(linkedTicker ? 'manual' : 'ai')
 
   return (
     <div className="p-6 bg-theme-primary min-h-screen">
@@ -47,7 +55,7 @@ export default function DCFCalculatorPage() {
 
       {/* Tab Content */}
       {activeTab === 'manual' ? (
-        <ImprovedDCFCalculator />
+        <ImprovedDCFCalculator initialTicker={linkedTicker} initialMode={linkedMode} />
       ) : (
         <AIAnalyseTab />
       )}
