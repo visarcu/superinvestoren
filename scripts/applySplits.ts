@@ -245,6 +245,7 @@ async function main() {
           `${result.created} angelegt · ${result.updated} aktualisiert`
       )
       for (const err of result.errors) console.error(`   Fehler: ${err}`)
+      for (const symbol of result.missingCosts) console.error(`   Nicht angelegt, Einstand unbekannt: ${symbol}`)
     }
   }
 
