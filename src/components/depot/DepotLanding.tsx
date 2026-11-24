@@ -12,9 +12,15 @@ import QuarterMark from '@/components/landing/QuarterMark'
 import { DISPLAY, MONO, landingFontVars } from '@/components/landing/landingFonts'
 import { WORKSPACE_PATH } from '@/lib/depotRoutes'
 import { IMPORT_BROKERS } from '@/lib/importBrokerConfig'
-import { PREMIUM_MONTHLY_EUR, PREMIUM_TRIAL_DAYS, PREMIUM_YEARLY_EUR } from '@/lib/pricing'
+import { PREMIUM_TRIAL_DAYS, formatEur, getPricing } from '@/lib/pricing'
 import { formatIsoDate, formatSignedPercent, joinGerman } from '@/lib/displayFormat'
 import { buildDepotShowcase, SHOWCASE_START_VALUE, type DepotShowcase } from '@/lib/depotShowcase'
+
+// Reguläre Preise für Neukunden (die Black-Friday-Aktion steht nur auf /pricing).
+// Auf Modulebene berechnet: nach der Preisumstellung am 1.1.2027 einmal neu deployen.
+const regularPricing = getPricing()
+const monthlyEur = formatEur(regularPricing.monthly)
+const yearlyEur = formatEur(regularPricing.yearlyRegular)
 
 const SIGNUP_HREF = `/auth/signup?redirect=${encodeURIComponent(WORKSPACE_PATH)}`
 const brokers = IMPORT_BROKERS.filter(b => b.id !== 'other').map(b => b.name)
@@ -84,7 +90,7 @@ const PREMIUM_FEATURES = [
 const FAQ = [
   {
     q: 'Ist der Depot-Tracker kostenlos?',
-    a: `Ja. Depots anlegen, importieren und den Überblick über Wert und Aufteilung nutzen kannst du kostenlos. Die Profi-Analysen (Risiko-Kennzahlen, Monte Carlo, Stresstests, Faktoranalyse und der vollständige Durchblick) gehören zu Premium für ${PREMIUM_MONTHLY_EUR} € im Monat oder ${PREMIUM_YEARLY_EUR} € im Jahr, ${PREMIUM_TRIAL_DAYS} Tage kostenlos testbar.`,
+    a: `Ja. Depots anlegen, importieren und den Überblick über Wert und Aufteilung nutzen kannst du kostenlos. Die Profi-Analysen (Risiko-Kennzahlen, Monte Carlo, Stresstests, Faktoranalyse und der vollständige Durchblick) gehören zu Premium für ${monthlyEur} € im Monat oder ${yearlyEur} € im Jahr, ${PREMIUM_TRIAL_DAYS} Tage kostenlos testbar.`,
   },
   {
     q: 'Welche Broker kann ich importieren?',
@@ -458,7 +464,7 @@ export default async function DepotLanding({
             <div className="bg-[#121410] border border-[#3A3D36] rounded-2xl p-6 md:p-8">
               <h3 className="text-xl font-semibold text-[#ECEDE8]">Premium</h3>
               <p className="mt-1 text-sm text-[#9A9C94]">
-                {PREMIUM_MONTHLY_EUR} € im Monat oder {PREMIUM_YEARLY_EUR} € im Jahr, {PREMIUM_TRIAL_DAYS} Tage kostenlos testen
+                {monthlyEur} € im Monat oder {yearlyEur} € im Jahr, {PREMIUM_TRIAL_DAYS} Tage kostenlos testen
               </p>
               <ul className="mt-6 space-y-3">
                 {PREMIUM_FEATURES.map(f => (

@@ -6,16 +6,13 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { usePremiumStatus } from "@/lib/premiumUtils";
-import { PLAN_FEATURES, PREMIUM_MONTHLY_EUR, PREMIUM_YEARLY_EUR } from "@/lib/pricing";
+import { PLAN_FEATURES, FOUNDER_PROMO_END, FOUNDER_YEARLY_EUR, formatEur, getPricing } from "@/lib/pricing";
 import { Check, X, Sparkles } from "lucide-react";
 
 interface SupabaseUser {
   id: string;
   email: string;
 }
-
-// Easter promo: active until April 13, 2026 23:59 (Ostersonntag)
-const EASTER_PROMO_END = new Date('2026-04-13T23:59:59+02:00');
 
 function useCountdown(target: Date) {
   const [timeLeft, setTimeLeft] = useState(() => Math.max(0, target.getTime() - Date.now()));
@@ -43,7 +40,8 @@ export default function PricingPage() {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const countdown = useCountdown(EASTER_PROMO_END);
+  // Tickt jede Sekunde — dadurch springt die Seite pünktlich um Aktionsbeginn/-ende um.
+  const countdown = useCountdown(FOUNDER_PROMO_END);
   const autoCheckoutTriggered = useRef(false);
 
   const { premiumStatus, loading: premiumLoading } = usePremiumStatus(user?.id || null);
@@ -154,14 +152,16 @@ export default function PricingPage() {
 
   const isPremium = premiumStatus.isPremium;
 
-  // Price display
-  const monthlyPrice = PREMIUM_MONTHLY_EUR;
-  const yearlyPrice = PREMIUM_YEARLY_EUR;
-  const yearlyMonthly = (yearlyPrice / 12).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); // 6,58
-  const savingsPercent = Math.round((1 - yearlyPrice / (monthlyPrice * 12)) * 100); // 34%
+  // Price display — hängt vom Datum ab (Black Friday, neue Preise ab 1.1.2027)
+  const pricing = getPricing();
+  const founderActive = pricing.founderPromoActive;
+  const monthlyPrice = pricing.monthly;
+  const yearlyPrice = pricing.yearly;
+  const yearlyMonthly = formatEur(yearlyPrice / 12);
+  const savingsPercent = Math.round((1 - pricing.yearlyRegular / (monthlyPrice * 12)) * 100);
 
   const ctaLabel = selectedPlan === 'yearly'
-    ? `Jetzt für ${yearlyPrice}€/Jahr starten`
+    ? `Jetzt für ${formatEur(yearlyPrice)}€/Jahr starten`
     : '14 Tage kostenlos testen';
 
   return (
@@ -197,12 +197,12 @@ export default function PricingPage() {
           {!isPremium && (
             <div className="flex items-center justify-center gap-12 mb-12">
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">9€</div>
+                <div className="text-2xl font-semibold text-white">{formatEur(monthlyPrice)}€</div>
                 <div className="text-sm text-neutral-500">pro Monat</div>
               </div>
               <div className="w-px h-8 bg-neutral-800"></div>
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">79€</div>
+                <div className="text-2xl font-semibold text-white">{formatEur(yearlyPrice)}€</div>
                 <div className="text-sm text-neutral-500">pro Jahr</div>
               </div>
               <div className="w-px h-8 bg-neutral-800"></div>
@@ -218,14 +218,18 @@ export default function PricingPage() {
       {/* Pricing Cards */}
       <div className="max-w-4xl mx-auto px-6 pb-20">
 
-        {/* Easter Promo Banner */}
-        {countdown.isActive && !isPremium && (
+        {/* Black Friday: Gründerpreis-Banner mit Countdown */}
+        {founderActive && !isPremium && (
           <div className="mb-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-xl">🐣</span>
+              <span className="text-xl">🔥</span>
               <div>
-                <p className="text-sm font-semibold text-white">Osterangebot — Jahresabo für nur 79€</p>
-                <p className="text-xs text-neutral-400">Danach 99€/Jahr. Angebot endet am 13. April.</p>
+                <p className="text-sm font-semibold text-white">
+                  Black Friday — Jahresabo zum Gründerpreis von {formatEur(yearlyPrice)}€, dauerhaft
+                </p>
+                <p className="text-xs text-neutral-400">
+                  Statt {formatEur(pricing.yearlyRegular)}€/Jahr. Ab 1. Januar zahlen Neukunden {formatEur(pricing.upcoming.yearly)}€/Jahr — dein Gründerpreis bleibt. Angebot endet am 30. November.
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
@@ -248,6 +252,17 @@ export default function PricingPage() {
                 </React.Fragment>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Hinweis auf die Preiserhöhung zum 1.1.2027 (außerhalb der Black-Friday-Tage) */}
+        {!founderActive && pricing.priceIncreaseUpcoming && !isPremium && (
+          <div className="mb-8 rounded-2xl border border-neutral-800 bg-neutral-900/50 px-6 py-4 text-center sm:text-left">
+            <p className="text-sm font-semibold text-white">Ab 1. Januar 2027 gelten neue Preise</p>
+            <p className="text-xs text-neutral-400 mt-1">
+              Für Neukunden: {formatEur(pricing.upcoming.monthly)}€/Monat bzw. {formatEur(pricing.upcoming.yearly)}€/Jahr. Wer vorher abschließt, behält seinen Preis.
+              {pricing.founderPromoUpcoming && ` Am Black Friday (27.–30. November) gibt es das Jahresabo zum dauerhaften Gründerpreis von ${formatEur(FOUNDER_YEARLY_EUR)}€.`}
+            </p>
           </div>
         )}
 
@@ -274,7 +289,7 @@ export default function PricingPage() {
               >
                 Jährlich
                 <span className="bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-                  {countdown.isActive ? '🐣 Osterangebot' : `-${savingsPercent}%`}
+                  {founderActive ? '🔥 Black Friday' : `-${savingsPercent}%`}
                 </span>
               </button>
             </div>
@@ -327,7 +342,7 @@ export default function PricingPage() {
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <div className="bg-white text-black px-4 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
                   {selectedPlan === 'yearly'
-                    ? countdown.isActive ? '🐣 Osterangebot – endet 13. April' : `Spare ${savingsPercent}%`
+                    ? founderActive ? '🔥 Gründerpreis – endet 30. November' : `Spare ${savingsPercent}%`
                     : 'Empfohlen'}
                 </div>
               </div>
@@ -354,20 +369,25 @@ export default function PricingPage() {
               ) : selectedPlan === 'yearly' ? (
                 <>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-semibold text-white">{yearlyPrice}€</span>
+                    {founderActive && (
+                      <span className="text-xl text-neutral-500 line-through">{formatEur(pricing.yearlyRegular)}€</span>
+                    )}
+                    <span className="text-4xl font-semibold text-white">{formatEur(yearlyPrice)}€</span>
                     <span className="text-neutral-500">/Jahr</span>
                   </div>
                   <p className="text-sm text-emerald-400 mt-1">
                     Entspricht {yearlyMonthly}€/Monat
                   </p>
                   <p className="text-xs text-neutral-500 mt-1">
-                    Einmalzahlung • Jederzeit kündbar
+                    {founderActive
+                      ? 'Gründerpreis – bleibt dauerhaft, solange dein Abo läuft • Jährlich kündbar'
+                      : 'Jährliche Zahlung • Jederzeit kündbar'}
                   </p>
                 </>
               ) : (
                 <>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-semibold text-white">{monthlyPrice}€</span>
+                    <span className="text-4xl font-semibold text-white">{formatEur(monthlyPrice)}€</span>
                     <span className="text-neutral-500">/Monat</span>
                   </div>
                   <p className="text-xs text-neutral-500 mt-2">
@@ -415,7 +435,7 @@ export default function PricingPage() {
                 href="/auth/signin"
                 className="block w-full py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors text-center"
               >
-                {selectedPlan === 'yearly' ? `Für ${yearlyPrice}€/Jahr starten` : 'Kostenlos testen'}
+                {selectedPlan === 'yearly' ? `Für ${formatEur(yearlyPrice)}€/Jahr starten` : 'Kostenlos testen'}
               </Link>
             )}
           </div>
@@ -435,9 +455,31 @@ export default function PricingPage() {
                 Was ist der Unterschied zwischen Monats- und Jahresabo?
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
-                Beide Pläne geben dir vollen Zugang zu allen Features. Mit dem Jahresabo sparst du {savingsPercent}% — 79€/Jahr statt 108€/Jahr. Das Monatsabo beinhaltet 14 Tage kostenlose Testphase.
+                Beide Pläne geben dir vollen Zugang zu allen Features. Mit dem Jahresabo sparst du {savingsPercent}% — {formatEur(pricing.yearlyRegular)}€/Jahr statt {formatEur(monthlyPrice * 12)}€/Jahr. Das Monatsabo beinhaltet 14 Tage kostenlose Testphase.
               </p>
             </div>
+
+            {(founderActive || pricing.founderPromoUpcoming) && (
+              <div className="border-t border-neutral-800/50 pt-8">
+                <h3 className="font-medium text-white mb-2">
+                  Was ist der Gründerpreis?
+                </h3>
+                <p className="text-neutral-400 text-sm leading-relaxed">
+                  Vom 27. bis 30. November 2026 (Black Friday bis Cyber Monday) bekommst du das Jahresabo für {formatEur(FOUNDER_YEARLY_EUR)}€. Dieser Preis bleibt dauerhaft, solange dein Abo läuft — auch nach der Preiserhöhung im Januar. Das Abo verlängert sich automatisch jährlich zum Gründerpreis und ist jederzeit zum Ende der Laufzeit kündbar. Kündigst du, gilt bei einem neuen Abo der dann aktuelle Preis.
+                </p>
+              </div>
+            )}
+
+            {pricing.priceIncreaseUpcoming && (
+              <div className="border-t border-neutral-800/50 pt-8">
+                <h3 className="font-medium text-white mb-2">
+                  Ändern sich die Preise?
+                </h3>
+                <p className="text-neutral-400 text-sm leading-relaxed">
+                  Ja. Ab 1. Januar 2027 kostet Premium für Neukunden {formatEur(pricing.upcoming.monthly)}€ im Monat bzw. {formatEur(pricing.upcoming.yearly)}€ im Jahr. Bestehende Abos behalten ihren Preis.
+                </p>
+              </div>
+            )}
 
             <div className="border-t border-neutral-800/50 pt-8">
               <h3 className="font-medium text-white mb-2">
@@ -453,7 +495,7 @@ export default function PricingPage() {
                 Was passiert nach der Testphase (Monatsabo)?
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
-                Nach 14 Tagen wird automatisch das Abo für 9€/Monat aktiviert. Du kannst vorher jederzeit kündigen – ohne Kosten.
+                Nach 14 Tagen wird automatisch das Abo für {formatEur(monthlyPrice)}€/Monat aktiviert. Du kannst vorher jederzeit kündigen – ohne Kosten.
               </p>
             </div>
 
@@ -514,7 +556,7 @@ export default function PricingPage() {
                   href="/auth/signin"
                   className="px-8 py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors"
                 >
-                  {selectedPlan === 'yearly' ? `Für ${yearlyPrice}€/Jahr starten` : 'Kostenlos testen'}
+                  {selectedPlan === 'yearly' ? `Für ${formatEur(yearlyPrice)}€/Jahr starten` : 'Kostenlos testen'}
                 </Link>
               )}
               <Link

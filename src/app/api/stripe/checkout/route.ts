@@ -2,8 +2,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabaseClient';
+import { FOUNDER_YEARLY_EUR, getPriceKey, type PriceKey } from '@/lib/pricing';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
+
+// Stripe-Preis-IDs je Preisschlüssel (siehe src/lib/pricing.ts).
+// Bestandsabos bleiben auf ihren alten Preisen, hier geht es nur um neue Checkouts.
+const PRICE_IDS: Record<PriceKey, string | undefined> = {
+  monthly: process.env.STRIPE_PRICE_ID,
+  yearly: process.env.STRIPE_PRICE_ID_YEARLY,
+  yearly_founder: process.env.STRIPE_PRICE_ID_YEARLY_FOUNDER,
+  monthly_2027: process.env.STRIPE_PRICE_ID_MONTHLY_2027,
+  yearly_2027: process.env.STRIPE_PRICE_ID_YEARLY_2027,
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,13 +38,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Select price ID based on plan
-    const priceId = plan === 'yearly'
-      ? process.env.STRIPE_PRICE_ID_YEARLY!
-      : process.env.STRIPE_PRICE_ID!;
+    // Preis serverseitig nach Plan und Datum wählen (Black-Friday-Gründerpreis,
+    // ab 1.1.2027 neue Preise) — die Uhr des Browsers spielt keine Rolle.
+    const priceKey = getPriceKey(plan === 'yearly' ? 'yearly' : 'monthly');
+    const priceId = PRICE_IDS[priceKey];
 
     if (!priceId) {
-      console.error(`❌ Missing price ID for plan: ${plan}`);
+      console.error(`❌ Missing price ID for plan: ${plan} (key: ${priceKey})`);
       return NextResponse.json(
         { error: `Price ID not configured for plan: ${plan}` },
         { status: 500 }
@@ -221,7 +232,25 @@ export async function POST(request: NextRequest) {
       };
       sessionData.metadata.trial_days = trialDays.toString();
     }
-    
+
+    // Gründerpreis: Bedingungen direkt im Stripe-Checkout anzeigen und das Abo markieren
+    if (priceKey === 'yearly_founder') {
+      sessionData.custom_text = {
+        submit: {
+          message: `Gründerpreis: ${FOUNDER_YEARLY_EUR} € pro Jahr – dieser Preis bleibt dauerhaft, solange dein Abo läuft. Das Abo verlängert sich automatisch um ein Jahr und ist jederzeit zum Ende der Laufzeit kündbar.`,
+        },
+      };
+      sessionData.subscription_data = {
+        ...(sessionData.subscription_data || {}),
+        metadata: {
+          ...(sessionData.subscription_data?.metadata || {}),
+          supabase_user_id: userId,
+          promo: 'black_friday_2026_founder',
+        },
+      };
+      sessionData.metadata.promo = 'black_friday_2026_founder';
+    }
+
     const session = await stripe.checkout.sessions.create(sessionData);
 
     console.log('✅ Session created:', { 

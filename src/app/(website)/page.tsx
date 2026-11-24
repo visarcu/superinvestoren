@@ -23,7 +23,7 @@ import { brandName, formatCompactAmount, formatIsoDate, formatMoney, formatSigne
 import { buildDepotShowcase, type DepotShowcase } from '@/lib/depotShowcase'
 import { buildInvestorQuarterSummary } from '@/lib/investorQuarterSummary'
 import { getFinancialHistory, getPublicStockData, type FinancialYear, type PublicStockData } from '@/lib/publicStockData'
-import { PLAN_FEATURES, PREMIUM_MONTHLY_EUR, PREMIUM_TRIAL_DAYS, PREMIUM_YEARLY_EUR } from '@/lib/pricing'
+import { PLAN_FEATURES, PREMIUM_TRIAL_DAYS, formatEur, getPricing } from '@/lib/pricing'
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
@@ -39,7 +39,12 @@ const brokers = IMPORT_BROKERS.filter(b => b.id !== 'other')
 const brokerNames = brokers.map(b => b.shortName ?? b.name)
 const freeFeatures = PLAN_FEATURES.free.filter(f => f.included)
 const premiumHighlights = PLAN_FEATURES.premium.filter(f => f.highlight || f.name.startsWith('Superinvestor-Abgleich'))
-const yearlyPerMonth = (PREMIUM_YEARLY_EUR / 12).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+// Reguläre Preise für Neukunden (die Black-Friday-Aktion steht nur auf /pricing).
+// Auf Modulebene berechnet: nach der Preisumstellung am 1.1.2027 einmal neu deployen.
+const regularPricing = getPricing()
+const monthlyEur = formatEur(regularPricing.monthly)
+const yearlyEur = formatEur(regularPricing.yearlyRegular)
+const yearlyPerMonth = formatEur(regularPricing.yearlyRegular / 12)
 const filingDate = formatIsoDate(highlights.latestFilingDate)
 const reportQuarter = highlights.reportQuarter ?? 'dem letzten Quartal'
 const quarterIndex = Number(highlights.reportQuarter?.match(/^Q([1-4])/)?.[1] ?? 0)
@@ -93,7 +98,7 @@ const faqs = [
   },
   {
     q: 'Was kostet Finclue?',
-    a: `Die Basisversion ist dauerhaft kostenlos. Premium kostet ${PREMIUM_MONTHLY_EUR} € im Monat mit ${PREMIUM_TRIAL_DAYS} Tagen kostenlosem Test oder ${PREMIUM_YEARLY_EUR} € im Jahr (${yearlyPerMonth} € pro Monat).`,
+    a: `Die Basisversion ist dauerhaft kostenlos. Premium kostet ${monthlyEur} € im Monat mit ${PREMIUM_TRIAL_DAYS} Tagen kostenlosem Test oder ${yearlyEur} € im Jahr (${yearlyPerMonth} € pro Monat).`,
   },
   {
     q: 'Woher kommen die Superinvestor-Daten?',
@@ -526,7 +531,7 @@ export default async function HomePage() {
                 <span className="text-[#9A9C94]">/ Monat</span>
               </div>
               <p className="text-xs text-[#9A9C94] mt-1">
-                bei {PREMIUM_YEARLY_EUR} € im Jahr, oder {PREMIUM_MONTHLY_EUR} € monatlich
+                bei {yearlyEur} € im Jahr, oder {monthlyEur} € monatlich
               </p>
               <ul className="mt-8 space-y-3 flex-1">
                 {premiumHighlights.map(f => (
