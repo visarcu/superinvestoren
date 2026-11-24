@@ -44,6 +44,7 @@ export interface ParsedTransaction {
   notes: string
   originalType: string  // Originaltyp aus CSV für Referenz
   reference?: string    // Buchungsreferenz des Brokers, verbindet zusammengehörige Zeilen
+  externalId?: string   // eindeutige Kennung der Zeile beim Broker (Trading-212-Abgleich)
   // Corporate-Action-Metadaten (optional)
   isFromTransfer?: boolean    // stammt aus Security transfer (Depotübertrag)
   isFromCorpAction?: boolean  // stammt aus Corporate Action (Split/Spinoff/Rename)

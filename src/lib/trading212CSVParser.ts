@@ -223,6 +223,12 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
   // Nachgelagerte reconstructHoldings erkennt Split anhand von transfer_in + _out
   // am gleichen Tag mit gleicher ISIN.
 
+  // Jede Zeile bekommt eine Kennung, an der der automatische Abgleich sie beim
+  // nächsten Mal wiedererkennt. Dividenden haben bei Trading 212 keine ID.
+  let rowId = ''
+  const seenKeys = new Map<string, number>()
+  const add = (tx: ParsedTransaction) => transactions.push({ ...tx, externalId: rowId })
+
   for (let lineNo = 1; lineNo < lines.length; lineNo++) {
     const fields = parseCSVLine(lines[lineNo])
     if (fields.length < 5) continue
@@ -241,6 +247,11 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     const shares = parseNum(fields[idx.shares])
     const grossTotal = parseNum(fields[idx.grossTotal])
     const netTotal = parseNum(fields[idx.netTotal])
+    const brokerId = (fields[idx.id] || '').trim()
+    const rowKey = `${action}|${time}|${isin}|${shares}|${netTotal || grossTotal}`
+    const repeat = (seenKeys.get(rowKey) || 0) + 1
+    seenKeys.set(rowKey, repeat)
+    rowId = brokerId || (repeat > 1 ? `${rowKey}#${repeat}` : rowKey)
     const fxFee = parseNum(fields[idx.fxFee])
     const taxes = Math.abs(parseNum(fields[idx.taxes]))
     const priceCurrency = (fields[idx.priceCurrency] || 'EUR').trim()
@@ -249,7 +260,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     // Cash-Operationen
     if (action === 'Deposit' || action === 'Interest') {
       if (grossTotal <= 0) continue
-      transactions.push({
+      add({
         date,
         type: 'cash_deposit',
         isin: '',
@@ -269,7 +280,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     if (action === 'Withdrawal') {
       const amt = Math.abs(grossTotal)
       if (amt <= 0) continue
-      transactions.push({
+      add({
         date,
         type: 'cash_withdrawal',
         isin: '',
@@ -304,7 +315,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
           ? `Kartenzahlung${merchant ? ` · ${merchant}` : ''}`
           : `Kartengutschrift${merchant ? ` · ${merchant}` : ''}`
       const type = outgoing ? 'cash_withdrawal' : 'cash_deposit'
-      transactions.push({
+      add({
         date,
         type,
         isin: '',
@@ -335,7 +346,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
       // Gewinn, und der gespeicherte Kurs bleibt der Ausführungskurs, an dem
       // die Duplikat-Erkennung frühere Importe wiedererkennt.
       const fee = round2(fxFee + taxes)
-      transactions.push({
+      add({
         date,
         type: isBuy ? 'buy' : 'sell',
         isin,
@@ -365,7 +376,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     if (/^Dividend/i.test(action)) {
       if (!isin || netTotal <= 0) continue
       uniqueISINs.add(isin)
-      transactions.push({
+      add({
         date,
         type: 'dividend',
         isin,
@@ -395,7 +406,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     // Transaktionen retroaktiv (quantity × ratio, price / ratio).
     if (action === 'Stock split close' && isin && shares > 0) {
       uniqueISINs.add(isin)
-      transactions.push({
+      add({
         date,
         type: 'transfer_out',
         isin,
@@ -416,7 +427,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     }
     if (action === 'Stock split open' && isin && shares > 0) {
       uniqueISINs.add(isin)
-      transactions.push({
+      add({
         date,
         type: 'transfer_in',
         isin,
@@ -443,7 +454,7 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     // nicht automatisch übertragen und ist daher zunächst 0 (manuell prüfbar).
     if (/^Spin off/i.test(action) && isin && shares > 0) {
       uniqueISINs.add(isin)
-      transactions.push({
+      add({
         date,
         type: 'transfer_in',
         isin,

@@ -5,6 +5,10 @@
       "schedule": "0 4 * * *"
     },
     {
+      "path": "/api/cron/t212-sync",
+      "schedule": "20 5,12,16,21 * * *"
+    },
+    {
       "path": "/api/cron/check-new-sec-filings",
       "schedule": "0 18 * * *"
     },

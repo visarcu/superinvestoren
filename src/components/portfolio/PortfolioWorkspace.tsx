@@ -989,7 +989,9 @@ export default function PortfolioWorkspace() {
                   />
                   <T212SyncCard
                     portfolioId={p.portfolio.id}
+                    brokerType={p.portfolio.broker_type}
                     formatCurrency={p.formatCurrency}
+                    onSynced={p.refresh}
                   />
                 </>
               )}
@@ -1196,7 +1198,9 @@ export default function PortfolioWorkspace() {
                 />
                 <T212SyncCard
                   portfolioId={p.portfolio.id}
+                  brokerType={p.portfolio.broker_type}
                   formatCurrency={p.formatCurrency}
+                  onSynced={p.refresh}
                 />
               </>
             )}

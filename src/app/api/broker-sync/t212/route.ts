@@ -1,142 +1,92 @@
 // src/app/api/broker-sync/t212/route.ts
-// Trading-212-Direktanbindung (Beta): GET = Status, POST = Key-Paar
-// validieren + verschlüsselt speichern, DELETE = Verbindung löschen.
+// Trading-212-Direktanbindung (Beta): GET = Stand, POST = Schlüssel prüfen und
+// verschlüsselt speichern, DELETE = Verbindung löschen (Buchungen bleiben).
 //
-// Gleiches Beta-Gate wie der finAPI-Sync (BROKER_SYNC_BETA_ALLOWLIST).
-// Der Nutzer erzeugt Key+Secret selbst in der T212-App und sollte dabei
-// NUR Lese-Berechtigungen aktivieren — Orders ruft Finclue nie auf.
+// Der Nutzer erzeugt Schlüssel und Secret selbst in der T212-App und sollte nur
+// Leserechte geben. Finclue ruft keine Order-Endpunkte auf.
 
-import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
-import { getAccountSummary, T212ApiError } from '@/lib/trading212'
+import { NextResponse } from 'next/server'
 import { encryptSecret } from '@/lib/brokerSecrets'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { authorizeT212 } from '@/lib/t212Access'
+import { t212ErrorMessage } from '@/lib/t212Sync'
+import { getAccountSummary, isPracticeKey, T212ApiError, type T212AccountSummary } from '@/lib/trading212'
 
 export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
-  if (!url || !key) return null
-  return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } })
-}
+const STALE_MS = 6 * 60_000
 
-async function authorize(request: NextRequest) {
-  const supabase = getSupabase()
-  if (!supabase) return { error: NextResponse.json({ error: 'Not configured' }, { status: 500 }) }
-
-  const authHeader = request.headers.get('authorization')
-  if (!authHeader?.startsWith('Bearer ')) {
-    return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
-  }
-  const { data: { user }, error } = await supabase.auth.getUser(authHeader.slice('Bearer '.length))
-  if (error || !user) {
-    return { error: NextResponse.json({ error: 'Invalid token' }, { status: 401 }) }
-  }
-
-  const allowlist = (process.env.BROKER_SYNC_BETA_ALLOWLIST || '')
-    .split(',')
-    .map(e => e.trim().toLowerCase())
-    .filter(Boolean)
-  if (!allowlist.includes((user.email || '').toLowerCase())) {
-    return { error: NextResponse.json({ error: 'Beta not enabled' }, { status: 403 }) }
-  }
-
-  return { supabase, user }
-}
-
-// ===== GET: Verbindungs-Status =====
-export async function GET(request: NextRequest) {
-  const auth = await authorize(request)
+export async function GET(request: Request) {
+  const auth = await authorizeT212(request)
   if ('error' in auth) return auth.error
-
-  const { data: row } = await auth.supabase
+  const { data: row } = await supabaseAdmin
     .from('broker_t212_connections')
-    .select('account_id, currency, status, last_synced_at, created_at')
+    .select('portfolio_id, currency, sync_state, sync_message, sync_started_at, last_synced_at, last_check')
     .eq('user_id', auth.user.id)
     .maybeSingle()
-
-  return NextResponse.json(
-    {
-      enabled: true,
-      connected: !!row,
-      accountId: row?.account_id ?? null,
-      currency: row?.currency ?? null,
-      status: row?.status ?? null,
-      lastSyncedAt: row?.last_synced_at ?? null,
-    },
-    { headers: { 'Cache-Control': 'private, no-store' } },
-  )
+  const interrupted = row?.sync_state === 'laeuft' && (!row.sync_started_at || Date.now() - Date.parse(row.sync_started_at) > STALE_MS)
+  return NextResponse.json({
+    verbunden: !!row,
+    portfolioId: row?.portfolio_id ?? null,
+    stand: interrupted ? 'fehler' : row?.sync_state ?? null,
+    meldung: interrupted ? 'Der letzte Abgleich wurde unterbrochen.' : row?.sync_message ?? null,
+    aktualisiert: row?.last_synced_at ?? null,
+    pruefung: row?.last_check ?? null,
+  }, { headers: { 'Cache-Control': 'private, no-store' } })
 }
 
-// ===== POST: Key-Paar validieren und verschlüsselt speichern =====
-export async function POST(request: NextRequest) {
-  const auth = await authorize(request)
+export async function POST(request: Request) {
+  const auth = await authorizeT212(request)
   if ('error' in auth) return auth.error
+  const body = await request.json().catch(() => null) as { apiKey?: unknown; apiSecret?: unknown; portfolioId?: unknown } | null
+  let apiKey = typeof body?.apiKey === 'string' ? body.apiKey.trim() : ''
+  let apiSecret = typeof body?.apiSecret === 'string' ? body.apiSecret.trim() : ''
+  const portfolioId = typeof body?.portfolioId === 'string' ? body.portfolioId : ''
+  if (!apiKey || !apiSecret || apiKey.length > 300 || apiSecret.length > 300) return NextResponse.json({ error: 'Bitte Schlüssel und Secret eintragen.' }, { status: 400 })
 
-  let body: { apiKey?: string; apiSecret?: string }
-  try {
-    body = await request.json()
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
-  }
-  const apiKey = (body.apiKey || '').trim()
-  const apiSecret = (body.apiSecret || '').trim()
-  if (!apiKey || !apiSecret) {
-    return NextResponse.json({ error: 'API-Key und API-Secret erforderlich' }, { status: 400 })
-  }
+  const { data: portfolio } = await supabaseAdmin.from('portfolios').select('id').eq('id', portfolioId).eq('user_id', auth.user.id).maybeSingle()
+  if (!portfolio) return NextResponse.json({ error: 'Depot nicht gefunden.' }, { status: 404 })
 
   try {
-    // Validierung gegen die T212-API — schlägt der Call fehl, wird nichts gespeichert
-    const summary = await getAccountSummary(apiKey, apiSecret)
-
-    const { error: upsertError } = await auth.supabase
-      .from('broker_t212_connections')
-      .upsert(
-        {
-          user_id: auth.user.id,
-          api_key_enc: encryptSecret(apiKey),
-          api_secret_enc: encryptSecret(apiSecret),
-          account_id: summary.id ?? null,
-          currency: summary.currency ?? null,
-          status: 'connected',
-          updated_at: new Date().toISOString(),
-        },
-        { onConflict: 'user_id' },
-      )
-    if (upsertError) throw upsertError
-
-    return NextResponse.json({
-      connected: true,
-      accountId: summary.id ?? null,
-      currency: summary.currency ?? null,
-    })
+    // Erst bei Trading 212 prüfen: Schlägt das fehl, wird nichts gespeichert
+    let summary: T212AccountSummary
+    try {
+      summary = await getAccountSummary(apiKey, apiSecret)
+    } catch (err) {
+      if (!(err instanceof T212ApiError) || err.status !== 401) throw err
+      // Häufigster Grund: Schlüssel und Secret vertauscht
+      const swapped = await getAccountSummary(apiSecret, apiKey).catch(() => null)
+      if (!swapped) {
+        const practice = await isPracticeKey(apiKey, apiSecret)
+        return NextResponse.json({
+          error: practice
+            ? 'Dieser Schlüssel gehört zu deinem Übungskonto. Wechsle in der App zum echten Invest-Konto und erzeuge dort einen neuen.'
+            : 'Trading 212 kennt dieses Paar nicht (auch nicht vertauscht). Der Schlüssel ist falsch kopiert, gelöscht oder auf andere IP-Adressen beschränkt.',
+        }, { status: 422 })
+      }
+      summary = swapped
+      ;[apiKey, apiSecret] = [apiSecret, apiKey]
+    }
+    if ((summary.currency || '').toUpperCase() !== 'EUR') return NextResponse.json({ error: `Kontowährung ${summary.currency || 'unbekannt'} wird noch nicht unterstützt, nur EUR.` }, { status: 422 })
+    const { error } = await supabaseAdmin.from('broker_t212_connections').upsert({
+      user_id: auth.user.id, api_key_enc: encryptSecret(apiKey), api_secret_enc: encryptSecret(apiSecret), account_id: summary.id ?? null,
+      currency: summary.currency ?? null, status: 'connected', portfolio_id: portfolio.id, sync_state: 'bereit', sync_message: null,
+      sync_started_at: null, synced_until: null, last_check: null, last_synced_at: null, updated_at: new Date().toISOString(),
+    }, { onConflict: 'user_id' })
+    if (error) throw error
+    return NextResponse.json({ verbunden: true })
   } catch (err) {
-    if (err instanceof T212ApiError && (err.status === 401 || err.status === 403)) {
-      return NextResponse.json(
-        { error: 'Trading 212 lehnt den Key ab — Key/Secret prüfen (und ggf. IP-Beschränkung des Keys)' },
-        { status: 422 },
-      )
-    }
-    if (err instanceof T212ApiError && err.status === 429) {
-      return NextResponse.json({ error: 'Trading-212-Rate-Limit erreicht — kurz warten und nochmal versuchen' }, { status: 429 })
-    }
-    console.error('t212 connect error:', err)
-    return NextResponse.json({ error: 'Verbindung fehlgeschlagen' }, { status: 500 })
+    if (err instanceof T212ApiError) return NextResponse.json({ error: t212ErrorMessage(err) }, { status: 422 })
+    console.error('[t212] Verbinden fehlgeschlagen:', err instanceof Error ? err.message : err)
+    return NextResponse.json({ error: 'Verbindung fehlgeschlagen.' }, { status: 500 })
   }
 }
 
-// ===== DELETE: Verbindung (inkl. gespeicherter Keys) löschen =====
-export async function DELETE(request: NextRequest) {
-  const auth = await authorize(request)
+export async function DELETE(request: Request) {
+  const auth = await authorizeT212(request)
   if ('error' in auth) return auth.error
-
-  const { error } = await auth.supabase
-    .from('broker_t212_connections')
-    .delete()
-    .eq('user_id', auth.user.id)
-  if (error) {
-    console.error('t212 disconnect error:', error)
-    return NextResponse.json({ error: 'Löschen fehlgeschlagen' }, { status: 500 })
-  }
-  return NextResponse.json({ connected: false })
+  const { error } = await supabaseAdmin.from('broker_t212_connections').delete().eq('user_id', auth.user.id)
+  if (error) return NextResponse.json({ error: 'Trennen fehlgeschlagen.' }, { status: 500 })
+  return NextResponse.json({ verbunden: false })
 }
