@@ -12,6 +12,8 @@ import { POSITION_TX_TYPES, loadAllRows, reconcileHoldings } from '@/lib/portfol
 import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates, quantitiesMatch } from '@/lib/duplicateCheck'
 import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
+import { findDepotSymbols, type DepotSymbol, type StoredTransaction } from '@/lib/depotSymbols'
+import { applyIsinChanges, planIsinChanges } from '@/lib/isinChange'
 import {
   NAME_MAX_LENGTH,
   describeValidationIssues,
@@ -123,6 +125,11 @@ export default function CSVImportModal({
   const [unresolvedISINs, setUnresolvedISINs] = useState<string[]>([])
   const [resolving, setResolving] = useState(false)
   const [manualMappings, setManualMappings] = useState<Record<string, string>>({})
+  // Alte ISINs ohne handelbares Kürzel, deren Nachfolger dasselbe Papier ist
+  const [confirmedIsinChanges, setConfirmedIsinChanges] = useState<string[]>([])
+  // Gespeicherte Buchungen des Depots, geladen sobald die Datei ISINs enthält.
+  // null = noch nicht geladen.
+  const [storedTransactions, setStoredTransactions] = useState<StoredTransaction[] | null>(null)
   const [detectedFormat, setDetectedFormat] = useState<string | null>(null)
   const [pdfParsing, setPdfParsing] = useState(false)
   const [pdfErrors, setPdfErrors] = useState<string[]>([])
@@ -184,6 +191,93 @@ export default function CSVImportModal({
     return () => { cancelled = true }
   }, [isOpen, portfolioId, existingDataVersion])
 
+  // Unter welchem Kürzel das Depot die Papiere der Datei schon führt, zeigt erst
+  // ein Blick in seine Buchungen (depotSymbols.ts, isinChange.ts).
+  const loadStoredTransactions = useCallback(async (): Promise<StoredTransaction[]> => {
+    const { data, error } = await loadAllRows<StoredTransaction>((from, to) =>
+      supabase
+        .from('portfolio_transactions')
+        .select('type, symbol, date, quantity, price, notes')
+        .eq('portfolio_id', portfolioId)
+        .order('id', { ascending: true })
+        .range(from, to)
+    )
+    if (error) throw new Error(`Buchungen des Depots nicht lesbar (${error.message})`)
+    return data
+  }, [portfolioId])
+
+  // Zeilen mit eigenem Kürzel (Trading 212, CASH) brauchen keine Zuordnung
+  const needsDepotSymbols = useMemo(
+    () => !!parseResult?.transactions.some(tx => tx.isin && !tx.symbol),
+    [parseResult]
+  )
+  React.useEffect(() => {
+    if (!isOpen || !portfolioId || !parseResult || !needsDepotSymbols) return
+    let cancelled = false
+    setStoredTransactions(null)
+    loadStoredTransactions()
+      .then(rows => {
+        if (cancelled) return
+        setStoredTransactions(rows)
+        setPendingDuplicateCheck(true)
+      })
+      // Ohne diese Daten bricht handleImport ab, bevor es etwas schreibt
+      .catch(error => console.error('Kürzel des Depots:', error))
+    return () => { cancelled = true }
+  }, [isOpen, portfolioId, parseResult, needsDepotSymbols, existingDataVersion, loadStoredTransactions])
+
+  // Papiere, die das Depot unter einem anderen Kürzel führt als heute aufgelöst.
+  // Nach einem Löschen gibt es nichts, woran sich der Import halten müsste.
+  const depotSymbols = useMemo(() => {
+    if (!parseResult || !storedTransactions || resetBeforeImport) return new Map<string, DepotSymbol>()
+    return findDepotSymbols({
+      transactions: parseResult.transactions,
+      symbolOf: isin => isinMap.get(isin),
+      stored: storedTransactions,
+      renames: parseResult.tickerRenames,
+    })
+  }, [parseResult, storedTransactions, resetBeforeImport, isinMap])
+
+  const symbolOfIsin = useCallback(
+    (isin: string): { symbol: string; name: string } | undefined => {
+      const resolved = isinMap.get(isin)
+      const stored = depotSymbols.get(isin)?.stored
+      return resolved && stored ? { ...resolved, symbol: stored } : resolved
+    },
+    [isinMap, depotSymbols]
+  )
+
+  const isinChangePlans = useMemo(() => {
+    if (!parseResult?.tickerRenames?.length) return []
+    if (!resetBeforeImport && storedTransactions === null) return []
+    return planIsinChanges({
+      transactions: parseResult.transactions,
+      renames: parseResult.tickerRenames,
+      splits: parseResult.stockSplits,
+      symbolOf: symbolOfIsin,
+      confirmed: new Set(confirmedIsinChanges),
+      stored: resetBeforeImport ? [] : storedTransactions || [],
+    })
+  }, [parseResult, symbolOfIsin, confirmedIsinChanges, storedTransactions, resetBeforeImport])
+
+  /** Kürzel einer ISIN, unter dem ihre Buchungen im Depot laufen. */
+  const symbolForIsin = useCallback(
+    (isin: string): string | undefined =>
+      isinChangePlans.find(p => p.rename.fromIsin === isin)?.symbol ?? symbolOfIsin(isin)?.symbol,
+    [isinChangePlans, symbolOfIsin]
+  )
+
+  // Buchungen der Datei mit Kürzel, ISIN-Umstellungen umgesetzt
+  const symbolTransactions = useMemo((): ParsedTransaction[] => {
+    if (!parseResult) return []
+    const withSymbols = parseResult.transactions.map(tx => {
+      if (tx.symbol) return tx
+      const res = symbolOfIsin(tx.isin)
+      return res ? { ...tx, symbol: res.symbol, name: res.name || tx.name } : tx
+    })
+    return applyIsinChanges(withSymbols, isinChangePlans, parseResult.stockSplits)
+  }, [parseResult, symbolOfIsin, isinChangePlans])
+
   // Nach ISIN-Resolution: historische Schlusskurse für Transfer-Transaktionen
   // (ohne Einstandspreis) fetchen. Pro Symbol ein FMP-Call mit Range.
   React.useEffect(() => {
@@ -191,11 +285,11 @@ export default function CSVImportModal({
     // Alle Transfer-Transaktionen finden, die noch keinen Preis haben
     const needsPrice: Array<{ symbol: string; date: string }> = []
     const seen = new Set<string>()
-    for (const tx of parseResult.transactions) {
+    for (const tx of symbolTransactions) {
       if (!tx.isFromTransfer) continue
       if (tx.price > 0) continue
       if (!tx.date) continue
-      const symbol = tx.symbol || isinMap.get(tx.isin)?.symbol
+      const symbol = tx.symbol
       if (!symbol) continue
       const key = `${symbol}|${tx.date}`
       if (seen.has(key)) continue
@@ -233,7 +327,7 @@ export default function CSVImportModal({
     })()
     return () => { cancelled = true }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parseResult, isinMap])
+  }, [parseResult, isinMap, symbolTransactions])
 
   // === Reset ===
   const resetState = useCallback(() => {
@@ -251,6 +345,8 @@ export default function CSVImportModal({
     setImportError(null)
     setImportResult(null)
     setManualMappings({})
+    setConfirmedIsinChanges([])
+    setStoredTransactions(null)
     setDuplicateIndices(new Set())
     setDuplicateCheckDone(false)
     setCheckingDuplicates(false)
@@ -285,7 +381,9 @@ export default function CSVImportModal({
     uniqueISINs: string[],
     setMap: (m: Map<string, { symbol: string; name: string; source: string }>) => void,
     brokerTickers: Record<string, string> = {},
+    renames: TickerRename[] = [],
   ) => {
+    setConfirmedIsinChanges([])
     if (uniqueISINs.length === 0) {
       // Keine ISINs → direkt zu Cash-Step
       setStep('cash')
@@ -305,10 +403,15 @@ export default function CSVImportModal({
       const resp = await fetch('/api/portfolio/resolve-isins', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isins: uniqueISINs, tickers: brokerTickers }),
+        body: JSON.stringify({
+          isins: uniqueISINs,
+          tickers: brokerTickers,
+          renames: renames.map(({ fromIsin, toIsin }) => ({ fromIsin, toIsin })),
+        }),
       })
       if (resp.ok) {
-        const { results } = await resp.json()
+        const { results, isinChanges } = await resp.json()
+        setConfirmedIsinChanges(Array.isArray(isinChanges) ? isinChanges : [])
         const stillUnresolved: string[] = []
         for (const isin of uniqueISINs) {
           if (results[isin]) {
@@ -500,7 +603,12 @@ export default function CSVImportModal({
         }
       }
 
-      await runISINResolve(uniqueISINs, setIsinMap, brokerTickers)
+      await runISINResolve(
+        uniqueISINs,
+        setIsinMap,
+        brokerTickers,
+        (data.tickerRenames as TickerRename[] | undefined) || []
+      )
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
       setImportError(`Upload fehlgeschlagen: ${msg}`)
@@ -580,15 +688,8 @@ export default function CSVImportModal({
   // Transaktionen mit aufgelösten Symbolen + Cash-Filter
   // ======================================================================
   const resolvedTransactions = useMemo((): ResolvedTransaction[] => {
-    if (!parseResult) return []
-
-    return parseResult.transactions.map(tx => {
-      // Symbol via ISIN-Map auflösen (falls noch nicht gesetzt)
+    return symbolTransactions.map(tx => {
       let resolved: ResolvedTransaction = tx
-      if (!tx.symbol) {
-        const res = isinMap.get(tx.isin)
-        if (res) resolved = { ...tx, symbol: res.symbol, name: res.name || tx.name }
-      }
 
       // Transfer ohne Einstandskurs → historischen Schlusskurs einsetzen (falls gefetcht).
       // Der Kurs kommt in EUR; bei Fremdwährung nennt die Note den Börsenkurs dahinter.
@@ -608,7 +709,7 @@ export default function CSVImportModal({
       }
       return resolved
     })
-  }, [parseResult, isinMap, transferPrices])
+  }, [symbolTransactions, transferPrices])
 
   // Nach Cash-Mode gefilterte Transaktionen
   const cashFilteredTransactions = useMemo(() => {
@@ -752,6 +853,12 @@ export default function CSVImportModal({
         )
       }
 
+      // Ohne die gespeicherten Buchungen ist offen, unter welchem Kürzel das
+      // Depot die Papiere führt; sie könnten ein zweites Mal ankommen.
+      if (needsDepotSymbols && !resetBeforeImport && storedTransactions === null) {
+        throw new Error('Import abgebrochen, nichts gespeichert: Die Buchungen dieses Depots sind noch nicht geladen. Bitte gleich noch einmal versuchen.')
+      }
+
       // Optional: Bestehende Daten des Portfolios löschen (Reset)
       // Nur Transactions + Holdings löschen, NICHT das Portfolio selbst (cash_position, name etc. bleiben)
       if (resetBeforeImport) {
@@ -771,10 +878,18 @@ export default function CSVImportModal({
       // Stückzahl-Basis (quantity × ratio, price ÷ ratio, total_value bleibt).
       // Idempotent über Marker-Note: bereits verrechnete Zeilen werden
       // übersprungen, ein Re-Import derselben Datei ändert nichts doppelt.
+      // ISIN-Umstellungen zählen mit, wenn das Depot die alten Buchungen schon
+      // unter dem heutigen Kürzel führt (isinChange.ts, rescaleStored).
       let dbSplitAdjustments = 0
-      if (!resetBeforeImport && parseResult.stockSplits && parseResult.stockSplits.length > 0) {
-        for (const split of parseResult.stockSplits) {
-          const symbol = isinMap.get(split.isin)?.symbol
+      const storedSplits = [
+        ...(parseResult.stockSplits || []).map(s => ({ symbol: symbolForIsin(s.isin), date: s.date, ratio: s.ratio })),
+        ...isinChangePlans
+          .filter(p => p.rescaleStored)
+          .map(p => ({ symbol: p.symbol, date: p.rename.date, ratio: p.rename.ratio })),
+      ]
+      if (!resetBeforeImport && storedSplits.length > 0) {
+        for (const split of storedSplits) {
+          const { symbol } = split
           if (!symbol || !(split.ratio > 0) || split.ratio === 1) continue
 
           const { data: existingTxs, error: splitLoadError } = await supabase
@@ -786,7 +901,7 @@ export default function CSVImportModal({
             .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
 
           if (splitLoadError || !existingTxs) continue
-          const toAdjust = existingTxs.filter(tx => !hasSplitApplied(tx.notes, split.date))
+          const toAdjust = existingTxs.filter(tx => !hasSplitApplied(tx.notes, split.date, split.ratio))
           if (toAdjust.length === 0) continue
 
           for (const tx of toAdjust) {
@@ -930,7 +1045,7 @@ export default function CSVImportModal({
 
             // Mutter-Symbol: über aufgelöste Quell-ISIN, Ticker aus den Notes
             // ("Spin-off aus HON.US (US4385162056)"), sonst die Erkennung
-            let parentSymbol = spinoff.fromIsin ? isinMap.get(spinoff.fromIsin)?.symbol : undefined
+            let parentSymbol = spinoff.fromIsin ? symbolForIsin(spinoff.fromIsin) : undefined
             if (!parentSymbol) parentSymbol = spinoff.notes?.match(/aus\s+([A-Z0-9]+)\.[A-Z]{2}\s*\(/)?.[1]
             if (!parentSymbol) {
               parentSymbol = detected.find(e => e.childSymbol === childSymbol && e.date === date)?.parentSymbol
@@ -1193,7 +1308,22 @@ export default function CSVImportModal({
     } finally {
       setImporting(false)
     }
-  }, [parseResult, cashFilteredTransactions, resolvedTransactions, previewHoldings, portfolioId, cashMode, resetBeforeImport, isinMap, findDuplicates, importValidationIssues])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, previewHoldings, portfolioId, cashMode, resetBeforeImport, isinChangePlans, symbolForIsin, needsDepotSymbols, storedTransactions, findDuplicates, importValidationIssues])
+
+  // Kürzel wie im Depot (Vorschau); umgestellte ISINs stehen schon bei den
+  // Corporate Actions
+  const keptDepotSymbols = [...depotSymbols.values()].filter(
+    d => !isinChangePlans.some(p => p.rename.fromIsin === d.isin)
+  )
+
+  // Was der Import mit einer Ticker-Umstellung macht (Vorschau)
+  const renameOutcome = (rename: TickerRename): string => {
+    const plan = isinChangePlans.find(p => p.rename === rename)
+    if (!plan) return 'Einstandskurs übertragen'
+    return plan.mode === 'adjust'
+      ? `frühere Buchungen laufen umgerechnet unter ${plan.symbol}`
+      : `dieses Depot führt die alten Buchungen unter ${plan.symbol}, sie bleiben unverändert. Mit "Bestehende Daten vor Import löschen" laufen sie unter ${plan.successorSymbol}`
+  }
 
   // Format helpers
   const formatCurrency = (amount: number) =>
@@ -1701,10 +1831,34 @@ export default function CSVImportModal({
                     {importSummary.tickerRenames.map((r, i) => (
                       <li key={`rename-${i}`} className="flex gap-1.5">
                         <span className="text-neutral-600">·</span>
-                        Ticker-Umstellung {r.date}: {r.fromIsin} → {r.toIsin} (Ratio {r.ratio.toFixed(4)}), Einstandskurs übertragen
+                        Ticker-Umstellung {r.date}: {r.fromIsin} → {r.toIsin} (Ratio {r.ratio.toFixed(4)}), {renameOutcome(r)}
                       </li>
                     ))}
                   </ul>
+                </div>
+              )}
+
+              {/* Papiere, die das Depot unter einem anderen Kürzel führt */}
+              {keptDepotSymbols.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+                  <p className="text-[12px] font-medium text-white mb-1">
+                    {keptDepotSymbols.length} {keptDepotSymbols.length === 1 ? 'Papier behält sein Kürzel' : 'Papiere behalten ihr Kürzel'} aus diesem Depot
+                  </p>
+                  <p className="text-[11px] text-neutral-500 leading-relaxed mb-2">
+                    Neue Buchungen laufen unter dem Kürzel, das dieses Depot schon verwendet. So entstehen keine doppelten Buchungen.
+                  </p>
+                  <div className="flex flex-wrap gap-1">
+                    {keptDepotSymbols.slice(0, 12).map(d => (
+                      <span key={d.isin} className="text-[10px] font-medium px-1.5 py-0.5 bg-white/[0.05] text-neutral-300 border border-white/[0.08] rounded">
+                        {d.stored} statt {d.resolved}
+                      </span>
+                    ))}
+                    {keptDepotSymbols.length > 12 && (
+                      <span className="text-[10px] px-1.5 py-0.5 text-neutral-500">
+                        +{keptDepotSymbols.length - 12}
+                      </span>
+                    )}
+                  </div>
                 </div>
               )}
 

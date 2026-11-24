@@ -329,6 +329,11 @@ const phase = (tx: SpinoffTransaction) => (tx.type === 'buy' || tx.type === 'tra
  * Bestand und Kostenbasis (Durchschnittskosten, Käufe inkl. Gebühr) einer
  * Position aus Buchungen vor dem Stichtag. Am selben Tag zählen Zugänge vor
  * Abgängen.
+ *
+ * Ein Rückübertrag (ausgebucht und wieder eingebucht) behält den bisherigen
+ * Einstand, so wie im Depot (portfolioReconcile). Seine Zeile trägt den
+ * Marktwert: Scalable hat kurz vor dem Unilever-Spin-off die Lagerstelle
+ * gewechselt, Magnum übernahm sonst einen Anteil von 1092 statt 920,96 €.
  */
 export function positionBefore(
   txs: SpinoffTransaction[],
@@ -339,14 +344,19 @@ export function positionBefore(
     .sort((a, b) => a.date.localeCompare(b.date) || phase(a) - phase(b))
   let shares = 0
   let basis = 0
+  let avgAtTransferOut: number | null = null
   for (const tx of before) {
     const qty = Number(tx.quantity) || 0
     const value = Number(tx.total_value) || Math.abs(qty * (Number(tx.price) || 0))
-    if (tx.type === 'buy' || tx.type === 'transfer_in') {
+    if (tx.type === 'buy') {
       shares += qty
-      basis += value + (tx.type === 'buy' ? Math.abs(Number(tx.fee) || 0) : 0)
+      basis += value + Math.abs(Number(tx.fee) || 0)
+    } else if (tx.type === 'transfer_in') {
+      shares += qty
+      basis += avgAtTransferOut === null ? value : qty * avgAtTransferOut
     } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
       const avg = shares > 0 ? basis / shares : 0
+      if (tx.type === 'transfer_out' && avg > 0) avgAtTransferOut = avg
       shares -= qty
       basis -= qty * avg
     }

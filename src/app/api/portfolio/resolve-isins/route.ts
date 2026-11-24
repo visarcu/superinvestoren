@@ -146,6 +146,26 @@ interface OpenFIGIResult {
   exchCode: string
   compositeFIGI?: string
   securityType2?: string
+  shareClassFIGI?: string | null
+}
+
+interface FigiResolution {
+  symbol: string
+  name: string
+  /**
+   * Mindestens ein Treffer an einer Börse, deren Kurse wir laden können. Für
+   * eingestellte ISINs führt OpenFIGI nur noch technische Kürzel
+   * (GB00B10RZP78 → ULVR1USD an "ER").
+   */
+  tradable: boolean
+  /** Anteilsklassen (shareClassFIGI): bleiben bei einer ISIN-Umstellung gleich, bei einer Fusion nicht. */
+  shareClasses: string[]
+}
+
+/** ISIN-Wechsel aus der Datei: alte ISIN ausgebucht, neue am selben Tag eingebucht. */
+interface RenamePair {
+  fromIsin: string
+  toIsin: string
 }
 
 interface OpenFIGIResponse {
@@ -161,8 +181,8 @@ interface OpenFIGIResponse {
  */
 async function resolveViaOpenFIGI(
   isins: string[]
-): Promise<Record<string, { symbol: string; name: string } | null>> {
-  const results: Record<string, { symbol: string; name: string } | null> = {}
+): Promise<Record<string, FigiResolution | null>> {
+  const results: Record<string, FigiResolution | null> = {}
   const hasApiKey = !!process.env.OPENFIGI_API_KEY
 
   // Batch-Größe je nach Auth: 10 ohne Key, 100 mit Key
@@ -231,6 +251,8 @@ async function resolveViaOpenFIGI(
           results[isin] = {
             symbol: fmpSymbol,
             name: bestMatch.name,
+            tradable: figiResponse.data.some(m => m.exchCode in EXCHANGE_SUFFIX_MAP),
+            shareClasses: [...new Set(figiResponse.data.map(m => m.shareClassFIGI).filter((f): f is string => !!f))],
           }
         } else {
           results[isin] = null
@@ -295,6 +317,40 @@ function pickBestMatch(matches: OpenFIGIResult[], isin: string): OpenFIGIResult 
 }
 
 /**
+ * Welche ISIN-Wechsel der Datei sind Umstellungen desselben Papiers, deren alte
+ * ISIN kein handelbares Kürzel mehr hat? Nur deren Buchungen darf der Import
+ * unter das Kürzel der neuen ISIN legen.
+ *
+ * Dasselbe Papier heißt: gleiche Anteilsklasse (Unilever 8:9, Reckitt 24:25)
+ * oder gleicher Emittent (Holding-Umbau wie Linde oder BlackRock). Bei einer
+ * Fusion stimmt beides nicht (Credit Suisse/UBS, Peugeot/Stellantis); die Kurse
+ * des Käufers wären dort die falsche Historie.
+ */
+async function confirmIsinChanges(
+  renames: RenamePair[],
+  known: Record<string, FigiResolution | null>
+): Promise<string[]> {
+  const candidates = renames.filter(r => known[r.fromIsin] && !known[r.fromIsin]!.tradable)
+  if (candidates.length === 0) return []
+
+  // Die neue ISIN löst meist schon der Stammsatz auf, ohne Anteilsklasse.
+  const missing = [...new Set(candidates.map(r => r.toIsin))].filter(isin => !known[isin])
+  const figi = { ...known, ...(missing.length > 0 ? await resolveViaOpenFIGI(missing) : {}) }
+
+  return candidates
+    .filter(({ fromIsin, toIsin }) => {
+      const from = figi[fromIsin]
+      const to = figi[toIsin]
+      if (!from || !to) return false
+      return (
+        from.shareClasses.some(shareClass => to.shareClasses.includes(shareClass)) ||
+        from.name.trim().toUpperCase() === to.name.trim().toUpperCase()
+      )
+    })
+    .map(r => r.fromIsin)
+}
+
+/**
  * FMP API Fallback für einzelne ISINs die OpenFIGI nicht auflösen konnte
  */
 async function resolveViaFMP(
@@ -346,7 +402,7 @@ async function resolveViaFMP(
 
 export async function POST(request: Request) {
   try {
-    const { isins, tickers } = await request.json()
+    const { isins, tickers, renames } = await request.json()
 
     if (!Array.isArray(isins) || isins.length === 0) {
       return NextResponse.json({ error: 'ISINs Array erforderlich' }, { status: 400 })
@@ -371,10 +427,16 @@ export async function POST(request: Request) {
     const { resolved: cusipResolved, unresolved: afterCUSIP } = resolveViaCUSIP(afterMaster)
 
     // Phase 2: OpenFIGI für restliche ISINs (EU-ETFs, UK-Aktien etc.)
-    let openFIGIResults: Record<string, { symbol: string; name: string } | null> = {}
+    let openFIGIResults: Record<string, FigiResolution | null> = {}
     if (afterCUSIP.length > 0) {
       openFIGIResults = await resolveViaOpenFIGI(afterCUSIP)
     }
+
+    // ISIN-Wechsel aus der Datei (optional): bestätigte Umstellungen
+    const renamePairs: RenamePair[] = (Array.isArray(renames) ? renames : [])
+      .filter((r): r is RenamePair => typeof r?.fromIsin === 'string' && typeof r?.toIsin === 'string')
+      .slice(0, 50)
+    const isinChanges = await confirmIsinChanges(renamePairs, openFIGIResults)
 
     // Phase 3: FMP Fallback für Rest
     const unresolvedAfterFIGI = afterCUSIP.filter(isin => !openFIGIResults[isin])
@@ -398,7 +460,8 @@ export async function POST(request: Request) {
       } else if (cusipResolved[isin]) {
         results[isin] = { ...cusipResolved[isin], source: 'cusip_local' }
       } else if (openFIGIResults[isin]) {
-        results[isin] = { ...openFIGIResults[isin]!, source: 'openfigi' }
+        const { symbol, name } = openFIGIResults[isin]!
+        results[isin] = { symbol, name, source: 'openfigi' }
       } else if (fmpResults[isin]) {
         results[isin] = { ...fmpResults[isin]!, source: 'fmp_api' }
       } else {
@@ -413,6 +476,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       results,
+      // Alte ISINs, deren Buchungen unter das Kürzel der neuen ISIN gehören
+      isinChanges,
       stats: {
         total: limitedISINs.length,
         resolved: resolvedCount,
