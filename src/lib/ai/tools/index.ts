@@ -7,7 +7,7 @@ import { kurs, kursbewegung, kursverlauf, marktHeute, wertpapierSuchen } from '.
 import { dividenden, finanzzahlen, kennzahlVerlauf, quartalszahlen, schaetzungen, unternehmensprofil, vergleich } from './fundamentals'
 import { insiderPolitiker, superinvestor, superinvestorenAktie } from './investors'
 import { etf, nachrichten, rechne, termine } from './misc'
-import { depotBuchungen, depotDividenden, depotInvestiert, depotPositionen, depotRealisiert, depotUebersicht } from './depot'
+import { depotBuchungen, depotDividenden, depotEtfKosten, depotInvestiert, depotPositionen, depotRealisiert, depotUebersicht } from './depot'
 import { depotDurchsicht, depotRendite, depotRisiko, depotSuperinvestoren, depotTermine, depotThema } from './depotAnalysis'
 
 export const AI_TOOLS: AiTool[] = [
@@ -16,7 +16,7 @@ export const AI_TOOLS: AiTool[] = [
   superinvestorenAktie, superinvestor, insiderPolitiker,
   nachrichten, etf, termine, rechne,
   depotUebersicht, depotPositionen, depotInvestiert, depotRendite, depotRisiko, depotDurchsicht, depotThema,
-  depotDividenden, depotBuchungen, depotRealisiert, depotTermine, depotSuperinvestoren,
+  depotDividenden, depotBuchungen, depotRealisiert, depotTermine, depotSuperinvestoren, depotEtfKosten,
 ]
 
 /** Werkzeuge, die eigene Daten des Nutzers lesen. Solche Antworten werden nie geteilt. */

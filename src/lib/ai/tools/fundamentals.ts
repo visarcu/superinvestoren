@@ -9,7 +9,8 @@ import { getReportingCurrencyInfo, isForeignReporting } from '@/lib/fmpCurrency'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import type { AiBlock } from '../types'
 import { finite, fmp, fmpList, isoDaysAgo, round } from '../data/fmp'
-import { getValuationSeries, seriesStats, thinOut, VALUATION_METRICS, yearlyValues, type ValuationMetric } from '../data/valuation'
+import { earningsQuality, qualityNote } from '../data/earningsQuality'
+import { getValuationSeries, operatingEbitda, seriesStats, thinOut, VALUATION_METRICS, yearlyValues, type ValuationMetric } from '../data/valuation'
 import { berlinIsoDay, defineTool, germanDate, ToolError } from './base'
 import { SYMBOL_PROP, symbolSchema } from './market'
 
@@ -34,7 +35,7 @@ export const kennzahlVerlauf = defineTool({
   async run({ symbol, kennzahl, jahre = 10 }, ctx) {
     const today = berlinIsoDay(ctx.now)
     const from = `${Number(today.slice(0, 4)) - jahre}${today.slice(4)}`
-    const series = await getValuationSeries(symbol, kennzahl, from, today)
+    const [series, quality] = await Promise.all([getValuationSeries(symbol, kennzahl, from, today), kennzahl === 'kgv' ? earningsQuality(symbol) : null])
     if (!series) throw new ToolError(`Für ${symbol} fehlen Kurse oder Quartalszahlen, um die Kennzahl zu berechnen.`)
     const stats = seriesStats(series.points)
     const metric = VALUATION_METRICS[kennzahl]
@@ -68,6 +69,7 @@ export const kennzahlVerlauf = defineTool({
           ? { jahresmediane: yearlyValues(series.points).map(y => ({ jahr: y.jahr, wert: round(y.median, 1) })) }
           : { jahresmittel: yearlyValues(series.points).map(y => ({ jahr: y.jahr, wert: round(y.mittel, 1) })) }),
         tage_ohne_wert_wegen_verlust: series.excludedDays,
+        ...(quality ? { sondereinfluss_im_gewinn: qualityNote(quality, current ? stats.last : null) } : {}),
         ...(outliers ? { warnung: 'Der Durchschnitt ist durch Ausreißer verzerrt (Gewinn zeitweise nahe null). Median verwenden und das sagen.' } : {}),
         ...(stats.firstDate > from.replace(/-\d\d$/, '-28') ? { warnung_zeitraum: `Daten reichen nur bis ${stats.firstDate} zurück.` } : {}),
         rechenweg: metric.formel + '. Jedes Quartal zählt ab Veröffentlichung.' +
@@ -102,7 +104,7 @@ function statementValue(item: StatementItem, i: any, c: any, b: any): number | n
     case 'umsatz': return finite(i.revenue)
     case 'bruttogewinn': return finite(i.grossProfit)
     case 'operatives_ergebnis': return finite(i.operatingIncome)
-    case 'ebitda': return finite(i.ebitda)
+    case 'ebitda': return operatingEbitda(i)
     case 'nettogewinn': return finite(i.netIncome)
     case 'eps': return finite(i.epsdiluted ?? i.eps)
     case 'forschung': return finite(i.researchAndDevelopmentExpenses)
@@ -151,10 +153,11 @@ export const finanzzahlen = defineTool({
     const n = anzahl ?? (quarterly ? 8 : 5)
     const params = { period: quarterly ? 'quarter' : 'annual', limit: n + (quarterly ? 4 : 1) }
     const opts = { revalidate: 6 * 3600 }
-    const [income, cash, balance] = await Promise.all([
+    const [income, cash, balance, quality] = await Promise.all([
       fmpList(`/api/v3/income-statement/${symbol}`, params, opts),
       fmpList(`/api/v3/cash-flow-statement/${symbol}`, params, opts),
       fmpList(`/api/v3/balance-sheet-statement/${symbol}`, params, opts),
+      posten.some(p => ['nettogewinn', 'eps', 'nettomarge', 'eigenkapitalrendite'].includes(p)) ? earningsQuality(symbol) : null,
     ])
     if (income.length === 0) throw new ToolError(`Für ${symbol} liegen keine Geschäftszahlen vor.`)
     const cashBy = new Map(cash.map(r => [r.date, r]))
@@ -211,6 +214,7 @@ export const finanzzahlen = defineTool({
     return {
       data: {
         symbol, berichtswaehrung: currency, perioden: shown.map(r => ({ periode: r.periode, geschaeftsjahr_bis: r.ende, gemeldet: r.gemeldet })), reihen,
+        ...(quality ? { sondereinfluss_im_gewinn_letzte_12_monate: qualityNote(quality) } : {}),
         ...(blocks[0] ? { grafik: blocks[0].id } : {}),
       },
       blocks,
@@ -318,6 +322,55 @@ export const quartalszahlen = defineTool({
   },
 })
 
+/**
+ * Höhe der regelmäßigen Zahlung je Jahr. Ab vier Zahlungen im Jahr gilt die
+ * mittlere Zahlung statt der Jahressumme: Summen springen, wenn ein Ex-Tag über
+ * den Jahreswechsel rutscht (Realty Income: elf oder dreizehn Zahlungen), bei
+ * Sonderzahlungen (Costco) und bei Datenfehlern (Coca-Cola 2001: eine Zahlung
+ * doppelt so hoch, dadurch schrumpfte die Serie auf 23 Jahre).
+ */
+function dividendLevels(payments: Array<{ date: string; amount: number }>) {
+  const byYear = new Map<number, number[]>()
+  for (const p of payments) if (p.amount > 0) byYear.set(Number(p.date.slice(0, 4)), [...(byYear.get(Number(p.date.slice(0, 4))) ?? []), p.amount])
+  const counts = [...byYear.values()].map(v => v.length).sort((x, y) => x - y)
+  const usual = counts[counts.length >> 1] ?? 0
+  const level = (year: number): number | null => {
+    const list = byYear.get(year)
+    if (!list) return null
+    if (usual < 4) return list.reduce((x, y) => x + y, 0)
+    const sorted = [...list].sort((x, y) => x - y)
+    const mid = sorted.length >> 1
+    return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2
+  }
+  // Sonderzahlung: in Jahren mit einer Zahlung mehr als üblich deutlich über der mittleren
+  const specials = usual < 4 ? [] : payments.filter(p => {
+    const year = Number(p.date.slice(0, 4))
+    return (byYear.get(year)?.length ?? 0) > usual && p.amount > 1.6 * (level(year) ?? Infinity)
+  })
+  const sum = (year: number) => byYear.get(year)?.reduce((x, y) => x + y, 0) ?? null
+  const last = (year: number) => {
+    const list = payments.filter(p => p.amount > 0 && Number(p.date.slice(0, 4)) === year && !specials.includes(p)).sort((x, y) => x.date.localeCompare(y.date))
+    return list[list.length - 1]?.amount ?? null
+  }
+  const count = (year: number) => byYear.get(year)?.length ?? 0
+  /** Ähnlich viele Zahlungen wie im Jahr davor. Wechselt der Rhythmus (halbjährlich, vierteljährlich), sagt die einzelne Zahlung nichts */
+  const comparable = (year: number) => Math.min(count(year), count(year - 1)) >= 0.7 * Math.max(count(year), count(year - 1))
+  /** Jahre mit Erhöhung in Folge, rückwärts ab `from` */
+  const run = (of: (year: number) => number | null, from: number, ok: (year: number) => boolean) => {
+    let n = 0
+    for (let y = from; of(y) && of(y - 1) && of(y)! > of(y - 1)! * 1.0001 && ok(y); y--) n++
+    return n
+  }
+  // Drei Blickwinkel, jeder kann durch einen Datenfehler zu kurz ausfallen: der längste gilt
+  const raisedYears = (from: number) => Math.max(run(level, from, comparable), run(last, from, comparable), run(sum, from, y => usual < 10 || count(y) === count(y - 1)))
+  // Jahressumme, die eine einzelne doppelt so hohe Zahlung verfälscht (Datenfehler): nicht zeigen
+  const doubtful = (year: number) => {
+    const list = byYear.get(year)
+    return usual >= 4 && !!list && list.length <= usual && list.filter(a => a > 1.6 * (level(year) ?? Infinity)).length === 1 && (sum(year + 1) ?? Infinity) < sum(year)!
+  }
+  return { usual, level, specials, comparable, raisedYears, doubtful }
+}
+
 export const dividenden = defineTool({
   name: 'dividenden',
   description: 'Dividenden einer Aktie oder eines ETFs: Zahlungen je Jahr, Rendite, Wachstum, Ausschüttungsquote, nächster Ex-Tag.',
@@ -344,16 +397,26 @@ export const dividenden = defineTool({
     const yearAgo = isoDaysAgo(365, ctx.now)
     const ttm = past.filter(r => r.date > yearAgo).reduce((s, r) => s + value(r), 0)
     const year = Number(today.slice(0, 4))
+    const { usual, level, specials, comparable, raisedYears, doubtful } = dividendLevels(past.map(r => ({ date: r.date as string, amount: value(r) })))
     const perYear = new Map<number, number>()
-    for (const r of past) perYear.set(Number(r.date.slice(0, 4)), (perYear.get(Number(r.date.slice(0, 4))) ?? 0) + value(r))
-    const full = [...perYear.entries()].filter(([y]) => y < year && y >= year - jahre).sort((a, b) => a[0] - b[0])
+    for (const r of past) {
+      // Monatszahler nach Zahltag, sonst rutschen Zahlungen über den Jahreswechsel
+      const y = Number(String((usual >= 10 && r.paymentDate) || r.date).slice(0, 4))
+      perYear.set(y, (perYear.get(y) ?? 0) + value(r))
+    }
+    const full = [...perYear.entries()].filter(([y]) => y < year && y >= year - jahre && !doubtful(y)).sort((a, b) => a[0] - b[0])
     const growth = (n: number) => {
-      const end = perYear.get(year - 1)
-      const start = perYear.get(year - 1 - n)
+      const end = level(year - 1)
+      const start = level(year - 1 - n)
       return end && start ? { prozent_pro_jahr: round(((end / start) ** (1 / n) - 1) * 100, 1), von_jahr: year - 1 - n, bis_jahr: year - 1 } : null
     }
-    let streak = 0
-    for (let y = year - 1; perYear.get(y) && perYear.get(y - 1) && perYear.get(y)! > perYear.get(y - 1)! * 1.0001; y--) streak++
+    const streak = raisedYears(year - 1)
+    let cut: { jahr: number; prozent: number | null } | null = null
+    for (let y = year - 1; y > year - 1 - jahre && !cut; y--) {
+      const now = level(y)
+      const before = level(y - 1)
+      if (now && before && comparable(y) && now < before * 0.9) cut = { jahr: y, prozent: round((now / before - 1) * 100, 1) }
+    }
     const q = quotes.get(symbol)
     const price = q ? (q.currency === 'GBX' || q.currency === 'GBp' ? q.price / 100 : q.price) : null
     const id = ctx.nextBlockId()
@@ -368,11 +431,14 @@ export const dividenden = defineTool({
         rendite_prozent: price ? round((ttm / price) * 100, 2) : null,
         ausschuettungsquote_vom_gewinn_letzte_12_monate_prozent: round((finite(ratios[0]?.payoutRatioTTM) ?? NaN) * 100, 1),
         wachstum: { drei_jahre: growth(3), fuenf_jahre: growth(5), zehn_jahre: growth(10) },
-        steigerungen_in_folge_jahre: streak,
+        // Nur als Untergrenze: Fehler in alten Daten verkürzen die Serie, verlängern sie nie
+        ...(streak >= 5 ? { jaehrlich_erhoeht: { mindestens_jahre: streak, bis_jahr: year - 1, schreibweise: `"seit mindestens ${streak} Jahren", nie "${streak} Jahre in Folge"` } } : {}),
+        ...(cut ? { gesunken: { ...cut, hinweis: 'Kann auch an einer Abspaltung oder an Wechselkursen liegen, nur dann "gekürzt" nennen, wenn es belegt ist.' } } : {}),
+        ...(specials.some(x => Number(x.date.slice(0, 4)) >= year - jahre) ? { sonderzahlungen_nicht_im_wachstum: specials.filter(x => Number(x.date.slice(0, 4)) >= year - jahre).map(x => ({ ex_tag: x.date, betrag: round(x.amount, 4) })) } : {}),
         je_jahr: Object.fromEntries(full.map(([y, v]) => [y, round(v, 4)])),
         letzte_zahlungen: past.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 4).map(r => ({ ex_tag: r.date, betrag: round(value(r), 4), zahltag: r.paymentDate || null })),
         naechster_ex_tag: rows.filter(r => r.date > today).sort((a, b) => a.date.localeCompare(b.date)).map(r => ({ ex_tag: r.date, betrag: round(value(r), 4), zahltag: r.paymentDate || null }))[0] ?? null,
-        hinweis: 'Beträge um Splits bereinigt, vor Steuern. Laufendes Jahr fehlt in je_jahr.',
+        hinweis: 'Beträge um Splits bereinigt, vor Steuern. Laufendes Jahr fehlt in je_jahr. Wachstum und Erhöhungen vergleichen die übliche Zahlung je Termin, ohne Sonderzahlungen.',
         ...(blocks[0] ? { grafik: id } : {}),
       },
       blocks,
@@ -392,21 +458,24 @@ export const vergleich = defineTool({
     const from = isoDaysAgo(366, ctx.now)
     const quotes = await getQuotes(symbole)
     const rows = await Promise.all(symbole.map(async symbol => {
-      const [km, ratios, growth, kgv, evEbitda, bars] = await Promise.all([
+      const [km, ratios, growth, kgv, evEbitda, bars, quality] = await Promise.all([
         fmpList(`/api/v3/key-metrics-ttm/${symbol}`, {}, { revalidate: 6 * 3600 }),
         fmpList(`/api/v3/ratios-ttm/${symbol}`, {}, { revalidate: 6 * 3600 }),
         fmpList(`/api/v3/financial-growth/${symbol}`, { limit: 1 }, { revalidate: 6 * 3600 }),
         getValuationSeries(symbol, 'kgv', isoDaysAgo(14, ctx.now), today).catch(() => null),
         getValuationSeries(symbol, 'ev_ebitda', isoDaysAgo(14, ctx.now), today).catch(() => null),
         getDailyHistory(symbol, from, today),
+        earningsQuality(symbol),
       ])
       const q = quotes.get(symbol)
       const r = ratios[0] ?? {}
+      const pe = kgv?.points[kgv.points.length - 1]?.[1] ?? null
+      const note = quality ? qualityNote(quality, pe) : null
       const pct = (v: unknown) => { const n = finite(v); return n == null ? null : round(n * 100, 1) }
       return {
         symbol, name: q?.name ?? symbol, kurs: round(q?.price, 2), waehrung: q?.currency ?? null,
         boersenwert_mrd: round((finite(q?.raw?.marketCap) ?? NaN) / 1e9, 1),
-        kgv: round(kgv?.points[kgv.points.length - 1]?.[1], 1), ev_ebitda: round(evEbitda?.points[evEbitda.points.length - 1]?.[1], 1),
+        kgv: round(pe, 1), ...(note ? { sondereinfluss_im_gewinn: note } : {}), ev_ebitda: round(evEbitda?.points[evEbitda.points.length - 1]?.[1], 1),
         umsatzwachstum_letztes_geschaeftsjahr_prozent: pct(growth[0]?.revenueGrowth), gewinnwachstum_letztes_geschaeftsjahr_prozent: pct(growth[0]?.epsdilutedGrowth), letztes_geschaeftsjahr_bis: growth[0]?.date ?? null,
         bruttomarge_prozent: pct(r.grossProfitMarginTTM), operative_marge_prozent: pct(r.operatingProfitMarginTTM), nettomarge_prozent: pct(r.netProfitMarginTTM),
         eigenkapitalrendite_prozent: pct(r.returnOnEquityTTM), kapitalrendite_roic_prozent: pct(km[0]?.roicTTM),
@@ -424,7 +493,9 @@ export const vergleich = defineTool({
       blocks: [{
         id, type: 'tabelle', titel: 'Vergleich', spalten: ['', ...found.map(r => r.symbol)],
         zeilen: [
-          line('Börsenwert (Mrd.)', r => `${num(r.boersenwert_mrd)} ${r.waehrung ?? ''}`), line('KGV', r => num(r.kgv)), line('EV/EBITDA', r => num(r.ev_ebitda)),
+          line('Börsenwert (Mrd.)', r => `${num(r.boersenwert_mrd)} ${r.waehrung ?? ''}`), line('KGV', r => num(r.kgv)),
+          ...(found.some(r => r.sondereinfluss_im_gewinn?.kgv_ohne_diesen_einfluss_ueberschlaegig != null) ? [line('KGV ohne Sondereinfluss', r => num(r.sondereinfluss_im_gewinn?.kgv_ohne_diesen_einfluss_ueberschlaegig ?? r.kgv))] : []),
+          line('EV/EBITDA', r => num(r.ev_ebitda)),
           line('Umsatzwachstum (Geschäftsjahr)', r => `${num(r.umsatzwachstum_letztes_geschaeftsjahr_prozent)} %`), line('Operative Marge', r => `${num(r.operative_marge_prozent)} %`),
           line('Kapitalrendite (ROIC)', r => `${num(r.kapitalrendite_roic_prozent)} %`), line('Nettoschulden/EBITDA', r => num(r.nettoschulden_zu_ebitda)),
           line('Dividendenrendite', r => `${num(r.dividendenrendite_prozent)} %`), line('Kurs, ein Jahr', r => `${num(r.kurs_ein_jahr_prozent)} %`),

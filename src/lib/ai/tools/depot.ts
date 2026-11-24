@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { cashFlowKind, isCashFlow, orderCosts, signedCashAmount, sumCashFlows, sumOrderCosts, type CashFlowKind } from '@/lib/portfolio/cashFlows'
 import { projectDividends, type Transaction } from '@/lib/portfolio/metrics'
 import type { AiBlock } from '../types'
+import { etfCost } from '../data/etfCost'
 import { round } from '../data/fmp'
 import { buyAmount, depotTotals, sellAmount, type DepotData, type Position } from '../depot/access'
 import type { Art } from '../depot/classify'
@@ -63,6 +64,14 @@ function dayMoves(d: DepotData, today: string, total: { dayChange: number; dayCh
   }
 }
 
+/** Läuft der Handel in New York gerade? (Wochentag und Uhrzeit, Feiertage nicht berücksichtigt) */
+function usMarketOpen(now: Date): boolean {
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(now)
+  const get = (type: string) => parts.find(p => p.type === type)?.value ?? ''
+  const minutes = Number(get('hour')) * 60 + Number(get('minute'))
+  return !['Sat', 'Sun'].includes(get('weekday')) && minutes >= 570 && minutes < 960
+}
+
 /** Depots, deren letzte Buchung lange her ist: dort fehlt vermutlich der neueste Export */
 export function staleNotes(d: DepotData, now: Date): string[] {
   const limit = berlinIsoDay(now.getTime() - 45 * 86_400_000)
@@ -95,16 +104,25 @@ export function costs(d: DepotData) {
   return { ordergebuehren_eur: eur(order), konto_und_abogebuehren_eur: eur(account), gezahlte_zinsen_eur: eur(interest), summe_eur: eur(order + account + interest), ...(taxes > 0 ? { zusaetzlich_steuern_auf_verkaeufe_eur: eur(taxes) } : {}) }
 }
 
-/** Aufteilung nach Art, ETFs zusätzlich nach Klasse */
+/** Aufteilung nach Art mit Kursgewinn der Gruppe, ETFs zusätzlich nach Klasse */
 function splitByArt(d: DepotData) {
-  const byArt = new Map<Art, number>()
+  const byArt = new Map<Art, { value: number; cost: number; gain: number }>()
   const byClass = new Map<string, number>()
   for (const p of d.positions) {
-    byArt.set(p.art.art, (byArt.get(p.art.art) ?? 0) + p.value)
+    const g = byArt.get(p.art.art) ?? { value: 0, cost: 0, gain: 0 }
+    g.value += p.value
+    if (p.hasPrice) {
+      g.cost += p.cost
+      g.gain += p.gain
+    }
+    byArt.set(p.art.art, g)
     if (p.art.art === 'ETF') byClass.set(p.art.klasse ?? 'Aktien', (byClass.get(p.art.klasse ?? 'Aktien') ?? 0) + p.value)
   }
   return {
-    nach_art: ARTEN.filter(a => (byArt.get(a) ?? 0) > 0).map(a => ({ art: ART_LABEL[a], wert_eur: eur(byArt.get(a)!), anteil_prozent: share(byArt.get(a)!, d.stockValue) })),
+    nach_art: ARTEN.filter(a => (byArt.get(a)?.value ?? 0) > 0).map(a => {
+      const g = byArt.get(a)!
+      return { art: ART_LABEL[a], wert_eur: eur(g.value), anteil_prozent: share(g.value, d.stockValue), kursgewinn_eur: eur(g.gain), kursgewinn_prozent: g.cost > 0 ? pct((g.gain / g.cost) * 100) : null }
+    }),
     etfs_nach_klasse: [...byClass].filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]).map(([klasse, v]) => ({ klasse, wert_eur: eur(v), anteil_prozent: share(v, d.stockValue) })),
   }
 }
@@ -139,6 +157,7 @@ export const depotUebersicht = defineTool({
         gesamtrendite_eur: eur(t.totalReturn), gesamtrendite_prozent: pct(t.totalReturnPercent),
         xirr_prozent_pro_jahr: t.xirr == null ? null : pct(t.xirr),
         ...dayMoves(d, berlinIsoDay(ctx.now), t),
+        ...(usMarketOpen(ctx.now) ? { us_boerse_hat_noch_offen: 'Kurse und Tageswerte ändern sich noch, nicht als Schlusskurse bezeichnen' } : {}),
         groesste_gewinner_am_letzten_handelstag: movers.slice(0, 3).filter(p => p.dayChange > 0).map(p => ({ name: p.name, symbol: p.symbol, eur: eur(p.dayChange), prozent: pct(p.dayChangePercent), handelstag: p.priceDay })),
         groesste_verlierer_am_letzten_handelstag: movers.slice(-3).reverse().filter(p => p.dayChange < 0).map(p => ({ name: p.name, symbol: p.symbol, eur: eur(p.dayChange), prozent: pct(p.dayChangePercent), handelstag: p.priceDay })),
         ...splitByArt(d),
@@ -304,6 +323,9 @@ export const depotInvestiert = defineTool({
       entry.count++
       perSymbol.set(t.symbol, entry)
     }
+    // Ohne Käufe im Zeitraum gleich mitgeben, wann zuletzt gekauft wurde
+    const lastBuy = buysAll.reduce((m, t) => (t.date > m ? t.date : m), buysAll[0].date)
+    const lastBuys = buysAll.filter(t => t.date === lastBuy)
     const n = months.length
     const sumOf = (a: Art) => months.reduce((s, m) => s + (buys.get(m)?.get(a) ?? 0), 0)
     const arten = ARTEN.filter(a => sumOf(a) > 0 || (includeCurrent && (buys.get(current)?.get(a) ?? 0) > 0))
@@ -352,6 +374,7 @@ export const depotInvestiert = defineTool({
         hinweise: [
           'Käufe inklusive Gebühren. Depotüberträge, Spin-offs und Einzahlungen aufs Guthaben zählen nicht. Durchschnitt über abgeschlossene Monate, der laufende Monat steht getrennt.',
           ...staleNotes(d, ctx.now),
+          ...(total === 0 ? [`Im Zeitraum gab es keine Käufe. Der letzte Kauftag war der ${germanDate(lastBuy)} mit ${lastBuys.length === 1 ? 'einem Kauf' : `${lastBuys.length} Käufen`} über zusammen ${eur(lastBuys.reduce((s, t) => s + buyAmount(t), 0))} €, insgesamt sind ${buysAll.length} Käufe seit ${germanDate(buysAll.reduce((m, t) => (t.date < m ? t.date : m), buysAll[0].date))} gebucht. Nenne das, statt zu vermuten.`] : []),
           ...(wantedStart < first ? [`Die erste Buchung ist vom ${monthLabel(first)}, der Zeitraum beginnt deshalb dort.`] : []),
           ...(klassen.get('Geldmarkt') ? ['In den ETF-Käufen stecken Geldmarkt-ETFs, die meist zum Parken von Geld dienen. Nenne den Betrag getrennt.'] : []),
         ],
@@ -526,7 +549,7 @@ export const depotDividenden = defineTool({
         je_jahr: perYear, letzte_12_monate_eur: eur(last12), zwoelf_monate_davor_eur: eur(prev12), veraenderung_prozent: prev12 > 0 ? pct((last12 / prev12 - 1) * 100) : null,
         durchschnitt_je_monat_letzte_12_eur: eur(last12 / 12),
         zeitraum_der_zahler: jahr ?? 'letzte 12 Monate', summe_zeitraum_eur: eur(chosen.reduce((s, t) => s + amount(t), 0)),
-        groesste_zahler: ranked.slice(0, 10).map(([symbol, e]) => ({ symbol, name: e.name, summe_eur: eur(e.sum), zahlungen: e.count, anteil_prozent: share(e.sum, chosen.reduce((s, t) => s + amount(t), 0)) })),
+        groesste_zahler: ranked.slice(0, 10).map(([symbol, e]) => ({ symbol, name: e.name, ...(d.positions.some(p => p.symbol === symbol || d.holdings.some(h => h.symbol === symbol && h.isin && h.isin === p.isin)) ? {} : { verkauft: true }), summe_eur: eur(e.sum), zahlungen: e.count, anteil_prozent: share(e.sum, chosen.reduce((s, t) => s + amount(t), 0)) })),
         monate: months.map(m => ({ monat: m, summe_eur: eur(txs.filter(t => t.date.startsWith(m)).reduce((s, t) => s + amount(t), 0)) })),
         hochrechnung_naechste_12_monate_eur: forward.annualExpected > 0 ? eur(forward.annualExpected) : null,
         hochrechnung_je_monat_eur: forward.annualExpected > 0 ? eur(forward.annualExpected / 12) : null,
@@ -540,6 +563,38 @@ export const depotDividenden = defineTool({
       },
       blocks,
       sources: [{ label: `Dein Depot (${d.label})`, stand: `${payments.length} Zahlungen seit ${germanDate(payments.reduce((m, t) => (t.date < m ? t.date : m), payments[0].date))}` }],
+    }
+  },
+})
+
+export const depotEtfKosten = defineTool({
+  name: 'depot_etf_kosten',
+  description: 'Laufende Kosten (TER) der ETFs und Fonds im Depot: je ETF in Prozent und Euro pro Jahr, Summe, gewichteter Durchschnitt. Für "Was kosten mich meine ETFs?".',
+  schema: z.object({ depot: depotSchema }),
+  inputSchema: { type: 'object', properties: { depot: DEPOT_PROP }, additionalProperties: false },
+  label: () => 'ETF-Kosten zusammenrechnen',
+  async run({ depot }, ctx) {
+    const d = await ctx.depot.load(depot)
+    const funds = d.positions.filter(p => (p.art.art === 'ETF' || p.art.art === 'Fonds') && p.value > 0)
+    if (funds.length === 0) throw new ToolError(`Im Depot "${d.label}" sind keine ETFs oder Fonds.`)
+    const rows = await Promise.all(funds.map(async p => ({ p, ter: await etfCost(p.symbol, p.isin) })))
+    const known = rows.filter((r): r is { p: Position; ter: number } => r.ter != null).sort((a, b) => b.p.value * b.ter - a.p.value * a.ter)
+    const unknown = rows.filter(r => r.ter == null)
+    const value = known.reduce((s, r) => s + r.p.value, 0)
+    const perYear = known.reduce((s, r) => s + (r.p.value * r.ter) / 100, 0)
+    const id = ctx.nextBlockId()
+    const blocks: AiBlock[] = known.length > 1 ? [{ id, type: 'balken', titel: 'Laufende Kosten im Jahr', einheit: '€', nachkommastellen: 0, werte: known.slice(0, 12).map(r => ({ name: r.p.name, wert: (r.p.value * r.ter) / 100 })) }] : []
+    return {
+      data: {
+        depot: d.label, etfs_und_fonds: funds.length,
+        kosten_im_jahr_eur: cent(perYear), durchschnitt_prozent: value > 0 ? round((perYear / value) * 100, 3) : null, gerechnet_fuer_eur: eur(value),
+        je_etf: known.map(r => ({ name: r.p.name, symbol: r.p.symbol, wert_eur: eur(r.p.value), ter_prozent: r.ter, kosten_im_jahr_eur: cent((r.p.value * r.ter) / 100) })),
+        ...(unknown.length > 0 ? { ohne_angabe: unknown.map(r => ({ name: r.p.name, symbol: r.p.symbol, wert_eur: eur(r.p.value) })) } : {}),
+        hinweise: ['Die TER wird laufend dem Fondsvermögen entnommen und steckt schon im Kurs, es wird nichts abgebucht. Ordergebühren und Spreads sind nicht dabei.', ...(unknown.length > 0 ? ['Für die ETFs unter ohne_angabe ist keine TER bekannt, die Summe ist also eine Untergrenze.'] : [])],
+        ...(blocks.length ? { grafik: id } : {}),
+      },
+      blocks,
+      sources: [depotSource(d)],
     }
   },
 })

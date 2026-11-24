@@ -7,6 +7,7 @@ import { getInstrumentsForSymbols } from '@/lib/marketData/instrumentStore'
 import { getETFBySymbol } from '@/lib/etfUtils'
 import { getEarningsFromDb } from '@/lib/earningsCalendarDb'
 import type { AiBlock } from '../types'
+import { etfCost } from '../data/etfCost'
 import { fmpList, finite, round } from '../data/fmp'
 import { loadNews } from '../data/news'
 import { evaluateExpression } from '../calc'
@@ -51,7 +52,8 @@ export const etf = defineTool({
     const instrument = instruments.get(symbol) ?? null
     const known = getETFBySymbol(symbol)
     const name = known?.name ?? instrument?.name ?? quotes.get(symbol)?.name ?? symbol
-    const look = await computeLookthrough([{ symbol, name, isin: instrument?.isin ?? known?.isin ?? null, value: 100 }])
+    const isin = instrument?.isin ?? known?.isin ?? null
+    const [look, ter] = await Promise.all([computeLookthrough([{ symbol, name, isin, value: 100 }]), etfCost(symbol, isin)])
     const coverage = look.etfCoverage[0]
     if (!coverage || look.topExposures.length === 0) throw new ToolError(`Zu ${symbol} ist keine Zusammensetzung verfügbar.`)
     const share = aktie ? look.topExposures.find(e => e.symbol === aktie) : null
@@ -62,8 +64,10 @@ export const etf = defineTool({
     }]
     return {
       data: {
-        symbol, name, isin: instrument?.isin ?? known?.isin ?? null, kosten_ter_prozent: known?.ter ?? null,
-        zerlegung: coverage.status === 'exact' ? 'genau' : coverage.status === 'approximated' ? `angenähert über ${coverage.proxyLabel}` : coverage.status, anmerkung: coverage.note ?? null,
+        symbol, name, isin: instrument?.isin ?? known?.isin ?? null, kosten_ter_prozent: ter,
+        zerlegung: coverage.status === 'exact' ? 'genau' : coverage.status === 'approximated' ? `angenähert über ${coverage.proxyLabel}` : coverage.status,
+        // Die Anmerkung beschreibt den Ersatzfonds, nicht diesen ETF
+        anmerkung_zum_ersatzfonds_nicht_zu_diesem_etf: coverage.note ?? null,
         abgedeckt_prozent: round(look.coveragePercent, 1),
         groesste_aktien: look.topExposures.slice(0, 15).map(e => ({ symbol: e.symbol, name: e.name, anteil_prozent: round(e.percent, 2) })),
         regionen: look.regions.slice(0, 8).map(r => ({ name: r.label, anteil_prozent: round(r.percent, 1) })),

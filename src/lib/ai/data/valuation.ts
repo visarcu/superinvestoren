@@ -19,12 +19,22 @@ export const VALUATION_METRICS = {
   kbv: { label: 'KBV', formel: 'Kurs geteilt durch das zuletzt gemeldete Eigenkapital je Anteil' },
   kcv: { label: 'KCV', formel: 'Kurs geteilt durch den operativen Cashflow je Anteil der letzten zwölf gemeldeten Monate' },
   kfcv: { label: 'Kurs/Free Cashflow', formel: 'Kurs geteilt durch den freien Cashflow je Anteil der letzten zwölf gemeldeten Monate' },
-  ev_ebitda: { label: 'EV/EBITDA', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch das EBITDA der letzten zwölf gemeldeten Monate' },
+  ev_ebitda: { label: 'EV/EBITDA', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch operatives Ergebnis plus Abschreibungen der letzten zwölf gemeldeten Monate' },
   ev_ebit: { label: 'EV/EBIT', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch das operative Ergebnis der letzten zwölf gemeldeten Monate' },
   ev_umsatz: { label: 'EV/Umsatz', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch den Umsatz der letzten zwölf gemeldeten Monate' },
 } as const
 
 export type ValuationMetric = keyof typeof VALUATION_METRICS
+
+/**
+ * Operatives Ergebnis plus Abschreibungen. Das EBITDA des Anbieters enthält auch
+ * Bewertungsgewinne auf Beteiligungen (Alphabet 2026: 319 statt 185 Mrd. $).
+ */
+export function operatingEbitda(row: any): number | null {
+  const operating = finite(row?.operatingIncome)
+  const depreciation = finite(row?.depreciationAndAmortization)
+  return operating != null && operating !== 0 && depreciation != null && depreciation > 0 ? operating + depreciation : finite(row?.ebitda)
+}
 
 interface Period {
   end: string
@@ -112,7 +122,7 @@ async function loadPeriods(symbol: string): Promise<{ periods: Period[]; reporte
       shares,
       netIncome: finite(row.netIncome),
       revenue: finite(row.revenue),
-      ebitda: finite(row.ebitda),
+      ebitda: operatingEbitda(row),
       operatingIncome: finite(row.operatingIncome),
       ocf: finite(c?.operatingCashFlow ?? c?.netCashProvidedByOperatingActivities),
       fcf: finite(c?.freeCashFlow),

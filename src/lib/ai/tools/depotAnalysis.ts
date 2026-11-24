@@ -66,7 +66,7 @@ function borrowed(d: DepotData): number {
 
 export const depotRendite = defineTool({
   name: 'depot_rendite',
-  description: 'Rendite des Depots in einem Zeitraum: zeitgewichtet (TWR) gegen FTSE All-World, MSCI World und S&P 500, Gewinn in Euro, Depotwert am Anfang und Ende, Anteil durch Einzahlungen.',
+  description: 'Rendite des Depots in einem Zeitraum: zeitgewichtet (TWR) gegen FTSE All-World, MSCI World und S&P 500, Gewinn in Euro, Depotwert am Anfang und Ende, Anteil durch Einzahlungen. Auch für "Schlagen meine Einzelaktien meine ETFs?": zeigt, was beide Gruppen gegen den All-World gebracht haben.',
   schema: z.object({ depot: depotSchema, zeitraum: z.enum(PERIODS) }),
   inputSchema: { type: 'object', properties: { depot: DEPOT_PROP, zeitraum: { type: 'string', enum: [...PERIODS], description: 'YTD = seit Jahresanfang, max = seit Beginn' } }, required: ['zeitraum'], additionalProperties: false },
   label: i => `Rendite berechnen (${PERIOD_LABEL[i.zeitraum]})`,
@@ -92,6 +92,11 @@ export const depotRendite = defineTool({
     }
     const num = (v: number | null | undefined) => (v == null ? null : pct(v))
     const leveraged = borrowed(d) > 0
+    // Firmennamen statt nur Kürzel
+    for (const side of [cmp?.attribution?.best, cmp?.attribution?.worst]) {
+      const name = side?.symbol ? d.positions.find(p => p.symbol === side.symbol)?.name ?? d.transactions.find(t => t.symbol === side.symbol)?.name : null
+      if (name) side.name = name
+    }
     const bench = (b: any) => b ? {
       name: b.label, rendite_prozent: num(b.totalReturnPct), rendite_pro_jahr_prozent: num(b.annualizedPct),
       depot_besser_um_prozentpunkte: num(b.diffTotalPct), depot_besser_pro_jahr_prozentpunkte: num(b.diffPaPct),
@@ -274,6 +279,10 @@ export const depotDurchsicht = defineTool({
         top_10_anteil_prozent: pct((look.topExposures.slice(0, 10).reduce((s, e) => s + e.value, 0) / total) * 100), firmen_gesamt: look.topExposures.length,
         regionen_prozent_der_aktien: look.regions.slice(0, 9).map(r => ({ name: r.label, prozent: pct(r.percent), weltmarkt_prozent: worldShare(world?.regions, r.label) })),
         branchen_prozent_der_aktien: look.sectors.slice(0, 12).map(s => ({ name: SECTOR_DE[s.label] ?? s.label, prozent: pct(s.percent), weltmarkt_prozent: worldShare(world?.sectors, s.label) })),
+        technologie_und_kommunikation_zusammen: {
+          prozent: pct(['Technology', 'Communication Services'].reduce((s, l) => s + (look.sectors.find(x => x.label === l)?.percent ?? 0), 0)),
+          weltmarkt_prozent: world ? pct(['Technology', 'Communication Services'].reduce((s, l) => s + (world.sectors.find(x => x.label === l)?.percent ?? 0), 0)) : null,
+        },
         etf_ueberschneidungen: look.overlaps.slice(0, 6).map(o => ({ a: o.nameA, b: o.nameB, ueberschneidung_prozent: pct(o.overlapPercent), gemeinsame_firmen: o.sharedCount })),
         hinweise: [...coverageNotes(d, look), 'Regionen und Branchen sind fertig gerechnet, ETFs eingerechnet. Weltmarkt = Vanguard Total World (VT).'], grafik: id,
       },
