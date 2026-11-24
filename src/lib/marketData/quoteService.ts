@@ -7,6 +7,8 @@
 //   3. FMP im Batch — angefragtes Symbol und Börsenticker der Notierung
 //   4. unbekannte Symbole einmalig über die FMP-Suche lernen
 //   5. Yahoo als letzte Instanz
+// Ein eingefrorener FMP-Kurs zählt dabei wie keiner und kommt erst ganz am Schluss
+// zum Zug, wenn keine Notierung etwas Frischeres liefert.
 //
 // Die Stammdaten liefern auch die Notierungswährung. Dadurch muss sie nicht
 // mehr aus dem Ticker-Suffix geraten werden (die Quelle mehrerer Pence- und
@@ -14,7 +16,7 @@
 
 import type { Instrument, NormalizedQuote, RawQuote } from './types'
 import { fetchFmpQuotes, fmpConfigured } from './providers/fmpQuotes'
-import { fetchYahooFirstAvailable } from './providers/yahooQuotes'
+import { fetchYahooFirstAvailable, fetchYahooQuote } from './providers/yahooQuotes'
 import { getInstrumentsForSymbols, resolveSymbolViaSearch } from './instrumentStore'
 import { isIsin, SUFFIX_TO_EXCHANGE, yahooSymbolFromEodhd } from './symbols'
 import { YAHOO_ALIASES } from '@/data/tickerFallbacks'
@@ -22,6 +24,14 @@ import { YAHOO_ALIASES } from '@/data/tickerFallbacks'
 const QUOTE_TTL_MS = 45_000
 const MAX_CACHE_ENTRIES = 10_000
 const quoteCache = new Map<string, { quote: NormalizedQuote; expires: number }>()
+
+/**
+ * Ab diesem Alter gilt ein Kurs als eingefroren. FMP führt umbenannte und
+ * eingestellte Notierungen mit dem letzten Kurs weiter, ohne sie zu kennzeichnen:
+ * SWF.DE stand im November 2026 noch mit 82,56 € vom 13.02.2025, während dieselbe
+ * Aktie als SWF.F bei 101,70 € gehandelt wurde. 14 Tage überdauern jede Feiertagspause.
+ */
+const FROZEN_AFTER_MS = 14 * 24 * 60 * 60 * 1000
 
 /**
  * Börsen, an denen der Broker-Ticker oft nicht der Börsenticker ist (VHYL.DE
@@ -66,6 +76,26 @@ function writeCache(quotes: NormalizedQuote[]) {
   for (const q of quotes) {
     if (q.price > 0) quoteCache.set(q.symbol, { quote: q, expires })
   }
+}
+
+/** Zeitpunkt des Kurses in ms (FMP und Yahoo liefern 'timestamp' in Sekunden), null ohne Angabe. */
+function quoteTime(raw: RawQuote): number | null {
+  const seconds = Number(raw.raw?.timestamp)
+  return Number.isFinite(seconds) && seconds > 0 ? seconds * 1000 : null
+}
+
+function isFrozen(raw: RawQuote): boolean {
+  const time = quoteTime(raw)
+  return time !== null && Date.now() - time > FROZEN_AFTER_MS
+}
+
+/** Ersatz für einen eingefrorenen Kurs: nur mit Zeitangabe und nur, wenn er frisch ist. */
+async function fetchYahooFresh(candidates: string[]): Promise<RawQuote | null> {
+  for (const candidate of candidates) {
+    const quote = await fetchYahooQuote(candidate)
+    if (quote && quoteTime(quote) !== null && !isFrozen(quote)) return quote
+  }
+  return null
 }
 
 /** Nur für Tests/Skripte: Cache leeren. */
@@ -179,17 +209,22 @@ export async function getQuotes(requested: string[]): Promise<Map<string, Normal
 
   // --- Runde 1: FMP, alle Kandidaten in einem Batch ---
   const resolved = new Map<string, NormalizedQuote>()
+  const frozen = new Map<string, RawQuote>()
   const fmpPlans = plans.filter(p => p.fmpCandidates.length > 0)
   if (fmpConfigured() && fmpPlans.length > 0) {
     const fmpQuotes = await fetchFmpQuotes([...new Set(fmpPlans.flatMap(p => p.fmpCandidates))])
     for (const plan of fmpPlans) {
-      const raw = plan.fmpCandidates.map(c => fmpQuotes[c]).find(Boolean)
-      if (raw) resolved.set(plan.symbol, toNormalized(plan, raw, 'fmp'))
+      const hits = plan.fmpCandidates.map(c => fmpQuotes[c]).filter(Boolean)
+      const fresh = hits.find(q => !isFrozen(q))
+      if (fresh) resolved.set(plan.symbol, toNormalized(plan, fresh, 'fmp'))
+      else if (hits.length > 0) {
+        frozen.set(plan.symbol, hits.reduce((a, b) => ((quoteTime(b) ?? 0) > (quoteTime(a) ?? 0) ? b : a)))
+      }
     }
   }
 
   // --- Runde 2: unbekannte Symbole einmalig über die FMP-Suche lernen ---
-  const unknown = plans.filter(p => !resolved.has(p.symbol) && !p.instrument)
+  const unknown = plans.filter(p => !resolved.has(p.symbol) && !frozen.has(p.symbol) && !p.instrument)
   if (unknown.length > 0 && fmpConfigured()) {
     const learned = await Promise.allSettled(
       unknown.slice(0, 25).map(async plan => {
@@ -211,7 +246,9 @@ export async function getQuotes(requested: string[]): Promise<Map<string, Normal
   if (stillMissing.length > 0) {
     const yahooResults = await Promise.allSettled(
       stillMissing.map(async plan => {
-        const raw = await fetchYahooFirstAvailable(plan.yahooCandidates)
+        const raw = frozen.has(plan.symbol)
+          ? await fetchYahooFresh(plan.yahooCandidates)
+          : await fetchYahooFirstAvailable(plan.yahooCandidates)
         return raw ? toNormalized(plan, raw, 'yahoo') : null
       })
     )
@@ -220,9 +257,15 @@ export async function getQuotes(requested: string[]): Promise<Map<string, Normal
     }
   }
 
-  const fresh = [...resolved.values()]
-  writeCache(fresh)
-  for (const quote of fresh) result.set(quote.symbol, quote)
+  // --- Nichts Frischeres gefunden: der alte Kurs ist besser als keiner ---
+  for (const plan of plans) {
+    const raw = frozen.get(plan.symbol)
+    if (raw && !resolved.has(plan.symbol)) resolved.set(plan.symbol, toNormalized(plan, raw, 'fmp'))
+  }
+
+  const fetched = [...resolved.values()]
+  writeCache(fetched)
+  for (const quote of fetched) result.set(quote.symbol, quote)
 
   return result
 }
