@@ -63,6 +63,9 @@ export function usePortfolio(routeDepotKey?: string) {
   // Kennzahlen je Depot, nur in der Sicht "Alle Depots" geladen (auch fürs Beispieldepot)
   const [depotSummaries, setDepotSummaries] = useState<Map<string, DepotSummary>>(new Map())
   const [loading, setLoading] = useState(true)
+  // true, sobald Positionen und Buchungen einmal geladen sind. Vorher steht nur der
+  // Rahmen (Name, Bargeld), daraus darf noch kein Depotwert gerechnet werden.
+  const [dataReady, setDataReady] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -74,6 +77,9 @@ export function usePortfolio(routeDepotKey?: string) {
   // Zuletzt geöffnetes Depot ('all' oder ID). Rückfall, wenn der Kurzname in
   // der URL nicht mehr passt, z. B. direkt nach dem Umbenennen.
   const loadedDepotRef = useRef<string | null>(null)
+
+  // Laufende Nummer des letzten Ladevorgangs, damit ein überholter nichts mehr überschreibt
+  const loadSeqRef = useRef(0)
 
   // Premium State
   const [isPremium, setIsPremium] = useState(false)
@@ -260,17 +266,19 @@ export function usePortfolio(routeDepotKey?: string) {
     return rows
   }, [])
 
-  const loadTransactions = useCallback(async (portfolioId: string) => {
-    setTransactions(await loadAllTransactionRows(portfolioId))
-  }, [loadAllTransactionRows])
-
   // Main Load Function
+  // Depot, Bargeld, Positionen und Buchungen wechseln immer gemeinsam. Sonst stünde
+  // beim Laden kurz der Wert des einen Depots unter dem Namen des anderen, beim
+  // ersten Öffnen sogar nur das (womöglich negative) Bargeld als Depotwert.
   const loadPortfolio = useCallback(async (depotId?: string | null) => {
+    const seq = ++loadSeqRef.current
+    const isOutdated = () => seq !== loadSeqRef.current
     setLoading(true)
     setError(null)
 
     try {
       const { data: { user } } = await supabase.auth.getUser()
+      if (isOutdated()) return
       if (!user) {
         router.push('/login')
         return
@@ -291,8 +299,14 @@ export function usePortfolio(routeDepotKey?: string) {
         .eq('user_id', user.id)
         .order('is_default', { ascending: false })
         .order('created_at', { ascending: true })
+      if (isOutdated()) return
 
-      setAllPortfolios(portfolios || [])
+      // Erstes Laden: Rahmen (Name, Reiter, Depotliste) sofort zeigen, die Werte folgen.
+      // Danach bleibt bis zum Ende der bisherige Stand stehen.
+      const showShell = (next: Portfolio) => {
+        setAllPortfolios(prev => prev.length > 0 ? prev : (portfolios || []))
+        setPortfolio(prev => prev ?? next)
+      }
 
       // "Alle Depots"-Sicht — nur sinnvoll ab zwei Depots. Bei genau einem Depot
       // wird direkt dieses geladen (sonst wären Import, Umbenennen und Cash
@@ -305,16 +319,16 @@ export function usePortfolio(routeDepotKey?: string) {
       }
 
       if (target === 'all' && portfolios && portfolios.length > 1) {
-        loadedDepotRef.current = 'all'
         const counted = countedDepots(portfolios as Portfolio[])
-        setPortfolio({
+        const allDepots: Portfolio = {
           id: 'all',
           name: 'Alle Depots',
           currency: 'EUR',
           cash_position: counted.reduce((sum, p) => sum + (p.cash_position || 0), 0),
           broker_credit: counted.reduce((sum, p) => sum + (p.broker_credit || 0), 0),
           created_at: new Date().toISOString()
-        })
+        }
+        showShell(allDepots)
 
         // Alle Depots parallel laden — sequenziell dauerte bei mehreren Depots
         // spürbar lange und die Seite zeigte derweil "keine Positionen".
@@ -340,11 +354,15 @@ export function usePortfolio(routeDepotKey?: string) {
             }
           })
         )
+        if (isOutdated()) return
         const countedIds = new Set(counted.map(pf => pf.id))
         // Ein Handelstag für alle Depots, sonst mischt die Summe heute und gestern
         const tradingDay = latestTradingDay(perDepot.filter(d => countedIds.has(d.id)).flatMap(d => d.holdings))
         for (const depot of perDepot) depot.holdings = alignDayChange(depot.holdings, tradingDay) as typeof depot.holdings
         const countedData = perDepot.filter(d => countedIds.has(d.id))
+        loadedDepotRef.current = 'all'
+        setAllPortfolios(portfolios)
+        setPortfolio(allDepots)
         setDepotSummaries(new Map(perDepot.map(d => [d.id, summarizeDepot(d.holdings, d.transactions)])))
         setHoldings(countedData.flatMap(d => d.holdings))
         setTransactions(
@@ -352,7 +370,7 @@ export function usePortfolio(routeDepotKey?: string) {
             .flatMap(d => d.transactions)
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         )
-        setLoading(false)
+        setDataReady(true)
         return
       }
 
@@ -360,10 +378,11 @@ export function usePortfolio(routeDepotKey?: string) {
       // Es wird bewusst KEIN Depot automatisch angelegt: der User soll sein
       // erstes Depot selbst (inkl. Broker-Zuordnung) erstellen.
       if (!portfolios || portfolios.length === 0) {
+        setAllPortfolios([])
         setPortfolio(null)
         setHoldings([])
         setTransactions([])
-        setLoading(false)
+        setDataReady(false)
         return
       }
 
@@ -372,31 +391,40 @@ export function usePortfolio(routeDepotKey?: string) {
         ? portfolios.find(p => p.id === target) || portfolios[0]
         : portfolios[0]
 
-      loadedDepotRef.current = portfolioData.id
-      setPortfolio(portfolioData)
+      showShell(portfolioData)
 
       // Load holdings and transactions in parallel
-      const [h] = await Promise.all([
+      const [h, tx] = await Promise.all([
         loadHoldingsForPortfolio(portfolioData.id),
-        loadTransactions(portfolioData.id)
+        loadAllTransactionRows(portfolioData.id)
       ])
+      if (isOutdated()) return
+
+      loadedDepotRef.current = portfolioData.id
+      setAllPortfolios(portfolios)
+      setPortfolio(portfolioData)
       setHoldings(alignDayChange(h))
+      setTransactions(tx)
+      setDataReady(true)
 
     } catch (error: any) {
+      if (isOutdated()) return
       console.error('Error loading portfolio:', error)
       setError(error.message || 'Fehler beim Laden des Portfolios')
     } finally {
-      setLoading(false)
+      // Ein überholter Ladevorgang darf den laufenden nicht als fertig melden
+      if (!isOutdated()) setLoading(false)
     }
-  }, [router, loadHoldingsForPortfolio, loadAllTransactionRows, loadTransactions])
+  }, [router, loadHoldingsForPortfolio, loadAllTransactionRows])
 
   // Initial load und Depotwechsel. Zeigt die URL nur anders auf dasselbe
-  // Depot (ID → Kurzname), wird nicht neu geladen.
+  // Depot (ID → Kurzname), wird nicht neu geladen. Läuft gerade ein Ladevorgang
+  // für ein anderes Depot (schnell hin und zurück), muss er überholt werden.
   useEffect(() => {
     if (portfolio && allPortfolios.length > 0) {
       let target = resolveDepotKey(depotIdParam, allPortfolios)
       if (target === 'all' && allPortfolios.length <= 1) target = allPortfolios[0].id
-      if (target === portfolio.id) return
+      if (target === portfolio.id && !loading) return
     }
     loadPortfolio(depotIdParam)
     setTimeout(() => loadExchangeRate(), 500)
@@ -988,6 +1016,7 @@ export function usePortfolio(routeDepotKey?: string) {
 
     // State
     loading,
+    dataReady,
     refreshing,
     error,
     exchangeRate,

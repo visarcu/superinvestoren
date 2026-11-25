@@ -490,6 +490,11 @@ function WorkspaceSkeleton() {
   )
 }
 
+// Platzhalter im Kopf, solange Wert und Anzahl noch nicht zum gewählten Depot gehören
+function HeaderPlaceholder({ className, animate }: { className: string; animate: boolean }) {
+  return <span aria-hidden="true" className={`block rounded-md bg-white/[0.06] ${animate ? 'animate-pulse' : ''} ${className}`} />
+}
+
 // Skeleton für den Content-Bereich: wird gezeigt, solange Holdings noch laden
 // (Header/Tabs stehen dann schon — vorher blitzte hier "Noch keine Positionen" auf).
 function ContentSkeleton() {
@@ -702,10 +707,23 @@ export default function PortfolioWorkspace() {
     loading: p.loading,
     summaries: p.depotSummaries,
   })
-  const isSampleOpen = !p.isAllDepotsView && isSampleDepot(p.portfolio)
-  const selectedDepotName = p.isAllDepotsView
+  // Depotwechsel: die Adresse nennt schon das neue Depot, geladen ist noch das alte.
+  // Bei nur einem Depot zeigt "alle" eben dieses.
+  const targetDepotId = selectedDepotId === 'all' && p.allPortfolios.length === 1
+    ? p.allPortfolios[0].id
+    : selectedDepotId
+  const isSwitchingDepot = p.loading && !!p.portfolio && targetDepotId !== p.portfolio.id
+  // Die geladenen Werte gehören (noch) nicht zum gewählten Depot
+  const valuesPending = !p.dataReady || isSwitchingDepot
+
+  const isSampleOpen = !isSwitchingDepot && !p.isAllDepotsView && isSampleDepot(p.portfolio)
+  const loadedDepotName = p.isAllDepotsView
     ? 'Alle Depots'
     : p.portfolio ? depotLabel(p.portfolio) : 'Portfolio'
+  const targetDepot = isSwitchingDepot ? p.allPortfolios.find(depot => depot.id === targetDepotId) : undefined
+  const selectedDepotName = !isSwitchingDepot
+    ? loadedDepotName
+    : targetDepot ? depotLabel(targetDepot) : 'Alle Depots'
 
   const aiDepotId = p.isAllDepotsView ? 'all' : p.portfolio?.id ?? 'all'
 
@@ -777,7 +795,8 @@ export default function PortfolioWorkspace() {
   if (p.loading && !p.portfolio) return <WorkspaceSkeleton />
   // Noch kein Depot angelegt → gleiches Onboarding wie im Dashboard
   if (p.hasNoDepots) return <DepotOnboarding />
-  const isSwitchingDepot = p.loading && !!p.portfolio
+  // Konten und Cashflow hängen nicht am gewählten Depot
+  const contentPending = valuesPending && !['accounts', 'cashflow'].includes(activeView)
 
   return (
     <div className={`depot-surface ${landingFontVars} min-h-screen bg-theme-primary text-theme-primary`}>
@@ -797,7 +816,7 @@ export default function PortfolioWorkspace() {
                   <DepotMark />
                   Depot
                 </p>
-                {isSwitchingDepot && (
+                {p.loading && (
                   <span className="rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] font-medium text-neutral-400">
                     Lädt
                   </span>
@@ -881,8 +900,15 @@ export default function PortfolioWorkspace() {
         <main className="min-w-0 flex-1 py-5 pb-20">
       <div className="w-full">
         {/* Fehler-Banner mit Retry (Wechselkurs / Kurse) */}
-        {(p.exchangeRateError || p.priceLoadError) && (
+        {(p.error || p.exchangeRateError || p.priceLoadError) && (
           <div className="mb-4 space-y-2">
+            {p.error && (
+              <div className="flex items-center gap-3 rounded-lg border border-red-500/20 bg-red-500/10 p-3">
+                <ExclamationTriangleIcon className="h-5 w-5 flex-shrink-0 text-red-400" />
+                <p className="flex-1 text-sm text-red-700 dark:text-red-200">Das Depot konnte nicht geladen werden.</p>
+                <button onClick={() => p.loadPortfolio(p.depotIdParam)} className="text-xs text-red-400 underline hover:text-red-300">Erneut versuchen</button>
+              </div>
+            )}
             {p.exchangeRateError && (
               <div className="flex items-center gap-3 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3">
                 <ExclamationTriangleIcon className="h-5 w-5 flex-shrink-0 text-amber-400" />
@@ -914,7 +940,7 @@ export default function PortfolioWorkspace() {
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h1 className="text-xl font-semibold text-theme-primary">{selectedDepotName}</h1>
                 {isSampleOpen && <SampleBadge className="self-center" />}
-                {!p.isAllDepotsView && (
+                {!p.isAllDepotsView && !isSwitchingDepot && (
                   <button
                     type="button"
                     onClick={() => setShowNameModal(true)}
@@ -924,22 +950,34 @@ export default function PortfolioWorkspace() {
                     <PencilIcon className="h-3.5 w-3.5" />
                   </button>
                 )}
-                <span className="text-sm text-neutral-500">
-                  {p.activeInvestments} Position{p.activeInvestments === 1 ? '' : 'en'} · {p.transactions.length} Transaktionen
-                  {p.isAllDepotsView && p.countedPortfolios.length < p.allPortfolios.length && ' · Beispieldepot zählt nicht mit'}
-                </span>
-              </div>
-              <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="depot-num text-[30px] font-semibold leading-none text-theme-primary">
-                  {p.formatCurrency(p.totalValue)}
-                </span>
-                <span className="text-sm text-neutral-500">
-                  {p.dayLabel}{' '}
-                  <span className={`font-medium tabular-nums ${perfColor(p.dayGainLoss)}`}>
-                    {p.dayGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.dayGainLoss)} · {p.formatPercentage(p.dayGainLossPercent)}
+                {valuesPending ? (
+                  <HeaderPlaceholder className="h-4 w-44" animate={p.loading} />
+                ) : (
+                  <span className="text-sm text-neutral-500">
+                    {p.activeInvestments} Position{p.activeInvestments === 1 ? '' : 'en'} · {p.transactions.length} Transaktionen
+                    {p.isAllDepotsView && p.countedPortfolios.length < p.allPortfolios.length && ' · Beispieldepot zählt nicht mit'}
                   </span>
-                </span>
+                )}
               </div>
+              {valuesPending ? (
+                <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  {p.loading && <span className="sr-only">Depotwert wird geladen</span>}
+                  <HeaderPlaceholder className="h-[30px] w-48" animate={p.loading} />
+                  <HeaderPlaceholder className="h-4 w-36" animate={p.loading} />
+                </div>
+              ) : (
+                <div className="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                  <span className="depot-num text-[30px] font-semibold leading-none text-theme-primary">
+                    {p.formatCurrency(p.totalValue)}
+                  </span>
+                  <span className="text-sm text-neutral-500">
+                    {p.dayLabel}{' '}
+                    <span className={`font-medium tabular-nums ${perfColor(p.dayGainLoss)}`}>
+                      {p.dayGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.dayGainLoss)} · {p.formatPercentage(p.dayGainLossPercent)}
+                    </span>
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center gap-6">
@@ -975,6 +1013,15 @@ export default function PortfolioWorkspace() {
 
         <PortfolioNavigation activeView={activeView} onOpenView={openView} isViewLocked={isViewLocked} aiAccess={!!aiAccess} compact />
 
+        {/* Beim Depotwechsel bleibt der Inhalt eingehängt und nur unsichtbar, damit Filter
+            und Zeitraum erhalten bleiben und die Seite nicht zusammenfällt */}
+        <div className="relative">
+        {contentPending && p.loading && (
+          <div className="absolute inset-x-0 top-0">
+            <ContentSkeleton />
+          </div>
+        )}
+        <div className={contentPending ? 'invisible' : undefined}>
         {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
         {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
           p.loading ? <ContentSkeleton /> : (
@@ -1024,7 +1071,7 @@ export default function PortfolioWorkspace() {
                   onRealizedClick={() => openView('realized')}
                 />
 
-                {aiAccess && <DepotAsk depotId={aiDepotId} depotName={selectedDepotName} />}
+                {aiAccess && <DepotAsk depotId={aiDepotId} depotName={loadedDepotName} />}
 
                 {/* Durchblick-Insights: die wichtigsten Look-Through-Erkenntnisse
                     direkt im Überblick, Details im Analyse-Tab */}
@@ -1292,11 +1339,13 @@ export default function PortfolioWorkspace() {
 
             {activeView === 'ai' && (
               aiAccess === null ? <ContentSkeleton />
-              : aiAccess ? <DepotAiView depotId={aiDepotId} depotName={selectedDepotName} />
+              : aiAccess ? <DepotAiView depotId={aiDepotId} depotName={loadedDepotName} />
               : <AIAnalyseTab holdings={p.holdings} portfolioId={p.portfolio?.id} />
             )}
           </>
         )}
+        </div>
+        </div>
       </div>
         </main>
       </div>
