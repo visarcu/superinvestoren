@@ -1,6 +1,6 @@
 // src/lib/ai/data/valuation.ts
 // Server-only: Bewertungskennzahlen im Zeitverlauf, eine feste Definition für
-// alle Antworten der KI.
+// alle Antworten der KI und für die EV-Kennzahlen der Aktienseiten.
 //
 // Tageskurs geteilt durch die Werte je Anteil der letzten zwölf gemeldeten
 // Monate. Ein Quartal zählt erst ab dem Tag, an dem der Bericht veröffentlicht
@@ -19,9 +19,9 @@ export const VALUATION_METRICS = {
   kbv: { label: 'KBV', formel: 'Kurs geteilt durch das zuletzt gemeldete Eigenkapital je Anteil' },
   kcv: { label: 'KCV', formel: 'Kurs geteilt durch den operativen Cashflow je Anteil der letzten zwölf gemeldeten Monate' },
   kfcv: { label: 'Kurs/Free Cashflow', formel: 'Kurs geteilt durch den freien Cashflow je Anteil der letzten zwölf gemeldeten Monate' },
-  ev_ebitda: { label: 'EV/EBITDA', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch operatives Ergebnis plus Abschreibungen der letzten zwölf gemeldeten Monate' },
-  ev_ebit: { label: 'EV/EBIT', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch das operative Ergebnis der letzten zwölf gemeldeten Monate' },
-  ev_umsatz: { label: 'EV/Umsatz', formel: 'Unternehmenswert (Börsenwert plus Nettofinanzschulden) geteilt durch den Umsatz der letzten zwölf gemeldeten Monate' },
+  ev_ebitda: { label: 'EV/EBITDA', formel: 'Unternehmenswert (Börsenwert plus Finanzschulden und Minderheitsanteile, minus liquide Mittel samt kurzfristiger Anlagen) geteilt durch operatives Ergebnis plus Abschreibungen der letzten zwölf gemeldeten Monate' },
+  ev_ebit: { label: 'EV/EBIT', formel: 'Unternehmenswert (Börsenwert plus Finanzschulden und Minderheitsanteile, minus liquide Mittel samt kurzfristiger Anlagen) geteilt durch das operative Ergebnis der letzten zwölf gemeldeten Monate' },
+  ev_umsatz: { label: 'EV/Umsatz', formel: 'Unternehmenswert (Börsenwert plus Finanzschulden und Minderheitsanteile, minus liquide Mittel samt kurzfristiger Anlagen) geteilt durch den Umsatz der letzten zwölf gemeldeten Monate' },
 } as const
 
 export type ValuationMetric = keyof typeof VALUATION_METRICS
@@ -49,7 +49,9 @@ interface Period {
   ocf: number | null
   fcf: number | null
   equity: number | null
-  netDebt: number | null
+  /** Aufschlag vom Börsenwert zum Unternehmenswert, siehe bridge() */
+  bridge: number | null
+  interestIncome: number | null
 }
 
 export interface ValuationSeries {
@@ -65,7 +67,12 @@ export interface ValuationSeries {
   /** Veröffentlichungstage geschätzt (Quelle liefert keine) */
   estimatedDates: boolean
   latestPeriodEnd: string | null
+  /** Bank, Versicherer oder Kreditgeber: Schulden sind dort Teil des Geschäfts, EV-Kennzahlen entfallen */
+  lender: boolean
 }
+
+/** Keine EV-Kennzahlen für diese Branchen, ebenso nicht bei Zinsertrag über 20 % des Umsatzes */
+const LENDER_INDUSTRY = /\bbanks?\b|insurance|capital markets|mortgage/i
 
 const DAY = 86_400_000
 
@@ -92,6 +99,21 @@ function fixShareGlitches(periods: Period[], splitRatios: number[]): void {
   }
 }
 
+/**
+ * Vom Börsenwert zum Unternehmenswert: Finanzschulden plus Minderheitsanteile und
+ * Vorzugskapital, minus liquide Mittel. `netDebt` des Anbieters lässt kurzfristige
+ * Anlagen weg (Alphabet 209 Mrd. $) und die Minderheiten (Telekom 28 Mrd. €).
+ */
+function bridge(row: any, debtBefore: number | null): { value: number | null; debt: number | null } {
+  const cash = finite(row?.cashAndShortTermInvestments) ?? finite(row?.cashAndCashEquivalents)
+  let debt = finite(row?.totalDebt)
+  // Fehlen die Schulden in einem Bericht (Siemens Q4 2026: 0 statt 50 Mrd. €), gilt der vorige
+  const assets = finite(row?.totalAssets) ?? 0
+  if ((debt == null || debt === 0) && debtBefore != null && debtBefore > 0.1 * assets) debt = debtBefore
+  if (cash == null || debt == null) return { value: finite(row?.netDebt), debt }
+  return { value: debt - cash + Math.max(0, finite(row?.minorityInterest) ?? 0) + Math.max(0, finite(row?.preferredStock) ?? 0), debt }
+}
+
 async function loadPeriods(symbol: string): Promise<{ periods: Period[]; reportedCurrency: string | null; estimated: boolean }> {
   const opts = { revalidate: 6 * 3600, timeout: 15_000 }
   const [income, cash, balance, splits] = await Promise.all([
@@ -106,6 +128,7 @@ async function loadPeriods(symbol: string): Promise<{ periods: Period[]; reporte
   const balanceBy = new Map(balance.map(r => [r.date, r]))
 
   let estimated = false
+  let debtBefore: number | null = null
   const periods: Period[] = []
   for (const row of [...income].sort((a, b) => String(a.date).localeCompare(String(b.date)))) {
     const shares = finite(row.weightedAverageShsOutDil) || finite(row.weightedAverageShsOut)
@@ -114,6 +137,8 @@ async function loadPeriods(symbol: string): Promise<{ periods: Period[]; reporte
     const b = balanceBy.get(row.date)
     const filing = typeof row.fillingDate === 'string' ? row.fillingDate.slice(0, 10) : ''
     const exact = filing > row.date
+    const ev = bridge(b, debtBefore)
+    debtBefore = ev.debt
     if (!exact) estimated = true
     periods.push({
       end: row.date,
@@ -127,7 +152,8 @@ async function loadPeriods(symbol: string): Promise<{ periods: Period[]; reporte
       ocf: finite(c?.operatingCashFlow ?? c?.netCashProvidedByOperatingActivities),
       fcf: finite(c?.freeCashFlow),
       equity: finite(b?.totalStockholdersEquity ?? b?.totalEquity),
-      netDebt: finite(b?.netDebt),
+      bridge: ev.value,
+      interestIncome: finite(row.interestIncome),
     })
   }
 
@@ -185,6 +211,16 @@ export async function getValuationSeries(
   from: string,
   to: string
 ): Promise<ValuationSeries | null> {
+  return (await getValuationSeriesSet(symbol, [metric], from, to))?.[metric] ?? null
+}
+
+/** Mehrere Kennzahlen aus einem Datenabruf; fehlt der Schlüssel, gibt es für die Kennzahl keine Werte. */
+export async function getValuationSeriesSet(
+  symbol: string,
+  metrics: ValuationMetric[],
+  from: string,
+  to: string
+): Promise<Partial<Record<ValuationMetric, ValuationSeries>> | null> {
   const [profile, { periods, reportedCurrency, estimated }, bars] = await Promise.all([
     fmpList(`/api/v3/profile/${symbol}`, {}, { revalidate: 24 * 3600 }),
     loadPeriods(symbol),
@@ -200,6 +236,35 @@ export async function getValuationSeries(
   const fx = converted ? await fxSeries(reportedCurrency!, tradingCurrency!, addDays(from, -10), to) : () => 1
   if (!fx) return null
 
+  const last = periods.length - 1
+  const revenueYear = trailing(periods, last, p => p.revenue)
+  const interestYear = trailing(periods, last, p => p.interestIncome)
+  const lender = LENDER_INDUSTRY.test(profile[0]?.industry ?? '') || (revenueYear != null && interestYear != null && interestYear > 0.2 * revenueYear)
+
+  const result: Partial<Record<ValuationMetric, ValuationSeries>> = {}
+  for (const metric of metrics) {
+    const base = {
+      symbol, metric, tradingCurrency, reportedCurrency, converted, lender,
+      estimatedDates: estimated,
+      latestPeriodEnd: periods[last]?.end ?? null,
+    }
+    if (lender && metric.startsWith('ev_')) {
+      result[metric] = { ...base, points: [], excludedDays: 0 }
+      continue
+    }
+    const { points, excludedDays } = dailyPoints(metric, periods, bars, fx, pence)
+    if (points.length > 0 || excludedDays > 0) result[metric] = { ...base, points, excludedDays }
+  }
+  return result
+}
+
+function dailyPoints(
+  metric: ValuationMetric,
+  periods: Period[],
+  bars: Array<{ date: string; close: number }>,
+  fx: (date: string) => number | null,
+  pence: boolean
+): { points: Array<[string, number]>; excludedDays: number } {
   // Bezugsgröße je Periode vorberechnen
   const perShare = periods.map((p, i) => {
     const eps = trailing(periods, i, q => (q.netIncome == null ? null : q.netIncome / q.shares))
@@ -211,10 +276,10 @@ export async function getValuationSeries(
       case 'kfcv': return { value: over(q => (q.fcf == null ? null : q.fcf / q.shares)), net: 0 }
       case 'kbv': return { value: p.equity == null ? null : p.equity / p.shares, net: 0 }
       default: {
-        if (p.netDebt == null) return { value: null, net: 0 }
+        if (p.bridge == null) return { value: null, net: 0 }
         const total =
           metric === 'ev_ebitda' ? over(q => q.ebitda) : metric === 'ev_ebit' ? over(q => q.operatingIncome) : over(q => q.revenue)
-        return { value: total == null ? null : total / p.shares, net: p.netDebt / p.shares }
+        return { value: total == null ? null : total / p.shares, net: p.bridge / p.shares }
       }
     }
   })
@@ -244,19 +309,7 @@ export async function getValuationSeries(
     }
     points.push([bar.date, numerator / denominator])
   }
-  if (points.length === 0 && excludedDays === 0) return null
-
-  return {
-    symbol,
-    metric,
-    points,
-    excludedDays,
-    tradingCurrency,
-    reportedCurrency,
-    converted,
-    estimatedDates: estimated,
-    latestPeriodEnd: periods[periods.length - 1]?.end ?? null,
-  }
+  return { points, excludedDays }
 }
 
 export interface SeriesStats {
@@ -298,6 +351,11 @@ export function seriesStats(points: Array<[string, number]>): SeriesStats | null
     count: points.length,
     daysBelow: values.filter(v => v < last[1]).length,
   }
+}
+
+/** Verzerren Ausreißer den Durchschnitt (Gewinn zeitweise nahe null)? Dann gilt der Median. */
+export function hasOutliers(stats: SeriesStats): boolean {
+  return stats.max > 5 * stats.median || stats.mean > 1.6 * stats.median
 }
 
 /** Mittelwert und Median je Kalenderjahr; angebrochene Jahre mit unter 30 Tagen entfallen */

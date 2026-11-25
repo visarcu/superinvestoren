@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { LockClosedIcon, CalculatorIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { useCurrency } from '@/lib/CurrencyContext'; // ✅ CURRENCY CONTEXT HINZUGEFÜGT
 import { useEarningsQuality } from '@/hooks/useEarningsQuality';
+import { useValuationMultiples } from '@/hooks/useValuationMultiples';
 import { cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules';
 
 interface ValuationData {
@@ -22,11 +23,6 @@ interface ValuationData {
   priceToFreeCashFlowsRatio: number;   // Free Cash Flow
   dividendYieldTTM: number;
   
-  // EV Ratios (berechnet)
-  evToSales: number;
-  evToEbitda: number;
-  evToEbit: number;
-  
   // Historical 5Y Averages
   pe5YAvg: number;
   peg5YAvg: number;
@@ -34,8 +30,6 @@ interface ValuationData {
   ps5YAvg: number;
   pcf5YAvg: number;
   fcf5YAvg: number;
-  evSales5YAvg: number;
-  evEbitda5YAvg: number;
   divYield5YAvg: number;
 }
 
@@ -50,6 +44,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const earningsQuality = useEarningsQuality(ticker);
+  const { data: ev, loading: evLoading } = useValuationMultiples(ticker, isPremium);
 
   // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
   const { formatPercentage } = useCurrency();
@@ -65,9 +60,6 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
     // ✅ Variablen definieren
     let currentPrice = 0;
     let forwardPE = 0;
-    let evToSales = 0;
-    let evToEbitda = 0;
-    let evToEbit = 0;
     
     try {
       console.log(`🔍 Loading valuation data for ${ticker}...`);
@@ -113,46 +105,11 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
         currentPrice = quote.price;
       }
 
-      // 4. Enterprise Value + Financial Data
-      const [evResponse, incomeResponse] = await Promise.all([
-        fetch(`/api/enterprise-values/${ticker}?period=quarter&limit=1`),
-        fetch(`/api/income-statement/${ticker}?period=annual&limit=1`)
-      ]);
-
-      if (evResponse.ok && incomeResponse.ok) {
-        const [evData] = await evResponse.json();
-        const [incomeData] = await incomeResponse.json();
-        
-        if (evData && incomeData) {
-          const enterpriseValue = evData.enterpriseValue;
-          const revenue = incomeData.revenue;
-          const ebitda = incomeData.ebitda;
-          const operatingIncome = incomeData.operatingIncome;
-          
-          if (enterpriseValue && revenue) {
-            evToSales = enterpriseValue / revenue;
-          }
-          
-          if (enterpriseValue && ebitda && ebitda > 0) {
-            evToEbitda = enterpriseValue / ebitda;
-          }
-          
-          if (enterpriseValue && operatingIncome && operatingIncome > 0) {
-            evToEbit = enterpriseValue / operatingIncome;
-          }
-        }
-      }
-
-      // 5. Historical Ratios + Key Metrics
-      const [historicalResponse, historicalKeyMetricsResponse] = await Promise.all([
-        fetch(`/api/ratios/${ticker}?period=annual&limit=5`),
-        fetch(`/api/key-metrics/${ticker}?period=annual&limit=5`)
-      ]);
-      
+      // 4. Historical Ratios (EV-Kennzahlen kommen aus useValuationMultiples)
+      const historicalResponse = await fetch(`/api/ratios/${ticker}?period=annual&limit=5`);
       const historicalRatios = historicalResponse.ok ? await historicalResponse.json() : [];
-      const historicalKeyMetrics = historicalKeyMetricsResponse.ok ? await historicalKeyMetricsResponse.json() : [];
 
-      // 6. Hilfsfunktionen
+      // 5. Hilfsfunktionen
       const calculate5YearAvg = (field: string): number => {
         if (!Array.isArray(historicalRatios) || historicalRatios.length === 0) return 0;
         
@@ -163,18 +120,6 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
         if (validValues.length === 0) return 0;
         
         return validValues.reduce((sum, val) => sum + val, 0) / validValues.length;
-      };
-
-      const calculateEVRatioFromKeyMetrics = (field: string): number => {
-        if (!Array.isArray(historicalKeyMetrics) || historicalKeyMetrics.length === 0) return 0;
-        
-        const validValues = historicalKeyMetrics
-          .map(item => item[field])
-          .filter((val): val is number => val != null && !isNaN(val) && val > 0);
-          
-        if (validValues.length === 0) return 0;
-        
-        return validValues.reduce((sum: number, val: number) => sum + val, 0) / validValues.length;
       };
 
       const getValue = (sources: any[], possibleFields: string[]): number => {
@@ -189,7 +134,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
         return 0;
       };
 
-      // 7. Forward P/E + PEG Berechnung
+      // 6. Forward P/E + PEG Berechnung
       let calculatedPEG = 0;
       
       try {
@@ -231,7 +176,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
         console.warn('Forward P/E calculation failed:', err);
       }
 
-      // 8. ✅ KORRIGIERTE Cash Flow Ratios Berechnung
+      // 7. ✅ KORRIGIERTE Cash Flow Ratios Berechnung
       let priceToCashFlow = 0;   // Operating Cash Flow
       let priceToFCF = 0;        // Free Cash Flow
       
@@ -287,7 +232,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       
       console.log(`🎯 Final CF Ratios - P/CF: ${priceToCashFlow.toFixed(2)}, P/FCF: ${priceToFCF.toFixed(2)}`);
 
-      // 9. Final Valuation Data
+      // 8. Final Valuation Data
       const valuationData: ValuationData = {
         // P/E Ratios
         peRatioTTM: getValue([currentRatios, keyMetrics, profileData], [
@@ -317,11 +262,6 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
           'dividendYield', 'dividendYieldTTM', 'dividendYieldPercentage', 'lastDivYield'
         ]),
         
-        // EV Ratios
-        evToSales,
-        evToEbitda,
-        evToEbit,
-        
         // 5Y Averages
         pe5YAvg: calculate5YearAvg('priceEarningsRatio'),
         peg5YAvg: calculate5YearAvg('priceEarningsToGrowthRatio'),
@@ -329,8 +269,6 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
         ps5YAvg: calculate5YearAvg('priceToSalesRatio'),
         pcf5YAvg: calculate5YearAvg('priceCashFlowRatio'),
         fcf5YAvg: calculate5YearAvg('priceToFreeCashFlowsRatio'),
-        evSales5YAvg: calculateEVRatioFromKeyMetrics('evToSales') || evToSales,
-        evEbitda5YAvg: calculateEVRatioFromKeyMetrics('enterpriseValueOverEBITDA') || evToEbitda,
         divYield5YAvg: calculate5YearAvg('dividendYieldTTM') || calculate5YearAvg('dividendYield'),
       };
 
@@ -445,6 +383,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
   // Gewinn von Sondereinflüssen geprägt: zweite Zeile mit dem bereinigten KGV
   const cleanPe = cleanPeFor(earningsQuality, data.peRatioTTM);
 
+  const formatEv = (value: number): string => (evLoading ? '…' : formatRatio(value));
+
   // Deutsche Kennzahlen-Namen (vereinfacht)
   const valuationMetrics = [
     {
@@ -478,31 +418,32 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
         },
       ]
     },
-    {
+    // Bei Banken und Versicherern gehören Schulden zum Geschäft, EV-Kennzahlen entfallen
+    ...(ev?.lender ? [] : [{
       section: 'ENTERPRISE VALUE KENNZAHLEN',
       metrics: [
         {
           label: 'EV/Umsatz (TTM)',
-          current: data.evToSales,
-          comparison: data.evSales5YAvg,
-          formatter: formatRatio,
+          current: ev?.evSales.current ?? 0,
+          comparison: ev?.evSales.compare ?? 0,
+          formatter: formatEv,
           important: true
         },
         {
           label: 'EV/EBITDA (TTM)',
-          current: data.evToEbitda,
-          comparison: data.evEbitda5YAvg,
-          formatter: formatRatio,
+          current: ev?.evEbitda.current ?? 0,
+          comparison: ev?.evEbitda.compare ?? 0,
+          formatter: formatEv,
           important: true
         },
         {
           label: 'EV/EBIT (TTM)',
-          current: data.evToEbit,
-          comparison: data.evEbitda5YAvg,
-          formatter: formatRatio
+          current: ev?.evEbit.current ?? 0,
+          comparison: ev?.evEbit.compare ?? 0,
+          formatter: formatEv
         },
       ]
-    },
+    }]),
     {
       section: 'BUCHWERT & UMSATZ',
       metrics: [
@@ -632,6 +573,9 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
           Vergleichswerte sind 5-Jahres-Durchschnitte der gleichen Kennzahl.
           KGV = Kurs-Gewinn-Verhältnis, KBV = Kurs-Buchwert-Verhältnis, KUV = Kurs-Umsatz-Verhältnis.
           Kurs/Cashflow basiert auf Operating Cash Flow, Kurs/Free Cashflow auf Free Cash Flow.
+          {ev?.lender
+            ? ' EV-Kennzahlen entfallen bei Banken, Versicherern und Kreditgebern, weil Schulden und Einlagen dort zum Geschäft gehören.'
+            : ' EV = Börsenwert plus Finanzschulden und Minderheitsanteile, minus liquide Mittel samt kurzfristiger Anlagen. EBITDA ohne Beteiligungsgewinne. Der EV-Vergleich ist der Durchschnitt aller Tageswerte der letzten fünf Jahre, bei starken Ausreißern der Median.'}
         </p>
       </div>
     </div>

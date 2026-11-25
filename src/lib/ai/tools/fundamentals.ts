@@ -10,7 +10,7 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin'
 import type { AiBlock } from '../types'
 import { finite, fmp, fmpList, isoDaysAgo, round } from '../data/fmp'
 import { earningsQuality, qualityNote } from '../data/earningsQuality'
-import { getValuationSeries, operatingEbitda, seriesStats, thinOut, VALUATION_METRICS, yearlyValues, type ValuationMetric } from '../data/valuation'
+import { getValuationSeries, hasOutliers, operatingEbitda, seriesStats, thinOut, VALUATION_METRICS, yearlyValues, type ValuationMetric } from '../data/valuation'
 import { berlinIsoDay, defineTool, germanDate, ToolError } from './base'
 import { SYMBOL_PROP, symbolSchema } from './market'
 
@@ -37,11 +37,12 @@ export const kennzahlVerlauf = defineTool({
     const from = `${Number(today.slice(0, 4)) - jahre}${today.slice(4)}`
     const [series, quality] = await Promise.all([getValuationSeries(symbol, kennzahl, from, today), kennzahl === 'kgv' ? earningsQuality(symbol) : null])
     if (!series) throw new ToolError(`Für ${symbol} fehlen Kurse oder Quartalszahlen, um die Kennzahl zu berechnen.`)
+    if (series.lender && kennzahl.startsWith('ev_')) throw new ToolError(`${symbol} ist Bank, Versicherer oder Kreditgeber. EV-Kennzahlen sagen dort nichts, weil Schulden und Einlagen zum Geschäft gehören. Üblich sind KGV und KBV.`)
     const stats = seriesStats(series.points)
     const metric = VALUATION_METRICS[kennzahl]
     if (!stats) throw new ToolError(`${metric.label} von ${symbol}: im Zeitraum durchgehend Verlust, kein sinnvoller Wert.`)
 
-    const outliers = stats.max > 5 * stats.median || stats.mean > 1.6 * stats.median
+    const outliers = hasOutliers(stats)
     // Letzter Wert zu alt ⇒ seitdem Verlust, es gibt derzeit keinen sinnvollen Wert
     const current = Date.parse(today) - Date.parse(stats.lastDate) <= 10 * 86_400_000
     const id = ctx.nextBlockId()

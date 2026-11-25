@@ -11,6 +11,7 @@ import { InformationCircleIcon, AcademicCapIcon, XMarkIcon } from '@heroicons/re
 import { LockClosedIcon } from '@heroicons/react/24/solid'
 import Tooltip from '@/components/Tooltip'
 import { useEarningsQuality } from '@/hooks/useEarningsQuality'
+import { useValuationMultiples } from '@/hooks/useValuationMultiples'
 import { affectsPe, cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules'
 import { irLinks } from '../data/irLinks'
 import LoadingSpinner from '@/components/LoadingSpinner'
@@ -225,9 +226,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 8) States für Bewertung & Margins
   const [peTTM, setPeTTM] = useState<number | null>(null)
   const earningsQuality = useEarningsQuality(ticker)
+  const { data: ev, loading: evLoading } = useValuationMultiples(ticker, user?.isPremium ?? false)
   const [pegTTM, setPegTTM] = useState<number | null>(null)
   const [psTTM, setPsTTM] = useState<number | null>(null)
-  const [evEbit, setEvEbit] = useState<number | null>(null)
   const [grossMargin, setGrossMargin] = useState<number | null>(null)
   const [operatingMargin, setOperatingMargin] = useState<number | null>(null)
   const [profitMargin, setProfitMargin] = useState<number | null>(null)
@@ -391,10 +392,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         fetch(`/api/outlook/${ticker}`),           // 6
         fetch(`/api/balance-sheet/${ticker}`),     // 7
         fetch(`/api/income-statement/${ticker}`),  // 8
-        fetch(`/api/enterprise-values/${ticker}`), // 9
-        fetch(`/api/estimates/${ticker}`),         // 10
-        fetch(`/api/recommendations/${ticker}`),   // 11
-        fetch(`/api/cash-flow-statement/${ticker}`) // 12
+        fetch(`/api/estimates/${ticker}`),         // 9
+        fetch(`/api/recommendations/${ticker}`),   // 10
+        fetch(`/api/cash-flow-statement/${ticker}`) // 11
       ])
 
       // Process Profile data
@@ -531,26 +531,10 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] Margins für ${ticker} fehlgeschlagen.`)
       }
 
-      // Process EV/EBIT calculation (requires both Enterprise Values and Income Statement)
-      if (apiCalls[9].status === 'fulfilled' && apiCalls[9].value.ok &&
-        apiCalls[8].status === 'fulfilled' && apiCalls[8].value.ok) {
-        try {
-          const [e] = (await apiCalls[9].value.json()) as any[]
-          const [i] = (await apiCalls[8].value.json()) as any[]
-          if (e.enterpriseValue && i.operatingIncome) {
-            setEvEbit(e.enterpriseValue / i.operatingIncome)
-          }
-        } catch {
-          console.warn(`[AnalysisClient] EV/EBIT für ${ticker} fehlgeschlagen.`)
-        }
-      } else {
-        console.warn(`[AnalysisClient] EV/EBIT für ${ticker} fehlgeschlagen.`)
-      }
-
       // Process Estimates
-      if (apiCalls[10].status === 'fulfilled' && apiCalls[10].value.ok) {
+      if (apiCalls[9].status === 'fulfilled' && apiCalls[9].value.ok) {
         try {
-          const all = (await apiCalls[10].value.json()) as any[]
+          const all = (await apiCalls[9].value.json()) as any[]
           const thisYear = new Date().getFullYear()
           setEstimates(all.filter((e) => parseInt(e.date.slice(0, 4), 10) >= thisYear))
         } catch {
@@ -561,9 +545,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
 
       // Process Recommendations
-      if (apiCalls[11].status === 'fulfilled' && apiCalls[11].value.ok) {
+      if (apiCalls[10].status === 'fulfilled' && apiCalls[10].value.ok) {
         try {
-          const [a] = (await apiCalls[11].value.json()) as any[]
+          const [a] = (await apiCalls[10].value.json()) as any[]
           setRecs({
             strongBuy: a.analystRatingsStrongBuy ?? 0,
             buy: a.analystRatingsbuy ?? 0,
@@ -579,9 +563,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
 
       // Process Free Cash Flow Yield + SBC Analysis
-      if (apiCalls[12].status === 'fulfilled' && apiCalls[12].value.ok && liveMarketCap) {
+      if (apiCalls[11].status === 'fulfilled' && apiCalls[11].value.ok && liveMarketCap) {
         try {
-          const cfData = await apiCalls[12].value.json()
+          const cfData = await apiCalls[11].value.json()
           const latestCF = Array.isArray(cfData) ? cfData[0] : cfData.financials?.[0]
 
           console.log(`🔍 [SBC Debug] Cash Flow Data for ${ticker}:`, {
@@ -892,12 +876,16 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         </div>
                       </>
                     )}
-                    <div className="flex justify-between items-center py-2.5 last:pb-0">
-                      <span className="text-sm text-theme-secondary">EV/EBIT</span>
-                      <span className="text-sm font-semibold text-theme-primary">
-                        {evEbit != null ? `${evEbit.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
-                      </span>
-                    </div>
+                    {!ev?.lender && (
+                      <div className="flex justify-between items-center py-2.5 last:pb-0">
+                        <span className="text-sm text-theme-secondary">EV/EBIT</span>
+                        <span className="text-sm font-semibold text-theme-primary">
+                          {ev?.evEbit.current != null
+                            ? `${ev.evEbit.current.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x`
+                            : evLoading ? '…' : '–'}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="relative min-h-[180px]">
