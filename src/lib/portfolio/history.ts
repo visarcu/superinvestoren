@@ -107,6 +107,47 @@ const SUFFIX_CURRENCY: Record<string, string> = {
   MX: 'MXN', SR: 'SAR', QA: 'QAR', KW: 'KWD', JO: 'ZAR',
 }
 
+/** Notierungswährung laut Suffix, ohne Suffix USD. 'GBX' = Pence. */
+function suffixCurrency(symbol: string): string {
+  if (isEURTicker(symbol)) return 'EUR'
+  if (isGBXTicker(symbol)) return 'GBX'
+  const dot = symbol.lastIndexOf('.')
+  if (dot < 0) return 'USD'
+  return SUFFIX_CURRENCY[symbol.slice(dot + 1).toUpperCase()] || 'USD'
+}
+
+/**
+ * Ab diesem Abstand zum Fensterende gilt eine Reihe als eingefroren (dieselbe Grenze
+ * wie bei den Live-Kursen in quoteService). FMP führt umbenannte und eingestellte
+ * Notierungen mit der alten Reihe weiter: SWF.DE endet am 22.01.2026 bei 83,73 €,
+ * gehandelt wird das Papier als SWF.F. Ohne Prüfung galt der letzte Kurs bis heute.
+ */
+const FROZEN_SERIES_DAYS = 14
+
+function endsEarly(points: HistoricalDataPoint[], toDate: string): boolean {
+  const last = points[points.length - 1]
+  return !!last && Date.parse(toDate) - Date.parse(last.date) > FROZEN_SERIES_DAYS * 86400000
+}
+
+/**
+ * Eingefrorene Reihe durch eine frische ersetzen. null, wenn die neue nicht bis zum
+ * Ende reicht oder am letzten gemeinsamen Tag mehr als 20 % daneben liegt: dann ist es
+ * ein anderes Papier oder eine anders bereinigte Reihe. Davor liegende Tage bleiben.
+ */
+function replaceFrozen(
+  frozen: HistoricalDataPoint[],
+  fresh: HistoricalDataPoint[],
+  toDate: string
+): HistoricalDataPoint[] | null {
+  if (fresh.length === 0 || endsEarly(fresh, toDate)) return null
+  const last = frozen[frozen.length - 1]
+  const overlap = fresh
+    .filter(p => p.date <= last.date && Date.parse(last.date) - Date.parse(p.date) <= 10 * 86400000)
+    .pop()
+  if (!overlap || Math.abs(overlap.close / last.close - 1) > 0.2) return null
+  return [...frozen.filter(p => p.date < fresh[0].date), ...fresh]
+}
+
 // Notfall-Näherungsraten (ccy→EUR), nur falls keine FX-Historie geladen werden
 // konnte — gleiche Rolle wie GBP_EUR_APPROX. Die Größenordnung muss stimmen:
 // vorher wurde in dem Fall der USD-Kurs angewandt (JPY-Titel ~150× daneben).
@@ -311,28 +352,44 @@ async function fetchHistoricalPrices(
       else if (outage) historicalData = await fetchYahooFx(symbol, fromDate, toDate)
     }
 
-    // Versuch 4: Stammdaten. Broker-Ticker wie 'MUV2.EU' (Freedom24) oder
-    // frisch gelernte US-Papiere kennt weder FMP noch Yahoo unter dem rohen
-    // Symbol — die Notierung aus dem Instrument-Master schon. Ohne diesen
-    // Schritt fielen solche Positionen still aus Wert- UND Investiert-Linie
-    // (Dennis' Chart zeigte deshalb "weniger als die Hälfte").
-    if (historicalData.length === 0 && instrument) {
-      const candidates = [
-        instrument.yahooSymbol,
-        yahooSymbolFromEodhd(instrument.eodhdSymbol),
-      ].filter((c): c is string => Boolean(c) && c !== symbol)
-      for (const candidate of [...new Set(candidates)]) {
-        historicalData = await fetchYahooHistorical(candidate)
-        if (historicalData.length > 0) break
-      }
-      if (historicalData.length === 0 && instrument.fmpSymbol && instrument.fmpSymbol !== symbol) {
-        historicalData = await fetchFmpHistorical(instrument.fmpSymbol)
+  }
+
+  // Versuch 4: Stammdaten. Broker-Ticker wie 'MUV2.EU' (Freedom24) oder
+  // frisch gelernte US-Papiere kennt weder FMP noch Yahoo unter dem rohen
+  // Symbol — die Notierung aus dem Instrument-Master schon. Ohne diesen
+  // Schritt fielen solche Positionen still aus Wert- UND Investiert-Linie
+  // (Dennis' Chart zeigte deshalb "weniger als die Hälfte"). Gilt auch für
+  // Papiere aus etfMaster: BITF gibt es seit der Umbenennung nur noch als KEEL.
+  const listings = [...new Set(
+    [instrument?.yahooSymbol, yahooSymbolFromEodhd(instrument?.eodhdSymbol)]
+      .filter((c): c is string => Boolean(c) && c !== symbol)
+  )]
+  if (historicalData.length === 0 && instrument) {
+    for (const candidate of listings) {
+      historicalData = await fetchYahooHistorical(candidate)
+      if (historicalData.length > 0) break
+    }
+    if (historicalData.length === 0 && instrument.fmpSymbol && instrument.fmpSymbol !== symbol) {
+      historicalData = await fetchFmpHistorical(instrument.fmpSymbol)
+    }
+  }
+
+  // Eingefrorene Reihe: erst dasselbe Kürzel bei Yahoo, dann die Notierung aus den
+  // Stammdaten, sofern sie in derselben Währung notiert. Sonst bleibt die alte Reihe.
+  if (endsEarly(historicalData, toDate) && !isFxPair(symbol)) {
+    const sameCurrency = instrument?.currency?.toUpperCase() === suffixCurrency(symbol)
+    for (const candidate of [symbol, ...(sameCurrency ? listings : [])]) {
+      const replaced = replaceFrozen(historicalData, await fetchYahooHistorical(candidate), toDate)
+      if (replaced) {
+        historicalData = replaced
+        break
       }
     }
   }
 
   // Cache speichern (auch leere Ergebnisse → verhindert wiederholte Requests)
-  const provisional = approximated || (outage && (historicalData.length === 0 || isFxPair(symbol)))
+  const provisional =
+    approximated || (outage && (historicalData.length === 0 || isFxPair(symbol) || endsEarly(historicalData, toDate)))
   historyCache.set(cacheKey, { data: historicalData, timestamp: Date.now(), ttl: provisional ? OUTAGE_TTL : CACHE_TTL })
   return historicalData
 }
@@ -661,16 +718,17 @@ export async function computePortfolioHistory(
       const results = await Promise.all(
         batch.map(async symbol => {
           const raw = await fetchHistoricalPrices(symbol, fromDate, toDate)
-          if (raw.length > 0) return raw
-          // Rohe Kette leer → Stammdaten-Notierung versuchen; unbekannte
-          // Symbole einmalig über die FMP-Suche lernen (persistiert).
+          if (raw.length > 0 && !endsEarly(raw, toDate)) return raw
+          // Rohe Kette leer oder eingefroren → Stammdaten-Notierung versuchen;
+          // unbekannte Symbole einmalig über die FMP-Suche lernen (persistiert).
           let instrument = instrumentsBySymbol.get(symbol.toUpperCase()) || null
-          if (!instrument) {
+          if (!instrument && raw.length === 0) {
             instrument = await resolveSymbolViaSearch(symbol).catch(() => null)
           }
           if (!instrument) return raw
           const viaInstrument = await fetchHistoricalPrices(symbol, fromDate, toDate, false, instrument)
-          if (viaInstrument.length > 0 && instrument.currency) {
+          // Eine eingefrorene Reihe wird nur in ihrer eigenen Währung ersetzt
+          if (raw.length === 0 && viaInstrument.length > 0 && instrument.currency) {
             priceCurrencyBySymbol.set(symbol, instrument.currency.toUpperCase())
           }
           return viaInstrument
@@ -794,12 +852,7 @@ export async function computePortfolioHistory(
     // Vorrang vor der Suffix-Heuristik; ohne Suffix gilt USD.
     const quoteCurrency = (symbol: string): string => {
       const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
-      if (instrumentCurrency) return instrumentCurrency
-      if (isEURTicker(symbol)) return 'EUR'
-      if (isGBXTicker(symbol)) return 'GBX'
-      const dot = symbol.lastIndexOf('.')
-      if (dot < 0) return 'USD'
-      return SUFFIX_CURRENCY[symbol.slice(dot + 1).toUpperCase()] || 'USD'
+      return instrumentCurrency || suffixCurrency(symbol)
     }
 
     // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien und Benchmarks
