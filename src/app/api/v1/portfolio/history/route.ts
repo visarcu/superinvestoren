@@ -1,5 +1,6 @@
 // Finclue Data API v1 – Portfolio History
 // POST /api/v1/portfolio/history
+// Header: Authorization: Bearer <Supabase access token>
 // Body: { portfolioId?, portfolioIds?, holdings, cashPosition, days }
 //
 // Liefert Portfolio-Wertentwicklung in EUR + TWR vs. Benchmark-Performance.
@@ -45,8 +46,37 @@ function isGBXTicker(symbol: string): boolean {
 const isValidUuid = (v?: string) =>
   !!v && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
 
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return null
+  return createClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
+    const supabase = getSupabase()
+    if (!supabase) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
+
+    // Auth: Die Route liest Buchungen mit dem Service-Schlüssel. Ohne Login-Check
+    // bekam jeder, der eine Depot-Kennung kennt, den Verlauf dieses Depots. Auch
+    // ohne Kennung bleibt sie zu, jedes übergebene Papier kostet FMP-Abrufe.
+    const authHeader = request.headers.get('authorization')
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(authHeader.slice('Bearer '.length))
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+    }
+
     const body = await request.json()
     const {
       portfolioId,
@@ -73,18 +103,27 @@ export async function POST(request: NextRequest) {
     const fromDate = startDate.toISOString().split('T')[0]
     const toDate = endDate.toISOString().split('T')[0]
 
-    // 1) Transaktionen laden
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-    if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
-    }
-    const supabase = createClient(supabaseUrl, supabaseKey)
-
-    const validIds = Array.isArray(portfolioIds)
+    const requestedIds = Array.isArray(portfolioIds)
       ? portfolioIds.filter(isValidUuid)
       : isValidUuid(portfolioId) ? [portfolioId!] : []
 
+    // Besitz: nur Depots des angemeldeten Nutzers, wie in lib/portfolio/history.
+    // Scheitert die Abfrage, bricht die Route ab, statt die Prüfung zu überspringen.
+    let validIds: string[] = []
+    if (requestedIds.length > 0) {
+      const { data: owned, error: ownedError } = await supabase
+        .from('portfolios')
+        .select('id')
+        .eq('user_id', user.id)
+        .in('id', requestedIds)
+      if (ownedError) throw ownedError
+      validIds = (owned || []).map(p => p.id)
+      if (validIds.length === 0) {
+        return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      }
+    }
+
+    // 1) Transaktionen laden
     const transactionsBySymbol = new Map<string, Transaction[]>()
     let allTransactions: Transaction[] = []
 

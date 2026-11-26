@@ -11,6 +11,7 @@ import {
   Tooltip,
   ReferenceLine,
 } from 'recharts'
+import { supabase } from '@/lib/supabaseClient'
 
 interface Props {
   portfolioId: string | null
@@ -81,9 +82,15 @@ export default function PortfolioValueChart({
     const days = { '1M': 30, '3M': 90, '6M': 180, '1Y': 365, MAX: 730 }[selectedRange]
 
     try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) throw new Error('Nicht angemeldet')
+
       const res = await fetch('/api/v1/portfolio/history', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({
           portfolioId: portfolioIds && portfolioIds.length > 0 ? undefined : portfolioId,
           portfolioIds,
