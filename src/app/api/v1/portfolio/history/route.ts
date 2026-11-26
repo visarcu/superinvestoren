@@ -35,7 +35,7 @@ interface Transaction {
 
 // Erkennt ob ein Ticker in EUR notiert ist (DB nutzt FMP-Suffixe)
 function isEURTicker(symbol: string): boolean {
-  return /\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i.test(symbol)
+  return /\.(DE|F|SG|DU|MU|HM|BE|PA|AS|MI|MC|BR|LI|VI|AT|HE|ZU|IR|LS)$/i.test(symbol)
 }
 
 // Erkennt ob ein Ticker in GBX (Pence) notiert ist (London Stock Exchange)

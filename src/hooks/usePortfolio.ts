@@ -224,8 +224,9 @@ export function usePortfolio(routeDepotKey?: string) {
         setPriceLoadError(null)
       }
     } catch {
+      // Positionen bleiben stehen und zählen zum Einstand (valuateHolding);
+      // vorher fehlte das ganze Depot und in "Alle Depots" dessen Positionen.
       setPriceLoadError('Aktienkurse konnten nicht geladen werden.')
-      return []
     }
 
     // Wechselkurse für ALLE vorkommenden Quote-Währungen laden (USD, GBP,

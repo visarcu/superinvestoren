@@ -47,13 +47,36 @@ function getHistorySymbol(symbol: string): string {
   return EXCHANGE_FALLBACKS[symbol]?.symbol || symbol
 }
 
+// Notierungswährung je Börsen-Suffix: FMP und Yahoo liefern Kurse in der
+// Heimatwährung des Listings. Frankfurt (.F), Stuttgart, Düsseldorf, München,
+// Hamburg und Berlin notieren in Euro, Kopenhagen in DKK, Prag in CZK. Vorher
+// lief alles außer EUR und London mit dem USD-Kurs durch die Umrechnung
+// (Nestlé in CHF: +24 % bei flachem Kurs, Tokio in JPY: −99 %).
 function isEURTicker(symbol: string): boolean {
-  return /\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i.test(symbol)
+  return /\.(DE|F|SG|DU|MU|HM|BE|PA|AS|MI|MC|BR|LI|VI|AT|HE|ZU|IR|LS)$/i.test(symbol)
 }
 
 function isGBXTicker(symbol: string): boolean {
   return /\.L$/i.test(symbol)
 }
+
+const SUFFIX_CURRENCY: Record<string, string> = {
+  SW: 'CHF', T: 'JPY', TO: 'CAD', V: 'CAD', AX: 'AUD', HK: 'HKD', ST: 'SEK', OL: 'NOK',
+  CO: 'DKK', CP: 'DKK', PR: 'CZK', WA: 'PLN', KS: 'KRW', KQ: 'KRW', TW: 'TWD', TWO: 'TWD',
+  SS: 'CNY', SZ: 'CNY', SA: 'BRL', NS: 'INR', BO: 'INR', SI: 'SGD', NZ: 'NZD', MX: 'MXN',
+}
+
+/** Währung des Kurses: 'EUR', 'GBX' (Pence) oder ISO-Code; ohne Suffix USD */
+function quoteCurrency(symbol: string): string {
+  if (isEURTicker(symbol)) return 'EUR'
+  if (isGBXTicker(symbol)) return 'GBX'
+  const dot = symbol.lastIndexOf('.')
+  if (dot < 0) return 'USD'
+  return SUFFIX_CURRENCY[symbol.slice(dot + 1).toUpperCase()] || 'USD'
+}
+
+/** Wechselkurs-Reihen je Währung (EUR je Einheit), Schlüssel ISO-Code */
+type FxMaps = Map<string, Map<string, number>>
 
 function getRateForDate(rateMap: Map<string, number>, date: string, fallback: number): number {
   const direct = rateMap.get(date)
@@ -87,16 +110,17 @@ function findPriceOnOrBefore(
   return best || sorted[0] || null
 }
 
-function toEURPrice(
-  symbol: string,
-  rawPrice: number,
-  date: string,
-  usdEurMap: Map<string, number>,
-  gbpEurMap: Map<string, number>,
-): number {
-  if (isEURTicker(symbol)) return rawPrice
-  if (isGBXTicker(symbol)) return (rawPrice / 100) * getRateForDate(gbpEurMap, date, 1.16)
-  return rawPrice * getRateForDate(usdEurMap, date, 0.92)
+/**
+ * Kurs in EUR zum Stichtag. Ohne Wechselkursreihe der Währung null: lieber
+ * keine Periodenrendite als eine mit dem falschen Kurs oder einer Schätzung.
+ */
+function toEURPrice(symbol: string, rawPrice: number, date: string, fxMaps: FxMaps): number | null {
+  const currency = quoteCurrency(symbol)
+  if (currency === 'EUR') return rawPrice
+  const rates = fxMaps.get(currency === 'GBX' ? 'GBP' : currency)
+  const rate = rates && rates.size > 0 ? getRateForDate(rates, date, 0) : 0
+  if (!rate || rate <= 0) return null
+  return currency === 'GBX' ? (rawPrice / 100) * rate : rawPrice * rate
 }
 
 function samplePoints<T>(points: T[], maxPoints: number): T[] {
@@ -116,15 +140,14 @@ function buildSparkline(
   history: Array<{ date: string; close: number; adjClose?: number }>,
   startDate: string,
   currentPriceEUR: number,
-  usdEurMap: Map<string, number>,
-  gbpEurMap: Map<string, number>,
+  fxMaps: FxMaps,
 ): SparklinePoint[] {
   const points = history
     .filter(p => p.date >= startDate && ((p.adjClose ?? p.close) > 0))
     .sort((a, b) => a.date.localeCompare(b.date))
     .map(point => {
       const rawPrice = point.adjClose ?? point.close
-      const value = toEURPrice(symbol, rawPrice, point.date, usdEurMap, gbpEurMap)
+      const value = toEURPrice(symbol, rawPrice, point.date, fxMaps) ?? 0
       return {
         date: point.date,
         value: Math.round(value * 10000) / 10000,
@@ -190,14 +213,16 @@ export async function POST(request: Request) {
 
     const symbols = Array.from(uniquePositions.keys())
     const historySymbols = symbols.map(getHistorySymbol)
-    const needsUSD = historySymbols.some(symbol => !isEURTicker(symbol) && !isGBXTicker(symbol))
-    const needsGBP = historySymbols.some(isGBXTicker)
+    // Wechselkursreihen je vorkommender Währung (Pence über GBP)
+    const fxCurrencies = [...new Set(historySymbols.map(quoteCurrency))]
+      .filter(currency => currency !== 'EUR')
+      .map(currency => (currency === 'GBX' ? 'GBP' : currency))
 
-    const [usdEurMap, gbpEurMap, histories] = await Promise.all([
-      needsUSD ? getFxHistory('USDEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
-      needsGBP ? getFxHistory('GBPEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
+    const [fxEntries, histories] = await Promise.all([
+      Promise.all(fxCurrencies.map(async currency => [currency, await getFxHistory(`${currency}EUR`, fromDate, toDate)] as const)),
       Promise.all(historySymbols.map(symbol => getDailyHistory(symbol, fromDate, toDate))),
     ])
+    const fxMaps: FxMaps = new Map(fxEntries)
 
     const data: Record<string, Partial<Record<Timeframe, PerformancePoint>>> = {}
 
@@ -217,7 +242,7 @@ export async function POST(request: Request) {
         if (!startPoint) continue
 
         const rawStartPrice = startPoint.adjClose ?? startPoint.close
-        const startPriceEUR = toEURPrice(historySymbol, rawStartPrice, startPoint.date, usdEurMap, gbpEurMap)
+        const startPriceEUR = toEURPrice(historySymbol, rawStartPrice, startPoint.date, fxMaps)
         if (!startPriceEUR || startPriceEUR <= 0) continue
 
         const changePerShare = meta.currentPriceEUR - startPriceEUR
@@ -235,8 +260,7 @@ export async function POST(request: Request) {
             history,
             startPoint.date,
             meta.currentPriceEUR,
-            usdEurMap,
-            gbpEurMap,
+            fxMaps,
           )
         }
 

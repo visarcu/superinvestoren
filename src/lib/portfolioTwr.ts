@@ -58,7 +58,10 @@ const CASH_LEDGER_EPSILON = 1
 // systematisch. Deshalb: der Link zählt, solange der Tages-Return plausibel
 // ist; nur unplausible Ausreißer (das eigentliche Timing-Rauschen) werden
 // übersprungen.
-const TWR_MIN_BASE_VALUE = 500
+// Nur ein Schutz gegen die Division durch (fast) null. Bei 500 € fielen in
+// kleinen Depots (Sparplan-Start, 300 → 450 €) alle Tage weg und die Rendite
+// stand dauerhaft auf 0 %; Ausreißer fängt die Plausibilitätsregel darunter.
+const TWR_MIN_BASE_VALUE = 1
 const TWR_FLOW_DOMINANCE_LIMIT = 0.5
 // Echte Markttage liegen bei ±1–3 %; Timing-Rauschen bei dominantem Flow
 // erzeugt Links von ±30–100 %. 10 % trennt beides mit Puffer.

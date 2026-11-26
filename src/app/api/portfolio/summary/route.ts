@@ -4,7 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { detectTickerCurrency } from '@/lib/fmp'
-import { convertPriceToEur } from '@/lib/portfolioValuation'
+import { convertPriceToEurStrict } from '@/lib/portfolioValuation'
 import { getQuotes } from '@/lib/marketData/quoteService'
 import { convertAmount } from '@/lib/marketData/currency'
 import { countedDepots } from '@/lib/sampleDepotShared'
@@ -139,7 +139,11 @@ export async function GET(request: NextRequest) {
       const tickerCur = detectTickerCurrency(h.symbol)
       // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert,
       // GBP kommt als GBX/Pence → ÷100 × Rate, USD × Rate, sonst unkonvertiert).
-      const priceEUR = convertPriceToEur(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate, byCurrency })
+      // Ohne Kurs oder Wechselkurs zählt die Position zum Einstand, statt mit
+      // 0 € oder mit Pence als Euro
+      const priceEUR =
+        (apiPrice > 0 ? convertPriceToEurStrict(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate, byCurrency }) : null)
+        ?? (h.purchase_price || 0)
 
       const qty = h.quantity || 0
       const value = priceEUR * qty

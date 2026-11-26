@@ -188,7 +188,7 @@ export async function getDailyHistory(symbol: string, fromDate: string, toDate: 
  * GBPEUR: EUR pro 1 GBP). FMP führt beide Paare direkt, sonst Yahoo.
  */
 export async function getFxHistory(
-  pair: 'USDEUR' | 'GBPEUR',
+  pair: string,
   fromDate: string,
   toDate: string
 ): Promise<Map<string, number>> {

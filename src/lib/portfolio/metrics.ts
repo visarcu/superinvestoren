@@ -8,7 +8,8 @@ import { detectTickerCurrency } from '@/lib/fmp'
 import { cashFlowKind, isCashFlow, signedCashAmount, sumCashFlows, sumOrderCosts } from '@/lib/portfolio/cashFlows'
 import { findInternalTransfers, findSplitPairs, isSplitBooking, settleSplitBookings, walkCostBasis, withoutInternalTransfers } from '@/lib/portfolio/costBasis'
 import { isCorpActionTransfer } from '@/lib/portfolioTwr'
-import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
+import { convertPriceToEur,
+  convertPriceToEurStrict, type EurRates } from '@/lib/portfolioValuation'
 import { calculateXIRR, type Cashflow } from '@/utils/xirr'
 
 // Types
@@ -45,6 +46,8 @@ export interface Holding {
   day_change_percent: number
   /** Handelstag des Kurses (Berliner Datum), null = unbekannt */
   traded_on?: string | null
+  /** Kein Kurs oder Wechselkurs: Wert zum Einstand, Tagesveränderung 0 */
+  price_missing?: boolean
   purchase_currency?: string
   // FX-Split: Kurs-Performance vs Währungs-Effekt separat (optional — benötigt
   // purchase_fx_rate in der DB und aktuelle FX-Rate). Null wenn nicht berechenbar
@@ -226,10 +229,13 @@ export function calculateRealizedGains(transactions: Transaction[]): {
   realizedGainByTxId: Map<string, RealizedGainInfo>
   /** Wertzuwachs abgegebener Anteile bis zum Depotübertrag, siehe unten */
   totalTransferGain: number
+  /** Einstand der verkauften Anteile (Basis für die Gesamtrendite in Prozent) */
+  totalCostOfSold: number
 } {
   let totalRealizedGain = 0
   let totalDividends = 0
   let totalTransferGain = 0
+  let totalCostOfSold = 0
   const realizedGainByTxId = new Map<string, RealizedGainInfo>()
 
   // Umzüge im selben Depot sind kein Übertrag: Dort fließt nichts ab
@@ -249,6 +255,7 @@ export function calculateRealizedGains(transactions: Transaction[]): {
       const proceedsPerShare = soldQuantity > 0 ? (transactionAmount(tx) - sellFee) / soldQuantity : 0
       const realizedGain = (proceedsPerShare - avgBefore) * quantity
       totalRealizedGain += realizedGain
+      totalCostOfSold += avgBefore * quantity
       realizedGainByTxId.set(tx.id, {
         realizedGain,
         avgCostBasis: avgBefore,
@@ -279,7 +286,7 @@ export function calculateRealizedGains(transactions: Transaction[]): {
     else if (isCashFlow(tx) && cashFlowKind(tx) === 'dividend_correction') totalDividends += signedCashAmount(tx)
   }
 
-  return { totalRealizedGain, totalDividends, realizedGainByTxId, totalTransferGain }
+  return { totalRealizedGain, totalDividends, realizedGainByTxId, totalTransferGain, totalCostOfSold }
 }
 
 export interface DepotReturn {
@@ -314,7 +321,7 @@ export interface DepotReturn {
 export function calculateDepotReturn(
   transactions: Transaction[],
   holdings: Holding[],
-  realized: Pick<ReturnType<typeof calculateRealizedGains>, 'totalRealizedGain' | 'totalDividends' | 'totalTransferGain'>,
+  realized: Pick<ReturnType<typeof calculateRealizedGains>, 'totalRealizedGain' | 'totalDividends' | 'totalTransferGain' | 'totalCostOfSold'>,
 ): DepotReturn {
   const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
   const invested = holdings.reduce((sum, h) => sum + h.purchase_price_display * h.quantity, 0)
@@ -323,7 +330,10 @@ export function calculateDepotReturn(
   const priceGain = stockValue - invested
   const total = priceGain + realized.totalRealizedGain + realized.totalDividends +
     cash.interest + cash.fees + cash.taxes + realized.totalTransferGain
-  const base = invested + order.fees + order.taxes
+  // Basis: eingesetztes Kapital, also offene Positionen plus Einstand der
+  // schon verkauften Anteile. Nur offene Positionen ergaben nach einem
+  // Komplettverkauf eine Basis aus Gebühren (480 € Gewinn = "+2400 %").
+  const base = invested + realized.totalCostOfSold + order.fees + order.taxes
   return {
     priceGain,
     realized: realized.totalRealizedGain,
@@ -465,13 +475,17 @@ export function valuateHolding(
   tradedOn: string | null = null,
 ): Holding {
   const tickerCurrency = detectTickerCurrency(h.symbol)
-
-  // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert, GBP kommt
-  // als GBX/Pence → ÷100 × Rate, alle anderen Währungen × EUR-Rate).
-  const currentPriceEUR = convertPriceToEur(apiPrice, tickerCurrency, rates)
-
   const purchasePrice = h.purchase_price || 0
   const quantity = h.quantity || 0
+
+  // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert, GBP kommt
+  // als GBX/Pence → ÷100 × Rate, alle anderen Währungen × EUR-Rate). Fehlt der
+  // Kurs oder der Wechselkurs, zählt die Position zum Einstand: vorher stand
+  // sie mit 0 € und −100 % da, bei fehlendem GBP-Kurs mit Pence als Euro.
+  // Das Banner "Kurse nicht verfügbar" nennt die betroffenen Papiere.
+  const convertedPrice = apiPrice > 0 ? convertPriceToEurStrict(apiPrice, tickerCurrency, rates) : null
+  const priceMissing = convertedPrice === null
+  const currentPriceEUR = convertedPrice ?? purchasePrice
   const value = currentPriceEUR * quantity
   const costBasis = purchasePrice * quantity
   const gainLoss = value - costBasis
@@ -481,7 +495,7 @@ export function valuateHolding(
   // über den aktuellen EUR-Wert zurückgerechnet — so bleibt die Währungs-
   // umrechnung konsistent (heutiger Wert − gestriger Wert in EUR).
   const dayChangeValue =
-    dayChangePercent > -100 ? value * (dayChangePercent / (100 + dayChangePercent)) : 0
+    !priceMissing && dayChangePercent > -100 ? value * (dayChangePercent / (100 + dayChangePercent)) : 0
 
   // FX-Split: nur berechenbar für Nicht-EUR-Positionen mit gespeicherter fx_rate
   let plExclFx: number | null = null
@@ -526,8 +540,9 @@ export function valuateHolding(
     gain_loss: gainLoss,
     gain_loss_percent: gainLossPercent,
     day_change_value: dayChangeValue,
-    day_change_percent: dayChangePercent,
+    day_change_percent: priceMissing ? 0 : dayChangePercent,
     traded_on: tradedOn,
+    price_missing: priceMissing,
     pl_excl_fx: plExclFx,
     pl_from_fx: plFromFx,
   }

@@ -85,9 +85,13 @@ interface Transaction {
   notes?: string | null
 }
 
-// Erkennt ob ein Ticker in EUR notiert ist (FMP liefert Preise in Börsenwährung)
+// Erkennt ob ein Ticker in EUR notiert ist (FMP liefert Preise in Börsenwährung).
+// Frankfurt (.F), Stuttgart, Düsseldorf, München, Hamburg und Berlin gehören
+// dazu: SWF.F lief sonst als USD durch die Umrechnung und der Verlauf lag für
+// solche Papiere um den Dollarkurs daneben. Kopenhagen (.CP) und Prag (.PR)
+// notieren nicht in Euro, siehe SUFFIX_CURRENCY.
 function isEURTicker(symbol: string): boolean {
-  return /\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i.test(symbol)
+  return /\.(DE|F|SG|DU|MU|HM|BE|PA|AS|MI|MC|BR|LI|VI|AT|HE|ZU|IR|LS)$/i.test(symbol)
 }
 
 // Erkennt ob ein Ticker in GBX (Pence) notiert ist (London Stock Exchange)
@@ -102,7 +106,7 @@ function isGBXTicker(symbol: string): boolean {
 const SUFFIX_CURRENCY: Record<string, string> = {
   SW: 'CHF', T: 'JPY', TO: 'CAD', V: 'CAD', AX: 'AUD', HK: 'HKD',
   KS: 'KRW', KQ: 'KRW', TW: 'TWD', TWO: 'TWD', SS: 'CNY', SZ: 'CNY',
-  SA: 'BRL', ST: 'SEK', OL: 'NOK', CO: 'DKK', NS: 'INR', BO: 'INR',
+  SA: 'BRL', ST: 'SEK', OL: 'NOK', CO: 'DKK', CP: 'DKK', PR: 'CZK', NS: 'INR', BO: 'INR',
   JK: 'IDR', BK: 'THB', SI: 'SGD', NZ: 'NZD', WA: 'PLN', IS: 'TRY',
   MX: 'MXN', SR: 'SAR', QA: 'QAR', KW: 'KWD', JO: 'ZAR',
 }

@@ -30,20 +30,32 @@ export type EurRates = {
 
 // Kurs (Börsenwährung) in EUR umrechnen.
 // EUR: unverändert · GBP (.L, kommt als GBX/Pence): ÷100 × Rate · USD: × Rate ·
-// sonst (JPY/CHF/CAD/AUD …): × Rate aus byCurrency. Ohne Rate unkonvertiert —
-// besser als raten, aber der Aufrufer sollte die Raten mitliefern: ein
-// JPY-Kurs "unkonvertiert" wäre ~170× zu hoch (Tokio notiert vierstellig).
+// sonst (JPY/CHF/CAD/AUD …): × Rate aus byCurrency. Fehlt die Rate: null.
+// Die Bewertung nimmt dann den Einstand, statt Pence als Euro (85-fach) oder
+// einen JPY-Kurs unkonvertiert (~170-fach) zu zeigen.
+export function convertPriceToEurStrict(
+  rawPrice: number,
+  currency: string,
+  rates: EurRates
+): number | null {
+  if (currency === 'EUR') return rawPrice
+  const rate =
+    currency === 'USD' ? rates.usdToEurRate ?? rates.byCurrency?.USD ?? null
+    : currency === 'GBP' ? rates.gbpToEurRate ?? rates.byCurrency?.GBP ?? null
+    : rates.byCurrency?.[currency] ?? null
+  if (!rate || rate <= 0) return null
+  return currency === 'GBP' ? (rawPrice / 100) * rate : rawPrice * rate
+}
+
+/** Wie convertPriceToEurStrict, ohne Rate aber ein Näherungswert statt null (Pence wenigstens in Pfund) */
 export function convertPriceToEur(
   rawPrice: number,
   currency: string,
   rates: EurRates
 ): number {
-  if (currency === 'EUR') return rawPrice
-  if (currency === 'GBP' && rates.gbpToEurRate) return (rawPrice / 100) * rates.gbpToEurRate
-  if (currency === 'USD' && rates.usdToEurRate) return rawPrice * rates.usdToEurRate
-  const rate = rates.byCurrency?.[currency]
-  if (rate && rate > 0) return rawPrice * rate
-  return rawPrice
+  const strict = convertPriceToEurStrict(rawPrice, currency, rates)
+  if (strict !== null) return strict
+  return currency === 'GBP' ? rawPrice / 100 : rawPrice
 }
 
 // EUR-Wechselkurs (EUR pro Einheit Fremdwährung) über die API-Route holen.
@@ -111,10 +123,10 @@ export async function valuateHoldingsByPortfolio(
     const stored = Number(h.current_price)
     const rawPrice = live && live > 0 ? live : stored && stored > 0 ? stored : null
 
-    // Marktwert je Anteil in EUR; ohne Kurs Fallback auf Einstandspreis (bereits EUR)
-    const priceEur = rawPrice
-      ? convertPriceToEur(rawPrice, detectTickerCurrency(h.symbol), rates)
-      : purchasePrice
+    // Marktwert je Anteil in EUR; ohne Kurs oder Wechselkurs Fallback auf den
+    // Einstandspreis (bereits EUR)
+    const priceEur =
+      (rawPrice ? convertPriceToEurStrict(rawPrice, detectTickerCurrency(h.symbol), rates) : null) ?? purchasePrice
 
     const entry = result.get(h.portfolio_id) || { value: 0, cost: 0, count: 0 }
     entry.value += priceEur * qty
