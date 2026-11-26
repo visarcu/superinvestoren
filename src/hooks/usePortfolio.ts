@@ -34,6 +34,35 @@ import {
 export type { DepotHistoricalPerf, DepotSummary, Holding, Portfolio, RealizedGainInfo, Transaction } from '@/lib/portfolio/metrics'
 
 /**
+ * Buchung schreiben und jeden Fehler werfen. Vorher wurde das Ergebnis des
+ * Inserts nicht geprüft: Das Formular meldete Erfolg, Bestand oder Bargeld
+ * waren geändert, aber die Buchung fehlte (keine Rendite, kein Verlauf).
+ */
+async function insertTransaction(row: Record<string, unknown>): Promise<string> {
+  const { data, error } = await supabase
+    .from('portfolio_transactions')
+    .insert(row)
+    .select('id')
+    .single()
+  if (error) throw error
+  return data.id as string
+}
+
+/**
+ * Buchung zuerst, Bestand oder Bargeld danach. Scheitert der zweite Schritt,
+ * kommt die Buchung wieder weg, damit nichts Halbes stehen bleibt.
+ */
+async function bookTransaction(row: Record<string, unknown>, apply: () => Promise<void>): Promise<void> {
+  const txId = await insertTransaction(row)
+  try {
+    await apply()
+  } catch (applyError) {
+    await supabase.from('portfolio_transactions').delete().eq('id', txId)
+    throw applyError
+  }
+}
+
+/**
  * @param routeDepotKey Depot aus dem Pfad des Workspace ('all', Kurzname oder
  *   Depot-ID, siehe lib/depotRoutes). Ohne Angabe gilt ?depot=… (ältere Seiten).
  */
@@ -464,35 +493,32 @@ export function usePortfolio(routeDepotKey?: string) {
     const priceWithFees = purchasePrice + (fees / quantity)
 
     const trimmedCase = investmentCase?.trim().slice(0, 1000) || null
-    const { error } = await supabase
-      .from('portfolio_holdings')
-      .insert({
-        portfolio_id: portfolio.id,
-        symbol: stock.symbol,
-        name: stock.name,
-        quantity,
-        purchase_price: priceWithFees,
-        purchase_date: purchaseDate,
-        purchase_currency: 'EUR',
-        investment_case: trimmedCase,
-        investment_case_updated_at: trimmedCase ? new Date().toISOString() : null,
-      })
-    if (error) throw error
-
-    // Transaction logging
-    await supabase
-      .from('portfolio_transactions')
-      .insert({
-        portfolio_id: portfolio.id,
-        type: 'buy',
-        symbol: stock.symbol,
-        name: stock.name,
-        quantity,
-        price: priceWithFees,
-        total_value: quantity * purchasePrice + fees,
-        date: purchaseDate,
-        notes: fees > 0 ? `Kaufpreis: ${purchasePrice.toFixed(2)}€, Gebühren: ${fees.toFixed(2)}€` : null
-      })
+    await bookTransaction({
+      portfolio_id: portfolio.id,
+      type: 'buy',
+      symbol: stock.symbol,
+      name: stock.name,
+      quantity,
+      price: priceWithFees,
+      total_value: quantity * purchasePrice + fees,
+      date: purchaseDate,
+      notes: fees > 0 ? `Kaufpreis: ${purchasePrice.toFixed(2)}€, Gebühren: ${fees.toFixed(2)}€` : null
+    }, async () => {
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .insert({
+          portfolio_id: portfolio.id,
+          symbol: stock.symbol,
+          name: stock.name,
+          quantity,
+          purchase_price: priceWithFees,
+          purchase_date: purchaseDate,
+          purchase_currency: 'EUR',
+          investment_case: trimmedCase,
+          investment_case_updated_at: trimmedCase ? new Date().toISOString() : null,
+        })
+      if (error) throw error
+    })
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
@@ -501,24 +527,22 @@ export function usePortfolio(routeDepotKey?: string) {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
     const newCash = (portfolio.cash_position || 0) + amount
-    const { error } = await supabase
-      .from('portfolios')
-      .update({ cash_position: newCash })
-      .eq('id', portfolio.id)
-    if (error) throw error
-
-    await supabase
-      .from('portfolio_transactions')
-      .insert({
-        portfolio_id: portfolio.id,
-        type: amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
-        symbol: 'CASH',
-        name: amount > 0 ? 'Einzahlung' : 'Auszahlung',
-        quantity: 1,
-        price: Math.abs(amount),
-        total_value: Math.abs(amount),
-        date: date || new Date().toISOString().split('T')[0]
-      })
+    await bookTransaction({
+      portfolio_id: portfolio.id,
+      type: amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
+      symbol: 'CASH',
+      name: amount > 0 ? 'Einzahlung' : 'Auszahlung',
+      quantity: 1,
+      price: Math.abs(amount),
+      total_value: Math.abs(amount),
+      date: date || new Date().toISOString().split('T')[0]
+    }, async () => {
+      const { error } = await supabase
+        .from('portfolios')
+        .update({ cash_position: newCash })
+        .eq('id', portfolio.id)
+      if (error) throw error
+    })
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
@@ -626,29 +650,27 @@ export function usePortfolio(routeDepotKey?: string) {
     const totalQty = oldQty + newQty
     const weightedAvgPrice = ((oldQty * oldPrice) + (newQty * priceWithFees)) / totalQty
 
-    const { error } = await supabase
-      .from('portfolio_holdings')
-      .update({
-        quantity: totalQty,
-        purchase_price: weightedAvgPrice,
-        purchase_date: holding.purchase_date < topUpDate ? holding.purchase_date : topUpDate
-      })
-      .eq('id', holding.id)
-    if (error) throw error
-
-    await supabase
-      .from('portfolio_transactions')
-      .insert({
-        portfolio_id: portfolio.id,
-        type: 'buy',
-        symbol: holding.symbol,
-        name: holding.name,
-        quantity: newQty,
-        price: priceWithFees,
-        total_value: newQty * newPrice + fees,
-        date: topUpDate,
-        notes: fees > 0 ? `Aufstockung - Gebühren: ${fees.toFixed(2)}€` : 'Aufstockung'
-      })
+    await bookTransaction({
+      portfolio_id: portfolio.id,
+      type: 'buy',
+      symbol: holding.symbol,
+      name: holding.name,
+      quantity: newQty,
+      price: priceWithFees,
+      total_value: newQty * newPrice + fees,
+      date: topUpDate,
+      notes: fees > 0 ? `Aufstockung - Gebühren: ${fees.toFixed(2)}€` : 'Aufstockung'
+    }, async () => {
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .update({
+          quantity: totalQty,
+          purchase_price: weightedAvgPrice,
+          purchase_date: holding.purchase_date < topUpDate ? holding.purchase_date : topUpDate
+        })
+        .eq('id', holding.id)
+      if (error) throw error
+    })
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
@@ -665,35 +687,32 @@ export function usePortfolio(routeDepotKey?: string) {
 
     const { quantity, price, date } = params
 
-    if (quantity >= holding.quantity) {
-      // Vollverkauf — Holding löschen
-      const { error } = await supabase
-        .from('portfolio_holdings')
-        .delete()
-        .eq('id', holdingId)
-      if (error) throw error
-    } else {
-      // Teilverkauf — Menge reduzieren
-      const { error } = await supabase
-        .from('portfolio_holdings')
-        .update({ quantity: holding.quantity - quantity })
-        .eq('id', holdingId)
-      if (error) throw error
-    }
-
-    // Sell-Transaktion erstellen
-    await supabase
-      .from('portfolio_transactions')
-      .insert({
-        portfolio_id: portfolio.id,
-        type: 'sell',
-        symbol: holding.symbol,
-        name: holding.name,
-        quantity,
-        price,
-        total_value: quantity * price,
-        date
-      })
+    await bookTransaction({
+      portfolio_id: portfolio.id,
+      type: 'sell',
+      symbol: holding.symbol,
+      name: holding.name,
+      quantity,
+      price,
+      total_value: quantity * price,
+      date
+    }, async () => {
+      if (quantity >= holding.quantity) {
+        // Vollverkauf — Holding löschen
+        const { error } = await supabase
+          .from('portfolio_holdings')
+          .delete()
+          .eq('id', holdingId)
+        if (error) throw error
+      } else {
+        // Teilverkauf — Menge reduzieren
+        const { error } = await supabase
+          .from('portfolio_holdings')
+          .update({ quantity: holding.quantity - quantity })
+          .eq('id', holdingId)
+        if (error) throw error
+      }
+    })
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, holdings, loadPortfolio, depotIdParam])
@@ -710,18 +729,16 @@ export function usePortfolio(routeDepotKey?: string) {
     const { amount, date } = params
 
     // Dividend-Transaktion erstellen (kein Holding-Update)
-    await supabase
-      .from('portfolio_transactions')
-      .insert({
-        portfolio_id: portfolio.id,
-        type: 'dividend',
-        symbol: holding.symbol,
-        name: holding.name,
-        quantity: holding.quantity,
-        price: amount / holding.quantity,
-        total_value: amount,
-        date
-      })
+    await insertTransaction({
+      portfolio_id: portfolio.id,
+      type: 'dividend',
+      symbol: holding.symbol,
+      name: holding.name,
+      quantity: holding.quantity,
+      price: amount / holding.quantity,
+      total_value: amount,
+      date
+    })
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, holdings, loadPortfolio, depotIdParam])
@@ -743,60 +760,56 @@ export function usePortfolio(routeDepotKey?: string) {
     // Bestehende Holding suchen
     const existingHolding = holdings.find(h => h.symbol === stock.symbol)
 
-    if (direction === 'in') {
-      // Einbuchung: Holding erstellen oder aufstocken
-      if (existingHolding) {
-        const totalQty = existingHolding.quantity + quantity
-        const avgPrice = ((existingHolding.quantity * existingHolding.purchase_price) + (quantity * price)) / totalQty
-        await supabase
-          .from('portfolio_holdings')
-          .update({
-            quantity: totalQty,
-            purchase_price: avgPrice,
-            purchase_date: existingHolding.purchase_date < date ? existingHolding.purchase_date : date
-          })
-          .eq('id', existingHolding.id)
-      } else {
-        await supabase
-          .from('portfolio_holdings')
-          .insert({
-            portfolio_id: portfolio.id,
-            symbol: stock.symbol,
-            name: stock.name,
-            quantity,
-            purchase_price: price,
-            purchase_date: date,
-            purchase_currency: 'EUR'
-          })
-      }
-    } else {
-      // Ausbuchung: Holding reduzieren oder löschen
-      if (existingHolding) {
-        if (quantity >= existingHolding.quantity) {
-          await supabase.from('portfolio_holdings').delete().eq('id', existingHolding.id)
-        } else {
-          await supabase
+    await bookTransaction({
+      portfolio_id: portfolio.id,
+      type,
+      symbol: stock.symbol,
+      name: stock.name,
+      quantity,
+      price,
+      total_value: quantity * price,
+      date,
+      notes: notes || (direction === 'in' ? 'Einbuchung (Depotübertrag)' : 'Ausbuchung (Depotübertrag)')
+    }, async () => {
+      if (direction === 'in') {
+        // Einbuchung: Holding erstellen oder aufstocken
+        if (existingHolding) {
+          const totalQty = existingHolding.quantity + quantity
+          const avgPrice = ((existingHolding.quantity * existingHolding.purchase_price) + (quantity * price)) / totalQty
+          const { error } = await supabase
             .from('portfolio_holdings')
-            .update({ quantity: existingHolding.quantity - quantity })
+            .update({
+              quantity: totalQty,
+              purchase_price: avgPrice,
+              purchase_date: existingHolding.purchase_date < date ? existingHolding.purchase_date : date
+            })
             .eq('id', existingHolding.id)
+          if (error) throw error
+        } else {
+          const { error } = await supabase
+            .from('portfolio_holdings')
+            .insert({
+              portfolio_id: portfolio.id,
+              symbol: stock.symbol,
+              name: stock.name,
+              quantity,
+              purchase_price: price,
+              purchase_date: date,
+              purchase_currency: 'EUR'
+            })
+          if (error) throw error
         }
+      } else if (existingHolding) {
+        // Ausbuchung: Holding reduzieren oder löschen
+        const { error } = quantity >= existingHolding.quantity
+          ? await supabase.from('portfolio_holdings').delete().eq('id', existingHolding.id)
+          : await supabase
+              .from('portfolio_holdings')
+              .update({ quantity: existingHolding.quantity - quantity })
+              .eq('id', existingHolding.id)
+        if (error) throw error
       }
-    }
-
-    // Transaktion loggen
-    await supabase
-      .from('portfolio_transactions')
-      .insert({
-        portfolio_id: portfolio.id,
-        type,
-        symbol: stock.symbol,
-        name: stock.name,
-        quantity,
-        price,
-        total_value: quantity * price,
-        date,
-        notes: notes || (direction === 'in' ? 'Einbuchung (Depotübertrag)' : 'Ausbuchung (Depotübertrag)')
-      })
+    })
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, holdings, loadPortfolio, depotIdParam])
@@ -839,51 +852,65 @@ export function usePortfolio(routeDepotKey?: string) {
 
     const difference = newAmount - (portfolio.cash_position || 0)
 
-    const { error } = await supabase
-      .from('portfolios')
-      .update({ cash_position: newAmount })
-      .eq('id', portfolio.id)
-    if (error) throw error
+    const applyCash = async () => {
+      const { error } = await supabase
+        .from('portfolios')
+        .update({ cash_position: newAmount })
+        .eq('id', portfolio.id)
+      if (error) throw error
+    }
 
     if (difference !== 0) {
-      await supabase
-        .from('portfolio_transactions')
-        .insert({
-          portfolio_id: portfolio.id,
-          type: difference > 0 ? 'cash_deposit' : 'cash_withdrawal',
-          symbol: 'CASH',
-          name: difference > 0 ? 'Einzahlung' : 'Auszahlung',
-          quantity: 1,
-          price: Math.abs(difference),
-          total_value: Math.abs(difference),
-          date: new Date().toISOString().split('T')[0]
-        })
+      await bookTransaction({
+        portfolio_id: portfolio.id,
+        type: difference > 0 ? 'cash_deposit' : 'cash_withdrawal',
+        symbol: 'CASH',
+        name: difference > 0 ? 'Einzahlung' : 'Auszahlung',
+        quantity: 1,
+        price: Math.abs(difference),
+        total_value: Math.abs(difference),
+        date: new Date().toISOString().split('T')[0]
+      }, applyCash)
+    } else {
+      await applyCash()
     }
 
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
 
+  // Name und Kredit auch in der Depotliste ändern. Vorher wurde nur das
+  // geladene Depot angepasst: Seitenleiste und Kurzname in der Adresse zeigten
+  // den alten Namen, und nach einem Reload passte der alte Kurzname zu keinem
+  // Depot mehr, man landete in "Alle Depots". Mit der aktualisierten Liste
+  // berechnet der Workspace den neuen Kurznamen und schreibt die Adresse um.
+  const patchLoadedPortfolio = useCallback((portfolioId: string, patch: Partial<Portfolio>) => {
+    setPortfolio(prev => prev ? { ...prev, ...patch } : null)
+    setAllPortfolios(prev => prev.map(p => (p.id === portfolioId ? { ...p, ...patch } : p)))
+  }, [])
+
   const updateBrokerCredit = useCallback(async (amount: number) => {
-    if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+    if (!portfolio?.id || portfolio.id === 'all') throw new Error('Kein Portfolio ausgewählt')
     const { error } = await supabase
       .from('portfolios')
       .update({ broker_credit: amount })
       .eq('id', portfolio.id)
     if (error) throw error
-    setPortfolio(prev => prev ? { ...prev, broker_credit: amount } : null)
-  }, [portfolio])
+    patchLoadedPortfolio(portfolio.id, { broker_credit: amount })
+  }, [portfolio, patchLoadedPortfolio])
 
   const updatePortfolioName = useCallback(async (name: string) => {
-    if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+    if (!portfolio?.id || portfolio.id === 'all') throw new Error('Kein Portfolio ausgewählt')
+    const trimmed = name.trim()
+    if (!trimmed) throw new Error('Bitte einen Namen eingeben')
 
     const { error } = await supabase
       .from('portfolios')
-      .update({ name: name.trim() })
+      .update({ name: trimmed })
       .eq('id', portfolio.id)
     if (error) throw error
 
-    setPortfolio(prev => prev ? { ...prev, name: name.trim() } : null)
-  }, [portfolio])
+    patchLoadedPortfolio(portfolio.id, { name: trimmed })
+  }, [portfolio, patchLoadedPortfolio])
 
   // Einzelne Transaktion direkt bearbeiten (z.B. Datum, Menge, Preis, Gebühren, Notiz).
   // ACHTUNG: Keine automatische Synchronisation mit Holdings — der Nutzer ist
