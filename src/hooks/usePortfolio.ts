@@ -12,6 +12,7 @@ import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { formatMoney } from '@/lib/displayFormat'
 import { getEURRate, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
+import { valueBeforeSpinoff } from '@/lib/spinoffAdjustment'
 import { fetchEurRatesFor } from '@/lib/portfolioValuation'
 import {
   alignDayChange,
@@ -60,6 +61,149 @@ async function bookTransaction(row: Record<string, unknown>, apply: () => Promis
     await supabase.from('portfolio_transactions').delete().eq('id', txId)
     throw applyError
   }
+}
+
+// ---- Buchungen löschen und bearbeiten: Wirkung auf Bargeld und Bestand ----
+
+/** Zeile aus portfolio_transactions, wie sie in der Datenbank liegt */
+interface StoredTransactionRow {
+  id: string
+  portfolio_id: string
+  type: string
+  symbol: string
+  name: string | null
+  quantity: number | string | null
+  price: number | string | null
+  total_value: number | string | null
+  fee: number | string | null
+  date: string
+  notes: string | null
+}
+
+const STORED_TRANSACTION_COLUMNS = 'id, portfolio_id, type, symbol, name, quantity, price, total_value, fee, date, notes'
+const EPS_SHARES = 1e-6
+
+const num = (value: unknown): number => Number(value) || 0
+
+/** Betrag einer Buchung: total_value, sonst Stück × Kurs */
+function bookedAmount(tx: Pick<StoredTransactionRow, 'total_value' | 'quantity' | 'price'>): number {
+  const total = num(tx.total_value)
+  return total > 0 ? total : Math.abs(num(tx.quantity) * num(tx.price))
+}
+
+/** Einstand eines Kaufs, Kaufgebühren eingeschlossen (wie lib/portfolio/costBasis) */
+function buyCost(tx: Pick<StoredTransactionRow, 'total_value' | 'quantity' | 'price' | 'fee'>): number {
+  return bookedAmount(tx) + Math.abs(num(tx.fee))
+}
+
+/**
+ * Kontobewegung einer Buchung aus Sicht des Bargelds, dieselbe Regel wie beim
+ * Import (CSVImportModal): Käufe belasten das Konto samt Gebühr, Verkäufe
+ * bringen den Erlös abzüglich Gebühr, Dividenden und Einzahlungen kommen dazu,
+ * Auszahlungen gehen ab. Depotüberträge bewegen kein Geld.
+ */
+function cashEffect(tx: Pick<StoredTransactionRow, 'type' | 'total_value' | 'quantity' | 'price' | 'fee' | 'notes'>): number {
+  const amount = bookedAmount(tx)
+  const fee = Math.abs(num(tx.fee))
+  switch (tx.type) {
+    case 'cash_deposit': return amount
+    case 'cash_withdrawal': return -amount
+    case 'dividend': return amount
+    case 'buy': return -(valueBeforeSpinoff(amount, tx.notes) + fee)
+    case 'sell': return amount - fee
+    default: return 0
+  }
+}
+
+async function loadStoredTransaction(txId: string): Promise<StoredTransactionRow> {
+  const { data, error } = await supabase
+    .from('portfolio_transactions')
+    .select(STORED_TRANSACTION_COLUMNS)
+    .eq('id', txId)
+    .single()
+  if (error) throw error
+  return data as unknown as StoredTransactionRow
+}
+
+/** Bargeld eines Depots um delta verschieben (Buchung gelöscht oder geändert) */
+async function shiftCash(portfolioId: string, delta: number): Promise<void> {
+  if (Math.abs(delta) < 0.005) return
+  const { data, error } = await supabase
+    .from('portfolios')
+    .select('cash_position')
+    .eq('id', portfolioId)
+    .single()
+  if (error) throw error
+  const next = Math.round((num(data.cash_position) + delta) * 100) / 100
+  const { error: updateError } = await supabase
+    .from('portfolios')
+    .update({ cash_position: next })
+    .eq('id', portfolioId)
+  if (updateError) throw updateError
+}
+
+/**
+ * Bestand eines Papiers um eine Buchung verschieben. deltaQuantity in Stück,
+ * deltaCost in Euro; ohne deltaCost bleibt der Durchschnittskurs stehen
+ * (Verkauf zurückgenommen oder geändert). Gibt es die Position nicht mehr und
+ * kommen Stücke dazu, entsteht sie neu mit fallbackPrice als Einstand.
+ */
+async function shiftHolding(params: {
+  portfolioId: string
+  symbol: string
+  name: string | null
+  date: string
+  deltaQuantity: number
+  deltaCost?: number
+  fallbackPrice: number
+}): Promise<void> {
+  const { portfolioId, symbol, name, date, deltaQuantity, deltaCost, fallbackPrice } = params
+  if (Math.abs(deltaQuantity) < EPS_SHARES && !deltaCost) return
+
+  const { data: rows, error } = await supabase
+    .from('portfolio_holdings')
+    .select('id, quantity, purchase_price')
+    .eq('portfolio_id', portfolioId)
+    .eq('symbol', symbol)
+    .order('quantity', { ascending: false })
+    .limit(1)
+  if (error) throw error
+  const holding = rows?.[0]
+
+  if (!holding) {
+    if (deltaQuantity <= EPS_SHARES) return
+    const price = deltaCost !== undefined && deltaCost > 0 ? deltaCost / deltaQuantity : fallbackPrice
+    const { error: insertError } = await supabase
+      .from('portfolio_holdings')
+      .insert({
+        portfolio_id: portfolioId,
+        symbol,
+        name: name || symbol,
+        quantity: deltaQuantity,
+        purchase_price: price,
+        purchase_date: date,
+        purchase_currency: 'EUR',
+      })
+    if (insertError) throw insertError
+    return
+  }
+
+  const oldQuantity = num(holding.quantity)
+  const oldPrice = num(holding.purchase_price)
+  const newQuantity = oldQuantity + deltaQuantity
+  if (newQuantity <= EPS_SHARES) {
+    const { error: deleteError } = await supabase.from('portfolio_holdings').delete().eq('id', holding.id)
+    if (deleteError) throw deleteError
+    return
+  }
+  const newCost = deltaCost === undefined
+    ? oldPrice * newQuantity
+    : Math.max(0, oldQuantity * oldPrice + deltaCost)
+  const { error: updateError } = await supabase
+    .from('portfolio_holdings')
+    .update({ quantity: newQuantity, purchase_price: newCost / newQuantity })
+    .eq('id', holding.id)
+  if (updateError) throw updateError
 }
 
 /**
@@ -912,9 +1056,10 @@ export function usePortfolio(routeDepotKey?: string) {
     patchLoadedPortfolio(portfolio.id, { name: trimmed })
   }, [portfolio, patchLoadedPortfolio])
 
-  // Einzelne Transaktion direkt bearbeiten (z.B. Datum, Menge, Preis, Gebühren, Notiz).
-  // ACHTUNG: Keine automatische Synchronisation mit Holdings — der Nutzer ist
-  // selbst verantwortlich, die Holdings-Menge ggf. anzupassen (bei Buy-Edit).
+  // Einzelne Buchung bearbeiten (Datum, Menge, Preis, Gebühren, Notiz) und die
+  // Wirkung nachziehen: Das Bargeld um die Differenz der Kontobewegung, bei
+  // Käufen und Verkäufen den Bestand um die geänderten Stücke. Vorher änderte
+  // sich nur die Zeile, Depotwert und Positionen passten nicht mehr dazu.
   const updateTransaction = useCallback(async (txId: string, updates: {
     date?: string
     quantity?: number
@@ -923,16 +1068,16 @@ export function usePortfolio(routeDepotKey?: string) {
     notes?: string | null
     total_value?: number
   }) => {
-    const payload: Record<string, any> = { ...updates }
+    const before = await loadStoredTransaction(txId)
+
+    const payload: Record<string, unknown> = { ...updates }
     // total_value automatisch aktualisieren wenn qty oder price geändert wurden
-    if (payload.total_value === undefined && (payload.quantity !== undefined || payload.price !== undefined)) {
-      const tx = transactions.find(t => t.id === txId)
-      if (tx) {
-        const q = payload.quantity ?? tx.quantity
-        const p = payload.price ?? tx.price
-        payload.total_value = q * p
-      }
+    if (payload.total_value === undefined && (updates.quantity !== undefined || updates.price !== undefined)) {
+      const q = updates.quantity ?? num(before.quantity)
+      const p = updates.price ?? num(before.price)
+      payload.total_value = q * p
     }
+    const after = { ...before, ...payload } as StoredTransactionRow
 
     const { error } = await supabase
       .from('portfolio_transactions')
@@ -940,18 +1085,48 @@ export function usePortfolio(routeDepotKey?: string) {
       .eq('id', txId)
     if (error) throw error
 
-    await loadPortfolio(depotIdParam)
-  }, [transactions, loadPortfolio, depotIdParam])
+    await shiftCash(before.portfolio_id, cashEffect(after) - cashEffect(before))
 
+    const quantityDelta = num(after.quantity) - num(before.quantity)
+    const position = { portfolioId: before.portfolio_id, symbol: before.symbol, name: before.name, date: after.date }
+    if (before.type === 'buy') {
+      const costDelta = buyCost(after) - buyCost(before)
+      if (Math.abs(quantityDelta) > EPS_SHARES || Math.abs(costDelta) > 0.005) {
+        await shiftHolding({ ...position, deltaQuantity: quantityDelta, deltaCost: costDelta, fallbackPrice: num(after.price) })
+      }
+    } else if (before.type === 'sell' && Math.abs(quantityDelta) > EPS_SHARES) {
+      await shiftHolding({ ...position, deltaQuantity: -quantityDelta, fallbackPrice: num(after.price) })
+    }
+
+    await loadPortfolio(depotIdParam)
+  }, [loadPortfolio, depotIdParam])
+
+  // Buchung löschen und ihre Wirkung zurücknehmen. Vorher verschwand nur die
+  // Zeile: Eine gelöschte Einzahlung ließ das Bargeld stehen, ein gelöschter
+  // Kauf die Position. Depotüberträge bleiben wie bisher Bestandssache des
+  // Nutzers (Splits und Spin-offs laufen ebenfalls als Übertrag).
   const deleteTransaction = useCallback(async (txId: string) => {
+    const row = await loadStoredTransaction(txId)
+
     const { error } = await supabase
       .from('portfolio_transactions')
       .delete()
       .eq('id', txId)
     if (error) throw error
 
+    await shiftCash(row.portfolio_id, -cashEffect(row))
+
+    const position = { portfolioId: row.portfolio_id, symbol: row.symbol, name: row.name, date: row.date }
+    if (row.type === 'buy') {
+      await shiftHolding({ ...position, deltaQuantity: -num(row.quantity), deltaCost: -buyCost(row), fallbackPrice: num(row.price) })
+    } else if (row.type === 'sell') {
+      // Die Stücke kommen zum damaligen Durchschnittskurs zurück in den Bestand
+      const basis = realizedGainByTxId.get(txId)?.avgCostBasis
+      await shiftHolding({ ...position, deltaQuantity: num(row.quantity), fallbackPrice: basis && basis > 0 ? basis : num(row.price) })
+    }
+
     await loadPortfolio(depotIdParam)
-  }, [loadPortfolio, depotIdParam])
+  }, [realizedGainByTxId, loadPortfolio, depotIdParam])
 
   // Depot komplett löschen inkl. aller Holdings, Transaktionen und des
   // Portfolio-Eintrags selbst. Verwendet von der Depots-Übersicht.

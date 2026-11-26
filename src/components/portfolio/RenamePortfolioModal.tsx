@@ -12,6 +12,8 @@ interface RenamePortfolioModalProps {
 
 export default function RenamePortfolioModal({ open, currentName, onClose, onSave }: RenamePortfolioModalProps) {
   const [name, setName] = useState('')
+  // Schutz gegen Doppelklick: Der zweite Klick wartete nicht auf den ersten
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (open) setName(currentName)
@@ -20,12 +22,15 @@ export default function RenamePortfolioModal({ open, currentName, onClose, onSav
   if (!open) return null
 
   const handleSave = async () => {
-    if (!name.trim()) return
+    if (saving || !name.trim()) return
+    setSaving(true)
     try {
       await onSave(name)
       onClose()
     } catch (error: any) {
       alert(`Fehler: ${error.message}`)
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -54,10 +59,10 @@ export default function RenamePortfolioModal({ open, currentName, onClose, onSav
           <div className="flex gap-3 pt-2">
             <button
               onClick={handleSave}
-              disabled={!name.trim() || name.trim() === currentName}
+              disabled={saving || !name.trim() || name.trim() === currentName}
               className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
             >
-              Speichern
+              {saving ? 'Speichern…' : 'Speichern'}
             </button>
             <button onClick={onClose} className="flex-1 py-2 border border-theme hover:bg-theme-hover text-theme-primary rounded-lg transition-colors">
               Abbrechen

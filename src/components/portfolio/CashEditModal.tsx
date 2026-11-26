@@ -13,6 +13,9 @@ interface CashEditModalProps {
 
 export default function CashEditModal({ open, cashPosition, formatCurrency, onClose, onSave }: CashEditModalProps) {
   const [amount, setAmount] = useState('')
+  // Schutz gegen Doppelklick: Der zweite Klick erzeugte eine zweite Cash-Buchung,
+  // weil er die Differenz noch zum alten Stand rechnete
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (open) setAmount(cashPosition.toString())
@@ -21,12 +24,15 @@ export default function CashEditModal({ open, cashPosition, formatCurrency, onCl
   if (!open) return null
 
   const handleSave = async () => {
-    if (amount === '') return
+    if (saving || amount === '') return
+    setSaving(true)
     try {
       await onSave(parseFloat(amount) || 0)
       onClose()
     } catch (error: any) {
       alert(`Fehler: ${error.message}`)
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -118,10 +124,10 @@ export default function CashEditModal({ open, cashPosition, formatCurrency, onCl
             </button>
             <button
               onClick={handleSave}
-              disabled={amount === '' || parseFloat(amount) === cashPosition}
+              disabled={saving || amount === '' || parseFloat(amount) === cashPosition}
               className="flex-1 py-2.5 text-[13px] font-medium bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 hover:opacity-90 disabled:bg-theme-secondary disabled:text-theme-muted disabled:cursor-not-allowed rounded-xl transition-colors"
             >
-              Speichern
+              {saving ? 'Speichern…' : 'Speichern'}
             </button>
           </div>
         </div>

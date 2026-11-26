@@ -13,6 +13,8 @@ interface BrokerCreditModalProps {
 
 export default function BrokerCreditModal({ open, brokerCredit, formatCurrency, onClose, onSave }: BrokerCreditModalProps) {
   const [amount, setAmount] = useState('')
+  // Schutz gegen Doppelklick: Der zweite Klick wartete nicht auf den ersten
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (open) setAmount(brokerCredit.toString())
@@ -21,11 +23,15 @@ export default function BrokerCreditModal({ open, brokerCredit, formatCurrency, 
   if (!open) return null
 
   const handleSave = async () => {
+    if (saving) return
+    setSaving(true)
     try {
       await onSave(parseFloat(amount) || 0)
       onClose()
     } catch (error: any) {
       alert(`Fehler: ${error.message}`)
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -65,10 +71,10 @@ export default function BrokerCreditModal({ open, brokerCredit, formatCurrency, 
           <div className="flex gap-3 pt-2">
             <button
               onClick={handleSave}
-              disabled={amount === '' || parseFloat(amount) === brokerCredit}
+              disabled={saving || amount === '' || parseFloat(amount) === brokerCredit}
               className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
             >
-              Speichern
+              {saving ? 'Speichern…' : 'Speichern'}
             </button>
             <button onClick={onClose} className="flex-1 py-2 border border-theme hover:bg-theme-hover text-theme-primary rounded-lg transition-colors">
               Abbrechen

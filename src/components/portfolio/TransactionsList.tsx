@@ -4,7 +4,6 @@
 'use client'
 
 import React, { useState, useMemo, useRef, useEffect } from 'react'
-import { supabase } from '@/lib/supabaseClient'
 import { type Transaction, type RealizedGainInfo } from '@/hooks/usePortfolio'
 import { perfColor } from '@/utils/formatters'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
@@ -26,11 +25,22 @@ import {
 } from '@heroicons/react/24/outline'
 import { formatDecimal } from '@/lib/displayFormat'
 
+/** Änderbare Felder einer Buchung; Bargeld und Bestand zieht der Hook nach */
+export interface TransactionEdit {
+  date?: string
+  quantity?: number
+  price?: number
+  notes?: string | null
+}
+
 interface TransactionsListProps {
   portfolioId: string
   transactions: Transaction[]
   realizedGainByTxId: Map<string, RealizedGainInfo>
-  onTransactionChange?: () => void
+  /** Löschen samt Rücknahme von Bargeld und Bestand (usePortfolio.deleteTransaction) */
+  onDeleteTransaction: (id: string) => Promise<void>
+  /** Bearbeiten samt Nachziehen von Bargeld und Bestand (usePortfolio.updateTransaction) */
+  onUpdateTransaction: (id: string, updates: TransactionEdit) => Promise<void>
   formatCurrency: (amount: number) => string
   isAllDepotsView?: boolean
 }
@@ -146,7 +156,8 @@ export default function TransactionsList({
   portfolioId,
   transactions,
   realizedGainByTxId,
-  onTransactionChange,
+  onDeleteTransaction,
+  onUpdateTransaction,
   formatCurrency,
   isAllDepotsView = false,
 }: TransactionsListProps) {
@@ -161,6 +172,10 @@ export default function TransactionsList({
   const [editPrice, setEditPrice] = useState('')
   const [editNotes, setEditNotes] = useState('')
   const [editSaving, setEditSaving] = useState(false)
+  const [deletingTxId, setDeletingTxId] = useState<string | null>(null)
+  // Fehler beim Löschen oder Speichern. Vorher verschwand ein gescheitertes
+  // Löschen still, die Zeile blieb stehen und niemand wusste, warum.
+  const [actionError, setActionError] = useState<string | null>(null)
 
   const uniqueSymbols = useMemo(() => {
     const symbols = new Set<string>()
@@ -228,9 +243,17 @@ export default function TransactionsList({
 
   // Edit handlers
   const handleDelete = async (id: string) => {
-    if (!confirm('Transaktion wirklich löschen?')) return
-    const { error } = await supabase.from('portfolio_transactions').delete().eq('id', id)
-    if (!error) onTransactionChange?.()
+    if (deletingTxId) return
+    if (!confirm('Transaktion wirklich löschen? Bargeld und Bestand werden entsprechend angepasst.')) return
+    setActionError(null)
+    setDeletingTxId(id)
+    try {
+      await onDeleteTransaction(id)
+    } catch (err: any) {
+      setActionError(`Buchung konnte nicht gelöscht werden: ${err?.message || 'Unbekannter Fehler'}`)
+    } finally {
+      setDeletingTxId(null)
+    }
   }
 
   const startEdit = (tx: Transaction) => {
@@ -242,20 +265,20 @@ export default function TransactionsList({
   }
 
   const saveEdit = async () => {
-    if (!editingTxId) return
+    if (!editingTxId || editSaving) return
+    const qty = parseFloat(editQuantity) || 0
+    const price = parseFloat(editPrice) || 0
+    if (!editDate || qty <= 0 || price < 0) {
+      setActionError('Bitte Datum, Anzahl und Preis prüfen.')
+      return
+    }
     setEditSaving(true)
+    setActionError(null)
     try {
-      const qty = parseFloat(editQuantity) || 0
-      const price = parseFloat(editPrice) || 0
-      const { error } = await supabase
-        .from('portfolio_transactions')
-        .update({ date: editDate, quantity: qty, price, total_value: qty * price, notes: editNotes || null })
-        .eq('id', editingTxId)
-      if (error) throw error
+      await onUpdateTransaction(editingTxId, { date: editDate, quantity: qty, price, notes: editNotes || null })
       setEditingTxId(null)
-      onTransactionChange?.()
     } catch (err: any) {
-      alert(`Fehler: ${err.message}`)
+      setActionError(`Buchung konnte nicht gespeichert werden: ${err?.message || 'Unbekannter Fehler'}`)
     } finally {
       setEditSaving(false)
     }
@@ -321,6 +344,15 @@ export default function TransactionsList({
           </span>
         </div>
       </div>
+
+      {actionError && (
+        <div role="alert" className="mb-4 flex items-start justify-between gap-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-[12px] text-red-300">
+          <span>{actionError}</span>
+          <button onClick={() => setActionError(null)} className="shrink-0 p-0.5 hover:text-white" aria-label="Meldung schließen">
+            <XMarkIcon className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       {/* ================================================================
           TRANSACTION LIST (gruppiert nach Monat)
@@ -485,8 +517,10 @@ export default function TransactionsList({
                         <button onClick={() => startEdit(tx)} className="p-1.5 hover:bg-white/[0.08] rounded-lg transition-colors" title="Bearbeiten">
                           <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-white" />
                         </button>
-                        <button onClick={() => handleDelete(tx.id)} className="p-1.5 hover:bg-white/[0.08] rounded-lg transition-colors" title="Löschen">
-                          <XMarkIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-red-400" />
+                        <button onClick={() => handleDelete(tx.id)} disabled={deletingTxId !== null} className="p-1.5 hover:bg-white/[0.08] rounded-lg transition-colors disabled:opacity-50" title="Löschen">
+                          {deletingTxId === tx.id
+                            ? <ArrowPathIcon className="w-3.5 h-3.5 text-neutral-400 animate-spin" />
+                            : <XMarkIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-red-400" />}
                         </button>
                       </div>
                     </div>

@@ -1351,7 +1351,8 @@ export default function PortfolioWorkspace() {
                   portfolioId={p.portfolio?.id || ''}
                   transactions={p.transactions}
                   realizedGainByTxId={p.realizedGainByTxId}
-                  onTransactionChange={() => p.loadPortfolio(p.depotIdParam)}
+                  onDeleteTransaction={p.deleteTransaction}
+                  onUpdateTransaction={p.updateTransaction}
                   formatCurrency={p.formatCurrency}
                   isAllDepotsView={p.isAllDepotsView}
                 />
