@@ -31,7 +31,7 @@ import {
 } from '@/lib/flatexXLSXParser'
 import { describeWorkbook, looksLikeFreedom24Orders } from '@/lib/workbookFormat'
 import { buildColumnPreview, readCsvTable, tableFromRows } from '@/lib/columnImport'
-import { aiConfigured, isAiBetaUser } from '@/lib/ai/config'
+import { aiConfigured } from '@/lib/ai/config'
 import {
   parseFreedom24TradeReport,
   parseFreedom24TradeReports,
@@ -277,9 +277,9 @@ export async function POST(request: Request) {
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
-    // KI-Vorschlag im Zuordnungsschritt: nur für Nutzer der Finclue-AI-Allowlist,
-    // bis die Datenschutzerklärung die Übertragung nennt (lib/ai/columnMapping.ts)
-    const aiSuggestAvailable = aiConfigured() && isAiBetaUser(user.email)
+    // KI-Vorschlag im Zuordnungsschritt (Opt-in im Modal, lib/ai/columnMapping.ts);
+    // die Datenschutzerklärung nennt die Übertragung unter /privacy#ki
+    const aiSuggestAvailable = aiConfigured()
 
     const formData = await request.formData()
     const files = formData.getAll('files') as File[]

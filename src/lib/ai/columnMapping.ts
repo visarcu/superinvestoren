@@ -8,10 +8,9 @@
 // nur die Zuordnung, nie Zahlen; das Lesen der Werte bleibt deterministisch in
 // columnImport.ts, und der Nutzer bestätigt den Vorschlag sichtbar.
 //
-// Datenschutz: Bevor der Schalter für alle Nutzer sichtbar wird, muss die
-// Datenschutzerklärung (src/app/(website)/privacy/page.tsx) die Übertragung der
-// Kopfzeile und Beispielzeilen an Anthropic nennen. Bis dahin gilt dieselbe
-// Allowlist wie für Finclue AI (AI_BETA_ALLOWLIST, siehe isAiBetaUser).
+// Datenschutz: Die Datenschutzerklärung (src/app/(website)/privacy/page.tsx,
+// Abschnitt „Spaltenvorschlag beim Depot-Import“) beschreibt genau diese Daten
+// und die Bereinigung. Wer hier mehr übermittelt, passt den Abschnitt an.
 
 import type Anthropic from '@anthropic-ai/sdk'
 import { z } from 'zod'

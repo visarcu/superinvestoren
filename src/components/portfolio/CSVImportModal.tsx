@@ -1933,10 +1933,9 @@ export default function CSVImportModal({
                 </table>
               </div>
 
-              {/* KI-Vorschlag, nur mit Zustimmung. Die Datenschutzerklärung muss die
-                  Übertragung nennen, bevor der Schalter für alle sichtbar wird
-                  (lib/ai/columnMapping.ts); bis dahin gibt ihn der Server nur für
-                  die Finclue-AI-Allowlist frei. */}
+              {/* KI-Vorschlag, nur mit Zustimmung (Opt-in). Der Server meldet ihn,
+                  sobald ein Anthropic-Schlüssel eingerichtet ist; was übertragen wird,
+                  steht in lib/ai/columnMapping.ts und unter /privacy#ki. */}
               {aiSuggestAvailable && (
                 <div className={`mb-5 p-3.5 rounded-xl border transition-colors ${aiOptIn ? 'border-white/[0.14] bg-white/[0.05]' : 'border-white/[0.06] bg-white/[0.03]'}`}>
                   <label className="flex items-start gap-2.5 cursor-pointer">

@@ -4,15 +4,14 @@
 // Kopfzeile, höchstens drei bereinigte Beispielzeilen und die Werte der
 // Art-Spalten an das Modell, zurück kommt nur die Zuordnung (lib/ai/columnMapping).
 //
-// Datenschutz: Vor der Freigabe für alle Nutzer muss die Datenschutzerklärung die
-// Übertragung an Anthropic nennen. Bis dahin ist die Route wie Finclue AI über
-// AI_BETA_ALLOWLIST begrenzt, und import-auto meldet dem Modal nur dann
-// `aiSuggestAvailable`, wenn der Nutzer auf der Liste steht.
+// Datenschutz: Die Übertragung an Anthropic steht in der Datenschutzerklärung
+// unter /privacy#ki (Abschnitt „Spaltenvorschlag beim Depot-Import“). Ändert sich,
+// was an das Modell geht, muss der Abschnitt mitziehen.
 
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 import { getAiUser } from '@/lib/ai/auth'
-import { aiConfigured, isAiBetaUser } from '@/lib/ai/config'
+import { aiConfigured } from '@/lib/ai/config'
 import { SuggestionInput, suggestColumnMapping } from '@/lib/ai/columnMapping'
 
 export const runtime = 'nodejs'
@@ -39,9 +38,6 @@ function allow(userId: string): boolean {
 export async function POST(request: Request) {
   const user = await getAiUser(request)
   if (!user) return NextResponse.json({ error: 'Bitte melde dich an.' }, { status: 401 })
-  if (!isAiBetaUser(user.email)) {
-    return NextResponse.json({ error: 'Der KI-Vorschlag ist noch nicht für alle freigeschaltet.' }, { status: 403 })
-  }
   if (!aiConfigured()) return NextResponse.json({ error: 'Der KI-Vorschlag ist noch nicht eingerichtet.' }, { status: 503 })
   if (!allow(user.id)) {
     return NextResponse.json({ error: 'Zu viele Vorschläge in kurzer Zeit. Bitte ordne die Spalten von Hand zu.' }, { status: 429 })
