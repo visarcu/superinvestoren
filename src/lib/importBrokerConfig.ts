@@ -228,8 +228,10 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
       steps: [
         'Wir erkennen das Format deiner Datei automatisch',
         'Unterstützt: CSV (Scalable Capital, Trade Republic, Trading 212, finanzen.net zero), PDF-Abrechnungen (Flatex, Smartbroker+, Trade Republic, ING, Trading 212, Freedom24), XLSX (Flatex Depotumsätze, Freedom24)',
-        'Fehlt dein Broker? Schreib uns an support@finclue.de — wir bauen es ein!',
+        'Kennen wir das Format nicht, zeigen wir dir die Spalten deiner CSV- oder XLSX-Datei und du ordnest sie zu: Datum, ISIN oder WKN, Art, Stückzahl, Kurs',
+        'Fehlt dein Broker? Schreib uns an support@finclue.de, dann bauen wir ihn ein',
       ],
+      hint: 'Für den Spalten-Import exportierst du bei deiner Bank die Depotumsätze oder Orders als CSV oder Excel und lädst eine Datei auf einmal hoch.',
     },
   },
 ]

@@ -6,6 +6,7 @@
 
 import Anthropic from '@anthropic-ai/sdk'
 import { ZodError } from 'zod'
+import { getAnthropicClient as getClient } from './client'
 import { DepotAccess } from './depot/access'
 import { AI_TOOLS, isPersonalTool, TOOL_BY_NAME } from './tools'
 import { ToolError, type ToolContext } from './tools/base'
@@ -16,19 +17,6 @@ import type { AiBlock, AiCheck, AiContext, AiMessagePayload, AiSource, AiStep } 
 
 type BetaMessageParam = Anthropic.Beta.Messages.BetaMessageParam
 type BetaToolUnion = Anthropic.Beta.Messages.BetaToolUnion
-
-let client: Anthropic | null = null
-function getClient(): Anthropic {
-  // Schlüssel mit Geltungsbereich „Organisation“ brauchen bei jeder Anfrage den
-  // Workspace, Schlüssel für einen Workspace kommen ohne aus.
-  const workspace = process.env.ANTHROPIC_WORKSPACE_ID?.trim()
-  client ??= new Anthropic({
-    maxRetries: 2,
-    timeout: 100_000,
-    ...(workspace ? { defaultHeaders: { 'anthropic-workspace-id': workspace } } : {}),
-  })
-  return client
-}
 
 export interface HistoryMessage {
   role: 'user' | 'assistant'

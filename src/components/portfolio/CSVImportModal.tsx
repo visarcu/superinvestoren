@@ -31,6 +31,21 @@ import {
 } from '@/lib/spinoffAdjustment'
 import type { FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import {
+  COLUMN_FIELDS,
+  COLUMN_IMPORT_FORMAT,
+  KIND_LABELS,
+  KIND_TYPES,
+  guessKindAssignments,
+  kindsFromAssignments,
+  splitKindWords,
+  validateColumnMapping,
+  type ColumnField,
+  type ColumnKindType,
+  type ColumnKinds,
+  type ColumnMapping,
+  type ColumnTablePreview,
+} from '@/lib/columnImport'
+import {
   IMPORT_BROKERS,
   getImportBroker,
   formatToBrokerId,
@@ -69,6 +84,7 @@ type WizardStep =
   | 'instructions'
   | 'upload'
   | 'processing'
+  | 'columns'
   | 'resolve'
   | 'cash'
   | 'preview'
@@ -125,7 +141,7 @@ const TYPE_LABELS: Record<string, { label: string; color: string }> = {
 const MAIN_STEPS: { key: WizardStep[]; label: string }[] = [
   { key: ['broker'], label: 'Broker' },
   { key: ['instructions'], label: 'Anleitung' },
-  { key: ['upload', 'processing', 'resolve'], label: 'Upload' },
+  { key: ['upload', 'processing', 'columns', 'resolve'], label: 'Upload' },
   { key: ['cash'], label: 'Cash' },
   { key: ['preview', 'importing', 'done'], label: 'Vorschau' },
 ]
@@ -164,6 +180,28 @@ export default function CSVImportModal({
   // ING-Depotüberträge haben keinen Einstandskurs — hier ziehen wir den Tagesschlusskurs.
   const [transferPrices, setTransferPrices] = useState<Record<string, TransferPrice>>({})
   const [fetchingTransferPrices, setFetchingTransferPrices] = useState(false)
+
+  // === Spalten-Import (Tabelle ohne eigenen Parser) ===
+  // Kopf und Beispielzeilen vom Server; die Datei bleibt für den zweiten Upload
+  // mit der Zuordnung hier liegen.
+  const [columnTable, setColumnTable] = useState<ColumnTablePreview | null>(null)
+  const [columnFile, setColumnFile] = useState<File | null>(null)
+  const [columnAssignments, setColumnAssignments] = useState<Partial<Record<ColumnField, number>>>({})
+  // Je Wert der Art-Spalte: Kauf, Verkauf, Dividende oder überspringen
+  const [kindAssignments, setKindAssignments] = useState<Record<string, ColumnKindType | 'ignore'>>({})
+  // Freitext, wenn die Art-Spalte zu viele verschiedene Werte hat
+  const [kindWordText, setKindWordText] = useState<Record<ColumnKindType, string>>({ buy: 'Kauf', sell: 'Verkauf', dividend: 'Dividende' })
+  const [columnBusy, setColumnBusy] = useState(false)
+  const [columnError, setColumnError] = useState<string | null>(null)
+  // KI-Vorschlag: nur sichtbar, wenn der Server ihn für diesen Nutzer freigibt,
+  // und nur auf ausdrücklichen Wunsch (Opt-in). Datenschutzerklärung ergänzen,
+  // bevor er für alle sichtbar wird (siehe lib/ai/columnMapping.ts).
+  const [aiSuggestAvailable, setAiSuggestAvailable] = useState(false)
+  const [aiOptIn, setAiOptIn] = useState(false)
+  const [aiSuggesting, setAiSuggesting] = useState(false)
+  const [aiSuggested, setAiSuggested] = useState(false)
+  const [aiNote, setAiNote] = useState<string | null>(null)
+  const [aiError, setAiError] = useState<string | null>(null)
 
   // === Import State ===
   const [importing, setImporting] = useState(false)
@@ -396,6 +434,19 @@ export default function CSVImportModal({
     setIsDragOver(false)
     setPendingDuplicateCheck(false)
     setResetBeforeImport(false)
+    setColumnTable(null)
+    setColumnFile(null)
+    setColumnAssignments({})
+    setKindAssignments({})
+    setKindWordText({ buy: 'Kauf', sell: 'Verkauf', dividend: 'Dividende' })
+    setColumnBusy(false)
+    setColumnError(null)
+    setAiSuggestAvailable(false)
+    setAiOptIn(false)
+    setAiSuggesting(false)
+    setAiSuggested(false)
+    setAiNote(null)
+    setAiError(null)
     unfinishedImportRef.current = false
   }, [])
 
@@ -498,6 +549,156 @@ export default function CSVImportModal({
     }
   }, [])
 
+  // Antwort eines Parsers (import-auto oder import-columns) in den Wizard
+  // übernehmen: Transaktionen vereinheitlichen, ISINs auflösen, weiter zu Cash
+  // und Vorschau. Der Spalten-Import nutzt denselben Weg wie jede andere Datei.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const adoptServerResult = useCallback(async (data: any) => {
+    if (data.errors?.length > 0) setPdfErrors(data.errors)
+    setImportNotices((data.notices as string[] | undefined) || [])
+    setImportWarnings((data.warnings as string[] | undefined) || [])
+
+    if (!data.transactions || data.transactions.length === 0) {
+      setImportError('Keine Transaktionen erkannt. Bitte prüfe Dateiformat und Inhalt.')
+      return
+    }
+
+    setDetectedFormat(data.formatLabel)
+
+    // Warnung wenn Broker-Format nicht zur Auswahl passt
+    if (selectedBroker && selectedBroker.id !== 'other' && data.format !== COLUMN_IMPORT_FORMAT) {
+      const detectedBrokerId = formatToBrokerId(data.format)
+      if (detectedBrokerId !== selectedBroker.id) {
+        setPdfErrors(prev => [
+          `Hinweis: Du hast "${selectedBroker.name}" ausgewählt, die Datei sieht aber nach "${getImportBroker(detectedBrokerId).name}" aus. Der Import läuft trotzdem weiter.`,
+          ...prev,
+        ])
+      }
+    }
+
+    let parsedTransactions: ParsedTransaction[]
+    let uniqueISINs: string[]
+
+    if (
+      data.format === 'scalable' ||
+      data.format === 'zero' ||
+      data.format === 'trading212' ||
+      data.format === 'traderepublic_csv'
+    ) {
+      // Alle CSV-Parser liefern bereits ParsedTransaction[]
+      parsedTransactions = data.transactions as ParsedTransaction[]
+      uniqueISINs = (data.uniqueISINs as string[]) || []
+    } else {
+      // Typ-Erweiterung für PDF/XLSX-Parser die auch Transfer- und Cash-Typen
+      // liefern (z.B. ING-Überträge, Freedom24 Spin-offs + Banküberweisungen)
+      const txs = data.transactions as (Omit<FlatexParsedTransaction, 'type'> & {
+        type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out' | 'cash_deposit' | 'cash_withdrawal'
+        isFromTransfer?: boolean
+        corpActionType?: 'spinoff'
+        fromIsin?: string
+      })[]
+      // Spalten-Import ohne ISIN: WKN oder Name sind der Schlüssel, unter dem der
+      // Nutzer das Papier im Schritt "Wertpapiere zuordnen" einem Kürzel zuordnet.
+      const keyOf = (tx: { isin: string; wkn: string; name: string }): string =>
+        tx.isin || (data.format === COLUMN_IMPORT_FORMAT ? tx.wkn || tx.name : '')
+      // Split-ISINs mit auflösen: bei einem Split ohne Trades in derselben
+      // Datei (z.B. Freedom24-Report nur mit Corpactions) brauchen wir das
+      // Symbol trotzdem, um Alt-Transaktionen in der DB anzupassen.
+      const splitIsins = ((data.stockSplits as StockSplit[] | undefined) || []).map(s => s.isin)
+      // Quell-ISINs von Spin-offs ebenfalls auflösen — für die anteilige
+      // Übertragung der Kostenbasis von der Mutterposition
+      const spinoffFromIsins = txs.map(t => t.fromIsin).filter((v): v is string => !!v)
+      uniqueISINs = [...new Set([...txs.map(keyOf), ...splitIsins, ...spinoffFromIsins].filter(Boolean))]
+      parsedTransactions = txs.map(tx => {
+        const isCash = tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
+        const key = keyOf(tx)
+        return {
+          date: tx.date,
+          type: tx.type,
+          isin: isCash ? '' : key,
+          // Cash-Bewegungen laufen unter dem Pseudo-Symbol CASH; sonst:
+          // wenn keine ISIN vorhanden (z.B. Freedom24 Trades), Ticker als Symbol
+          symbol: isCash ? 'CASH' : key ? '' : tx.name,
+          name: tx.name,
+          quantity: tx.quantity,
+          price: tx.price,
+          totalValue: tx.totalValue,
+          fee: tx.fees || 0,
+          tax: 0,
+          notes: tx.notes,
+          originalType: `${data.format}_${tx.type}`,
+          // Transfer-in/out ohne Einstandspreis werden unten via Historical-Price-API nachgezogen
+          isFromTransfer: tx.isFromTransfer || tx.type === 'transfer_in' || tx.type === 'transfer_out',
+          corpActionType: tx.corpActionType,
+          fromIsin: tx.fromIsin,
+        }
+      })
+    }
+
+    const byType: Record<string, number> = {}
+    parsedTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
+
+    setParseResult({
+      transactions: parsedTransactions,
+      uniqueISINs,
+      skipped: [],
+      summary: {
+        total: parsedTransactions.length,
+        imported: parsedTransactions.length,
+        skipped: 0,
+        byType,
+      },
+      // Erkannte Corporate Actions (TR/Scalable CSV + Freedom24 Handelsbericht):
+      // In-File-Transaktionen sind bereits angepasst; beim Import werden die
+      // Splits zusätzlich auf bereits gespeicherte DB-Daten angewendet.
+      stockSplits: (data.stockSplits as StockSplit[] | undefined) || [],
+      tickerRenames: (data.tickerRenames as TickerRename[] | undefined) || [],
+    })
+
+    setStep('processing')
+
+    // Broker-Ticker je ISIN mitgeben. Die Handelsberichte tragen ihn im
+    // Namensfeld ('IREN.US', 'CSKR.EU') — daran erkennt der Stammsatz, welche
+    // Notierung gemeint ist. Ohne ihn bliebe nur Raten.
+    const brokerTickers: Record<string, string> = {}
+    for (const tx of parsedTransactions) {
+      const isin = tx.isin
+      const candidate = String(tx.name || '').trim()
+      if (!isin || brokerTickers[isin]) continue
+      // Nur echte Ticker übernehmen, keine Firmennamen ("IREN LTD").
+      if (/^[A-Z0-9]{1,8}(\.[A-Z]{1,4})?$/.test(candidate)) {
+        brokerTickers[isin] = candidate
+      }
+    }
+
+    await runISINResolve(
+      uniqueISINs,
+      setIsinMap,
+      brokerTickers,
+      (data.tickerRenames as TickerRename[] | undefined) || []
+    )
+  }, [runISINResolve, selectedBroker])
+
+  // Unbekanntes Format mit lesbarer Tabelle: in den Zuordnungsschritt wechseln,
+  // Spalten nach den Kopfzeilen vorbelegen.
+  const startColumnMapping = useCallback((table: ColumnTablePreview, file: File, aiAvailable: boolean) => {
+    setColumnTable(table)
+    setColumnFile(file)
+    setAiSuggestAvailable(aiAvailable)
+    setColumnAssignments(table.suggestedColumns)
+    const kindColumn = table.suggestedColumns.kind
+    const kindValues = kindColumn != null ? table.distinctValues[kindColumn] : undefined
+    setKindAssignments(kindValues ? guessKindAssignments(kindValues) : {})
+    setKindWordText({ buy: 'Kauf', sell: 'Verkauf', dividend: 'Dividende' })
+    setColumnError(null)
+    setAiOptIn(false)
+    setAiSuggesting(false)
+    setAiSuggested(false)
+    setAiNote(null)
+    setAiError(null)
+    setStep('columns')
+  }, [])
+
   const handleAutoUpload = useCallback(async (files: FileList | File[]) => {
     const fileArr = Array.from(files)
     if (fileArr.length === 0) return
@@ -533,124 +734,14 @@ export default function CSVImportModal({
 
       const data = await response.json()
 
-      if (data.errors?.length > 0) setPdfErrors(data.errors)
-      setImportNotices((data.notices as string[] | undefined) || [])
-      setImportWarnings((data.warnings as string[] | undefined) || [])
-
-      if (!data.transactions || data.transactions.length === 0) {
-        setImportError('Keine Transaktionen erkannt. Bitte prüfe Dateiformat und Inhalt.')
+      // Unbekanntes Format, aber eine lesbare Tabelle: Der Nutzer ordnet die
+      // Spalten selbst zu (Spalten-Import), danach läuft alles wie gewohnt.
+      if ((!data.transactions || data.transactions.length === 0) && data.table) {
+        startColumnMapping(data.table as ColumnTablePreview, fileArr[0], data.aiSuggestAvailable === true)
         return
       }
 
-      setDetectedFormat(data.formatLabel)
-
-      // Warnung wenn Broker-Format nicht zur Auswahl passt
-      if (selectedBroker && selectedBroker.id !== 'other') {
-        const detectedBrokerId = formatToBrokerId(data.format)
-        if (detectedBrokerId !== selectedBroker.id) {
-          setPdfErrors(prev => [
-            `Hinweis: Du hast "${selectedBroker.name}" ausgewählt, die Datei sieht aber nach "${getImportBroker(detectedBrokerId).name}" aus. Der Import läuft trotzdem weiter.`,
-            ...prev,
-          ])
-        }
-      }
-
-      let parsedTransactions: ParsedTransaction[]
-      let uniqueISINs: string[]
-
-      if (
-        data.format === 'scalable' ||
-        data.format === 'zero' ||
-        data.format === 'trading212' ||
-        data.format === 'traderepublic_csv'
-      ) {
-        // Alle CSV-Parser liefern bereits ParsedTransaction[]
-        parsedTransactions = data.transactions as ParsedTransaction[]
-        uniqueISINs = (data.uniqueISINs as string[]) || []
-      } else {
-        // Typ-Erweiterung für PDF/XLSX-Parser die auch Transfer- und Cash-Typen
-        // liefern (z.B. ING-Überträge, Freedom24 Spin-offs + Banküberweisungen)
-        const txs = data.transactions as (Omit<FlatexParsedTransaction, 'type'> & {
-          type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out' | 'cash_deposit' | 'cash_withdrawal'
-          isFromTransfer?: boolean
-          corpActionType?: 'spinoff'
-          fromIsin?: string
-        })[]
-        // Split-ISINs mit auflösen: bei einem Split ohne Trades in derselben
-        // Datei (z.B. Freedom24-Report nur mit Corpactions) brauchen wir das
-        // Symbol trotzdem, um Alt-Transaktionen in der DB anzupassen.
-        const splitIsins = ((data.stockSplits as StockSplit[] | undefined) || []).map(s => s.isin)
-        // Quell-ISINs von Spin-offs ebenfalls auflösen — für die anteilige
-        // Übertragung der Kostenbasis von der Mutterposition
-        const spinoffFromIsins = txs.map(t => t.fromIsin).filter((v): v is string => !!v)
-        uniqueISINs = [...new Set([...txs.map(t => t.isin), ...splitIsins, ...spinoffFromIsins].filter(Boolean))]
-        parsedTransactions = txs.map(tx => {
-          const isCash = tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
-          return {
-            date: tx.date,
-            type: tx.type,
-            isin: isCash ? '' : tx.isin,
-            // Cash-Bewegungen laufen unter dem Pseudo-Symbol CASH; sonst:
-            // wenn keine ISIN vorhanden (z.B. Freedom24 Trades), Ticker als Symbol
-            symbol: isCash ? 'CASH' : tx.isin ? '' : tx.name,
-            name: tx.name,
-            quantity: tx.quantity,
-            price: tx.price,
-            totalValue: tx.totalValue,
-            fee: tx.fees || 0,
-            tax: 0,
-            notes: tx.notes,
-            originalType: `${data.format}_${tx.type}`,
-            // Transfer-in/out ohne Einstandspreis werden unten via Historical-Price-API nachgezogen
-            isFromTransfer: tx.isFromTransfer || tx.type === 'transfer_in' || tx.type === 'transfer_out',
-            corpActionType: tx.corpActionType,
-            fromIsin: tx.fromIsin,
-          }
-        })
-      }
-
-      const byType: Record<string, number> = {}
-      parsedTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
-
-      setParseResult({
-        transactions: parsedTransactions,
-        uniqueISINs,
-        skipped: [],
-        summary: {
-          total: parsedTransactions.length,
-          imported: parsedTransactions.length,
-          skipped: 0,
-          byType,
-        },
-        // Erkannte Corporate Actions (TR/Scalable CSV + Freedom24 Handelsbericht):
-        // In-File-Transaktionen sind bereits angepasst; beim Import werden die
-        // Splits zusätzlich auf bereits gespeicherte DB-Daten angewendet.
-        stockSplits: (data.stockSplits as StockSplit[] | undefined) || [],
-        tickerRenames: (data.tickerRenames as TickerRename[] | undefined) || [],
-      })
-
-      setStep('processing')
-
-      // Broker-Ticker je ISIN mitgeben. Die Handelsberichte tragen ihn im
-      // Namensfeld ('IREN.US', 'CSKR.EU') — daran erkennt der Stammsatz, welche
-      // Notierung gemeint ist. Ohne ihn bliebe nur Raten.
-      const brokerTickers: Record<string, string> = {}
-      for (const tx of parsedTransactions) {
-        const isin = tx.isin
-        const candidate = String(tx.name || '').trim()
-        if (!isin || brokerTickers[isin]) continue
-        // Nur echte Ticker übernehmen, keine Firmennamen ("IREN LTD").
-        if (/^[A-Z0-9]{1,8}(\.[A-Z]{1,4})?$/.test(candidate)) {
-          brokerTickers[isin] = candidate
-        }
-      }
-
-      await runISINResolve(
-        uniqueISINs,
-        setIsinMap,
-        brokerTickers,
-        (data.tickerRenames as TickerRename[] | undefined) || []
-      )
+      await adoptServerResult(data)
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
       setImportError(`Upload fehlgeschlagen: ${msg}`)
@@ -658,7 +749,144 @@ export default function CSVImportModal({
       setPdfParsing(false)
       if (autoInputRef.current) autoInputRef.current.value = ''
     }
-  }, [runISINResolve, selectedBroker])
+  }, [adoptServerResult, startColumnMapping])
+
+  // ======================================================================
+  // STEP 3b: Spalten zuordnen (Tabelle ohne eigenen Parser)
+  // ======================================================================
+  // Zuordnung, wie die Route sie erwartet: Spaltenindizes plus die Wörter der
+  // Art-Spalte je Buchungsart
+  const columnMapping = useMemo((): ColumnMapping | null => {
+    if (!columnTable) return null
+    const columns: ColumnMapping['columns'] = {}
+    for (const [field, index] of Object.entries(columnAssignments) as [ColumnField, number | undefined][]) {
+      if (index != null) columns[field] = index
+    }
+    const kindColumn = columns.kind
+    const kindValues = kindColumn != null ? columnTable.distinctValues[kindColumn] : undefined
+    let kinds: ColumnKinds = { buy: [], sell: [], dividend: [] }
+    if (kindColumn != null) {
+      kinds = kindValues
+        ? kindsFromAssignments(kindAssignments)
+        : { buy: splitKindWords(kindWordText.buy), sell: splitKindWords(kindWordText.sell), dividend: splitKindWords(kindWordText.dividend) }
+    }
+    return { columns, kinds }
+  }, [columnTable, columnAssignments, kindAssignments, kindWordText])
+
+  const columnMappingError = useMemo(
+    () => (columnTable && columnMapping ? validateColumnMapping(columnMapping, columnTable.header.length) : null),
+    [columnTable, columnMapping]
+  )
+
+  const assignColumn = useCallback((field: ColumnField, value: string) => {
+    const index = value === '' ? undefined : Number(value)
+    setColumnAssignments(prev => {
+      const next = { ...prev }
+      // Eine Spalte gehört zu höchstens einem Feld
+      if (index != null) {
+        for (const key of Object.keys(next) as ColumnField[]) {
+          if (next[key] === index) delete next[key]
+        }
+        next[field] = index
+      } else {
+        delete next[field]
+      }
+      return next
+    })
+    if (field === 'kind') {
+      const values = index != null ? columnTable?.distinctValues[index] : undefined
+      setKindAssignments(values ? guessKindAssignments(values) : {})
+    }
+    setColumnError(null)
+  }, [columnTable])
+
+  // Vorschlag der KI holen. Der Nutzer hat zugestimmt (aiOptIn); gesendet werden
+  // Kopfzeile, Beispielzeilen und Wertelisten, der Server bereinigt sie noch einmal.
+  const requestAiSuggestion = useCallback(async () => {
+    if (!columnTable || !aiOptIn) return
+    setAiSuggesting(true)
+    setAiError(null)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) {
+        setAiError('Nicht angemeldet. Bitte neu einloggen.')
+        return
+      }
+      const response = await fetch('/api/portfolio/import-columns/suggest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+        body: JSON.stringify({
+          header: columnTable.header,
+          sampleRows: columnTable.sampleRows,
+          distinctValues: columnTable.distinctValues,
+        }),
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        setAiError(data.error || 'Der Vorschlag ist gerade nicht möglich.')
+        return
+      }
+      const mapping = data.mapping as ColumnMapping
+      setColumnAssignments(mapping.columns)
+      const kindColumn = mapping.columns.kind
+      const kindValues = kindColumn != null ? columnTable.distinctValues[kindColumn] : undefined
+      if (kindValues) {
+        const assignments: Record<string, ColumnKindType | 'ignore'> = {}
+        for (const value of kindValues) {
+          const type = KIND_TYPES.find(t => mapping.kinds[t].some(word => word.toLowerCase() === value.toLowerCase()))
+          assignments[value] = type ?? 'ignore'
+        }
+        setKindAssignments(assignments)
+      } else {
+        setKindWordText({ buy: mapping.kinds.buy.join(', '), sell: mapping.kinds.sell.join(', '), dividend: mapping.kinds.dividend.join(', ') })
+      }
+      setAiNote(typeof data.note === 'string' && data.note ? data.note : null)
+      setAiSuggested(true)
+      setColumnError(null)
+    } catch (error: unknown) {
+      setAiError(error instanceof Error ? error.message : 'Der Vorschlag ist gerade nicht möglich.')
+    } finally {
+      setAiSuggesting(false)
+    }
+  }, [columnTable, aiOptIn])
+
+  // Datei und Zuordnung an den Server, Antwort wie bei jedem anderen Parser übernehmen
+  const handleColumnImport = useCallback(async () => {
+    if (!columnFile || !columnMapping || columnMappingError) return
+    setColumnBusy(true)
+    setColumnError(null)
+    setImportError(null)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) {
+        setColumnError('Nicht angemeldet. Bitte neu einloggen.')
+        return
+      }
+      const formData = new FormData()
+      formData.append('file', columnFile)
+      formData.append('mapping', JSON.stringify(columnMapping))
+      const response = await fetch('/api/portfolio/import-columns', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` },
+        body: formData,
+      })
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        setColumnError(data.error || 'Die Datei konnte nicht gelesen werden.')
+        return
+      }
+      if (!data.transactions || data.transactions.length === 0) {
+        const reasons = [...((data.errors as string[] | undefined) || []), ...((data.notices as string[] | undefined) || [])]
+        setColumnError(reasons.length > 0 ? reasons.join(' ') : 'Mit dieser Zuordnung ergibt sich keine Buchung. Bitte prüfe Datum, Stückzahl und Kurs.')
+        return
+      }
+      await adoptServerResult(data)
+    } catch (error: unknown) {
+      setColumnError(`Lesen fehlgeschlagen: ${error instanceof Error ? error.message : 'Unbekannter Fehler'}`)
+    } finally {
+      setColumnBusy(false)
+    }
+  }, [columnFile, columnMapping, columnMappingError, adoptServerResult])
 
   // ======================================================================
   // STEP 4: ISIN Resolution
@@ -1389,6 +1617,13 @@ export default function CSVImportModal({
   // ======================================================================
   const currentMainStepIndex = MAIN_STEPS.findIndex(s => s.key.includes(step))
 
+  // Spalten-Import: Art-Spalte und ihre Werte, Feld je Spalte für die Kopfzeile
+  const kindColumn = columnAssignments.kind
+  const kindValues = columnTable && kindColumn != null ? columnTable.distinctValues[kindColumn] : undefined
+  const fieldLabel = (field: ColumnField): string => COLUMN_FIELDS.find(f => f.field === field)?.label ?? field
+  const fieldOfColumn = (index: number): ColumnField | undefined =>
+    (Object.entries(columnAssignments) as [ColumnField, number | undefined][]).find(([, i]) => i === index)?.[0]
+
   const renderStepIndicator = () => (
     <div className="flex items-center gap-1.5 px-6 py-3 border-b border-white/[0.05] flex-shrink-0 overflow-x-auto">
       {MAIN_STEPS.map((s, i) => {
@@ -1627,6 +1862,206 @@ export default function CSVImportModal({
             </div>
           )}
 
+          {/* === STEP 3b: SPALTEN ZUORDNEN (Tabelle ohne eigenen Parser) === */}
+          {step === 'columns' && columnTable && (
+            <div>
+              <div className="mb-5">
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Spalten zuordnen</h3>
+                <p className="text-[13px] text-neutral-500 leading-relaxed">
+                  Das Format von „{columnTable.fileName}“ kennen wir nicht
+                  {columnTable.sheet ? ` (Tabellenblatt „${columnTable.sheet}“)` : ''}. Sag uns, was in welcher Spalte steht,
+                  dann lesen wir die {columnTable.rowCount} Zeilen daraus. Zahlen und Daten werden so übernommen, wie sie in der Datei stehen.
+                </p>
+              </div>
+
+              {/* Kopfzeile und Beispielzeilen */}
+              <div className="mb-5 rounded-xl border border-white/[0.06] bg-white/[0.03] overflow-x-auto">
+                <table className="w-full text-[11px] border-collapse">
+                  <thead>
+                    <tr>
+                      {columnTable.header.map((name, i) => {
+                        const field = fieldOfColumn(i)
+                        return (
+                          <th key={i} className="px-2.5 py-2 text-left align-top font-medium text-neutral-300 whitespace-nowrap border-b border-white/[0.06]">
+                            <div>{name}</div>
+                            <div className={`mt-1 text-[10px] font-medium ${field ? 'text-emerald-400' : 'text-neutral-600'}`}>
+                              {field ? fieldLabel(field) : 'nicht zugeordnet'}
+                            </div>
+                          </th>
+                        )
+                      })}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {columnTable.sampleRows.map((row, r) => (
+                      <tr key={r} className="border-b border-white/[0.04] last:border-0">
+                        {columnTable.header.map((_, i) => (
+                          <td key={i} className="px-2.5 py-1.5 text-neutral-400 whitespace-nowrap tabular-nums">
+                            {row[i] || <span className="text-neutral-700">·</span>}
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* KI-Vorschlag, nur mit Zustimmung. Die Datenschutzerklärung muss die
+                  Übertragung nennen, bevor der Schalter für alle sichtbar wird
+                  (lib/ai/columnMapping.ts); bis dahin gibt ihn der Server nur für
+                  die Finclue-AI-Allowlist frei. */}
+              {aiSuggestAvailable && (
+                <div className={`mb-5 p-3.5 rounded-xl border transition-colors ${aiOptIn ? 'border-white/[0.14] bg-white/[0.05]' : 'border-white/[0.06] bg-white/[0.03]'}`}>
+                  <label className="flex items-start gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={aiOptIn}
+                      onChange={e => { setAiOptIn(e.target.checked); setAiError(null) }}
+                      className="mt-0.5 accent-emerald-500"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[12px] font-medium text-white">Zuordnung von der KI vorschlagen lassen</p>
+                      <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">
+                        Nur wenn du zustimmst, schicken wir die Kopfzeile und die Beispielzeilen oben an Anthropic (Claude).
+                        Namen, IBANs und Depotnummern werden vorher entfernt. Zurück kommt nur die Zuordnung der Spalten, keine Zahlen.
+                        Du prüfst den Vorschlag und bestätigst ihn.
+                      </p>
+                    </div>
+                  </label>
+                  {aiOptIn && (
+                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={requestAiSuggestion}
+                        disabled={aiSuggesting}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-[12px] bg-white/[0.08] hover:bg-white/[0.12] disabled:opacity-50 text-white rounded-lg transition-colors"
+                      >
+                        {aiSuggesting ? <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" /> : <LightBulbIcon className="w-3.5 h-3.5" />}
+                        {aiSuggesting ? 'Vorschlag wird geholt…' : aiSuggested ? 'Noch einmal vorschlagen' : 'Vorschlag holen'}
+                      </button>
+                      {aiError && <p className="text-[11px] text-red-400">{aiError}</p>}
+                    </div>
+                  )}
+                  {aiSuggested && !aiSuggesting && (
+                    <div className="mt-3 p-2.5 rounded-lg bg-amber-500/5 border border-amber-500/20">
+                      <p className="text-[11px] text-amber-300 leading-relaxed">
+                        KI-Vorschlag eingetragen. Prüfe jede Zuordnung unten, bevor du sie bestätigst.{aiNote ? ` ${aiNote}` : ''}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Felder */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
+                {COLUMN_FIELDS.map(({ field, label, hint }) => {
+                  const index = columnAssignments[field]
+                  return (
+                    <label
+                      key={field}
+                      className={`flex items-center gap-3 p-2.5 rounded-lg border ${index != null ? 'border-white/[0.1] bg-white/[0.04]' : 'border-white/[0.06] bg-white/[0.02]'}`}
+                    >
+                      <div className="w-24 flex-shrink-0">
+                        <p className="text-[12px] text-white">
+                          {label}
+                          {field === 'date' && <span className="text-emerald-400"> *</span>}
+                        </p>
+                        <p className="text-[10px] text-neutral-500 leading-tight">{hint}</p>
+                      </div>
+                      <select
+                        value={index ?? ''}
+                        onChange={e => assignColumn(field, e.target.value)}
+                        className="flex-1 min-w-0 bg-white/[0.06] border border-white/[0.1] rounded-md px-2 py-1.5 text-[12px] text-white focus:outline-none focus:border-white/[0.3]"
+                      >
+                        <option value="">nicht in der Datei</option>
+                        {columnTable.header.map((name, i) => (
+                          <option key={i} value={i}>
+                            {name}{columnTable.sampleRows[0]?.[i] ? ` · ${columnTable.sampleRows[0][i]}` : ''}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  )
+                })}
+              </div>
+
+              {/* Art-Spalte: Was bedeuten die Werte? */}
+              {kindColumn != null && kindValues && (
+                <div className="mb-5 p-3.5 rounded-xl border border-white/[0.06] bg-white/[0.03]">
+                  <p className="text-[12px] font-medium text-white mb-1">Was bedeuten die Werte in „{columnTable.header[kindColumn]}“?</p>
+                  <p className="text-[11px] text-neutral-500 mb-3">Zeilen mit „Überspringen“ werden nicht übernommen, zum Beispiel Zinsen oder Einzahlungen.</p>
+                  <div className="space-y-1.5">
+                    {kindValues.map(value => {
+                      const current = kindAssignments[value] ?? 'ignore'
+                      return (
+                        <div key={value} className="flex items-center justify-between gap-3">
+                          <span className="text-[12px] text-neutral-200 truncate min-w-0" title={value}>{value}</span>
+                          <div className="flex gap-1 flex-shrink-0">
+                            {([...KIND_TYPES, 'ignore'] as (ColumnKindType | 'ignore')[]).map(type => (
+                              <button
+                                key={type}
+                                type="button"
+                                onClick={() => setKindAssignments(prev => ({ ...prev, [value]: type }))}
+                                className={`px-2 py-1 rounded-md text-[11px] font-medium border transition-colors ${
+                                  current !== type
+                                    ? 'border-white/[0.08] text-neutral-500 hover:text-neutral-300 hover:border-white/[0.16]'
+                                    : type === 'buy'
+                                    ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
+                                    : type === 'sell'
+                                    ? 'bg-red-500/20 border-red-500/40 text-red-300'
+                                    : type === 'dividend'
+                                    ? 'bg-blue-500/20 border-blue-500/40 text-blue-300'
+                                    : 'bg-white/[0.12] border-white/[0.2] text-white'
+                                }`}
+                              >
+                                {KIND_LABELS[type]}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+              {kindColumn != null && !kindValues && (
+                <div className="mb-5 p-3.5 rounded-xl border border-white/[0.06] bg-white/[0.03]">
+                  <p className="text-[12px] font-medium text-white mb-1">
+                    Welche Wörter in „{columnTable.header[kindColumn]}“ bedeuten Kauf, Verkauf und Dividende?
+                  </p>
+                  <p className="text-[11px] text-neutral-500 mb-3">
+                    Die Spalte hat viele verschiedene Werte. Mehrere Wörter mit Komma trennen, Zeilen ohne Treffer werden übersprungen.
+                  </p>
+                  <div className="space-y-2">
+                    {KIND_TYPES.map(type => (
+                      <label key={type} className="flex items-center gap-3">
+                        <span className="w-20 text-[12px] text-neutral-300">{KIND_LABELS[type]}</span>
+                        <input
+                          type="text"
+                          value={kindWordText[type]}
+                          onChange={e => setKindWordText(prev => ({ ...prev, [type]: e.target.value }))}
+                          className="flex-1 bg-white/[0.06] border border-white/[0.1] rounded-md px-2 py-1.5 text-[12px] text-white focus:outline-none focus:border-white/[0.3]"
+                        />
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {kindColumn == null && (
+                <p className="mb-5 text-[11px] text-neutral-500 leading-relaxed">
+                  Ohne Art-Spalte gilt jede Zeile als Kauf, Zeilen mit negativer Stückzahl als Verkauf.
+                </p>
+              )}
+
+              {columnMappingError && <p className="text-[12px] text-amber-400">{columnMappingError}</p>}
+              {columnError && (
+                <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <p className="text-sm text-red-400">{columnError}</p>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* === STEP 4: RESOLVE === */}
           {step === 'resolve' && parseResult && (
             <div>
@@ -1662,7 +2097,8 @@ export default function CSVImportModal({
                         <div key={isin} className="flex items-center gap-2 p-2 bg-amber-500/5 border border-amber-500/10 rounded-lg">
                           <div className="flex-1 min-w-0">
                             <span className="text-xs font-mono text-neutral-400">{isin}</span>
-                            {tx && <span className="text-xs text-neutral-500 ml-2">{tx.name}</span>}
+                            {/* Beim Spalten-Import ohne ISIN ist der Name selbst der Schlüssel */}
+                            {tx && tx.name !== isin && <span className="text-xs text-neutral-500 ml-2">{tx.name}</span>}
                             {mappingError && <p className="text-[11px] text-red-400 mt-0.5">{mappingError}</p>}
                           </div>
                           <input
@@ -2303,6 +2739,15 @@ export default function CSVImportModal({
                 Zurück
               </button>
             )}
+            {step === 'columns' && (
+              <button
+                onClick={() => { setColumnError(null); setStep('upload') }}
+                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"
+              >
+                <ArrowLeftIcon className="w-3.5 h-3.5" />
+                Zurück
+              </button>
+            )}
             {step === 'resolve' && (
               <button
                 onClick={() => setStep('upload')}
@@ -2350,6 +2795,19 @@ export default function CSVImportModal({
               >
                 Datei hochladen
                 <ArrowRightIcon className="w-3.5 h-3.5" />
+              </button>
+            )}
+
+            {/* Step Spalten → Datei mit Zuordnung lesen */}
+            {step === 'columns' && (
+              <button
+                onClick={handleColumnImport}
+                disabled={columnBusy || !!columnMappingError}
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 disabled:bg-white/[0.08] disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
+              >
+                {columnBusy && <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />}
+                {columnBusy ? 'Datei wird gelesen…' : aiSuggested ? 'Zuordnung bestätigen' : 'Weiter'}
+                {!columnBusy && <ArrowRightIcon className="w-3.5 h-3.5" />}
               </button>
             )}
 

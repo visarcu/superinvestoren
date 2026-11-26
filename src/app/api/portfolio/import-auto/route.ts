@@ -30,6 +30,8 @@ import {
   type FlatexDepotFile,
 } from '@/lib/flatexXLSXParser'
 import { describeWorkbook, looksLikeFreedom24Orders } from '@/lib/workbookFormat'
+import { buildColumnPreview, readCsvTable, tableFromRows } from '@/lib/columnImport'
+import { aiConfigured, isAiBetaUser } from '@/lib/ai/config'
 import {
   parseFreedom24TradeReport,
   parseFreedom24TradeReports,
@@ -77,6 +79,24 @@ function unknownWorkbookError(fileName: string, description: string): string {
     `Flatex-Depotumsätze und die Freedom24-Berichte (Handelsbericht, Ein-/Auszahlungen, Steuerbericht, ` +
     `Auftragshistorie). Schick uns die Datei an support@finclue.de, dann bauen wir deinen Broker ein.`
   )
+}
+
+/**
+ * Unbekanntes Format, aber eine lesbare Tabelle: Statt einer Fehlermeldung
+ * bekommt der Nutzer den Zuordnungsschritt (Spalten-Import). Die Meldung steht
+ * im Server-Log und im Upload-Schritt, falls er dorthin zurückgeht.
+ */
+function columnImportHint(fileName: string, description: string): string {
+  return `"${fileName}": Format nicht erkannt (${description}). Du kannst die Spalten selbst zuordnen.`
+}
+
+/**
+ * Scalable-Export: date;time;status;reference;description;assetType;type;isin;…
+ * Ohne diese Spalten ist eine CSV, aus der Scalable nichts liest, eine andere Datei.
+ */
+function looksLikeScalableCSV(firstLine: string): boolean {
+  const lower = firstLine.toLowerCase()
+  return ['date', 'status', 'reference', 'isin', 'shares'].every(key => lower.includes(key))
 }
 
 function getSupabaseClient() {
@@ -196,6 +216,11 @@ async function parseMultipleWorkbooks(files: File[]) {
     }
   }
 
+  // Der Spalten-Import braucht eine Datei; bei mehreren weiß niemand, welche gemeint ist
+  if (structures.length === files.length) {
+    errors.push('Für den Spalten-Import (Zuordnung der Spalten von Hand) lade bitte eine Datei auf einmal hoch.')
+  }
+
   const freedom24Label = labels.length > 1 ? `Freedom24 (${labels.join(' + ')})` : leadLabel
 
   try {
@@ -252,6 +277,9 @@ export async function POST(request: Request) {
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+    // KI-Vorschlag im Zuordnungsschritt: nur für Nutzer der Finclue-AI-Allowlist,
+    // bis die Datenschutzerklärung die Übertragung nennt (lib/ai/columnMapping.ts)
+    const aiSuggestAvailable = aiConfigured() && isAiBetaUser(user.email)
 
     const formData = await request.formData()
     const files = formData.getAll('files') as File[]
@@ -327,6 +355,21 @@ export async function POST(request: Request) {
 
       // Fallback: Scalable (hat semikolon-CSV mit englischen Spalten)
       const result = parseScalableCSV(text)
+
+      // Keine Scalable-Datei und nichts gelesen: die Tabelle einer anderen Bank.
+      // Kopf und Beispielzeilen gehen mit, der Nutzer ordnet die Spalten selbst zu.
+      if (result.transactions.length === 0 && !looksLikeScalableCSV(firstLine)) {
+        const table = buildColumnPreview(readCsvTable(text), firstFile.name)
+        return respond({
+          format: 'unknown_csv',
+          formatLabel: 'Tabellendatei',
+          transactions: [],
+          errors: [columnImportHint(firstFile.name, `Spalten: ${table.header.join(', ')}`)],
+          table,
+          aiSuggestAvailable,
+        }, { ext, header: table.header, delimiter: table.delimiter, rows: table.rowCount })
+      }
+
       return respond({
         format: 'scalable',
         formatLabel: 'Scalable Capital',
@@ -540,12 +583,16 @@ export async function POST(request: Request) {
         // Freedom24-Meldungen, auch der Export einer Hausbank.
         if (!looksLikeFreedom24Orders(rows)) {
           const description = describeWorkbook(workbook.SheetNames, rawRows)
+          // Kopf und Beispielzeilen für den Zuordnungsschritt
+          const table = buildColumnPreview(tableFromRows(rawRows, { sheet: workbook.SheetNames[0] }), firstFile.name)
           return respond({
             format: 'unknown_xlsx',
             formatLabel: 'Tabellendatei',
             transactions: [],
-            errors: [unknownWorkbookError(firstFile.name, description)],
-          }, { ext, workbook: description })
+            errors: [columnImportHint(firstFile.name, description)],
+            table,
+            aiSuggestAvailable,
+          }, { ext, workbook: description, rows: table.rowCount })
         }
 
         const result = parseFreedom24XLSXRows(rows, firstFile.name)

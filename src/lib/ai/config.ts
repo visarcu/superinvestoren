@@ -23,6 +23,9 @@ export const MODEL_PRICES: Record<string, { input: number; output: number; cache
 }
 export const WEB_SEARCH_PRICE = 0.01
 
+/** Spaltenvorschlag beim Depot-Import: nur eine Zuordnung, dafür reicht das kleine Modell */
+export const COLUMN_MAPPING_MODEL = 'claude-haiku-5-5'
+
 export const PREMIUM_QUESTIONS_PER_MONTH = 100
 export const FREE_QUESTIONS_TOTAL = 5
 
