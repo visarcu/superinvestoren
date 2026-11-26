@@ -5,7 +5,7 @@
 // und der Finclue AI, damit beide dieselben Zahlen nennen. Nur serverseitig.
 
 import { createClient } from '@supabase/supabase-js'
-import { resolvePriceSource } from '@/lib/etfMasterLookup'
+import { resolvePriceSource, yahooFallbackSymbol } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 import {
   calculatePortfolioTwrByDate,
@@ -329,7 +329,7 @@ async function fetchHistoricalPrices(
 
     // Master-Fallback: wenn prescribierte Quelle leer, Yahoo als Backup
     if (historicalData.length === 0 && masterSource.type !== 'yahoo') {
-      historicalData = await fetchYahooHistorical(symbol)
+      historicalData = await fetchYahooHistorical(yahooFallbackSymbol(masterSource, symbol))
     }
   } else {
     // === Nicht im Master: bestehende Fallback-Chain ===

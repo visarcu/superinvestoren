@@ -5,7 +5,7 @@
 // die FMP nur auf .L führt, z.B. FWRG.DE → FWRG.L mit GBp→EUR-Umrechnung)
 import { NextRequest, NextResponse } from 'next/server'
 import { resolveFMPTicker, isEUTicker } from '@/lib/tickerResolver'
-import { resolvePriceSource } from '@/lib/etfMasterLookup'
+import { resolvePriceSource, yahooFallbackSymbol } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 import { missedSplitDivisors, yahooSplitEvents } from '@/lib/marketData/yahooSplits'
 
@@ -216,7 +216,7 @@ export async function GET(
 
       // Master-Fallback: wenn prescribierte Quelle leer, Yahoo als Backup
       if (historical.length === 0 && masterSource.type !== 'yahoo') {
-        const yahooData = await fetchYahooHistorical(ticker)
+        const yahooData = await fetchYahooHistorical(yahooFallbackSymbol(masterSource, ticker))
         if (yahooData && yahooData.length > 0) {
           historical = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
           source = 'yahoo'

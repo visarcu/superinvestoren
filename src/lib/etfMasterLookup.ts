@@ -46,3 +46,15 @@ export function resolvePriceSource(ticker: string): PriceSource | null {
   const entry = lookupMasterByTicker(ticker)
   return entry?.priceSource ?? null
 }
+
+/**
+ * Yahoo-Symbol für den Fall, dass die vorgesehene Quelle nichts liefert. Bei
+ * fmp_alt in Euro ist das Depot-Kürzel teils nur ein interner Schlüssel: Unter
+ * LYXE.DE führt Yahoo einen Anleihen-ETF (72 statt 411 €), IUIT.DE, WSML.DE,
+ * VDEV.DE, LYX0YD.DE und VHYL.DE kennt Yahoo nicht. Die FMP-Notierung führt
+ * Yahoo unter demselben Kürzel in Euro (geprüft 26.11.2026). Pfund-Notierungen
+ * bleiben beim Depot-Kürzel, sonst käme der Ersatz in Pence statt in Euro.
+ */
+export function yahooFallbackSymbol(source: PriceSource, symbol: string): string {
+  return source.type === 'fmp_alt' && source.exchange === 'EUR' ? source.ticker : symbol
+}
