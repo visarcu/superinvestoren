@@ -27,6 +27,8 @@ import {
   type EarningsResultKind,
   type SuperinvestorInfo,
 } from '@/components/earnings/EarningsResult'
+import { depotHref } from '@/lib/siteHosts'
+import { WORKSPACE_PATH } from '@/lib/depotRoutes'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -617,7 +619,7 @@ function EmptyState({
     } else if (!hasPortfolio) {
       primary = 'Du hast noch keine Portfolio-Aktien'
       secondary = (
-        <Link href="/analyse/mein-portfolio" className="text-[12px] text-emerald-400/70 hover:text-emerald-400 mt-2">
+        <Link href={depotHref(WORKSPACE_PATH)} className="text-[12px] text-emerald-400/70 hover:text-emerald-400 mt-2">
           Portfolio anlegen →
         </Link>
       )

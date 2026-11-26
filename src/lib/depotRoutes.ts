@@ -20,6 +20,33 @@ export const WORKSPACE_PATH = '/analyse/portfolio'
 /** Frühere Adresse mit ?depot=…&view=…, wird per Middleware umgeleitet */
 export const LEGACY_WORKSPACE_PATH = '/analyse/portfolio/workspace'
 
+/**
+ * Älterer, zweiter Depot-Bereich (eigene Oberfläche und eigener Import, der
+ * Cash bei jedem erneuten Upload doppelt buchte). Die Middleware leitet ihn
+ * dauerhaft auf den Workspace um; die Unterseiten landen auf ihrem Gegenstück.
+ */
+export const LEGACY_DEPOT_PATH = '/analyse/mein-portfolio'
+
+const LEGACY_DEPOT_SUBPATHS: Record<string, string> = {
+  depots: '/depots',
+  performance: '/analyse',
+  dividenden: '/dividenden',
+  einstellungen: '/einstellungen',
+}
+
+export function isLegacyDepotPath(pathname: string): boolean {
+  return pathname === LEGACY_DEPOT_PATH || pathname.startsWith(`${LEGACY_DEPOT_PATH}/`)
+}
+
+/** Ziel im Workspace für eine Adresse unter /analyse/mein-portfolio */
+export function legacyDepotTarget(pathname: string): string {
+  const rest = pathname.slice(LEGACY_DEPOT_PATH.length).split('/').filter(Boolean)
+  if (rest.length === 0) return WORKSPACE_PATH
+  if (rest[0] === 'aktien' && rest[1]) return `${WORKSPACE_PATH}/stocks/${rest[1]}`
+  const mapped = LEGACY_DEPOT_SUBPATHS[rest[0]]
+  return mapped ? `${WORKSPACE_PATH}${mapped}` : WORKSPACE_PATH
+}
+
 export type WorkspaceView =
   | 'overview'
   | 'assets'

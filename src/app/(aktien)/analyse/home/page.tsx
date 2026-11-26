@@ -7,6 +7,8 @@ import { supabase } from '@/lib/supabaseClient'
 import IndexChart from './_components/IndexChart'
 import UpcomingEarningsCard from './_components/UpcomingEarningsCard'
 import RecentlyViewedCard from './_components/RecentlyViewedCard'
+import { depotHref } from '@/lib/siteHosts'
+import { WORKSPACE_PATH } from '@/lib/depotRoutes'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -467,7 +469,7 @@ export default function AnalyseDashboard() {
         <div className="px-5 mt-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[16px] font-semibold text-white/80">Mein Portfolio</h2>
-            <Link href="/analyse/mein-portfolio" className="text-[11px] text-white/25 hover:text-white/50 transition-colors">
+            <Link href={depotHref(WORKSPACE_PATH)} className="text-[11px] text-white/25 hover:text-white/50 transition-colors">
               Details →
             </Link>
           </div>

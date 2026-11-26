@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { depotHref } from '@/lib/siteHosts'
+import { WORKSPACE_PATH } from '@/lib/depotRoutes'
 
 // ── Icons (inline SVGs, Heroicons style) ──────────────────────────
 
@@ -106,10 +108,10 @@ const navItems: NavItem[] = [
     match: (p) => p.startsWith('/analyse/meine-watchlist'),
   },
   {
-    href: '/analyse/mein-portfolio',
+    href: depotHref(WORKSPACE_PATH),
     label: 'Portfolio',
     icon: <PortfolioIcon />,
-    match: (p) => p.startsWith('/analyse/mein-portfolio'),
+    match: (p) => p.startsWith(WORKSPACE_PATH),
   },
 ]
 

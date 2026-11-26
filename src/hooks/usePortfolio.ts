@@ -550,21 +550,23 @@ export function usePortfolio(routeDepotKey?: string) {
       }
 
       if (Object.keys(txUpdates).length > 0) {
-        // Finde die initiale Buy-Transaktion (älteste für dieses Symbol)
-        const { data: txs } = await supabase
+        // Nur wenn genau ein Kauf und sonst keine Bestandsbuchung zu dem Papier
+        // existiert, ist die Position dieser eine Kauf und wird mitgeschrieben.
+        // Vorher bekam bei mehreren Käufen der älteste die Gesamtstückzahl, und
+        // Verlauf, realisierte Gewinne und "Seit Kauf" stimmten nicht mehr.
+        const { data: related } = await supabase
           .from('portfolio_transactions')
-          .select('id')
+          .select('id, type')
           .eq('portfolio_id', portfolio.id)
           .eq('symbol', holding.symbol)
-          .eq('type', 'buy')
-          .order('created_at', { ascending: true })
-          .limit(1)
+          .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
+          .limit(2)
 
-        if (txs && txs.length > 0) {
+        if (related && related.length === 1 && related[0].type === 'buy') {
           await supabase
             .from('portfolio_transactions')
             .update(txUpdates)
-            .eq('id', txs[0].id)
+            .eq('id', related[0].id)
         }
       }
     }

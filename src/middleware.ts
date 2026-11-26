@@ -6,7 +6,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { DEPOT_HOST, fromDepotPath, isPortfolioPath, mainHostFor, toDepotPath } from '@/lib/siteHosts';
-import { LEGACY_WORKSPACE_PATH, MAIN_SITE_SEGMENTS, isViewSegment, legacyWorkspaceTarget } from '@/lib/depotRoutes';
+import { LEGACY_WORKSPACE_PATH, MAIN_SITE_SEGMENTS, isLegacyDepotPath, isViewSegment, legacyDepotTarget, legacyWorkspaceTarget } from '@/lib/depotRoutes';
 
 // Deutsche Alias-Pfade. Ältere App-Builds (bis Build 35) verlinken darauf und
 // laufen sonst ins 404.
@@ -46,6 +46,11 @@ function noindex(response: NextResponse) {
 
 export function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
+
+  // Alter Depot-Bereich /analyse/mein-portfolio → Workspace (siehe depotRoutes)
+  if (isLegacyDepotPath(pathname)) {
+    return redirectTo(request, null, legacyDepotTarget(pathname), '');
+  }
 
   const alias = PATH_ALIASES[pathname];
   if (alias) {
@@ -134,6 +139,8 @@ export const config = {
     '/auth/reset',
     '/analyse/portfolio',
     '/analyse/portfolio/:path*',
+    '/analyse/mein-portfolio',
+    '/analyse/mein-portfolio/:path*',
     '/depot-start',
     // Matcher müssen statisch sein, deshalb hier per Muster statt über
     // NEXT_PUBLIC_DEPOT_HOST. Host-Matching vergleicht ohne Port.
