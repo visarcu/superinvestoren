@@ -214,8 +214,10 @@ export default function PositionsTable({
       return
     }
 
+    // Ohne Kurs steht der Einstand als Wert (price_missing); eine Periodenrendite
+    // dagegen wäre keine
     const positions = holdings
-      .filter(h => h.symbol && h.quantity > 0 && h.current_price_display > 0)
+      .filter(h => h.symbol && h.quantity > 0 && h.current_price_display > 0 && !h.price_missing)
       .map(h => ({
         symbol: h.symbol,
         quantity: h.quantity,
