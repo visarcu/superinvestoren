@@ -79,7 +79,10 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
   },
   {
     id: 'flatex',
-    name: 'Flatex / DEGIRO',
+    // Nur Flatex: Für die DEGIRO-Transaktionsdatei (Transactions.csv) gibt es
+    // keinen Parser. Der Name steht auch auf der Depot-Landingpage als Liste
+    // der importierbaren Broker; dort wurde DEGIRO versprochen.
+    name: 'Flatex',
     shortName: 'Flatex',
     formats: ['.xlsx', '.xls', '.pdf', '.csv'],
     accept: '.xlsx,.xls,.pdf,.csv',

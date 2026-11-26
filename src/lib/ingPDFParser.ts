@@ -50,6 +50,36 @@ function parseGermanDate(d: string): string | null {
   return `${m[3]}-${m[2]}-${m[1]}`
 }
 
+/** Betrag einer Kostenzeile, z.B. "ProvisionEUR4,90" oder "Kapitalertragsteuer 25,00 %EUR12,34" */
+function statementAmount(body: string, label: RegExp): number {
+  const match = body.match(new RegExp(`${label.source}[^\\n]*?EUR\\s*-?\\s*([\\d.]+,\\d+|[\\d.]+)`, 'i'))
+  return match ? parseGermanNumber(match[1]) : 0
+}
+
+const FEE_LABELS = [/Provision/, /Handelsplatz(?:gebühr|entgelt)/, /Handelsentgelt/, /Fremde Spesen/, /(?:Makler)?courtage/, /Transaktionsentgelt/]
+const TAX_LABELS = [/Kapitalertrag(?:s)?steuer/, /Solidaritätszuschlag/, /Kirchensteuer/]
+
+/**
+ * Gebühren und Steuern einer Abrechnung. Beim Kauf gilt Endbetrag zu Lasten =
+ * Kurswert + Gebühren. Beim Verkauf gilt Endbetrag zu Gunsten = Kurswert −
+ * Gebühren − Steuern; die Kaufformel ergab dort 0, und Erlös wie realisierter
+ * Gewinn standen um Gebühren und Steuern zu hoch. Die einzelnen Zeilen
+ * (Provision, Handelsplatzgebühr, Kapitalertragsteuer, Soli, Kirchensteuer)
+ * teilen den Betrag in Gebühr und Steuer; fehlen sie, zählt die Differenz
+ * als Gebühr.
+ */
+function orderCosts(body: string, isSell: boolean, totalValue: number, endAmount: number): { fee: number; tax: number; total: number } {
+  const round = (value: number) => Math.round(value * 100) / 100
+  const difference = endAmount > 0 && totalValue > 0
+    ? Math.max(0, round(isSell ? totalValue - endAmount : endAmount - totalValue))
+    : 0
+  const feeLines = round(FEE_LABELS.reduce((sum, label) => sum + statementAmount(body, label), 0))
+  const taxLines = round(TAX_LABELS.reduce((sum, label) => sum + statementAmount(body, label), 0))
+  const total = difference > 0 ? difference : round(feeLines + taxLines)
+  const tax = Math.min(taxLines, total)
+  return { fee: round(total - tax), tax, total }
+}
+
 /**
  * Erkennt, ob ein PDF-Text von ING-DiBa stammt.
  */
@@ -163,7 +193,9 @@ export function parseIngPDFText(text: string, fileName: string): IngParseResult 
       if (!isin || !date || quantity <= 0 || price <= 0) {
         errors.push(`${fileName}: Kauf/Verkauf — unvollständig (ISIN=${isin}, date=${date}, qty=${quantity}, price=${price})`)
       } else {
-        const fees = Math.max(0, endAmount - totalValue) // Gebühren = Endbetrag − Kurswert
+        // Gebühr und Steuer landen zusammen in fees; die Notiz nennt die Steuer,
+        // daran trennt lib/portfolio/cashFlows sie wieder ("Steuern 12.34€")
+        const costs = orderCosts(body, isVerkauf, totalValue, endAmount)
         const isSparplan = /Kauf aus Sparplan/i.test(normalized)
         transactions.push({
           type: isVerkauf ? 'sell' : 'buy',
@@ -173,12 +205,14 @@ export function parseIngPDFText(text: string, fileName: string): IngParseResult 
           quantity,
           price,
           totalValue,
-          fees,
+          fees: costs.total,
           endAmount,
           date,
           currency: 'EUR',
           exchange: exchangeMatch?.[1]?.trim() || 'XETRA',
-          notes: `ING-Import · ${isVerkauf ? 'Verkauf' : isSparplan ? 'Sparplan-Kauf' : 'Kauf'}${fees > 0 ? ` · Gebühren ${fees.toFixed(2)}€` : ''}`,
+          notes: `ING-Import · ${isVerkauf ? 'Verkauf' : isSparplan ? 'Sparplan-Kauf' : 'Kauf'}${
+            costs.fee > 0 ? ` · Gebühren ${costs.fee.toFixed(2)}€` : ''
+          }${costs.tax > 0 ? ` · Steuern ${costs.tax.toFixed(2)}€` : ''}`,
         })
       }
     }

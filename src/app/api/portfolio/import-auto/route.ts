@@ -2,8 +2,9 @@
 // Erkennt das Format automatisch und routet zum richtigen Parser.
 //
 // Unterstützte Formate (auto-erkannt):
-//   .pdf               → Broker-PDF (Flatex, Smartbroker+, Trade Republic, Freedom24)
-//   .csv               → Scalable Capital CSV
+//   .pdf               → Broker-PDF (Flatex, Smartbroker+, Trade Republic, Freedom24, ING, Trading 212)
+//   .csv               → Trade Republic, Trading 212, finanzen.net zero, Scalable Capital
+//                        (mehrere Dateien eines Brokers werden zusammengeführt)
 //   .xlsx mit Depotumsätze-Sheet → Flatex Depotumsätze
 //   .xlsx mit ExecTrades-Sheet   → Freedom24 Steuerbericht (bevorzugt)
 //   .xlsx ohne ExecTrades        → Freedom24 Auftragshistorie (Fallback)
@@ -12,7 +13,7 @@
 
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { parseScalableCSV } from '@/lib/scalableCSVParser'
+import { parseScalableCSV, type ParsedTransaction } from '@/lib/scalableCSVParser'
 import { parseZeroCSV, isZeroCSV } from '@/lib/zeroCSVParser'
 import { parseTrading212CSV, isTrading212CSV } from '@/lib/trading212CSVParser'
 import { parseTradeRepublicCSV, isTradeRepublicCSV } from '@/lib/tradeRepublicCSVParser'
@@ -104,6 +105,120 @@ function getSupabaseClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
+}
+
+type CsvFormat = 'traderepublic_csv' | 'trading212' | 'zero' | 'scalable'
+
+interface CsvParseOutput {
+  transactions: ParsedTransaction[]
+  uniqueISINs: string[]
+  skipped: unknown[]
+  stockSplits?: unknown[]
+  tickerRenames?: unknown[]
+}
+
+const CSV_PARSERS: Record<CsvFormat, { label: string; parse: (text: string) => CsvParseOutput }> = {
+  traderepublic_csv: { label: 'Trade Republic (CSV)', parse: parseTradeRepublicCSV },
+  trading212: { label: 'Trading 212', parse: parseTrading212CSV },
+  zero: { label: 'finanzen.net zero', parse: parseZeroCSV },
+  scalable: { label: 'Scalable Capital', parse: parseScalableCSV },
+}
+
+function detectCsvFormat(text: string): CsvFormat | null {
+  if (isTradeRepublicCSV(text)) return 'traderepublic_csv'
+  if (isTrading212CSV(text)) return 'trading212'
+  if (isZeroCSV(text)) return 'zero'
+  if (looksLikeScalableCSV(text.split('\n')[0] || '')) return 'scalable'
+  return null
+}
+
+/** Kennung einer Buchung für den Abgleich zwischen Dateien */
+function csvRowKey(tx: ParsedTransaction): string {
+  if (tx.externalId) return `id:${tx.externalId}`
+  return [tx.date, tx.time ?? '', tx.type, tx.isin || tx.symbol || tx.name, tx.quantity, tx.totalValue].join('|')
+}
+
+/**
+ * Mehrere CSV-Dateien eines Brokers zusammenführen.
+ *
+ * Trade Republic und Trading 212 bieten im Import die Mehrfachauswahl an,
+ * gelesen wurde aber nur die erste Datei: Die zweite fiel still weg und mit
+ * ihr ein Teil der Buchungen. Zeiträume dürfen sich überschneiden; was in
+ * einer vorigen Datei schon stand, wird nur einmal übernommen (Schlüssel:
+ * Kennung des Brokers, sonst Datum, Uhrzeit, Art, ISIN, Stück und Betrag;
+ * innerhalb einer Datei ist jede Zeile eine eigene Buchung). Der
+ * Spalten-Import bleibt bei einer Datei je Upload.
+ */
+async function parseMultipleCsv(files: File[]) {
+  const transactions: ParsedTransaction[] = []
+  const errors: unknown[] = []
+  const isins = new Set<string>()
+  const stockSplits: unknown[] = []
+  const tickerRenames: unknown[] = []
+  const formats = new Set<CsvFormat>()
+  const knownRows = new Map<string, number>()
+  let parsedFiles = 0
+  let duplicateRows = 0
+
+  for (const file of files) {
+    const text = await file.text()
+    const format = detectCsvFormat(text)
+    if (!format) {
+      errors.push(
+        `"${file.name}": Format nicht erkannt. Für den Spalten-Import (Zuordnung der Spalten von Hand) lade bitte eine Datei auf einmal hoch.`,
+      )
+      continue
+    }
+    formats.add(format)
+    const result = CSV_PARSERS[format].parse(text)
+    parsedFiles++
+
+    const fileRows = new Map<string, number>()
+    for (const tx of result.transactions) {
+      const key = csvRowKey(tx)
+      const occurrence = (fileRows.get(key) ?? 0) + 1
+      fileRows.set(key, occurrence)
+      // Schon in einer vorigen Datei enthalten?
+      if (occurrence <= (knownRows.get(key) ?? 0)) {
+        duplicateRows++
+        continue
+      }
+      transactions.push(tx)
+    }
+    for (const [key, count] of fileRows) knownRows.set(key, Math.max(knownRows.get(key) ?? 0, count))
+
+    result.uniqueISINs.forEach(isin => isins.add(isin))
+    // Die CSV-Parser melden Übersprungenes als Objekte, Trading 212 als Text
+    errors.push(...result.skipped.map(entry => (typeof entry === 'string' ? `${file.name}: ${entry}` : { file: file.name, ...(entry as object) })))
+    stockSplits.push(...(result.stockSplits ?? []))
+    tickerRenames.push(...(result.tickerRenames ?? []))
+  }
+
+  if (formats.size > 1) {
+    const labels = [...formats].map(format => CSV_PARSERS[format].label).join(', ')
+    return respond({
+      format: 'unknown_csv',
+      formatLabel: 'Tabellendatei',
+      transactions: [],
+      errors: [`Die Dateien stammen von verschiedenen Brokern (${labels}). Bitte lade je Import nur die Dateien eines Brokers hoch.`],
+      totalFiles: files.length,
+    }, { files: files.length, formats: [...formats] })
+  }
+
+  const format = [...formats][0]
+  const label = format ? CSV_PARSERS[format].label : 'Tabellendatei'
+  return respond({
+    format: format ?? 'unknown_csv',
+    formatLabel: parsedFiles > 1 ? `${label} (${parsedFiles} Dateien)` : label,
+    transactions,
+    errors,
+    uniqueISINs: [...isins],
+    stockSplits,
+    tickerRenames,
+    totalFiles: files.length,
+    parsedFiles,
+    duplicateRows,
+  }, { files: files.length, formats: [...formats], duplicateRows })
 }
 
 let _pdfParse: ((buf: Buffer) => Promise<{ text: string; numpages: number }>) | null = null
@@ -300,6 +415,12 @@ export async function POST(request: Request) {
 
     // ===== CSV → TR / Scalable Capital / finanzen.net Zero / Trading 212 =====
     if (ext === 'csv') {
+      // Mehrere Dateien (Trade Republic, Trading 212 je Zeitraum) zusammenführen
+      const csvFiles = files.filter(f => f.name.toLowerCase().endsWith('.csv'))
+      if (csvFiles.length > 1) {
+        return await parseMultipleCsv(csvFiles)
+      }
+
       const text = await firstFile.text()
 
       // Auto-Detection über Header — Trade Republic CSV (seit April 2026)
@@ -452,7 +573,7 @@ export async function POST(request: Request) {
       }
 
       const brokerLabel: Record<string, string> = {
-        flatex: 'Flatex / DEGIRO',
+        flatex: 'Flatex',
         smartbroker: 'Smartbroker+',
         traderepublic: 'Trade Republic',
         freedom24: 'Freedom24',

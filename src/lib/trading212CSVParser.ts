@@ -8,6 +8,10 @@
 //   Currency conversion fee,Currency (Currency conversion fee),Taxes,Currency (Taxes),
 //   Net Total,Currency (Net Total)
 //
+// Ältere Exporte (bis etwa 2023) nennen die Beträge "Total" statt "Gross Total",
+// haben kein "Net Total" und tragen die Währung im Spaltennamen
+// ("Total (EUR)", "Result (EUR)", "Currency conversion fee (EUR)").
+//
 // Wir konvertieren zu ParsedTransaction (gleicher Typ wie scalableCSVParser),
 // damit reconstructHoldings + Import-Flow ohne Änderungen funktionieren.
 
@@ -87,9 +91,13 @@ function parseTime(t: string): string {
 /**
  * Trading 212 schreibt bei EU-Aktien den Ticker ohne Börsen-Suffix (z.B.
  * "P911" für Porsche, "ZAL" für Zalando). Unser /api/quotes erwartet aber
- * das FMP-Format mit Suffix (P911.DE). Heuristik: wenn die ISIN mit einem
- * EU-Ländercode startet und der Ticker keinen '.' enthält, hängen wir '.DE'
- * an (XETRA ist Default für europäische Listings in Trading 212).
+ * das FMP-Format mit Suffix (P911.DE). Bei deutschen und österreichischen
+ * ISINs hängen wir '.DE' an (Xetra). Irische, luxemburgische,
+ * niederländische oder französische ISINs (ETFs, ASML, LVMH …) bekamen das
+ * Suffix bisher ebenfalls und landeten als "VUAA.DE" oder "ASML.DE" im
+ * Depot, obwohl das Kürzel ohnehin über die ISIN-Auflösung bestimmt wird.
+ * Dort bleibt der Ticker von Trading 212 stehen; das Symbol liefert die
+ * Auflösung der ISIN.
  *
  * US-Ticker (MSFT, BKNG, SPGI, INTU) bleiben unverändert — die kennt FMP
  * direkt ohne Suffix.
@@ -98,8 +106,7 @@ function normalizeTicker(ticker: string, isin: string): string {
   if (!ticker) return ticker
   if (ticker.includes('.')) return ticker
   const country = isin.substring(0, 2).toUpperCase()
-  const euCountries = ['DE', 'AT', 'IE', 'LU', 'FR', 'NL', 'BE', 'IT', 'ES', 'FI', 'PT']
-  if (euCountries.includes(country)) return `${ticker}.DE`
+  if (country === 'DE' || country === 'AT') return `${ticker}.DE`
   return ticker
 }
 
@@ -163,7 +170,7 @@ function tradeValueExFee(
  *   Limit buy/sell   → buy/sell (behandelt wie Market)
  *   Stop buy/sell    → buy/sell
  *   Dividend*        → dividend
- *   Interest         → cash_deposit (als Zinszahlung)
+ *   Interest / Interest on cash → cash_deposit (als Zinszahlung)
  *   Stock split close→ transfer_out (wird mit Stock split open als Split erkannt)
  *   Stock split open → transfer_in
  *   Currency conversion → ignoriert (interne FX-Bewegung, kein Portfolio-Event)
@@ -195,6 +202,10 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     if (exact >= 0) return exact
     return header.findIndex(h => h.trim() === name || h.trim().startsWith(`${name} (`))
   }
+  // Älteres Format: "Total" (bzw. "Total (EUR)") statt "Gross Total", kein
+  // "Net Total". Ohne diesen Rückfall blieben alle Beträge 0, Käufe und
+  // Dividenden fielen still weg und Einzahlungen fehlten.
+  const grossTotalIdx = col('Gross Total') >= 0 ? col('Gross Total') : colLoose('Total')
   const idx = {
     action: col('Action'),
     time: colLoose('Time'),
@@ -207,14 +218,14 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     pricePerShare: col('Price / share'),
     priceCurrency: col('Currency (Price / share)'),
     fxRate: col('Exchange rate'),
-    result: col('Result'),
-    grossTotal: col('Gross Total'),
+    result: colLoose('Result'),
+    grossTotal: grossTotalIdx,
     grossCurrency: col('Currency (Gross Total)'),
-    wht: col('Withholding tax'),
-    fxFee: col('Currency conversion fee'),
+    wht: colLoose('Withholding tax'),
+    fxFee: colLoose('Currency conversion fee'),
     merchantName: col('Merchant name'),
-    taxes: col('Taxes'),
-    netTotal: col('Net Total'),
+    taxes: colLoose('Taxes'),
+    netTotal: col('Net Total') >= 0 ? col('Net Total') : grossTotalIdx,
   }
 
   // Index-Dataset pro Split-Datum, damit wir zusammengehörige close/open-Zeilen
@@ -257,21 +268,24 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     const priceCurrency = (fields[idx.priceCurrency] || 'EUR').trim()
     const fxRate = parseNum(fields[idx.fxRate])
 
-    // Cash-Operationen
-    if (action === 'Deposit' || action === 'Interest') {
+    // Cash-Operationen. Zinsen heißen je nach Export "Interest" oder
+    // "Interest on cash"; der Name "Zinsen" lässt sie in der Rendite als Zins
+    // zählen statt als frisches Geld (lib/portfolio/cashFlows).
+    const isInterest = /^Interest\b/i.test(action)
+    if (action === 'Deposit' || isInterest) {
       if (grossTotal <= 0) continue
       add({
         date,
         type: 'cash_deposit',
         isin: '',
         symbol: 'CASH',
-        name: notesIn || (action === 'Interest' ? 'Zinsen' : 'Einzahlung'),
+        name: isInterest ? 'Zinsen' : notesIn || 'Einzahlung',
         quantity: 1,
         price: grossTotal,
         totalValue: grossTotal,
         fee: 0,
         tax: 0,
-        notes: `Trading 212 · ${notesIn || action}`,
+        notes: isInterest ? `Trading 212 · Zinsen${notesIn ? ` · ${notesIn}` : ''}` : `Trading 212 · ${notesIn || action}`,
         originalType: action,
       })
       byType.cash_deposit = (byType.cash_deposit || 0) + 1
