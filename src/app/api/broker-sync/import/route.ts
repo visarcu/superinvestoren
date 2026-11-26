@@ -2,7 +2,7 @@
 // Broker-Sync (Beta): Positionen einer finAPI-Bankverbindung in ein LEERES
 // Finclue-Depot übernehmen. Schreibt portfolio_holdings + buy-Transaktionen
 // (Kaufpreis = entryQuote des Brokers, Datum = heute) und setzt den Cash-
-// Bestand aus dem Verrechnungskonto. Symbole werden über /api/v1/isin-search
+// Bestand aus dem Verrechnungskonto. Symbole werden über lib/isinSearch
 // aufgelöst (DB-Cache → Master → FMP); nicht auflösbare ISINs werden
 // übersprungen und im Ergebnis gemeldet.
 //
@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getUserToken, listSecurities, accountIdsForConnection } from '@/lib/finapi'
+import { resolveIsins } from '@/lib/isinSearch'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
@@ -86,16 +87,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Keine Positionen beim Broker gefunden' }, { status: 409 })
     }
 
-    // ISIN → Ticker über den bestehenden Resolver (gleiche Origin)
-    const resolveUrl = new URL('/api/v1/isin-search', request.url)
-    const resolveRes = await fetch(resolveUrl.toString(), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pairs: securities.map(s => ({ isin: s.isin, name: s.name })) }),
-    })
-    if (!resolveRes.ok) throw new Error(`ISIN-Resolver ${resolveRes.status}`)
-    const resolved: { data: { isin: string; ticker: string }[] } = await resolveRes.json()
-    const tickerByIsin = new Map(resolved.data.map(r => [r.isin.toUpperCase(), r.ticker]))
+    // ISIN → Ticker. Der Wertpapiername vom Broker hilft nur diesem Import,
+    // ein darüber gefundener Ticker wird nicht für andere Nutzer gespeichert.
+    const resolved = await resolveIsins(
+      supabase,
+      securities.map(s => ({ isin: s.isin!, name: s.name }))
+    )
+    const tickerByIsin = new Map(resolved.map(r => [r.isin, r.ticker]))
 
     const today = new Date().toISOString().split('T')[0]
     const skipped: { isin: string; name: string | null }[] = []

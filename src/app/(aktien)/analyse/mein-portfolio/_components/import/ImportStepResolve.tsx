@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabaseClient'
 import type { NormalizedTransaction } from './types'
 
 interface Props {
@@ -44,13 +45,22 @@ export default function ImportStepResolve({ transactions, onDone, onBack }: Prop
         let resolutionMap: Record<string, { ticker: string; source: string }> = {}
 
         if (pendingIsins.length > 0) {
+          // Supabase-Session-Token für die authentifizierte Route
+          const { data: { session } } = await supabase.auth.getSession()
+          if (!session?.access_token) {
+            throw new Error('Nicht angemeldet. Bitte neu einloggen.')
+          }
+
           const pairs = pendingIsins.map(isin => ({
             isin,
             name: pendingMap.get(isin) || undefined,
           }))
           const res = await fetch('/api/v1/isin-search', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${session.access_token}`,
+            },
             body: JSON.stringify({ pairs }),
           })
           if (!res.ok) throw new Error('ISIN-Resolver hat einen Fehler geliefert')
