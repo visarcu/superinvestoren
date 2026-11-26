@@ -52,7 +52,10 @@ export async function GET(request: NextRequest) {
     let portfolioQuery = supabaseAdmin.from('portfolios').select('id, name, cash_position, broker_name').eq('user_id', user.id)
     if (portfolioId) portfolioQuery = portfolioQuery.eq('id', portfolioId)
     const { data: portfolioRows, error: pErr } = await portfolioQuery
-    if (pErr || !portfolioRows?.length) {
+    // Ein Datenbankfehler ist kein leeres Depot: Vorher kam dann 200 mit
+    // Nullwerten, und die App zeigte ein leeres Depot statt einer Störung.
+    if (pErr) throw pErr
+    if (!portfolioRows?.length) {
       return NextResponse.json({ totalValue: 0, stockValue: 0, cashPosition: 0, holdings: [] })
     }
     // Über alle Depots zählt das Beispieldepot nicht mit, einzeln abgefragt schon
@@ -62,10 +65,11 @@ export async function GET(request: NextRequest) {
     const cashPosition = portfolios.reduce((sum, p) => sum + (Number(p.cash_position) || 0), 0)
 
     // 2. Get holdings
-    const { data: rawHoldings } = await supabaseAdmin
+    const { data: rawHoldings, error: hErr } = await supabaseAdmin
       .from('portfolio_holdings')
       .select('*')
       .in('portfolio_id', portfolioIds)
+    if (hErr) throw hErr
 
     if (!rawHoldings?.length) {
       return NextResponse.json({ totalValue: cashPosition, stockValue: 0, cashPosition, holdings: [] })
@@ -193,6 +197,9 @@ export async function GET(request: NextRequest) {
     })
   } catch (error: any) {
     console.error('[Portfolio Summary] Error:', error)
-    return NextResponse.json({ error: error.message || 'Internal error' }, { status: 500 })
+    return NextResponse.json(
+      { error: 'Depot konnte nicht geladen werden', detail: error?.message || String(error) },
+      { status: 500 },
+    )
   }
 }

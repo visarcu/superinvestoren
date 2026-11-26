@@ -868,7 +868,9 @@ async function handleWeeklyPortfolioReport() {
 
     // 7. Send emails per user
     let emailsSent = 0
-    const userResults: Array<{ userId: string; email: string; totalValue: number; weeklyChangePct: number }> = []
+    // Nur Nutzer-IDs und Zahlen: Adressen gehören weder ins Log noch in die
+    // Antwort des Cron-Aufrufs (sie landet in den Vercel-Logs).
+    const userResults: Array<{ userId: string; totalValue: number; weeklyChangePct: number }> = []
     const failures: Array<{ userId: string; reason: string }> = []
 
     const recordFailure = async (userId: string, reason: string) => {
@@ -927,13 +929,12 @@ async function handleWeeklyPortfolioReport() {
         emailsSent++
         userResults.push({
           userId,
-          email: user.email,
           totalValue: totalCurrentValue,
           weeklyChangePct: totalWeeklyChangePct
         })
 
         console.log(
-          `[Weekly Portfolio Report] 📧 Email sent to ${user.email}: ` +
+          `[Weekly Portfolio Report] 📧 Email sent for user ${userId}: ` +
           `${formatCurrency(totalCurrentValue)} · ${formatPercent(totalWeeklyChangePct)}`
         )
 

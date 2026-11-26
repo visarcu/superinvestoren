@@ -6,6 +6,60 @@ import { PromptTemplate } from '@langchain/core/prompts'
 import { StringOutputParser } from "@langchain/core/output_parsers"
 import { stocks } from '@/data/stocks'
 
+// Nutzung je Nutzer begrenzen, wie bei /api/portfolio/ai-analyse: Jeder
+// Aufruf kostet einen GPT-4o-Durchlauf. Vorher gab es weder Premium-Prüfung
+// noch Grenze, jeder Angemeldete konnte die Route beliebig oft aufrufen.
+const rateLimiter = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT = 5
+const WINDOW_MS = 30 * 60 * 1000 // 30 min
+
+function takeAuditSlot(userId: string): boolean {
+    const now = Date.now()
+    const entry = rateLimiter.get(userId)
+    if (!entry || now > entry.resetTime) {
+        rateLimiter.set(userId, { count: 1, resetTime: now + WINDOW_MS })
+        return true
+    }
+    if (entry.count >= RATE_LIMIT) return false
+    entry.count++
+    return true
+}
+
+interface AuditHolding {
+    symbol: string
+    name?: string
+    value: number
+    quantity: number
+}
+
+/** FMP-Symbole: Buchstaben, Ziffern, Punkt, Bindestrich, ^ und = */
+const SYMBOL_PATTERN = /^[A-Z0-9][A-Z0-9.\-^=]{0,19}$/i
+const MAX_HOLDINGS = 200
+
+/**
+ * Positionen aus dem Request prüfen. Symbol, Wert und Stückzahl müssen
+ * stimmen, sonst landet beliebiger Text im Prompt oder NaN in den Prozenten.
+ */
+function parseHoldings(input: unknown): AuditHolding[] | null {
+    if (!Array.isArray(input) || input.length === 0 || input.length > MAX_HOLDINGS) return null
+    const holdings: AuditHolding[] = []
+    for (const raw of input) {
+        if (!raw || typeof raw !== 'object') return null
+        const { symbol, name, value, quantity } = raw as Record<string, unknown>
+        if (typeof symbol !== 'string' || !SYMBOL_PATTERN.test(symbol.trim())) return null
+        const numValue = Number(value)
+        const numQuantity = quantity === undefined || quantity === null ? 0 : Number(quantity)
+        if (!Number.isFinite(numValue) || numValue < 0 || !Number.isFinite(numQuantity) || numQuantity < 0) return null
+        holdings.push({
+            symbol: symbol.trim().toUpperCase(),
+            name: typeof name === 'string' ? name.slice(0, 120) : undefined,
+            value: numValue,
+            quantity: numQuantity,
+        })
+    }
+    return holdings
+}
+
 // --- CONSTANTS ---
 const SUPERINVESTORS_TO_COMPARE = [
     { slug: 'buffett', name: 'Warren Buffett', style: 'Value & Quality' },
@@ -79,11 +133,21 @@ export async function POST(req: Request) {
         if (!user) {
             return NextResponse.json({ error: 'Bitte melde dich an.' }, { status: 401 })
         }
+        if (!user.isPremium) {
+            return NextResponse.json({ error: 'Premium erforderlich' }, { status: 403 })
+        }
+        if (!takeAuditSlot(user.id)) {
+            return NextResponse.json({ error: `Max ${RATE_LIMIT} Analysen pro 30 Min.` }, { status: 429 })
+        }
 
-        const { holdings, totalValue } = await req.json() // Expects list of { symbol, value, quantity }
-
-        if (!Array.isArray(holdings) || holdings.length === 0 || holdings.length > 200) {
-            return NextResponse.json({ error: 'No holdings provided' }, { status: 400 })
+        const body = await req.json().catch(() => null) as { holdings?: unknown; totalValue?: unknown } | null
+        const holdings = parseHoldings(body?.holdings) // Liste aus { symbol, value, quantity }
+        if (!holdings) {
+            return NextResponse.json({ error: 'Positionen fehlen oder sind ungültig' }, { status: 400 })
+        }
+        const totalValue = Number(body?.totalValue)
+        if (!Number.isFinite(totalValue) || totalValue <= 0) {
+            return NextResponse.json({ error: 'Depotwert fehlt oder ist ungültig' }, { status: 400 })
         }
 
         // 1. Analyze User Portfolio Basics

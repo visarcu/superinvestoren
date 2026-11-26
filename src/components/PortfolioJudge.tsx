@@ -57,7 +57,9 @@ export default function PortfolioJudge({ holdings, totalValue }: PortfolioJudgeP
                 setResult(data)
                 setHasAudited(true)
             } else {
-                setError('Analyse fehlgeschlagen. Bitte versuche es später noch einmal.')
+                // Grund aus der Antwort zeigen (Premium erforderlich, zu viele Analysen)
+                const data = await res.json().catch(() => null)
+                setError(data?.error || 'Analyse fehlgeschlagen. Bitte versuche es später noch einmal.')
             }
         } catch (error) {
             console.error('Audit failed:', error)
