@@ -186,14 +186,14 @@ function mapTransactionType(
     case 'Buy':
     case 'Savings plan':
     case 'Reinvestment_Distribution':
-      // Buy mit positivem amount = Storno eines Kaufs → eigentlich sell-artig
-      // Aber für die Aktien-Position bleibt es ein Buy/Sell. Wir behandeln das
-      // konservativ: amount > 0 wäre ein Storno → wir behandeln als sell
-      return amount >= 0 ? 'sell' : 'buy'
+      // Nur ein echter Geldeingang (amount > 0) ist ein Storno des Kaufs.
+      // Betrag 0 (Gratisanteile, noch nicht bewertete Zeilen) bleibt ein Kauf:
+      // Mit ">= 0" wurde daraus ein Verkauf, der den Bestand minderte.
+      return amount > 0 ? 'sell' : 'buy'
 
     case 'Sell':
       // Sell mit negativem amount = Storno → behandeln als buy
-      return amount >= 0 ? 'sell' : 'buy'
+      return amount < 0 ? 'buy' : 'sell'
 
     case 'Distribution':
       // Positive Dividende → dividend (zählt zu totalDividends)
@@ -270,8 +270,8 @@ function generateNotes(row: ScalableCSVRow, mappedType: MappedTransactionType): 
 }
 
 // Nicht ausgeführte Orders. "Expired" trägt Stückzahl und Betrag 0 und stand
-// sonst als leerer Verkauf im Depot.
-const SKIPPED_STATUSES = new Set(['Cancelled', 'Rejected', 'Expired'])
+// sonst als leerer Verkauf im Depot; "Pending"/"Open" sind noch nicht gebucht.
+const SKIPPED_STATUSES = new Set(['Cancelled', 'Rejected', 'Expired', 'Pending', 'Open'])
 
 /**
  * Scalable Capital CSV-Export parsen
@@ -313,9 +313,29 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
     const fee = parseGermanNumber(feeStr)
     const tax = parseGermanNumber(taxStr)
 
+    // Handelszeilen ohne Stückzahl und Betrag (nicht ausgeführte Sparplanraten
+    // mit anderem Status): kein Verkauf von 0 Stück
+    if (TRADE_TYPES.has(type) && shares === 0 && amount === 0) {
+      skipped.push({ row: i + 1, reason: 'Leere Buchung (Stückzahl und Betrag 0)', data: `${description} (${type})` })
+      continue
+    }
+
     const mappedType = mapTransactionType(type, shares, amount)
+    const rowRef = { date, time, description, type }
+
+    // Barbetrag einer Kapitalmaßnahme (Barabfindung, Spitzenausgleich,
+    // Kapitalrückzahlung): eigene Cash-Buchung. Der Transfer selbst trägt kein
+    // Geld, und das Cash-Modell ignoriert transfer_in/out; der Betrag fehlte.
+    const corpActionCash = type === 'Corporate action'
+      ? taxFeeCashRow(rowRef, amount, 'Barausgleich Kapitalmaßnahme')
+      : null
 
     if (!mappedType) {
+      if (corpActionCash) {
+        transactions.push(corpActionCash)
+        typeCounts[corpActionCash.type] = (typeCounts[corpActionCash.type] || 0) + 1
+        continue
+      }
       skipped.push({ row: i + 1, reason: `Unbekannter Typ: ${type}`, data: `${description}` })
       continue
     }
@@ -356,8 +376,7 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
     // Steuern und Gebühren auf das Cash-Modell abbilden. portfolio_transactions
     // hat keine Steuer-Spalte, der Import rechnet Kauf −(total_value + fee) und
     // Verkauf total_value − fee.
-    const corrections: (ParsedTransaction | null)[] = []
-    const rowRef = { date, time, description, type }
+    const corrections: (ParsedTransaction | null)[] = [corpActionCash]
     if (TRADE_TYPES.has(type)) {
       // amount ist der reine Kurswert (McDonald's 01.06.2026: 4,017845 × 235,35
       // = 945,60), fee und tax gehen zusätzlich ab — positiv = Belastung,
