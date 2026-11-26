@@ -1,14 +1,18 @@
 // src/app/api/portfolio/ai-analyse/route.ts
-// Portfolio-wide AI analysis combining FMP data + Superinvestor activity + Perplexity news
+// Portfolio-wide AI analysis combining FMP data + Superinvestor activity + News (Claude-Websuche)
 import { NextRequest, NextResponse } from 'next/server'
+import { unstable_cache } from 'next/cache'
 import { createClient } from '@supabase/supabase-js'
 import { computeLookthrough, type LookthroughResult } from '@/lib/portfolio/lookthrough'
 import { getSuperinvestorActivity } from '@/lib/superinvestorMatch'
 import { hasPremiumAccess, PREMIUM_PROFILE_SELECT } from '@/lib/premiumAccess'
+import { webSearchText } from '@/lib/ai/webSearch'
+
+// Websuche für die News plus Analyse brauchen zusammen länger als eine Minute
+export const maxDuration = 120
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
 const FMP_API_KEY = process.env.FMP_API_KEY!
-const PERPLEXITY_API_KEY = process.env.PERPLEXITY_API_KEY
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -92,54 +96,72 @@ async function fetchProfiles(tickers: string[]): Promise<Record<string, any>> {
 // Superinvestor-Overlap: gemeinsame Logik in lib/superinvestorMatch.ts
 const getSuperInvestorActivity = getSuperinvestorActivity
 
-// --- Perplexity News ---
-async function fetchNewsForTickers(tickers: string[]): Promise<Record<string, string>> {
-  if (!PERPLEXITY_API_KEY || tickers.length === 0) return {}
+// --- News per Claude-Websuche ---
+// Eine Suche für die acht größten Positionen. Dieselben Positionen kosten innerhalb
+// eines Sechs-Stunden-Fensters keinen zweiten Aufruf (Vercel-Datencache, über alle
+// Instanzen). Das Fenster steckt im Schlüssel, damit nie Tage alte News erscheinen.
+// Fehler und leere Antworten werfen, damit nichts Leeres gespeichert wird.
+const NEWS_POSITIONS = 8
+const NEWS_WINDOW_MS = 6 * 60 * 60 * 1000
 
-  const result: Record<string, string> = {}
-  // Batch all tickers in one request for efficiency
-  const tickerList = tickers.slice(0, 8).join(', ')
+const loadNews = unstable_cache(
+  async (positions: { symbol: string; name: string }[], _window: number): Promise<Record<string, string>> => {
+    const list = positions
+      .map(p => (p.name && p.name !== p.symbol ? `${p.symbol} (${p.name})` : p.symbol))
+      .join('\n')
+    const text = await webSearchText({
+      label: 'depot-news',
+      system: 'Du bist ein Finanzmarkt-Analyst. Du antwortest auf Deutsch, knapp und nur mit belegbaren Fakten aus deiner Websuche.',
+      prompt: `Suche für jedes dieser Wertpapiere die wichtigste Nachricht der letzten sieben Tage und fasse sie in EINEM Satz zusammen:
+${list}
 
-  try {
-    const res = await fetch('https://api.perplexity.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${PERPLEXITY_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'sonar',
-        messages: [
-          { role: 'system', content: 'Du bist ein Finanzmarkt-Analyst. Antworte auf Deutsch, präzise und faktenbasiert.' },
-          {
-            role: 'user',
-            content: `Fasse für jede dieser Aktien die wichtigste aktuelle Nachricht der letzten Woche in EINEM Satz zusammen: ${tickerList}\n\nFormat: TICKER: Nachricht\n\nWenn es keine relevante Nachricht gibt, schreibe "Keine besonderen Nachrichten".`
-          }
-        ],
-        temperature: 0.1,
-        max_tokens: 800
-      }),
-      signal: AbortSignal.timeout(15000)
+Antworte ausschließlich mit einer Zeile je Wertpapier im Format
+SYMBOL: Satz
+mit genau dem Symbol aus der Liste. Bei ETFs oder wenn es keine relevante Nachricht gibt, schreibe "SYMBOL: Keine besonderen Nachrichten". Keine Einleitung, kein Markdown, keine Quellenangaben im Text, keine Gedankenstriche.`,
+      maxSearches: 5,
+      maxTokens: 4000,
+      timeoutMs: 45_000,
     })
+    const news = parseNewsLines(text, positions.map(p => p.symbol))
+    if (Object.keys(news).length === 0) throw new Error('Websuche: keine News-Zeile erkannt')
+    return news
+  },
+  ['portfolio-ai-news-v1'],
+  { revalidate: NEWS_WINDOW_MS / 1000 }
+)
 
-    if (res.ok) {
-      const data = await res.json()
-      const content = data.choices?.[0]?.message?.content || ''
-      // Parse "TICKER: News" format
-      const lines = content.replace(/\[\d+\]/g, '').split('\n').filter((l: string) => l.trim())
-      for (const line of lines) {
-        const match = line.match(/^[*-]?\s*\**([A-Z]{1,5})\**\s*:\s*(.+)/i)
-        if (match) {
-          const t = match[1].toUpperCase()
-          result[t] = match[2].trim()
-        }
-      }
-    }
-  } catch (error) {
-    console.error('Perplexity news error:', error)
+/** „SYMBOL: Satz“-Zeilen, nur für Symbole aus der Anfrage */
+function parseNewsLines(text: string, symbols: string[]): Record<string, string> {
+  const known = new Map(symbols.map(s => [s.toUpperCase(), s]))
+  const result: Record<string, string> = {}
+  for (const line of text.split('\n')) {
+    const match = line.trim().match(/^[-*•\s]*\**([A-Za-z0-9.^\-]{1,15})\**\s*:\s*(.+)$/)
+    if (!match) continue
+    const symbol = known.get(match[1].toUpperCase())
+    const sentence = match[2].replace(/\*\*/g, '').trim()
+    if (!symbol || !sentence || /^keine (besonderen|relevanten|aktuellen)/i.test(sentence)) continue
+    result[symbol] = sentence
   }
-
   return result
+}
+
+async function fetchNewsForHoldings(holdings: PortfolioHolding[]): Promise<Record<string, string>> {
+  const positions = [...holdings]
+    .sort((a, b) => b.value - a.value)
+    .slice(0, NEWS_POSITIONS)
+    .map(h => ({
+      symbol: h.symbol.toUpperCase().slice(0, 15),
+      // Name kommt aus der Anfrage: kurz und einzeilig in den Prompt
+      name: (h.name || h.symbol).replace(/\s+/g, ' ').trim().slice(0, 60),
+    }))
+    .sort((a, b) => a.symbol.localeCompare(b.symbol))
+  if (positions.length === 0) return {}
+  try {
+    return await loadNews(positions, Math.floor(Date.now() / NEWS_WINDOW_MS))
+  } catch (error) {
+    console.error('Portfolio AI-Analyse: News nicht verfügbar:', error instanceof Error ? error.message : error)
+    return {}
+  }
 }
 
 // --- Look-Through-Kontext für den Prompt ---
@@ -197,7 +219,7 @@ async function generateAnalysis(
       const q = quotes[h.symbol] || {}
       const p = profiles[h.symbol] || {}
       const si = siActivity[h.symbol] || { count: 0, investors: [] }
-      const n = news[h.symbol] || 'Keine aktuellen News'
+      const n = news[h.symbol.toUpperCase()] || 'Keine aktuellen News'
 
       const siSummary = si.count > 0
         ? `${si.count} Superinvestoren (${si.investors.slice(0, 3).map(i => `${i.name}: ${i.trend}`).join(', ')})`
@@ -319,7 +341,7 @@ export async function POST(request: NextRequest) {
     const [quotes, profiles, news, lookthrough] = await Promise.all([
       fetchQuotes(tickers),
       fetchProfiles(tickers),
-      fetchNewsForTickers(tickers),
+      fetchNewsForHoldings(holdings),
       computeLookthrough(
         holdings.map(h => ({
           symbol: h.symbol,
