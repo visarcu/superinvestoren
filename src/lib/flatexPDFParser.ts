@@ -51,13 +51,27 @@ export function parseFlatexPDFText(text: string, fileName: string): FlatexParseR
     const txPattern = /Nr\.(\d+\/\d+)\s+(Kauf|Verkauf)\s+(.+?)\s+\(([A-Z0-9]{12})\/([A-Z0-9]+)\)/i
     const txMatch = normalized.match(txPattern)
 
+    // Die Umsatzliste (Depotumsätze oder Kontoumsätze als PDF) ist keine Abrechnung.
+    // Ein Nutzer lud sie hoch und bekam nur "Flatex-Format erwartet".
+    if (!txMatch && /depotums[äa]tze|kontoums[äa]tze/i.test(normalized)) {
+      errors.push(
+        `"${fileName}" ist die Umsatzliste als PDF. Daraus lassen sich die Buchungen nicht zuverlässig lesen. ` +
+        `Exportiere die Depotumsätze stattdessen als XLSX (Konto/Depot → Depotumsätze → XLSX-Export) ` +
+        `oder lade einzelne Wertpapierabrechnungen aus dem Dokumentenarchiv hoch.`
+      )
+      return { transactions, errors, fileName }
+    }
+
     if (!txMatch && !isDividende) {
       // Versuche alternatives Pattern ohne Nr.
       const altPattern = /(Kauf|Verkauf)\s+(.+?)\s+\(([A-Z0-9]{12})\/([A-Z0-9]+)\)/i
       const altMatch = normalized.match(altPattern)
 
       if (!altMatch) {
-        errors.push(`Konnte keine Transaktion in "${fileName}" erkennen. Flatex-Format erwartet.`)
+        errors.push(
+          `Konnte keine Transaktion in "${fileName}" erkennen. Unterstützt werden einzelne Flatex-Abrechnungen ` +
+          `aus dem Dokumentenarchiv (Sammelabrechnung, Kauf/Verkauf Fonds, Dividenden) und der XLSX-Export der Depotumsätze.`
+        )
         return { transactions, errors, fileName }
       }
     }

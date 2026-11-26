@@ -26,8 +26,10 @@ import {
   parseFlatexDepotXLSX,
   parseFlatexDepotXLSXFiles,
   isFlatexDepotXLSX,
+  isFlatexKontoXLSX,
   type FlatexDepotFile,
 } from '@/lib/flatexXLSXParser'
+import { describeWorkbook, looksLikeFreedom24Orders } from '@/lib/workbookFormat'
 import {
   parseFreedom24TradeReport,
   parseFreedom24TradeReports,
@@ -41,6 +43,41 @@ import { parseIngPDFText, isIngPDF, type IngParsedTransaction } from '@/lib/ingP
 import { parseTrading212PDFText, isTrading212PDF } from '@/lib/trading212PDFParser'
 
 export const maxDuration = 60
+
+/**
+ * Antwort mit Transaktionen. Kommt keine zustande, steht der Aufbau der Datei und
+ * die Meldung im Server-Log: Ein Nutzer bekam drei Dateiformate lang "keine
+ * Transaktionen", und nichts verriet, woran es lag. Keine Inhalte, nur Struktur.
+ */
+function respond(
+  // Die CSV-Parser melden Übersprungenes als Objekte, die anderen als Text
+  payload: { format: string; transactions: unknown[]; errors?: unknown[] } & Record<string, unknown>,
+  structure: Record<string, unknown> = {},
+) {
+  if (payload.transactions.length === 0) {
+    console.warn('[import-auto] keine Transaktionen', JSON.stringify({
+      format: payload.format,
+      errors: payload.errors ?? [],
+      ...structure,
+    }))
+  }
+  return NextResponse.json(payload)
+}
+
+function kontoumsaetzeError(fileName: string): string {
+  return (
+    `"${fileName}" ist der Kontoumsätze-Export (Geldbewegungen). Für die Wertpapiere brauchst du ` +
+    `die Depotumsätze: Konto/Depot → Depotumsätze → XLSX-Export.`
+  )
+}
+
+function unknownWorkbookError(fileName: string, description: string): string {
+  return (
+    `"${fileName}": Format nicht erkannt (${description}). Unterstützt werden der XLSX-Export der ` +
+    `Flatex-Depotumsätze und die Freedom24-Berichte (Handelsbericht, Ein-/Auszahlungen, Steuerbericht, ` +
+    `Auftragshistorie). Schick uns die Datei an support@finclue.de, dann bauen wir deinen Broker ein.`
+  )
+}
 
 function getSupabaseClient() {
   return createClient(
@@ -108,6 +145,8 @@ async function parseMultipleWorkbooks(files: File[]) {
   const flatexFiles: FlatexDepotFile[] = []
   const tradeReports: Freedom24ReportFile[] = []
   const cashReports: Freedom24ReportFile[] = []
+  // Aufbau nicht erkannter Dateien, für das Log
+  const structures: string[] = []
 
   for (const file of files) {
     try {
@@ -139,12 +178,18 @@ async function parseMultipleWorkbooks(files: File[]) {
       const rawRows: unknown[][] = XLSX.utils.sheet_to_json(
         workbook.Sheets[workbook.SheetNames[0]], { header: 1 }
       )
-      if (isFlatexDepotXLSX(workbook.SheetNames, rawRows[0] || [])) {
+      if (isFlatexDepotXLSX(workbook.SheetNames, rawRows)) {
         flatexFiles.push({ rows: rawRows, fileName: file.name })
         continue
       }
 
-      errors.push(`"${file.name}": Format nicht erkannt, Datei übersprungen.`)
+      if (isFlatexKontoXLSX(workbook.SheetNames, rawRows)) {
+        errors.push(kontoumsaetzeError(file.name))
+        continue
+      }
+
+      errors.push(unknownWorkbookError(file.name, describeWorkbook(workbook.SheetNames, rawRows)))
+      structures.push(describeWorkbook(workbook.SheetNames, rawRows))
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       errors.push(`"${file.name}" konnte nicht gelesen werden: ${msg}`)
@@ -172,7 +217,7 @@ async function parseMultipleWorkbooks(files: File[]) {
       ? `Flatex Depotumsätze (${flatexFiles.length} Dateien)`
       : 'Flatex Depotumsätze'
 
-    return NextResponse.json({
+    return respond({
       // Eine reine Cash-Datei enthält keine Wertpapiere, dann führt Flatex
       format: leadFormat === 'freedom24_report' ? leadFormat : 'flatex_depot',
       formatLabel: [flatexLabel, freedom24Label].filter(Boolean).join(' + '),
@@ -182,17 +227,17 @@ async function parseMultipleWorkbooks(files: File[]) {
       warnings: result.warnings,
       stockSplits,
       totalFiles: files.length,
-    })
+    }, { files: files.length, flatex: result.diagnostics, freedom24: tradeReports.length + cashReports.length, unknown: structures })
   }
 
-  return NextResponse.json({
-    format: leadFormat || 'freedom24_report',
-    formatLabel: freedom24Label || 'Freedom24 Handelsbericht',
+  return respond({
+    format: leadFormat || (structures.length === files.length ? 'unknown_xlsx' : 'freedom24_report'),
+    formatLabel: freedom24Label || 'Tabellendatei',
     transactions,
     errors,
     stockSplits,
     totalFiles: files.length,
-  })
+  }, { files: files.length, freedom24: tradeReports.length + cashReports.length, unknown: structures })
 }
 
 export async function POST(request: Request) {
@@ -232,7 +277,7 @@ export async function POST(request: Request) {
       // Auto-Detection über Header — Trade Republic CSV (seit April 2026)
       if (isTradeRepublicCSV(text)) {
         const result = parseTradeRepublicCSV(text)
-        return NextResponse.json({
+        return respond({
           format: 'traderepublic_csv',
           formatLabel: 'Trade Republic (CSV)',
           transactions: result.transactions,
@@ -245,7 +290,7 @@ export async function POST(request: Request) {
 
       if (isTrading212CSV(text)) {
         const result = parseTrading212CSV(text)
-        return NextResponse.json({
+        return respond({
           format: 'trading212',
           formatLabel: 'Trading 212',
           transactions: result.transactions,
@@ -256,7 +301,7 @@ export async function POST(request: Request) {
 
       if (isZeroCSV(text)) {
         const result = parseZeroCSV(text)
-        return NextResponse.json({
+        return respond({
           format: 'zero',
           formatLabel: 'finanzen.net zero',
           transactions: result.transactions,
@@ -269,7 +314,7 @@ export async function POST(request: Request) {
       // Diese CSV enthält keinen Kaufkurs pro Stück — nur Ordervolumen. Nicht importierbar.
       const firstLine = text.split('\n')[0] || ''
       if (firstLine.includes('Kategorie') && firstLine.includes('ISIN') && firstLine.includes('Handelsplatz')) {
-        return NextResponse.json({
+        return respond({
           format: 'flatex_csv',
           formatLabel: 'Flatex Order-CSV',
           transactions: [],
@@ -282,7 +327,7 @@ export async function POST(request: Request) {
 
       // Fallback: Scalable (hat semikolon-CSV mit englischen Spalten)
       const result = parseScalableCSV(text)
-      return NextResponse.json({
+      return respond({
         format: 'scalable',
         formatLabel: 'Scalable Capital',
         transactions: result.transactions,
@@ -374,14 +419,14 @@ export async function POST(request: Request) {
       }
       const mainBroker = [...brokersSeen].filter(b => b !== 'unknown')[0] ?? 'unknown'
 
-      return NextResponse.json({
+      return respond({
         format: `pdf_${mainBroker}`,
         formatLabel: brokerLabel[mainBroker] ?? 'Broker PDF',
         transactions: allTransactions,
         errors: allErrors,
         totalFiles: files.length,
         parsedFiles: parsedCount,
-      })
+      }, { files: files.length, brokers: [...brokersSeen] })
     }
 
     // ===== XLSX → Freedom24 Steuerbericht oder Auftragshistorie =====
@@ -404,9 +449,9 @@ export async function POST(request: Request) {
       const rawRows: unknown[][] = XLSX.utils.sheet_to_json(
         workbook.Sheets[workbook.SheetNames[0]], { header: 1 }
       )
-      if (isFlatexDepotXLSX(workbook.SheetNames, rawRows[0] || [])) {
+      if (isFlatexDepotXLSX(workbook.SheetNames, rawRows)) {
         const result = parseFlatexDepotXLSX(rawRows, firstFile.name)
-        return NextResponse.json({
+        return respond({
           format: 'flatex_depot',
           formatLabel: 'Flatex Depotumsätze',
           transactions: result.transactions,
@@ -414,7 +459,16 @@ export async function POST(request: Request) {
           notices: result.notices,
           warnings: result.warnings,
           totalRows: rawRows.length - 1,
-        })
+        }, { ext, sheets: workbook.SheetNames, flatex: result.diagnostics })
+      }
+
+      if (isFlatexKontoXLSX(workbook.SheetNames, rawRows)) {
+        return respond({
+          format: 'flatex_konto',
+          formatLabel: 'Flatex Kontoumsätze',
+          transactions: [],
+          errors: [kontoumsaetzeError(firstFile.name)],
+        }, { ext, workbook: describeWorkbook(workbook.SheetNames, rawRows) })
       }
 
       // Freedom24 Handelsbericht (hat "Trades ..." Sheet mit Transaktionsdatum)
@@ -425,7 +479,7 @@ export async function POST(request: Request) {
           sheets[sheetName] = XLSX.utils.sheet_to_json(sheet, { defval: '' })
         }
         const result = parseFreedom24TradeReport(sheets, firstFile.name)
-        return NextResponse.json({
+        return respond({
           format: 'freedom24_report',
           formatLabel: 'Freedom24 Handelsbericht',
           transactions: result.transactions,
@@ -443,7 +497,7 @@ export async function POST(request: Request) {
           sheets[sheetName] = XLSX.utils.sheet_to_json(sheet, { defval: '' })
         }
         const result = parseFreedom24CashReport(sheets, firstFile.name)
-        return NextResponse.json({
+        return respond({
           format: 'freedom24_cash',
           formatLabel: 'Freedom24 Ein-/Auszahlungen',
           transactions: result.transactions,
@@ -461,7 +515,7 @@ export async function POST(request: Request) {
           sheets[sheetName] = XLSX.utils.sheet_to_json(sheet, { defval: '' })
         }
         const result = parseFreedom24TaxXLSX(sheets, firstFile.name)
-        return NextResponse.json({
+        return respond({
           format: 'freedom24_tax',
           formatLabel: 'Freedom24 Steuerbericht',
           transactions: result.transactions,
@@ -474,22 +528,34 @@ export async function POST(request: Request) {
         const rows: Record<string, unknown>[] = XLSX.utils.sheet_to_json(sheet, { defval: '' })
 
         if (!rows || rows.length === 0) {
-          return NextResponse.json({
+          return respond({
             format: 'freedom24_trades',
             formatLabel: 'Freedom24 Auftragshistorie',
             transactions: [],
             errors: [`Keine Daten in "${firstFile.name}" gefunden.`],
-          })
+          }, { ext, workbook: describeWorkbook(workbook.SheetNames, rawRows) })
+        }
+
+        // Alles Unbekannte lief bisher als Auftragshistorie und scheiterte mit
+        // Freedom24-Meldungen, auch der Export einer Hausbank.
+        if (!looksLikeFreedom24Orders(rows)) {
+          const description = describeWorkbook(workbook.SheetNames, rawRows)
+          return respond({
+            format: 'unknown_xlsx',
+            formatLabel: 'Tabellendatei',
+            transactions: [],
+            errors: [unknownWorkbookError(firstFile.name, description)],
+          }, { ext, workbook: description })
         }
 
         const result = parseFreedom24XLSXRows(rows, firstFile.name)
-        return NextResponse.json({
+        return respond({
           format: 'freedom24_trades',
           formatLabel: 'Freedom24 Auftragshistorie',
           transactions: result.transactions,
           errors: result.errors,
           totalRows: rows.length,
-        })
+        }, { ext, sheets: workbook.SheetNames, rows: rows.length })
       }
     }
 
