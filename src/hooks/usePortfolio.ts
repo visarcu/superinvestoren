@@ -5,7 +5,8 @@ import { hasPremiumAccess } from '@/lib/premiumAccess'
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { resolveDepotKey } from '@/lib/depotRoutes'
 import { countedDepots } from '@/lib/sampleDepotShared'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { signInHref } from '@/lib/siteHosts'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
@@ -37,7 +38,6 @@ export type { DepotHistoricalPerf, DepotSummary, Holding, Portfolio, RealizedGai
  *   Depot-ID, siehe lib/depotRoutes). Ohne Angabe gilt ?depot=… (ältere Seiten).
  */
 export function usePortfolio(routeDepotKey?: string) {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const { currency, setCurrency, formatCurrency: formatCompactCurrency, formatStockPrice, formatPercentage } = useCurrency()
 
@@ -68,6 +68,8 @@ export function usePortfolio(routeDepotKey?: string) {
   const [dataReady, setDataReady] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  // Ohne Sitzung geht es zur Anmeldung; bis dahin kein Onboarding zeigen
+  const [redirecting, setRedirecting] = useState(false)
 
   // "Alle Depots"-Sicht aus dem geladenen Portfolio ableiten — nicht aus dem URL-Param.
   // Wenn nur ein Depot existiert, fällt loadPortfolio auch bei depot=all auf das einzelne
@@ -280,7 +282,10 @@ export function usePortfolio(routeDepotKey?: string) {
       const { data: { user } } = await supabase.auth.getUser()
       if (isOutdated()) return
       if (!user) {
-        router.push('/login')
+        // Keine Sitzung (abgelaufen oder abgemeldet): zur Anmeldung mit
+        // Rücksprung auf die aktuelle Depotseite. "/login" führte ins 404.
+        setRedirecting(true)
+        if (typeof window !== 'undefined') window.location.assign(signInHref())
         return
       }
 
@@ -293,13 +298,16 @@ export function usePortfolio(routeDepotKey?: string) {
       setIsPremium(hasPremiumAccess(profile))
 
       // All Portfolios
-      const { data: portfolios } = await supabase
+      const { data: portfolios, error: portfoliosError } = await supabase
         .from('portfolios')
         .select('*')
         .eq('user_id', user.id)
         .order('is_default', { ascending: false })
         .order('created_at', { ascending: true })
       if (isOutdated()) return
+      // Ein Fehler ist kein leeres Konto: Sonst sah ein Bestandskunde das
+      // Onboarding "Leg dein erstes Depot an" und legte ein zweites Depot an.
+      if (portfoliosError) throw portfoliosError
 
       // Erstes Laden: Rahmen (Name, Reiter, Depotliste) sofort zeigen, die Werte folgen.
       // Danach bleibt bis zum Ende der bisherige Stand stehen.
@@ -415,7 +423,7 @@ export function usePortfolio(routeDepotKey?: string) {
       // Ein überholter Ladevorgang darf den laufenden nicht als fertig melden
       if (!isOutdated()) setLoading(false)
     }
-  }, [router, loadHoldingsForPortfolio, loadAllTransactionRows])
+  }, [loadHoldingsForPortfolio, loadAllTransactionRows])
 
   // Initial load und Depotwechsel. Zeigt die URL nur anders auf dasselbe
   // Depot (ID → Kurzname), wird nicht neu geladen. Läuft gerade ein Ladevorgang
@@ -990,8 +998,10 @@ export function usePortfolio(routeDepotKey?: string) {
     isPremium,
     isAllDepotsView,
     depotIdParam,
-    // true, sobald der Ladevorgang durch ist und der User noch kein Depot hat
-    hasNoDepots: !loading && allPortfolios.length === 0,
+    // true, sobald der Ladevorgang durch ist und der User noch kein Depot hat.
+    // Nicht bei Ladefehler oder Weiterleitung zur Anmeldung.
+    hasNoDepots: !loading && !error && !redirecting && allPortfolios.length === 0,
+    redirecting,
 
     // Computed
     totalValue,

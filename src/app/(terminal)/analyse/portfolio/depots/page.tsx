@@ -14,6 +14,7 @@ import { supabase } from '@/lib/supabaseClient'
 import PortfolioDepotList, { PortfolioSummary } from '@/components/PortfolioDepotList'
 import { BrokerType } from '@/lib/brokerConfig'
 import { valuateHoldingsByPortfolio, type ValuationHolding } from '@/lib/portfolioValuation'
+import { signInHref } from '@/lib/siteHosts'
 
 export default function DepotsPage() {
   const router = useRouter()
@@ -32,7 +33,7 @@ export default function DepotsPage() {
 
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user) {
-        router.replace('/auth/signin')
+        window.location.assign(signInHref())
         return
       }
 

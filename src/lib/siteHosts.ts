@@ -100,6 +100,17 @@ export function leaveDepotHref(path: string): string {
 }
 
 /**
+ * Anmeldeseite mit Rücksprung auf die aktuelle Depotseite (Pfad der
+ * Hauptseite, siehe fromDepotPath). Auf dem Depot-Host absolut zur
+ * Hauptseite, sonst relativ. Nur im Browser aufrufen, z. B. mit
+ * window.location.assign. Eine "/login"-Seite gibt es nicht.
+ */
+export function signInHref(returnPath?: string): string {
+  const back = returnPath ?? (typeof window !== 'undefined' ? fromDepotPath(window.location.pathname) : WORKSPACE_PATH)
+  return leaveDepotHref(`/auth/signin?redirect=${encodeURIComponent(back)}`)
+}
+
+/**
  * Gegenstück zu leaveDepotHref: Link von der Hauptseite ins Depot. Auf der
  * Hauptseite absolut, sonst würde der Link dort vorgeladen, auf die Subdomain
  * umgeleitet und an CORS scheitern. Auf localhost und in Vorschau-Deployments

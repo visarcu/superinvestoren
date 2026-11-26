@@ -16,6 +16,7 @@ import { supabase } from '@/lib/supabaseClient'
 import PortfolioBrokerSelector, { BrokerBadge } from '@/components/PortfolioBrokerSelector'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 import { BrokerType, BROKER_CONFIGS, getBrokerConfig, brokerTypeToLogoId } from '@/lib/brokerConfig'
+import { signInHref } from '@/lib/siteHosts'
 
 type Step = 1 | 2 | 3
 
@@ -86,7 +87,7 @@ export default function NewDepotPage() {
 
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user) {
-        router.replace('/auth/signin')
+        window.location.assign(signInHref())
         return
       }
 

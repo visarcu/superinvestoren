@@ -14,6 +14,7 @@ import {
 import { supabase } from '@/lib/supabaseClient'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 import { BrokerType, getBrokerConfig, brokerTypeToLogoId } from '@/lib/brokerConfig'
+import { signInHref } from '@/lib/siteHosts'
 
 interface Portfolio {
   id: string
@@ -51,7 +52,7 @@ export default function EditDepotPage() {
       try {
         const { data: { session } } = await supabase.auth.getSession()
         if (!session?.user) {
-          router.replace('/auth/signin')
+          window.location.assign(signInHref())
           return
         }
 
@@ -98,7 +99,7 @@ export default function EditDepotPage() {
 
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user) {
-        router.replace('/auth/signin')
+        window.location.assign(signInHref())
         return
       }
 

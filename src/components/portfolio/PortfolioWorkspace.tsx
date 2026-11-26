@@ -793,7 +793,27 @@ export default function PortfolioWorkspace() {
     />
   ) : null
 
-  if (p.loading && !p.portfolio) return <WorkspaceSkeleton />
+  if ((p.loading || p.redirecting) && !p.portfolio) return <WorkspaceSkeleton />
+  // Depotliste nicht ladbar (Netz, Supabase): Fehler mit Neuversuch statt
+  // des Onboardings für Neukunden
+  if (p.error && !p.portfolio) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-16">
+        <div className="flex items-start gap-3 rounded-lg border border-red-500/20 bg-red-500/10 p-4">
+          <ExclamationTriangleIcon className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-400" />
+          <div className="flex-1">
+            <p className="text-sm text-red-700 dark:text-red-200">Deine Depots konnten gerade nicht geladen werden.</p>
+            <button
+              onClick={() => p.loadPortfolio(p.depotIdParam)}
+              className="mt-2 text-xs text-red-400 underline hover:text-red-300"
+            >
+              Erneut versuchen
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
   // Noch kein Depot angelegt → gleiches Onboarding wie im Dashboard
   if (p.hasNoDepots) return <DepotOnboarding />
   // Konten und Cashflow hängen nicht am gewählten Depot
