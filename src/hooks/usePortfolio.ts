@@ -125,6 +125,27 @@ async function loadStoredTransaction(txId: string): Promise<StoredTransactionRow
   return data as unknown as StoredTransactionRow
 }
 
+const isCashBooking = (type: string) => type === 'cash_deposit' || type === 'cash_withdrawal'
+
+/**
+ * Folgt das Bargeld dieses Depots den Käufen, Verkäufen und Dividenden? Der
+ * Import rechnet das Bargeld aus allen Buchungen, sobald Ein- oder
+ * Auszahlungen dabei sind (CSVImportModal), sonst lässt er es in Ruhe. Von
+ * Hand erfasste Käufe und Dividenden ändern das Bargeld nie. Deshalb darf ihr
+ * Löschen in einem Depot ohne Geldbewegungen auch kein Bargeld erzeugen:
+ * Im Beispieldepot stünden sonst nach dem Löschen eines Kaufs 101 € Guthaben.
+ */
+async function depotTracksCash(portfolioId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from('portfolio_transactions')
+    .select('id')
+    .eq('portfolio_id', portfolioId)
+    .in('type', ['cash_deposit', 'cash_withdrawal'])
+    .limit(1)
+  if (error) throw error
+  return (data?.length ?? 0) > 0
+}
+
 /** Bargeld eines Depots um delta verschieben (Buchung gelöscht oder geändert) */
 async function shiftCash(portfolioId: string, delta: number): Promise<void> {
   if (Math.abs(delta) < 0.005) return
@@ -1085,7 +1106,10 @@ export function usePortfolio(routeDepotKey?: string) {
       .eq('id', txId)
     if (error) throw error
 
-    await shiftCash(before.portfolio_id, cashEffect(after) - cashEffect(before))
+    const cashDelta = cashEffect(after) - cashEffect(before)
+    if (cashDelta !== 0 && (isCashBooking(before.type) || await depotTracksCash(before.portfolio_id))) {
+      await shiftCash(before.portfolio_id, cashDelta)
+    }
 
     const quantityDelta = num(after.quantity) - num(before.quantity)
     const position = { portfolioId: before.portfolio_id, symbol: before.symbol, name: before.name, date: after.date }
@@ -1104,7 +1128,8 @@ export function usePortfolio(routeDepotKey?: string) {
   // Buchung löschen und ihre Wirkung zurücknehmen. Vorher verschwand nur die
   // Zeile: Eine gelöschte Einzahlung ließ das Bargeld stehen, ein gelöschter
   // Kauf die Position. Depotüberträge bleiben wie bisher Bestandssache des
-  // Nutzers (Splits und Spin-offs laufen ebenfalls als Übertrag).
+  // Nutzers (Splits und Spin-offs laufen ebenfalls als Übertrag). Beim
+  // Bargeld gilt die Regel des Imports, siehe depotTracksCash.
   const deleteTransaction = useCallback(async (txId: string) => {
     const row = await loadStoredTransaction(txId)
 
@@ -1114,7 +1139,11 @@ export function usePortfolio(routeDepotKey?: string) {
       .eq('id', txId)
     if (error) throw error
 
-    await shiftCash(row.portfolio_id, -cashEffect(row))
+    // Ein- und Auszahlungen immer, Käufe/Verkäufe/Dividenden nur in Depots,
+    // deren Bargeld aus den Buchungen stammt
+    if (isCashBooking(row.type) || await depotTracksCash(row.portfolio_id)) {
+      await shiftCash(row.portfolio_id, -cashEffect(row))
+    }
 
     const position = { portfolioId: row.portfolio_id, symbol: row.symbol, name: row.name, date: row.date }
     if (row.type === 'buy') {
