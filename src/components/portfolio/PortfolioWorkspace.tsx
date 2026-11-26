@@ -82,6 +82,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { formatDecimal } from '@/lib/displayFormat'
 import { landingFontVars } from '@/components/landing/landingFonts'
+import { authHeaders } from '@/lib/clientAuth'
 
 /** Das Vier-Felder-Motiv aus dem Finclue-Logo, in Textfarbe (hell wie dunkel) */
 function DepotMark() {
@@ -647,7 +648,7 @@ export default function PortfolioWorkspace() {
     try {
       const res = await fetch('/api/portfolio/super-investor-overlap', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', ...(await authHeaders()) },
         body: JSON.stringify({ tickers: holdings.map(h => h.symbol) }),
       })
       if (res.ok) setSuperInvestorCounts(await res.json())

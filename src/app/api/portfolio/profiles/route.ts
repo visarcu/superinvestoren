@@ -1,6 +1,7 @@
 // src/app/api/portfolio/profiles/route.ts
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getRequestUser, sanitizeSymbols, unauthorizedResponse } from '@/lib/apiAuth'
 
 interface StockProfile {
   symbol: string
@@ -15,9 +16,15 @@ interface StockProfile {
 
 export async function POST(request: NextRequest) {
   try {
-    const { symbols } = await request.json()
-    
-    if (!Array.isArray(symbols) || symbols.length === 0) {
+    const user = await getRequestUser(request)
+    if (!user) return unauthorizedResponse()
+
+    const { symbols: rawSymbols } = await request.json()
+
+    // Höchstens 200 geprüfte Symbole je Aufruf (ein Depot hat selten mehr).
+    // Vorher lief jedes Symbol ungeprüft in den FMP-Pfad.
+    const symbols = sanitizeSymbols(rawSymbols, 200)
+    if (!symbols || symbols.length === 0) {
       return NextResponse.json({ error: 'Invalid symbols array' }, { status: 400 })
     }
 
@@ -32,7 +39,7 @@ export async function POST(request: NextRequest) {
     
     for (let i = 0; i < symbols.length; i += batchSize) {
       const batch = symbols.slice(i, i + batchSize)
-      const symbolsParam = batch.join(',')
+      const symbolsParam = encodeURIComponent(batch.join(','))
       
       try {
         const response = await fetch(

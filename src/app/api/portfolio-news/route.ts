@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getRequestUser, unauthorizedResponse } from '@/lib/apiAuth'
 
 interface NewsArticle {
   symbol: string
@@ -12,6 +13,9 @@ interface NewsArticle {
 
 export async function POST(request: NextRequest) {
   try {
+    const user = await getRequestUser(request)
+    if (!user) return unauthorizedResponse()
+
     const { symbols } = await request.json()
 
     if (!symbols || !Array.isArray(symbols) || symbols.length === 0) {

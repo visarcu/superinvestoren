@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import { ChevronDownIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { authHeaders } from '@/lib/clientAuth'
 
 interface StockResult {
   symbol: string
@@ -69,6 +70,7 @@ export default function StockSymbolAutocomplete({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(await authHeaders()),
         },
         body: JSON.stringify({ query: searchQuery }),
       })

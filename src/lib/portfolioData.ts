@@ -1,5 +1,6 @@
 // src/lib/portfolioData.ts - SECURE VERSION using API routes only
 import { supabase } from './supabaseClient'
+import { authHeaders } from '@/lib/clientAuth'
 
 interface StockProfile {
   symbol: string
@@ -46,6 +47,7 @@ export async function getStockProfiles(symbols: string[]): Promise<Map<string, S
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(await authHeaders()),
       },
       body: JSON.stringify({ symbols }),
     })

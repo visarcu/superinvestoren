@@ -1,18 +1,25 @@
 // /api/portfolio/search/route.ts
 import { NextResponse } from 'next/server'
+import { getRequestUser, unauthorizedResponse } from '@/lib/apiAuth'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
 export async function POST(request: Request) {
   try {
+    const user = await getRequestUser(request)
+    if (!user) return unauthorizedResponse()
+
     const { query } = await request.json()
-    
-    if (!query || query.length < 2) {
+
+    // Suchtext begrenzt und als Parameter kodiert: "x&limit=1000" war sonst
+    // ein zweiter Parameter in der FMP-Adresse.
+    const text = typeof query === 'string' ? query.trim().slice(0, 60) : ''
+    if (text.length < 2) {
       return NextResponse.json({ results: [] })
     }
 
     // FMP hat einen Search-Endpoint
-    const url = `https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&apikey=${FMP_API_KEY}`
+    const url = `https://financialmodelingprep.com/api/v3/search?query=${encodeURIComponent(text)}&limit=10&apikey=${FMP_API_KEY}`
     
     const response = await fetch(url)
     

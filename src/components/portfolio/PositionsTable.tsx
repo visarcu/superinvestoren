@@ -19,6 +19,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { formatDecimal } from '@/lib/displayFormat'
 import { leaveDepotHref } from '@/lib/siteHosts'
+import { authHeaders } from '@/lib/clientAuth'
 
 interface PositionsTableProps {
   holdings: Holding[]
@@ -229,15 +230,16 @@ export default function PositionsTable({
     let cancelled = false
     setPeriodReturnsLoading(true)
 
-    fetch('/api/portfolio/position-performance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        positions,
-        timeframes: ['1D', '1W', '1M', '3M', '1Y'],
-        includeSparkline: true,
-      }),
-    })
+    authHeaders()
+      .then(headers => fetch('/api/portfolio/position-performance', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...headers },
+        body: JSON.stringify({
+          positions,
+          timeframes: ['1D', '1W', '1M', '3M', '1Y'],
+          includeSparkline: true,
+        }),
+      }))
       .then(res => (res.ok ? res.json() : null))
       .then(json => {
         if (cancelled) return

@@ -26,6 +26,7 @@ import DeleteTransactionModal from './DeleteTransactionModal'
 import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
 import DepotOnboarding from '@/components/portfolio/DepotOnboarding'
 import type { Holding, Tab, Transaction } from '../_lib/types'
+import { authHeaders } from '@/lib/clientAuth'
 
 export interface SuperInvestorOverlap {
   count: number
@@ -128,11 +129,12 @@ export default function PortfolioClient() {
     const tickers = [...new Set(holdings.map(h => h.symbol))]
     let cancelled = false
 
-    fetch('/api/portfolio/super-investor-overlap', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tickers }),
-    })
+    authHeaders()
+      .then(headers => fetch('/api/portfolio/super-investor-overlap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...headers },
+        body: JSON.stringify({ tickers }),
+      }))
       .then(r => (r.ok ? r.json() : null))
       .then(data => {
         if (cancelled || !data) return

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getRequestUser, sanitizeSymbols, unauthorizedResponse } from '@/lib/apiAuth'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
@@ -7,18 +8,21 @@ const FMP_API_KEY = process.env.FMP_API_KEY
 
 export async function POST(request: Request) {
   try {
-    const { symbols } = await request.json()
+    const user = await getRequestUser(request)
+    if (!user) return unauthorizedResponse()
 
-    if (!symbols || !Array.isArray(symbols) || symbols.length === 0) {
+    const { symbols: rawSymbols } = await request.json()
+
+    // Höchstens 50 geprüfte Symbole, keine freien Zeichen im FMP-Pfad
+    const symbols = sanitizeSymbols(rawSymbols, 50)
+    if (symbols === null) {
+      return NextResponse.json({ error: 'Too many symbols' }, { status: 400 })
+    }
+    if (symbols.length === 0) {
       return NextResponse.json({ error: 'Invalid symbols' }, { status: 400 })
     }
 
-    // Rate limiting
-    if (symbols.length > 50) {
-      return NextResponse.json({ error: 'Too many symbols' }, { status: 400 })
-    }
-
-    const symbolsString = symbols.join(',')
+    const symbolsString = encodeURIComponent(symbols.join(','))
     const url = `https://financialmodelingprep.com/api/v3/quote/${symbolsString}?apikey=${FMP_API_KEY}`
 
     const response = await fetch(url)

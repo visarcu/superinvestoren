@@ -3,6 +3,7 @@
 // Response: { data: { AAPL: { "1W": { change, changePercent, ... } } } }
 
 import { NextResponse } from 'next/server'
+import { getRequestUser, unauthorizedResponse } from '@/lib/apiAuth'
 import { getDailyHistory, getFxHistory } from '@/lib/marketData/history'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
@@ -143,8 +144,14 @@ function buildSparkline(
   return samplePoints(points, 28)
 }
 
+/** Je Aufruf höchstens so viele Papiere, jedes kostet eine Kursreihe bei FMP */
+const MAX_POSITIONS = 150
+
 export async function POST(request: Request) {
   try {
+    const user = await getRequestUser(request)
+    if (!user) return unauthorizedResponse()
+
     const body = await request.json()
     const includeSparkline = body?.includeSparkline === true
     const requestedTimeframes: Timeframe[] = Array.isArray(body?.timeframes)
@@ -163,6 +170,7 @@ export async function POST(request: Request) {
       if (!currentPriceEUR || currentPriceEUR <= 0) continue
 
       const existing = uniquePositions.get(symbol)
+      if (!existing && uniquePositions.size >= MAX_POSITIONS) continue
       uniquePositions.set(symbol, {
         quantity: (existing?.quantity || 0) + quantity,
         currentPriceEUR,

@@ -1,6 +1,7 @@
 // src/app/api/portfolio/super-investor-overlap/route.ts
 // Batch API: Given an array of tickers, returns how many superinvestors hold each one
 import { NextRequest, NextResponse } from 'next/server'
+import { getRequestUser, unauthorizedResponse } from '@/lib/apiAuth'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { investors } from '@/data/investors'
@@ -73,9 +74,17 @@ function getTicker(position: any): string | null {
 
 export async function POST(req: NextRequest) {
   try {
-    const { tickers } = await req.json()
+    const user = await getRequestUser(req)
+    if (!user) return unauthorizedResponse()
 
-    if (!Array.isArray(tickers) || tickers.length === 0) {
+    const { tickers: rawTickers } = await req.json()
+
+    // Nur Zeichenketten, höchstens 500: ein Objekt in der Liste warf sonst
+    // beim toUpperCase einen 500er
+    const tickers = Array.isArray(rawTickers)
+      ? rawTickers.filter((t: unknown): t is string => typeof t === 'string' && t.length > 0 && t.length <= 20).slice(0, 500)
+      : []
+    if (tickers.length === 0) {
       return NextResponse.json({ error: 'tickers array required' }, { status: 400 })
     }
 
