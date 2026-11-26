@@ -4,12 +4,16 @@
 import React, { useState } from 'react'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
+import CashAfterRow from './CashAfterRow'
 import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import { ArrowPathIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 interface SellFormProps {
   portfolioId: string
   holdings: Holding[]
+  cashPosition: number
+  // Führt das Depot Geld, kommt der Erlös dem Bargeld zu (usePortfolio.tracksCash)
+  tracksCash: boolean
   onSellPosition: (holdingId: string, params: {
     quantity: number
     price: number
@@ -23,6 +27,8 @@ interface SellFormProps {
 export default function SellForm({
   portfolioId,
   holdings,
+  cashPosition,
+  tracksCash,
   onSellPosition,
   formatCurrency,
   formatStockPrice,
@@ -182,6 +188,9 @@ export default function SellForm({
                   valueClass={gainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}
                   bold
                 />
+              )}
+              {tracksCash && (
+                <CashAfterRow cashAfter={cashPosition + sellQuantity * sellPriceNum} formatCurrency={formatCurrency} />
               )}
               {isFullSell && (
                 <p className="text-[11px] text-amber-300/80 pt-1">Position wird vollständig verkauft</p>

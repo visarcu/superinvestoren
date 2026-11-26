@@ -96,13 +96,23 @@ function buyCost(tx: Pick<StoredTransactionRow, 'total_value' | 'quantity' | 'pr
   return bookedAmount(tx) + Math.abs(num(tx.fee))
 }
 
+/** Felder einer Buchung, die ihre Kontobewegung bestimmen: gespeicherte Zeile oder neue Buchung */
+type CashRelevantRow = {
+  type: string
+  total_value: number | string | null
+  quantity: number | string | null
+  price: number | string | null
+  fee?: number | string | null
+  notes?: string | null
+}
+
 /**
  * Kontobewegung einer Buchung aus Sicht des Bargelds, dieselbe Regel wie beim
  * Import (CSVImportModal): Käufe belasten das Konto samt Gebühr, Verkäufe
  * bringen den Erlös abzüglich Gebühr, Dividenden und Einzahlungen kommen dazu,
  * Auszahlungen gehen ab. Depotüberträge bewegen kein Geld.
  */
-function cashEffect(tx: Pick<StoredTransactionRow, 'type' | 'total_value' | 'quantity' | 'price' | 'fee' | 'notes'>): number {
+function cashEffect(tx: CashRelevantRow): number {
   const amount = bookedAmount(tx)
   const fee = Math.abs(num(tx.fee))
   switch (tx.type) {
@@ -130,10 +140,11 @@ const isCashBooking = (type: string) => type === 'cash_deposit' || type === 'cas
 /**
  * Folgt das Bargeld dieses Depots den Käufen, Verkäufen und Dividenden? Der
  * Import rechnet das Bargeld aus allen Buchungen, sobald Ein- oder
- * Auszahlungen dabei sind (CSVImportModal), sonst lässt er es in Ruhe. Von
- * Hand erfasste Käufe und Dividenden ändern das Bargeld nie. Deshalb darf ihr
- * Löschen in einem Depot ohne Geldbewegungen auch kein Bargeld erzeugen:
- * Im Beispieldepot stünden sonst nach dem Löschen eines Kaufs 101 € Guthaben.
+ * Auszahlungen dabei sind (CSVImportModal), sonst lässt er es in Ruhe. Nach
+ * derselben Regel bewegen von Hand erfasste Käufe, Verkäufe und Dividenden
+ * das Bargeld, und ihr Löschen oder Bearbeiten nimmt die Bewegung zurück. In
+ * einem Depot ohne Geldbewegungen bleibt das Bargeld in Ruhe: Im Beispieldepot
+ * stünden sonst nach dem Löschen eines Kaufs 101 € Guthaben.
  */
 async function depotTracksCash(portfolioId: string): Promise<boolean> {
   const { data, error } = await supabase
@@ -300,6 +311,13 @@ export function usePortfolio(routeDepotKey?: string) {
     }
     return portfolio?.cash_position || 0
   }, [portfolio, countedPortfolios, isAllDepotsView])
+
+  // Führt das geladene Depot Geld (Regel: depotTracksCash)? Dann zeigen die
+  // Buchungsformulare, was nach Kauf, Verkauf oder Dividende vom Bargeld bleibt
+  const tracksCash = useMemo(
+    () => !isAllDepotsView && transactions.some(tx => isCashBooking(tx.type)),
+    [transactions, isAllDepotsView]
+  )
 
   const totalInvested = useMemo(() => {
     return holdings.reduce((sum, h) => sum + (h.purchase_price_display * h.quantity), 0)
@@ -658,7 +676,7 @@ export function usePortfolio(routeDepotKey?: string) {
     const priceWithFees = purchasePrice + (fees / quantity)
 
     const trimmedCase = investmentCase?.trim().slice(0, 1000) || null
-    await bookTransaction({
+    const row = {
       portfolio_id: portfolio.id,
       type: 'buy',
       symbol: stock.symbol,
@@ -668,7 +686,13 @@ export function usePortfolio(routeDepotKey?: string) {
       total_value: quantity * purchasePrice + fees,
       date: purchaseDate,
       notes: fees > 0 ? `Kaufpreis: ${purchasePrice.toFixed(2)}€, Gebühren: ${fees.toFixed(2)}€` : null
-    }, async () => {
+    }
+    // Führt das Depot Geld, geht der Kaufbetrag samt Gebühr vom Bargeld ab, wie
+    // beim Import. Vorher blieb das Bargeld bei Käufen aus dem Formular immer
+    // stehen: Wer Ein- und Auszahlungen bucht, musste jeden Kauf danach über
+    // die Cash-Korrektur selbst nachziehen.
+    const tracksCash = await depotTracksCash(portfolio.id)
+    await bookTransaction(row, async () => {
       const { error } = await supabase
         .from('portfolio_holdings')
         .insert({
@@ -683,6 +707,7 @@ export function usePortfolio(routeDepotKey?: string) {
           investment_case_updated_at: trimmedCase ? new Date().toISOString() : null,
         })
       if (error) throw error
+      if (tracksCash) await shiftCash(portfolio.id, cashEffect(row))
     })
 
     await loadPortfolio(depotIdParam)
@@ -815,7 +840,7 @@ export function usePortfolio(routeDepotKey?: string) {
     const totalQty = oldQty + newQty
     const weightedAvgPrice = ((oldQty * oldPrice) + (newQty * priceWithFees)) / totalQty
 
-    await bookTransaction({
+    const row = {
       portfolio_id: portfolio.id,
       type: 'buy',
       symbol: holding.symbol,
@@ -825,7 +850,10 @@ export function usePortfolio(routeDepotKey?: string) {
       total_value: newQty * newPrice + fees,
       date: topUpDate,
       notes: fees > 0 ? `Aufstockung - Gebühren: ${fees.toFixed(2)}€` : 'Aufstockung'
-    }, async () => {
+    }
+    // Bargeld wie bei addPosition: nur in Depots, die Geld führen
+    const tracksCash = await depotTracksCash(portfolio.id)
+    await bookTransaction(row, async () => {
       const { error } = await supabase
         .from('portfolio_holdings')
         .update({
@@ -835,6 +863,7 @@ export function usePortfolio(routeDepotKey?: string) {
         })
         .eq('id', holding.id)
       if (error) throw error
+      if (tracksCash) await shiftCash(portfolio.id, cashEffect(row))
     })
 
     await loadPortfolio(depotIdParam)
@@ -852,7 +881,7 @@ export function usePortfolio(routeDepotKey?: string) {
 
     const { quantity, price, date } = params
 
-    await bookTransaction({
+    const row = {
       portfolio_id: portfolio.id,
       type: 'sell',
       symbol: holding.symbol,
@@ -861,7 +890,10 @@ export function usePortfolio(routeDepotKey?: string) {
       price,
       total_value: quantity * price,
       date
-    }, async () => {
+    }
+    // Der Erlös kommt dem Bargeld zu, wenn das Depot Geld führt (siehe addPosition)
+    const tracksCash = await depotTracksCash(portfolio.id)
+    await bookTransaction(row, async () => {
       if (quantity >= holding.quantity) {
         // Vollverkauf — Holding löschen
         const { error } = await supabase
@@ -877,6 +909,7 @@ export function usePortfolio(routeDepotKey?: string) {
           .eq('id', holdingId)
         if (error) throw error
       }
+      if (tracksCash) await shiftCash(portfolio.id, cashEffect(row))
     })
 
     await loadPortfolio(depotIdParam)
@@ -893,8 +926,9 @@ export function usePortfolio(routeDepotKey?: string) {
 
     const { amount, date } = params
 
-    // Dividend-Transaktion erstellen (kein Holding-Update)
-    await insertTransaction({
+    // Kein Bestand zu ändern. Die Dividende kommt dem Bargeld zu, wenn das
+    // Depot Geld führt (siehe addPosition)
+    const row = {
       portfolio_id: portfolio.id,
       type: 'dividend',
       symbol: holding.symbol,
@@ -903,6 +937,10 @@ export function usePortfolio(routeDepotKey?: string) {
       price: amount / holding.quantity,
       total_value: amount,
       date
+    }
+    const tracksCash = await depotTracksCash(portfolio.id)
+    await bookTransaction(row, async () => {
+      if (tracksCash) await shiftCash(portfolio.id, cashEffect(row))
     })
 
     await loadPortfolio(depotIdParam)
@@ -1242,6 +1280,7 @@ export function usePortfolio(routeDepotKey?: string) {
     totalInvested,
     stockValue,
     cashPosition,
+    tracksCash,
     totalGainLoss,
     totalGainLossPercent,
     dayGainLoss,

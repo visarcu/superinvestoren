@@ -29,6 +29,7 @@ interface AddActivityModalProps {
   isPremium: boolean
   holdingsCount: number
   cashPosition: number
+  tracksCash: boolean
   formatCurrency: (amount: number) => string
   formatStockPrice: (price: number) => string
   onAddPosition: (params: {
@@ -93,6 +94,7 @@ export default function AddActivityModal({
   isPremium,
   holdingsCount,
   cashPosition,
+  tracksCash,
   formatCurrency,
   formatStockPrice,
   onAddPosition,
@@ -215,6 +217,8 @@ export default function AddActivityModal({
             isPremium={isPremium}
             holdingsCount={holdingsCount}
             maxFreePositions={FREE_USER_POSITION_LIMIT}
+            cashPosition={cashPosition}
+            tracksCash={tracksCash}
             onAddPosition={onAddPosition}
             onTopUpPosition={onTopUpPosition}
             formatCurrency={formatCurrency}
@@ -228,6 +232,8 @@ export default function AddActivityModal({
           <SellForm
             portfolioId={portfolioId}
             holdings={holdings}
+            cashPosition={cashPosition}
+            tracksCash={tracksCash}
             onSellPosition={onSellPosition}
             formatCurrency={formatCurrency}
             formatStockPrice={formatStockPrice}
@@ -239,6 +245,8 @@ export default function AddActivityModal({
           <DividendForm
             portfolioId={portfolioId}
             holdings={holdings}
+            cashPosition={cashPosition}
+            tracksCash={tracksCash}
             onAddDividend={onAddDividend}
             formatCurrency={formatCurrency}
             onSuccess={handleSuccess}

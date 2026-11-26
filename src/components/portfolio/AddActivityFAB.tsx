@@ -17,6 +17,8 @@ interface AddActivityFABProps {
   isPremium: boolean
   holdingsCount: number
   cashPosition: number
+  // Führt das Depot Geld? Dann bewegen Kauf, Verkauf und Dividende das Bargeld
+  tracksCash: boolean
   formatCurrency: (amount: number) => string
   formatStockPrice: (price: number) => string
   isAllDepotsView: boolean
@@ -66,6 +68,7 @@ export default function AddActivityFAB({
   isPremium,
   holdingsCount,
   cashPosition,
+  tracksCash,
   formatCurrency,
   formatStockPrice,
   isAllDepotsView,
@@ -190,6 +193,7 @@ export default function AddActivityFAB({
         isPremium={isPremium}
         holdingsCount={holdingsCount}
         cashPosition={cashPosition}
+        tracksCash={tracksCash}
         formatCurrency={formatCurrency}
         formatStockPrice={formatStockPrice}
         onAddPosition={onAddPosition}

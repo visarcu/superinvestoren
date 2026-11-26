@@ -4,12 +4,16 @@
 import React, { useState } from 'react'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
+import CashAfterRow from './CashAfterRow'
 import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import { ArrowPathIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 interface DividendFormProps {
   portfolioId: string
   holdings: Holding[]
+  cashPosition: number
+  // Führt das Depot Geld, kommt die Dividende dem Bargeld zu (usePortfolio.tracksCash)
+  tracksCash: boolean
   onAddDividend: (holdingId: string, params: {
     amount: number
     date: string
@@ -21,6 +25,8 @@ interface DividendFormProps {
 export default function DividendForm({
   portfolioId,
   holdings,
+  cashPosition,
+  tracksCash,
   onAddDividend,
   formatCurrency,
   onSuccess
@@ -152,6 +158,9 @@ export default function DividendForm({
                   <span className="text-white/55">Pro Aktie</span>
                   <span className="text-white/80 tabular-nums">{formatCurrency(perShare)}</span>
                 </div>
+              )}
+              {tracksCash && (
+                <CashAfterRow cashAfter={cashPosition + amountNum} formatCurrency={formatCurrency} />
               )}
             </div>
           )}

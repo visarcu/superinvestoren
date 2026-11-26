@@ -1427,6 +1427,7 @@ export default function PortfolioWorkspace() {
         isPremium={p.isPremium}
         holdingsCount={p.holdings.length}
         cashPosition={p.cashPosition}
+        tracksCash={p.tracksCash}
         formatCurrency={p.formatCurrency}
         formatStockPrice={p.formatStockPrice}
         isAllDepotsView={p.isAllDepotsView}

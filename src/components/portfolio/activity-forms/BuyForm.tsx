@@ -4,6 +4,7 @@
 import React, { useState } from 'react'
 import TickerSearch, { type SearchedStock } from '@/components/portfolio/TickerSearch'
 import { type Holding } from '@/hooks/usePortfolio'
+import CashAfterRow from './CashAfterRow'
 import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import {
   CheckIcon,
@@ -17,6 +18,9 @@ interface BuyFormProps {
   isPremium: boolean
   holdingsCount: number
   maxFreePositions: number
+  cashPosition: number
+  // Führt das Depot Geld, geht der Kauf vom Bargeld ab (usePortfolio.tracksCash)
+  tracksCash: boolean
   onAddPosition: (params: {
     stock: { symbol: string; name: string }
     quantity: number
@@ -39,6 +43,8 @@ interface BuyFormProps {
 export default function BuyForm({
   portfolioId,
   holdings,
+  cashPosition,
+  tracksCash,
   onAddPosition,
   onTopUpPosition,
   formatCurrency,
@@ -210,6 +216,9 @@ export default function BuyForm({
               <div className="pt-1.5 border-t border-white/[0.04]">
                 <Row label="Gesamt" value={formatCurrency(investAmount + feeAmount)} bold />
               </div>
+              {tracksCash && (
+                <CashAfterRow cashAfter={cashPosition - (investAmount + feeAmount)} formatCurrency={formatCurrency} />
+              )}
               {topUpPreview && (
                 <div className="pt-1.5 border-t border-white/[0.04] space-y-1.5">
                   <Row
