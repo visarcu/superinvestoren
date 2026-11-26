@@ -127,6 +127,28 @@ function unclearSplitText(split: DepotSplitSummary): string {
 const SPLITS_INCOMPLETE_TEXT =
   'Aktiensplits ließen sich nicht für alle Papiere prüfen. Nennt die Datei einen Split nicht, bleiben Buchungen davor auf der alten Stückzahl.'
 
+const NOT_SIGNED_IN_TEXT = 'Nicht angemeldet. Bitte neu einloggen.'
+
+/**
+ * ISIN-Auflösung auf dem Server. Ohne gültige Sitzung null: Dann muss der Import
+ * das melden und darf nicht still auf die lokalen Tabellen ausweichen, die zu
+ * einer ISIN nur den deutschen Ticker kennen.
+ */
+async function requestIsinResolution(body: {
+  isins: string[]
+  tickers?: Record<string, string>
+  renames?: { fromIsin: string; toIsin: string }[]
+}): Promise<Response | null> {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session?.access_token) return null
+  const response = await fetch('/api/portfolio/resolve-isins', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+    body: JSON.stringify(body),
+  })
+  return response.status === 401 ? null : response
+}
+
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   buy: { label: 'Kauf', color: 'text-emerald-400' },
   sell: { label: 'Verkauf', color: 'text-red-400' },
@@ -163,6 +185,7 @@ export default function CSVImportModal({
   const [isinMap, setIsinMap] = useState<Map<string, { symbol: string; name: string; source: string }>>(new Map())
   const [unresolvedISINs, setUnresolvedISINs] = useState<string[]>([])
   const [resolving, setResolving] = useState(false)
+  const [resolveError, setResolveError] = useState<string | null>(null)
   const [manualMappings, setManualMappings] = useState<Record<string, string>>({})
   // Alte ISINs ohne handelbares Kürzel, deren Nachfolger dasselbe Papier ist
   const [confirmedIsinChanges, setConfirmedIsinChanges] = useState<string[]>([])
@@ -411,6 +434,7 @@ export default function CSVImportModal({
     setIsinMap(new Map())
     setUnresolvedISINs([])
     setResolving(false)
+    setResolveError(null)
     setTransferPrices({})
     setFetchingTransferPrices(false)
     setImporting(false)
@@ -488,16 +512,18 @@ export default function CSVImportModal({
     // nur den deutschen Ticker. Genau daher kam CEBJ.DE statt CSKR.EU.
     setMap(newMap)
     setResolving(true)
+    setResolveError(null)
     try {
-      const resp = await fetch('/api/portfolio/resolve-isins', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          isins: uniqueISINs,
-          tickers: brokerTickers,
-          renames: renames.map(({ fromIsin, toIsin }) => ({ fromIsin, toIsin })),
-        }),
+      const resp = await requestIsinResolution({
+        isins: uniqueISINs,
+        tickers: brokerTickers,
+        renames: renames.map(({ fromIsin, toIsin }) => ({ fromIsin, toIsin })),
       })
+      if (!resp) {
+        setImportError(NOT_SIGNED_IN_TEXT)
+        setStep('upload')
+        return
+      }
       if (resp.ok) {
         const { results, isinChanges } = await resp.json()
         setConfirmedIsinChanges(Array.isArray(isinChanges) ? isinChanges : [])
@@ -713,7 +739,7 @@ export default function CSVImportModal({
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.access_token) {
-        setImportError('Nicht angemeldet. Bitte neu einloggen.')
+        setImportError(NOT_SIGNED_IN_TEXT)
         return
       }
 
@@ -895,12 +921,13 @@ export default function CSVImportModal({
     if (unresolvedISINs.length === 0) return
 
     setResolving(true)
+    setResolveError(null)
     try {
-      const response = await fetch('/api/portfolio/resolve-isins', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isins: unresolvedISINs }),
-      })
+      const response = await requestIsinResolution({ isins: unresolvedISINs })
+      if (!response) {
+        setResolveError(NOT_SIGNED_IN_TEXT)
+        return
+      }
 
       if (response.ok) {
         const { results } = await response.json()
@@ -2140,6 +2167,12 @@ export default function CSVImportModal({
                       </button>
                     )}
                   </div>
+
+                  {resolveError && (
+                    <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                      <p className="text-sm text-red-400">{resolveError}</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

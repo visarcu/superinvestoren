@@ -1,11 +1,26 @@
 // /api/portfolio/resolve-isins/route.ts
 // ISIN → Ticker: 1) CUSIP lokal, 2) OpenFIGI API, 3) FMP API Fallback
+// Header: Authorization: Bearer <Supabase access token>
 
 import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 import { stocks } from '@/data/stocks'
 import { resolveIsinsViaMaster } from '@/lib/marketData/isinLookup'
 
+// 200 ISINs ohne OpenFIGI-Key sind 20 Batches im Abstand von 1,5 s, dazu kommen
+// höchstens 60 s Pausen (MAX_RATE_LIMIT_PAUSES) und die FMP-Suche
+export const maxDuration = 180
+
 const FMP_API_KEY = process.env.FMP_API_KEY
+
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!url || !key) return null
+  return createClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
+}
 
 // === CUSIP-Map aus stocks (server-seitig, wird nur einmal erstellt) ===
 let _cusipMap: Map<string, { ticker: string; name: string }> | null = null
@@ -174,13 +189,26 @@ interface OpenFIGIResponse {
   warning?: string
 }
 
+// Ohne Key zählt OpenFIGI 25 Anfragen je 60 s (Header ratelimit-policy). Vier
+// Pausen decken ein ganzes Fenster ab. Sie gelten je Anfrage an diese Route,
+// nicht je Batch: Vorher wiederholte sich ein 429 ohne Ende.
+const RATE_LIMIT_PAUSE_MS = 15_000
+const MAX_RATE_LIMIT_PAUSES = 4
+
+interface RateLimitBudget {
+  pausesLeft: number
+}
+
 /**
  * OpenFIGI Batch-Anfrage
- * Ohne API-Key: max 10 ISINs pro Request, max 5 Requests/Minute
+ * Ohne API-Key: max 10 ISINs pro Request, 25 Requests/Minute
  * Mit API-Key: max 100 ISINs pro Request, 25 Requests/6 Sek
+ *
+ * Sind die Pausen aufgebraucht, bleiben die übrigen ISINs ungelöst (null).
  */
 async function resolveViaOpenFIGI(
-  isins: string[]
+  isins: string[],
+  budget: RateLimitBudget
 ): Promise<Record<string, FigiResolution | null>> {
   const results: Record<string, FigiResolution | null> = {}
   const hasApiKey = !!process.env.OPENFIGI_API_KEY
@@ -216,8 +244,17 @@ async function resolveViaOpenFIGI(
       if (!response.ok) {
         // Bei 429 (Rate Limit): warten und retry
         if (response.status === 429) {
+          if (budget.pausesLeft <= 0) {
+            const open = isins.slice(i)
+            console.error(`OpenFIGI rate limit: Pausen aufgebraucht, ${open.length} ISINs bleiben offen`)
+            for (const isin of open) {
+              results[isin] = null
+            }
+            return results
+          }
+          budget.pausesLeft--
           console.error('OpenFIGI rate limit hit, waiting 15s...')
-          await new Promise(resolve => setTimeout(resolve, 15000))
+          await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_PAUSE_MS))
           // Retry diesen Batch
           i -= batchSize
           continue
@@ -328,14 +365,15 @@ function pickBestMatch(matches: OpenFIGIResult[], isin: string): OpenFIGIResult 
  */
 async function confirmIsinChanges(
   renames: RenamePair[],
-  known: Record<string, FigiResolution | null>
+  known: Record<string, FigiResolution | null>,
+  budget: RateLimitBudget
 ): Promise<string[]> {
   const candidates = renames.filter(r => known[r.fromIsin] && !known[r.fromIsin]!.tradable)
   if (candidates.length === 0) return []
 
   // Die neue ISIN löst meist schon der Stammsatz auf, ohne Anteilsklasse.
   const missing = [...new Set(candidates.map(r => r.toIsin))].filter(isin => !known[isin])
-  const figi = { ...known, ...(missing.length > 0 ? await resolveViaOpenFIGI(missing) : {}) }
+  const figi = { ...known, ...(missing.length > 0 ? await resolveViaOpenFIGI(missing, budget) : {}) }
 
   return candidates
     .filter(({ fromIsin, toIsin }) => {
@@ -401,6 +439,24 @@ async function resolveViaFMP(
 }
 
 export async function POST(request: Request) {
+  // Auth: Je Aufruf bis zu 200 ISINs bei OpenFIGI und 20 bei FMP. Die Route war
+  // offen und damit für jeden ein kostenloser ISIN-Resolver.
+  const authHeader = request.headers.get('authorization')
+  const supabase = getSupabase()
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+  }
+  if (!authHeader?.startsWith('Bearer ')) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser(authHeader.slice('Bearer '.length))
+  if (authError || !user) {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
+  }
+
   try {
     const { isins, tickers, renames } = await request.json()
 
@@ -427,16 +483,17 @@ export async function POST(request: Request) {
     const { resolved: cusipResolved, unresolved: afterCUSIP } = resolveViaCUSIP(afterMaster)
 
     // Phase 2: OpenFIGI für restliche ISINs (EU-ETFs, UK-Aktien etc.)
+    const budget: RateLimitBudget = { pausesLeft: MAX_RATE_LIMIT_PAUSES }
     let openFIGIResults: Record<string, FigiResolution | null> = {}
     if (afterCUSIP.length > 0) {
-      openFIGIResults = await resolveViaOpenFIGI(afterCUSIP)
+      openFIGIResults = await resolveViaOpenFIGI(afterCUSIP, budget)
     }
 
     // ISIN-Wechsel aus der Datei (optional): bestätigte Umstellungen
     const renamePairs: RenamePair[] = (Array.isArray(renames) ? renames : [])
       .filter((r): r is RenamePair => typeof r?.fromIsin === 'string' && typeof r?.toIsin === 'string')
       .slice(0, 50)
-    const isinChanges = await confirmIsinChanges(renamePairs, openFIGIResults)
+    const isinChanges = await confirmIsinChanges(renamePairs, openFIGIResults, budget)
 
     // Phase 3: FMP Fallback für Rest
     const unresolvedAfterFIGI = afterCUSIP.filter(isin => !openFIGIResults[isin])
