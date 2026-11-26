@@ -21,7 +21,8 @@ export async function GET(
   async function fetchJson(url: string) {
     const response = await fetch(url)
     if (!response.ok) {
-      throw new Error(`FMP fetch failed: ${url}`)
+      // Nie die ganze URL in den Fehlertext: Sie enthält den API-Schlüssel
+      throw new Error(`FMP ${new URL(url).pathname}: HTTP ${response.status}`)
     }
     return response.json()
   }
@@ -238,7 +239,7 @@ export async function GET(
   } catch (error: any) {
     console.error(`❌ Error loading list ${listId}:`, error)
     return NextResponse.json({ 
-      error: error.message || 'Fehler beim Laden der Liste' 
+      error: 'Fehler beim Laden der Liste'
     }, { status: 500 })
   }
 }

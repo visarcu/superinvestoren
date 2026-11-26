@@ -139,7 +139,8 @@ export async function GET(
     // Fetch historical statements
     async function fetchJson(u: string) {
       const r = await fetch(u)
-      if (!r.ok) throw new Error(`FMP fetch failed: ${u}`)
+      // Nie die ganze URL in den Fehlertext: Sie enthält den API-Schlüssel
+      if (!r.ok) throw new Error(`FMP ${new URL(u).pathname}: HTTP ${r.status}`)
       return r.json()
     }
 
@@ -299,8 +300,7 @@ export async function GET(
   } catch (error) {
     console.error(`❌ [Professional] Error for ${ticker}:`, error)
     return NextResponse.json({ 
-      error: 'Failed to fetch financial data',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      error: 'Failed to fetch financial data'
     }, { status: 500 })
   }
 }
