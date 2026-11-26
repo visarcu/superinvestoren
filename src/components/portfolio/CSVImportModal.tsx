@@ -18,8 +18,10 @@ import { applyIsinChanges, planIsinChanges } from '@/lib/isinChange'
 import {
   NAME_MAX_LENGTH,
   describeValidationIssues,
+  isUsableSymbol,
   validateImportRows,
   validateManualSymbol,
+  wknFromIsin,
 } from '@/lib/importValidation'
 import {
   detectSpinoffEvents,
@@ -529,7 +531,9 @@ export default function CSVImportModal({
         setConfirmedIsinChanges(Array.isArray(isinChanges) ? isinChanges : [])
         const stillUnresolved: string[] = []
         for (const isin of uniqueISINs) {
-          if (results[isin]) {
+          // Unbrauchbare Kürzel in die manuelle Zuordnung statt in die
+          // Vorschau, wo sie den Import sperren und nicht änderbar sind
+          if (results[isin] && isUsableSymbol(results[isin].symbol)) {
             newMap.set(isin, { symbol: results[isin].symbol, name: results[isin].name, source: results[isin].source || 'openfigi' })
           } else {
             stillUnresolved.push(isin)
@@ -935,7 +939,7 @@ export default function CSVImportModal({
         const stillUnresolved: string[] = []
 
         for (const isin of unresolvedISINs) {
-          if (results[isin]) {
+          if (results[isin] && isUsableSymbol(results[isin].symbol)) {
             newMap.set(isin, {
               symbol: results[isin].symbol,
               name: results[isin].name,
@@ -2119,6 +2123,9 @@ export default function CSVImportModal({
                       // Kein maxLength am Feld: Eine eingefügte ISIN würde sonst
                       // still auf 10 Zeichen gekürzt und als Unsinns-Ticker übernommen.
                       const mappingError = validateManualSymbol(manualMappings[isin] || '')
+                      // Zertifikate/Anleihen haben keinen Börsenticker. Ohne Eintrag
+                      // fehlen ihre Käufe und Verkäufe samt Bargeld im Depot.
+                      const wkn = !manualMappings[isin]?.trim() ? wknFromIsin(isin) : null
                       return (
                         <div key={isin} className="flex items-center gap-2 p-2 bg-amber-500/5 border border-amber-500/10 rounded-lg">
                           <div className="flex-1 min-w-0">
@@ -2126,6 +2133,19 @@ export default function CSVImportModal({
                             {/* Beim Spalten-Import ohne ISIN ist der Name selbst der Schlüssel */}
                             {tx && tx.name !== isin && <span className="text-xs text-neutral-500 ml-2">{tx.name}</span>}
                             {mappingError && <p className="text-[11px] text-red-400 mt-0.5">{mappingError}</p>}
+                            {wkn && (
+                              <p className="text-[11px] text-neutral-500 mt-0.5">
+                                Kein Börsenticker, etwa bei Zertifikaten?{' '}
+                                <button
+                                  type="button"
+                                  onClick={() => handleManualMapping(isin, wkn)}
+                                  className="text-neutral-300 underline underline-offset-2 hover:text-white"
+                                >
+                                  WKN {wkn} eintragen
+                                </button>
+                                , dann zählen Kauf, Verkauf und Bargeld mit. Leer lassen überspringt die Buchungen.
+                              </p>
+                            )}
                           </div>
                           <input
                             type="text"

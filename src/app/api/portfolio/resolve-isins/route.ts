@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { stocks } from '@/data/stocks'
 import { resolveIsinsViaMaster } from '@/lib/marketData/isinLookup'
+import { isUsableSymbol } from '@/lib/importValidation'
 
 // 200 ISINs ohne OpenFIGI-Key sind 20 Batches im Abstand von 1,5 s, dazu kommen
 // höchstens 60 s Pausen (MAX_RATE_LIMIT_PAUSES) und die FMP-Suche
@@ -477,7 +478,11 @@ export async function POST(request: Request) {
     const masterResolved = await resolveIsinsViaMaster(
       limitedISINs.map((isin: string) => ({ isin, brokerTicker: brokerTickers[isin] }))
     )
-    const afterMaster = limitedISINs.filter((isin: string) => !masterResolved.has(isin.toUpperCase()))
+    const fromMasterUsable = (isin: string) => {
+      const hit = masterResolved.get(isin.toUpperCase())
+      return hit && isUsableSymbol(hit.symbol) ? hit : null
+    }
+    const afterMaster = limitedISINs.filter((isin: string) => !fromMasterUsable(isin))
 
     // Phase 1: CUSIP lokal (instant, ~9000 US-Aktien)
     const { resolved: cusipResolved, unresolved: afterCUSIP } = resolveViaCUSIP(afterMaster)
@@ -496,7 +501,14 @@ export async function POST(request: Request) {
     const isinChanges = await confirmIsinChanges(renamePairs, openFIGIResults, budget)
 
     // Phase 3: FMP Fallback für Rest
-    const unresolvedAfterFIGI = afterCUSIP.filter(isin => !openFIGIResults[isin])
+    // Zertifikate und Anleihen bekommen von OpenFIGI eine Beschreibung statt
+    // eines Tickers ("SOCGEN 0 PERP KXKU"): gilt als nicht aufgelöst. Die
+    // Treffer bleiben in openFIGIResults, confirmIsinChanges braucht sie.
+    const figiUsable = (isin: string) => {
+      const hit = openFIGIResults[isin]
+      return hit && isUsableSymbol(hit.symbol) ? hit : null
+    }
+    const unresolvedAfterFIGI = afterCUSIP.filter(isin => !figiUsable(isin))
     let fmpResults: Record<string, { symbol: string; name: string } | null> = {}
     if (unresolvedAfterFIGI.length > 0 && FMP_API_KEY) {
       const fmpBatch = unresolvedAfterFIGI.slice(0, 20)
@@ -507,7 +519,9 @@ export async function POST(request: Request) {
     const results: Record<string, { symbol: string; name: string; source: string } | null> = {}
 
     for (const isin of limitedISINs) {
-      const fromMaster = masterResolved.get(isin.toUpperCase())
+      const fromMaster = fromMasterUsable(isin)
+      const fromFigi = figiUsable(isin)
+      const fromFmp = fmpResults[isin] && isUsableSymbol(fmpResults[isin]!.symbol) ? fmpResults[isin]! : null
       if (fromMaster) {
         results[isin] = {
           symbol: fromMaster.symbol,
@@ -516,11 +530,10 @@ export async function POST(request: Request) {
         }
       } else if (cusipResolved[isin]) {
         results[isin] = { ...cusipResolved[isin], source: 'cusip_local' }
-      } else if (openFIGIResults[isin]) {
-        const { symbol, name } = openFIGIResults[isin]!
-        results[isin] = { symbol, name, source: 'openfigi' }
-      } else if (fmpResults[isin]) {
-        results[isin] = { ...fmpResults[isin]!, source: 'fmp_api' }
+      } else if (fromFigi) {
+        results[isin] = { symbol: fromFigi.symbol, name: fromFigi.name, source: 'openfigi' }
+      } else if (fromFmp) {
+        results[isin] = { ...fromFmp, source: 'fmp_api' }
       } else {
         results[isin] = null
       }

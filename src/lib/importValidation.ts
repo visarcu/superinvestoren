@@ -42,6 +42,25 @@ export function validateManualSymbol(input: string): string | null {
   return null
 }
 
+/**
+ * Taugt ein automatisch aufgelöstes Kürzel als Symbol? OpenFIGI liefert für
+ * Zertifikate und Anleihen eine Bloomberg-Beschreibung statt eines
+ * Börsentickers (DE000SJ27CZ4 → „SOCGEN 0 PERP KXKU“ an „FF ZERTIFIKATE“).
+ * Die passt nicht in portfolio_transactions.symbol und blockierte am
+ * 2026-11-26 einen ganzen TR-Import in der Vorschau, ohne dass sich die
+ * Zuordnung dort ändern ließ. Solche ISINs gehören in die manuelle Zuordnung.
+ */
+export function isUsableSymbol(symbol: string | null | undefined): boolean {
+  if (!symbol || !symbol.trim() || symbol !== symbol.trim()) return false
+  return validateManualSymbol(symbol) === null
+}
+
+/** WKN einer deutschen ISIN (DE000 + WKN + Prüfziffer), sonst null */
+export function wknFromIsin(isin: string): string | null {
+  const value = isin.trim().toUpperCase()
+  return /^DE000[A-Z0-9]{6}[0-9]$/.test(value) ? value.slice(5, 11) : null
+}
+
 export interface ImportRowInput {
   type: string
   symbol?: string
