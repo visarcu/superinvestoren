@@ -11,7 +11,7 @@ import { processArticles } from '@/lib/news/newsProcessor'
 import { generateAIRecap } from '@/lib/news/recapGenerator'
 import { createClient } from '@supabase/supabase-js'
 
-export const maxDuration = 60 // Max 60 Sekunden für Vercel
+export const maxDuration = 120 // RSS, Speichern und Bericht mit Claude
 
 export async function GET(request: NextRequest) {
   // Optional: Auth-Check für Cron

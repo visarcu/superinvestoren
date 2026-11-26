@@ -1,8 +1,17 @@
 // src/lib/news/recapGenerator.ts
-// AI-powered Morning/Evening Recap Generator (Fey-Style)
-// Nutzt OpenAI um aus den top Artikeln einen strukturierten Recap zu erstellen.
+// Morgen- und Abendbericht (Fey-Style) aus den relevantesten Artikeln.
+// Schreibt Claude. Indexbewegungen kommen ausschließlich aus echten Kursen mit
+// Zeitstempel, damit an Feiertagen oder vor Handelsbeginn nichts erfunden wird
+// (Thanksgiving 2026: gpt-4o-mini meldete einen S&P 500 „unter Druck“, die
+// US-Börsen waren geschlossen).
 
+import type Anthropic from '@anthropic-ai/sdk'
 import { ProcessedArticle } from './newsProcessor'
+import { getAnthropicClient } from '../ai/client'
+import { withoutDashes } from '../ai/webSearch'
+import { getQuotes } from '../marketData/quoteService'
+
+const RECAP_MODEL = 'claude-sonnet-5-5'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -14,14 +23,51 @@ export interface NewsRecap {
   articleCount: number
 }
 
-// ─── Recap via OpenAI ────────────────────────────────────────────────────────
+// ─── Kurse als Faktenbasis ───────────────────────────────────────────────────
+
+const INDICES = [
+  { symbol: '^GSPC', label: 'S&P 500', timeZone: 'America/New_York' },
+  { symbol: '^IXIC', label: 'Nasdaq Composite', timeZone: 'America/New_York' },
+  { symbol: '^DJI', label: 'Dow Jones', timeZone: 'America/New_York' },
+  { symbol: '^GDAXI', label: 'DAX', timeZone: 'Europe/Berlin' },
+] as const
+
+function dayKey(date: Date, timeZone: string): string {
+  return date.toLocaleDateString('en-CA', { timeZone })
+}
+
+/** Eine Zeile je Index mit Veränderung und Stand. Leer, wenn keine Kurse da sind. */
+async function marketFacts(now: Date): Promise<string> {
+  try {
+    const quotes = await getQuotes(INDICES.map(i => i.symbol))
+    const lines: string[] = []
+    for (const index of INDICES) {
+      const quote = quotes.get(index.symbol)
+      const seconds = Number(quote?.raw?.timestamp)
+      if (!quote || !Number.isFinite(quote.changePercent) || !Number.isFinite(seconds) || seconds <= 0) continue
+      const at = new Date(seconds * 1000)
+      const tradedToday = dayKey(at, index.timeZone) === dayKey(now, index.timeZone)
+      const pct = `${quote.changePercent >= 0 ? '+' : ''}${quote.changePercent.toFixed(2).replace('.', ',')} %`
+      const stand = at.toLocaleString('de-DE', {
+        weekday: 'long', day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin',
+      })
+      lines.push(tradedToday
+        ? `- ${index.label}: ${pct} heute (Stand ${stand} Uhr deutscher Zeit)`
+        : `- ${index.label}: heute bisher kein Handel. Letzter Handelstag ${stand} Uhr deutscher Zeit, damals ${pct}`)
+    }
+    return lines.join('\n')
+  } catch (error) {
+    console.warn('⚠️ [Recap] Indexkurse nicht verfügbar:', error instanceof Error ? error.message : error)
+    return ''
+  }
+}
+
+// ─── Recap via Claude ────────────────────────────────────────────────────────
 
 export async function generateAIRecap(
   articles: ProcessedArticle[],
   type: 'morning' | 'evening' = 'morning'
 ): Promise<NewsRecap> {
-  const apiKey = process.env.OPENAI_API_KEY
-
   // Top 15 relevanteste Artikel
   const top = articles
     .filter(a => a.relevanceScore >= 0.3)
@@ -29,80 +75,78 @@ export async function generateAIRecap(
 
   const allTickers = [...new Set(top.flatMap(a => a.tickers).filter(t => !['SPX', 'QQQ', 'DAX', 'DJI'].includes(t)))]
 
-  // Artikel als Input für die AI
-  const articleSummaries = top.map((a, i) => {
-    const tickers = a.tickers.length > 0 ? ` [${a.tickers.join(', ')}]` : ''
-    const desc = (a.summaryDe || a.summaryEn || '').slice(0, 150)
-    return `${i + 1}. [${a.sourceName}] ${a.title}${tickers}\n   ${desc}`
-  }).join('\n\n')
-
-  // Wenn kein API Key → Fallback auf Simple Recap
-  if (!apiKey) {
-    console.warn('⚠️ [Recap] Kein OPENAI_API_KEY – nutze Simple Recap')
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.warn('⚠️ [Recap] Kein ANTHROPIC_API_KEY – nutze Simple Recap')
     return generateSimpleRecapFromArticles(top, type, allTickers)
   }
 
-  const timeLabel = type === 'morning' ? 'Morgen' : 'Abend'
+  // Artikel als Input. Die Ticker stammen aus einer groben Stichwortsuche und
+  // liegen oft daneben, deshalb nur als Hinweis.
+  const articleSummaries = top.map((a, i) => {
+    const tickers = a.tickers.length > 0 ? `\n   Mögliche Ticker (ungeprüft): ${a.tickers.join(', ')}` : ''
+    const desc = (a.summaryDe || a.summaryEn || '').slice(0, 200)
+    return `${i + 1}. Quelle: ${a.sourceName}\n   ${a.title}\n   ${desc}${tickers}`
+  }).join('\n\n')
+
   const now = new Date()
-  const dateStr = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  const dateStr = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Berlin' })
+  const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Berlin' })
+  const facts = await marketFacts(now)
 
-  const prompt = `Du bist ein Finanzmarkt-Analyst für Finclue, eine deutsche Finanzanalyse-Plattform.
+  const prompt = `Erstelle den ${type === 'morning' ? 'Morgenbericht' : 'Abendbericht'} für ${dateStr}, ${timeStr} Uhr deutscher Zeit.
 
-Erstelle einen "${type === 'morning' ? 'Morning Recap' : 'Evening Recap'}" für ${dateStr} basierend auf diesen aktuellen Nachrichtenquellen:
+KURSE (die einzige Quelle für Indexbewegungen):
+${facts || '- keine Kursdaten verfügbar'}
 
+NACHRICHTEN:
 ${articleSummaries}
 
-Regeln:
-- Schreibe auf Deutsch, professionell aber verständlich
-- Strukturiere den Recap so:
+Aufbau, genau mit diesen drei Überschriften:
 
-1. **Marktüberblick** (2-3 Sätze): Was bewegt die Märkte HEUTE? Sei spezifisch – nenne konkrete Events, nicht allgemeine Phrasen.
+**Marktüberblick**
+Zwei bis drei Sätze: Wie laufen die Märkte und was bewegt sie konkret? Richtung und Prozentwerte von Indizes NUR aus KURSE. Steht dort "heute bisher kein Handel", war der Markt heute (noch) nicht offen: sag das und beschreibe höchstens den letzten Handelstag als solchen. Ohne Kursdaten nennst du keine Indexbewegungen.
 
-2. **Top-Themen** (3-5 Bullets): Die wichtigsten Nachrichten mit den betroffenen Aktien in [TICKER] Tags.
+**Top-Themen**
+Drei bis fünf Aufzählungspunkte mit "- ". Jeder endet mit der Quelle in runden Klammern, genau wie oben angegeben, etwa (Handelsblatt). Ticker in eckigen Klammern, etwa [NVDA], nur für Unternehmen, um die es in dem Punkt wirklich geht. Die "möglichen Ticker" sind oft falsch, übernimm sie nicht ungeprüft.
 
-3. **Was das für Anleger bedeutet** (2-3 Sätze): Konkreter Kontext für Investoren.
+**Was das für Anleger bedeutet**
+Zwei bis drei Sätze neutrale Einordnung. Keine Handlungsempfehlungen, keine Formulierungen wie "Anleger sollten", "ratsam" oder "empfiehlt sich".
 
-- Benutze KEINE Emojis
-- Nenne IMMER die Quelle wenn du auf einen spezifischen Artikel referenzierst
-- Maximal 250 Wörter insgesamt
-- Sei faktenbasiert, keine Spekulationen`
+Regeln: Deutsch, sachlich, höchstens 250 Wörter, keine Emojis, keine Gedankenstriche, keine Fakten außerhalb von KURSE und NACHRICHTEN. Gib nur den Bericht aus, ohne Einleitung.`
 
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+    const message = await getAnthropicClient().messages.create(
+      {
+        model: RECAP_MODEL,
+        max_tokens: 3000,
+        system: 'Du bist ein erfahrener Finanzjournalist bei Finclue und schreibst präzise, faktenbasierte Marktberichte auf Deutsch.',
+        output_config: { effort: 'low' },
+        messages: [{ role: 'user', content: prompt }],
       },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: 'Du bist ein erfahrener Finanzjournalist der präzise, faktenbasierte Marktberichte auf Deutsch schreibt.' },
-          { role: 'user', content: prompt },
-        ],
-        temperature: 0.3,
-        max_tokens: 800,
-      }),
-    })
-
-    if (!response.ok) {
-      throw new Error(`OpenAI API failed: ${response.status}`)
+      { timeout: 40_000, maxRetries: 1 }
+    )
+    const content = withoutDashes(
+      message.content
+        .filter((block): block is Anthropic.TextBlock => block.type === 'text')
+        .map(block => block.text)
+        .join('')
+        .trim()
+    )
+    if (message.stop_reason !== 'end_turn' || !content.includes('**Marktüberblick**')) {
+      throw new Error(`unvollständige Antwort (${message.stop_reason})`)
     }
 
-    const data = await response.json()
-    const content = data.choices?.[0]?.message?.content || ''
-
-    console.log(`✅ [Recap] AI ${type} Recap generiert (${content.length} Zeichen)`)
+    console.log(`✅ [Recap] ${type} Recap mit Claude (${content.length} Zeichen, ${message.usage.input_tokens}/${message.usage.output_tokens} Tokens)`)
 
     return {
       type,
       contentDe: content,
-      contentEn: null, // Könnte in einem zweiten Call übersetzt werden
+      contentEn: null,
       tickers: allTickers,
       articleCount: top.length,
     }
   } catch (error) {
-    console.error('❌ [Recap] AI Recap fehlgeschlagen:', error)
+    console.error('❌ [Recap] AI Recap fehlgeschlagen:', error instanceof Error ? error.message : error)
     return generateSimpleRecapFromArticles(top, type, allTickers)
   }
 }
@@ -115,7 +159,7 @@ function generateSimpleRecapFromArticles(
   allTickers: string[]
 ): NewsRecap {
   const now = new Date()
-  const dateStr = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
+  const dateStr = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Berlin' })
 
   const categoryLabels: Record<string, string> = {
     macro: 'Makro & Wirtschaft',
@@ -135,7 +179,7 @@ function generateSimpleRecapFromArticles(
     byCategory.get(a.category)!.push(a)
   }
 
-  let content = `**${type === 'morning' ? 'Morning Recap' : 'Evening Recap'}** — ${dateStr}\n\n`
+  let content = `**${type === 'morning' ? 'Morgenbericht' : 'Abendbericht'}**, ${dateStr}\n\n`
 
   for (const cat of ['macro', 'geopolitics', 'earnings', 'analyst', 'ma', 'product', 'general']) {
     const catArticles = byCategory.get(cat)
@@ -144,7 +188,7 @@ function generateSimpleRecapFromArticles(
     content += `**${categoryLabels[cat] || cat}**\n`
     for (const a of catArticles.slice(0, 3)) {
       const tickerStr = a.tickers.length > 0 ? ` [${a.tickers.join(', ')}]` : ''
-      content += `- ${a.title}${tickerStr} — *${a.sourceName}*\n`
+      content += `- ${a.title}${tickerStr} (${a.sourceName})\n`
     }
     content += '\n'
   }

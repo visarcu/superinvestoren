@@ -90,7 +90,7 @@ function answerText(content: Anthropic.ContentBlock[]): string {
 }
 
 /** Gedankenstriche sind im ganzen Produkt unerwünscht (wie in lib/ai/agent) */
-function withoutDashes(text: string): string {
+export function withoutDashes(text: string): string {
   return text
     .replace(/(\d)\s?[–—]\s?(?=\d)/g, '$1 bis ')
     .replace(/\s+[–—]\s+/g, ', ')

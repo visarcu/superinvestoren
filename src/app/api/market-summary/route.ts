@@ -7,6 +7,7 @@ import { createClient } from '@supabase/supabase-js'
 import { calculateMarketSentiment } from '@/lib/marketSentiment'
 import { allowPublicCall, clientIp } from '@/lib/ai/publicGuard'
 import { webSearchText } from '@/lib/ai/webSearch'
+import { ALL_SOURCES } from '@/lib/news/rssSources'
 
 // Im Normalbetrieb ist der jüngste Bericht höchstens 14 Stunden alt (17:01 bis
 // 07:01 UTC), dazu Puffer für einen verspäteten Lauf.
@@ -71,11 +72,9 @@ export async function POST(request: Request) {
             : content.split('\n').filter((l: string) => l.trim() && !l.startsWith('**') && !l.startsWith('#')).slice(0, 2).join(' ')
 
           if (overview && overview.length > 30) {
-            // Extrahiere Quellen aus dem Recap (z.B. "[Handelsblatt]", "[Der Aktionär]")
-            const sourceMatches = content.match(/\[([^\]]+)\]/g) || []
-            const sources = [...new Set(sourceMatches.map((s: string) => s.replace(/[\[\]]/g, '')).filter((s: string) =>
-              !['DAX', 'SPX', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'TSLA', 'META', 'SAP', 'BTC', 'ETH', 'SPOT', 'COIN', 'KO', 'GS', 'DIS', 'NKE', 'LLY', 'CAT', 'V', 'MA'].includes(s)
-            ))].slice(0, 4)
+            // Quellen = genannte RSS-Quellen, in der Reihenfolge ihres Auftretens.
+            // Früher zählte jeder Text in eckigen Klammern, also auch Tickerlisten.
+            const sources = recapSources(content)
 
             console.log('[Market Summary] Using Finclue News Recap')
             return NextResponse.json({
@@ -164,6 +163,17 @@ Ist ein Markt heute geschlossen oder noch nicht offen, nimm den letzten Handelst
   ['market-summary-web-v1'],
   { revalidate: 60 * 60 }
 )
+
+function recapSources(content: string): string[] {
+  const lower = content.toLowerCase()
+  return ALL_SOURCES
+    .map(source => ({ name: source.name, at: lower.indexOf(source.name.toLowerCase()) }))
+    .filter(source => source.at >= 0)
+    .sort((a, b) => a.at - b.at)
+    .map(source => source.name)
+    .filter((name, i, all) => all.indexOf(name) === i)
+    .slice(0, 4)
+}
 
 function halfHourSlot(): string {
   const slotMs = 30 * 60 * 1000
