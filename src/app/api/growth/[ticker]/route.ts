@@ -6,20 +6,20 @@ const FMP_API_KEY = process.env.FMP_API_KEY
 // CAGR Berechnung
 function calculateCAGR(startValue: number, endValue: number, years: number): number | null {
   if (!startValue || startValue === 0 || !endValue || years <= 0) return null
-  
+
   // Handle negative values properly
   if (startValue < 0 && endValue < 0) {
     // Both negative: calculate based on absolute values, then negate
     const cagr = (Math.pow(Math.abs(endValue / startValue), 1 / years) - 1) * 100
     return -cagr
-  } else if (startValue < 0 && endValue > 0) {
-    // Turnaround from loss to profit: return very high growth
-    return 100
-  } else if (startValue > 0 && endValue < 0) {
-    // From profit to loss: return very negative growth
-    return -100
+  } else if ((startValue < 0 && endValue > 0) || (startValue > 0 && endValue < 0)) {
+    // Vorzeichenwechsel (Verlust zu Gewinn oder umgekehrt): eine Wachstumsrate
+    // ist nicht definiert. Vorher standen hier feste +100 bzw. -100 Prozent,
+    // die der Client als echte Kennzahl anzeigte und in die Wachstumsnote
+    // einrechnete. Null zeigt die Oberfläche als "–".
+    return null
   }
-  
+
   const cagr = (Math.pow(endValue / startValue, 1 / years) - 1) * 100
   return isFinite(cagr) ? cagr : null
 }
