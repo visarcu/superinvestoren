@@ -102,9 +102,11 @@ const TRADE_TYPES = new Set(['Buy', 'Sell', 'Savings plan', 'Reinvestment_Distri
  * Eigene Cash-Buchung für Steuern/Gebühren, die das fee-Feld nicht tragen
  * kann: Steuererstattungen beim Verkauf (Verlustverrechnung, tax negativ) und
  * die Gebühr auf Instant-Einzahlungen. delta ist aus Konto-Sicht signed.
+ * Die Referenz der Quellzeile bleibt dran, damit die Nachbearbeitung eine
+ * Korrektur zusammen mit ihrer Zeile entfernen kann (foldIpoAllotments).
  */
 function taxFeeCashRow(
-  row: Pick<ScalableCSVRow, 'date' | 'time' | 'description' | 'type'>,
+  row: Pick<ScalableCSVRow, 'date' | 'time' | 'description' | 'type' | 'reference'>,
   delta: number,
   label: string
 ): ParsedTransaction | null {
@@ -125,8 +127,15 @@ function taxFeeCashRow(
     tax: 0,
     notes: `${label} · ${description} · CSV-Import (Scalable Capital)`,
     originalType: row.type,
+    reference: row.reference || undefined,
   }
 }
+
+/**
+ * Schlüssel eines Vorgangs: Tag und Referenz ohne den Zähler, den Scalable an
+ * Folgezeilen hängt ("1076182_<Konto>_1" gehört zu "1076182_<Konto>").
+ */
+const eventKey = (date: string, reference: string) => `${date}|${reference.replace(/_\d+$/, '')}`
 
 /**
  * CSV-Zeile parsen (Semikolon-getrennt, Anführungszeichen beachten)
@@ -248,9 +257,12 @@ function generateNotes(row: ScalableCSVRow, mappedType: MappedTransactionType): 
   // Originaltyp vermerken wenn abweichend
   if (row.type === 'Savings plan') parts.push('Sparplan')
   if (row.type === 'Reinvestment_Distribution') parts.push('Wiederanlage Ausschüttung')
-  if (row.type === 'Fee') parts.push(`Gebühr: ${row.description}`)
+  // Gebühren- und Steuerbuchungen laufen auf dem Konto (Symbol CASH); nennt
+  // Scalable das betroffene Papier, bleibt es hier in der Notiz stehen
+  const subject = [row.description, row.isin ? `(${row.isin})` : ''].filter(Boolean).join(' ')
+  if (row.type === 'Fee') parts.push(`Gebühr: ${subject}`)
   if (row.type === 'Interest') parts.push('Zinsen')
-  if (row.type === 'Taxes') parts.push('Steuerausgleich')
+  if (row.type === 'Taxes') parts.push(subject ? `Steuerausgleich: ${subject}` : 'Steuerausgleich')
   if (row.type === 'IPO') parts.push(`IPO-Zeichnung: ${row.description}`)
   if (row.type === 'Corporate action') parts.push(`Corporate Action: ${row.description}`)
 
@@ -292,6 +304,21 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
     }
   }
 
+  // Beträge je Vorgang. Die Zeilen einer Kapitalmaßnahme tragen teils den Wert
+  // der bewegten Stücke als Betrag: Bei der IPO-Zuteilung stehen Zahlung
+  // (−75,75 €) und Zuteilung (mit Betrag) unter derselben Referenz, beim
+  // Umtausch Aus- und Einbuchung unter "…_1" und ohne Suffix. Saldieren die
+  // Beträge eines Vorgangs am selben Tag auf 0, ist kein Geld geflossen, und es
+  // gibt keine Barausgleich-Buchung. Vorher stand jeder Betrag einer
+  // Corporate-action-Zeile als Kontobewegung im Depot.
+  const amountByEvent = new Map<string, number>()
+  for (let i = 1; i < lines.length; i++) {
+    const fields = parseCSVLine(lines[i])
+    if (fields.length < 14 || SKIPPED_STATUSES.has(fields[2])) continue
+    const key = eventKey(fields[0], fields[3])
+    amountByEvent.set(key, (amountByEvent.get(key) ?? 0) + parseGermanNumber(fields[10]))
+  }
+
   for (let i = 1; i < lines.length; i++) {
     const fields = parseCSVLine(lines[i])
 
@@ -321,12 +348,14 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
     }
 
     const mappedType = mapTransactionType(type, shares, amount)
-    const rowRef = { date, time, description, type }
+    const rowRef = { date, time, description, type, reference }
 
     // Barbetrag einer Kapitalmaßnahme (Barabfindung, Spitzenausgleich,
     // Kapitalrückzahlung): eigene Cash-Buchung. Der Transfer selbst trägt kein
     // Geld, und das Cash-Modell ignoriert transfer_in/out; der Betrag fehlte.
-    const corpActionCash = type === 'Corporate action'
+    // Nur, wenn der Vorgang nicht auf 0 saldiert (siehe amountByEvent).
+    const eventAmount = amountByEvent.get(eventKey(date, reference)) ?? amount
+    const corpActionCash = type === 'Corporate action' && Math.abs(eventAmount) >= 0.005
       ? taxFeeCashRow(rowRef, amount, 'Barausgleich Kapitalmaßnahme')
       : null
 
@@ -359,12 +388,20 @@ export function parseScalableCSV(csvContent: string): CSVParseResult {
       isFromCorpAction: type === 'Corporate action',
     }
 
-    // Für Cash-Transaktionen ohne ISIN: Symbol auf CASH setzen
-    if (!isin && (mappedType === 'cash_deposit' || mappedType === 'cash_withdrawal')) {
+    // Kontobewegungen laufen unter dem Symbol CASH. Steuer-, Gebühren- und
+    // Zinszeilen auch dann, wenn Scalable die ISIN des betroffenen Papiers
+    // mitgibt: Sonst hing die Buchung mit 0 Stück zu 0 € am Papier, das Papier
+    // wollte zugeordnet werden, und dem Cash-Modell galt die Belastung als
+    // zurückgebuchte Dividende. Die ISIN steht in der Notiz.
+    const isAccountRow = type === 'Taxes' || type === 'Fee' || type === 'Interest'
+    if ((!isin || isAccountRow) && (mappedType === 'cash_deposit' || mappedType === 'cash_withdrawal')) {
       parsed.isin = ''
       parsed.symbol = 'CASH'
       parsed.quantity = 1
       parsed.price = parsed.totalValue
+      if (!parsed.name && isAccountRow) {
+        parsed.name = type === 'Taxes' ? 'Steuerausgleich' : type === 'Fee' ? 'Gebühr' : 'Zinsen'
+      }
     }
 
     // Für Dividenden: Quantity=0 (kein Aktienhandel), Price=Dividendenbetrag
@@ -509,8 +546,19 @@ function foldIpoAllotments(transactions: ParsedTransaction[]): ParsedTransaction
     if (out && share) dropped.add(out).add(share)
   }
 
+  // Die Barausgleich-Buchung einer zusammengefassten Zuteilungszeile geht mit:
+  // Ihr Betrag ist der Wert der zugeteilten Stücke, bezahlt hat die IPO-Zeile.
+  // Sonst stand die Zuteilung doppelt im Cash (−151,50 statt −75,75 €).
+  const foldedReferences = new Set(
+    [...dropped, ...replacements.keys()]
+      .filter(t => t.isFromCorpAction && t.reference)
+      .map(t => t.reference!)
+  )
+  const isFoldedCash = (t: ParsedTransaction) =>
+    t.symbol === 'CASH' && t.originalType === 'Corporate action' && !!t.reference && foldedReferences.has(t.reference)
+
   return transactions
-    .filter(t => !dropped.has(t))
+    .filter(t => !dropped.has(t) && !isFoldedCash(t))
     .map(t => {
       const replacement = replacements.get(t)
       if (replacement) return replacement
