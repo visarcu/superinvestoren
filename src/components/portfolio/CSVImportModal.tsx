@@ -1046,6 +1046,7 @@ export default function CSVImportModal({
         date: tx.date,
         quantity: tx.quantity,
         price: tx.price,
+        totalValue: tx.totalValue,
         notes: tx.notes,
         ignorePrice: tx.estimatedTransferPrice && (tx.type === 'transfer_in' || tx.type === 'transfer_out'),
       })),

@@ -72,7 +72,7 @@ async function loadStoredBookings(portfolioId: string): Promise<StoredBooking[]>
   const { data, error } = await loadAllRows<StoredBooking>((from, to) =>
     supabase
       .from('portfolio_transactions')
-      .select('type, symbol, date, quantity, price, notes')
+      .select('type, symbol, date, quantity, price, total_value, notes')
       .eq('portfolio_id', portfolioId)
       .order('id', { ascending: true })
       .range(from, to)

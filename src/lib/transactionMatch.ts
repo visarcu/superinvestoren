@@ -13,6 +13,8 @@ export interface StoredBooking {
   date: string
   quantity: unknown
   price: unknown
+  /** Betrag der Buchung; bei Dividenden und Kontobewegungen Teil des Vergleichs */
+  total_value?: unknown
   notes?: string | null
 }
 
@@ -25,6 +27,8 @@ export interface NewBooking {
   price: number
   /** Notiz des Parsers: nennt die Splits, die er an dieser Zeile schon verrechnet hat */
   notes?: string | null
+  /** Betrag der Buchung; bei Dividenden und Kontobewegungen Teil des Vergleichs */
+  totalValue?: number
   /** Der Kurs stammt nicht aus der Datei (geschätzter Einstand eines Übertrags) */
   ignorePrice?: boolean
 }
@@ -82,12 +86,37 @@ export function storedPriceMatches(
 
 const bookingKey = (tx: { type: string; symbol: string; date: string }) => `${tx.type}|${tx.symbol}|${tx.date}`
 
-/** Stimmen Stück und Kurs so, wie die Zeile gespeichert ist? */
+/**
+ * Buchungen, bei denen Stück und Kurs allein nichts sagen: Dividenden und
+ * Kontobewegungen stehen je nach Parser mit 1 Stück zum Betrag oder mit der
+ * Stückzahl zu 0 €. Dividende und Sonderdividende desselben Tages galten so
+ * als dieselbe Buchung, obwohl nur ihr Betrag sie unterscheidet.
+ */
+const AMOUNT_TYPES: ReadonlySet<string> = new Set(['dividend', 'cash_deposit', 'cash_withdrawal'])
+
+/** Beide Seiten nennen einen Betrag und er passt? Ohne Betrag entscheiden Stück und Kurs allein. */
+function amountsMatch(stored: StoredBooking, tx: NewBooking): boolean {
+  if (!AMOUNT_TYPES.has(tx.type)) return true
+  if (stored.total_value == null || tx.totalValue == null) return true
+  return pricesMatch(Number(stored.total_value) || 0, tx.totalValue)
+}
+
+/** Stimmen Stück, Kurs und Betrag so, wie die Zeile gespeichert ist? */
 function matchesAsStored(stored: StoredBooking, tx: NewBooking): boolean {
   return (
     quantitiesMatch(Number(stored.quantity), tx.quantity) &&
-    (tx.ignorePrice || storedPriceMatches(stored, tx.price))
+    (tx.ignorePrice || storedPriceMatches(stored, tx.price)) &&
+    amountsMatch(stored, tx)
   )
+}
+
+/** Wie weit liegen gespeicherte und neue Buchung auseinander? Nur zum Sortieren der Paare. */
+function distance(stored: StoredBooking, tx: NewBooking): number {
+  const gap = (a: number, b: number) => Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-9)
+  let total = gap(Number(stored.quantity) || 0, tx.quantity)
+  if (!tx.ignorePrice) total += gap(Number(stored.price) || 0, tx.price)
+  if (stored.total_value != null && tx.totalValue != null) total += gap(Number(stored.total_value) || 0, tx.totalValue)
+  return total
 }
 
 /** Nur diese Buchungen rechnet ein Split um (CSVImportModal, applySplits.ts). */
@@ -145,11 +174,14 @@ export interface StoredMatch {
 }
 
 /**
- * Die Buchungen, die schon gespeichert sind (Index → gespeicherte Zeilen).
+ * Die Buchungen, die schon gespeichert sind (Index → gespeicherte Zeile).
  *
- * Über einen Split hinweg erklärt jede gespeicherte Zeile höchstens eine neue.
- * Ein zweiter Kauf am selben Tag bleibt damit neu, auch wenn er dem ersten in
- * Stück und Kurs gleicht.
+ * Jede gespeicherte Zeile erklärt höchstens eine neue. Ein zweiter Kauf am
+ * selben Tag bleibt damit neu, auch wenn er dem ersten in Stück und Kurs
+ * gleicht: Zwei gleiche Sparplanraten eines Tages gegen eine gespeicherte
+ * galten vorher beide als Dublette, und die zweite fehlte im Depot. Die Paare
+ * mit der kleinsten Abweichung kommen zuerst, damit der genau passende Kauf
+ * seine Zeile bekommt und nicht ein nur ähnlicher innerhalb der Toleranz.
  */
 export function matchStoredBookings(stored: StoredBooking[], transactions: NewBooking[]): Map<number, StoredMatch> {
   const storedByKey = new Map<string, StoredBooking[]>()
@@ -162,12 +194,18 @@ export function matchStoredBookings(stored: StoredBooking[], transactions: NewBo
 
   const matches = new Map<number, StoredMatch>()
   const used = new Set<StoredBooking>()
+  const pairs: { i: number; row: StoredBooking; distance: number }[] = []
   transactions.forEach((tx, i) => {
-    const rows = (storedByKey.get(bookingKey(tx)) ?? []).filter(row => matchesAsStored(row, tx))
-    if (rows.length === 0) return
-    matches.set(i, { rows, openSplits: [] })
-    rows.forEach(row => used.add(row))
+    for (const row of storedByKey.get(bookingKey(tx)) ?? []) {
+      if (matchesAsStored(row, tx)) pairs.push({ i, row, distance: distance(row, tx) })
+    }
   })
+  pairs.sort((a, b) => a.distance - b.distance)
+  for (const { i, row } of pairs) {
+    if (matches.has(i) || used.has(row)) continue
+    matches.set(i, { rows: [row], openSplits: [] })
+    used.add(row)
+  }
 
   // Beide Seiten nach Kurs: Mehrere ähnliche Käufe eines Tages nähmen sich sonst
   // gegenseitig die passende Zeile weg.

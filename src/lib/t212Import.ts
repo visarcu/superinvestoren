@@ -38,6 +38,7 @@ interface StoredRow {
   date: string
   quantity: number | string
   price: number | string
+  total_value: number | string | null
   notes: string | null
 }
 
@@ -71,7 +72,7 @@ export async function importT212Reports(db: SupabaseClient, portfolioId: string,
 
   // Schon gespeicherte, aber noch nicht zugeordnete Buchungen (früherer CSV-Import)
   const { data: stored, error: storedError } = await loadAllRows<StoredRow>((from, to) =>
-    db.from('portfolio_transactions').select('id, type, symbol, date, quantity, price, notes').eq('portfolio_id', portfolioId).order('id', { ascending: true }).range(from, to))
+    db.from('portfolio_transactions').select('id, type, symbol, date, quantity, price, total_value, notes').eq('portfolio_id', portfolioId).order('id', { ascending: true }).range(from, to))
   if (storedError) throw new Error(`Buchungen nicht lesbar (${storedError.message})`)
   const pool = new Map<string, StoredRow[]>()
   for (const row of stored) {
@@ -88,7 +89,7 @@ export async function importT212Reports(db: SupabaseClient, portfolioId: string,
     const isTransfer = tx.type === 'transfer_in' || tx.type === 'transfer_out'
     // Überträge stehen in der Datei ohne Preis, gespeichert oft mit geschätztem
     const index = candidates.findIndex(c =>
-      isTransfer ? quantitiesMatch(Number(c.quantity), tx.quantity) : matchesStoredTransaction(c, { type: tx.type, symbol: tx.symbol!, date: tx.date, quantity: tx.quantity, price: tx.price }))
+      isTransfer ? quantitiesMatch(Number(c.quantity), tx.quantity) : matchesStoredTransaction(c, { type: tx.type, symbol: tx.symbol!, date: tx.date, quantity: tx.quantity, price: tx.price, totalValue: tx.totalValue }))
     if (index >= 0) {
       links.push({ portfolio_id: portfolioId, external_id: tx.externalId!, transaction_id: candidates[index].id })
       candidates.splice(index, 1)
@@ -100,7 +101,7 @@ export async function importT212Reports(db: SupabaseClient, portfolioId: string,
   // Hat das Depot einen Split schon verrechnet (Import einer alten CSV), entfällt
   // das Split-Paar des Berichts, und neue Buchungen davor kommen auf die neue
   // Stückzahl. Sonst zählte der Split doppelt.
-  const bookings = all.map(tx => ({ type: tx.type, symbol: tx.symbol!, date: tx.date, quantity: tx.quantity, price: tx.price, notes: tx.notes }))
+  const bookings = all.map(tx => ({ type: tx.type, symbol: tx.symbol!, date: tx.date, quantity: tx.quantity, price: tx.price, totalValue: tx.totalValue, notes: tx.notes }))
   const matches = matchStoredBookings(stored, bookings)
   const unknownRows = new Set(unknown.map(u => u.tx))
   all.forEach((tx, i) => {
