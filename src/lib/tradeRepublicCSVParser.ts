@@ -248,15 +248,18 @@ function mapTransactionType(row: TRRow): MappedTransactionType | null {
         if (shares < 0) return 'transfer_out'
         // Bei OPTIONAL_DIVIDEND mit Cash-Wahl: amount > 0 → dividend
         if (type === 'OPTIONAL_DIVIDEND' && amount > 0) return 'dividend'
-        return null
+        // Ohne Stücke bleibt der Barbetrag (Barabfindung, Rückzahlung einer Anleihe)
+        return amount !== 0 ? cashSign : null
       case 'WRITE_OFF':
       case 'DELISTING':
         // Write-off ist typischerweise negative shares (ausgebucht)
         if (shares < 0) return 'transfer_out'
         if (shares > 0) return 'transfer_in'
-        return null
+        return amount !== 0 ? cashSign : null
       default:
-        return null
+        // Unbekannte Kapitalmaßnahme ohne Stücke, aber mit Betrag: Kontobewegung.
+        // Laut TR ergibt amount + fee + tax über alle Zeilen genau den Kontostand.
+        return shares === 0 && amount !== 0 ? cashSign : null
     }
   }
 
@@ -328,6 +331,32 @@ function taxFeeCashRow(row: TRRow, feePart: number, taxPart: number): ParsedTran
     fee: 0,
     tax: 0,
     notes: `${label} · ${context} · CSV-Import (Trade Republic)`,
+    originalType: `${row.category}·${row.type}`,
+  }
+}
+
+/**
+ * Barkomponente einer Kapitalmaßnahme, die Stücke bewegt: Barabfindung einer
+ * Fusion, Spitzenausgleich, Rückzahlung. Der Transfer selbst trägt kein Geld,
+ * und das Cash-Modell ignoriert transfer_in/out; der Betrag fehlte im Depot.
+ */
+function corpActionCashRow(row: TRRow): ParsedTransaction | null {
+  const value = round2(Math.abs(row.amount))
+  if (value < 0.01) return null
+  const context = row.name || row.symbol || row.type
+  return {
+    date: row.date,
+    time: row.datetime ? row.datetime.slice(11, 19) : undefined,
+    type: row.amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
+    isin: '',
+    symbol: 'CASH',
+    name: `Barausgleich Kapitalmaßnahme · ${context}`,
+    quantity: 1,
+    price: value,
+    totalValue: value,
+    fee: 0,
+    tax: 0,
+    notes: `Barausgleich Kapitalmaßnahme · ${TYPE_LABELS[row.type] || row.type} · ${context} · CSV-Import (Trade Republic)`,
     originalType: `${row.category}·${row.type}`,
   }
 }
@@ -528,7 +557,9 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
       tax: Math.abs(row.tax),
       notes: generateNotes(row, mapped),
       originalType: `${row.category}·${row.type}`,
-      isFromCorpAction: row.category === 'CORPORATE_ACTION',
+      // Nur die Stückbewegungen einer Kapitalmaßnahme; ihre Dividende in bar
+      // oder ihr Barbetrag sind gewöhnliche Konto-Buchungen
+      isFromCorpAction: row.category === 'CORPORATE_ACTION' && (mapped === 'transfer_in' || mapped === 'transfer_out'),
     }
 
     // Dividende: quantity=1, price=totalValue netto nach Quellensteuer.
@@ -553,8 +584,10 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
       parsed.price = totalValue
     }
 
-    // Corporate Actions ohne Preis: totalValue=0, price=0 — der Import-Wizard
-    // wird später historische Schlusskurse für transfer_in zum Kaufzeitpunkt laden.
+    // Stückbewegungen einer Corporate Action ohne Preis: totalValue=0, price=0 —
+    // der Import-Wizard lädt später historische Schlusskurse für transfer_in.
+    // Früher traf das auch die OPTIONAL_DIVIDEND in bar (Stücke 0, kein Kurs):
+    // Die Dividende stand mit 0 € im Depot.
     if (parsed.isFromCorpAction && (!row.price || row.price === 0)) {
       parsed.price = 0
       parsed.totalValue = 0
@@ -564,6 +597,9 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
     // TR: amount + fee + tax). portfolio_transactions hat keine Steuer-Spalte,
     // der Import rechnet Kauf −(total_value + fee) und Verkauf total_value − fee.
     let correction: ParsedTransaction | null = null
+    // Barkomponente einer Kapitalmaßnahme (Fusion mit Barabfindung: Stücke raus,
+    // Betrag rein). Ohne sie fehlte das Geld im Bargeld.
+    const corpActionCash = parsed.isFromCorpAction ? corpActionCashRow(row) : null
     if (mapped === 'buy' || mapped === 'sell') {
       // Einbehaltene Steuer (Verkauf Spotify 29.07.2025: Kurswert 537,00,
       // Gebühr −1,00, Steuer −121,36) läuft über fee — sonst lag der Cash um die
@@ -590,9 +626,10 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
 
     transactions.push(parsed)
     typeCounts[mapped] = (typeCounts[mapped] || 0) + 1
-    if (correction) {
-      transactions.push(correction)
-      typeCounts[correction.type] = (typeCounts[correction.type] || 0) + 1
+    for (const extra of [corpActionCash, correction]) {
+      if (!extra) continue
+      transactions.push(extra)
+      typeCounts[extra.type] = (typeCounts[extra.type] || 0) + 1
     }
   }
 
