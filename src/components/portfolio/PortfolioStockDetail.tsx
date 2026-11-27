@@ -1,6 +1,7 @@
 // src/components/portfolio/PortfolioStockDetail.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { workspacePath } from '@/lib/depotRoutes'
@@ -224,7 +225,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           // Wenn Live-Quote plausibel und aktueller als der letzte Datenpunkt,
           // füge ihn als heutigen Datenpunkt hinzu
           if (livePrice && livePrice > 0 && historyData.length > 0) {
-            const today = new Date().toISOString().split('T')[0]
+            const today = todayIso()
             const lastDate = historyData[historyData.length - 1].date
             if (lastDate < today) {
               historyData.push({ date: today, close: livePrice })

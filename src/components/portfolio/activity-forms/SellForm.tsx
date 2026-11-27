@@ -1,6 +1,7 @@
 // src/components/portfolio/activity-forms/SellForm.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState } from 'react'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
@@ -37,7 +38,7 @@ export default function SellForm({
   const [selectedHoldingId, setSelectedHoldingId] = useState('')
   const [quantity, setQuantity] = useState('')
   const [sellPrice, setSellPrice] = useState('')
-  const [sellDate, setSellDate] = useState(new Date().toISOString().split('T')[0])
+  const [sellDate, setSellDate] = useState(todayIso())
   const [submitting, setSubmitting] = useState(false)
 
   const selectedHolding = holdings.find(h => h.id === selectedHoldingId)
@@ -174,7 +175,7 @@ export default function SellForm({
               type="date"
               value={sellDate}
               onChange={setSellDate}
-              max={new Date().toISOString().split('T')[0]}
+              max={todayIso()}
             />
           </Field>
 

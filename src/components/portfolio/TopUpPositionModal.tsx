@@ -1,5 +1,6 @@
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useEffect, useState } from 'react'
 import type { Holding } from '@/hooks/usePortfolio'
 import Logo from '@/components/Logo'
@@ -19,7 +20,7 @@ export default function TopUpPositionModal({ holding, onClose, onTopUp, formatSt
   const [quantity, setQuantity] = useState('')
   const [price, setPrice] = useState('')
   const [fees, setFees] = useState('')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [date, setDate] = useState(todayIso())
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function TopUpPositionModal({ holding, onClose, onTopUp, formatSt
       setQuantity('')
       setPrice('')
       setFees('')
-      setDate(new Date().toISOString().split('T')[0])
+      setDate(todayIso())
     }
   }, [holding])
 
@@ -97,7 +98,7 @@ export default function TopUpPositionModal({ holding, onClose, onTopUp, formatSt
           </div>
           <div>
             <label className="block text-sm font-medium text-theme-secondary mb-1">Kaufdatum</label>
-            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} max={new Date().toISOString().split('T')[0]}
+            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} max={todayIso()}
               className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent" />
           </div>
           {quantity && price && (

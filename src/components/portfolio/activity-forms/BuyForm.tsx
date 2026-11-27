@@ -1,6 +1,7 @@
 // src/components/portfolio/activity-forms/BuyForm.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState } from 'react'
 import TickerSearch, { type SearchedStock } from '@/components/portfolio/TickerSearch'
 import { type Holding } from '@/hooks/usePortfolio'
@@ -54,7 +55,7 @@ export default function BuyForm({
   const [selectedStock, setSelectedStock] = useState<SearchedStock | null>(null)
   const [quantity, setQuantity] = useState('')
   const [purchasePrice, setPurchasePrice] = useState('')
-  const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().split('T')[0])
+  const [purchaseDate, setPurchaseDate] = useState(todayIso())
   const [fees, setFees] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -190,7 +191,7 @@ export default function BuyForm({
                 type="date"
                 value={purchaseDate}
                 onChange={setPurchaseDate}
-                max={new Date().toISOString().split('T')[0]}
+                max={todayIso()}
               />
             </Field>
             <Field label="Gebühren (optional)" suffix="€">

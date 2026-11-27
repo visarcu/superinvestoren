@@ -1,6 +1,7 @@
 // src/components/portfolio/activity-forms/CashForm.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState } from 'react'
 import { ArrowPathIcon, CheckIcon } from '@heroicons/react/24/outline'
 
@@ -20,7 +21,7 @@ export default function CashForm({
   onSuccess
 }: CashFormProps) {
   const [amount, setAmount] = useState('')
-  const [cashDate, setCashDate] = useState(new Date().toISOString().split('T')[0])
+  const [cashDate, setCashDate] = useState(todayIso())
   const [submitting, setSubmitting] = useState(false)
 
   const isDeposit = direction === 'deposit'
@@ -81,7 +82,7 @@ export default function CashForm({
             type="date"
             value={cashDate}
             onChange={e => setCashDate(e.target.value)}
-            max={new Date().toISOString().split('T')[0]}
+            max={todayIso()}
             className={`w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none ${focusClass} transition-colors tabular-nums`}
           />
         </Field>

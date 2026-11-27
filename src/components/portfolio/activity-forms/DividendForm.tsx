@@ -1,6 +1,7 @@
 // src/components/portfolio/activity-forms/DividendForm.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState } from 'react'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
@@ -33,7 +34,7 @@ export default function DividendForm({
 }: DividendFormProps) {
   const [selectedHoldingId, setSelectedHoldingId] = useState('')
   const [amount, setAmount] = useState('')
-  const [dividendDate, setDividendDate] = useState(new Date().toISOString().split('T')[0])
+  const [dividendDate, setDividendDate] = useState(todayIso())
   const [submitting, setSubmitting] = useState(false)
 
   const selectedHolding = holdings.find(h => h.id === selectedHoldingId)
@@ -142,7 +143,7 @@ export default function DividendForm({
                 type="date"
                 value={dividendDate}
                 onChange={setDividendDate}
-                max={new Date().toISOString().split('T')[0]}
+                max={todayIso()}
               />
             </Field>
           </div>

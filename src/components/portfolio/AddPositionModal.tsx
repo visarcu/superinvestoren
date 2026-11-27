@@ -1,6 +1,7 @@
 // src/components/portfolio/AddPositionModal.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState } from 'react'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import { stocks } from '@/data/stocks'
@@ -37,7 +38,7 @@ export default function AddPositionModal({
   const [selectedStock, setSelectedStock] = useState<{ symbol: string; name: string } | null>(null)
   const [quantity, setQuantity] = useState('')
   const [purchasePrice, setPurchasePrice] = useState('')
-  const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().split('T')[0])
+  const [purchaseDate, setPurchaseDate] = useState(todayIso())
   const [fees, setFees] = useState('')
   const [cashAmount, setCashAmount] = useState('')
   const [adding, setAdding] = useState(false)
@@ -48,7 +49,7 @@ export default function AddPositionModal({
     setSelectedStock(null)
     setQuantity('')
     setPurchasePrice('')
-    setPurchaseDate(new Date().toISOString().split('T')[0])
+    setPurchaseDate(todayIso())
     setFees('')
     setCashAmount('')
     setPositionType('stock')
@@ -209,7 +210,7 @@ export default function AddPositionModal({
                   type="date"
                   value={purchaseDate}
                   onChange={(e) => setPurchaseDate(e.target.value)}
-                  max={new Date().toISOString().split('T')[0]}
+                  max={todayIso()}
                   className="w-full px-3 py-2 bg-white/[0.08] border border-white/[0.14] rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 />
               </div>

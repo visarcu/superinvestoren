@@ -7,6 +7,7 @@ import { resolveDepotKey } from '@/lib/depotRoutes'
 import { countedDepots } from '@/lib/sampleDepotShared'
 import { useSearchParams } from 'next/navigation'
 import { signInHref } from '@/lib/siteHosts'
+import { todayIso } from '@/lib/localDate'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
@@ -136,6 +137,40 @@ async function loadStoredTransaction(txId: string): Promise<StoredTransactionRow
 }
 
 const isCashBooking = (type: string) => type === 'cash_deposit' || type === 'cash_withdrawal'
+
+// ---- Eingaben prüfen: eine Regel für alle Formulare und Bearbeitungen ----
+
+/** Buchungsdatum: vollständig, gültig und nicht in der Zukunft */
+function assertBookingDate(date: string): void {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(new Date(date).getTime())) {
+    throw new Error('Bitte ein gültiges Datum angeben')
+  }
+  if (date > todayIso()) throw new Error('Das Datum darf nicht in der Zukunft liegen')
+}
+
+function assertPositiveAmount(value: number, label: string): void {
+  if (!Number.isFinite(value) || value <= 0) throw new Error(`${label} muss größer als 0 sein`)
+}
+
+function assertNonNegativeAmount(value: number, label: string): void {
+  if (!Number.isFinite(value) || value < 0) throw new Error(`${label} darf nicht negativ sein`)
+}
+
+/**
+ * Hinweis über Positionen, die ohne Kurs oder ohne Wechselkurs zum Einstand
+ * zählen (price_missing aus valuateHolding). Vorher entstand der Hinweis je
+ * Depot beim Laden der Kurse: In "Alle Depots" überschrieb das zuletzt
+ * geladene Depot die Meldung der anderen, und ein fehlender Wechselkurs
+ * (Fremdwährungspositionen still zum Einstand, Gewinn 0) blieb ganz stumm.
+ */
+function priceBanner(holdings: Holding[]): string | null {
+  const missing = [...new Set(holdings.filter(h => h.price_missing).map(h => h.symbol))]
+  if (missing.length === 0) return null
+  if (holdings.length > 1 && missing.length === holdings.length) {
+    return 'Kurse konnten nicht geladen werden. Die Positionen zählen vorerst zum Einstand.'
+  }
+  return `Kurse nicht verfügbar für: ${missing.join(', ')}. Diese Positionen zählen zum Einstand.`
+}
 
 /**
  * Folgt das Bargeld dieses Depots den Käufen, Verkäufen und Dividenden? Der
@@ -429,16 +464,9 @@ export function usePortfolio(routeDepotKey?: string) {
         dayChangePctBySymbol[symbol] = quote.changesPercentage
         tradedOnBySymbol[symbol] = quote.tradedOn
       }
-      const missingPrices = symbols.filter(s => !currentPrices[s] || currentPrices[s] <= 0)
-      if (missingPrices.length > 0) {
-        setPriceLoadError(`Kurse nicht verfügbar für: ${missingPrices.join(', ')}`)
-      } else {
-        setPriceLoadError(null)
-      }
     } catch {
       // Positionen bleiben stehen und zählen zum Einstand (valuateHolding);
-      // vorher fehlte das ganze Depot und in "Alle Depots" dessen Positionen.
-      setPriceLoadError('Aktienkurse konnten nicht geladen werden.')
+      // der Hinweis dazu entsteht in loadPortfolio aus den price_missing-Flags.
     }
 
     // Wechselkurse für ALLE vorkommenden Quote-Währungen laden (USD, GBP,
@@ -474,7 +502,10 @@ export function usePortfolio(routeDepotKey?: string) {
         // Stabile Reihenfolge bei gleichem Datum, sonst verrutschen Seitengrenzen
         .order('id', { ascending: true })
         .range(offset, offset + PAGE_SIZE - 1)
-      if (txError || !data || data.length === 0) break
+      // Ein Fehler ist kein Ende der Daten: Sonst galten die ersten Seiten als
+      // vollständig, und Realisiert, Dividenden und XIRR rechneten mit halber Historie.
+      if (txError) throw txError
+      if (!data || data.length === 0) break
       rows.push(...data)
       if (data.length < PAGE_SIZE) break
     }
@@ -503,12 +534,15 @@ export function usePortfolio(routeDepotKey?: string) {
       }
 
       // Premium Status
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('profiles')
         .select('is_premium, subscription_status, subscription_end_date')
         .eq('user_id', user.id)
         .single()
-      setIsPremium(hasPremiumAccess(profile))
+      // Ein Lesefehler ist kein Kostenlos-Konto: Der bisherige Stand bleibt,
+      // sonst sah ein zahlender Nutzer bei einem Supabase-Aussetzer Schlösser.
+      if (profileError) console.error('Profil konnte nicht geladen werden:', profileError.message)
+      else setIsPremium(hasPremiumAccess(profile))
 
       // All Portfolios
       const { data: portfolios, error: portfoliosError } = await supabase
@@ -586,6 +620,7 @@ export function usePortfolio(routeDepotKey?: string) {
         setPortfolio(allDepots)
         setDepotSummaries(new Map(perDepot.map(d => [d.id, summarizeDepot(d.holdings, d.transactions)])))
         setHoldings(countedData.flatMap(d => d.holdings))
+        setPriceLoadError(priceBanner(countedData.flatMap(d => d.holdings)))
         setTransactions(
           countedData
             .flatMap(d => d.transactions)
@@ -603,6 +638,7 @@ export function usePortfolio(routeDepotKey?: string) {
         setPortfolio(null)
         setHoldings([])
         setTransactions([])
+        setPriceLoadError(null)
         setDataReady(false)
         return
       }
@@ -625,6 +661,7 @@ export function usePortfolio(routeDepotKey?: string) {
       setAllPortfolios(portfolios)
       setPortfolio(portfolioData)
       setHoldings(alignDayChange(h))
+      setPriceLoadError(priceBanner(h))
       setTransactions(tx)
       setDataReady(true)
 
@@ -673,6 +710,10 @@ export function usePortfolio(routeDepotKey?: string) {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
     const { stock, quantity, purchasePrice, purchaseDate, fees = 0, investmentCase } = params
+    assertPositiveAmount(quantity, 'Die Stückzahl')
+    assertPositiveAmount(purchasePrice, 'Der Kaufkurs')
+    assertNonNegativeAmount(fees, 'Die Gebühr')
+    assertBookingDate(purchaseDate)
     const priceWithFees = purchasePrice + (fees / quantity)
 
     const trimmedCase = investmentCase?.trim().slice(0, 1000) || null
@@ -715,6 +756,8 @@ export function usePortfolio(routeDepotKey?: string) {
 
   const addCash = useCallback(async (amount: number, date?: string) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+    if (!Number.isFinite(amount) || amount === 0) throw new Error('Bitte einen Betrag ungleich 0 angeben')
+    if (date) assertBookingDate(date)
 
     const newCash = (portfolio.cash_position || 0) + amount
     await bookTransaction({
@@ -725,7 +768,7 @@ export function usePortfolio(routeDepotKey?: string) {
       quantity: 1,
       price: Math.abs(amount),
       total_value: Math.abs(amount),
-      date: date || new Date().toISOString().split('T')[0]
+      date: date || todayIso()
     }, async () => {
       const { error } = await supabase
         .from('portfolios')
@@ -742,6 +785,10 @@ export function usePortfolio(routeDepotKey?: string) {
     purchase_price?: number
     purchase_date?: string
   }) => {
+    if (updates.quantity !== undefined) assertPositiveAmount(updates.quantity, 'Die Stückzahl')
+    if (updates.purchase_price !== undefined) assertPositiveAmount(updates.purchase_price, 'Der Einstandskurs')
+    if (updates.purchase_date !== undefined) assertBookingDate(updates.purchase_date)
+
     // 1. Hole die aktuelle Holding um Symbol + altes Datum zu kennen
     const holding = holdings.find(h => h.id === holdingId)
 
@@ -769,19 +816,30 @@ export function usePortfolio(routeDepotKey?: string) {
         // existiert, ist die Position dieser eine Kauf und wird mitgeschrieben.
         // Vorher bekam bei mehreren Käufen der älteste die Gesamtstückzahl, und
         // Verlauf, realisierte Gewinne und "Seit Kauf" stimmten nicht mehr.
-        const { data: related } = await supabase
+        const { data: related, error: relatedError } = await supabase
           .from('portfolio_transactions')
-          .select('id, type')
+          .select(STORED_TRANSACTION_COLUMNS)
           .eq('portfolio_id', portfolio.id)
           .eq('symbol', holding.symbol)
           .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
           .limit(2)
+        if (relatedError) throw relatedError
 
-        if (related && related.length === 1 && related[0].type === 'buy') {
-          await supabase
+        const rows = (related || []) as unknown as StoredTransactionRow[]
+        if (rows.length === 1 && rows[0].type === 'buy') {
+          const before = rows[0]
+          const { error: txError } = await supabase
             .from('portfolio_transactions')
             .update(txUpdates)
-            .eq('id', related[0].id)
+            .eq('id', before.id)
+          if (txError) throw txError
+          // Bargeld wie beim Bearbeiten derselben Buchung in der Buchungsliste:
+          // Führt das Depot Geld, wandert die Differenz des Kaufbetrags mit.
+          const after = { ...before, ...txUpdates } as StoredTransactionRow
+          const cashDelta = cashEffect(after) - cashEffect(before)
+          if (Math.abs(cashDelta) >= 0.005 && await depotTracksCash(portfolio.id)) {
+            await shiftCash(portfolio.id, cashDelta)
+          }
         }
       }
     }
@@ -792,33 +850,40 @@ export function usePortfolio(routeDepotKey?: string) {
   const deletePosition = useCallback(async (holdingId: string) => {
     const holding = holdings.find(h => h.id === holdingId)
 
+    // Besteht die Position nur aus Käufen und Einbuchungen, kommen diese
+    // Buchungen mit weg. In Depots, deren Bargeld aus den Buchungen stammt,
+    // kommt der Kaufbetrag zurück, wie beim Löschen derselben Buchung in der
+    // Buchungsliste. Vorher blieb das Bargeld um den Kauf zu niedrig.
+    let removable: StoredTransactionRow[] = []
+    if (holding?.symbol && portfolio?.id && portfolio.id !== 'all') {
+      const { data: symbolTransactions, error: txLoadError } = await supabase
+        .from('portfolio_transactions')
+        .select(STORED_TRANSACTION_COLUMNS)
+        .eq('portfolio_id', portfolio.id)
+        .eq('symbol', holding.symbol)
+      if (txLoadError) throw txLoadError
+
+      const rows = (symbolTransactions || []) as unknown as StoredTransactionRow[]
+      const removableTypes = new Set(['buy', 'transfer_in'])
+      if (rows.length > 0 && rows.every(tx => removableTypes.has(tx.type))) removable = rows
+    }
+
     const { error } = await supabase
       .from('portfolio_holdings')
       .delete()
       .eq('id', holdingId)
     if (error) throw error
 
-    if (holding?.symbol && portfolio?.id && portfolio.id !== 'all') {
-      const { data: symbolTransactions, error: txLoadError } = await supabase
+    if (removable.length > 0 && portfolio?.id) {
+      const { error: txDeleteError } = await supabase
         .from('portfolio_transactions')
-        .select('id,type,quantity')
-        .eq('portfolio_id', portfolio.id)
-        .eq('symbol', holding.symbol)
+        .delete()
+        .in('id', removable.map(tx => tx.id))
+      if (txDeleteError) throw txDeleteError
 
-      if (txLoadError) throw txLoadError
-
-      const removableTypes = new Set(['buy', 'transfer_in'])
-      const canRemoveTransactions = (symbolTransactions || []).length > 0
-        && (symbolTransactions || []).every(tx => removableTypes.has(tx.type))
-
-      if (canRemoveTransactions) {
-        const transactionIds = (symbolTransactions || []).map(tx => tx.id)
-        const { error: txDeleteError } = await supabase
-          .from('portfolio_transactions')
-          .delete()
-          .in('id', transactionIds)
-
-        if (txDeleteError) throw txDeleteError
+      const cashBack = removable.reduce((sum, tx) => sum - cashEffect(tx), 0)
+      if (Math.abs(cashBack) >= 0.005 && await depotTracksCash(portfolio.id)) {
+        await shiftCash(portfolio.id, cashBack)
       }
     }
 
@@ -834,6 +899,10 @@ export function usePortfolio(routeDepotKey?: string) {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
     const { quantity: newQty, price: newPrice, date: topUpDate, fees = 0 } = params
+    assertPositiveAmount(newQty, 'Die Stückzahl')
+    assertPositiveAmount(newPrice, 'Der Kaufkurs')
+    assertNonNegativeAmount(fees, 'Die Gebühr')
+    assertBookingDate(topUpDate)
     const priceWithFees = newPrice + (fees / newQty)
     const oldQty = holding.quantity
     const oldPrice = holding.purchase_price
@@ -880,6 +949,12 @@ export function usePortfolio(routeDepotKey?: string) {
     if (!holding) throw new Error('Position nicht gefunden')
 
     const { quantity, price, date } = params
+    assertPositiveAmount(quantity, 'Die Stückzahl')
+    if (!Number.isFinite(price) || price < 0) throw new Error('Bitte einen gültigen Verkaufskurs angeben')
+    assertBookingDate(date)
+    if (quantity > holding.quantity + EPS_SHARES) {
+      throw new Error(`Im Bestand sind nur ${holding.quantity.toLocaleString('de-DE', { maximumFractionDigits: 6 })} Stück`)
+    }
 
     const row = {
       portfolio_id: portfolio.id,
@@ -894,7 +969,7 @@ export function usePortfolio(routeDepotKey?: string) {
     // Der Erlös kommt dem Bargeld zu, wenn das Depot Geld führt (siehe addPosition)
     const tracksCash = await depotTracksCash(portfolio.id)
     await bookTransaction(row, async () => {
-      if (quantity >= holding.quantity) {
+      if (quantity >= holding.quantity - EPS_SHARES) {
         // Vollverkauf — Holding löschen
         const { error } = await supabase
           .from('portfolio_holdings')
@@ -925,6 +1000,8 @@ export function usePortfolio(routeDepotKey?: string) {
     if (!holding) throw new Error('Position nicht gefunden')
 
     const { amount, date } = params
+    assertPositiveAmount(amount, 'Der Betrag')
+    assertBookingDate(date)
 
     // Kein Bestand zu ändern. Die Dividende kommt dem Bargeld zu, wenn das
     // Depot Geld führt (siehe addPosition)
@@ -934,7 +1011,7 @@ export function usePortfolio(routeDepotKey?: string) {
       symbol: holding.symbol,
       name: holding.name,
       quantity: holding.quantity,
-      price: amount / holding.quantity,
+      price: holding.quantity > 0 ? amount / holding.quantity : 0,
       total_value: amount,
       date
     }
@@ -962,6 +1039,16 @@ export function usePortfolio(routeDepotKey?: string) {
 
     // Bestehende Holding suchen
     const existingHolding = holdings.find(h => h.symbol === stock.symbol)
+
+    assertPositiveAmount(quantity, 'Die Stückzahl')
+    if (!Number.isFinite(price) || price < 0) throw new Error('Bitte einen gültigen Kurs angeben')
+    assertBookingDate(date)
+    if (direction === 'out') {
+      // Eine Ausbuchung über den Bestand hinaus erzeugte Phantomstücke in
+      // Einstand und realisierten Gewinnen.
+      if (!existingHolding) throw new Error('Zu diesem Papier gibt es keine Position zum Ausbuchen')
+      if (quantity > existingHolding.quantity + EPS_SHARES) throw new Error('Die Ausbuchung übersteigt den Bestand')
+    }
 
     await bookTransaction({
       portfolio_id: portfolio.id,
@@ -1053,6 +1140,7 @@ export function usePortfolio(routeDepotKey?: string) {
   const updateCashPosition = useCallback(async (newAmount: number) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
+    if (!Number.isFinite(newAmount)) throw new Error('Bitte einen gültigen Betrag angeben')
     const difference = newAmount - (portfolio.cash_position || 0)
 
     const applyCash = async () => {
@@ -1072,7 +1160,7 @@ export function usePortfolio(routeDepotKey?: string) {
         quantity: 1,
         price: Math.abs(difference),
         total_value: Math.abs(difference),
-        date: new Date().toISOString().split('T')[0]
+        date: todayIso()
       }, applyCash)
     } else {
       await applyCash()
@@ -1127,11 +1215,22 @@ export function usePortfolio(routeDepotKey?: string) {
     notes?: string | null
     total_value?: number
   }) => {
+    if (updates.date !== undefined) assertBookingDate(updates.date)
+    if (updates.quantity !== undefined) assertPositiveAmount(updates.quantity, 'Die Stückzahl')
+    if (updates.price !== undefined && (!Number.isFinite(updates.price) || updates.price < 0)) {
+      throw new Error('Bitte einen gültigen Kurs angeben')
+    }
+    if (updates.fee !== undefined) assertNonNegativeAmount(updates.fee, 'Die Gebühr')
+
     const before = await loadStoredTransaction(txId)
 
     const payload: Record<string, unknown> = { ...updates }
-    // total_value automatisch aktualisieren wenn qty oder price geändert wurden
-    if (payload.total_value === undefined && (updates.quantity !== undefined || updates.price !== undefined)) {
+    // total_value nur neu rechnen, wenn Stückzahl oder Kurs wirklich anders
+    // sind. Importierte Käufe tragen den Kurs gerundet und den Betrag exakt;
+    // eine bloße Notizänderung verschob sonst Bargeld und Einstand um Cents.
+    const quantityChanged = updates.quantity !== undefined && Math.abs(updates.quantity - num(before.quantity)) > EPS_SHARES
+    const priceChanged = updates.price !== undefined && Math.abs(updates.price - num(before.price)) > 1e-9
+    if (payload.total_value === undefined && (quantityChanged || priceChanged)) {
       const q = updates.quantity ?? num(before.quantity)
       const p = updates.price ?? num(before.price)
       payload.total_value = q * p
@@ -1157,11 +1256,15 @@ export function usePortfolio(routeDepotKey?: string) {
         await shiftHolding({ ...position, deltaQuantity: quantityDelta, deltaCost: costDelta, fallbackPrice: num(after.price) })
       }
     } else if (before.type === 'sell' && Math.abs(quantityDelta) > EPS_SHARES) {
-      await shiftHolding({ ...position, deltaQuantity: -quantityDelta, fallbackPrice: num(after.price) })
+      // Zurückkommende Stücke zum damaligen Durchschnittskurs, nicht zum
+      // Verkaufskurs: Sonst stand eine korrigierte Vollverkaufs-Position mit
+      // dem Erlös als Einstand da.
+      const basis = realizedGainByTxId.get(txId)?.avgCostBasis
+      await shiftHolding({ ...position, deltaQuantity: -quantityDelta, fallbackPrice: basis && basis > 0 ? basis : num(after.price) })
     }
 
     await loadPortfolio(depotIdParam)
-  }, [loadPortfolio, depotIdParam])
+  }, [realizedGainByTxId, loadPortfolio, depotIdParam])
 
   // Buchung löschen und ihre Wirkung zurücknehmen. Vorher verschwand nur die
   // Zeile: Eine gelöschte Einzahlung ließ das Bargeld stehen, ein gelöschter

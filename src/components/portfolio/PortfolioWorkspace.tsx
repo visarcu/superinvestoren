@@ -1043,8 +1043,11 @@ export default function PortfolioWorkspace() {
           </div>
         )}
         <div className={contentPending ? 'invisible' : undefined}>
-        {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen */}
-        {p.holdings.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
+        {/* Vermögen/Konten/Cashflow funktionieren auch ohne Depot-Positionen.
+            Ein Depot ohne offene Positionen, aber mit Buchungen (alles verkauft)
+            zeigt seine Ansichten: Vorher verdeckte die Leerkarte Transaktionen,
+            realisierte Gewinne und Dividenden und bat erneut um einen Upload. */}
+        {p.holdings.length === 0 && p.transactions.length === 0 && !['assets', 'accounts', 'cashflow'].includes(activeView) ? (
           p.loading ? <ContentSkeleton /> : (
             <div className="space-y-4">
               {activeView === 'overview' && depotOverview}

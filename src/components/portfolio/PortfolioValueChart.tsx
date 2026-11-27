@@ -1,6 +1,7 @@
 // src/components/portfolio/PortfolioValueChart.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState, useEffect, useMemo } from 'react'
 import {
   ResponsiveContainer,
@@ -283,7 +284,7 @@ export default function PortfolioValueChart({
     const points = historyData.map(d => ({ ...d, label: formatRangeLabel(d.date, selectedRange) }))
     const liveValue = investedMode === 'deposits' ? securitiesValue + cashPosition : securitiesValue
     if (points.length === 0 || !(liveValue > 0)) return points
-    const today = new Date().toISOString().split('T')[0]
+    const today = todayIso()
     const last = points[points.length - 1]
     const livePoint = {
       ...last,

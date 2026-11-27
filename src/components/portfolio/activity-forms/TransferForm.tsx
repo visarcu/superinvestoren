@@ -1,6 +1,7 @@
 // src/components/portfolio/activity-forms/TransferForm.tsx
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useState } from 'react'
 import TickerSearch, { type SearchedStock } from '@/components/portfolio/TickerSearch'
 import Logo from '@/components/Logo'
@@ -41,7 +42,7 @@ export default function TransferForm({
   const [selectedStock, setSelectedStock] = useState<SearchedStock | null>(null)
   const [quantity, setQuantity] = useState('')
   const [price, setPrice] = useState('')
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0])
+  const [date, setDate] = useState(todayIso())
   const [notes, setNotes] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
