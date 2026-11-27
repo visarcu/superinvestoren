@@ -180,11 +180,11 @@ function bookingDate(cell: unknown): string | null {
   return null
 }
 
-/** Zahl aus der Zelle, auch deutsch formatiert ("1.439,36") oder mit Währungszeichen. */
+/** Zahl aus der Zelle, auch deutsch formatiert ("1.439,36") oder mit Währungszeichen oder -kürzel ("50 £", "400 USD"). */
 function cellNumber(cell: unknown): number {
   if (typeof cell === 'number') return Number.isFinite(cell) ? cell : 0
   if (cell == null) return 0
-  let text = String(cell).trim().replace(/[€$\s]/g, '')
+  let text = String(cell).trim().replace(/[^\d.,+-]/g, '')
   if (!text) return 0
   if (text.includes(',')) {
     // Deutsch: Punkt trennt Tausender, Komma die Dezimalen
@@ -478,10 +478,21 @@ export function parseFlatexDepotXLSXFiles(files: FlatexDepotFile[]): FlatexXLSXP
         continue
       }
 
-      // EUR-Preis berechnen: Bei $-Transaktionen über den Devisenkurs umrechnen
+      // EUR-Preis berechnen: Fremdwährung über den Devisenkurs (Fremdwährung je
+      // Euro, z.B. 1,12294 für USD) umrechnen. Als Fremdwährung gilt jede
+      // Angabe außer Euro: "$", "USD", "£", "CHF". Vorher nur "$", ein Kauf in
+      // "USD" oder "£" stand mit dem Fremdwährungsbetrag als Euro im Depot.
+      // Ohne Devisenkurs wird die Zeile nicht übernommen.
+      const currencyText = waehrungBetrag.trim()
+      const isForeign = currencyText !== '' && !/^(€|eur|euro)$/i.test(currencyText)
       let eurPrice = kurs
       let eurTotal = absBetrag
-      if (waehrungBetrag === '$' && devisenkurs > 0 && devisenkurs !== 1) {
+      if (isForeign) {
+        if (!(devisenkurs > 0) || devisenkurs === 1) {
+          const where = files.length > 1 ? `"${fileName}", Zeile` : 'Zeile'
+          errors.push(`${where} ${index + 1}: ${isKauf ? 'Kauf' : 'Verkauf'} ${isin} in ${currencyText} ohne Devisenkurs, nicht übernommen.`)
+          continue
+        }
         eurPrice = kurs / devisenkurs
         eurTotal = absBetrag / devisenkurs
       }
