@@ -973,8 +973,18 @@ export async function computePortfolioHistory(
     pricesBySymbol.forEach(priceMap => {
       priceMap.forEach((_, date) => allDates.add(date))
     })
+    // Buchungstage als Chart-Punkte, Cash und Dividenden eingeschlossen: Eine
+    // Dividende oder Einzahlung am Samstag fiel sonst bis Montag aus dem
+    // Cash-Konto ("Ein-/Auszahlungen passen nicht zum Cash-Bestand"). Buchungen
+    // nach dem Stichtag ergeben keinen Punkt; vorher hing der Live-Punkt hinter
+    // einer Buchung mit Datum von morgen.
     securityTransactions.forEach(tx => {
-      if (tx.date) allDates.add(tx.date)
+      if (tx.date && tx.date <= toDate) allDates.add(tx.date)
+    })
+    allTransactions.forEach(tx => {
+      if (tx.date && tx.date <= toDate && !['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) {
+        allDates.add(tx.date)
+      }
     })
     // Kurse und Buchungen vor dem Fenster (1b) ergeben keinen Chart-Punkt
     const chartStart = firstLoadedDate ?? fromDate

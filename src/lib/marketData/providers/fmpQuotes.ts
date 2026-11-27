@@ -16,6 +16,19 @@ const currencyCache = new Map<string, { currency: string; expires: number }>()
  * nebeneinander (VOD.L 117 GBp, VUSA.L 110 GBP, CSKR.L 461 USD), und der
  * Quote-Endpoint nennt keine Währung.
  */
+
+/** Suffixe, deren Währung die Heuristik kennt (siehe quoteService.currencyFromSuffix) */
+const KNOWN_SUFFIXES = new Set([
+  'DE', 'F', 'SG', 'MU', 'DU', 'HM', 'BE', 'HA', 'PA', 'AS', 'MI', 'MC', 'BR', 'LI', 'VI', 'AT',
+  'CP', 'HE', 'ZU', 'LS', 'IR', 'L', 'TO', 'V', 'T', 'SW', 'S', 'AX', 'ST', 'CO', 'OL',
+])
+
+function hasUnknownSuffix(symbol: string): boolean {
+  const idx = symbol.lastIndexOf('.')
+  if (idx <= 0) return false
+  return !KNOWN_SUFFIXES.has(symbol.slice(idx + 1).toUpperCase())
+}
+
 export async function fetchFmpCurrencies(symbols: string[]): Promise<Record<string, string>> {
   const out: Record<string, string> = {}
   const missing: string[] = []
@@ -92,10 +105,13 @@ export async function fetchFmpQuotes(symbols: string[]): Promise<Record<string, 
     }
   }
 
-  const london = Object.keys(out).filter(s => s.endsWith('.L'))
-  if (london.length > 0) {
-    const currencies = await fetchFmpCurrencies(london)
-    for (const symbol of london) {
+  // London (Pence, Pfund oder Dollar je Linie) und jede Börse, deren Suffix die
+  // Suffix-Heuristik nicht kennt (.HK, .PR, .WA, .SI, .KS, .SA …): Die Währung kommt
+  // aus dem Profil. Vorher galt 0700.HK (HKD) als USD, Faktor 7 im Depotwert.
+  const needsCurrency = Object.keys(out).filter(s => s.endsWith('.L') || hasUnknownSuffix(s))
+  if (needsCurrency.length > 0) {
+    const currencies = await fetchFmpCurrencies(needsCurrency)
+    for (const symbol of needsCurrency) {
       if (currencies[symbol]) out[symbol].currency = currencies[symbol]
     }
   }

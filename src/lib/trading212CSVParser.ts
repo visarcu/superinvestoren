@@ -106,8 +106,13 @@ function normalizeTicker(ticker: string, isin: string): string {
   if (!ticker) return ticker
   if (ticker.includes('.')) return ticker
   const country = isin.substring(0, 2).toUpperCase()
-  if (country === 'DE' || country === 'AT') return `${ticker}.DE`
-  return ticker
+  if (country === 'US' || country === 'CA') return ticker
+  if (country === 'DE') return `${ticker}.DE`
+  // Alle anderen Herkunftsländer (IE/LU-ETFs, NL, FR, GB, AT …): Das Kürzel
+  // kommt aus der ISIN-Auflösung. Die Zuordnung befüllt nur Zeilen ohne Symbol,
+  // deshalb blieb sonst der rohe Trading-212-Ticker stehen (VUSA, ASML, OMV),
+  // den kein Kursdienst kennt oder der die falsche Börse meint.
+  return ''
 }
 
 function round2(value: number): number {

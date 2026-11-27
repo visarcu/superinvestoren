@@ -2305,6 +2305,23 @@ export default function CSVImportModal({
                 </div>
               </div>
 
+              {/* Übersprungene Zeilen und fehlgeschlagene Dateien. Standen nur im
+                  Upload-Schritt, der nach dem Parsen nie wieder zu sehen ist. */}
+              {pdfErrors.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/10 flex gap-2.5">
+                  <ExclamationTriangleIcon className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[12px] font-medium text-neutral-200 mb-1">Nicht übernommen ({pdfErrors.length})</p>
+                    <ul className="space-y-1 text-[11px] text-neutral-400 leading-relaxed break-words">
+                      {pdfErrors.slice(0, 20).map((err, i) => (
+                        <li key={i}>{typeof err === 'string' ? err : JSON.stringify(err)}</li>
+                      ))}
+                      {pdfErrors.length > 20 && <li>… und {pdfErrors.length - 20} weitere</li>}
+                    </ul>
+                  </div>
+                </div>
+              )}
+
               {/* Wo vermutlich Buchungen fehlen. Steht über der Reset-Option: Wer dort löscht,
                   verliert sonst auch, was der Export nicht mehr enthält. */}
               {importWarnings.length > 0 && (

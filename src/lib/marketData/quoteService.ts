@@ -44,7 +44,7 @@ const LISTING_FIRST_EXCHANGES = new Set(['XETRA', 'F', 'AS', 'PA', 'SW', 'MI', '
 /** Währung aus dem Ticker-Suffix — nur wenn keine Stammdaten vorliegen. */
 export function currencyFromSuffix(symbol: string): string {
   const s = symbol.toUpperCase()
-  if (/\.(DE|F|SG|MU|DU|HM|BE|HA|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU|LS|IR)$/.test(s)) return 'EUR'
+  if (/\.(DE|F|SG|MU|DU|HM|BE|HA|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|ZU|LS|IR)$/.test(s)) return 'EUR'
   if (s.endsWith('.L')) return 'GBX'
   if (s.endsWith('.TO') || s.endsWith('.V')) return 'CAD'
   if (s.endsWith('.T')) return 'JPY'

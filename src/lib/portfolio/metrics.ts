@@ -674,6 +674,23 @@ export interface ForwardDividend {
 /** Tage zwischen Stichtag (Ex-Tag) und Zahltag, grob: 3 Tage in Deutschland, 2 bis 4 Wochen sonst */
 const EX_TO_PAY_DAYS = 14
 
+/** Zahlungen je Jahr aus den Abständen der Zahltage (Median); null bei weniger als zwei Zahlungen */
+function paymentsPerYear(sortedPayDays: string[]): number | null {
+  if (sortedPayDays.length < 2) return null
+  const gaps: number[] = []
+  for (let i = 1; i < sortedPayDays.length; i++) {
+    const gap = (Date.parse(sortedPayDays[i]) - Date.parse(sortedPayDays[i - 1])) / 86400000
+    if (gap >= 7) gaps.push(gap)
+  }
+  if (gaps.length === 0) return null
+  gaps.sort((a, b) => a - b)
+  const median = gaps[Math.floor(gaps.length / 2)]
+  if (median <= 45) return 12
+  if (median <= 135) return 4
+  if (median <= 250) return 2
+  return 1
+}
+
 export function projectDividends(
   dividendTransactions: Transaction[],
   holdings: Holding[],
@@ -704,7 +721,10 @@ export function projectDividends(
   }
 
   const txBySymbol = new Map<string, Transaction[]>()
+  const allTxBySymbol = new Map<string, Transaction[]>()
   for (const tx of dividendTransactions) {
+    if (!allTxBySymbol.has(tx.symbol)) allTxBySymbol.set(tx.symbol, [])
+    allTxBySymbol.get(tx.symbol)!.push(tx)
     if (new Date(tx.date) < twelveMonthsAgo) continue
     if (!txBySymbol.has(tx.symbol)) txBySymbol.set(tx.symbol, [])
     txBySymbol.get(tx.symbol)!.push(tx)
@@ -745,6 +765,7 @@ export function projectDividends(
     // Buchungen. Fehlt er, gilt die Stückzahl der Dividende, sofern sie eine ist.
     let perShareAnnual = 0
     let unknown = false
+    const perSharePayments: { day: string; perShare: number }[] = []
     for (const tx of txs) {
       const payDay = tx.date.slice(0, 10)
       const exDay = new Date(Date.parse(payDay) - EX_TO_PAY_DAYS * 86400000).toISOString().slice(0, 10)
@@ -756,7 +777,27 @@ export function projectDividends(
         unknown = true
         break
       }
-      perShareAnnual += (Number(tx.total_value) || 0) / shares
+      perSharePayments.push({ day: payDay, perShare: (Number(tx.total_value) || 0) / shares })
+    }
+    if (!unknown) {
+      // Frequenz aus den Abständen aller Zahlungen des Papiers; Sonderdividenden
+      // (deutlich über dem Median) zählen nicht als wiederkehrend. Eine Position
+      // mit zwei Monaten Haltedauer und einer Quartalsdividende stand sonst mit
+      // einem Viertel der Jahresdividende in der Prognose.
+      perSharePayments.sort((a, b) => a.day.localeCompare(b.day))
+      const payDays = [...new Set((allTxBySymbol.get(symbol) || []).map(tx => tx.date.slice(0, 10)))].sort()
+      const freq = paymentsPerYear(payDays)
+      const sortedValues = perSharePayments.map(p => p.perShare).filter(v => v > 0).sort((a, b) => a - b)
+      const median = sortedValues.length > 0 ? sortedValues[Math.floor(sortedValues.length / 2)] : 0
+      const regular = median > 0 ? perSharePayments.filter(p => p.perShare <= median * 2.5) : perSharePayments
+      const lastRegular = [...regular].reverse().find(p => p.perShare > 0)
+      if (freq && lastRegular && regular.length < freq) {
+        perShareAnnual = lastRegular.perShare * freq
+      } else if (freq && regular.length > freq) {
+        perShareAnnual = regular.slice(-freq).reduce((sum, p) => sum + p.perShare, 0)
+      } else {
+        perShareAnnual = regular.reduce((sum, p) => sum + p.perShare, 0)
+      }
     }
 
     const annual = unknown ? total12m : perShareAnnual * position.quantity

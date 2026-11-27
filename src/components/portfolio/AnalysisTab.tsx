@@ -2,6 +2,7 @@
 // Premium Portfolio-Analyse: Konzentration, Asset-Klassen, Sektoren, Top/Worst Performer, Währungen.
 'use client'
 
+import { detectTickerCurrency } from '@/lib/fmp'
 import React, { useMemo } from 'react'
 import { type Holding } from '@/hooks/usePortfolio'
 import Logo from '@/components/Logo'
@@ -30,17 +31,14 @@ interface AnalysisTabProps {
   lookthrough?: UseLookthroughState
 }
 
-// Währung aus Ticker ableiten
+// Währung aus Ticker ableiten: dieselbe Tabelle wie die Bewertung (lib/fmp),
+// dazu Hongkong. Vorher fehlten .F und die Regionalbörsen, ein Depot nur mit
+// SWF.F stand als "USD 100 %" im Währungs-Exposure.
 function detectCurrency(symbol: string): string {
   const s = symbol.toUpperCase()
-  if (s.endsWith('.DE') || s.endsWith('.PA') || s.endsWith('.MI') || s.endsWith('.MC') || s.endsWith('.AS') || s.endsWith('.BR') || s.endsWith('.LS') || s.endsWith('.VI') || s.endsWith('.HE')) return 'EUR'
-  if (s.endsWith('.L')) return 'GBP'
-  if (s.endsWith('.SW')) return 'CHF'
-  if (s.endsWith('.TO')) return 'CAD'
-  if (s.endsWith('.AX')) return 'AUD'
+  const base = detectTickerCurrency(s)
+  if (base !== 'USD') return base
   if (s.endsWith('.HK')) return 'HKD'
-  if (s.endsWith('.T')) return 'JPY'
-  // Default = USD
   return 'USD'
 }
 

@@ -185,6 +185,14 @@ export function parseFreedom24PDFText(text: string, fileName: string): Freedom24
 
       const name = tickerNameMap[isin] || isin
 
+      // Der PDF-Bericht nennt keinen Umrechnungskurs. Fremdwährungsgeschäfte
+      // landeten unumgerechnet als Euro (Kauf 190 USD als 190 €, Einstand rund
+      // 9 % zu hoch); sie werden benannt und übersprungen.
+      if (waehrung && waehrung.toUpperCase() !== 'EUR') {
+        errors.push(`${isin} in "${fileName}": Handel in ${waehrung}, der PDF-Bericht enthält keinen Wechselkurs. Bitte den Handelsbericht als XLSX hochladen, dort rechnen wir in Euro um.`)
+        continue
+      }
+
       transactions.push({
         type: txType,
         name,
