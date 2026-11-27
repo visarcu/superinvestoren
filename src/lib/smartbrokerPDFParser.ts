@@ -1,5 +1,5 @@
 // src/lib/smartbrokerPDFParser.ts — Parser für Smartbroker+ (Baader Bank) PDF-Abrechnungen
-// Unterstützt: Wertpapierabrechnung Kauf/Verkauf, Sparpläne, Dividenden
+// Unterstützt: Wertpapierabrechnung Kauf/Verkauf (mit einbehaltenen Steuern), Sparpläne, Dividenden
 // Format: "Baader Bank AG" / "SMARTBROKER+" / "smartbrokerplus.de"
 
 export interface SmartbrokerParsedTransaction {
@@ -22,6 +22,48 @@ export interface SmartbrokerParseResult {
   transactions: SmartbrokerParsedTransaction[]
   errors: string[]
   fileName: string
+}
+
+const FEE_LABELS = [/Provision(?:\s+Smartbroker)?/, /Transaktionsentgelt/, /Handelsentgelt/, /Fremde\s+Spesen/, /B[öo]rsenentgelt/, /Handelsplatz(?:gebühr|entgelt)/, /(?:Makler)?courtage/]
+const TAX_LABELS = [/Kapitalertrag(?:s)?steuer/, /Solidarit[äa]tszuschlag/, /Kirchensteuer/]
+const AMOUNT = '-?\\s*([\\d.]+,\\d{2})'
+
+/**
+ * Betrag einer Kostenzeile. pdf-parse liefert die Baader-Tabellen in zwei
+ * Lagen: "Provision Smartbroker EUR 4,00" in einer Zeile oder, wie beim
+ * Kurswert, "EURProvision Smartbroker\n4,00" mit dem Betrag in der nächsten.
+ */
+function statementAmount(text: string, label: RegExp): number {
+  const patterns = [
+    new RegExp(`${label.source}[^\\n]*?EUR\\s*\\n?\\s*${AMOUNT}`, 'i'),
+    new RegExp(`(?:EUR)?${label.source}[^\\n]*\\n\\s*${AMOUNT}`, 'i'),
+  ]
+  for (const pattern of patterns) {
+    const match = text.match(pattern)
+    if (match) return parseGermanNumber(match[1])
+  }
+  return 0
+}
+
+/**
+ * Gebühren und Steuern einer Abrechnung. Beim Kauf gilt Endbetrag zu Lasten =
+ * Kurswert + Gebühren, beim Verkauf Endbetrag zu Gunsten = Kurswert − Gebühren
+ * − Steuern. Bisher zählten nur die Gebührenzeilen; die beim Verkauf
+ * einbehaltene Kapitalertragsteuer (mit Soli und Kirchensteuer) fehlte, und
+ * Erlös wie realisierter Gewinn standen um die Steuer zu hoch. Die einzelnen
+ * Zeilen teilen den Betrag in Gebühr und Steuer; fehlen Kurswert oder
+ * Endbetrag, zählen die Zeilen allein.
+ */
+function orderCosts(body: string, isSell: boolean, totalValue: number, endAmount: number): { fee: number; tax: number; total: number } {
+  const round = (value: number) => Math.round(value * 100) / 100
+  const difference = endAmount > 0 && totalValue > 0
+    ? Math.max(0, round(isSell ? totalValue - endAmount : endAmount - totalValue))
+    : 0
+  const feeLines = round(FEE_LABELS.reduce((sum, label) => sum + statementAmount(body, label), 0))
+  const taxLines = round(TAX_LABELS.reduce((sum, label) => sum + statementAmount(body, label), 0))
+  const total = difference > 0 ? difference : round(feeLines + taxLines)
+  const tax = Math.min(taxLines, total)
+  return { fee: round(total - tax), tax, total }
 }
 
 /**
@@ -120,6 +162,8 @@ export function parseSmartbrokerPDFText(text: string, fileName: string): Smartbr
     const kurswertPatterns = [
       /Kurswert\s+EUR\s+([\d.,]+)/i,
       /Kurswert\s*\n?\s*EUR\s*\n?\s*([\d.,]+)/i,
+      // pdf-parse klebt die Währung davor: "EURKurswert\n864,62"
+      /Kurswert\s*\n\s*([\d.,]+)/i,
     ]
     for (const pat of kurswertPatterns) {
       const match = normalized.match(pat)
@@ -129,22 +173,7 @@ export function parseSmartbrokerPDFText(text: string, fileName: string): Smartbr
       }
     }
 
-    // Extrahiere Gebühren
-    // Format: "Provision Smartbroker EUR 4,00" oder andere Gebührenzeilen
-    let fees = 0
-    const feePatterns = [
-      /Provision\s+(?:Smartbroker\s+)?EUR\s+([\d.,]+)/gi,
-      /Transaktionsentgelt\s+EUR\s+([\d.,]+)/gi,
-      /Handelsentgelt\s+EUR\s+([\d.,]+)/gi,
-      /Fremde\s+Spesen\s+EUR\s+([\d.,]+)/gi,
-      /B[öo]rsenentgelt\s+EUR\s+([\d.,]+)/gi,
-    ]
-    for (const pat of feePatterns) {
-      let match
-      while ((match = pat.exec(normalized)) !== null) {
-        fees += parseGermanNumber(match[1])
-      }
-    }
+    // Gebühren und Steuern folgen unten aus Kurswert und Endbetrag (orderCosts)
 
     // Extrahiere Endbetrag (Gesamtbetrag inkl. Gebühren)
     // Format: "Zu Lasten Konto 3369684000 Valuta: 24.04.2025 EUR 868,62" (Kauf)
@@ -226,9 +255,16 @@ export function parseSmartbrokerPDFText(text: string, fileName: string): Smartbr
       totalValue = Math.round(price * quantity * 100) / 100
     }
 
-    // Fallback: Wenn Endbetrag fehlt, berechne aus Kurswert + Gebühren
+    // Gebühr und Steuer landen zusammen in fees; die Notiz nennt beide,
+    // daran trennt lib/portfolio/cashFlows sie wieder ("Steuern 12.34€")
+    const costs = txType === 'dividend'
+      ? { fee: 0, tax: 0, total: 0 }
+      : orderCosts(normalized, txType === 'sell', totalValue, endAmount)
+    const fees = costs.total
+
+    // Fallback: Wenn Endbetrag fehlt, berechne aus Kurswert und Kosten
     if (endAmount === 0) {
-      endAmount = totalValue + fees
+      endAmount = txType === 'sell' ? totalValue - fees : totalValue + fees
     }
 
     transactions.push({
@@ -244,7 +280,9 @@ export function parseSmartbrokerPDFText(text: string, fileName: string): Smartbr
       date,
       currency: 'EUR',
       exchange,
-      notes: `Smartbroker+ Import${refNr ? ` — Ref. ${refNr}` : ''}`,
+      notes: `Smartbroker+ Import${refNr ? ` — Ref. ${refNr}` : ''}${
+        costs.fee > 0 ? ` · Gebühren ${costs.fee.toFixed(2)}€` : ''
+      }${costs.tax > 0 ? ` · Steuern ${costs.tax.toFixed(2)}€` : ''}`,
     })
   } catch (err) {
     errors.push(`Fehler beim Parsen von "${fileName}": ${err instanceof Error ? err.message : String(err)}`)
