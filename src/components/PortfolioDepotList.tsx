@@ -258,7 +258,7 @@ export default function PortfolioDepotList({
                         <hr className="my-1 border-neutral-700" />
                         <button
                           onClick={() => {
-                            if (confirm(`Depot "${portfolio.name}" wirklich leeren? Alle Positionen und Transaktionen werden gelöscht, Cash und Kredit auf 0 gesetzt — das Depot selbst bleibt bestehen.`)) {
+                            if (confirm(`Depot "${portfolio.name}" wirklich leeren? Alle Positionen und Transaktionen werden gelöscht, Cash und Kredit auf 0 gesetzt. Das Depot selbst bleibt bestehen.`)) {
                               onClear(portfolio.id)
                             }
                             setOpenMenuId(null)

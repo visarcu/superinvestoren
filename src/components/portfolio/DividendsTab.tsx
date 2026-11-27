@@ -3,6 +3,7 @@
 // Milestones und Yield-on-Cost-Tabelle. Inspiriert von Parqet/Getquin.
 'use client'
 
+import { todayIso } from '@/lib/localDate'
 import React, { useMemo, useState, useEffect } from 'react'
 import { type Transaction, type Holding } from '@/hooks/usePortfolio'
 import { cashFlowKind, isCashFlow, signedCashAmount } from '@/lib/portfolio/cashFlows'
@@ -83,10 +84,10 @@ export default function DividendsTab({
     setUpcomingLoading(true)
     // from=heute: der Endpunkt liefert sonst mehrere Jahre Historie, hier zählt
     // nur, was noch aussteht.
-    fetch(`/api/dividends-calendar?tickers=${tickers.join(',')}&from=${new Date().toISOString().split('T')[0]}`)
+    fetch(`/api/dividends-calendar?tickers=${tickers.join(',')}&from=${todayIso()}`)
       .then(r => (r.ok ? r.json() : []))
       .then((data: any[]) => {
-        const today = new Date().toISOString().split('T')[0]
+        const today = todayIso()
         // Maßgeblich ist der Zahltag, nicht der Ex-Tag: Zwischen beiden liegen
         // oft Wochen. Unilever verschwand am Tag nach dem Ex-Datum (06.08.) aus
         // der Liste, obwohl die Zahlung erst am 18.09. kommt — gerade unter der
@@ -609,12 +610,15 @@ function UpcomingDividendsList({
           new Date(value).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
         const paymentLabel = div.paymentDate ? fmtDate(div.paymentDate) : null
         const exLabel = div.date ? fmtDate(div.date) : null
-        const holding = holdings.find(h => h.symbol === div.ticker)
+        // In "Alle Depots" zählt der Bestand über alle Depots, nicht nur das erste
+        const matching = holdings.filter(h => h.symbol === div.ticker)
+        const holding = matching[0]
+        const heldQuantity = matching.reduce((sum, h) => sum + (h.quantity || 0), 0)
         // Portfolio rechnet durchgängig in EUR: nur die umgerechnete Stückdividende
         // darf mit der Stückzahl multipliziert werden. Ohne Kurs bleibt der
         // Börsenwährungs-Betrag stehen (mit Währungskürzel ausgewiesen).
         const perShareEur = typeof div.dividendEur === 'number' ? div.dividendEur : null
-        const expectedPayment = holding && perShareEur !== null ? holding.quantity * perShareEur : 0
+        const expectedPayment = heldQuantity > 0 && perShareEur !== null ? heldQuantity * perShareEur : 0
         return (
           <Link
             key={idx}
@@ -643,7 +647,7 @@ function UpcomingDividendsList({
                     ~{formatCurrency(expectedPayment)}
                   </p>
                   <p className="text-[10px] text-neutral-500">
-                    {formatCurrency(perShareEur!)} × {holding ? formatDecimal(holding.quantity, 2) : ''}
+                    {formatCurrency(perShareEur!)} × {formatDecimal(heldQuantity, 2)}
                   </p>
                 </>
               ) : (

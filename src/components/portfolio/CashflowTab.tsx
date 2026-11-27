@@ -52,14 +52,16 @@ export default function CashflowTab({
   useEffect(() => {
     async function load() {
       // Konten-Buchungen: Zeitraum = angezeigte Monate, Volumen klein
-      const from = new Date()
-      from.setMonth(from.getMonth() - (MONTHS_SHOWN - 1))
-      from.setDate(1)
+      // Monatsanfang ohne Überlauf: setMonth auf einem 31. sprang einen Monat
+      // weiter, und toISOString verschob den Stichtag um einen Tag (UTC)
+      const now = new Date()
+      const from = new Date(now.getFullYear(), now.getMonth() - (MONTHS_SHOWN - 1), 1)
+      const fromKey = `${from.getFullYear()}-${String(from.getMonth() + 1).padStart(2, '0')}-01`
       const ledgerPromise = supabase
         .from('manual_asset_transactions')
         .select('amount, description, date')
         .eq('kind', 'buchung')
-        .gte('date', from.toISOString().split('T')[0])
+        .gte('date', fromKey)
         .order('date', { ascending: false })
 
       // Depot-Käufe/Verkäufe: GESAMTE Historie für die Jahres-Statistik —
@@ -107,11 +109,10 @@ export default function CashflowTab({
   const months = useMemo<MonthAgg[]>(() => {
     const byMonth = new Map<string, { income: number; expenses: number }>()
     // Alle angezeigten Monate vorbelegen, damit leere Monate sichtbar bleiben
+    const now = new Date()
     for (let i = 0; i < MONTHS_SHOWN; i++) {
-      const d = new Date()
-      d.setDate(1)
-      d.setMonth(d.getMonth() - i)
-      byMonth.set(d.toISOString().slice(0, 7), { income: 0, expenses: 0 })
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+      byMonth.set(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`, { income: 0, expenses: 0 })
     }
     for (const tx of txs) {
       const key = tx.date.slice(0, 7)

@@ -89,7 +89,7 @@ export default function RealizedGainsTab({
           year: String(new Date(tx.date).getFullYear()),
           quantity,
           proceeds: transactionAmount(tx),
-          fee: Number(tx.fee) || 0,
+          fee: Math.abs(Number(tx.fee) || 0),
           costBasis: realized.avgCostBasis * quantity,
           gain: realized.realizedGain,
           gainPercent: realized.realizedGainPercent,

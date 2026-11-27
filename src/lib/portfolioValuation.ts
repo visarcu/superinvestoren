@@ -85,8 +85,8 @@ export async function fetchEurRatesFor(currencies: Iterable<string>): Promise<Eu
   }
 }
 
-// Bewertet Holdings je Depot in EUR. Reihenfolge Live-Kurs → gespeicherter
-// current_price → Einstandspreis, damit der Wert exakt dem Workspace entspricht.
+// Bewertet Holdings je Depot in EUR: Live-Kurs, sonst Einstandspreis, damit der
+// Wert exakt dem Workspace entspricht.
 export async function valuateHoldingsByPortfolio(
   holdings: ValuationHolding[]
 ): Promise<Map<string, DepotValuation>> {
@@ -119,9 +119,11 @@ export async function valuateHoldingsByPortfolio(
   for (const h of holdings) {
     const qty = Number(h.quantity) || 0
     const purchasePrice = Number(h.purchase_price) || 0
+    // Nur Live-Kurse: Der gespeicherte current_price wird auf der Website nie
+    // aktualisiert; mit ihm widersprachen sich Seitenleiste und Kopfzahl, sobald
+    // ein Kurs fehlte (dort gilt der Einstand, siehe valuateHolding).
     const live = liveQuotes.get(h.symbol)
-    const stored = Number(h.current_price)
-    const rawPrice = live && live > 0 ? live : stored && stored > 0 ? stored : null
+    const rawPrice = live && live > 0 ? live : null
 
     // Marktwert je Anteil in EUR; ohne Kurs oder Wechselkurs Fallback auf den
     // Einstandspreis (bereits EUR)

@@ -180,7 +180,7 @@ export default function QuickStats({
               </p>
             )}
             <p className="text-neutral-500">
-              Der Prozentwert bezieht sich auf den Einstand der Positionen, die du noch hältst, nicht auf das gesamte jemals investierte Kapital.
+              Der Prozentwert bezieht sich auf das eingesetzte Kapital: den Einstand der offenen Positionen plus den Einstand der schon verkauften Anteile.
             </p>
           </InfoTooltip>
         </div>

@@ -183,10 +183,16 @@ export function filterPerformanceTransactions(transactions: Transaction[], holdi
 export function estimateMissingAmounts(transactions: Transaction[], holdings: Holding[]): Transaction[] {
   if (transactions.length === 0) return transactions
 
+  // Erst die Position desselben Depots, dann (Alle Depots) irgendeine zu dem
+  // Symbol: Sonst bekam eine wertlose Einbuchung in Depot B den Einstand aus Depot A.
+  const holdingByKey = new Map<string, Holding>()
   const holdingBySymbol = new Map<string, Holding>()
   holdings.forEach(h => {
     const sym = normalizeSymbol(h.symbol)
-    if (sym && !holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
+    if (!sym) return
+    const key = portfolioSymbolKey(h.portfolio_id, sym)
+    if (!holdingByKey.has(key)) holdingByKey.set(key, h)
+    if (!holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
   })
 
   // Split als Paar aus wertlosem Aus- und Einbuchen oder als Gratisstücke (Trade
@@ -201,7 +207,8 @@ export function estimateMissingAmounts(transactions: Transaction[], holdings: Ho
     const quantity = Number(tx.quantity) || 0
     if (quantity <= 0) return tx
 
-    const holding = holdingBySymbol.get(normalizeSymbol(tx.symbol))
+    const sym = normalizeSymbol(tx.symbol)
+    const holding = holdingByKey.get(portfolioSymbolKey(tx.portfolio_id, sym)) ?? holdingBySymbol.get(sym)
     if (!holding) return tx
     const perShare = holding.purchase_price_display > 0
       ? holding.purchase_price_display
@@ -333,7 +340,10 @@ export function calculateDepotReturn(
   // Basis: eingesetztes Kapital, also offene Positionen plus Einstand der
   // schon verkauften Anteile. Nur offene Positionen ergaben nach einem
   // Komplettverkauf eine Basis aus Gebühren (480 € Gewinn = "+2400 %").
-  const base = invested + realized.totalCostOfSold + order.fees + order.taxes
+  // Kaufgebühren stecken schon im Einstand (invested, totalCostOfSold); nur die
+  // Kosten der Verkäufe kommen dazu, sonst zählten sie doppelt.
+  const sellOrder = sumOrderCosts(transactions.filter(tx => tx.type === 'sell'))
+  const base = invested + realized.totalCostOfSold + sellOrder.fees + sellOrder.taxes
   return {
     priceGain,
     realized: realized.totalRealizedGain,
@@ -558,7 +568,9 @@ export function valuateHolding(
 export function alignDayChange(holdings: Holding[], day: string | null = latestTradingDay(holdings)): Holding[] {
   if (!day) return holdings
   return holdings.map(h =>
-    !h.traded_on || h.traded_on === day ? h : { ...h, day_change_value: 0, day_change_percent: 0 }
+    // Ohne Zeitstempel (Yahoo ohne regularMarketTime) ist unklar, ob die
+    // Veränderung von heute stammt; sie wird nicht zum Handelstag addiert.
+    h.traded_on === day ? h : { ...h, day_change_value: 0, day_change_percent: 0 }
   )
 }
 

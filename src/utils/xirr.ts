@@ -43,6 +43,10 @@ export function calculateXIRR(cashflows: Cashflow[], guess: number = 0.1): numbe
     }, 0)
   }
 
+  // Klebt die Lösung an der Suchgrenze (1000 % bzw. −99 %), ist die wahre Rendite
+  // außerhalb des Suchbereichs; dann lieber keine Zahl als "+1000,00 %".
+  const atBoundary = (r: number) => r >= 10 - 1e-6 || r <= -0.99 + 1e-6
+
   // Newton-Raphson
   let rate = guess
   for (let i = 0; i < 100; i++) {
@@ -50,7 +54,7 @@ export function calculateXIRR(cashflows: Cashflow[], guess: number = 0.1): numbe
     const df = dnpv(rate)
     if (Math.abs(df) < 1e-10) break
     const newRate = rate - f / df
-    if (Math.abs(newRate - rate) < 1e-7) return newRate
+    if (Math.abs(newRate - rate) < 1e-7) return atBoundary(newRate) ? null : newRate
     rate = newRate
     if (rate < -0.99) rate = -0.99
     if (rate > 10) rate = 10
@@ -65,7 +69,7 @@ export function calculateXIRR(cashflows: Cashflow[], guess: number = 0.1): numbe
     const mid = (lo + hi) / 2
     if (npv(mid) > 0) lo = mid
     else hi = mid
-    if (Math.abs(hi - lo) < 1e-7) return mid
+    if (Math.abs(hi - lo) < 1e-7) return atBoundary(mid) ? null : mid
   }
 
   return null

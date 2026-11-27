@@ -190,7 +190,11 @@ export default function AssetsTab({
 
   // ===== Inline-Edit + Löschen =====
   const saveEdit = useCallback(async (asset: ManualAsset) => {
-    const value = parseFloat(editValue.replace(/\./g, '').replace(',', '.'))
+    // "1500.50" ist eine Dezimalzahl, "1.500,50" die deutsche Schreibweise: Der
+    // Punkt fällt nur weg, wenn auch ein Komma dabei ist (vorher wurde aus
+    // 1500.50 beim Speichern 150050).
+    const raw = editValue.trim()
+    const value = raw.includes(',') ? parseFloat(raw.replace(/\./g, '').replace(',', '.')) : parseFloat(raw)
     if (Number.isFinite(value) && value >= 0) {
       await supabase
         .from('manual_assets')
