@@ -26,6 +26,14 @@ export const SUFFIX_TO_EXCHANGE: Record<string, string> = {
   TO: 'TO',
   T: 'TSE',
   AX: 'AU',
+  // Deutsche Regionalbörsen (FMP- und Yahoo-Suffixe): Stuttgart führt etwa
+  // ETCs wie EUWAX Gold II, die es an Xetra nicht gibt.
+  SG: 'STU',
+  MU: 'MU',
+  DU: 'DU',
+  HM: 'HM',
+  BE: 'BE',
+  HA: 'HA',
 }
 
 const EXCHANGE_TO_YAHOO_SUFFIX: Record<string, string> = {
@@ -45,6 +53,14 @@ const EXCHANGE_TO_YAHOO_SUFFIX: Record<string, string> = {
   OL: '.OL',
   LS: '.LS',
   TO: '.TO',
+  // Ohne diese Einträge blieb ein Stammsatz mit Notierung EWG2.STU ohne
+  // Kurs: Weder FMP noch Yahoo wurden unter EWG2.SG gefragt.
+  STU: '.SG',
+  MU: '.MU',
+  DU: '.DU',
+  HM: '.HM',
+  BE: '.BE',
+  HA: '.HA',
   US: '',
 }
 
@@ -68,6 +84,12 @@ const US_VENUES = [
 const COMPATIBLE_VENUES: Record<string, string[]> = {
   XETRA: GERMAN_VENUES,
   F: GERMAN_VENUES,
+  STU: GERMAN_VENUES,
+  MU: GERMAN_VENUES,
+  DU: GERMAN_VENUES,
+  HM: GERMAN_VENUES,
+  BE: GERMAN_VENUES,
+  HA: GERMAN_VENUES,
   US: US_VENUES,
   LSE: ['LSE', 'IL'],
   AS: ['AS'],
