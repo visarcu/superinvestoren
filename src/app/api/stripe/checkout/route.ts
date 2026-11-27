@@ -84,6 +84,13 @@ export async function POST(request: NextRequest) {
 
     console.log('✅ Valid session');
 
+    // Autorisierung: Der Token entscheidet, wessen Profil verknüpft wird. Vorher
+    // galt die userId aus dem Body, und ein angemeldeter Nutzer konnte die
+    // Stripe-Kundennummer eines fremden Profils überschreiben.
+    if (userId !== user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     // 4. Test Stripe Connection
     console.log('🧪 Testing Stripe connection...');
     try {
@@ -191,12 +198,6 @@ export async function POST(request: NextRequest) {
           trialDays = 0;
         } else {
           console.log('✅ Customer never had a trial, allowing trial period');
-          
-          // Special case für Eric
-          if (user.email === 'goossens.eric@icloud.com') {
-            trialDays = 30; // 4 Wochen für Eric als Entschuldigung
-            console.log('🎁 Extended trial for Eric: 30 days');
-          }
         }
       } catch (subError) {
         console.error('⚠️ Could not check trial history:', subError);
@@ -204,6 +205,31 @@ export async function POST(request: NextRequest) {
         allowTrial = false;
         trialDays = 0;
       }
+    }
+
+    // 6b. Kein zweites Abo: Wer schon ein laufendes Abo hat (auch im Trial oder
+    // mit offener Zahlung), wechselt den Plan über das Kundenportal. Vorher lief
+    // der Auto-Checkout nach dem Login auch für Bestandskunden, und ein
+    // Monatsabonnent konnte zusätzlich das Jahresabo abschließen.
+    try {
+      const existing = await stripe.subscriptions.list({ customer: customerId, status: 'all', limit: 20 });
+      const running = existing.data.find(sub => ['active', 'trialing', 'past_due'].includes(sub.status));
+      if (running) {
+        return NextResponse.json(
+          {
+            error: 'Du hast bereits ein laufendes Abo. Planwechsel und Kündigung gehen über das Kundenportal in deinem Profil.',
+            code: 'already_subscribed',
+          },
+          { status: 409 }
+        );
+      }
+    } catch (listError) {
+      console.error('⚠️ Could not check existing subscriptions:', listError);
+      // Ohne Antwort von Stripe kein Checkout, sonst droht die Doppelabbuchung
+      return NextResponse.json(
+        { error: 'Dein Abo-Status konnte nicht geprüft werden. Bitte versuche es gleich noch einmal.' },
+        { status: 503 }
+      );
     }
 
     // 7. Create Checkout Session (MIT oder OHNE Trial basierend auf History)
@@ -291,12 +317,22 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId');
     const action = searchParams.get('action');
 
-    if (!userId) {
-      return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+    // Nur für den angemeldeten Nutzer selbst: Vorher genügte eine fremde userId
+    // in der Adresse, um eine Portal-Sitzung mit Rechnungen, Zahlungsmitteln
+    // und Kündigung eines anderen Kunden zu öffnen.
+    const authHeader = request.headers.get('authorization');
+    const token = authHeader?.startsWith('Bearer ') ? authHeader.slice('Bearer '.length) : null;
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    const userId = user.id;
+
     if (action === 'portal') {
       console.log('🎯 Portal requested for userId:', userId);
       
@@ -309,21 +345,11 @@ export async function GET(request: NextRequest) {
         .eq('user_id', userId)
         .single();
     
-      console.log('📊 Database lookup result:', { 
-        profile, 
-        profileError,
-        searchedUserId: userId 
-      });
-    
+      if (profileError) {
+        console.error('❌ Portal: profile lookup failed:', profileError.message);
+      }
       if (!profile?.stripe_customer_id) {
-        return NextResponse.json({ 
-          error: 'No Stripe customer found',
-          debug: { 
-            userId, 
-            profile,
-            profileError: profileError?.message 
-          }
-        }, { status: 404 });
+        return NextResponse.json({ error: 'No Stripe customer found' }, { status: 404 });
       }
 
       const session = await stripe.billingPortal.sessions.create({

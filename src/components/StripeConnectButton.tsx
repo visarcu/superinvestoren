@@ -108,13 +108,15 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
   }
 
   async function handleCustomerPortal() {
-    if (!user) return;
+    if (!user || !session) return;
 
     setActionLoading(true);
     
     try {
-      console.log('🔍 Fetching portal for user_id:', user.id);
-      const response = await fetch(`/api/stripe/checkout?userId=${user.id}&action=portal`);
+      // Die Route öffnet das Portal nur noch für den angemeldeten Nutzer selbst
+      const response = await fetch('/api/stripe/checkout?action=portal', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
 
       if (!response.ok) {
         const errorData = await response.json();

@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
+import { verifyAdmin } from '@/lib/adminAuth';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
 
@@ -21,6 +22,13 @@ function getSupabaseAdmin() {
 }
 
 export async function POST(request: NextRequest) {
+  // Werkzeug für den Betreiber: Vorher konnte jeder per E-Mail-Adresse die
+  // Existenz eines Kontos samt Abo-Status abfragen und das Profil neu schreiben.
+  const admin = await verifyAdmin(request);
+  if (!admin.ok) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: admin.status ?? 401 });
+  }
+
   try {
     const body = await request.json();
     const { email, userId } = body;
@@ -235,27 +243,4 @@ export async function POST(request: NextRequest) {
       details: error instanceof Error ? error.message : String(error)
     }, { status: 500 });
   }
-}
-
-// GET endpoint for easy testing
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const email = searchParams.get('email');
-
-  if (!email) {
-    return NextResponse.json({
-      message: 'Stripe Sync Endpoint',
-      usage: 'POST with { email: "user@example.com" } or { userId: "uuid" }',
-      alternative: 'GET ?email=user@example.com'
-    });
-  }
-
-  // Redirect to POST with email
-  const response = await POST(new NextRequest(request.url, {
-    method: 'POST',
-    body: JSON.stringify({ email }),
-    headers: { 'Content-Type': 'application/json' }
-  }));
-
-  return response;
 }

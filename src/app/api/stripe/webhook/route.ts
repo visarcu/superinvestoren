@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
       hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
       hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
       hasServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-      serviceRoleLength: process.env.SUPABASE_SERVICE_ROLE_KEY?.length
     };
     console.log('🔧 Environment Check:', envCheck);
 
@@ -27,7 +26,6 @@ export async function POST(request: NextRequest) {
       hasBody: !!body,
       bodyLength: body.length,
       hasSignature: !!signature,
-      signature: signature?.substring(0, 50) + '...'
     });
 
     if (!signature) {
@@ -90,6 +88,17 @@ export async function POST(request: NextRequest) {
       default:
         console.log(`🔍 Unhandled event type: ${event.type}`);
         result = { handled: false, message: `Event type ${event.type} not handled` };
+    }
+
+    // Ein gescheiterter Handler (DB-Fehler, Nutzer nicht gefunden) muss als
+    // Fehler zurück: Mit 200 wiederholte Stripe das Ereignis nie, und ein
+    // zahlender Kunde blieb ohne Premium.
+    if (result && typeof result === 'object' && 'success' in result && (result as { success?: boolean }).success === false) {
+      console.error(`❌ Event ${event.type} failed:`, result);
+      return NextResponse.json(
+        { received: true, event_type: event.type, event_id: event.id, result },
+        { status: 500 }
+      );
     }
 
     console.log(`✅ Event ${event.type} processed:`, result);
@@ -231,7 +240,7 @@ async function handleCheckoutSessionCompleted(sessionData: any) {
 
 async function handleSubscriptionCreated(subscriptionData: any) {
   console.log('🆕 ==> SUBSCRIPTION CREATED <==');
-  console.log('📊 Subscription Data:', subscriptionData);
+  console.log('📊 Subscription:', { id: subscriptionData?.id, customer: subscriptionData?.customer, status: subscriptionData?.status });
   
   try {
     // Dynamic import für Admin Client
@@ -332,11 +341,17 @@ async function handleSubscriptionCreated(subscriptionData: any) {
 }
 
 async function handleInvoicePaymentSucceeded(invoiceData: any) {
-  console.log('💸 ==> INVOICE PAYMENT SUCCEEDED <==');
-  console.log('📊 Invoice Data:', invoiceData);
+  console.log('💸 ==> INVOICE PAYMENT SUCCEEDED <==', { invoice: invoiceData?.id, customer: invoiceData?.customer });
   
   try {
-    if (!invoiceData.subscription) {
+    // Unter API-Version basil (Endpoint auf 2025-04-30.basil) steht die Abo-ID
+    // in parent.subscription_details.subscription; invoice.subscription ist
+    // leer. Vorher galt jede Rechnung als "Non-subscription" und wurde übersprungen.
+    const invoiceSubscriptionId: string | null =
+      (typeof invoiceData.subscription === 'string' ? invoiceData.subscription : invoiceData.subscription?.id)
+      ?? invoiceData.parent?.subscription_details?.subscription
+      ?? null;
+    if (!invoiceSubscriptionId) {
       console.log('ℹ️ Invoice not related to subscription, skipping');
       return { success: true, message: 'Non-subscription invoice, skipped' };
     }
@@ -356,7 +371,7 @@ async function handleInvoicePaymentSucceeded(invoiceData: any) {
     );
 
     // Hole Subscription von Stripe
-    const subscription = await stripe.subscriptions.retrieve(invoiceData.subscription as string);
+    const subscription = await stripe.subscriptions.retrieve(invoiceSubscriptionId);
     
     // Finde User über Customer ID
     const customerId = subscription.customer as string;
@@ -422,7 +437,7 @@ async function handleInvoicePaymentSucceeded(invoiceData: any) {
 
 async function handleSubscriptionUpdated(subscriptionData: any) {
   console.log('🔄 ==> SUBSCRIPTION UPDATED <==');
-  console.log('📊 Subscription Data:', subscriptionData);
+  console.log('📊 Subscription:', { id: subscriptionData?.id, customer: subscriptionData?.customer, status: subscriptionData?.status });
   
   try {
     // Dynamic import für Admin Client
@@ -458,6 +473,10 @@ async function handleSubscriptionUpdated(subscriptionData: any) {
 // Zeile 426-427 in webhook/route.ts ändern zu:
 const isCanceled = subscriptionData.cancel_at_period_end === true;
 const isActive = subscriptionData.status === 'active' || subscriptionData.status === 'trialing';
+// Bei offener Zahlung (past_due) wiederholt Stripe den Einzug noch wochenlang;
+// Premium bleibt bis zum Enddatum, so wertet es auch der Abgleich-Cron. Vorher
+// verlor ein Kunde den Zugang beim ersten fehlgeschlagenen Einzug.
+const keepsPremium = isActive || subscriptionData.status === 'past_due';
     
     console.log('📊 Subscription Status Check:', {
       status: subscriptionData.status,
@@ -479,7 +498,7 @@ const isActive = subscriptionData.status === 'active' || subscriptionData.status
     }
     
     const updateData = {
-      is_premium: isActive,
+      is_premium: keepsPremium,
       subscription_status: isCanceled ? 'canceled' : subscriptionData.status,
       subscription_end_date: endDate.toISOString(),
       updated_at: new Date().toISOString()
@@ -514,7 +533,7 @@ const isActive = subscriptionData.status === 'active' || subscriptionData.status
 
 async function handleSubscriptionDeleted(subscriptionData: any) {
   console.log('❌ ==> SUBSCRIPTION DELETED <==');
-  console.log('📊 Subscription Data:', subscriptionData);
+  console.log('📊 Subscription:', { id: subscriptionData?.id, customer: subscriptionData?.customer, status: subscriptionData?.status });
   
   try {
     // Dynamic import für Admin Client
@@ -591,21 +610,4 @@ async function handleSubscriptionDeleted(subscriptionData: any) {
       error: error instanceof Error ? error.message : String(error) 
     };
   }
-}
-
-// GET für Webhook-Tests
-export async function GET(request: NextRequest) {
-  console.log('🔍 Webhook GET endpoint called');
-  
-  return NextResponse.json({ 
-    message: 'Stripe Webhook Endpoint - Fixed with Trial Support',
-    timestamp: new Date().toISOString(),
-    environment: {
-      hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
-      hasWebhookSecret: !!process.env.STRIPE_WEBHOOK_SECRET,
-      hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-      hasServiceRole: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
-      nodeEnv: process.env.NODE_ENV
-    }
-  });
 }

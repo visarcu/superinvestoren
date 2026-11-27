@@ -84,7 +84,8 @@ export default function PricingPage() {
     const shouldCheckout = searchParams.get('checkout') === 'true';
     const planParam = searchParams.get('plan') as 'monthly' | 'yearly' | null;
 
-    if (shouldCheckout && !loading && !premiumLoading && user && !autoCheckoutTriggered.current) {
+    // Bestandskunden nicht erneut in den Checkout schicken (Doppelabo)
+    if (shouldCheckout && !loading && !premiumLoading && user && !premiumStatus.isPremium && !autoCheckoutTriggered.current) {
       autoCheckoutTriggered.current = true;
       if (planParam === 'monthly' || planParam === 'yearly') {
         setSelectedPlan(planParam);
