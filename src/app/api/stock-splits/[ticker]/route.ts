@@ -9,6 +9,10 @@ interface StockSplit {
   splitType?: string
 }
 
+
+// Ohne Angabe fror Next 13.5 diese GET-Route samt FMP-Antworten pro Deployment
+// ein (Kurs, Kursziele, Surprises blieben auf dem Stand des ersten Aufrufs)
+export const revalidate = 900
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }

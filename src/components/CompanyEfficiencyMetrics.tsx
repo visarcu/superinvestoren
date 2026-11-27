@@ -333,7 +333,7 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 9, fill: 'var(--text-secondary)' }}
-                tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
                 width={25}
               />
               <RechartsTooltip
@@ -389,7 +389,7 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 9, fill: 'var(--text-secondary)' }}
-                tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                tickFormatter={(value) => `${Number(value).toFixed(0)}%`}
                 width={25}
               />
               <RechartsTooltip

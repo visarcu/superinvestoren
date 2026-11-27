@@ -303,13 +303,15 @@ export default function EnhancedDividendSection({
             <div>
               <p className="text-sm text-neutral-500 mb-1">FCF Coverage</p>
               <p className={`text-2xl font-bold ${
+                financialHealth.freeCashFlowCoverage <= 0 ? 'text-neutral-400' :
                 financialHealth.freeCashFlowCoverage >= 2 ? 'text-emerald-400' :
                 financialHealth.freeCashFlowCoverage >= 1 ? 'text-amber-400' : 'text-red-400'
               }`}>
-                {formatRatioDE(financialHealth.freeCashFlowCoverage)}
+                {financialHealth.freeCashFlowCoverage > 0 ? formatRatioDE(financialHealth.freeCashFlowCoverage) : '–'}
               </p>
               <p className="text-xs text-neutral-600 mt-1">
-                {financialHealth.freeCashFlowCoverage >= 2 ? 'Gut abgesichert' :
+                {financialHealth.freeCashFlowCoverage <= 0 ? 'Keine Ausschüttung im letzten Jahr' :
+                 financialHealth.freeCashFlowCoverage >= 2 ? 'Gut abgesichert' :
                  financialHealth.freeCashFlowCoverage >= 1 ? 'Solide gedeckt' : 'Knapp gedeckt'}
               </p>
             </div>

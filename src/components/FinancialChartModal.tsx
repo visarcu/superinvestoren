@@ -53,7 +53,7 @@ interface FinancialChartModalProps {
 }
 
 // CAGR Calculator
-const calculateCAGR = (data: any[], key: string, periods: number): number | null => {
+const calculateCAGR = (data: any[], key: string, periods: number, periodsPerYear = 1): number | null => {
   if (data.length < 2) return null
 
   const relevantData = data.filter(d => d[key] != null && d[key] > 0).slice(-periods)
@@ -61,11 +61,13 @@ const calculateCAGR = (data: any[], key: string, periods: number): number | null
 
   const startValue = relevantData[0][key]
   const endValue = relevantData[relevantData.length - 1][key]
-  const n = relevantData.length - 1
+  // In Jahren rechnen: Bei Quartalsdaten war der Exponent die Zahl der Quartale,
+  // "1J CAGR" zeigte so eine Quartalsrate (+4,7 % statt +20 %).
+  const years = (relevantData.length - 1) / periodsPerYear
 
-  if (startValue <= 0 || endValue <= 0 || n <= 0) return null
+  if (startValue <= 0 || endValue <= 0 || years <= 0) return null
 
-  const cagr = Math.pow(endValue / startValue, 1 / n) - 1
+  const cagr = Math.pow(endValue / startValue, 1 / years) - 1
   return cagr * 100
 }
 
@@ -360,9 +362,10 @@ export default function FinancialChartModal({
     : null
   const segmentPatternId = `segment-unassigned-modal-${metricKey}`
   // CAGR: Korrekte Periodenanzahl (quarterly: 4 pro Jahr, annual: 1 pro Jahr) + 1 für Start/End
-  const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 5 : 2) : null
-  const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 13 : 4) : null
-  const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 21 : 6) : null
+  const perYear = period === 'quarterly' ? 4 : 1
+  const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 5 : 2, perYear) : null
+  const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 13 : 4, perYear) : null
+  const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 21 : 6, perYear) : null
 
   // YoY: Aktuelle Veränderung zum Vorjahr (bei Quartalen: Vorjahresquartal)
   const isQuarterly = period === 'quarterly'

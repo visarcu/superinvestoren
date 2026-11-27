@@ -66,10 +66,13 @@ const FALLBACK_FCF_MULTIPLE = 20
 const parseDE = (val: string) => parseFloat(val.replace(',', '.'))
 
 // Helper: 5-Jahres-CAGR aus YoY-Wachstumsraten (geometrisches Mittel)
-const cagr5Y = (values: number[]) =>
-  values.length > 0
-    ? (Math.pow(values.reduce((a, b) => a * (1 + b), 1), 1 / values.length) - 1) * 100
-    : 0
+const cagr5Y = (values: number[]) => {
+  // Jahre mit Wachstum ≤ −100 % (Gewinn → Verlust) machen das Produkt negativ und
+  // das Mittel NaN; sie bleiben außen vor.
+  const usable = values.filter(b => Number.isFinite(b) && 1 + b > 0)
+  if (usable.length === 0) return 0
+  return (Math.pow(usable.reduce((a, b) => a * (1 + b), 1), 1 / usable.length) - 1) * 100
+}
 
 // Unter so vielen verwertbaren Jahren ist ein Median nicht aussagekräftig
 const MIN_MEDIAN_YEARS = 3

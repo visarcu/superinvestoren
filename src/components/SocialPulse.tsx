@@ -155,7 +155,9 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
     )
   }
 
-  const sentimentScore = Math.round((stats.avgSentiment + 1) * 50)
+  // FMP-Sentiment liegt zwischen 0 und 1; die alte Formel ((x + 1) × 50) hob
+  // neutrale Stimmung auf 75/100 "Bullish"
+  const sentimentScore = Math.round(Math.max(0, Math.min(1, stats.avgSentiment)) * 100)
 
   return (
     <div className="space-y-6">

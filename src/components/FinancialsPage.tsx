@@ -265,7 +265,8 @@ const GrowthIndicator = ({ current, previous }: {
 }) => {
   if (!current || !previous) return null
 
-  const growth = ((current - previous) / previous) * 100
+  // Betrag im Nenner: Bei negativer Basis (Verlustjahr) kippte sonst das Vorzeichen
+  const growth = ((current - previous) / Math.abs(previous)) * 100
   const isPositive = growth >= 0
 
   return (
@@ -693,7 +694,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 <td className="py-3 text-theme-primary">{GERMAN_LABELS.net_interest_expense}</td>
                 {incomeData.map((item) => (
                   <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
-                    {formatFinancialNumber((item.interestIncome || 0) + (item.interestExpense || 0))}
+                    {formatFinancialNumber((item.interestExpense || 0) - (item.interestIncome || 0))}
                   </td>
                 ))}
               </tr>

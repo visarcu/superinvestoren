@@ -108,7 +108,9 @@ async function getSecOverrides(
       if (p.grossProfit !== null) o.grossProfit = p.grossProfit
       if (p.operatingIncome !== null) o.operatingIncome = p.operatingIncome
       if (p.costOfRevenue !== null) o.costOfRevenue = p.costOfRevenue
-      if (p.eps !== null) o.eps = p.eps
+      // Kein EPS und keine Aktienzahlen aus SEC: XBRL-Fakten sind "as reported" zum
+      // Filing-Zeitpunkt und nicht splitbereinigt. NVDA zeigte 2022 3,85 $ neben
+      // 2023 0,17 $ (10:1-Split), die Aktienzahl eine Verzehnfachung. FMP ist bereinigt.
       if (p.rd !== null) o.researchAndDevelopmentExpenses = p.rd
       if (p.sga !== null) o.sellingGeneralAndAdministrative = p.sga
       if (p.incomeTax !== null) o.incomeTaxExpense = p.incomeTax
@@ -125,7 +127,6 @@ async function getSecOverrides(
       if (p.accountsPayable !== null) o.accountPayables = p.accountsPayable
       if (p.goodwill !== null) o.goodwill = p.goodwill
       if (p.propertyPlantEquip !== null) o.propertyPlantEquipmentNet = p.propertyPlantEquip
-      if (p.sharesOutstanding !== null) { o.commonStockSharesOutstanding = p.sharesOutstanding; o.weightedAverageShsOut = p.sharesOutstanding }
       // Cash Flow
       if (p.operatingCashFlow !== null) o.operatingCashFlow = p.operatingCashFlow
       if (p.capex !== null) o.capitalExpenditure = -Math.abs(p.capex) // FMP speichert CapEx als negativ
@@ -275,13 +276,10 @@ export async function GET(
           ...(o.grossProfit !== undefined && { grossProfit: o.grossProfit }),
           ...(o.operatingIncome !== undefined && { operatingIncome: o.operatingIncome }),
           ...(o.costOfRevenue !== undefined && { costOfGoodsAndServicesSold: o.costOfRevenue, costOfRevenue: o.costOfRevenue }),
-          ...(o.eps !== undefined && { eps: o.eps }),
           ...(o.researchAndDevelopmentExpenses !== undefined && { researchAndDevelopmentExpenses: o.researchAndDevelopmentExpenses }),
           ...(o.sellingGeneralAndAdministrative !== undefined && { sellingGeneralAndAdministrative: o.sellingGeneralAndAdministrative }),
           ...(o.incomeTaxExpense !== undefined && { incomeTaxExpense: o.incomeTaxExpense }),
           ...(o.depreciationAndAmortization !== undefined && { depreciationAndAmortization: o.depreciationAndAmortization }),
-          // Shares (auch im Income Statement für EPS-Berechnung)
-          ...(o.weightedAverageShsOut !== undefined && { weightedAverageShsOut: o.weightedAverageShsOut }),
           _source: 'sec-xbrl',
         }
       })
@@ -306,7 +304,6 @@ export async function GET(
           ...(o.accountPayables !== undefined && { accountPayables: o.accountPayables }),
           ...(o.goodwill !== undefined && { goodwill: o.goodwill }),
           ...(o.propertyPlantEquipmentNet !== undefined && { propertyPlantEquipmentNet: o.propertyPlantEquipmentNet }),
-          ...(o.commonStockSharesOutstanding !== undefined && { commonStockSharesOutstanding: o.commonStockSharesOutstanding }),
           _source: 'sec-xbrl',
         }
       })

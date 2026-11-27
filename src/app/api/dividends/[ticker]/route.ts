@@ -388,8 +388,10 @@ async function getFinancialHealthMetrics(ticker: string, apiKey: string): Promis
     
     // Calculate key metrics with proper type checking
     const metrics: FinancialHealthMetrics = {
-      freeCashFlowCoverage: (cashFlow.freeCashFlow && income.totalDebt) ? 
-        cashFlow.freeCashFlow / (income.totalDebt || 1) : 0,
+      // Freier Cashflow je ausgeschüttetem Euro. Vorher stand hier FCF / totalDebt
+      // aus der GuV, wo es kein totalDebt gibt: jeder Titel zeigte 0,00x.
+      freeCashFlowCoverage: (cashFlow.freeCashFlow && cashFlow.dividendsPaid) ?
+        cashFlow.freeCashFlow / Math.abs(cashFlow.dividendsPaid) : 0,
       debtToEquity: (balance.totalDebt && balance.totalStockholdersEquity) ? 
         balance.totalDebt / balance.totalStockholdersEquity : 0,
       interestCoverage: (income.ebitda && income.interestExpense) ? 
@@ -625,6 +627,10 @@ async function getDirectStockQuote(ticker: string, apiKey: string) {
   }
 }
 
+
+// Ohne Angabe fror Next 13.5 diese GET-Route samt FMP-Antworten pro Deployment
+// ein (Kurs, Kursziele, Surprises blieben auf dem Stand des ersten Aufrufs)
+export const revalidate = 900
 export async function GET(
   req: Request,
   { params }: { params: { ticker: string } }

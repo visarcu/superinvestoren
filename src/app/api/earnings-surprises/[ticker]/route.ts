@@ -1,6 +1,10 @@
 // src/app/api/earnings-surprises/[ticker]/route.ts
 import { NextResponse } from 'next/server'
 
+
+// Ohne Angabe fror Next 13.5 diese GET-Route samt FMP-Antworten pro Deployment
+// ein (Kurs, Kursziele, Surprises blieben auf dem Stand des ersten Aufrufs)
+export const revalidate = 900
 export async function GET(
   req: Request,
   { params }: { params: { ticker: string } }

@@ -199,6 +199,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   const [livePriceAvg200, setLivePriceAvg200] = useState<number | null>(null)
   const [volume, setVolume] = useState<number | null>(null)
   const [previousClose, setPreviousClose] = useState<number | null>(null)
+  const [dayLow, setDayLow] = useState<number | null>(null)
+  const [dayHigh, setDayHigh] = useState<number | null>(null)
   const [week52Low, setWeek52Low] = useState<number | null>(null)
   const [week52High, setWeek52High] = useState<number | null>(null)
 
@@ -464,6 +466,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           setLivePriceAvg200(q.priceAvg200)
           setVolume(q.volume)
           setPreviousClose(q.previousClose)
+          setDayLow(typeof q.dayLow === 'number' && q.dayLow > 0 ? q.dayLow : null)
+          setDayHigh(typeof q.dayHigh === 'number' && q.dayHigh > 0 ? q.dayHigh : null)
           setWeek52Low(q.yearLow)
           setWeek52High(q.yearHigh)
         } catch {
@@ -745,8 +749,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                   <div className="flex justify-between items-center py-2.5">
                     <span className="text-sm text-theme-secondary">Tagesspanne</span>
                     <span className="text-sm font-semibold text-theme-primary">
-                      {previousClose && livePrice
-                        ? `${Math.min(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${Math.max(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
+                      {dayLow && dayHigh
+                        ? `${dayLow.toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${dayHigh.toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
                         : '–'}
                     </span>
                   </div>

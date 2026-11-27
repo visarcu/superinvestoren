@@ -194,26 +194,10 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
   }
 
   // Prepare data for EPS Revision Trend Chart
-  const epsRevisionTrendData = estimates
-    .filter(e => {
-      const year = parseInt(e.date.slice(0, 4))
-      return year >= new Date().getFullYear() && year <= new Date().getFullYear() + 3
-    })
-    .map(e => {
-      const year = e.date.slice(0, 4)
-      // Simuliere historische Revisionen
-      const monthlyData = []
-      for (let i = 5; i >= 0; i--) {
-        const date = new Date()
-        date.setMonth(date.getMonth() - i)
-        const variation = 1 + (Math.random() - 0.5) * 0.1 // ±5% Variation
-        monthlyData.push({
-          month: date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' }),
-          [`FY${year}`]: e.estimatedEpsAvg * variation
-        })
-      }
-      return monthlyData
-    }).flat()
+  // Revisionsverläufe brauchen gespeicherte Konsens-Stände (Snapshots). Bis die
+  // vorliegen, bleibt die Kurve leer; vorher wurde sie aus Zufallszahlen um den
+  // heutigen Konsens gebildet und bei jedem Rendern neu gewürfelt.
+  const epsRevisionTrendData: Record<string, string | number>[] = []
 
   // Gruppiere die Daten nach Monat
   const groupedEpsData = epsRevisionTrendData.reduce((acc: any[], curr) => {
@@ -227,25 +211,7 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
   }, [])
 
   // Prepare data for Revenue Revision Trend Chart
-  const revenueRevisionTrendData = estimates
-    .filter(e => {
-      const year = parseInt(e.date.slice(0, 4))
-      return year >= new Date().getFullYear() && year <= new Date().getFullYear() + 3
-    })
-    .map(e => {
-      const year = e.date.slice(0, 4)
-      const monthlyData = []
-      for (let i = 5; i >= 0; i--) {
-        const date = new Date()
-        date.setMonth(date.getMonth() - i)
-        const variation = 1 + (Math.random() - 0.5) * 0.05 // ±2.5% Variation
-        monthlyData.push({
-          month: date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' }),
-          [`FY${year}`]: e.estimatedRevenueAvg * variation / 1e9 // In Billions
-        })
-      }
-      return monthlyData
-    }).flat()
+  const revenueRevisionTrendData: Record<string, string | number>[] = []
 
   // Gruppiere die Revenue Daten nach Monat
   const groupedRevenueData = revenueRevisionTrendData.reduce((acc: any[], curr) => {
@@ -299,7 +265,7 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
       </div>
 
       {/* Revision Summary Cards */}
-      {revisionSummary && (
+      {revisionSummary && revisionHistory.length > 0 && (
         <div>
           <h3 className="text-lg font-semibold text-theme-primary mb-4">
             Revisionen der letzten 3 Monate
@@ -400,7 +366,8 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
               )
             })}
           </div>
-          <ResponsiveContainer width="100%" height={350}>
+          {groupedEpsData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={350}>
             <LineChart data={groupedEpsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis dataKey="month" stroke="var(--text-muted)" />
@@ -431,6 +398,9 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
               })}
             </LineChart>
           </ResponsiveContainer>
+          ) : (
+            <p className="text-sm text-theme-muted py-8 text-center">Ein Verlauf der Konsensschätzungen entsteht, sobald mehrere Stände vorliegen. Aktuell zeigen wir nur den heutigen Konsens.</p>
+          )}
         </div>
         
         <div className="px-6 pb-4 flex justify-end">
@@ -458,7 +428,8 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
               )
             })}
           </div>
-          <ResponsiveContainer width="100%" height={350}>
+          {groupedRevenueData.length > 0 ? (
+            <ResponsiveContainer width="100%" height={350}>
             <LineChart data={groupedRevenueData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis dataKey="month" stroke="var(--text-muted)" />
@@ -489,6 +460,9 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
               })}
             </LineChart>
           </ResponsiveContainer>
+          ) : (
+            <p className="text-sm text-theme-muted py-8 text-center">Ein Verlauf der Konsensschätzungen entsteht, sobald mehrere Stände vorliegen. Aktuell zeigen wir nur den heutigen Konsens.</p>
+          )}
         </div>
         
         <div className="px-6 pb-4 flex justify-end">
@@ -507,8 +481,6 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
                   <th>Geschäftsjahr</th>
                   <th className="text-right">EPS Schätzung</th>
                   <th className="text-right">YoY Wachstum</th>
-                  <th className="text-right">1M Trend</th>
-                  <th className="text-right">3M Trend</th>
                   <th className="text-right">Umsatz Schätzung</th>
                   <th className="text-right">YoY Wachstum</th>
                 </tr>
@@ -517,16 +489,12 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
                 {estimates.slice(0, 6).map((e, idx) => {
                   const year = parseInt(e.date.slice(0, 4))
                   const prevEstimate = estimates[idx + 1]
-                  const epsGrowth = prevEstimate 
-                    ? ((e.estimatedEpsAvg - prevEstimate.estimatedEpsAvg) / prevEstimate.estimatedEpsAvg) * 100
+                  const epsGrowth = prevEstimate && prevEstimate.estimatedEpsAvg
+                    ? ((e.estimatedEpsAvg - prevEstimate.estimatedEpsAvg) / Math.abs(prevEstimate.estimatedEpsAvg)) * 100
                     : 0
-                  const revenueGrowth = prevEstimate
-                    ? ((e.estimatedRevenueAvg - prevEstimate.estimatedRevenueAvg) / prevEstimate.estimatedRevenueAvg) * 100
+                  const revenueGrowth = prevEstimate && prevEstimate.estimatedRevenueAvg
+                    ? ((e.estimatedRevenueAvg - prevEstimate.estimatedRevenueAvg) / Math.abs(prevEstimate.estimatedRevenueAvg)) * 100
                     : 0
-                  
-                  // Simuliere Trends
-                  const trend1M = (Math.random() - 0.5) * 5
-                  const trend3M = (Math.random() - 0.5) * 10
                   
                   return (
                     <tr key={e.date}>
@@ -536,16 +504,6 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
                         epsGrowth >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(epsGrowth)}
-                      </td>
-                      <td className={`text-right ${
-                        trend1M >= 0 ? 'text-brand-light' : 'text-red-400'
-                      }`}>
-                        {trend1M >= 0 ? '+' : ''}{trend1M.toFixed(2)}%
-                      </td>
-                      <td className={`text-right ${
-                        trend3M >= 0 ? 'text-brand-light' : 'text-red-400'
-                      }`}>
-                        {trend3M >= 0 ? '+' : ''}{trend3M.toFixed(2)}%
                       </td>
                       <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
                       <td className={`text-right font-medium ${

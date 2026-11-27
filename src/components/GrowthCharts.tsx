@@ -141,8 +141,9 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker, timeframe = 'MAX' }
 
           let fcfGrowth = 0;
           if (cfData && prevCfData) {
-            const currentFCF = cfData.freeCashFlow || (cfData.operatingCashFlow - cfData.capitalExpenditure);
-            const prevFCF = prevCfData.freeCashFlow || (prevCfData.operatingCashFlow - prevCfData.capitalExpenditure);
+            // FMP speichert CapEx negativ: FCF = OCF − |CapEx|
+            const currentFCF = cfData.freeCashFlow || (cfData.operatingCashFlow - Math.abs(cfData.capitalExpenditure));
+            const prevFCF = prevCfData.freeCashFlow || (prevCfData.operatingCashFlow - Math.abs(prevCfData.capitalExpenditure));
             
             if (prevFCF && prevFCF !== 0) {
               fcfGrowth = ((currentFCF - prevFCF) / Math.abs(prevFCF)) * 100;
@@ -161,7 +162,7 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker, timeframe = 'MAX' }
             ebitda: current.ebitda || 0,
             ebitdaGrowth: clampGrowth(safe(ebitdaGrowth)),
             ebitdaGrowthRaw: safe(ebitdaGrowth),
-            fcf: cfData?.freeCashFlow || (cfData?.operatingCashFlow - cfData?.capitalExpenditure) || 0,
+            fcf: cfData?.freeCashFlow || (cfData?.operatingCashFlow - Math.abs(cfData?.capitalExpenditure)) || 0,
             fcfGrowth: clampGrowth(safe(fcfGrowth)),
             fcfGrowthRaw: safe(fcfGrowth),
             netIncome: current.netIncome || 0,
@@ -201,7 +202,7 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker, timeframe = 'MAX' }
             eps: g.epsGrowth3Y || 0,
             ebitda: g.ebitdaGrowth3Y || 0,
             fcf: g.fcfGrowth3Y || 0,
-            netIncome: calculateCAGR(incomeData?.statements || [], 'netIncome', 3)
+            netIncome: calculateCAGR(incomeData || [], 'netIncome', 3)
           });
         }
         
@@ -252,9 +253,11 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker, timeframe = 'MAX' }
     const endValue = sorted[0][metric];
     const startValue = sorted[Math.min(years, sorted.length - 1)][metric];
     
-    if (!startValue || startValue === 0 || !endValue) return 0;
+    // Nur bei positiven Werten an beiden Enden definiert; Gewinn → Verlust ergab
+    // über den Betrag ein positives Wachstum
+    if (!startValue || !endValue || startValue <= 0 || endValue <= 0) return 0;
     
-    const cagr = (Math.pow(Math.abs(endValue / startValue), 1 / years) - 1) * 100;
+    const cagr = (Math.pow(endValue / startValue, 1 / years) - 1) * 100;
     return isFinite(cagr) ? cagr : 0;
   };
 
