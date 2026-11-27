@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabaseClient';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { FOUNDER_YEARLY_EUR, getPriceKey, type PriceKey } from '@/lib/pricing';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {});
@@ -15,6 +16,20 @@ const PRICE_IDS: Record<PriceKey, string | undefined> = {
   monthly_2027: process.env.STRIPE_PRICE_ID_MONTHLY_2027,
   yearly_2027: process.env.STRIPE_PRICE_ID_YEARLY_2027,
 };
+
+// Kundennummer am Profil speichern. Bisher lief das über den anonymen Client:
+// Die Rolle hat auf profiles kein UPDATE-Recht, jeder Versuch endete still mit
+// "permission denied" (Postgres-Log), die Nummer blieb leer und jeder Checkout
+// suchte den Kunden erneut über die E-Mail bei Stripe.
+async function saveStripeCustomerId(userId: string, customerId: string): Promise<void> {
+  const { error } = await supabaseAdmin
+    .from('profiles')
+    .update({ stripe_customer_id: customerId })
+    .eq('user_id', userId);
+  if (error) {
+    console.error('❌ Could not save stripe_customer_id:', error.message);
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -67,7 +82,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('✅ Valid session, user email:', user.email);
+    console.log('✅ Valid session');
 
     // 4. Test Stripe Connection
     console.log('🧪 Testing Stripe connection...');
@@ -98,10 +113,7 @@ export async function POST(request: NextRequest) {
         console.log('✅ Found existing Stripe customer by email:', customerId);
         
         // Update die Supabase DB mit dieser Customer ID
-        await supabase
-          .from('profiles')
-          .update({ stripe_customer_id: customerId })
-          .eq('user_id', userId);
+        await saveStripeCustomerId(userId, customerId);
       }
     } catch (searchError) {
       console.log('⚠️ Could not search for existing customers:', searchError);
@@ -109,7 +121,7 @@ export async function POST(request: NextRequest) {
     
     // Falls kein Customer gefunden, dann normale Logik
     if (!customerId) {
-      const { data: profile } = await supabase
+      const { data: profile } = await supabaseAdmin
         .from('profiles')
         .select('stripe_customer_id')
         .eq('user_id', userId)
@@ -133,10 +145,7 @@ export async function POST(request: NextRequest) {
           customerId = customer.id;
           
           // Update mit neuer Customer ID
-          await supabase
-            .from('profiles')
-            .update({ stripe_customer_id: customerId })
-            .eq('user_id', userId);
+          await saveStripeCustomerId(userId, customerId);
           
           console.log('✅ New customer created and saved:', customerId);
         }
@@ -151,10 +160,7 @@ export async function POST(request: NextRequest) {
         customerId = customer.id;
         
         // Save to database
-        await supabase
-          .from('profiles')
-          .update({ stripe_customer_id: customerId })
-          .eq('user_id', userId);
+        await saveStripeCustomerId(userId, customerId);
         
         console.log('✅ Customer created and saved:', customerId);
       }

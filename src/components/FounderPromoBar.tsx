@@ -29,7 +29,7 @@ export default function FounderPromoBar() {
       className="block w-full border-b border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-center text-sm text-white transition-colors hover:bg-emerald-500/15"
     >
       🔥 Black Friday: Premium-Jahresabo zum Gründerpreis von{' '}
-      <span className="font-semibold">{formatEur(pricing.yearly)} €</span> – dauerhaft. Nur bis 30. November.{' '}
+      <span className="font-semibold">{formatEur(pricing.yearly)} €</span>, dauerhaft. Nur bis 30. November.{' '}
       <span className="font-medium text-emerald-400">Jetzt sichern →</span>
     </Link>
   )

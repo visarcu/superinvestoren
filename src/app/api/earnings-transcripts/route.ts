@@ -164,8 +164,12 @@ async function saveTranscriptToSupabase(transcript: Transcript) {
       })
 
     if (error) {
-      // Ignoriere Duplikat-Fehler
-      if (!error.message.includes('duplicate') && !error.code?.includes('23505')) {
+      // Fehlerobjekte ohne message (Netzwerk, abgebrochene Verbindung) warfen hier
+      // einen TypeError. Duplikate (23505) und eine fehlende Tabelle (42P01) sind
+      // kein Fehler: Die Antwort an den Nutzer kommt ohnehin aus FMP.
+      const message = typeof error.message === 'string' ? error.message : ''
+      const code = typeof error.code === 'string' ? error.code : ''
+      if (!message.includes('duplicate') && code !== '23505' && code !== '42P01') {
         console.error('Error saving transcript:', error)
       }
     } else {
