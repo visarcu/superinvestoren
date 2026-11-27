@@ -1866,7 +1866,7 @@ export default function CSVImportModal({
                   <p className="text-xs font-medium text-amber-400 mb-1">Hinweise:</p>
                   <ul className="space-y-0.5">
                     {[...pdfErrors, ...importWarnings, ...importNotices].map((err, i) => (
-                      <li key={i} className="text-xs text-neutral-400">• {err}</li>
+                      <li key={i} className="text-xs text-neutral-400">• {typeof err === 'string' ? err : JSON.stringify(err)}</li>
                     ))}
                   </ul>
                 </div>

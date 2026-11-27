@@ -52,6 +52,18 @@ export const maxDuration = 60
  * die Meldung im Server-Log: Ein Nutzer bekam drei Dateiformate lang "keine
  * Transaktionen", und nichts verriet, woran es lag. Keine Inhalte, nur Struktur.
  */
+/** Übersprungene Zeile als Satz: "datei.csv, Zeile 7: Status: Cancelled (…)" */
+function skippedToText(entry: unknown): string {
+  if (typeof entry === 'string') return entry
+  if (entry && typeof entry === 'object') {
+    const e = entry as { file?: string; row?: number; reason?: string; data?: string }
+    const where = [e.file, e.row !== undefined ? `Zeile ${e.row}` : null].filter(Boolean).join(', ')
+    const detail = e.data ? ` (${String(e.data).slice(0, 80)})` : ''
+    return `${where ? `${where}: ` : ''}${e.reason ?? 'übersprungen'}${detail}`
+  }
+  return String(entry)
+}
+
 function respond(
   // Die CSV-Parser melden Übersprungenes als Objekte, die anderen als Text
   payload: { format: string; transactions: unknown[]; errors?: unknown[] } & Record<string, unknown>,
@@ -60,7 +72,11 @@ function respond(
   if (payload.transactions.length === 0) {
     console.warn('[import-auto] keine Transaktionen', JSON.stringify({
       format: payload.format,
-      errors: payload.errors ?? [],
+      // Die CSV-Parser melden Übersprungenes als Objekte {row, reason, data}, die
+      // Oberfläche rendert die Liste als Text: Ein Objekt ließ React abstürzen
+      // ("Objects are not valid as a React child"), sobald eine Datei nur
+      // stornierte oder nicht unterstützte Zeilen enthielt.
+      errors: (payload.errors ?? []).map(skippedToText),
       ...structure,
     }))
   }
@@ -161,7 +177,7 @@ async function parseMultipleCsv(files: File[]) {
   let duplicateRows = 0
 
   for (const file of files) {
-    const text = await file.text()
+    const text = (await file.text()).replace(/^\uFEFF/, '')
     const format = detectCsvFormat(text)
     if (!format) {
       errors.push(
@@ -403,6 +419,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Keine Datei empfangen' }, { status: 400 })
     }
 
+    if (files.length > 200) {
+      return NextResponse.json({ error: 'Höchstens 200 Dateien je Import.' }, { status: 400 })
+    }
+
     // Max-Größe: 10MB pro Datei
     for (const f of files) {
       if (f.size > 10 * 1024 * 1024) {
@@ -421,7 +441,7 @@ export async function POST(request: Request) {
         return await parseMultipleCsv(csvFiles)
       }
 
-      const text = await firstFile.text()
+      const text = (await firstFile.text()).replace(/^\uFEFF/, '')
 
       // Auto-Detection über Header — Trade Republic CSV (seit April 2026)
       if (isTradeRepublicCSV(text)) {
