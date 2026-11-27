@@ -207,7 +207,7 @@ export async function sendTrialEndingEmail(
                   <li style="margin-bottom:4px;">Alle Superinvestor-Portfolios + Benachrichtigungen</li>
                   <li style="margin-bottom:4px;">Vollständige Aktienanalyse (DCF, Kennzahlen, Schätzungen)</li>
                   <li style="margin-bottom:4px;">Portfolio-Tracker mit Performance & Dividenden</li>
-                  <li style="margin-bottom:0;">Finclue AI – KI-Analyse für jede Aktie</li>
+                  <li style="margin-bottom:0;">Finclue AI: KI-Analyse für jede Aktie</li>
                 </ul>
               </div>
 
@@ -219,7 +219,7 @@ export async function sendTrialEndingEmail(
                 </a>
               </div>
               <div style="text-align:center;">
-                <a href="${BASE_URL}/analyse/portfolio/einstellungen"
+                <a href="${BASE_URL}/profile"
                    style="color:#9ca3af;text-decoration:none;font-size:13px;">
                   Abo kündigen
                 </a>
