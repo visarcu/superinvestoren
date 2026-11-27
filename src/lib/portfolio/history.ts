@@ -40,6 +40,7 @@ import {
 import { getInstrumentsForSymbols, resolveSymbolViaSearch } from '@/lib/marketData/instrumentStore'
 import { yahooSymbolFromEodhd } from '@/lib/marketData/symbols'
 import { fetchFmpJson, isOutage } from '@/lib/marketData/fmpRequest'
+import { fetchFmpCurrencies } from '@/lib/marketData/providers/fmpQuotes'
 import { fetchYahooFx, isFxPair } from '@/lib/marketData/yahooFx'
 import { missedSplitDivisors, yahooSplitEvents } from '@/lib/marketData/yahooSplits'
 import type { Instrument } from '@/lib/marketData/types'
@@ -94,15 +95,18 @@ function isEURTicker(symbol: string): boolean {
   return /\.(DE|F|SG|DU|MU|HM|BE|PA|AS|MI|MC|BR|LI|VI|AT|HE|ZU|IR|LS)$/i.test(symbol)
 }
 
-// Erkennt ob ein Ticker in GBX (Pence) notiert ist (London Stock Exchange)
-function isGBXTicker(symbol: string): boolean {
+// Londoner Kürzel (.L). Die meisten Linien notieren in Pence (GBX), daneben gibt
+// es Pfund-Linien (VUSA.L) und Dollar-Linien (COPA.L, BITC.L). Welche es ist,
+// sagen FMP-Profil, Yahoo oder der Stammsatz (fetchHistoricalSeries); das Suffix
+// allein steht nur für die Annahme Pence.
+function isLondonTicker(symbol: string): boolean {
   return /\.L$/i.test(symbol)
 }
 
 // Kurs-Währung je Börsen-Suffix. FMP/Yahoo liefern Kurse in der Heimatwährung
 // des Listings (verifiziert u. a. NESN.SW in CHF, 8035.T in JPY) — ohne diese
 // Zuordnung liefen alle Nicht-EUR/GBX-Titel als USD durch die Umrechnung.
-// EUR-Suffixe deckt isEURTicker ab, London (Pence) isGBXTicker.
+// EUR-Suffixe deckt isEURTicker ab, London isLondonTicker.
 const SUFFIX_CURRENCY: Record<string, string> = {
   SW: 'CHF', T: 'JPY', TO: 'CAD', V: 'CAD', AX: 'AUD', HK: 'HKD',
   KS: 'KRW', KQ: 'KRW', TW: 'TWD', TWO: 'TWD', SS: 'CNY', SZ: 'CNY',
@@ -111,10 +115,10 @@ const SUFFIX_CURRENCY: Record<string, string> = {
   MX: 'MXN', SR: 'SAR', QA: 'QAR', KW: 'KWD', JO: 'ZAR',
 }
 
-/** Notierungswährung laut Suffix, ohne Suffix USD. 'GBX' = Pence. */
+/** Notierungswährung laut Suffix, ohne Suffix USD. 'GBX' = Pence (für .L nur die Annahme). */
 function suffixCurrency(symbol: string): string {
   if (isEURTicker(symbol)) return 'EUR'
-  if (isGBXTicker(symbol)) return 'GBX'
+  if (isLondonTicker(symbol)) return 'GBX'
   const dot = symbol.lastIndexOf('.')
   if (dot < 0) return 'USD'
   return SUFFIX_CURRENCY[symbol.slice(dot + 1).toUpperCase()] || 'USD'
@@ -162,8 +166,29 @@ const FX_EUR_APPROX: Record<string, number> = {
   TRY: 0.021, MXN: 0.047, SAR: 0.24, QAR: 0.25, KWD: 2.9, ZAR: 0.049,
 }
 
+/** Kursreihe samt Notierungswährung der Quelle */
+interface HistoricalSeries {
+  points: HistoricalDataPoint[]
+  /** 'GBX' = Pence; null, wenn die Quelle keine Währung nennt (dann gilt Stammsatz oder Suffix) */
+  currency: string | null
+  /** Kürzel, unter dem die Quelle geliefert hat */
+  sourceSymbol: string | null
+}
+const emptySeries = (): HistoricalSeries => ({ points: [], currency: null, sourceSymbol: null })
+
+// Währungen, mit denen der Verlauf rechnen kann. Nennt eine Quelle etwas anderes
+// (Yahoo schreibt südafrikanische Cent als 'ZAc'), bleibt es bei der Suffix-Heuristik.
+const KNOWN_CURRENCIES = new Set(['EUR', 'USD', 'GBP', 'GBX', ...Object.values(SUFFIX_CURRENCY)])
+
+/** Währungsangabe einer Quelle oder des Stammsatzes normieren: 'GBp' (Yahoo) ist Pence. */
+function sourceCurrency(raw: unknown): string | null {
+  if (typeof raw !== 'string' || !raw) return null
+  const code = raw === 'GBp' || raw.toUpperCase() === 'GBX' ? 'GBX' : raw.toUpperCase()
+  return KNOWN_CURRENCIES.has(code) ? code : null
+}
+
 // In-memory cache für API-Responses (24h TTL)
-const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number, ttl: number }>()
+const historyCache = new Map<string, { data: HistoricalSeries, timestamp: number, ttl: number }>()
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 Stunden
 // War eine Quelle nur gestört (Zeitüberschreitung, Abruflimit, Serverfehler),
 // gilt ein leeres oder ersatzweises Ergebnis nur kurz. Sonst rechnet der Verlauf
@@ -205,7 +230,7 @@ async function loadGbpEurRates(fromDate: string, toDate: string): Promise<Array<
  * die FMP nicht direkt kennt — bei einem User mit 47k in FWIA.DE führte
  * das dazu, dass der Chart 24k statt 70k zeigte.
  */
-async function fetchHistoricalPrices(
+async function fetchHistoricalSeries(
   symbol: string,
   fromDate: string,
   toDate: string,
@@ -216,7 +241,7 @@ async function fetchHistoricalPrices(
   // Stammdaten-Notierung als letzter Fallback, wenn das rohe Symbol bei
   // keiner Quelle Daten liefert (Broker-Pseudo-Ticker wie 'MUV2.EU').
   instrument: Instrument | null = null
-): Promise<HistoricalDataPoint[]> {
+): Promise<HistoricalSeries> {
   // Mit/ohne Instrument getrennt cachen — sonst würde das leere Ergebnis des
   // ersten (instrumentlosen) Versuchs den Fallback-Versuch aushebeln.
   const cacheKey = `${symbol}_${fromDate}_${toDate}_${adjusted ? 'adj' : 'raw'}${instrument ? '_i' : ''}`
@@ -234,13 +259,17 @@ async function fetchHistoricalPrices(
   // Preis-Quelle bestimmen: etfMaster hat Priorität
   const masterSource = resolvePriceSource(symbol)
 
-  let historicalData: HistoricalDataPoint[] = []
+  let series = emptySeries()
   // Quelle gestört bzw. Pfundkurs nur mit der Notfallrate umgerechnet
   let outage = false
   let approximated = false
 
-  // Helper: FMP Historical mit optionaler Währungs-Konvertierung
-  const fetchFmpHistorical = async (fetchSymbol: string, exchange?: 'GBp' | 'GBP' | 'EUR') => {
+  // Helper: FMP Historical mit optionaler Währungs-Konvertierung. Die Reihe
+  // selbst nennt keine Währung. An der LSE notieren Pence-, Pfund- und
+  // Dollar-Linien nebeneinander (ULVR.L 5040 GBp, VUSA.L 105 GBP, COPA.L 47 USD),
+  // dort kommt sie aus dem FMP-Profil. Ohne diese Abfrage galt jede .L-Reihe
+  // als Pence: COPA.L stand mit 0,52 statt 40 € je Stück im Verlauf.
+  const fetchFmpHistorical = async (fetchSymbol: string, exchange?: 'GBp' | 'GBP' | 'EUR'): Promise<HistoricalSeries> => {
     try {
       const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(fetchSymbol)}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
       const response = await fetchFmpJson(url)
@@ -254,14 +283,21 @@ async function fetchHistoricalPrices(
               close: adjusted && item.adjClose && item.adjClose > 0 ? item.adjClose : item.close,
             }))
             .reverse()
-          if (exchange !== 'GBp' && exchange !== 'GBP') return points
+          if (exchange !== 'GBp' && exchange !== 'GBP') {
+            const currency = exchange === 'EUR'
+              ? 'EUR'
+              : isLondonTicker(fetchSymbol)
+                ? sourceCurrency((await fetchFmpCurrencies([fetchSymbol]))[fetchSymbol.toUpperCase()])
+                : null
+            return { points, currency, sourceSymbol: fetchSymbol }
+          }
 
           // Tageskurs des jeweiligen Handelstags (bzw. des letzten davor)
           const rates = await loadGbpEurRates(fromDate, toDate)
           if (rates.length === 0) approximated = true
           let rateIdx = 0
           let rate = rates[0]?.[1] ?? GBP_EUR_APPROX
-          return points.map(point => {
+          const converted = points.map(point => {
             while (rateIdx < rates.length && rates[rateIdx][0] <= point.date) {
               rate = rates[rateIdx][1]
               rateIdx++
@@ -269,19 +305,23 @@ async function fetchHistoricalPrices(
             const pounds = exchange === 'GBp' ? point.close / 100 : point.close
             return { date: point.date, close: pounds * rate }
           })
+          // Umgerechnet steht die Reihe in Euro
+          return { points: converted, currency: 'EUR', sourceSymbol: fetchSymbol }
         }
       }
     } catch {
       outage = true // weiter zu Fallbacks
     }
-    return []
+    return emptySeries()
   }
 
   // Helper: Yahoo Finance Historical. Zeitraum ausdrücklich angeben: Mit
   // range=max liefert Yahoo Monatswerte, die am Monatsanfang stehen, aber den
   // Monatsschluss enthalten (Finanzkrise: −20 statt −38 % für den S&P 500).
   // Bis heute laden, damit auch Splits nach dem Fenster bekannt sind.
-  const fetchYahooHistorical = async (yahooSymbol: string) => {
+  // Yahoo nennt die Währung der gelieferten Notierung mit ('GBp' = Pence):
+  // BITC.L gibt es nur hier, und zwar als Dollar-Linie.
+  const fetchYahooHistorical = async (yahooSymbol: string): Promise<HistoricalSeries> => {
     try {
       const period1 = Math.floor(Date.parse(fromDate) / 1000) - 10 * 86400
       const period2 = Math.ceil(Date.now() / 86400000) * 86400
@@ -312,48 +352,48 @@ async function fetchHistoricalPrices(
             const d = new Date(timestamps[i] * 1000)
             points.push({ date: d.toISOString().split('T')[0], close: Math.round((close / divisors[i]) * 100) / 100 })
           }
-          return points
+          return { points, currency: sourceCurrency(result.meta?.currency), sourceSymbol: yahooSymbol }
         }
       }
     } catch {
       outage = true
     }
-    return []
+    return emptySeries()
   }
 
   if (masterSource) {
     // === Master-gesteuertes Fetching ===
     if (masterSource.type === 'fmp_direct') {
-      historicalData = await fetchFmpHistorical(symbol)
+      series = await fetchFmpHistorical(symbol)
     } else if (masterSource.type === 'fmp_alt') {
-      historicalData = await fetchFmpHistorical(masterSource.ticker, masterSource.exchange)
+      series = await fetchFmpHistorical(masterSource.ticker, masterSource.exchange)
     } else if (masterSource.type === 'yahoo') {
-      historicalData = await fetchYahooHistorical(masterSource.ticker || symbol)
+      series = await fetchYahooHistorical(masterSource.ticker || symbol)
     }
 
     // Master-Fallback: wenn prescribierte Quelle leer, Yahoo als Backup
-    if (historicalData.length === 0 && masterSource.type !== 'yahoo') {
-      historicalData = await fetchYahooHistorical(yahooFallbackSymbol(masterSource, symbol))
+    if (series.points.length === 0 && masterSource.type !== 'yahoo') {
+      series = await fetchYahooHistorical(yahooFallbackSymbol(masterSource, symbol))
     }
   } else {
     // === Nicht im Master: bestehende Fallback-Chain ===
 
     // Versuch 1: FMP direkt
-    historicalData = await fetchFmpHistorical(symbol)
+    series = await fetchFmpHistorical(symbol)
 
     // Versuch 2: EXCHANGE_FALLBACKS (z.B. FWRG.DE → FWRG.L)
-    if (historicalData.length === 0) {
+    if (series.points.length === 0) {
       const fallback = EXCHANGE_FALLBACKS[symbol]
       if (fallback) {
-        historicalData = await fetchFmpHistorical(fallback.symbol, fallback.exchange)
+        series = await fetchFmpHistorical(fallback.symbol, fallback.exchange)
       }
     }
 
     // Versuch 3: Yahoo Finance. FMP führt alle Währungspaare, Yahoo wird für
     // sie nur gebraucht, wenn FMP gestört ist.
-    if (historicalData.length === 0) {
-      if (!isFxPair(symbol)) historicalData = await fetchYahooHistorical(symbol)
-      else if (outage) historicalData = await fetchYahooFx(symbol, fromDate, toDate)
+    if (series.points.length === 0) {
+      if (!isFxPair(symbol)) series = await fetchYahooHistorical(symbol)
+      else if (outage) series = { points: await fetchYahooFx(symbol, fromDate, toDate), currency: null, sourceSymbol: symbol }
     }
 
   }
@@ -368,24 +408,27 @@ async function fetchHistoricalPrices(
     [instrument?.yahooSymbol, yahooSymbolFromEodhd(instrument?.eodhdSymbol)]
       .filter((c): c is string => Boolean(c) && c !== symbol)
   )]
-  if (historicalData.length === 0 && instrument) {
+  if (series.points.length === 0 && instrument) {
     for (const candidate of listings) {
-      historicalData = await fetchYahooHistorical(candidate)
-      if (historicalData.length > 0) break
+      series = await fetchYahooHistorical(candidate)
+      if (series.points.length > 0) break
     }
-    if (historicalData.length === 0 && instrument.fmpSymbol && instrument.fmpSymbol !== symbol) {
-      historicalData = await fetchFmpHistorical(instrument.fmpSymbol)
+    if (series.points.length === 0 && instrument.fmpSymbol && instrument.fmpSymbol !== symbol) {
+      series = await fetchFmpHistorical(instrument.fmpSymbol)
     }
   }
 
   // Eingefrorene Reihe: erst dasselbe Kürzel bei Yahoo, dann die Notierung aus den
   // Stammdaten, sofern sie in derselben Währung notiert. Sonst bleibt die alte Reihe.
-  if (endsEarly(historicalData, toDate) && !isFxPair(symbol)) {
-    const sameCurrency = instrument?.currency?.toUpperCase() === suffixCurrency(symbol)
+  if (endsEarly(series.points, toDate) && !isFxPair(symbol)) {
+    const sameCurrency = sourceCurrency(instrument?.currency) === (series.currency ?? suffixCurrency(symbol))
     for (const candidate of [symbol, ...(sameCurrency ? listings : [])]) {
-      const replaced = replaceFrozen(historicalData, await fetchYahooHistorical(candidate), toDate)
+      const fresh = await fetchYahooHistorical(candidate)
+      // Nennen beide Quellen eine Währung, muss es dieselbe sein
+      if (fresh.currency && series.currency && fresh.currency !== series.currency) continue
+      const replaced = replaceFrozen(series.points, fresh.points, toDate)
       if (replaced) {
-        historicalData = replaced
+        series = { points: replaced, currency: series.currency ?? fresh.currency, sourceSymbol: series.sourceSymbol }
         break
       }
     }
@@ -393,9 +436,20 @@ async function fetchHistoricalPrices(
 
   // Cache speichern (auch leere Ergebnisse → verhindert wiederholte Requests)
   const provisional =
-    approximated || (outage && (historicalData.length === 0 || isFxPair(symbol) || endsEarly(historicalData, toDate)))
-  historyCache.set(cacheKey, { data: historicalData, timestamp: Date.now(), ttl: provisional ? OUTAGE_TTL : CACHE_TTL })
-  return historicalData
+    approximated || (outage && (series.points.length === 0 || isFxPair(symbol) || endsEarly(series.points, toDate)))
+  historyCache.set(cacheKey, { data: series, timestamp: Date.now(), ttl: provisional ? OUTAGE_TTL : CACHE_TTL })
+  return series
+}
+
+/** Nur die Kurse: für Wechselkurse, Benchmarks und Hilfsreihen, deren Währung feststeht. */
+async function fetchHistoricalPrices(
+  symbol: string,
+  fromDate: string,
+  toDate: string,
+  adjusted = false,
+  instrument: Instrument | null = null
+): Promise<HistoricalDataPoint[]> {
+  return (await fetchHistoricalSeries(symbol, fromDate, toDate, adjusted, instrument)).points
 }
 
 interface CorporateActionReference {
@@ -712,8 +766,29 @@ export async function computePortfolioHistory(
     // und gelernte Papiere die echte Notierung + deren Währung. Nur als
     // Fallback genutzt — wo das rohe Symbol Daten liefert, bleibt alles wie es war.
     const instrumentsBySymbol = await getInstrumentsForSymbols(uniqueSymbols).catch(() => new Map<string, Instrument>())
-    // Währung der Notierung, über die der Fallback geladen hat (Symbol → 'EUR'|'USD'|'GBX'|…)
+    // Notierungswährung je Symbol ('EUR'|'USD'|'GBX'|'GBP'|…), soweit Quelle oder
+    // Stammsatz sie nennen; sonst entscheidet später die Suffix-Heuristik
     const priceCurrencyBySymbol = new Map<string, string>()
+    // Symbole, deren Reihe erst über die Stammdaten-Notierung kam
+    const loadedViaInstrument = new Set<string>()
+
+    /**
+     * Währung einer geladenen Reihe: Angabe der Quelle (Yahoo, FMP-Profil an der
+     * LSE) vor der Währung des Stammsatzes, und die nur, wenn die Reihe unter
+     * dessen Notierung kam. Für COPA.L und BITC.L steht USD im Stammsatz, der
+     * Rohabruf unter dem Kürzel gelang aber, und so galt die Suffix-Annahme
+     * Pence: 0,52 statt 40 € je Stück, der Kauftag stand als −98 % in der
+     * Rendite. 'XOM' dagegen hängt am Xetra-Stammsatz (EUR), die Reihe kommt von
+     * FMP unter 'XOM' in Dollar; dafür bleibt es bei der Suffix-Heuristik.
+     */
+    const seriesCurrency = (series: HistoricalSeries, instrument: Instrument | null, viaInstrument: boolean): string | null => {
+      if (series.currency) return series.currency
+      const instrumentCurrency = sourceCurrency(instrument?.currency)
+      if (!instrumentCurrency) return null
+      const listing = yahooSymbolFromEodhd(instrument?.eodhdSymbol)?.toUpperCase()
+      const underListing = !!listing && series.sourceSymbol?.toUpperCase() === listing
+      return viaInstrument || underListing ? instrumentCurrency : null
+    }
 
     // Parallel laden (max 10 gleichzeitig)
     const batchSize = 10
@@ -721,29 +796,31 @@ export async function computePortfolioHistory(
       const batch = uniqueSymbols.slice(i, i + batchSize)
       const results = await Promise.all(
         batch.map(async symbol => {
-          const raw = await fetchHistoricalPrices(symbol, fromDate, toDate)
-          if (raw.length > 0 && !endsEarly(raw, toDate)) return raw
+          const raw = await fetchHistoricalSeries(symbol, fromDate, toDate)
+          let instrument = instrumentsBySymbol.get(symbol.toUpperCase()) || null
+          if (raw.points.length > 0 && !endsEarly(raw.points, toDate)) return { series: raw, instrument, viaInstrument: false }
           // Rohe Kette leer oder eingefroren → Stammdaten-Notierung versuchen;
           // unbekannte Symbole einmalig über die FMP-Suche lernen (persistiert).
-          let instrument = instrumentsBySymbol.get(symbol.toUpperCase()) || null
-          if (!instrument && raw.length === 0) {
+          if (!instrument && raw.points.length === 0) {
             instrument = await resolveSymbolViaSearch(symbol).catch(() => null)
+            if (instrument) instrumentsBySymbol.set(symbol.toUpperCase(), instrument)
           }
-          if (!instrument) return raw
-          const viaInstrument = await fetchHistoricalPrices(symbol, fromDate, toDate, false, instrument)
+          if (!instrument) return { series: raw, instrument: null, viaInstrument: false }
+          const viaInstrument = await fetchHistoricalSeries(symbol, fromDate, toDate, false, instrument)
           // Eine eingefrorene Reihe wird nur in ihrer eigenen Währung ersetzt
-          if (raw.length === 0 && viaInstrument.length > 0 && instrument.currency) {
-            priceCurrencyBySymbol.set(symbol, instrument.currency.toUpperCase())
-          }
-          return viaInstrument
+          return { series: viaInstrument, instrument, viaInstrument: raw.points.length === 0 && viaInstrument.points.length > 0 }
         })
       )
       batch.forEach((symbol, index) => {
+        const { series, instrument, viaInstrument } = results[index]
         const priceMap = new Map<string, number>()
-        results[index].forEach(day => {
+        series.points.forEach(day => {
           priceMap.set(day.date, day.close)
         })
         pricesBySymbol.set(symbol, priceMap)
+        if (viaInstrument) loadedViaInstrument.add(symbol)
+        const currency = seriesCurrency(series, instrument, viaInstrument)
+        if (currency) priceCurrencyBySymbol.set(symbol, currency)
       })
     }
 
@@ -778,7 +855,7 @@ export async function computePortfolioHistory(
       })
       for (let i = 0; i < needsCarry.length; i += batchSize) {
         await Promise.all(needsCarry.slice(i, i + batchSize).map(async symbol => {
-          const viaInstrument = priceCurrencyBySymbol.has(symbol) ? instrumentsBySymbol.get(symbol.toUpperCase()) ?? null : null
+          const viaInstrument = loadedViaInstrument.has(symbol) ? instrumentsBySymbol.get(symbol.toUpperCase()) ?? null : null
           const before = await fetchHistoricalPrices(symbol, bufferFrom, bufferTo, false, viaInstrument)
           // Die Ausweichquelle liefert auch Tage im Fenster mit
           const last = before
@@ -852,16 +929,17 @@ export async function computePortfolioHistory(
       }
     }))
 
-    // Notierungswährung je Symbol: Instrument-Währung (Fallback-Lader) hat
-    // Vorrang vor der Suffix-Heuristik; ohne Suffix gilt USD.
-    const quoteCurrency = (symbol: string): string => {
-      const instrumentCurrency = priceCurrencyBySymbol.get(symbol)
-      return instrumentCurrency || suffixCurrency(symbol)
-    }
+    // Notierungswährung je Symbol: Angabe von Quelle oder Stammsatz (siehe
+    // seriesCurrency) vor der Suffix-Heuristik; ohne Suffix gilt USD.
+    const quoteCurrency = (symbol: string): string =>
+      priceCurrencyBySymbol.get(symbol) || suffixCurrency(symbol)
 
-    // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien und Benchmarks
-    const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s)) ||
-      [...priceCurrencyBySymbol.values()].some(c => c === 'GBX' || c === 'GBP')
+    // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien und Benchmarks.
+    // Die Pfund-Reihe brauchen Pence- und Pfund-Linien.
+    const hasGBXStocks = uniqueSymbols.some(s => {
+      const currency = quoteCurrency(s)
+      return currency === 'GBX' || currency === 'GBP'
+    })
     const eurUsdRateByDate = new Map<string, number>() // date → USD-to-EUR rate
     const gbpEurRateByDate = new Map<string, number>() // date → GBP-to-EUR rate
 
@@ -1112,7 +1190,7 @@ export async function computePortfolioHistory(
     // 6. Für jeden Tag: Berechne Portfolio-Wert in EUR
     // KORREKTE LOGIK: Shares × aktueller_Kurs_in_EUR
     // - EUR-Aktien (.DE, .PA etc.): Kurs ist bereits in EUR
-    // - GBX-Aktien (.L): Kurs in Pence → ÷100 für GBP → ×GBP_EUR_Rate
+    // - London (.L): Pence ÷100 × GBP-Rate; Pfund- und Dollar-Linien laut quoteCurrency
     // - USD-Aktien (AAPL, ADBE etc.): Kurs_USD × USD_to_EUR_Rate
     const chartData: Array<{ date: string; value: number; invested: number; performance: number }> = []
 
@@ -1242,15 +1320,125 @@ export async function computePortfolioHistory(
       // Kleine Toleranz: Kauf kurz vor dem ersten Kurs (Wochenende/Feiertage) ist ok
       return new Date(txDate).getTime() >= new Date(firstPrice).getTime() - GRACE_DAYS_MS
     }
+    const isAcquisition = (tx: Transaction) => tx.type === 'buy' || tx.type === 'transfer_in'
+
+    // 7a. Papiere, die im Fenster ohne Kurs im Bestand sind, in drei Gruppen:
+    //  - Die Kursreihe beginnt mehr als 7 Tage nach dem ersten Bestand im Fenster
+    //    (priceGaps). NNND.DE hat bei FMP keine Reihe, Yahoo kennt das Kürzel
+    //    nicht, die Ausweichnotierung NNND.F beginnt dort am 26.06.2023; gekauft
+    //    wurde im Januar 2022. Bis zum ersten Kurs zählt die Position zum
+    //    Einstand, in der Rendite tritt sie am ersten Kurstag mit einem
+    //    synthetischen Zufluss ins Depot (7b). Vorher stand sie bis dahin gar
+    //    nicht im Wert, der Kauf fehlte in den Flüssen, und am ersten Kurstag
+    //    sprang der Wert ohne Gegenfluss: dauerhaft Phantom-Rendite, und bei
+    //    offener Position fiel der Kauf aus dem Cash-Konto, das dann zu Unrecht
+    //    als "passt nicht zum Cash-Bestand" galt.
+    //  - Gar kein Kurs im Fenster, Position inzwischen geschlossen: zum Einstand
+    //    (valuedAtCost), ihre Buchungen bleiben im Cash-Konto.
+    //  - Gar kein Kurs im Fenster, Position offen (Import-Artefakte wie "ULVRUSD",
+    //    delistete Ticker): bleibt draußen (unpricedOpen), ihr Wert fehlt auch im
+    //    aktuellen Depotwert.
+    const valuedAtCost = new Set<string>()
+    const unpricedOpen = new Set<string>()
+    const priceGaps: Array<{ symbol: string; firstBuy: string; firstPrice: string }> = []
+    const priceGapBySymbol = new Map<string, string>() // Symbol → erster Kurstag
+    transactionsBySymbol.forEach((txs, symbol) => {
+      let shares = 0
+      let streakStart: string | null = null // Beginn der laufenden Haltephase
+      let heldFrom: string | null = null // erster Tag im Fenster mit Bestand
+      let firstBuy: string | null = null
+      for (const tx of txs) {
+        const had = shares > 0.0001
+        shares += isAcquisition(tx) ? Number(tx.quantity) : -Number(tx.quantity)
+        const has = shares > 0.0001
+        if (!had && has) streakStart = tx.date
+        if (tx.date < chartStart) {
+          heldFrom = has ? chartStart : null
+          if (!has) firstBuy = null
+        } else if (heldFrom === null && has) {
+          heldFrom = tx.date
+        }
+        if (heldFrom !== null && firstBuy === null) firstBuy = streakStart
+      }
+      if (heldFrom === null || hasPriceData(symbol, heldFrom)) return
+      const firstPrice = firstPriceDateBySymbol.get(symbol)
+      if (firstPrice) {
+        valuedAtCost.add(symbol)
+        priceGapBySymbol.set(symbol, firstPrice)
+        priceGaps.push({ symbol, firstBuy: firstBuy ?? heldFrom, firstPrice })
+      } else if (shares > 0.0001) {
+        unpricedOpen.add(symbol)
+      } else {
+        valuedAtCost.add(symbol)
+      }
+    })
+    priceGaps.sort((a, b) => a.firstBuy.localeCompare(b.firstBuy) || a.symbol.localeCompare(b.symbol))
+    if (priceGaps.length > 0) {
+      console.log(`📊 Kursreihe beginnt nach dem Kauf: ${priceGaps.map(g => `${g.symbol} (Kauf ${g.firstBuy}, erster Kurs ${g.firstPrice})`).join(', ')}`)
+    }
+
+    // 7b. Flüsse für die zeitgewichtete Rendite. Papiere ohne Kurs im Fenster
+    // bleiben draußen (siehe oben). Bei einer Kurslücke tritt die Position erst am
+    // ersten Kurstag ins gemessene Depot: Jede Buchung davor bleibt fürs
+    // Cash-Konto erhalten, ein gegenläufiger Übertrag am selben Tag hebt ihren
+    // Fluss auf (Kauf plus Abgang, Verkauf plus Zugang), und die am ersten
+    // Kurstag gehaltenen Stücke kommen als Zufluss zum ersten Kurs herein, wie
+    // die synthetischen Startkäufe des Benchmark-Vergleichs weiter unten. Beide
+    // TWR-Modelle (nur Wertpapiere, mit Cash) bleiben so an jedem Tag neutral.
+    const gapFlowTransactions: Transaction[] = []
+    priceGapBySymbol.forEach((firstPrice, symbol) => {
+      let shares = 0
+      for (const tx of transactionsBySymbol.get(symbol) || []) {
+        if (tx.date >= firstPrice) break
+        const quantity = Number(tx.quantity) || 0
+        shares += isAcquisition(tx) ? quantity : -quantity
+        if (tx.date < chartStart) continue // vor dem Fenster: ohnehin kein Fluss
+        gapFlowTransactions.push(tx)
+        const amount = isAcquisition(tx) ? txValue(tx) + txFee(tx) : Math.max(0, txValue(tx) - txFee(tx))
+        if (amount <= 0) continue
+        gapFlowTransactions.push({
+          date: tx.date,
+          symbol,
+          quantity,
+          price: 0,
+          total_value: Math.round(amount * 100) / 100,
+          type: isAcquisition(tx) ? 'transfer_out' : 'transfer_in',
+          notes: `Kurslücke bis ${firstPrice}: Buchung außerhalb des gemessenen Depots`,
+        })
+      }
+      if (shares <= 0.0001) return
+      const price = getPriceForDate(symbol, firstPrice)
+      if (!price) return
+      gapFlowTransactions.push({
+        date: firstPrice,
+        symbol,
+        quantity: shares,
+        price: 0,
+        total_value: Math.round(shares * toEurPrice(symbol, price, firstPrice) * 100) / 100,
+        type: 'transfer_in',
+        notes: `Kurslücke bis ${firstPrice}: Bestand tritt zum ersten Kurs ins gemessene Depot`,
+      })
+    })
+    const otherTwrTransactions = allTransactions.filter(tx => {
+      if (['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) return false
+      // Dividenden hängen an einer Position — ohne bewertbares Symbol würde
+      // die Ausschüttung den Return einer Phantom-Position gutschreiben.
+      if (tx.type === 'dividend' && tx.symbol && tx.symbol !== 'CASH' && !hasPriceData(tx.symbol)) return false
+      return true
+    })
     const twrTransactions = [
-      ...securityTransactions.filter(tx => hasPriceData(tx.symbol, tx.date)),
-      ...allTransactions.filter(tx => {
-        if (['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) return false
-        // Dividenden hängen an einer Position — ohne bewertbares Symbol würde
-        // die Ausschüttung den Return einer Phantom-Position gutschreiben.
-        if (tx.type === 'dividend' && tx.symbol && tx.symbol !== 'CASH' && !hasPriceData(tx.symbol)) return false
-        return true
+      ...securityTransactions.filter(tx => {
+        const firstPrice = priceGapBySymbol.get(tx.symbol)
+        return firstPrice ? tx.date >= firstPrice : hasPriceData(tx.symbol, tx.date)
       }),
+      ...gapFlowTransactions,
+      ...otherTwrTransactions,
+    ]
+    // Nur Buchungen mit Kurs im Fenster, ohne synthetische Überträge: für die
+    // Einzahlungs-Darstellung, wenn das vollständige Cash-Konto nicht aufgeht
+    const pricedTransactions = [
+      ...securityTransactions.filter(tx => hasPriceData(tx.symbol, tx.date)),
+      ...otherTwrTransactions,
     ]
 
     // 6b. Einzahlungsbasierte Darstellung, wenn das Cash-Ledger plausibel
@@ -1265,23 +1453,9 @@ export async function computePortfolioHistory(
     // Beim 1-Jahres-Verlauf fielen sonst alle Käufe davor heraus, das Konto ging
     // nicht auf, und die Kurve zeigte nur die Wertpapiere (106.006 € statt 69.998 €
     // bei einem Depot mit Kredit). Wird ein Papier im Fenster gehalten, ohne dass
-    // es für die Zeit Kurse gibt (umgestellt, übernommen), steht es zum Einstand
-    // in der Kurve. Draußen bleiben nur Papiere ohne Kurs, die noch im Depot
-    // liegen: Ihr Wert fehlt auch im aktuellen Depotwert.
-    const valuedAtCost = new Set<string>()
-    const unpricedOpen = new Set<string>()
-    transactionsBySymbol.forEach((txs, symbol) => {
-      let shares = 0
-      let heldFrom: string | null = null
-      for (const tx of txs) {
-        shares += tx.type === 'buy' || tx.type === 'transfer_in' ? Number(tx.quantity) : -Number(tx.quantity)
-        if (heldFrom === null && shares > 0.0001 && tx.date >= chartStart) heldFrom = tx.date
-        if (tx.date < chartStart) heldFrom = shares > 0.0001 ? chartStart : null
-      }
-      if (heldFrom === null || hasPriceData(symbol, heldFrom)) return
-      if (shares > 0.0001) unpricedOpen.add(symbol)
-      else valuedAtCost.add(symbol)
-    })
+    // es für die Zeit Kurse gibt (umgestellt, übernommen, Kurslücke), steht es zum
+    // Einstand in der Kurve (valuedAtCost, siehe 7a). Draußen bleiben nur Papiere
+    // ohne jeden Kurs, die noch im Depot liegen (unpricedOpen).
     const costWithoutPrice = (date: string): number => {
       let total = 0
       valuedAtCost.forEach(symbol => {
@@ -1304,7 +1478,7 @@ export async function computePortfolioHistory(
       : null
     // Geht das vollständige Konto nicht auf, zählen nur Buchungen bewertbarer Papiere
     const depositSeries = fullLedgerSeries ?? (useTransactions
-      ? calculateDepositBasedSeries({ chartData, transactions: twrTransactions, cashPosition })
+      ? calculateDepositBasedSeries({ chartData, transactions: pricedTransactions, cashPosition })
       : null)
     const investedMode: 'deposits' | 'cost_basis' = depositSeries ? 'deposits' : 'cost_basis'
     // Warum keine echten Einzahlungen? 'missing' = keine Ein-/Auszahlungen
@@ -2070,6 +2244,9 @@ export async function computePortfolioHistory(
         // 'cost_basis': Wertpapierwert vs. Kostenbasis der Positionen.
         investedMode,
         cashLedger,
+        // Papiere, deren Kursreihe erst nach dem Kauf beginnt (7a): bis zum ersten
+        // Kurs zum Einstand gezählt, in der Rendite ab dem ersten Kurstag
+        priceGaps,
         dateRange: {
           from: chartData[0]?.date || null,
           to: chartData[chartData.length - 1]?.date || null
