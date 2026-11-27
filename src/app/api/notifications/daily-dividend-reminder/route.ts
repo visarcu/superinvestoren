@@ -6,7 +6,7 @@ import { countedDepots } from '@/lib/sampleDepotShared'
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   const { searchParams } = new URL(request.url)
@@ -75,7 +75,7 @@ async function handleDailyDividendReminder(testUserId: string | null = null) {
       allSymbols.map(async (symbol) => {
         try {
           const res = await fetch(
-            `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${symbol}?apikey=${process.env.FMP_API_KEY}`
+            `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${encodeURIComponent(symbol)}?apikey=${process.env.FMP_API_KEY}`
           )
           if (!res.ok) return null
           const data = await res.json()

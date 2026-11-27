@@ -440,7 +440,7 @@ async function handleCheck(queryTestUserId: string | null = null) {
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   return handleCheck(new URL(request.url).searchParams.get('testUserId'))
@@ -448,7 +448,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
   return handleCheck(new URL(request.url).searchParams.get('testUserId'))

@@ -465,8 +465,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'ISINs Array erforderlich' }, { status: 400 })
     }
 
-    // Maximal 200 ISINs pro Request
-    const limitedISINs = isins.slice(0, 200)
+    // Maximal 200 ISINs pro Request, nur Zeichenketten: Zahlen oder null im
+    // Array warfen beim toUpperCase einen 500 statt einer sauberen Ablehnung
+    const limitedISINs: string[] = isins
+      .filter((isin: unknown): isin is string => typeof isin === 'string' && isin.trim().length > 0)
+      .map((isin: string) => isin.trim())
+      .slice(0, 200)
+    if (limitedISINs.length === 0) {
+      return NextResponse.json({ error: 'ISINs Array erforderlich' }, { status: 400 })
+    }
 
     // Broker-Ticker je ISIN (optional): 'IREN.US', 'CSKR.EU'. Damit ist klar,
     // welche Notierung gemeint ist — ohne ihn raten alle folgenden Quellen.

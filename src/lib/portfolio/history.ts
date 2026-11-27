@@ -242,7 +242,7 @@ async function fetchHistoricalPrices(
   // Helper: FMP Historical mit optionaler Währungs-Konvertierung
   const fetchFmpHistorical = async (fetchSymbol: string, exchange?: 'GBp' | 'GBP' | 'EUR') => {
     try {
-      const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${fetchSymbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
+      const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(fetchSymbol)}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
       const response = await fetchFmpJson(url)
       if (response.outage) outage = true
       if (response.data) {

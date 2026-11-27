@@ -271,7 +271,7 @@ async function fetchDividendsForSymbol(
 ): Promise<{ symbol: string; entries: FmpDividendEntry[] }> {
   try {
     const res = await fetch(
-      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${symbol}?apikey=${process.env.FMP_API_KEY}`
+      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${encodeURIComponent(symbol)}?apikey=${process.env.FMP_API_KEY}`
     )
     if (!res.ok) return { symbol, entries: [] }
     const data = await res.json()
@@ -350,7 +350,7 @@ async function fetchEurRates(currencies: string[]): Promise<Map<string, number>>
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -359,7 +359,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  if (!process.env.CRON_SECRET || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

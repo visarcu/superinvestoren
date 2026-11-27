@@ -7,6 +7,7 @@ import { detectTickerCurrency } from '@/lib/fmp'
 import { convertPriceToEurStrict } from '@/lib/portfolioValuation'
 import { getQuotes } from '@/lib/marketData/quoteService'
 import { convertAmount } from '@/lib/marketData/currency'
+import { getExchangeRate } from '@/lib/exchangeRates'
 import { countedDepots } from '@/lib/sampleDepotShared'
 
 const supabaseAdmin = createClient(
@@ -15,14 +16,12 @@ const supabaseAdmin = createClient(
   { auth: { autoRefreshToken: false, persistSession: false } }
 )
 
+// Wechselkurs direkt aus dem Kursdienst statt per HTTP-Selbstaufruf über die
+// eigene Website (der scheiterte in Vorschauen und bei jedem Aussetzer der Route).
 async function getRate(from: string, to: string): Promise<number | null> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://finclue.de'}/api/exchange-rate?from=${from}&to=${to}`
-    )
-    if (!res.ok) return null
-    const data = await res.json()
-    return typeof data.rate === 'number' ? data.rate : null
+    const rate = await getExchangeRate(from, to)
+    return typeof rate === 'number' && Number.isFinite(rate) && rate > 0 ? rate : null
   } catch {
     return null
   }
@@ -138,16 +137,22 @@ export async function GET(request: NextRequest) {
     // 6. Calculate values
     let stockValue = 0
     let totalCost = 0
+    const missingFx: string[] = []
     const enrichedHoldings = holdingsList.map((h: any) => {
       const apiPrice = quoteMap[h.symbol] || 0
       const tickerCur = detectTickerCurrency(h.symbol)
       // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert,
       // GBP kommt als GBX/Pence → ÷100 × Rate, USD × Rate, sonst unkonvertiert).
       // Ohne Kurs oder Wechselkurs zählt die Position zum Einstand, statt mit
-      // 0 € oder mit Pence als Euro
-      const priceEUR =
-        (apiPrice > 0 ? convertPriceToEurStrict(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate, byCurrency }) : null)
-        ?? (h.purchase_price || 0)
+      // 0 € oder mit Pence als Euro. Die Antwort kennzeichnet das (priceSource,
+      // missingQuotes, missingFx, degraded); vorher galt der Einstand still als
+      // bewerteter Depotwert mit 0 € Gewinn.
+      const converted = apiPrice > 0
+        ? convertPriceToEurStrict(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate, byCurrency })
+        : null
+      if (apiPrice > 0 && converted === null) missingFx.push(h.symbol)
+      const priceSource: 'live' | 'cost' = converted !== null ? 'live' : 'cost'
+      const priceEUR = converted ?? (h.purchase_price || 0)
 
       const qty = h.quantity || 0
       const value = priceEUR * qty
@@ -161,6 +166,7 @@ export async function GET(request: NextRequest) {
         quantity: qty,
         purchasePrice: h.purchase_price || 0,
         currentPrice: priceEUR,
+        priceSource,
         value,
         cost,
         gainLoss: value - cost,
@@ -178,6 +184,7 @@ export async function GET(request: NextRequest) {
     enrichedHoldings.sort((a: any, b: any) => b.value - a.value)
 
     const totalValue = stockValue + cashPosition
+    const degraded = missingQuotes.length > 0 || missingFx.length > 0
     const totalGainLoss = stockValue - totalCost
     const totalGainLossPercent = totalCost > 0 ? (totalGainLoss / totalCost) * 100 : 0
 
@@ -192,8 +199,12 @@ export async function GET(request: NextRequest) {
       gbpToEurRate: gbpRate,
       holdingsCount: enrichedHoldings.length,
       holdings: enrichedHoldings,
+      missingQuotes,
+      missingFx,
+      degraded,
     }, {
-      headers: { 'Cache-Control': 'private, max-age=60' } // 1 min cache
+      // Bei Störung nicht zwischenspeichern, damit der nächste Abruf es erneut versucht
+      headers: { 'Cache-Control': degraded ? 'private, no-store' : 'private, max-age=60' }
     })
   } catch (error: any) {
     console.error('[Portfolio Summary] Error:', error)

@@ -17,6 +17,13 @@ import { getQuotes } from '@/lib/marketData/quoteService'
 import { convertAmount } from '@/lib/marketData/currency'
 import { detectTickerCurrency } from '@/lib/fmp'
 
+// Öffentliche Route: Zahl und Form der Symbole begrenzen. Ohne Deckel löste ein
+// Aufruf mit tausenden Symbolen tausende FMP- und Yahoo-Anfragen aus und
+// erschöpfte das Kontingent für alle Depots.
+const MAX_SYMBOLS = 100
+/** Ticker, ISIN oder Index (^GSPC, BRK-B, EURUSD=X): Buchstaben, Ziffern, Punkt, Bindestrich, Gleich, Dach */
+const SYMBOL_SHAPE = /^[A-Za-z0-9^][A-Za-z0-9.\-_=^]{0,24}$/
+
 function expectedCurrency(symbol: string): string {
   const currency = detectTickerCurrency(symbol)
   // Der Client behandelt '.L' als Pence (teilt durch 100).
@@ -30,9 +37,15 @@ export async function GET(request: Request) {
     return NextResponse.json([], { status: 400 })
   }
 
-  const symbolList = symbols.split(',').map(s => s.trim()).filter(Boolean)
+  const symbolList = symbols
+    .split(',')
+    .map(s => s.trim())
+    .filter(s => s.length > 0 && SYMBOL_SHAPE.test(s))
   if (symbolList.length === 0) {
     return NextResponse.json([])
+  }
+  if (symbolList.length > MAX_SYMBOLS) {
+    return NextResponse.json({ error: `Höchstens ${MAX_SYMBOLS} Symbole je Abfrage` }, { status: 400 })
   }
 
   let quotes

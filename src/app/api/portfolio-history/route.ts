@@ -11,6 +11,10 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
+// Verlauf, FX-Reihen, Benchmarks und Stresstests großer Depots brauchen länger
+// als das Standardlimit der Funktion
+export const maxDuration = 120
+
 export async function POST(request: NextRequest) {
   try {
     // Auth: die Route liest Transaktionen zu übergebenen Portfolio-IDs —

@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend, type CreateEmailOptions } from 'resend'
 import { hasPremiumAccess } from '@/lib/premiumAccess'
-import { convertPriceToEur, type EurRates } from '@/lib/portfolioValuation'
+import { convertPriceToEurStrict, type EurRates } from '@/lib/portfolioValuation'
+import { getExchangeRate } from '@/lib/exchangeRates'
 import { detectTickerCurrency } from '@/lib/fmp'
 import { getQuotes } from '@/lib/marketData/quoteService'
 import { getDailyHistory } from '@/lib/marketData/history'
@@ -166,18 +167,15 @@ function formatShares(quantity: number): string {
   }).format(quantity)
 }
 
-// EUR-Wechselkurs (EUR pro Einheit Fremdwährung) serverseitig über die API-Route holen.
+// EUR-Wechselkurs (EUR pro Einheit Fremdwährung) direkt aus dem Kursdienst,
+// nicht per HTTP-Selbstaufruf über die eigene Website.
 async function getEurRate(from: string): Promise<number | null> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://finclue.de'}/api/exchange-rate?from=${from}&to=EUR`
-    )
-    if (res.ok) {
-      const json = await res.json()
-      if (json.rate && !isNaN(json.rate) && json.rate > 0) return Number(json.rate)
-    }
-  } catch { /* Fallback: keine Umrechnung */ }
-  return null
+    const rate = await getExchangeRate(from, 'EUR')
+    return typeof rate === 'number' && Number.isFinite(rate) && rate > 0 ? rate : null
+  } catch {
+    return null
+  }
 }
 
 const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms))
@@ -188,12 +186,14 @@ function addDaysIso(iso: string, days: number): string {
   return d.toISOString().split('T')[0]
 }
 
-// convertPriceToEur erwartet unter 'GBP' Pence, der Kursdienst unterscheidet
-// dagegen 'GBX' (Pence) und 'GBP' (Pfund)
-function toEur(price: number, currency: string, rates: EurRates): number {
-  if (currency === 'GBX') return convertPriceToEur(price, 'GBP', rates)
-  if (currency === 'GBP') return convertPriceToEur(price * 100, 'GBP', rates)
-  return convertPriceToEur(price, currency, rates)
+// convertPriceToEurStrict erwartet unter 'GBP' Pence, der Kursdienst unterscheidet
+// dagegen 'GBX' (Pence) und 'GBP' (Pfund). Ohne Wechselkurs kommt null zurück:
+// Die nicht-strikte Variante lieferte den Rohkurs, und ein Dollar- oder
+// Yen-Kurs stand 1:1 als Euro im Report.
+function toEur(price: number, currency: string, rates: EurRates): number | null {
+  if (currency === 'GBX') return convertPriceToEurStrict(price, 'GBP', rates)
+  if (currency === 'GBP') return convertPriceToEurStrict(price * 100, 'GBP', rates)
+  return convertPriceToEurStrict(price, currency, rates)
 }
 
 function currencyFromSymbol(symbol: string): string {
@@ -321,25 +321,27 @@ function buildPortfolioReport(
     const reference = series ? [...series.closes].reverse().find(c => c.date < weekStart) : undefined
     const seriesToEur = (price: number) => toEur(price, series?.currency ?? 'EUR', eurRates)
 
-    // Schluss dieser Woche, sonst Live-Kurs, sonst letzter bekannter Schluss
+    // Schluss dieser Woche, sonst Live-Kurs, sonst letzter bekannter Schluss.
+    // Ohne Wechselkurs (toEur null) gilt die Position wie ohne Kurs.
     const inWeek = !!latest && latest.date >= weekStart
     const hasQuote = !!quote && quote.price > 0
-    const priceMissing = !latest && !hasQuote
-    let currentPrice: number
+    let converted: number | null = null
     if (latest && inWeek) {
-      currentPrice = seriesToEur(latest.close)
+      converted = seriesToEur(latest.close)
     } else if (quote && hasQuote) {
-      currentPrice = toEur(quote.price, quote.currency, eurRates)
+      converted = toEur(quote.price, quote.currency, eurRates)
     } else if (latest) {
-      currentPrice = seriesToEur(latest.close)
-    } else {
-      // Wie in der Depot-Bewertung: ohne Kurs zählt der Einstand (EUR), die
-      // Position darf nicht aus dem Depotwert verschwinden
-      currentPrice = symbolRows.reduce((s, r) => s + (Number(r.quantity) || 0) * (Number(r.purchase_price) || 0), 0) / quantity
+      converted = seriesToEur(latest.close)
     }
+    const priceMissing = converted === null
+    // Wie in der Depot-Bewertung: ohne Kurs zählt der Einstand (EUR), die
+    // Position darf nicht aus dem Depotwert verschwinden
+    const currentPrice = converted
+      ?? symbolRows.reduce((s, r) => s + (Number(r.quantity) || 0) * (Number(r.purchase_price) || 0), 0) / quantity
     const currentValue = quantity * currentPrice
+    const referencePriceEur = reference ? seriesToEur(reference.close) : null
 
-    if (!reference || (!inWeek && !hasQuote)) {
+    if (!reference || referencePriceEur === null || priceMissing || (!inWeek && !hasQuote)) {
       holdings.push({
         symbol, quantity, heldQuantity: 0, currentPrice, priceMissing,
         referencePrice: null, referenceDate: null,
@@ -372,7 +374,7 @@ function buildPortfolioReport(
     let heldQuantity = Math.min(quantity, quantity - netInflow)
     if (heldQuantity < 1e-9) heldQuantity = 0
 
-    const referencePrice = seriesToEur(reference.close)
+    const referencePrice = referencePriceEur
     const previousValue = heldQuantity * referencePrice
     const isHeld = heldQuantity > 0
 

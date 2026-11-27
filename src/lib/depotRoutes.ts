@@ -94,7 +94,7 @@ export const PORTFOLIO_SUBROUTES = new Set(['depots', 'stocks', 'workspace', 'ne
  */
 export const MAIN_SITE_SEGMENTS = new Set([
   'admin', 'ai', 'aktie', 'analyse', 'api', 'api-docs', 'article', 'auth', 'blog', 'datenschutz',
-  'depot', 'developers', 'earnings-calendar', 'economic-calendar', 'features', 'impressum', 'inbox',
+  'depot', 'depot-start', 'developers', 'earnings-calendar', 'economic-calendar', 'features', 'impressum', 'inbox',
   'ipo-calendar', 'kongress', 'lexikon', 'login', 'marktindikatoren', 'news', 'notifications',
   'politiker', 'preise', 'pricing', 'privacy', 'profil', 'profile', 'settings', 'superinvestor',
   'terminal', 'terms',

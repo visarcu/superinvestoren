@@ -22,6 +22,8 @@ import { isIsin, SUFFIX_TO_EXCHANGE, yahooSymbolFromEodhd } from './symbols'
 import { YAHOO_ALIASES } from '@/data/tickerFallbacks'
 
 const QUOTE_TTL_MS = 45_000
+/** Yahoo-Abrufe je Aufruf: unbekannte Symbole in Masse drosselten sonst die Server-IP */
+const MAX_YAHOO_FALLBACKS = 40
 const MAX_CACHE_ENTRIES = 10_000
 const quoteCache = new Map<string, { quote: NormalizedQuote; expires: number }>()
 
@@ -242,7 +244,9 @@ export async function getQuotes(requested: string[]): Promise<Map<string, Normal
   }
 
   // --- Runde 3: Yahoo als letzte Instanz ---
-  const stillMissing = plans.filter(p => !resolved.has(p.symbol) && p.yahooCandidates.length > 0)
+  const stillMissing = plans
+    .filter(p => !resolved.has(p.symbol) && p.yahooCandidates.length > 0)
+    .slice(0, MAX_YAHOO_FALLBACKS)
   if (stillMissing.length > 0) {
     const yahooResults = await Promise.allSettled(
       stillMissing.map(async plan => {
