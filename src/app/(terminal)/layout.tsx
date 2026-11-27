@@ -34,6 +34,7 @@ import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import { useExchangeRate } from '@/hooks/useExchangeRate'
+import { detectTickerCurrency, fmpPriceToTickerCurrency } from '@/lib/fmp'
 
 import LearnSidebar from '@/components/LearnSidebar'
 import MobileNav from '@/components/MobileNav'
@@ -631,8 +632,7 @@ function LayoutContent({ children }: LayoutProps) {
   const [currentTime, setCurrentTime] = useState(new Date())
   
   const { theme, toggleTheme, allowsThemeToggle } = useTheme()
-  const { formatStockPrice, formatPercentage, formatMarketCap } = useCurrency()
-  const { formatPriceWithExchangeInfo } = useExchangeRate('USD', 'EUR')
+  const { formatStockPrice, formatPercentage, formatMarketCap, setCurrency } = useCurrency()
 
   const formatPrice = (price: number): string => formatStockPrice(price)
   const formatPercentageWithSign = (percentage: number): string => formatPercentage(percentage, true)
@@ -644,6 +644,18 @@ function LayoutContent({ children }: LayoutProps) {
       currentTicker: stockMatch?.[1]?.toUpperCase() || null
     }
   }, [pathname])
+
+  // Kopfzeile und alle Reiter einer Aktie formatieren in deren Handelswährung
+  // (ULVR.L in GBP, SAP.DE in EUR, AAPL in USD). Vorher setzte nur die
+  // Übersicht die Währung; auf Dividenden oder Schätzungen galt die der
+  // zuletzt besuchten Seite. Außerhalb der Aktienseiten bleibt sie unberührt.
+  const tickerCurrency = useMemo(() => (currentTicker ? detectTickerCurrency(currentTicker) : null), [currentTicker])
+  useEffect(() => {
+    if (tickerCurrency) setCurrency(tickerCurrency)
+  }, [tickerCurrency, setCurrency])
+  const { formatPriceWithExchangeInfo } = useExchangeRate(tickerCurrency ?? 'USD', 'EUR')
+  // FMP notiert .L in Pence; Kopfzeile zeigt Pfund (ULVR.L 5040 → 50,40 GBP)
+  const displayPrice = (price: number): number => fmpPriceToTickerCurrency(currentTicker ?? '', price)
 
   const { quote, profile, loading: stockLoading, error: stockError } = useStockData(currentTicker)
   const marketStatus = useMemo(() => getMarketStatus(), [currentTime])
@@ -906,9 +918,9 @@ function LayoutContent({ children }: LayoutProps) {
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <div className="text-xs text-theme-muted uppercase tracking-wide">Kurs</div>
-                        <div className="text-xl font-bold text-theme-primary">{formatPrice(quote.price)}</div>
+                        <div className="text-xl font-bold text-theme-primary">{formatPrice(displayPrice(quote.price))}</div>
                         {(() => {
-                          const { equivalent } = formatPriceWithExchangeInfo(quote.price)
+                          const { equivalent } = formatPriceWithExchangeInfo(displayPrice(quote.price))
                           return equivalent ? <div className="text-xs text-theme-muted mt-1">{equivalent}</div> : null
                         })()}
                       </div>

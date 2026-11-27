@@ -17,7 +17,7 @@ import {
 } from 'recharts'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
 import { currencySymbol } from '@/lib/displayFormat'
-import { detectTickerCurrency } from '@/lib/fmp'
+import { detectTickerCurrency, fmpPriceToTickerCurrency } from '@/lib/fmp'
 
 interface User {
   id: string
@@ -101,9 +101,27 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
           setEstimates(data)
         }
 
+        // FMP nennt Kurs und Kursziele Londoner Titel in Pence; die Seite zeigt Pfund
+        const inUnit = (value: unknown): number | null =>
+          typeof value === 'number' && Number.isFinite(value) ? fmpPriceToTickerCurrency(ticker, value) : null
+
         if (priceTargetsRes.ok) {
           const data = await priceTargetsRes.json()
-          setPriceTargets(data)
+          const c = data?.consensus
+          setPriceTargets(
+            c
+              ? {
+                  ...data,
+                  consensus: {
+                    ...c,
+                    targetLow: inUnit(c.targetLow) ?? c.targetLow,
+                    targetHigh: inUnit(c.targetHigh) ?? c.targetHigh,
+                    targetConsensus: inUnit(c.targetConsensus) ?? c.targetConsensus,
+                    targetMedian: inUnit(c.targetMedian) ?? c.targetMedian,
+                  },
+                }
+              : data
+          )
         }
 
         if (surprisesRes.ok) {
@@ -113,7 +131,7 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
 
         if (quoteRes.ok) {
           const data = await quoteRes.json()
-          setCurrentPrice(data[0]?.price || null)
+          setCurrentPrice(inUnit(data[0]?.price))
         }
 
       } catch (err) {

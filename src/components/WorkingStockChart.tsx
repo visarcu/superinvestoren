@@ -17,7 +17,8 @@ import {
 import { ArrowsPointingOutIcon, XMarkIcon, ArrowTopRightOnSquareIcon, ShareIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { useCurrency } from '@/lib/CurrencyContext'
-import { detectTickerCurrency } from '@/lib/fmp'
+import { detectTickerCurrency, fmpPriceToTickerCurrency } from '@/lib/fmp'
+import { currencySymbol } from '@/lib/displayFormat'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import type { CongressEvent, InsiderEvent, SmartMoneyEvent } from '@/lib/smartMoney.types'
 
@@ -89,6 +90,11 @@ function PurchaseDotShape(props: any) {
 
 interface Props {
   ticker: string
+  /**
+   * Schlusskurse in der Handelswährung des Tickers, bei Londoner Titeln also
+   * in Pfund, nicht in FMPs Pence (AnalysisClient rechnet beim Laden um).
+   * Gleiches gilt für week52High/week52Low.
+   */
   data: StockData[]
   purchaseMarkers?: PurchaseMarker[]
   /** Superinvestor-Käufe/-Verkäufe als Quartals-Bänder (13F ist quartalsgenau) */
@@ -382,7 +388,13 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       .then(res => res.json())
       .then(data => {
         if (cancelled) return
-        setIntradayData(data?.intraday || [])
+        const rows: StockData[] = data?.intraday || []
+        // FMP liefert Intraday für .L in Pence, data steht in Pfund. Mit
+        // displayCurrency ist data bereits anders umgerechnet; dann bleiben
+        // die Rohwerte wie bisher.
+        setIntradayData(
+          displayCurrency ? rows : rows.map(d => ({ ...d, close: fmpPriceToTickerCurrency(ticker, d.close) }))
+        )
       })
       .catch(() => {
         if (!cancelled) setIntradayData([])
@@ -392,7 +404,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       })
 
     return () => { cancelled = true }
-  }, [selectedRange, ticker])
+  }, [selectedRange, ticker, displayCurrency])
 
   // S&P 500 erst beim Einschalten laden — ab einer Woche vor dem ersten
   // Kurstag, damit der erste Chartpunkt schon einen Indexwert als Basis hat.
@@ -442,7 +454,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
     () => displayCurrency ?? detectTickerCurrency(ticker),
     [ticker, displayCurrency]
   )
-  const currencySymbol = tickerCurrency === 'EUR' ? '€' : tickerCurrency === 'GBP' ? '£' : tickerCurrency === 'CHF' ? 'CHF' : '$'
+  const priceSymbol = currencySymbol(tickerCurrency)
 
   const formatStockPrice = useCallback((price: number, showCurrency: boolean = true): string => {
     if (!price && price !== 0) return '–'
@@ -450,8 +462,8 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, smart
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(price)
-    return showCurrency ? `${formatted} ${currencySymbol}` : formatted
-  }, [currencySymbol])
+    return showCurrency ? `${formatted} ${priceSymbol}` : formatted
+  }, [priceSymbol])
 
   // Filter data by time range
   const getFilteredData = (stockData: StockData[]) => {

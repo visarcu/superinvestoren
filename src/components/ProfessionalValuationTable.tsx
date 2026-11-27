@@ -9,6 +9,7 @@ import { useCurrency } from '@/lib/CurrencyContext'; // ✅ CURRENCY CONTEXT HIN
 import { useEarningsQuality } from '@/hooks/useEarningsQuality';
 import { useValuationMultiples } from '@/hooks/useValuationMultiples';
 import { cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules';
+import { fmpPriceToTickerCurrency } from '@/lib/fmp';
 
 interface ValuationData {
   // P/E Ratios (vereinfacht)
@@ -102,7 +103,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       
       if (quoteResponse.ok) {
         const [quote] = await quoteResponse.json();
-        currentPrice = quote.price;
+        // /api/quotes liefert .L in Pence (GBX); Schätzungen und Je-Aktie-Werte stehen in Pfund
+        currentPrice = typeof quote?.price === 'number' ? fmpPriceToTickerCurrency(ticker, quote.price) : 0;
       }
 
       // 4. Historical Ratios (EV-Kennzahlen kommen aus useValuationMultiples)

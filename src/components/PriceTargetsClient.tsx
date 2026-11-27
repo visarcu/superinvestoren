@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { fmpPriceToTickerCurrency } from '@/lib/fmp'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import {
   ResponsiveContainer,
@@ -130,21 +131,46 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
           fetch(`/api/historical/${ticker}`)
         ])
 
+        // FMP nennt Kurs, Kursziele und Schlusskurse Londoner Titel in Pence;
+        // die Seite zeigt Pfund. Für alle anderen Börsen ändert sich nichts.
+        const inUnit = (value: unknown): number | null =>
+          typeof value === 'number' && Number.isFinite(value) ? fmpPriceToTickerCurrency(ticker, value) : null
+
         if (targetsRes.ok) {
           const data = await targetsRes.json()
-          setPriceTargets(data.targets || [])
-          setConsensus(data.consensus)
+          setPriceTargets(
+            ((data.targets || []) as PriceTarget[]).map(t => ({
+              ...t,
+              priceTarget: inUnit(t.priceTarget) ?? t.priceTarget,
+              priceWhenPosted: inUnit(t.priceWhenPosted) ?? t.priceWhenPosted,
+            }))
+          )
+          const c = data.consensus as PriceTargetConsensus | null
+          setConsensus(
+            c
+              ? {
+                  ...c,
+                  targetHigh: inUnit(c.targetHigh) ?? c.targetHigh,
+                  targetLow: inUnit(c.targetLow) ?? c.targetLow,
+                  targetConsensus: inUnit(c.targetConsensus) ?? c.targetConsensus,
+                  targetMedian: inUnit(c.targetMedian) ?? c.targetMedian,
+                }
+              : c
+          )
         }
 
         if (quoteRes.ok) {
           const [quote] = await quoteRes.json()
-          setCurrentPrice(quote.price)
+          setCurrentPrice(inUnit(quote?.price))
         }
 
         if (historicalRes.ok) {
           const { historical } = await historicalRes.json()
           // Get last 6 months of data
-          const last6Months = historical.slice(0, 126).reverse()
+          const last6Months = (historical as any[])
+            .slice(0, 126)
+            .reverse()
+            .map(h => ({ ...h, close: inUnit(h.close) ?? h.close }))
           setHistoricalPrices(last6Months)
         }
       } catch (error) {

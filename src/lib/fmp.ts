@@ -50,6 +50,21 @@ export interface StockQuote {
     return 'USD'
   }
 
+  /** FMP notiert Londoner Aktien (.L) in Pence, alle anderen Börsen in ganzen Währungseinheiten. */
+  export function isPenceTicker(ticker: string): boolean {
+    return /\.L$/i.test(ticker.trim())
+  }
+
+  /**
+   * Rechnet einen FMP-Kurswert (Kurs, Tagesspanne, Schlusskurs, Kursziel,
+   * Dividende je Aktie) in die Handelswährung des Tickers um: Pence → Pfund
+   * bei .L (ULVR.L 5040 → 50,40 GBP), sonst unverändert. Nicht für die
+   * Marktkapitalisierung, die FMP bereits in Pfund liefert.
+   */
+  export function fmpPriceToTickerCurrency(ticker: string, value: number): number {
+    return isPenceTicker(ticker) ? value / 100 : value
+  }
+
   // Nutzt deine bestehende API Route für mehrere Symbole
   export async function getBulkQuotes(symbols: string[]): Promise<Record<string, number>> {
     try {

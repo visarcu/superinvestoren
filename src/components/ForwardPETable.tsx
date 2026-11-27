@@ -9,6 +9,8 @@
 import React, { useState, useEffect } from 'react'
 import { useEarningsQuality } from '@/hooks/useEarningsQuality'
 import { cleanPeFor, describeEarnings } from '@/lib/earningsQualityRules'
+import { currencySymbol } from '@/lib/displayFormat'
+import { detectTickerCurrency, fmpPriceToTickerCurrency } from '@/lib/fmp'
 
 interface PERow {
   year: number
@@ -27,6 +29,11 @@ export default function ForwardPETable({ ticker }: Props) {
   const [loading, setLoading] = useState(true)
   const [analystCount, setAnalystCount] = useState<number | null>(null)
   const [currentPrice, setCurrentPrice] = useState<number | null>(null)
+  // Währung von Kurs und EPS: aus den Schätzungen (Feld `currency`), bis dahin aus dem Ticker
+  const [currency, setCurrency] = useState<string>(detectTickerCurrency(ticker))
+  const symbol = currencySymbol(currency)
+  const fmtMoney = (value: number) =>
+    `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${symbol}`
   const earningsQuality = useEarningsQuality(ticker)
 
   useEffect(() => { load() }, [ticker])
@@ -43,11 +50,15 @@ export default function ForwardPETable({ ticker }: Props) {
       const quote = Array.isArray(quoteArr) ? quoteArr[0] : quoteArr
       const estimates: any[] = estimatesRes.ok ? await estimatesRes.json() : []
 
-      const price = quote?.price ?? 0
+      // /api/quotes liefert .L in Pence (GBX); die Schätzungen kommen in Pfund
+      const price = fmpPriceToTickerCurrency(ticker, quote?.price ?? 0)
       const peActual: number | null = quote?.pe && quote.pe > 0 ? quote.pe : null
       const actualEPS: number | null = quote?.eps && quote.eps > 0 ? quote.eps : null
 
       setCurrentPrice(price)
+      if (Array.isArray(estimates) && typeof estimates[0]?.currency === 'string') {
+        setCurrency(estimates[0].currency)
+      }
 
       const currentYear = new Date().getFullYear()
       const result: PERow[] = []
@@ -138,7 +149,7 @@ export default function ForwardPETable({ ticker }: Props) {
             <p className="text-xs text-theme-muted mt-1">
               TTM-KGV sowie Forward-KGV basierend auf Analysten-Konsensus
               {analystCount ? <> &middot; <span className="font-medium">{analystCount} Analysten</span></> : null}
-              {currentPrice ? <> &middot; Kurs: <span className="font-medium">${currentPrice.toFixed(2)}</span></> : null}
+              {currentPrice ? <> &middot; Kurs: <span className="font-medium">{fmtMoney(currentPrice)}</span></> : null}
             </p>
           </div>
           <span className="shrink-0 text-xs text-theme-muted bg-theme-secondary px-2 py-1 rounded-md">
@@ -162,7 +173,7 @@ export default function ForwardPETable({ ticker }: Props) {
               </span>
               {row.eps != null && (
                 <span className="text-xs text-theme-muted">
-                  EPS (Konsensus): <span className="font-medium text-theme-secondary">${row.eps.toFixed(2)}</span>
+                  EPS (Konsensus): <span className="font-medium text-theme-secondary">{fmtMoney(row.eps)}</span>
                 </span>
               )}
             </div>

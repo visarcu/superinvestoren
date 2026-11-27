@@ -1,5 +1,38 @@
 // src/app/api/dividends/[ticker]/route.ts - ENHANCED: Professional Dividend Analysis
 import { NextResponse } from 'next/server'
+import { fmpPriceToTickerCurrency, isPenceTicker } from '@/lib/fmp'
+import { normalizeQuoteCurrency } from '@/lib/fmpCurrency'
+
+interface FmpDividendRow {
+  date: string
+  dividend?: number
+  adjDividend?: number
+  recordDate?: string
+  paymentDate?: string
+  [key: string]: unknown
+}
+
+/**
+ * Dividendenhistorie von FMP in der Handelswährung des Tickers. Londoner
+ * Titel (.L) kommen in Pence (ULVR.L: 39,07 statt 0,3907 GBP), Kurs-EPS und
+ * Oberfläche rechnen aber in Pfund. Ohne Umrechnung stand die Ausschüttungs-
+ * quote am Deckel von 200 Prozent und die Dividende bei "39,07 £".
+ * Wirft bei HTTP-Fehlern; die Aufrufer behalten ihr bisheriges Fallback.
+ */
+async function fetchDividendHistorical(ticker: string, apiKey: string): Promise<FmpDividendRow[]> {
+  const response = await fetch(
+    `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`
+  )
+  if (!response.ok) throw new Error(`FMP stock_dividend ${ticker}: HTTP ${response.status}`)
+  const data = await response.json()
+  const historical: FmpDividendRow[] = (Array.isArray(data) ? data[0]?.historical : data?.historical) || []
+  if (!isPenceTicker(ticker)) return historical
+  return historical.map(row => ({
+    ...row,
+    dividend: typeof row.dividend === 'number' ? fmpPriceToTickerCurrency(ticker, row.dividend) : row.dividend,
+    adjDividend: typeof row.adjDividend === 'number' ? fmpPriceToTickerCurrency(ticker, row.adjDividend) : row.adjDividend,
+  }))
+}
 
 // ✅ SPLIT ADJUSTMENT INTERFACE
 interface StockSplit {
@@ -104,15 +137,8 @@ async function applySplitAdjustmentsQuarterly(
 // Helper function to get original yearly dividends (fallback)
 async function getOriginalYearlyDividends(ticker: string, apiKey: string): Promise<Record<string, number>> {
   try {
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`
-    )
-    
-    if (!response.ok) return {}
-    
-    const data = await response.json()
-    const historical = data[0]?.historical || data.historical || []
-    
+    const historical = await fetchDividendHistorical(ticker, apiKey)
+
     const yearlyDividends: Record<string, number> = {}
     
     historical.forEach((dividend: { date: string; dividend?: number }) => {
@@ -232,17 +258,8 @@ function analyzeDividendGrowth(dividendHistory: Record<string, number>) {
 // ✅ NEW: Get Quarterly Dividend History
 async function getQuarterlyDividendHistory(ticker: string, apiKey: string): Promise<QuarterlyDividend[]> {
   try {
-    const url = `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`
-    const response = await fetch(url)
-    
-    if (!response.ok) {
-      console.warn(`⚠️ Quarterly dividend fetch failed for ${ticker}`)
-      return []
-    }
-    
-    const data = await response.json()
-    const historical = data[0]?.historical || data.historical || []
-    
+    const historical = await fetchDividendHistorical(ticker, apiKey)
+
     // Get quarterly payments (limit to last 20 years = ~80 quarters)
     const quarterlyData: QuarterlyDividend[] = historical
       .slice(0, 80)
@@ -418,17 +435,8 @@ async function getFinancialHealthMetrics(ticker: string, apiKey: string): Promis
 // ✅ ENHANCED: Get TTM with split-adjusted data
 async function getTTMDividendSplitAdjusted(ticker: string, apiKey: string): Promise<number> {
   try {
-    const dividendUrl = `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`
-    const dividendRes = await fetch(dividendUrl)
-    
-    if (!dividendRes.ok) {
-      console.warn(`⚠️ TTM dividend fetch failed for ${ticker}`)
-      return 0
-    }
-    
-    const dividendData = await dividendRes.json()
-    const historical = dividendData[0]?.historical || dividendData.historical || []
-    
+    const historical = await fetchDividendHistorical(ticker, apiKey)
+
     const now = new Date()
     const twelveMonthsAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate())
     
@@ -580,7 +588,10 @@ async function getFinancialContextModern(ticker: string, modernDividends: Record
     }
     
     const reliableEPS = sources.liveQuote?.eps || sources.profile?.eps || null
-    const reliablePrice = sources.liveQuote?.price || sources.profile?.price || null
+    // Kurs in der Handelswährung wie die Dividenden (Pence → Pfund bei .L)
+    const rawPrice = sources.liveQuote?.price || sources.profile?.price || null
+    const reliablePrice = typeof rawPrice === 'number' ? fmpPriceToTickerCurrency(ticker, rawPrice) : null
+    const { currency } = normalizeQuoteCurrency(sources.profile?.currency)
     
     let payoutRatio = 0
     let currentYield = 0
@@ -602,6 +613,7 @@ async function getFinancialContextModern(ticker: string, modernDividends: Record
       payoutRatio: Math.min(Math.max(payoutRatio, 0), 2.0),
       exDividendDate: null,
       dividendPerShareTTM: fallbackTTM,
+      currency,
       modernDataUsed: true,
       dataRange: `2005-${new Date().getFullYear()}`,
       splitAdjusted: true,
@@ -646,9 +658,12 @@ export async function GET(
     }
     
     // ✅ Direct FMP API Calls (no recursive dataService)
-    const dividendResponse = await fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`)
-    const dividendData = dividendResponse.ok ? await dividendResponse.json() : { historical: [] }
-    const dividendHistorical = (dividendData && dividendData.historical) || []
+    let dividendHistorical: FmpDividendRow[] = []
+    try {
+      dividendHistorical = await fetchDividendHistorical(ticker, apiKey)
+    } catch (fetchError) {
+      console.warn(`⚠️ Dividend history fetch failed for ${ticker}:`, fetchError)
+    }
     
     // ✅ Convert array to yearly aggregates first
     const yearlyDividends: Record<string, number> = {}
@@ -771,8 +786,10 @@ export async function GET(
       },
       
       ticker: ticker.toUpperCase(),
+      // Währung aller Beträge (Handelswährung des Kurses, bei .L GBP statt Pence)
+      currency: financial?.currency ?? (isPenceTicker(ticker) ? 'GBP' : null),
       lastUpdated: new Date().toISOString(),
-      
+
       status: {
         success: true,
         dataQuality: modernDividends && Object.keys(modernDividends).length >= 10 ? 'excellent' : 'good',

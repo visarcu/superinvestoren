@@ -2,8 +2,9 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
+import { detectTickerCurrency } from '@/lib/fmp'
 
-type Currency = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'CHF' | 'CAD' | 'AUD'
+type Currency = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'CHF' | 'CAD' | 'AUD' | 'SEK' | 'DKK' | 'NOK'
 type FinancialUnit = 'millions' | 'billions' | 'auto'
 
 interface CurrencyContextType {
@@ -37,31 +38,32 @@ interface CurrencyContextType {
 
 // Neue Funktion für Währungssymbole
 const getCurrencySymbol = (currency: Currency): string => {
-  const symbols = {
+  const symbols: Record<Currency, string> = {
     'USD': '$',
     'EUR': '€',
     'GBP': '£',
     'JPY': '¥',
     'CHF': 'CHF',
     'CAD': 'C$',
-    'AUD': 'A$'
+    'AUD': 'A$',
+    'SEK': 'SEK',
+    'DKK': 'DKK',
+    'NOK': 'NOK'
   }
   return symbols[currency] || currency
 }
 
-// Ticker-basierte Währungserkennung (Fallback)
-const detectCurrencyFromTicker = (ticker: string): Currency => {
-  if (ticker.match(/\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/)) return 'EUR'
-  if (ticker.endsWith('.L')) return 'EUR' // Unilever etc. berichten in EUR
-  if (ticker.endsWith('.TO')) return 'CAD'
-  if (ticker.endsWith('.T')) return 'JPY'
-  if (ticker.endsWith('.SW') || ticker.endsWith('.S')) return 'CHF'
-  if (ticker.endsWith('.AX')) return 'AUD'
-  return 'USD'
-}
+// Ticker-basierte Währungserkennung: die Handelswährung der Börse, nicht die
+// Berichtswährung der Firma. Dieselbe Regel wie in /api/quotes (lib/fmp), damit
+// Kopfzeile, Chart und Tabellen übereinstimmen. Vorher stand hier .L → EUR
+// ("Unilever berichtet in EUR") und .CP → EUR; Londoner Kurse erschienen so
+// als Euro, Kopenhagener statt in DKK ebenfalls.
+const detectCurrencyFromTicker = (ticker: string): Currency => detectTickerCurrency(ticker)
 
-// API-basierte Währungserkennung (Priorität)
+// API-basierte Währungserkennung (Priorität). FMP kennzeichnet Pence mit "GBp".
 const detectCurrencyFromAPI = (reportedCurrency?: string): Currency => {
+  if (!reportedCurrency) return 'USD'
+  if (reportedCurrency === 'GBp' || reportedCurrency.toUpperCase() === 'GBX') return 'GBP'
   const currencyMap: Record<string, Currency> = {
     'USD': 'USD',
     'EUR': 'EUR',
@@ -69,9 +71,12 @@ const detectCurrencyFromAPI = (reportedCurrency?: string): Currency => {
     'JPY': 'JPY',
     'CHF': 'CHF',
     'CAD': 'CAD',
-    'AUD': 'AUD'
+    'AUD': 'AUD',
+    'SEK': 'SEK',
+    'DKK': 'DKK',
+    'NOK': 'NOK'
   }
-  return (reportedCurrency && currencyMap[reportedCurrency]) || 'USD'
+  return currencyMap[reportedCurrency.toUpperCase()] || 'USD'
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined)
@@ -216,8 +221,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   }
 
   const getFinancialUnitLabel = (): string => {
-    const currencyLabel = currency === 'USD' ? 'USD' : 'EUR'
-    
+    // ISO-Code der aktiven Währung; vorher wurde alles außer USD als EUR beschriftet
+    const currencyLabel: string = currency
+
     if (financialUnit === 'millions') return `Mio. ${currencyLabel}`
     if (financialUnit === 'billions') return `Mrd. ${currencyLabel}`
     

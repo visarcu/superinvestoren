@@ -21,6 +21,7 @@ import LazyWrapper from '@/components/LazyWrapper'
 import { LEARN_DEFINITIONS } from '@/data/learnDefinitions'
 import { useLearnMode } from '@/lib/LearnModeContext'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { fmpPriceToTickerCurrency } from '@/lib/fmp'
 import OwnershipSection from '@/components/OwnershipSection'
 import MarketInsightSummary from '@/components/MarketInsightSummary'
 import StockLatestNews from '@/components/StockLatestNews'
@@ -292,16 +293,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     loadUser()
   }, [])
 
-  // Automatische Währungserkennung basierend auf Ticker
+  // Handelswährung aus dem Ticker (dieselbe Regel wie Kopfzeile und /api/quotes).
+  // Alle Kurswerte hier sind in dieser Währung: Schätzungen und GuV liefern
+  // die Routen umgerechnet, Kurse werden beim Laden von Pence in Pfund gebracht.
   useEffect(() => {
-    // Einfache Ticker-basierte Erkennung als Sofort-Lösung
-    const detectedCurrency = detectCurrencyFromTicker(ticker)
-    setCurrency(detectedCurrency)
-
-    // TODO: Später aus API-Response nehmen:
-    // if (stockData?.reportedCurrency) {
-    //   setCurrency(detectCurrencyFromAPI(stockData.reportedCurrency))
-    // }
+    setCurrency(detectCurrencyFromTicker(ticker))
   }, [ticker, setCurrency, detectCurrencyFromTicker])
 
   // Forward P/E Berechnung - MEMOIZED
@@ -417,10 +413,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       if (apiCalls[1].status === 'fulfilled' && apiCalls[1].value.ok) {
         try {
           const { historical = [] } = await apiCalls[1].value.json()
+          // FMP liefert .L in Pence; Chart und Kennzahlen rechnen in Pfund
           const arr = (historical as any[])
             .slice()
             .reverse()
-            .map((h) => ({ date: h.date, close: h.close }))
+            .map((h) => ({ date: h.date, close: fmpPriceToTickerCurrency(ticker, h.close) }))
           setHistory(arr)
         } catch {
           console.warn(`[AnalysisClient] History für ${ticker} fehlgeschlagen.`)
@@ -460,16 +457,20 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       if (apiCalls[4].status === 'fulfilled' && apiCalls[4].value.ok) {
         try {
           const [q] = (await apiCalls[4].value.json()) as any[]
-          setLivePrice(q.price)
+          // Kurswerte in der Handelswährung (Pence → Pfund bei .L); die
+          // Marktkapitalisierung liefert FMP bereits in Pfund.
+          const inUnit = (v: unknown): number | null =>
+            typeof v === 'number' && Number.isFinite(v) ? fmpPriceToTickerCurrency(ticker, v) : null
+          setLivePrice(inUnit(q.price))
           setLiveMarketCap(q.marketCap)
           setLiveChangePct(q.changesPercentage)
-          setLivePriceAvg200(q.priceAvg200)
+          setLivePriceAvg200(inUnit(q.priceAvg200))
           setVolume(q.volume)
-          setPreviousClose(q.previousClose)
-          setDayLow(typeof q.dayLow === 'number' && q.dayLow > 0 ? q.dayLow : null)
-          setDayHigh(typeof q.dayHigh === 'number' && q.dayHigh > 0 ? q.dayHigh : null)
-          setWeek52Low(q.yearLow)
-          setWeek52High(q.yearHigh)
+          setPreviousClose(inUnit(q.previousClose))
+          setDayLow(typeof q.dayLow === 'number' && q.dayLow > 0 ? inUnit(q.dayLow) : null)
+          setDayHigh(typeof q.dayHigh === 'number' && q.dayHigh > 0 ? inUnit(q.dayHigh) : null)
+          setWeek52Low(inUnit(q.yearLow))
+          setWeek52High(inUnit(q.yearHigh))
         } catch {
           console.warn(`[AnalysisClient] LiveQuote für ${ticker} fehlgeschlagen.`)
         }
