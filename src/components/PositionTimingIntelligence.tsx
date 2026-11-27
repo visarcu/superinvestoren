@@ -1,151 +1,183 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { 
-  ChartBarIcon, 
-  TrophyIcon, 
+// Timing-Analyse der Super-Investor-Positionen einer Aktie.
+//
+// Einstandskurs je Investor ist der Schlusskurs am letzten Handelstag des
+// Quartals, in dem die Position erstmals (in der aktuellen Haltephase) im 13F
+// erscheint; Quelle /api/historical. Die Haltedauer läuft bis zum jüngsten
+// Snapshot-Quartal aus /api/stocks/[ticker]/super-investors. Vorher stand hier
+// ein erfundener Einstandskurs ("Kurs / 1,1^Jahre") und die Haltedauer endete
+// fest in Q4 2024. Fehlt der aktuelle Kurs oder ein Schlusskurs zum Einstieg,
+// zeigt der Tab keine Zahlen.
+
+import React, { useState, useEffect, useMemo } from 'react'
+import {
+  ChartBarIcon,
+  TrophyIcon,
   ClockIcon,
   SparklesIcon,
   FireIcon
 } from '@heroicons/react/24/outline'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import Link from 'next/link'
-interface TimingData {
+import { detectTickerCurrency } from '@/lib/fmp'
+import { currencySymbol } from '@/lib/displayFormat'
+
+type Category = 'early-adopter' | 'perfect-timer' | 'late-comer' | 'diamond-hands'
+
+interface TimingRow {
   investor: {
     slug: string
     name: string
     avatar: string
   }
-  position: {
-    firstQuarter: string
-    firstPrice: number
-    currentPrice: number
-    holdingPeriod: number // in quarters
-    estimatedPerformance: number // percentage
-    timingScore: number // 0-100 rating
-    category: 'early-adopter' | 'perfect-timer' | 'late-comer' | 'diamond-hands'
-  }
+  /** Berichtsquartal des Einstiegs, z. B. "Q3 2024" */
+  firstQuarter: string
+  /** true, wenn die Position schon im ältesten Snapshot stand: Einstieg liegt davor */
+  heldSinceDataStart: boolean
+  /** Schlusskurs am Ende des Einstiegsquartals und dessen Handelstag */
+  entryClose: number
+  entryDate: string
+  holdingQuarters: number
+  /** Kursentwicklung seit dem Einstiegsschluss in Prozent */
+  performance: number
+  timingScore: number
+  category: Category
 }
 
 interface PositionTimingIntelligenceProps {
   ticker: string
   positions: any[]
-  currentPrice: number
+  /** Aktueller Kurs in der Handelswährung; null, solange keiner vorliegt */
+  currentPrice: number | null
 }
 
+/** Handelstage, die der Schlusskurs höchstens vor dem Quartalsende liegen darf (Wochenende, Feiertage) */
+const MAX_DAYS_BEFORE_QUARTER_END = 10
 
-const calculateTimingScore = (entryPrice: number, currentPrice: number, holdingPeriod: number): number => {
-  const performance = ((currentPrice - entryPrice) / entryPrice) * 100
-  const timeBonus = Math.min(holdingPeriod * 5, 25) // Up to 25 points for holding time
-  const performanceScore = Math.min(Math.max(performance, -50), 200) / 2 // -25 to 100 points
-  
+const calculateTimingScore = (performance: number, holdingQuarters: number): number => {
+  const timeBonus = Math.min(holdingQuarters * 5, 25) // bis 25 Punkte für die Haltedauer
+  const performanceScore = Math.min(Math.max(performance, -50), 200) / 2 // -25 bis 100 Punkte
   return Math.max(0, Math.min(100, performanceScore + timeBonus))
 }
 
-const categorizeInvestor = (timingScore: number, holdingPeriod: number, performance: number) => {
-  if (performance > 100 && holdingPeriod >= 8) return 'diamond-hands'
+const categorizeInvestor = (timingScore: number, holdingQuarters: number, performance: number): Category => {
+  if (performance > 100 && holdingQuarters >= 8) return 'diamond-hands'
   if (performance > 50 && timingScore > 80) return 'perfect-timer'
-  if (holdingPeriod >= 12) return 'early-adopter'
+  if (holdingQuarters >= 12) return 'early-adopter'
   return 'late-comer'
 }
 
-export default function PositionTimingIntelligence({ 
-  ticker, 
-  positions, 
-  currentPrice 
+/** Quartale von "Q1 2021" bis "Q3 2026" einschließlich beider: 23 */
+function quartersBetween(first: string, latest: string): number | null {
+  const a = /^Q([1-4]) (\d{4})$/.exec(first)
+  const b = /^Q([1-4]) (\d{4})$/.exec(latest)
+  if (!a || !b) return null
+  const span = (Number(b[2]) - Number(a[2])) * 4 + (Number(b[1]) - Number(a[1])) + 1
+  return span > 0 ? span : null
+}
+
+function daysBetween(fromIso: string, toIso: string): number {
+  return Math.round((Date.parse(toIso) - Date.parse(fromIso)) / 86_400_000)
+}
+
+export default function PositionTimingIntelligence({
+  ticker,
+  positions,
+  currentPrice
 }: PositionTimingIntelligenceProps) {
-  
-  const [timingData, setTimingData] = useState<TimingData[]>([])
+  const [closes, setCloses] = useState<{ date: string; close: number }[] | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const symbol = currencySymbol(detectTickerCurrency(ticker))
+
+  // Eine Kursreihe je Aktie reicht für alle Investoren
   useEffect(() => {
-    const loadTimingData = async () => {
-      setLoading(true)
-      try {
-        // Use a simpler approach - just use holdings history index for now
-        // This is much faster than making tons of API calls
-        const results: TimingData[] = []
-        
-        for (const pos of positions) {
-          // For now, just use the quarter from the position data
-          // This is much faster and still gives reasonable estimates
-          const firstQuarter = pos.position.quarter
-          
-          // Use a simple price estimation based on current price and time
-          // This avoids slow API calls for historical prices
-          const holdingPeriod = calculateHoldingPeriod(firstQuarter)
-          
-          // Estimate entry price based on current price and time held
-          // Assume average 10% annual appreciation (rough estimate)
-          const yearsHeld = holdingPeriod / 4
-          const estimatedFirstPrice = currentPrice / Math.pow(1.10, yearsHeld)
-          
-          const estimatedPerformance = ((currentPrice - estimatedFirstPrice) / estimatedFirstPrice) * 100
-          const timingScore = calculateTimingScore(estimatedFirstPrice, currentPrice, holdingPeriod)
-          const category = categorizeInvestor(timingScore, holdingPeriod, estimatedPerformance) as 'early-adopter' | 'perfect-timer' | 'late-comer' | 'diamond-hands'
-          
-          results.push({
-            investor: {
-              slug: pos.investor.slug,
-              name: pos.investor.name,
-              avatar: pos.investor.avatar
-            },
-            position: {
-              firstQuarter,
-              firstPrice: estimatedFirstPrice,
-              currentPrice,
-              holdingPeriod,
-              estimatedPerformance,
-              timingScore,
-              category
-            }
-          })
+    let cancelled = false
+    setLoading(true)
+    fetch(`/api/historical/${encodeURIComponent(ticker)}`)
+      .then(res => (res.ok ? res.json() : null))
+      .then(json => {
+        if (cancelled) return
+        const rows = ((json?.historical || []) as any[])
+          .filter(h => typeof h?.close === 'number' && h.close > 0 && typeof h?.date === 'string')
+          .map(h => ({ date: h.date.slice(0, 10), close: h.close as number }))
+          .sort((a, b) => a.date.localeCompare(b.date))
+        setCloses(rows)
+      })
+      .catch(() => {
+        if (!cancelled) setCloses([])
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => { cancelled = true }
+  }, [ticker])
+
+  const rows = useMemo<TimingRow[]>(() => {
+    if (!closes || !closes.length || currentPrice == null || currentPrice <= 0) return []
+
+    // Letzter Schlusskurs am oder vor dem Quartalsende, höchstens zehn Tage davor
+    const closeOnOrBefore = (dateIso: string): { date: string; close: number } | null => {
+      let lo = 0
+      let hi = closes.length - 1
+      let found = -1
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1
+        if (closes[mid].date <= dateIso) {
+          found = mid
+          lo = mid + 1
+        } else {
+          hi = mid - 1
         }
-        
-        // Sort by timing score
-        results.sort((a, b) => b.position.timingScore - a.position.timingScore)
-        setTimingData(results)
-      } catch (error) {
-        console.error('Error loading timing data:', error)
-        setTimingData([])
-      } finally {
-        setLoading(false)
       }
+      if (found < 0) return null
+      const candidate = closes[found]
+      return daysBetween(candidate.date, dateIso) <= MAX_DAYS_BEFORE_QUARTER_END ? candidate : null
     }
 
-    if (positions.length > 0) {
-      loadTimingData()
+    const result: TimingRow[] = []
+    for (const pos of positions) {
+      const p = pos?.position
+      if (!p?.firstQuarter || !p?.firstQuarterEnd || !p?.quarter) continue
+      const entry = closeOnOrBefore(p.firstQuarterEnd)
+      const holdingQuarters = quartersBetween(p.firstQuarter, p.quarter)
+      if (!entry || holdingQuarters == null) continue
+
+      const performance = ((currentPrice - entry.close) / entry.close) * 100
+      const timingScore = calculateTimingScore(performance, holdingQuarters)
+      result.push({
+        investor: {
+          slug: pos.investor.slug,
+          name: pos.investor.name,
+          avatar: pos.investor.avatar
+        },
+        firstQuarter: p.firstQuarter,
+        heldSinceDataStart: !!p.heldSinceDataStart,
+        entryClose: entry.close,
+        entryDate: entry.date,
+        holdingQuarters,
+        performance,
+        timingScore,
+        category: categorizeInvestor(timingScore, holdingQuarters, performance)
+      })
     }
-  }, [positions, ticker, currentPrice])
 
-  function calculateHoldingPeriod(firstQuarter: string): number {
-    // Calculate quarters between first quarter and Q4 2024
-    const [quarter, year] = firstQuarter.split(' ')
-    const startYear = parseInt(year)
-    const startQ = parseInt(quarter.replace('Q', ''))
-    
-    // Current is Q4 2024
-    const currentYear = 2024
-    const currentQ = 4
-    
-    return ((currentYear - startYear) * 4) + (currentQ - startQ) + 1
-  }
+    result.sort((a, b) => b.timingScore - a.timingScore)
+    return result
+  }, [closes, positions, currentPrice])
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('de-DE', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(value)
-  }
+  const formatCurrency = (value: number) =>
+    `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${symbol}`
 
   const formatPercentage = (value: number) => {
     const sign = value >= 0 ? '+' : ''
-    return `${sign}${value.toFixed(1)}%`
+    return `${sign}${value.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`
   }
 
-  const getCategoryInfo = (category: string) => {
+  const formatDate = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('de-DE', { timeZone: 'UTC' })
+
+  const getCategoryInfo = (category: Category) => {
     switch (category) {
       case 'diamond-hands':
         return {
@@ -178,24 +210,22 @@ export default function PositionTimingIntelligence({
     }
   }
 
-  const bestPerformer = timingData[0]
-  const averagePerformance = timingData.length > 0 ? timingData.reduce((sum, data) => sum + data.position.estimatedPerformance, 0) / timingData.length : 0
+  const header = (
+    <div className="text-center">
+      <div className="flex items-center justify-center gap-2 mb-4">
+        <SparklesIcon className="w-8 h-8 text-brand-light" />
+        <h2 className="text-3xl font-bold text-white">
+          Position Timing Intelligence
+        </h2>
+      </div>
+    </div>
+  )
 
   if (loading) {
     return (
       <div className="space-y-8">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <SparklesIcon className="w-8 h-8 text-brand-light" />
-            <h2 className="text-3xl font-bold text-white">
-              Position Timing Intelligence
-            </h2>
-          </div>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Lade Timing-Analyse...
-          </p>
-        </div>
-        
+        {header}
+        <p className="text-gray-400 max-w-2xl mx-auto text-center">Lade Timing-Analyse...</p>
         <div className="flex items-center justify-center py-20">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400"></div>
         </div>
@@ -203,23 +233,32 @@ export default function PositionTimingIntelligence({
     )
   }
 
-  if (timingData.length === 0) {
+  if (currentPrice == null || currentPrice <= 0) {
     return (
       <div className="space-y-8">
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <SparklesIcon className="w-8 h-8 text-brand-light" />
-            <h2 className="text-3xl font-bold text-white">
-              Position Timing Intelligence
-            </h2>
-          </div>
-          <p className="text-gray-400 max-w-2xl mx-auto">
-            Keine historischen Preisdaten verfügbar für die Timing-Analyse.
-          </p>
-        </div>
+        {header}
+        <p className="text-gray-400 max-w-2xl mx-auto text-center">
+          Für die Timing-Analyse fehlt derzeit ein aktueller Kurs von {ticker}.
+        </p>
       </div>
     )
   }
+
+  if (rows.length === 0) {
+    return (
+      <div className="space-y-8">
+        {header}
+        <p className="text-gray-400 max-w-2xl mx-auto text-center">
+          Für {ticker} liegen keine Schlusskurse zu den Einstiegsquartalen der Investoren vor. Die Timing-Analyse ist für diese Aktie noch in Arbeit.
+        </p>
+      </div>
+    )
+  }
+
+  const bestPerformer = rows[0]
+  const averagePerformance = rows.reduce((sum, row) => sum + row.performance, 0) / rows.length
+  const longestHolding = Math.max(...rows.map(row => row.holdingQuarters))
+  const skipped = positions.length - rows.length
 
   return (
     <div className="space-y-8">
@@ -232,7 +271,7 @@ export default function PositionTimingIntelligence({
           </h2>
         </div>
         <p className="text-gray-400 max-w-2xl mx-auto">
-          Analyse der Einstiegszeitpunkte und Performance-Schätzungen basierend auf historischen Daten
+          Einstiegsquartal aus den 13F-Meldungen, Einstandskurs als Schlusskurs zum Quartalsende, Entwicklung bis zum aktuellen Kurs von {formatCurrency(currentPrice)}
         </p>
       </div>
 
@@ -245,11 +284,11 @@ export default function PositionTimingIntelligence({
             </div>
             <div>
               <h3 className="text-sm text-theme-muted">Best Performer</h3>
-              <p className="text-lg font-bold text-theme-primary">{bestPerformer?.investor.name}</p>
+              <p className="text-lg font-bold text-theme-primary">{bestPerformer.investor.name}</p>
             </div>
           </div>
           <p className="text-brand-light font-semibold">
-            {formatPercentage(bestPerformer?.position.estimatedPerformance || 0)}
+            {formatPercentage(bestPerformer.performance)}
           </p>
         </div>
 
@@ -260,7 +299,7 @@ export default function PositionTimingIntelligence({
             </div>
             <div>
               <h3 className="text-sm text-theme-muted">Durchschnitts-Performance</h3>
-              <p className="text-lg font-bold text-theme-primary">Alle Investoren</p>
+              <p className="text-lg font-bold text-theme-primary">{rows.length} Investoren</p>
             </div>
           </div>
           <p className={`font-semibold ${averagePerformance >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
@@ -276,11 +315,13 @@ export default function PositionTimingIntelligence({
             <div>
               <h3 className="text-sm text-theme-muted">Längste Haltedauer</h3>
               <p className="text-lg font-bold text-theme-primary">
-                {Math.max(...timingData.map(d => d.position.holdingPeriod))} Quartale
+                {longestHolding} Quartale
               </p>
             </div>
           </div>
-          <p className="text-theme-muted font-semibold">Diamond Hands</p>
+          <p className="text-theme-muted font-semibold">
+            {rows.some(row => row.heldSinceDataStart) ? 'mindestens, Beginn vor unseren Daten' : 'laut 13F-Historie'}
+          </p>
         </div>
       </div>
 
@@ -292,72 +333,71 @@ export default function PositionTimingIntelligence({
             <h3 className="text-xl font-bold text-theme-primary">Timing Leaderboard</h3>
           </div>
           <p className="text-sm text-theme-muted mt-2">
-            Sortiert nach Timing Score (Performance + Haltedauer)
+            Sortiert nach Timing Score (Performance seit Einstiegsquartal plus Haltedauer)
           </p>
         </div>
 
         <div className="p-6 space-y-4">
-          {timingData.map((data, index) => {
-            const categoryInfo = getCategoryInfo(data.position.category)
-            
+          {rows.map((row, index) => {
+            const categoryInfo = getCategoryInfo(row.category)
+
             return (
-              <div key={data.investor.slug} className="bg-theme-secondary/50 rounded-lg p-4 hover:bg-theme-secondary transition-colors">
+              <div key={row.investor.slug} className="bg-theme-secondary/50 rounded-lg p-4 hover:bg-theme-secondary transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${
-                      index === 0 ? 'bg-brand/20 text-brand-light' :
-                      index === 1 ? 'bg-theme-secondary text-theme-muted' :
-                      index === 2 ? 'bg-theme-secondary text-theme-muted' :
-                      'bg-theme-secondary text-theme-muted'
+                      index === 0 ? 'bg-brand/20 text-brand-light' : 'bg-theme-secondary text-theme-muted'
                     }`}>
                       #{index + 1}
                     </div>
-                    
-                    <Link href={`/superinvestor/${data.investor.slug}`}>
-                      <InvestorAvatar 
-                        name={data.investor.name}
-                        imageUrl={data.investor.avatar}
+
+                    <Link href={`/superinvestor/${row.investor.slug}`}>
+                      <InvestorAvatar
+                        name={row.investor.name}
+                        imageUrl={row.investor.avatar}
                         size="md"
                         className="hover:ring-2 hover:ring-green-400 transition-all duration-200 cursor-pointer"
                       />
                     </Link>
-                    
+
                     <div>
-                      <Link 
-                        href={`/superinvestor/${data.investor.slug}`}
+                      <Link
+                        href={`/superinvestor/${row.investor.slug}`}
                         className="font-semibold text-theme-primary hover:text-brand-light transition-colors"
                       >
-                        {data.investor.name}
+                        {row.investor.name}
                       </Link>
                       <div className="flex items-center gap-3 mt-1">
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${categoryInfo.bgColor} ${categoryInfo.color}`}>
                           {categoryInfo.label}
                         </span>
                         <span className="text-xs text-theme-muted">
-                          Seit {data.position.firstQuarter}
+                          {row.heldSinceDataStart ? `Seit mindestens ${row.firstQuarter}` : `Seit ${row.firstQuarter}`}
+                          {' · '}
+                          {row.holdingQuarters} Quartale
                         </span>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="text-right">
                     <div className="grid grid-cols-3 gap-6 text-sm">
                       <div>
                         <span className="text-theme-muted">Timing Score</span>
                         <div className="font-bold text-theme-primary">
-                          {data.position.timingScore.toFixed(0)}/100
+                          {row.timingScore.toFixed(0)}/100
                         </div>
                       </div>
                       <div>
-                        <span className="text-theme-muted">Est. Entry</span>
-                        <div className="font-bold text-theme-primary">
-                          {formatCurrency(data.position.firstPrice)}
+                        <span className="text-theme-muted">Schluss {row.firstQuarter}</span>
+                        <div className="font-bold text-theme-primary" title={`Schlusskurs am ${formatDate(row.entryDate)}`}>
+                          {formatCurrency(row.entryClose)}
                         </div>
                       </div>
                       <div>
-                        <span className="text-theme-muted">Performance</span>
-                        <div className={`font-bold ${data.position.estimatedPerformance >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                          {formatPercentage(data.position.estimatedPerformance)}
+                        <span className="text-theme-muted">Seitdem</span>
+                        <div className={`font-bold ${row.performance >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
+                          {formatPercentage(row.performance)}
                         </div>
                       </div>
                     </div>
@@ -369,16 +409,18 @@ export default function PositionTimingIntelligence({
         </div>
       </div>
 
-
-      {/* Disclaimer */}
+      {/* Methodik */}
       <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
         <div className="flex gap-3">
           <FireIcon className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-yellow-400 font-medium text-sm">Wichtiger Hinweis</p>
+            <p className="text-yellow-400 font-medium text-sm">So wird gerechnet</p>
             <p className="text-theme-muted text-sm mt-1">
-              Performance-Schätzungen basieren auf historischen Preismodellen und ersten Filing-Erwähnungen aus 13F-Daten. 
-              Tatsächliche Einstiegspreise können abweichen, da Filings quartalsweise erfolgen. Nur für Analysezwecke, keine Anlageberatung.
+              Das Einstiegsquartal ist das erste Quartal der aktuellen Haltephase in den 13F-Meldungen. Als Einstandskurs
+              dient der Schlusskurs am letzten Handelstag dieses Quartals, der tatsächliche Kaufkurs innerhalb des Quartals
+              ist nicht bekannt. Die Haltedauer läuft bis zum jüngsten gemeldeten Quartal.
+              {skipped > 0 ? ` Für ${skipped} ${skipped === 1 ? 'Investor fehlt' : 'Investoren fehlen'} Schlusskurse zum Einstiegsquartal; sie werden nicht angezeigt.` : ''}
+              {' '}Keine Anlageberatung.
             </p>
           </div>
         </div>

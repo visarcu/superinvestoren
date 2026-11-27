@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import PositionTimingIntelligence from '@/components/PositionTimingIntelligence'
+import { fmpPriceToTickerCurrency } from '@/lib/fmp'
 import {
   ArrowLeftIcon,
   UserGroupIcon,
@@ -61,6 +62,13 @@ interface SuperInvestorData {
       isNewPosition: boolean
       lastUpdated: string
       quarter: string
+      /** Letzter Tag des jüngsten Berichtsquartals (YYYY-MM-DD) */
+      quarterEnd: string | null
+      /** Berichtsquartal, seit dem die Position ununterbrochen gehalten wird */
+      firstQuarter: string
+      firstQuarterEnd: string | null
+      /** true, wenn der Titel schon im ältesten Snapshot stand (Beginn unbekannt) */
+      heldSinceDataStart: boolean
       formattedValue: string
       formattedShares: string
       formattedPortfolioPercentage: string
@@ -98,7 +106,10 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
   const [data, setData] = useState<SuperInvestorData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [currentPrice, setCurrentPrice] = useState<number>(271) // Default for AAPL
+  // Aktueller Kurs für den Timing-Tab; null, bis /api/quote geantwortet hat.
+  // Vorher stand hier 271 als Startwert für jede Aktie, und weil die Route ein
+  // Array liefert, blieb er auch stehen.
+  const [currentPrice, setCurrentPrice] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'ownership' | 'intelligence'>('overview')
 
   // Free users limited positions
@@ -127,13 +138,13 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
         try {
           const priceResponse = await fetch(`/api/quote/${ticker}`)
           if (priceResponse.ok) {
-            const priceData = await priceResponse.json()
-            if (priceData.price) {
-              setCurrentPrice(priceData.price)
-            }
+            const [q] = await priceResponse.json()
+            setCurrentPrice(
+              typeof q?.price === 'number' && q.price > 0 ? fmpPriceToTickerCurrency(ticker, q.price) : null
+            )
           }
         } catch (priceError) {
-          console.log('Could not fetch current price, using default')
+          console.warn('Aktueller Kurs für die Timing-Analyse nicht verfügbar')
         }
 
       } catch (err) {

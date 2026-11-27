@@ -51,6 +51,26 @@ function getPeriodFromDate(dateStr: string): string {
   return `Q${reportQ} ${reportY}`
 }
 
+/** Letzter Kalendertag des Berichtsquartals: "Q3 2026" → "2026-09-30" */
+function periodEndDate(period: string): string | null {
+  const match = /^Q([1-4]) (\d{4})$/.exec(period)
+  if (!match) return null
+  const quarter = Number(match[1])
+  const year = Number(match[2])
+  const endMonth = quarter * 3
+  const lastDay = new Date(Date.UTC(year, endMonth, 0)).getUTCDate()
+  return `${year}-${String(endMonth).padStart(2, '0')}-${String(lastDay).padStart(2, '0')}`
+}
+
+/** Gehaltene Aktien des Tickers in einem Snapshot (0 = nicht gehalten) */
+function sharesInSnapshot(snapshot: any, ticker: string): number {
+  const positions = snapshot?.data?.positions
+  if (!Array.isArray(positions)) return 0
+  return positions
+    .filter((p: any) => getTicker(p) === ticker)
+    .reduce((sum: number, p: any) => sum + (p.shares || 0), 0)
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { ticker: string } }
@@ -153,6 +173,16 @@ export async function GET(
         trend = 'new'
       }
 
+      // Beginn der aktuellen Haltephase: vom jüngsten Snapshot rückwärts,
+      // solange der Titel gehalten wird. Steht er schon im ältesten Snapshot,
+      // kennen wir nur eine Untergrenze (heldSinceDataStart). Der Timing-Tab
+      // nimmt den Schlusskurs zum Ende dieses Quartals als Einstandskurs;
+      // vorher stand dort ein erfundener Wert aus "Kurs / 1,1^Jahre".
+      let firstIndex = snapshots.length - 1
+      while (firstIndex > 0 && sharesInSnapshot(snapshots[firstIndex - 1], ticker) > 0) firstIndex--
+      const firstQuarter = getPeriodFromDate(snapshots[firstIndex].data.date)
+      const latestQuarter = getPeriodFromDate(latest.date)
+
       superInvestorPositions.push({
         investor: {
           slug,
@@ -172,7 +202,11 @@ export async function GET(
           changeSharePercentage,
           isNewPosition,
           lastUpdated: latest.date,
-          quarter: getPeriodFromDate(latest.date),
+          quarter: latestQuarter,
+          quarterEnd: periodEndDate(latestQuarter),
+          firstQuarter,
+          firstQuarterEnd: periodEndDate(firstQuarter),
+          heldSinceDataStart: firstIndex === 0,
         }
       })
     })
