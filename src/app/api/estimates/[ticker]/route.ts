@@ -1,32 +1,8 @@
-// ✅ src/app/api/estimates/[ticker]/route.ts
-import { NextRequest, NextResponse } from 'next/server'
-
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { ticker: string } }
-) {
-  const { ticker } = params
-  const apiKey = process.env.FMP_API_KEY
-
-  if (!apiKey) {
-    return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
-  }
-
-  try {
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`,
-      { next: { revalidate: 86400 } }
-    )
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
-    }
-
-    const data = await response.json()
-    return NextResponse.json(data)
-
-  } catch (error) {
-    console.error(`Error fetching estimates for ${ticker}:`, error)
-    return NextResponse.json({ error: 'Failed to fetch estimates' }, { status: 500 })
-  }
-}
+// src/app/api/estimates/[ticker]/route.ts
+//
+// Alias für /api/analyst-estimates/[ticker]: Schätzungen in der Kurswährung,
+// jede Zeile mit `currency`. Früher reichte diese Route FMP roh durch, also
+// in der Berichtswährung. Folge: TSM zeigte ein "KGV Erw." von 0,7x statt
+// rund 21x und Umsätze in TWD mit Dollarzeichen. Der Pfad bleibt bestehen,
+// weil /api/stock-analysis ihn serverseitig aufruft.
+export { GET } from '../../analyst-estimates/[ticker]/route'

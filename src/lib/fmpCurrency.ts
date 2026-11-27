@@ -14,10 +14,29 @@ const FMP = 'https://financialmodelingprep.com/api/v3'
 export interface ReportingCurrencyInfo {
   /** Berichtswährung, z. B. TWD (null = unbekannt) */
   reportedCurrency: string | null
-  /** Handelswährung des Kurses, z. B. USD (null = unbekannt) */
+  /** Handelswährung des Kurses als ISO-Code, z. B. USD oder GBP (null = unbekannt) */
   tradingCurrency: string | null
   /** Faktor Berichts- → Handelswährung; 1 bei gleicher Währung, null wenn kein FX-Kurs */
   fxToTrading: number | null
+  /**
+   * Faktor FMP-Kurs → Handelswährung. Londoner Aktien notieren bei FMP in
+   * Pence ("GBp"): Kurs 5040 sind 50,40 GBP, also 0.01. Sonst 1. Optional,
+   * damit Aufrufer mit eigenem Fallback-Objekt (fehlende Daten) unverändert
+   * bleiben; fehlt das Feld, gilt 1.
+   */
+  quoteToTradingFactor?: number
+}
+
+/**
+ * FMP kennzeichnet Pence-Notierungen mit "GBp" (teils "GBX"). Devisenkurse
+ * gibt es nur für GBP; ohne diese Normalisierung scheiterte jede Umrechnung
+ * für .L-Titel an einem Paar "EURGBp" und die Route lieferte 502.
+ */
+export function normalizeQuoteCurrency(code: string | null | undefined): { currency: string | null; factor: number } {
+  if (!code) return { currency: null, factor: 1 }
+  const trimmed = code.trim()
+  if (trimmed === 'GBp' || trimmed.toUpperCase() === 'GBX') return { currency: 'GBP', factor: 0.01 }
+  return { currency: trimmed.toUpperCase(), factor: 1 }
 }
 
 async function fmpJson(path: string, apiKey: string): Promise<any> {
@@ -50,16 +69,17 @@ export async function getReportingCurrencyInfo(ticker: string, apiKey: string): 
     fmpJson(`/profile/${ticker}`, apiKey).catch(() => []),
     fmpJson(`/income-statement/${ticker}?limit=1`, apiKey).catch(() => []),
   ])
-  const tradingCurrency: string | null = profile?.[0]?.currency || null
+  const { currency: tradingCurrency, factor: quoteToTradingFactor } = normalizeQuoteCurrency(profile?.[0]?.currency)
   const reportedCurrency: string | null = income?.[0]?.reportedCurrency || null
 
   if (!tradingCurrency || !reportedCurrency) {
-    return { reportedCurrency, tradingCurrency, fxToTrading: null }
+    return { reportedCurrency, tradingCurrency, fxToTrading: null, quoteToTradingFactor }
   }
   return {
     reportedCurrency,
     tradingCurrency,
     fxToTrading: await getFxRate(reportedCurrency, tradingCurrency, apiKey),
+    quoteToTradingFactor,
   }
 }
 

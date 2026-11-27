@@ -394,7 +394,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         fetch(`/api/outlook/${ticker}`),           // 6
         fetch(`/api/balance-sheet/${ticker}`),     // 7
         fetch(`/api/income-statement/${ticker}`),  // 8
-        fetch(`/api/estimates/${ticker}`),         // 9
+        fetch(`/api/analyst-estimates/${ticker}`), // 9 (Kurswährung, siehe Route)
         fetch(`/api/recommendations/${ticker}`),   // 10
         fetch(`/api/cash-flow-statement/${ticker}`) // 11
       ])

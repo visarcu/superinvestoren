@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getReportingCurrencyInfo } from '@/lib/fmpCurrency'
 
-// Die Schätzungen werden hier in die Handelswährung umgerechnet, weil beide
-// Abnehmer (ForwardPETable, ProfessionalValuationTable) Kurs / EPS rechnen.
-// Siehe lib/fmpCurrency: ohne Umrechnung zeigt TSM ein Forward-KGV von 0,5.
+// Die Schätzungen werden hier in die Handelswährung umgerechnet, weil alle
+// Abnehmer (Übersicht, Schätzungsseiten, ForwardPETable,
+// ProfessionalValuationTable) Kurs / EPS rechnen oder die Werte neben dem
+// Kurs zeigen. Siehe lib/fmpCurrency: ohne Umrechnung zeigt TSM ein
+// Forward-KGV von 0,7 und Umsätze in TWD mit Dollarzeichen.
+//
+// Jede Zeile trägt `currency` (Handelswährung, bei Londoner Titeln GBP) und
+// nach einer Umrechnung zusätzlich `convertedFrom` (Berichtswährung).
+// /api/estimates/[ticker] ist ein Alias dieser Route.
 export async function GET(request: NextRequest, { params }: { params: { ticker: string } }) {
   const { ticker } = params
 
@@ -32,8 +38,15 @@ export async function GET(request: NextRequest, { params }: { params: { ticker: 
     const estimates = await response.json()
     const { reportedCurrency, tradingCurrency, fxToTrading } = fx
 
-    if (!Array.isArray(estimates) || !reportedCurrency || !tradingCurrency || reportedCurrency === tradingCurrency) {
+    if (!Array.isArray(estimates)) {
       return NextResponse.json(estimates)
+    }
+
+    if (!reportedCurrency || !tradingCurrency || reportedCurrency === tradingCurrency) {
+      const currency = tradingCurrency ?? reportedCurrency
+      return NextResponse.json(
+        currency ? estimates.map((e: Record<string, any>) => ({ ...e, currency })) : estimates
+      )
     }
 
     if (fxToTrading == null) {

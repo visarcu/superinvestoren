@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { currencySymbol } from '@/lib/displayFormat'
+import { detectTickerCurrency } from '@/lib/fmp'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import {
   ResponsiveContainer,
@@ -71,6 +73,8 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
   const [revisionSummary, setRevisionSummary] = useState<RevisionSummary | null>(null)
   const [loading, setLoading] = useState(true)
   const { formatCurrency, formatStockPrice, formatPercentage } = useCurrency()
+  // Schätzungen stehen in der Kurswährung (Feld `currency` aus /api/analyst-estimates)
+  const estimateSymbol = currencySymbol(estimates[0]?.currency ?? detectTickerCurrency(ticker))
 
   // Navigation tabs
   const tabs = [
@@ -130,7 +134,7 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
 
       // Load estimates data for revision tracking
       try {
-        const res = await fetch(`/api/estimates/${ticker}`)
+        const res = await fetch(`/api/analyst-estimates/${ticker}`)
         if (res.ok) {
           const data = await res.json()
           setEstimates(data)
@@ -440,7 +444,7 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
                   border: '1px solid var(--border)',
                   borderRadius: '8px'
                 }}
-                formatter={(value: any) => `$${value.toFixed(2)}B`}
+                formatter={(value: any) => `${Number(value).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Mrd. ${estimateSymbol}`}
               />
               <Legend />
               

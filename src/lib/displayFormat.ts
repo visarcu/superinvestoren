@@ -1,7 +1,8 @@
 // src/lib/displayFormat.ts
 // Kleine Anzeige-Helfer für Marketing-, Investor- und Aktienseiten.
 
-function currencySymbol(currency: string): string {
+/** ISO-Code → Symbol in deutscher Schreibung: USD → "$", GBP → "£", TWD → "NT$", SEK → "SEK" */
+export function currencySymbol(currency: string): string {
   try {
     return (
       new Intl.NumberFormat('de-DE', { style: 'currency', currency })

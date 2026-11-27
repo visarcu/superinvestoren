@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { currencySymbol } from '@/lib/displayFormat'
+import { detectTickerCurrency } from '@/lib/fmp'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import {
   ResponsiveContainer,
@@ -62,7 +64,13 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
   const [estimates, setEstimates] = useState<any[]>([])
   const [historicalData, setHistoricalData] = useState<HistoricalDataItem[]>([])
   const [loading, setLoading] = useState(true)
+  // Währung der Zahlen: Schätzungen und GuV kommen beide in der Kurswährung
+  // (siehe /api/analyst-estimates und /api/income-statement); null, bis die
+  // Antworten da sind.
+  const [currencyCode, setCurrencyCode] = useState<string | null>(null)
   const { formatCurrency, formatStockPrice } = useCurrency()
+  const displayCurrency = currencyCode ?? detectTickerCurrency(ticker)
+  const symbol = currencySymbol(displayCurrency)
 
   // Navigation tabs
   const tabs = [
@@ -117,7 +125,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
       // Load estimates and historical data
       try {
         const [estimatesRes, incomeRes] = await Promise.all([
-          fetch(`/api/estimates/${ticker}`),
+          fetch(`/api/analyst-estimates/${ticker}`),
           fetch(`/api/income-statement/${ticker}?limit=5`)
         ])
 
@@ -128,10 +136,14 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
             .filter((e: any) => parseInt(e.date.slice(0, 4)) >= currentYear)
             .sort((a: any, b: any) => a.date.localeCompare(b.date))
           setEstimates(futureEstimates)
+          if (typeof data[0]?.currency === 'string') setCurrencyCode(data[0].currency)
         }
 
         if (incomeRes.ok) {
           const incomeData = await incomeRes.json()
+          if (typeof incomeData[0]?.reportedCurrency === 'string') {
+            setCurrencyCode(prev => prev ?? incomeData[0].reportedCurrency)
+          }
           const historical: HistoricalDataItem[] = incomeData
             .map((item: any) => ({
               date: item.date,
@@ -292,7 +304,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
       {/* Revenue Chart */}
       <div className="bg-theme-card rounded-lg relative">
         <div className="p-6">
-          <h3 className="text-xl font-bold text-theme-primary mb-6">Umsatzentwicklung (in Mrd. USD)</h3>
+          <h3 className="text-xl font-bold text-theme-primary mb-6">Umsatzentwicklung (in Mrd. {displayCurrency})</h3>
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={revenueChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -309,7 +321,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
                 }}
                 formatter={(value: any, name: string) => {
                   if (value === null) return ['–', name]
-                  return [`$${value.toFixed(2)}B`, name]
+                  return [`${Number(value).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Mrd. ${symbol}`, name]
                 }}
               />
               <Legend />
@@ -398,7 +410,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
       {/* EPS Chart */}
       <div className="bg-theme-card rounded-lg relative">
         <div className="p-6">
-          <h3 className="text-xl font-bold text-theme-primary mb-6">Gewinn je Aktie (EPS) Entwicklung</h3>
+          <h3 className="text-xl font-bold text-theme-primary mb-6">Gewinn je Aktie (EPS) Entwicklung (in {displayCurrency})</h3>
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={epsChartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
@@ -415,7 +427,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
                 }}
                 formatter={(value: any, name: string) => {
                   if (value === null) return ['–', name]
-                  return [`$${value.toFixed(2)}`, name]
+                  return [`${Number(value).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${symbol}`, name]
                 }}
               />
               <Legend />

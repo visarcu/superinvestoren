@@ -89,7 +89,7 @@ export default function EstimatesClient({ ticker }: EstimatesClientProps) {
           calendarRes,
           quoteRes
         ] = await Promise.all([
-          fetch(`/api/estimates/${ticker}`),
+          fetch(`/api/analyst-estimates/${ticker}`),
           fetch(`/api/price-targets/${ticker}`),
           fetch(`/api/earnings-surprises/${ticker}`),
           fetch(`/api/earnings-calendar/${ticker}`),

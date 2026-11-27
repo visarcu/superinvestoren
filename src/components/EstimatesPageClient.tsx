@@ -16,6 +16,8 @@ import {
   Cell
 } from 'recharts'
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { currencySymbol } from '@/lib/displayFormat'
+import { detectTickerCurrency } from '@/lib/fmp'
 
 interface User {
   id: string
@@ -38,6 +40,13 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
   const [error, setError] = useState<string | null>(null)
 
   const { formatStockPrice, formatPercentage } = useCurrency()
+
+  // Schätzungen kommen aus /api/analyst-estimates in der Kurswährung; jede
+  // Zeile nennt sie im Feld `currency`. Die Ticker-Heuristik ist nur der
+  // Rückfall, solange nichts geladen ist.
+  const estimateSymbol = currencySymbol(estimates[0]?.currency ?? detectTickerCurrency(ticker))
+  const fmtDe = (value: number, digits: number) =>
+    value.toLocaleString('de-DE', { minimumFractionDigits: digits, maximumFractionDigits: digits })
 
   // Load user data
   useEffect(() => {
@@ -81,7 +90,7 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
           surprisesRes,
           quoteRes
         ] = await Promise.all([
-          fetch(`/api/estimates/${ticker}`),
+          fetch(`/api/analyst-estimates/${ticker}`),
           fetch(`/api/price-targets/${ticker}`),
           fetch(`/api/earnings-surprises/${ticker}`),
           fetch(`/api/quote/${ticker}`)
@@ -359,7 +368,7 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
                         </td>
                         <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
                           {est.estimatedRevenueAvg
-                            ? `${(est.estimatedRevenueAvg / 1e9).toFixed(1)} Mrd.`
+                            ? `${fmtDe(est.estimatedRevenueAvg / 1e9, 1)} Mrd. ${estimateSymbol}`
                             : '–'}
                         </td>
                         <td className={`py-3 text-sm text-right font-mono ${
@@ -375,7 +384,7 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
                         </td>
                         <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
                           {est.estimatedEpsAvg
-                            ? `$${est.estimatedEpsAvg.toFixed(2)}`
+                            ? `${fmtDe(est.estimatedEpsAvg, 2)} ${estimateSymbol}`
                             : '–'}
                         </td>
                         <td className={`py-3 text-sm text-right font-mono ${
@@ -468,7 +477,7 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
                   }}
                   labelStyle={{ color: '#a3a3a3' }}
                   formatter={(value: number, name: string, props: any) => [
-                    `${value.toFixed(1)} Mrd. $`,
+                    `${fmtDe(value, 1)} Mrd. ${estimateSymbol}`,
                     props.payload.isEstimate ? 'Prognose' : 'Ist'
                   ]}
                 />
