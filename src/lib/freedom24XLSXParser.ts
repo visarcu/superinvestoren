@@ -24,16 +24,23 @@ export function parseFreedom24XLSXRows(
   // FX-Raten aus den Währungsumtausch-Zeilen extrahieren (EUR pro Fremdwährung)
   // z.B. USD/EUR: Preis=0.865 → 1 USD = 0.865 EUR
   // z.B. GBP/EUR: Preis=1.161 → 1 GBP = 1.161 EUR
+  // z.B. EUR/USD: Preis=1.1535 → 1 EUR = 1.1535 USD → 1 USD = 1/1.1535 EUR
+  // Freedom24 schreibt den Umtausch je nach Richtung so oder so; vorher blieb
+  // ein Export mit nur EUR/USD-Zeilen ohne Kurs, und die USD-Trades standen
+  // unbemerkt als Euro im Depot.
   const fxRates: Record<string, number[]> = {}
   for (const row of rows) {
     const ticker = String(row['Ticker'] ?? '').trim()
-    if (ticker.includes('/')) {
-      const foreignCurrency = ticker.split('/')[0] // z.B. "USD" aus "USD/EUR"
-      const rate = parseFloat(String(row['Preis'] ?? '0'))
-      if (rate > 0) {
-        if (!fxRates[foreignCurrency]) fxRates[foreignCurrency] = []
-        fxRates[foreignCurrency].push(rate)
-      }
+    if (!ticker.includes('/')) continue
+    const rate = parseFloat(String(row['Preis'] ?? '0'))
+    if (!(rate > 0)) continue
+    const [base, quote] = ticker.split('/').map(part => part.trim())
+    if (quote === 'EUR' && base) {
+      if (!fxRates[base]) fxRates[base] = []
+      fxRates[base].push(rate)
+    } else if (base === 'EUR' && quote) {
+      if (!fxRates[quote]) fxRates[quote] = []
+      fxRates[quote].push(1 / rate)
     }
   }
   // Durchschnittskurs pro Währung
@@ -115,15 +122,22 @@ export function parseFreedom24XLSXRows(
     let fees = parseFloat(String(gebuehrRaw)) || 0
 
     // USD/GBP-Preise in EUR umrechnen anhand der FX-Raten aus der Datei
-    // .US → USD, .GB/.L → GBP (für Freedom24 nicht relevant, aber sicher)
-    if (ticker.endsWith('.US') && avgFxRate['USD']) {
-      price = price * avgFxRate['USD']
-      totalValue = totalValue * avgFxRate['USD']
-      fees = fees * avgFxRate['USD']
-    } else if ((ticker.endsWith('.GB') || ticker.endsWith('.L')) && avgFxRate['GBP']) {
-      price = price * avgFxRate['GBP']
-      totalValue = totalValue * avgFxRate['GBP']
-      fees = fees * avgFxRate['GBP']
+    // .US → USD, .GB/.L → GBP (für Freedom24 nicht relevant, aber sicher).
+    // Ohne Kurs in der Datei wird die Zeile nicht übernommen: Ein USD-Kauf als
+    // Euro gebucht verfälscht Einstand und Bargeld um den Wechselkurs.
+    const currency = ticker.endsWith('.US') ? 'USD' : ticker.endsWith('.GB') || ticker.endsWith('.L') ? 'GBP' : 'EUR'
+    if (currency !== 'EUR') {
+      const rate = avgFxRate[currency]
+      if (!rate) {
+        errors.push(
+          `Zeile ${i + 2}: ${ticker} ist in ${currency} notiert, die Datei enthält aber keinen ${currency}/EUR-Umtausch. ` +
+          `Zeile nicht übernommen. Exportiere die Auftragshistorie mit den Währungsumtausch-Zeilen oder nutze den Handelsbericht.`
+        )
+        continue
+      }
+      price = price * rate
+      totalValue = totalValue * rate
+      fees = fees * rate
     }
 
     if (quantity <= 0) {
