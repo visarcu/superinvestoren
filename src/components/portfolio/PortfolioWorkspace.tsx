@@ -25,6 +25,7 @@ import FreshMoneyCard from '@/components/portfolio/FreshMoneyCard'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import RealizedGainsTab from '@/components/portfolio/RealizedGainsTab'
+import TaxesTab from '@/components/portfolio/TaxesTab'
 import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
 import PremiumUpgradeModal from '@/components/portfolio/PremiumUpgradeModal'
 import EditPositionModal from '@/components/portfolio/EditPositionModal'
@@ -75,6 +76,7 @@ import {
   LockClosedIcon,
   PencilIcon,
   PlusIcon,
+  ReceiptPercentIcon,
   RectangleGroupIcon,
   Squares2X2Icon,
   ViewfinderCircleIcon,
@@ -128,6 +130,7 @@ const PORTFOLIO_NAV_ITEMS: PortfolioNavItem[] = [
   { key: 'dividends', view: 'dividends', group: 'depot', label: 'Dividenden', description: 'Erträge und Prognosen', icon: BanknotesIcon, premium: true },
   { key: 'transactions', view: 'transactions', group: 'depot', label: 'Transaktionen', description: 'Käufe, Verkäufe, Cash', icon: DocumentTextIcon, premium: true },
   { key: 'realized', view: 'realized', group: 'depot', label: 'Realisierte Gewinne', description: 'Verkäufe nach Jahren', icon: ChartBarIcon },
+  { key: 'taxes', view: 'taxes', group: 'depot', label: 'Steuern', description: 'Freibetrag und Verlusttöpfe', icon: ReceiptPercentIcon },
   { key: 'ai', view: 'ai', group: 'depot', label: 'KI-Analyse', description: 'Portfolio-Check', icon: CpuChipIcon, premium: true },
   { key: 'assets', view: 'assets', group: 'wealth', label: 'Vermögen', description: 'Depot + manuelle Vermögenswerte', icon: WalletIcon },
   { key: 'accounts', view: 'accounts', group: 'wealth', label: 'Konten', description: 'Salden und Buchungen per Eingabe', icon: CreditCardIcon },
@@ -1333,6 +1336,16 @@ export default function PortfolioWorkspace() {
                 formatCurrency={p.formatCurrency}
                 formatPercentage={p.formatPercentage}
                 isAllDepotsView={p.isAllDepotsView}
+              />
+            )}
+
+            {activeView === 'taxes' && (
+              <TaxesTab
+                holdings={p.holdings}
+                allPortfolios={p.allPortfolios}
+                currentPortfolioId={p.isAllDepotsView ? undefined : p.portfolio?.id}
+                formatCurrency={p.formatCurrency}
+                reloadKey={p.transactions.length}
               />
             )}
 

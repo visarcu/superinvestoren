@@ -57,6 +57,7 @@ export type WorkspaceView =
   | 'fundamental'
   | 'dividends'
   | 'realized'
+  | 'taxes'
   | 'transactions'
   | 'ai'
 
@@ -70,6 +71,7 @@ const VIEW_SEGMENTS: Record<WorkspaceView, string> = {
   fundamental: 'fundamental',
   dividends: 'dividenden',
   realized: 'realisiert',
+  taxes: 'steuern',
   transactions: 'transaktionen',
   ai: 'ki-analyse',
 }
