@@ -404,14 +404,21 @@ async function fetchHistoricalSeries(
   // Schritt fielen solche Positionen still aus Wert- UND Investiert-Linie
   // (Dennis' Chart zeigte deshalb "weniger als die Hälfte"). Gilt auch für
   // Papiere aus etfMaster: BITF gibt es seit der Umbenennung nur noch als KEEL.
+  // Reihenfolge wie beim Kursdienst (quoteService): erst FMP unter dem
+  // Börsenticker der Notierung, dann Yahoo, zuletzt die FMP-Hauptnotierung, die
+  // in einer anderen Währung stehen kann. FMP reicht oft weiter zurück: NNND.F
+  // seit 2020, bei Yahoo erst ab Juni 2023; mit Yahoo zuerst begann der Verlauf
+  // von NNND.DE anderthalb Jahre nach dem Kauf.
+  const listing = yahooSymbolFromEodhd(instrument?.eodhdSymbol)
   const listings = [...new Set(
-    [instrument?.yahooSymbol, yahooSymbolFromEodhd(instrument?.eodhdSymbol)]
+    [instrument?.yahooSymbol, listing]
       .filter((c): c is string => Boolean(c) && c !== symbol)
   )]
   if (series.points.length === 0 && instrument) {
+    if (listing && listing !== symbol) series = await fetchFmpHistorical(listing)
     for (const candidate of listings) {
-      series = await fetchYahooHistorical(candidate)
       if (series.points.length > 0) break
+      series = await fetchYahooHistorical(candidate)
     }
     if (series.points.length === 0 && instrument.fmpSymbol && instrument.fmpSymbol !== symbol) {
       series = await fetchFmpHistorical(instrument.fmpSymbol)
@@ -420,8 +427,11 @@ async function fetchHistoricalSeries(
 
   // Eingefrorene Reihe: erst dasselbe Kürzel bei Yahoo, dann die Notierung aus den
   // Stammdaten, sofern sie in derselben Währung notiert. Sonst bleibt die alte Reihe.
+  // Kam die Reihe schon über die Stammdaten-Notierung, notiert Yahoo dort gleich.
   if (endsEarly(series.points, toDate) && !isFxPair(symbol)) {
-    const sameCurrency = sourceCurrency(instrument?.currency) === (series.currency ?? suffixCurrency(symbol))
+    const viaListing = !!instrument && !!series.sourceSymbol &&
+      [...listings, instrument.fmpSymbol].includes(series.sourceSymbol)
+    const sameCurrency = viaListing || sourceCurrency(instrument?.currency) === (series.currency ?? suffixCurrency(symbol))
     for (const candidate of [symbol, ...(sameCurrency ? listings : [])]) {
       const fresh = await fetchYahooHistorical(candidate)
       // Nennen beide Quellen eine Währung, muss es dieselbe sein
@@ -1324,15 +1334,16 @@ export async function computePortfolioHistory(
 
     // 7a. Papiere, die im Fenster ohne Kurs im Bestand sind, in drei Gruppen:
     //  - Die Kursreihe beginnt mehr als 7 Tage nach dem ersten Bestand im Fenster
-    //    (priceGaps). NNND.DE hat bei FMP keine Reihe, Yahoo kennt das Kürzel
-    //    nicht, die Ausweichnotierung NNND.F beginnt dort am 26.06.2023; gekauft
-    //    wurde im Januar 2022. Bis zum ersten Kurs zählt die Position zum
-    //    Einstand, in der Rendite tritt sie am ersten Kurstag mit einem
-    //    synthetischen Zufluss ins Depot (7b). Vorher stand sie bis dahin gar
-    //    nicht im Wert, der Kauf fehlte in den Flüssen, und am ersten Kurstag
-    //    sprang der Wert ohne Gegenfluss: dauerhaft Phantom-Rendite, und bei
-    //    offener Position fiel der Kauf aus dem Cash-Konto, das dann zu Unrecht
-    //    als "passt nicht zum Cash-Bestand" galt.
+    //    (priceGaps). KB7.F (Solventum, Spin-off von 3M) wurde am 02.04.2024
+    //    eingebucht, FMP hat keine Reihe, Yahoo erst ab dem 15.05.2024; NNND.DE
+    //    stand so anderthalb Jahre ohne Kurs, bis die Ausweichkette FMP unter
+    //    NNND.F fragte. Bis zum ersten Kurs zählt die Position zum Einstand, in
+    //    der Rendite tritt sie am ersten Kurstag mit einem synthetischen Zufluss
+    //    ins Depot (7b). Vorher stand sie bis dahin gar nicht im Wert, der Kauf
+    //    fehlte in den Flüssen, und am ersten Kurstag sprang der Wert ohne
+    //    Gegenfluss: dauerhaft Phantom-Rendite, und bei offener Position fiel der
+    //    Kauf aus dem Cash-Konto, das dann zu Unrecht als "passt nicht zum
+    //    Cash-Bestand" galt.
     //  - Gar kein Kurs im Fenster, Position inzwischen geschlossen: zum Einstand
     //    (valuedAtCost), ihre Buchungen bleiben im Cash-Konto.
     //  - Gar kein Kurs im Fenster, Position offen (Import-Artefakte wie "ULVRUSD",
